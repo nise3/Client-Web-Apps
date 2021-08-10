@@ -13,7 +13,9 @@ function initStore(initialState: AppState) {
   return createStore(
     reducers,
     initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware as ThunkMiddleware<AppState, AppActions>)),
+    composeWithDevTools(
+      applyMiddleware(thunkMiddleware as ThunkMiddleware<AppState, AppActions>),
+    ),
   );
 }
 
@@ -52,7 +54,6 @@ export const initializeStore = (preloadedState: AppState) => {
 
 export function useStore(initialState: AppState) {
   return useMemo(() => initializeStore(initialState), [initialState]);
-
 }
 
 export type AppState = ReturnType<typeof rootReducer>;
