@@ -64,4 +64,5 @@ const colorSet = [
     SidebarColor: '#313541',
   },
 ];
+
 export default colorSet;

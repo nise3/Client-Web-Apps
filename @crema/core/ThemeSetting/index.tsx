@@ -35,7 +35,7 @@ interface ThemeSettingProps {
   props?: any;
 }
 
-const ThemeSetting: React.FC<ThemeSettingProps> = props => {
+const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
   const [open, setCustomizerStatus] = useState(false);
   const [themeColor, setThemeColor] = useState('preset');
   const {
@@ -49,8 +49,6 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
     setFooter,
     setFooterType,
     theme,
-    isRTL,
-    setRTL,
     rtAnim,
     changeRTAnim,
     navStyle,
@@ -63,7 +61,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
     themeStyle: ThemeStyle,
   ) => {
     if (themeStyle) {
-      updateThemeStyle!(themeStyle as ThemeStyle);
+      updateThemeStyle?.(themeStyle as ThemeStyle);
     }
   };
 
@@ -71,7 +69,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
     event: React.MouseEvent<HTMLElement>,
     themeMode: ThemeMode,
   ) => {
-    if (themeMode) updateThemeMode!(themeMode);
+    if (themeMode) updateThemeMode?.(themeMode);
   };
 
   const onSelectThemeColor = (
@@ -82,20 +80,17 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
   };
 
   const onLayoutChange = (layoutType: LayoutType) => {
-    updateLayoutStyle!(layoutType);
+    updateLayoutStyle?.(layoutType);
   };
   const onNavStyleChange = (navStyle: NavStyle) => {
-    changeNavStyle!(navStyle);
+    changeNavStyle?.(navStyle);
   };
 
-  const onChangeRtlSetting = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRTL!(event.target.checked);
-  };
   const updateThemeColors = (colorSet: any) => {
     theme.palette.primary.main = colorSet.PrimaryColor;
     theme.palette.secondary.main = colorSet.SecondaryColor;
     theme.palette.sidebar.bgColor = colorSet.SidebarColor;
-    updateTheme!(theme);
+    updateTheme?.(theme);
   };
   const classes = useStyles(props);
 
@@ -244,28 +239,12 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
               )}
             </Box>
 
-            <Box className={classes.customizerItem}>
-              <Box display='flex' alignItems='center'>
-                <Box component='h4'>
-                  <IntlMessages id='customizer.rtlSupport' />
-                </Box>
-                <Box component='span' ml='auto'>
-                  <Switch
-                    checked={isRTL}
-                    onChange={onChangeRtlSetting}
-                    value='checkedA'
-                    inputProps={{'aria-label': 'secondary checkbox'}}
-                  />
-                </Box>
-              </Box>
-            </Box>
-
             <Box pb={1} className={clsx(classes.customizerItem)}>
               <Box component='h4' mb={{xs: 2, xl: 3}}>
                 <IntlMessages id='customizer.navigationStyles' />
               </Box>
               <Box className={classes.navOption}>
-                {navStyles.map(navLayout => {
+                {navStyles.map((navLayout) => {
                   return (
                     <Box className={classes.navOptionItem} key={navLayout.id}>
                       <Box
@@ -291,7 +270,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
                 <IntlMessages id='customizer.layoutTypes' />
               </Box>
               <Box className={classes.navOption}>
-                {layoutTypes.map(layout => {
+                {layoutTypes.map((layout) => {
                   return (
                     <Box className={classes.navOptionItem} key={layout.id}>
                       <Box
@@ -318,7 +297,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
                 <Box component='span' ml='auto'>
                   <Switch
                     checked={footer}
-                    onChange={() => setFooter!(!footer)}
+                    onChange={() => setFooter?.(!footer)}
                     value='checkedA'
                     inputProps={{'aria-label': 'secondary checkbox'}}
                   />
@@ -335,7 +314,9 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
                   className={classes.selectBox}
                   value={footerType}
                   labelWidth={100}
-                  onChange={e => setFooterType!(e.target.value as FooterType)}
+                  onChange={(e) =>
+                    setFooterType?.(e.target.value as FooterType)
+                  }
                   inputProps={{
                     name: 'rt',
                     id: 'outlined-rt',
@@ -358,8 +339,8 @@ const ThemeSetting: React.FC<ThemeSettingProps> = props => {
                   className={classes.selectBox}
                   value={rtAnim}
                   labelWidth={100}
-                  onChange={e =>
-                    changeRTAnim!(e.target.value as RouteTransition)
+                  onChange={(e) =>
+                    changeRTAnim?.(e.target.value as RouteTransition)
                   }
                   inputProps={{
                     name: 'rt',

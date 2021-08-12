@@ -1,15 +1,18 @@
 import React, {useContext, useEffect} from 'react';
 import MomentUtils from '@date-io/moment';
-// import moment from 'moment';
 import {ThemeProvider} from '@material-ui/styles';
-import {createMuiTheme} from '@material-ui/core/styles';
+import {createTheme} from '@material-ui/core/styles';
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 
 import AppContext from '../AppContext';
 import AppLocale from '../../../shared/localization';
 import {responsiveFontSizes} from '@material-ui/core';
 import {useBreakPointDown} from '../Utils';
-import {NavStyle, ThemeMode, ThemeStyle} from '../../../shared/constants/AppEnums';
+import {
+  NavStyle,
+  ThemeMode,
+  ThemeStyle,
+} from '../../../shared/constants/AppEnums';
 import {useUrlSearchParams} from 'use-url-search-params';
 import AppContextPropsType from '../../../types/AppContextPropsType';
 
@@ -43,7 +46,7 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   useEffect(() => {
     const updateQuerySetting = () => {
       if (params.is_rtl) {
-        setRTL!(params.is_rtl as boolean);
+        setRTL?.(params.is_rtl as boolean);
       }
       if (params.is_rtl || isRTL) {
         document.body.setAttribute('dir', 'rtl');
@@ -57,7 +60,7 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   useEffect(() => {
     const updateQuerySetting = () => {
       if (params.nav_style) {
-        changeNavStyle!(params.nav_style as NavStyle);
+        changeNavStyle?.(params.nav_style as NavStyle);
       }
     };
     updateQuerySetting();
@@ -82,12 +85,12 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
           theme.overrides.MuiButton.root.borderRadius = 4;
           theme.overrides.MuiCardLg.root.borderRadius = 4;
         }
-        updateTheme!(theme);
+        updateTheme?.(theme);
         if (
           params.theme_style === ThemeStyle.MODERN ||
           params.theme_style === ThemeStyle.STANDARD
         ) {
-          updateThemeStyle!(params.theme_style as ThemeStyle);
+          updateThemeStyle?.(params.theme_style as ThemeStyle);
         }
       }
     };
@@ -95,8 +98,7 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   }, [params.theme_style, theme, isBelowMd, updateTheme, updateThemeStyle]);
 
   return (
-    <ThemeProvider
-      theme={responsiveFontSizes(createMuiTheme(theme, muiLocale))}>
+    <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         {props.children}
       </MuiPickersUtilsProvider>

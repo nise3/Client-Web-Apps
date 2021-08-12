@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppCircularProgress from '../../../../@crema/core/AppCircularProgress';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {fade} from '@material-ui/core';
+import {alpha} from '@material-ui/core';
 import clsx from 'clsx';
 import {AppContext} from '../../../../@crema';
 import {LearningData} from '../../../../types/models/dashboards/Academy';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     paddingRight: 20,
   },
   thumbRoot: {
-    backgroundColor: fade(theme.palette.primary.main, 0.12),
+    backgroundColor: alpha(theme.palette.primary.main, 0.12),
     borderRadius: theme.overrides.MuiCard.root.borderRadius,
     padding: 6,
   },

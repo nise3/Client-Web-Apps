@@ -6,7 +6,7 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppLinearProgress from '../../../../@crema/core/AppLinearProgress';
 import {useIntl} from 'react-intl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {fade} from '@material-ui/core';
+import {alpha} from '@material-ui/core';
 import {ClassData} from '../../../../types/models/dashboards/Academy';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     padding: 6,
   },
   perRoot: {
-    color: fade(theme.palette.primary.main, 0.5),
+    color: alpha(theme.palette.primary.main, 0.5),
     fontWeight: Fonts.MEDIUM,
   },
 }));

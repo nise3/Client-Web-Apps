@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {Fonts} from '../../constants/AppEnums';
-import {fade} from '@material-ui/core';
+import {alpha} from '@material-ui/core';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       transition: 'all .2s ease',
       transform: 'scale(1)',
       '&:hover': {
-        backgroundColor: fade(theme.palette.primary.main, 0.1),
+        backgroundColor: alpha(theme.palette.primary.main, 0.1),
         transform: 'translateY(-2px)',
-        boxShadow: `0 3px 10px 0 ${fade(theme.palette.common.black, 0.2)}`,
+        boxShadow: `0 3px 10px 0 ${alpha(theme.palette.common.black, 0.2)}`,
       },
     },
     '.card-hover': {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Box, fade} from '@material-ui/core';
+import {Box, alpha} from '@material-ui/core';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       visibility: 'hidden',
     },
     '&:hover': {
-      backgroundColor: fade(theme.palette.primary.main, 0.1),
+      backgroundColor: alpha(theme.palette.primary.main, 0.1),
       transform: 'translateY(-4px)',
       '& .fav-btn': {
         opacity: 1,

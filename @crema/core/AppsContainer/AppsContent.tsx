@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import Scrollbar from '../Scrollbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {fade} from '@material-ui/core';
+import {alpha} from '@material-ui/core';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 export const useAppsContentStyles = makeStyles((theme: CremaTheme) => ({
@@ -37,7 +37,7 @@ export const useAppsContentStyles = makeStyles((theme: CremaTheme) => ({
       marginLeft: '10px',
       marginRight: '10px',
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
-      backgroundColor: fade(theme.palette.background.paper, 0.45),
+      backgroundColor: alpha(theme.palette.background.paper, 0.45),
       height: '100% !important',
       [theme.breakpoints.up('md')]: {
         minWidth: '354px',

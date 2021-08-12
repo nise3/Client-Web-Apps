@@ -1,13 +1,13 @@
 import React from 'react';
 import AppCard from '../../../../@crema/core/AppCard';
-import {Box, fade, makeStyles} from '@material-ui/core';
+import {Box, alpha, makeStyles} from '@material-ui/core';
 import ViewGraph from './ViewGraph';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {HeartCard} from '../../../../types/models/dashboards/HealthCare';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   unitTitle: {
-    backgroundColor: fade(theme.palette.common.black, 0.04),
+    backgroundColor: alpha(theme.palette.common.black, 0.04),
     margin: '0 -24px -20px',
     padding: '12px 24px',
     fontSize: 20,

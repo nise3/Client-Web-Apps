@@ -10,7 +10,7 @@ import {
 } from '../../../../redux/actions/Ecommerce';
 import ProductList from './ProductList';
 import AppsContent from '../../../../@crema/core/AppsContainer/AppsContent';
-import {Box, fade} from '@material-ui/core';
+import {Box, alpha} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {AppContext} from '../../../../@crema';
 import {AppState} from '../../../../redux/store';
@@ -51,7 +51,7 @@ const ProductListing = () => {
       </AppsHeader>
 
       <AppsContent
-        style={{backgroundColor: fade(theme.palette.background.default, 0.6)}}>
+        style={{backgroundColor: alpha(theme.palette.background.default, 0.6)}}>
         <Box className={classes.root} flex={1} display='flex' p={2} height={1}>
           {viewType === VIEW_TYPE.GRID ? (
             <ProductGrid ecommerceList={ecommerceList} loading={loading} />

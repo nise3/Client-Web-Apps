@@ -1,4 +1,4 @@
-import {createMuiTheme, useTheme} from '@material-ui/core/styles';
+import {createTheme, useTheme} from '@material-ui/core/styles';
 import {useMediaQuery} from '@material-ui/core';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {Breakpoint} from '@material-ui/core/styles/createBreakpoints';
@@ -12,8 +12,8 @@ import {
 type BreakpointOrNull = Breakpoint | null;
 
 export const isBreakPointDown = (key: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
-  const defaultTheme = createMuiTheme();
-  return defaultTheme.breakpoints.width(key) > window.innerWidth;
+  const defaultTheme = createTheme();
+  return defaultTheme.breakpoints.values[key] > window.innerWidth;
 };
 
 export const useDownBreakPointChecker = (
@@ -41,7 +41,7 @@ export const useWidth = () => {
 
 export const createRoutes = (routeConfigs: any[]) => {
   let allRoutes: any[] = [];
-  routeConfigs.forEach(config => {
+  routeConfigs.forEach((config) => {
     allRoutes = [...allRoutes, ...setRoutes(config)];
   });
   return allRoutes;
@@ -50,8 +50,8 @@ export const createRoutes = (routeConfigs: any[]) => {
 export const setRoutes = (config: any) => {
   let routes = [...config.routes];
   if (config.auth) {
-    routes = routes.map(route => {
-      let auth = route.auth
+    routes = routes.map((route) => {
+      const auth = route.auth
         ? [...config.auth, ...route.auth]
         : [...config.auth];
       return {...route, auth};
@@ -81,18 +81,18 @@ export const getBreakPointsValue = (valueSet: any, breakpoint: string) => {
 export const multiPropsFilter = (
   products: ProductData[],
   filters: FilterData,
-  stringKey: string = 'title',
+  stringKey = 'title',
 ) => {
   const filterKeys = Object.keys(filters);
-  return products.filter(product => {
-    return filterKeys.every(key => {
+  return products.filter((product) => {
+    return filterKeys.every((key) => {
       // @ts-ignore
       if (!filters[key].length) return true;
       // Loops again if product[key] is an array (for material attribute).
       // @ts-ignore
       if (Array.isArray(product[key])) {
         // @ts-ignore
-        return product[key].some(keyEle => filters[key].includes(keyEle));
+        return product[key].some((keyEle) => filters[key].includes(keyEle));
       }
       // @ts-ignore
       console.log('key', key, filters[key], product[key]);
@@ -107,7 +107,7 @@ export const multiPropsFilter = (
 };
 export const getFileSize = (bytes: number) => {
   if (bytes === 0) return '0 Bytes';
-  let k = 1024,
+  const k = 1024,
     dm = 2,
     sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
     i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -123,9 +123,7 @@ export const getCustomDateTime = (
     return moment().format(format) as string;
   } else {
     // @ts-ignore
-    return moment()
-      .add(value, unit)
-      .format(format) as string;
+    return moment().add(value, unit).format(format) as string;
   }
 };
 
@@ -163,7 +161,7 @@ export const checkPermission = (
     return !userRole || userRole.length === 0;
   }
   if (userRole && Array.isArray(userRole) && Array.isArray(routeAuth)) {
-    return routeAuth.some(r => userRole.indexOf(r) >= 0);
+    return routeAuth.some((r) => userRole.indexOf(r) >= 0);
   }
   return routeAuth.indexOf(userRole) >= 0;
 };

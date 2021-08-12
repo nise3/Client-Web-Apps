@@ -20,6 +20,7 @@ const AppLogo = () => {
       marginRight: 10,
     },
   }));
+
   const classes = useStyles();
   return (
     <Box className={classes.logoRoot}>

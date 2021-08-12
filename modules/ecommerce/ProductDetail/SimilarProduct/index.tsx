@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Box, fade} from '@material-ui/core';
+import {Box, alpha} from '@material-ui/core';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -48,7 +48,7 @@ const settings = {
 const SimilarProduct = () => {
   const {theme} = useContext(AppContext);
   return (
-    <Box bgcolor={fade(theme.palette.background.default, 0.6)}>
+    <Box bgcolor={alpha(theme.palette.background.default, 0.6)}>
       <Slider {...settings}>
         {ecommerce.map((item, index) => (
           <GridItem key={index} item={item} />

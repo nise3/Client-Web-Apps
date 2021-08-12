@@ -6,11 +6,9 @@ import AppContext from './AppContext';
 import AppContextPropsType from '../../types/AppContextPropsType';
 import {IntlGlobalProvider} from './Utils';
 
-
 interface LocaleProviderProps {
-  children: ReactNode | any
-
-  [x: string]: any
+  children: ReactNode | any;
+  [x: string]: any;
 }
 
 const LocaleProvider: React.FC<LocaleProviderProps> = ({children}) => {

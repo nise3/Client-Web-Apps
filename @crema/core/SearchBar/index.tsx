@@ -1,7 +1,7 @@
 import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import {makeStyles} from '@material-ui/core/styles';
-import {Box, fade} from '@material-ui/core';
+import {Box, alpha} from '@material-ui/core';
 import clsx from 'clsx';
 import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../shared/constants/AppEnums';
@@ -29,10 +29,10 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   search: (props: {borderLight: boolean; align: string}) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     marginLeft: props.align === 'right' ? 'auto' : 0,
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     '&.cr-search': {
       [theme.breakpoints.down('sm')]: {

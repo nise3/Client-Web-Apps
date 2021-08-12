@@ -14,27 +14,30 @@ import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';
 
-const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Component, pageProps}) => {
+const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
+  Component,
+  pageProps,
+}: any) => {
   const store = useStore(pageProps.initialReduxState);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
-      jssStyles.parentElement!.removeChild(jssStyles);
+      jssStyles.parentElement?.removeChild(jssStyles);
     }
   }, []);
 
   return (
     <React.Fragment>
-      <PageMeta/>
+      <PageMeta />
       <ContextProvider>
         <Provider store={store}>
           <CremaThemeProvider>
             <CremaStyleProvider>
               <LocaleProvider>
                 <AuthRoutes>
-                  <CssBaseline/>
+                  <CssBaseline />
                   <Component {...pageProps} />
                 </AuthRoutes>
               </LocaleProvider>
