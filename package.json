@@ -107,7 +107,8 @@
     "use-url-search-params": "^2.3.13",
     "velocity-animate": "^1.5.2",
     "velocity-react": "^1.4.3",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "@types/brainhubeu__react-carousel": "^2.0.3",
@@ -125,6 +126,7 @@
     "@types/yup": "^0.29.13",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
+    "@types/nprogress": "^0.2.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "eslint": "^7.32.0",
