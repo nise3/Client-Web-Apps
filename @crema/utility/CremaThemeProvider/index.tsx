@@ -20,11 +20,9 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   const {
     theme,
     locale,
-    isRTL,
     updateThemeMode,
     changeNavStyle,
     updateThemeStyle,
-    setRTL,
     updateTheme,
   } = useContext<AppContextPropsType>(AppContext);
   const {muiLocale} = AppLocale[locale.locale];
@@ -42,20 +40,6 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
     };
     updateQuerySetting();
   }, [params.theme_mode, updateThemeMode]);
-
-  useEffect(() => {
-    const updateQuerySetting = () => {
-      if (params.is_rtl) {
-        setRTL?.(params.is_rtl as boolean);
-      }
-      if (params.is_rtl || isRTL) {
-        document.body.setAttribute('dir', 'rtl');
-      } else {
-        document.body.setAttribute('dir', 'ltr');
-      }
-    };
-    updateQuerySetting();
-  }, [isRTL, params.is_rtl, setRTL]);
 
   useEffect(() => {
     const updateQuerySetting = () => {
