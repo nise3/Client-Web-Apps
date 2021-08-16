@@ -1,22 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {deleteInstitute, getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import ConfirmDialog from '../../../shared/components/elements/ConfirmDialog';
-import DataTableActionButtons from '../../../shared/components/blocks/DataTableActionButtons';
-import ButtonGroup from 'antd/lib/button/button-group';
-import ReadButton from '../../../shared/components/elements/Button/ReadButton';
-import EditButton from '../../../shared/components/elements/Button/EditButton';
-import DeleteButton from '../../../shared/components/elements/Button/DeleteButton';
-import PageBlock from '../../../shared/components/blocks/PageBlock';
-import AddButton from '../../../shared/components/elements/Button/AddButton';
-import Datatable from '../../../shared/components/elements/Datatable';
-import InstituteAddEditPopup from '../../../shared/components/page-components/institute/InstituteAddEditPopup';
-import InstituteDetailsPopup from '../../../shared/components/page-components/institute/InstituteDetailsPopup';
+import AppAnimate from '../../../@crema/core/AppAnimate';
+import Datatable from '../../../@softbd/elements/Datatable';
+import PageBlock from '../../../@softbd/PageBlock';
+import AddButton from '../../../@softbd/elements/Button/AddButton';
+import InstituteAddEditPopup from '../../../@softbd/page-components/institute/InstituteAddEditPopup';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 const InstitutePage = () => {
+  const [open, setOpen] = React.useState(false);
+  const [instituteId, setInstituteId] = useState<number | null>(null);
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [instituteId, setInstituteId] = useState<number | null>(null);
 
   useEffect(() => {
     loadInstitutesData();
@@ -24,112 +19,76 @@ const InstitutePage = () => {
 
   const loadInstitutesData = async () => {
     let institutes = await getAllInstitutes();
-    console.log('institutes',institutes);
+    console.log('institutes', institutes);
     setInstitutes(institutes);
   };
 
-  const closeAddEditModal = () => {
-    setIsOpenAddEditModal(false);
-    setInstituteId(null);
-  }
+  // const showConfirm = (instituteId: number) => {
+  //   ConfirmDialog(() => deleteInstituteItem(instituteId));
+  // }
 
-
-  const openAddEditModal = (instituteId: number | null = null) => {
-    setIsOpenAddEditModal(true);
-    setInstituteId(instituteId);
-  }
-
-  const openDetailsModal = (instituteId: number) => {
-    setIsOpenDetailsModal(true);
-    setInstituteId(instituteId);
-  }
-
-  const closeDetailsModal = () => {
-    setIsOpenDetailsModal(false);
-  }
-
-  const showConfirm = (instituteId: number) => {
-    ConfirmDialog(() => deleteInstituteItem(instituteId));
-  }
-
-  const deleteInstituteItem = async (instituteId: number) => {
-    let data = await deleteInstitute(instituteId);
-    if (data) {
-      //Toast.success(t('object_deleted_successfully', {object: t('institute')}));
-      loadInstitutesData();
-    }
-  }
+  const t = function (text: any) {
+    return text;
+  };
 
   const columns = [
     {
-      title: 'title_en',
+      title: t('title_en'),
       dataIndex: 'title_en',
       key: 'title_en',
     },
     {
-      title: 'title_bn',
+      title: t('title_bn'),
       dataIndex: 'title_bn',
       key: 'title_bn',
     },
     {
-      title: 'institutes:code',
+      title: t('institutes:code'),
       dataIndex: 'code',
-      key: 'code'
+      key: 'code',
     },
     {
-      title: 'institutes:domain',
+      title: t('institutes:domain'),
       dataIndex: 'domain',
-      key: 'domain'
+      key: 'domain',
     },
     {
-      title: 'address',
+      title: t('address'),
       dataIndex: 'address',
-      key: 'address'
+      key: 'address',
     },
     {
-      title: 'action',
+      title: t('action'),
       key: 'action',
       render(data: Institute) {
-        return (
-          <DataTableActionButtons>
-            <ButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)}/>
-              <EditButton onClick={() => openAddEditModal(data.id)}/>
-              <DeleteButton onClick={() => showConfirm(data.id)}/>
-            </ButtonGroup>
-          </DataTableActionButtons>
-        )
-      }
-    }
+        return <></>;
+      },
+    },
   ];
 
   return (
     <>
-      <PageBlock
-        title={'institutes:institute_title'}
-        extra={[
-          <AddButton key={1} className="float-right" onClick={() => openAddEditModal(null)}/>
-        ]}
-      >
-        <Datatable data={institutes} columns={columns} size={'small'}/>
-      </PageBlock>
+      <AppAnimate animation='transition.slideUpIn' delay={200}>
+        <PageBlock
+          title={'Create Institute'}
+          extra={[
+            <AddButton key={1} onClick={() => setIsOpenAddEditModal(true)} />,
+          ]}>
+          <Datatable columns={columns} data={[]} />
 
-      {
-        isOpenAddEditModal && <InstituteAddEditPopup
-          instituteId={instituteId}
-          isOpenAddEditModal={isOpenAddEditModal}
-          closeAddEditModal={closeAddEditModal}
-          loadInstituteTableData={loadInstitutesData}
-        />
-      }
-      {
-        isOpenDetailsModal && <InstituteDetailsPopup
-          instituteId={instituteId}
-          isOpenDetailsModal={isOpenDetailsModal}
-          closeDetailsModal={closeDetailsModal}
-          openAddEditModal={openAddEditModal}
-        />
-      }
+          {isOpenAddEditModal && (
+            <InstituteAddEditPopup
+              isOpenAddEditModal={isOpenAddEditModal}
+              onDeny={setIsOpenAddEditModal}
+              title={'Add new institute'}
+              onConfirm={() => null}
+              key={1}
+              instituteId={null}
+              loadInstituteTableData={{}}
+            />
+          )}
+        </PageBlock>
+      </AppAnimate>
     </>
   );
 };

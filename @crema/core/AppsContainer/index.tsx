@@ -17,6 +17,7 @@ interface AppsContainerProps {
   title?: string | ReactNode;
   sidebarContent?: ReactNode;
   fullView?: boolean;
+  fullHeight?: boolean;
   cardStyle?: any;
   children: ReactNode;
 }
@@ -27,6 +28,7 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
   sidebarContent,
   fullView = false,
   children,
+  fullHeight = false,
 }) => {
   const dispatch = useDispatch();
   const {isAppDrawerOpen} = useSelector<AppState, AppState['common']>(
@@ -77,7 +79,7 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
         <Box className={classes.appsMainContent}>
           <Card
             style={{
-              height: '100%',
+              height: fullHeight ? '100%' : 'auth',
               display: 'flex',
               flexDirection: 'column',
               ...cardStyle,
