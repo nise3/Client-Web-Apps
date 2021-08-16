@@ -8,7 +8,7 @@ const Index = asyncComponent(
 );
 export default AppPage(() => (
   <React.Fragment>
-    <PageMeta title='Health Care | Crema ' />
+    <PageMeta title='Dashboard' />
     <Index />
   </React.Fragment>
 ));

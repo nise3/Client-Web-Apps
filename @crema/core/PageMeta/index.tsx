@@ -9,14 +9,14 @@ interface PageMetaProps {
 }
 
 const PageMeta: React.FC<PageMetaProps> = ({
-  title = 'NISE3',
+  title,
   desc = 'National Intelligence for Skills, Education, Employment and Entrepreneurship',
   css,
   image,
   canonical,
 }) => (
   <Head>
-    <title>{title}</title>
+    <title>{title ? 'NISE3 | ' + title : 'NISE3'}</title>
     <meta name='description' content={desc} />
     <meta property='og:type' content='website' />
     <meta name='og:title' property='og:title' content={title} />
