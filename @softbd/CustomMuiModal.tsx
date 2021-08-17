@@ -1,26 +1,19 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
+import {
+  Dialog,
+  DialogActions as MuiDialogActions,
+  DialogContent as MuiDialogContent,
+  DialogTitle as MuiDialogTitle,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
 import {
   createStyles,
   Theme,
   WithStyles,
   withStyles,
 } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import {IconButton, Typography} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-
-interface CustomMuiModalProps {
-  open: boolean;
-  onDeny: (x: boolean) => void;
-  onConfirm: () => void;
-  title: any;
-  onOk: any;
-  children: React.ReactNode;
-}
+import {Close as CloseIcon} from '@material-ui/icons';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -59,25 +52,33 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   );
 });
 
+interface CustomMuiModalProps {
+  open: boolean;
+  onClose: () => any;
+  title: React.ReactNode | string;
+  children: React.ReactNode;
+  actions?: React.ReactNode;
+}
+
 const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
-  open,
-  onDeny,
-  onConfirm,
   title,
+  onClose,
+  actions,
   children,
-  onOk,
+  ...props
 }) => {
   return (
-    <Dialog open={open} onClose={() => onDeny(false)} maxWidth={'lg'} fullWidth>
-      <DialogTitle id='customized-dialog-title' onClose={() => onDeny(false)}>
+    <Dialog
+      {...props}
+      maxWidth={'lg'}
+      fullWidth
+      scroll={'body'}
+      onClose={onClose}>
+      <DialogTitle id='customized-dialog-title' onClose={onClose}>
         {title}
       </DialogTitle>
       <MuiDialogContent dividers>{children}</MuiDialogContent>
-      <MuiDialogActions>
-        <Button autoFocus onClick={onOk} color='primary'>
-          Save changes
-        </Button>
-      </MuiDialogActions>
+      {actions && <MuiDialogActions>{actions}</MuiDialogActions>}
     </Dialog>
   );
 };

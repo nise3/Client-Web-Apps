@@ -1,38 +1,33 @@
+import React from 'react';
 import {Table} from 'antd';
-import React, {useState} from 'react';
 import {SizeType} from 'antd/lib/config-provider/SizeContext';
 import {ColumnsType} from 'antd/lib/table';
 
 type TDatatableProps = {
+  loading?: boolean;
   bordered?: boolean;
   pagination?: boolean;
   size?: SizeType;
   header?: string;
   footer?: string;
   data: any;
+  rowKey?: string;
   columns: ColumnsType<[]>;
+  rowSelection?: any;
 };
 
 const Datatable: React.FunctionComponent<TDatatableProps> = ({
-  columns,
   data,
-  bordered = false,
   pagination = true,
-  size = 'small',
   header,
   footer,
+  ...props
 }) => {
-  const [rowSelection, setRowSelection] = useState<any>({});
-  const [loading, setLoading] = useState<boolean>(true);
-
   return (
     <>
       <Table
-        bordered={bordered}
-        rowSelection={rowSelection}
-        size={size}
+        {...props}
         pagination={{position: ['bottomRight', 'bottomRight']}}
-        columns={columns}
         dataSource={data || null}
       />
     </>

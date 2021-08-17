@@ -3,39 +3,34 @@ import React, {useEffect} from 'react';
 import FormInput from '../../elements/Input/FormInput';
 import FormRowStatus from '../../elements/FormRowStatus';
 import FormTextArea from '../../elements/Input/FormTextArea';
-import {
-  createInstitute,
-  getInstitute,
-  updateInstitute,
-} from '../../../services/instituteManagement/InstituteService';
+import {getInstitute} from '../../../services/instituteManagement/InstituteService';
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../common/patternRegex';
 import CustomMuiModal from '../../CustomMuiModal';
+import {Button} from '@material-ui/core';
+import {Save} from '@material-ui/icons';
+const {Option} = Select;
 
 type Props = {
   instituteId: number | null;
   isOpenAddEditModal: boolean;
+  onClose: () => any;
   loadInstituteTableData: any;
-  onDeny?: any;
-  title?: any;
-  onConfirm?: any;
+  title?: React.ReactNode | string;
 };
 
 const InstituteAddEditPopup = ({
   instituteId,
-  onDeny,
   title,
-  onConfirm,
   isOpenAddEditModal,
-  loadInstituteTableData,
+  onClose,
 }: Props) => {
   const isEdit = instituteId != null;
   const [form] = Form.useForm();
   //const {t} = useTranslation(['common', 'institutes']);
-  const {Option} = Select;
 
   useEffect(() => {
     if (isEdit && instituteId) {
@@ -84,13 +79,22 @@ const InstituteAddEditPopup = ({
     <>
       <CustomMuiModal
         open={isOpenAddEditModal}
-        onDeny={onDeny}
-        onConfirm={onConfirm}
-        onOk={() => {
-          form.validateFields().then((values) => {
-            onSubmit(values);
-          });
-        }}
+        onClose={onClose}
+        actions={
+          <>
+            <Button
+              variant='contained'
+              color={'primary'}
+              startIcon={<Save />}
+              onClick={() => {
+                form.validateFields().then((values) => {
+                  onSubmit(values);
+                });
+              }}>
+              Save
+            </Button>
+          </>
+        }
         title={title}>
         <Form
           layout='vertical'

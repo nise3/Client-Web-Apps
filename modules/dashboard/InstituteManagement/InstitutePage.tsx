@@ -5,13 +5,15 @@ import PageBlock from '../../../@softbd/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import InstituteAddEditPopup from '../../../@softbd/page-components/institute/InstituteAddEditPopup';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {useIntl} from 'react-intl';
 
 const InstitutePage = () => {
-  const [open, setOpen] = React.useState(false);
-  const [instituteId, setInstituteId] = useState<number | null>(null);
+  const {messages} = useIntl();
+
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const [loadingInstituteData, setLoadingInstituteData] =
+    useState<boolean>(true);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
   useEffect(() => {
     loadInstitutesData();
@@ -21,29 +23,29 @@ const InstitutePage = () => {
     let institutes = await getAllInstitutes();
     console.log('institutes', institutes);
     setInstitutes(institutes);
+    setLoadingInstituteData(false);
   };
 
   // const showConfirm = (instituteId: number) => {
   //   ConfirmDialog(() => deleteInstituteItem(instituteId));
   // }
-
   const t = function (text: any) {
     return text;
   };
 
   const columns = [
     {
-      title: t('title_en'),
+      title: messages['institute.title_en'],
       dataIndex: 'title_en',
       key: 'title_en',
     },
     {
-      title: t('title_bn'),
+      title: messages['institute.title_bn'],
       dataIndex: 'title_bn',
       key: 'title_bn',
     },
     {
-      title: t('institutes:code'),
+      title: messages['institute.code'],
       dataIndex: 'code',
       key: 'code',
     },
@@ -74,14 +76,18 @@ const InstitutePage = () => {
           extra={[
             <AddButton key={1} onClick={() => setIsOpenAddEditModal(true)} />,
           ]}>
-          <Datatable columns={columns} data={[]} />
-
+          <Datatable
+            bordered
+            columns={columns}
+            data={institutes}
+            rowKey={'id'}
+            loading={loadingInstituteData}
+          />
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
               isOpenAddEditModal={isOpenAddEditModal}
-              onDeny={setIsOpenAddEditModal}
+              onClose={() => setIsOpenAddEditModal(false)}
               title={'Add new institute'}
-              onConfirm={() => null}
               key={1}
               instituteId={null}
               loadInstituteTableData={{}}

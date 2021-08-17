@@ -30,7 +30,9 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
           )}
         </Box>
       </AppsHeader>
-      <AppsContent>{children}</AppsContent>
+      <AppsContent>
+        <div style={{margin: '10px'}}>{children}</div>
+      </AppsContent>
     </AppsContainer>
   );
 };

@@ -9,6 +9,7 @@ export const getAllInstitutes = async () => {
     let response: any = await apiGet(API_INSTITUTES);
     return response.data.data;
   } catch (error) {
+    console.log(error);
     catchBlockHandler(error);
   }
 };
