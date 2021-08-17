@@ -4,16 +4,26 @@ import Datatable from '../../../@softbd/elements/Datatable';
 import PageBlock from '../../../@softbd/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import InstituteAddEditPopup from '../../../@softbd/page-components/institute/InstituteAddEditPopup';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {
+  deleteInstitute,
+  getAllInstitutes,
+} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
+import ReadButton from '../../../@softbd/elements/Button/ReadButton';
+import EditButton from '../../../@softbd/elements/Button/EditButton';
+import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
+import ButtonGroup from 'antd/lib/button/button-group';
+import DataTableActionButtons from '../../../@softbd/blocks/DataTableActionButtons';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
 
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const [instituteId, setInstituteId] = useState<number | null>(null);
   const [loadingInstituteData, setLoadingInstituteData] =
     useState<boolean>(true);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
   useEffect(() => {
     loadInstitutesData();
@@ -26,9 +36,32 @@ const InstitutePage = () => {
     setLoadingInstituteData(false);
   };
 
-  // const showConfirm = (instituteId: number) => {
-  //   ConfirmDialog(() => deleteInstituteItem(instituteId));
-  // }
+  const closeAddEditModal = () => {
+    setIsOpenAddEditModal(false);
+    setInstituteId(null);
+  };
+
+  const openAddEditModal = (instituteId: number | null = null) => {
+    setIsOpenAddEditModal(true);
+    setInstituteId(instituteId);
+  };
+
+  const openDetailsModal = (instituteId: number) => {
+    setIsOpenDetailsModal(true);
+    setInstituteId(instituteId);
+  };
+
+  const closeDetailsModal = () => {
+    setIsOpenDetailsModal(false);
+  };
+
+  const deleteInstituteItem = async (instituteId: number) => {
+    let data = await deleteInstitute(instituteId);
+    if (data) {
+      loadInstitutesData();
+    }
+  };
+
   const t = function (text: any) {
     return text;
   };
@@ -63,7 +96,18 @@ const InstitutePage = () => {
       title: t('action'),
       key: 'action',
       render(data: Institute) {
-        return <></>;
+        return (
+          <DataTableActionButtons>
+            <ButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteInstituteItem(data.id)}
+                deleteTitle={'Are you sure?'}
+              />
+            </ButtonGroup>
+          </DataTableActionButtons>
+        );
       },
     },
   ];
