@@ -1,22 +1,18 @@
-import {Button} from "antd";
-import {EyeOutlined} from "@ant-design/icons";
+import {EyeOutlined} from '@ant-design/icons';
+import React from 'react';
+import Button from '@material-ui/core/Button';
 
 interface Props {
-    onClick: () => void;
-    className?: string;
+  onClick: () => void;
+  className?: string;
 }
 
 const ReadButton = ({onClick, className}: Props) => {
-    return (
-        <Button type="primary"
-                icon={<EyeOutlined/>}
-                onClick={onClick}
-                className={className}
-        >
-            {'read'}
-        </Button>
-
-    );
+  return (
+    <Button startIcon={<EyeOutlined />} onClick={onClick} className={className}>
+      Read
+    </Button>
+  );
 };
 
 export default ReadButton;

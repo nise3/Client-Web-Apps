@@ -1,23 +1,21 @@
-import {Button} from "antd";
-import {EditOutlined} from "@ant-design/icons";
+import {EditOutlined} from '@ant-design/icons';
+import React from 'react';
+import Button from '@material-ui/core/Button';
 
 interface Props {
-    onClick: () => void;
-    className?: string;
+  onClick: () => void;
+  className?: string;
 }
 
 const EditButton = ({onClick, className}: Props) => {
-    return (
-        <Button
-            type="dashed"
-            icon={<EditOutlined/>}
-            onClick={onClick}
-            className={className}
-        >
-            {'edit_button_label'}
-        </Button>
-
-    );
+  return (
+    <Button
+      startIcon={<EditOutlined />}
+      onClick={onClick}
+      className={className}>
+      Edit
+    </Button>
+  );
 };
 
 export default EditButton;

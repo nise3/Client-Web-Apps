@@ -12,8 +12,7 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import ButtonGroup from 'antd/lib/button/button-group';
-import DataTableActionButtons from '../../../@softbd/blocks/DataTableActionButtons';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
@@ -97,16 +96,17 @@ const InstitutePage = () => {
       key: 'action',
       render(data: Institute) {
         return (
-          <DataTableActionButtons>
-            <ButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteInstituteItem(data.id)}
-                deleteTitle={'Are you sure?'}
-              />
-            </ButtonGroup>
-          </DataTableActionButtons>
+          <ButtonGroup
+            variant='text'
+            color='primary'
+            aria-label='text primary button group'>
+            <ReadButton onClick={() => openDetailsModal(data.id)} />
+            <EditButton onClick={() => openAddEditModal(data.id)} />
+            <DeleteButton
+              deleteAction={() => deleteInstituteItem(data.id)}
+              deleteTitle={'Are you sure?'}
+            />
+          </ButtonGroup>
         );
       },
     },
@@ -129,14 +129,22 @@ const InstitutePage = () => {
           />
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
-              isOpenAddEditModal={isOpenAddEditModal}
+              open={isOpenAddEditModal}
               onClose={() => setIsOpenAddEditModal(false)}
               title={'Add new institute'}
               key={1}
-              instituteId={null}
-              loadInstituteTableData={{}}
+              itemId={instituteId}
             />
           )}
+
+          {/*{isOpenDetailsModal && (*/}
+          {/*  <InstituteDetailsPopup*/}
+          {/*    instituteId={instituteId}*/}
+          {/*    isOpenDetailsModal={isOpenDetailsModal}*/}
+          {/*    closeDetailsModal={closeDetailsModal}*/}
+          {/*    openAddEditModal={openAddEditModal}*/}
+          {/*  />*/}
+          {/*)}*/}
         </PageBlock>
       </AppAnimate>
     </>

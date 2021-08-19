@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from '@material-ui/core';
-import {PlusCircleOutlined} from '@ant-design/icons';
+import {PlusOneOutlined} from '@material-ui/icons';
 
 interface Props {
   onClick: () => void;
@@ -12,7 +12,7 @@ const AddButton = ({onClick, className}: Props) => {
     <Button
       variant='contained'
       color={'primary'}
-      startIcon={<PlusCircleOutlined />}
+      startIcon={<PlusOneOutlined />}
       onClick={onClick}
       className={className}>
       Add New

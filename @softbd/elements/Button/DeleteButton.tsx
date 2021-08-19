@@ -22,8 +22,6 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
     <>
       <Tooltip title={<IntlMessages id='common.trash' />}>
         <Button
-          variant={'outlined'}
-          color={'secondary'}
           startIcon={<DeleteSharpIcon />}
           onClick={() => setDeleteDialogOpen(true)}
           className={className}>

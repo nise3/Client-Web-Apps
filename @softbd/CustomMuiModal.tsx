@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   Dialog,
-  DialogActions as MuiDialogActions,
-  DialogContent as MuiDialogContent,
   DialogTitle as MuiDialogTitle,
   IconButton,
   Typography,
@@ -14,6 +12,8 @@ import {
   withStyles,
 } from '@material-ui/core/styles';
 import {Close as CloseIcon} from '@material-ui/icons';
+import {TransitionProps} from '@material-ui/core/transitions';
+import Slide from '@material-ui/core/Slide';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -35,7 +35,7 @@ export interface DialogTitleProps extends WithStyles<typeof styles> {
   onClose: () => void;
 }
 
-const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
+export const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const {children, classes, onClose, ...other} = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -52,33 +52,37 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   );
 });
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {children?: React.ReactElement<any, any>},
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
+
 interface CustomMuiModalProps {
   open: boolean;
   onClose: () => any;
   title: React.ReactNode | string;
   children: React.ReactNode;
-  actions?: React.ReactNode;
 }
 
 const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
   title,
   onClose,
-  actions,
   children,
   ...props
 }) => {
   return (
     <Dialog
+      aria-labelledby='simple-modal-title'
+      TransitionComponent={Transition}
+      aria-describedby='simple-modal-description'
       {...props}
       maxWidth={'lg'}
       fullWidth
       scroll={'body'}
       onClose={onClose}>
-      <DialogTitle id='customized-dialog-title' onClose={onClose}>
-        {title}
-      </DialogTitle>
-      <MuiDialogContent dividers>{children}</MuiDialogContent>
-      {actions && <MuiDialogActions>{actions}</MuiDialogActions>}
+      {children}
     </Dialog>
   );
 };
