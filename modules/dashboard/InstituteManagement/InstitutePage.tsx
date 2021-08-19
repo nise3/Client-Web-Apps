@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
-import Datatable from '../../../@softbd/elements/Datatable';
 import PageBlock from '../../../@softbd/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import InstituteAddEditPopup from '../../../@softbd/page-components/institute/InstituteAddEditPopup';
@@ -13,6 +12,9 @@ import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {useReactTableFetchData} from '../../../@softbd/hooks/ReactTableHooks';
+import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
@@ -23,6 +25,7 @@ const InstitutePage = () => {
     useState<boolean>(true);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState(false);
 
   useEffect(() => {
     loadInstitutesData();
@@ -61,40 +64,32 @@ const InstitutePage = () => {
     }
   };
 
-  const t = function (text: any) {
-    return text;
-  };
-
   const columns = [
     {
-      title: messages['institute.title_en'],
-      dataIndex: 'title_en',
-      key: 'title_en',
+      Header: 'ID',
+      accessor: 'id',
+      disableFilters: true,
+      disableSortBy: true,
     },
     {
-      title: messages['institute.title_bn'],
-      dataIndex: 'title_bn',
-      key: 'title_bn',
+      Header: messages['institute.title_en'],
+      accessor: 'title_en',
     },
     {
-      title: messages['institute.code'],
-      dataIndex: 'code',
-      key: 'code',
+      Header: messages['institute.title_bn'],
+      accessor: 'title_bn',
     },
     {
-      title: t('institutes:domain'),
-      dataIndex: 'domain',
-      key: 'domain',
+      Header: messages['institute.title_bn'],
+      accessor: 'domain',
     },
     {
-      title: t('address'),
-      dataIndex: 'address',
-      key: 'address',
+      Header: messages['institute.title_bn'],
+      accessor: 'address',
     },
     {
-      title: t('action'),
-      key: 'action',
-      render(data: Institute) {
+      Header: 'Actions',
+      Cell: (data: Institute) => {
         return (
           <ButtonGroup
             variant='text'
@@ -109,8 +104,14 @@ const InstitutePage = () => {
           </ButtonGroup>
         );
       },
+      sortable: false,
     },
   ];
+
+  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
+    urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
+    dataAccessor: 'data',
+  });
 
   return (
     <>
@@ -120,12 +121,15 @@ const InstitutePage = () => {
           extra={[
             <AddButton key={1} onClick={() => setIsOpenAddEditModal(true)} />,
           ]}>
-          <Datatable
-            bordered
+          <ReactTable
             columns={columns}
-            data={institutes}
-            rowKey={'id'}
-            loading={loadingInstituteData}
+            data={data}
+            fetchData={onFetchData}
+            loading={loading}
+            pageCount={pageCount}
+            skipDefaultFilter={true}
+            skipPageResetRef={false}
+            toggleResetTable={isToggleTable}
           />
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
