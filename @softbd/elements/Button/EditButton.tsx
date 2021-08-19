@@ -11,6 +11,7 @@ const EditButton = ({onClick, className}: Props) => {
   return (
     <Button
       startIcon={<EditOutlined />}
+      color={'primary'}
       onClick={onClick}
       className={className}>
       Edit

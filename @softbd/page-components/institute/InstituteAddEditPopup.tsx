@@ -3,12 +3,12 @@ import {useFormik} from 'formik';
 import * as yup from 'yup';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import {getInstitute} from '../../../services/instituteManagement/InstituteService';
+import {createInstitute, getInstitute, updateInstitute} from '../../../services/instituteManagement/InstituteService';
 import FormikFormMuiModal from '../../FormikFormMuiModal';
-import CustomTextInput from '../../elements/Input/CustomTextInput.tsx';
 import CancelButton from '../../elements/Button/CancelButton';
 import SubmitButton from '../../elements/Button/SubmitButton';
 import FormRowStatus from '../../elements/FormRowStatus';
+import CustomTextInput from '../../elements/Input/CustomTextInput';
 
 interface InstituteAddEditPopupProps {
   title: React.ReactNode | string;
@@ -27,10 +27,12 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
     domain: '',
     code: '',
     address: '',
+    primary_phone: '',
+    primary_mobile: '',
     google_map_src: '',
     email: '',
     config: '',
-    row_status: '0',
+    row_status: '1',
   };
 
   const isEdit = itemId != null;
@@ -45,6 +47,8 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
           title_bn: item.title_bn,
           domain: item.domain,
           code: item.code,
+          primary_phone: item.primary_phone,
+          primary_mobile: item.primary_mobile,
           address: item.address,
           google_map_src: item.google_map_src,
           email: item.email,
@@ -61,11 +65,12 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
     title_en: yup.string().required('Enter title (En)'),
     title_bn: yup.string().required('Enter title (Bn)'),
     domain: yup.string().required('Enter domain'),
-    code: yup.string().required('Enter domain'),
+    code: yup.string().required('Enter code'),
+    primary_phone: yup.string().required('Enter Phone Number'),
+    primary_mobile: yup.string().required('Enter Mobile Number'),
     address: yup.string().required('Enter address'),
     google_map_src: yup.string().required('Enter Google map src'),
     email: yup.string().required('Enter email'),
-    config: yup.string().required('Enter config'),
     row_status: yup.string().required('Enter Status'),
   });
 
@@ -73,13 +78,26 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
     initialValues: itemData,
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (data, {setSubmitting, resetForm}) => {
+    onSubmit: async (data:Institute, {setSubmitting, resetForm}) => {
       // onClose();
       // resetForm();
       // setSubmitting(false);
 
-      console.log(data);
-      alert(JSON.stringify(data, null, 2));
+      if (isEdit && itemId) {
+        let response = await updateInstitute(itemId, data);
+        if (response) {
+          //Toast.success(t('object_updated_successfully', {object: t('institute')}));
+          //props.onclose();
+          //loadInstituteTableData();
+        }
+      } else {
+        let response = await createInstitute(data);
+        if (response) {
+          //Toast.success(t('object_created_successfully', {object: t('institute')}));
+          //closeAddEditModal();
+          //loadInstituteTableData();
+        }
+      }
     },
   });
 
@@ -89,7 +107,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
       formik={formik}
       actions={
         <>
-          <CancelButton/>
+          <CancelButton onClick={props.onClose}/>
           <SubmitButton/>
         </>
       }>
@@ -119,6 +137,17 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              id='email'
+              name='email'
+              label='Email'
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
               id='code'
               name='code'
               label='Code'
@@ -141,6 +170,28 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              id='primary_phone'
+              name='primary_phone'
+              label={'Primary phone'}
+              value={formik.values.primary_phone}
+              onChange={formik.handleChange}
+              error={formik.touched.primary_phone && Boolean(formik.errors.primary_phone)}
+              helperText={formik.touched.primary_phone && formik.errors.primary_phone}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id='primary_mobile'
+              name='primary_mobile'
+              label={'Primary mobile'}
+              value={formik.values.primary_mobile}
+              onChange={formik.handleChange}
+              error={formik.touched.primary_mobile && Boolean(formik.errors.primary_mobile)}
+              helperText={formik.touched.primary_mobile && formik.errors.primary_mobile}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
               id='address'
               name='address'
               label='Address'
@@ -154,7 +205,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             <CustomTextInput
               id='google_map_src'
               name='google_map_src'
-              label='Address'
+              label={'google_map_src'}
               value={formik.values.google_map_src}
               onChange={formik.handleChange}
               error={
@@ -167,45 +218,12 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <CustomTextInput
-              id='email'
-              name='email'
-              label='Email'
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='config'
-              name='config'
-              label='Config'
-              value={formik.values.config}
-              onChange={formik.handleChange}
-              error={formik.touched.config && Boolean(formik.errors.config)}
-              helperText={formik.touched.config && formik.errors.config}
-            />
-          </Grid>
-          <Grid item xs={6}>
             <FormRowStatus
               id='row_status'
               name='row_status'
               value={formik.values.row_status}
               onChange={formik.handleChange}
             />
-            {/*<CustomTextInput*/}
-            {/*  id='row_status'*/}
-            {/*  name='row_status'*/}
-            {/*  label='Status'*/}
-            {/*  value={formik.values.row_status}*/}
-            {/*  onChange={formik.handleChange}*/}
-            {/*  error={*/}
-            {/*    formik.touched.row_status && Boolean(formik.errors.row_status)*/}
-            {/*  }*/}
-            {/*  helperText={formik.touched.row_status && formik.errors.row_status}*/}
-            {/*/>*/}
           </Grid>
         </Grid>
       </Box>

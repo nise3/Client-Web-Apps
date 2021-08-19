@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import InstituteAddEditPopup from '../../../@softbd/page-components/institute/InstituteAddEditPopup';
-import {
-  deleteInstitute,
-  getAllInstitutes,
-} from '../../../services/instituteManagement/InstituteService';
+import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
@@ -15,28 +12,28 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import {useReactTableFetchData} from '../../../@softbd/hooks/ReactTableHooks';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import InstituteDetailsPopup from '../../../@softbd/page-components/institute/InstituteDetailsPopup';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
 
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [instituteId, setInstituteId] = useState<number | null>(null);
-  const [loadingInstituteData, setLoadingInstituteData] =
-    useState<boolean>(true);
+  const [loadingInstituteData, setLoadingInstituteData] = useState<boolean>(true);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState(false);
 
-  useEffect(() => {
-    loadInstitutesData();
-  }, []);
+  // useEffect(() => {
+  //   loadInstitutesData();
+  // }, []);
 
-  const loadInstitutesData = async () => {
-    let institutes = await getAllInstitutes();
-    console.log('institutes', institutes);
-    setInstitutes(institutes);
-    setLoadingInstituteData(false);
-  };
+  // const loadInstitutesData = async () => {
+  //   let institutes = await getAllInstitutes();
+  //   console.log('institutes', institutes);
+  //   setInstitutes(institutes);
+  //   setLoadingInstituteData(false);
+  // };
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -60,7 +57,7 @@ const InstitutePage = () => {
   const deleteInstituteItem = async (instituteId: number) => {
     let data = await deleteInstitute(instituteId);
     if (data) {
-      loadInstitutesData();
+      setIsToggleTable(true);
     }
   };
 
@@ -89,7 +86,8 @@ const InstitutePage = () => {
     },
     {
       Header: 'Actions',
-      Cell: (data: Institute) => {
+      Cell: (props: any) => {
+        let data = props.row.original;
         return (
           <ButtonGroup
             variant='text'
@@ -133,22 +131,24 @@ const InstitutePage = () => {
           />
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
-              open={isOpenAddEditModal}
-              onClose={() => setIsOpenAddEditModal(false)}
-              title={'Add new institute'}
               key={1}
+              title={'Add new institute'}
+              open={isOpenAddEditModal}
+              onClose={closeAddEditModal}
               itemId={instituteId}
             />
           )}
 
-          {/*{isOpenDetailsModal && (*/}
-          {/*  <InstituteDetailsPopup*/}
-          {/*    instituteId={instituteId}*/}
-          {/*    isOpenDetailsModal={isOpenDetailsModal}*/}
-          {/*    closeDetailsModal={closeDetailsModal}*/}
-          {/*    openAddEditModal={openAddEditModal}*/}
-          {/*  />*/}
-          {/*)}*/}
+          {isOpenDetailsModal && (
+            <InstituteDetailsPopup
+              key={1}
+              title={'View institute'}
+              itemId={instituteId}
+              open={isOpenDetailsModal}
+              onClose={closeDetailsModal}
+              openEditModal={openAddEditModal}
+            />
+          )}
         </PageBlock>
       </AppAnimate>
     </>
