@@ -2,45 +2,13 @@ import React from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
-import {Fonts} from '../../../shared/constants/AppEnums';
-import {Grid, TextField} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import {getInstitute} from '../../../services/instituteManagement/InstituteService';
-import {Save, Remove} from '@material-ui/icons';
 import FormikFormMuiModal from '../../FormikFormMuiModal';
-
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  formRoot: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 20,
-    [theme.breakpoints.up('xl')]: {},
-  },
-  fontBold: {
-    fontWeight: Fonts.MEDIUM,
-  },
-  pointer: {
-    cursor: 'pointer',
-  },
-  textareaAutosizeRoot: {
-    width: '100%',
-    border: '0 none',
-    fontWeight: Fonts.REGULAR,
-    backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.primary,
-  },
-  btnRoot: {
-    paddingLeft: 32,
-    paddingRight: 32,
-  },
-  scrollRoot: {
-    height: 595,
-  },
-}));
+import CustomTextInput from '../../elements/Input/CustomTextInput.tsx';
+import CancelButton from '../../elements/Button/CancelButton';
+import SubmitButton from '../../elements/Button/SubmitButton';
+import FormRowStatus from '../../elements/FormRowStatus';
 
 interface InstituteAddEditPopupProps {
   title: React.ReactNode | string;
@@ -62,7 +30,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
     google_map_src: '',
     email: '',
     config: '',
-    row_status: '',
+    row_status: '0',
   };
 
   const isEdit = itemId != null;
@@ -89,7 +57,6 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
     })();
   }, [itemId]);
 
-  const classes = useStyles();
   const validationSchema = yup.object({
     title_en: yup.string().required('Enter title (En)'),
     title_bn: yup.string().required('Enter title (Bn)'),
@@ -122,28 +89,14 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
       formik={formik}
       actions={
         <>
-          <Button
-            startIcon={<Remove />}
-            className={classes.btnRoot}
-            variant='contained'
-            color='default'>
-            Cancel
-          </Button>
-          <Button
-            startIcon={<Save />}
-            className={classes.btnRoot}
-            variant='contained'
-            color='secondary'
-            type='submit'>
-            Submit
-          </Button>
+          <CancelButton/>
+          <SubmitButton/>
         </>
       }>
       <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
         <Grid container spacing={5}>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='title_en'
               name='title_en'
               label='Title (En)'
@@ -154,8 +107,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='title_bn'
               name='title_bn'
               label='Title (Bn)'
@@ -166,8 +118,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='code'
               name='code'
               label='Code'
@@ -178,8 +129,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='domain'
               name='domain'
               label='Domain'
@@ -190,8 +140,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='address'
               name='address'
               label='Address'
@@ -202,8 +151,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='google_map_src'
               name='google_map_src'
               label='Address'
@@ -219,8 +167,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='email'
               name='email'
               label='Email'
@@ -231,8 +178,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <CustomTextInput
               id='config'
               name='config'
               label='Config'
@@ -243,18 +189,23 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
+            <FormRowStatus
               id='row_status'
               name='row_status'
-              label='Status'
               value={formik.values.row_status}
               onChange={formik.handleChange}
-              error={
-                formik.touched.row_status && Boolean(formik.errors.row_status)
-              }
-              helperText={formik.touched.row_status && formik.errors.row_status}
             />
+            {/*<CustomTextInput*/}
+            {/*  id='row_status'*/}
+            {/*  name='row_status'*/}
+            {/*  label='Status'*/}
+            {/*  value={formik.values.row_status}*/}
+            {/*  onChange={formik.handleChange}*/}
+            {/*  error={*/}
+            {/*    formik.touched.row_status && Boolean(formik.errors.row_status)*/}
+            {/*  }*/}
+            {/*  helperText={formik.touched.row_status && formik.errors.row_status}*/}
+            {/*/>*/}
           </Grid>
         </Grid>
       </Box>

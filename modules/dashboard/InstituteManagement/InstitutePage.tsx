@@ -118,7 +118,7 @@ const InstitutePage = () => {
         <PageBlock
           title={'Create Institute'}
           extra={[
-            <AddButton key={1} onClick={() => setIsOpenAddEditModal(true)} />,
+            <AddButton key={1} onClick={() => openAddEditModal(null)} />,
           ]}>
           <Datatable
             bordered
