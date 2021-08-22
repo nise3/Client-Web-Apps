@@ -1,5 +1,5 @@
 import {
-  Grid,
+  Grid, makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -30,6 +30,25 @@ import {FilterChipBar} from './FilterChipBar';
 import {fuzzyTextFilter, numericTextFilter} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
+import {Fonts} from '../../../shared/constants/AppEnums';
+
+const useStyles = makeStyles(() => {
+  return {
+    tableRoot: {
+      borderCollapse: 'separate !important',
+      borderSpacing: '0px 10px !important',
+    },
+    tableCell: {
+      border: 'none !important',
+      padding: '10px 15px',
+      verticalAlign : 'unset'
+    },
+    tableRow:{
+      boxShadow: '0px 0px 10px 1px #e9e9e9'
+    }
+
+  };
+});
 
 export const range = (total: number, startFrom: number = 0): Array<number> => {
   let items: number[] = [];
@@ -60,8 +79,8 @@ const DefaultHeader: React.FC<HeaderProps<any>> = ({column}) => (
 );
 
 function DefaultColumnFilter<T extends object>({
-  column: {id, filterValue, setFilter, render, parent},
-}: FilterProps<T>) {
+                                                 column: {id, filterValue, setFilter, render, parent},
+                                               }: FilterProps<T>) {
   const [value, setValue] = React.useState(filterValue || '');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -115,23 +134,25 @@ const filterTypes = {
 };
 
 export default function ReactTable<T extends object>({
-  columns,
-  leftToolbarHtml = '',
-  fetchData,
-  pageCount: controlledPageCount,
-  skipPageResetRef = false,
-  skipDefaultFilter = false,
-  loading = false,
-  toggleResetTable = false,
-  pageSize: controlledPageSize = 10,
-  hideToolbar = false,
-  ...props
-}: any): ReactElement {
+                                                       columns,
+                                                       leftToolbarHtml = '',
+                                                       fetchData,
+                                                       pageCount: controlledPageCount,
+                                                       skipPageResetRef = false,
+                                                       skipDefaultFilter = false,
+                                                       loading = false,
+                                                       toggleResetTable = false,
+                                                       pageSize: controlledPageSize = 10,
+                                                       hideToolbar = false,
+                                                       ...props
+                                                     }: any): ReactElement {
   const devices = {
     desktop: true, // use MUI breaking point here.
     phone: false,
   };
   const isServerSideTable = typeof fetchData !== 'undefined';
+
+  const classes = useStyles();
 
   const clientSideOptions = {
     ...props,
@@ -216,17 +237,19 @@ export default function ReactTable<T extends object>({
             )}
             {!hideToolbar && <FilterChipBar<T> instance={instance} />}
             {/* @ts-ignore */}
-            <Table {...getTableProps()} size='small' aria-label='a dense table'>
+            <Table {...getTableProps()} size='small' aria-label='a dense table' className={classes.tableRoot}>
               <TableHead>
                 {headerGroups.map((headerGroup, index) => (
-                  <TableRow key={index}>
+                  <TableRow key={index} className={classes.tableRow}>
                     {headerGroup.headers.map((column, index) => (
                       <TableCell
                         key={index}
+                        className={classes.tableCell}
                         style={{
                           fontWeight: 'bold',
                           border: '1px solid rgba(224, 224, 224, 1)',
-                        }}>
+                        }}
+                      >
                         {column.render('Header')}
                       </TableCell>
                     ))}
@@ -238,7 +261,7 @@ export default function ReactTable<T extends object>({
                 {page.map((row) => {
                   prepareRow(row);
                   return (
-                    <TableRow key={row.id}>
+                    <TableRow key={row.id} className={classes.tableRow}>
                       {row.cells.map((cell, index) => {
                         return (
                           <TableCell
@@ -246,7 +269,9 @@ export default function ReactTable<T extends object>({
                               border: '1px solid rgba(224, 224, 224, 1)',
                               textAlign: 'left',
                             }}
-                            key={index}>
+                            key={index}
+                            className={classes.tableCell}
+                          >
                             {cell.render('Cell')}
                           </TableCell>
                         );

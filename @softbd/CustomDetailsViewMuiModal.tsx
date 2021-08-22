@@ -4,7 +4,7 @@ import {DialogContent, DialogActions} from '@material-ui/core';
 import {CremaTheme} from '../types/AppContextPropsType';
 import {Fonts} from '../shared/constants/AppEnums';
 import CustomMuiModal, {DialogTitle} from './CustomMuiModal';
-import {FormikHandlers} from 'formik/dist/types';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   formRoot: {
@@ -35,33 +35,36 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   scrollRoot: {
     height: 595,
   },
+  title:{
+    fontWeight: Fonts.BOLD,
+    color: theme.palette.text.primary,
+    fontSize: '22px'
+  },
+  titleWrapper:{
+    padding: "20px 0px 0px 20px"
+  }
 }));
 
-interface FormikFormMuiModalPopupProps {
+interface CustomDetailsViewMuiModalPopupProps {
   title: React.ReactNode | string;
   actions?: React.ReactNode;
-  formik: FormikHandlers;
   open: boolean;
   onClose: () => void;
 }
 
-const FormikFormMuiModalPopup: React.FC<FormikFormMuiModalPopupProps> = ({
-                                                                           formik,
-                                                                           children,
-                                                                           actions,
-                                                                           ...props
-                                                                         }) => {
+const FormikFormMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> = ({
+                                                                                  children,
+                                                                                  actions,
+                                                                                  ...props
+                                                                                }) => {
   const classes = useStyles();
 
   return (
     <CustomMuiModal {...props}>
       <DialogTitle id='max-width-dialog-title' onClose={props.onClose}>
-        {props.title}
+        <FormLabel className={classes.title}>{props.title}</FormLabel>
       </DialogTitle>
-      <form
-        onSubmit={formik.handleSubmit}
-        className={classes.formRoot}
-        autoComplete='off'>
+      <form className={classes.formRoot}>
         <DialogContent dividers>{children}</DialogContent>
         {actions && <DialogActions>{actions}</DialogActions>}
       </form>

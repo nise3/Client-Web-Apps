@@ -136,3 +136,6 @@ export const getRowStatusText = (rowStatus: number) => {
   // return rowStatus == 1 ? t("active") : t("inactive");
   return rowStatus == 1 ? 'active' : 'inactive';
 };
+
+export const sleep = (ms:number) => new Promise((r) => setTimeout(r, ms));
+

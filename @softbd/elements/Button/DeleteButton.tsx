@@ -24,7 +24,9 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
         <Button
           startIcon={<DeleteSharpIcon />}
           onClick={() => setDeleteDialogOpen(true)}
-          className={className}>
+          className={className}
+          color={'secondary'}
+        >
           Delete
         </Button>
       </Tooltip>
