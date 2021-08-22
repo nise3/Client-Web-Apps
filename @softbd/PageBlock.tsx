@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import AppsHeader from '../@crema/core/AppsContainer/AppsHeader';
-import {Box} from '@material-ui/core';
+import {Box, Typography} from '@material-ui/core';
 import AppsContent from '../@crema/core/AppsContainer/AppsContent';
 import AppsContainer from '../@crema/core/AppsContainer';
 
@@ -18,7 +18,11 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
     <AppsContainer fullView>
       <AppsHeader>
         <Box display='flex' flexDirection='row' alignItems='center' width={1}>
-          {title && <h2>{title}</h2>}
+          {title && (
+            <Typography variant='h4' color={'inherit'}>
+              {title}
+            </Typography>
+          )}
           {extra && (
             <Box
               display='flex'
