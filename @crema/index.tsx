@@ -7,8 +7,6 @@ export {default as ComponentHeader} from './core/ComponentHeader';
 export {default as ComponentCard} from './core/ComponentCard';
 export {default as GridContainer} from './core/GridContainer';
 export {default as ThemeSetting} from './core/ThemeSetting';
-export {default as MessageView} from './core/MessageView';
-export {default as InfoView} from './core/InfoView';
 export {default as ContentView} from './core/ContentView';
 
 export {default as CremaThemeProvider} from './utility/CremaThemeProvider';

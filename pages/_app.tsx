@@ -13,6 +13,7 @@ import '../@crema/services/index';
 import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';
+import {SnackbarProvider} from 'notistack';
 
 const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -38,7 +39,14 @@ const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
               <LocaleProvider>
                 <AuthRoutes>
                   <CssBaseline />
-                  <Component {...pageProps} />
+                  <SnackbarProvider
+                    maxSnack={20}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}>
+                    <Component {...pageProps} />
+                  </SnackbarProvider>
                 </AuthRoutes>
               </LocaleProvider>
             </CremaStyleProvider>
