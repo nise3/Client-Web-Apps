@@ -4,7 +4,6 @@ import {DialogContent, DialogActions} from '@material-ui/core';
 import {CremaTheme} from '../types/AppContextPropsType';
 import {Fonts} from '../shared/constants/AppEnums';
 import CustomMuiModal, {DialogTitle} from './CustomMuiModal';
-import {FormikHandlers} from 'formik/dist/types';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   formRoot: {
@@ -40,17 +39,17 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 interface FormikFormMuiModalPopupProps {
   title: React.ReactNode | string;
   actions?: React.ReactNode;
-  formik: FormikHandlers;
+  handleSubmit: any;
   open: boolean;
   onClose: () => void;
 }
 
-const FormikFormMuiModalPopup: React.FC<FormikFormMuiModalPopupProps> = ({
-                                                                           formik,
-                                                                           children,
-                                                                           actions,
-                                                                           ...props
-                                                                         }) => {
+const HookFormMuiModal: React.FC<FormikFormMuiModalPopupProps> = ({
+                                                                    handleSubmit,
+                                                                    children,
+                                                                    actions,
+                                                                    ...props
+                                                                  }) => {
   const classes = useStyles();
 
   return (
@@ -59,7 +58,7 @@ const FormikFormMuiModalPopup: React.FC<FormikFormMuiModalPopupProps> = ({
         {props.title}
       </DialogTitle>
       <form
-        onSubmit={formik.handleSubmit}
+        onSubmit={handleSubmit}
         className={classes.formRoot}
         autoComplete='off'>
         <DialogContent dividers>{children}</DialogContent>
@@ -69,4 +68,4 @@ const FormikFormMuiModalPopup: React.FC<FormikFormMuiModalPopupProps> = ({
   );
 };
 
-export default FormikFormMuiModalPopup;
+export default HookFormMuiModal;

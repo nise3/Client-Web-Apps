@@ -30,7 +30,7 @@ import {FilterChipBar} from './FilterChipBar';
 import {fuzzyTextFilter, numericTextFilter} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
-import {Fonts} from '../../../shared/constants/AppEnums';
+import TableSkeleton from '../../elements/Skeleton/TableSkeleton';
 
 const useStyles = makeStyles(() => {
   return {
@@ -41,11 +41,11 @@ const useStyles = makeStyles(() => {
     tableCell: {
       border: 'none !important',
       padding: '10px 15px',
-      verticalAlign : 'unset'
+      verticalAlign: 'unset',
     },
-    tableRow:{
-      boxShadow: '0px 0px 10px 1px #e9e9e9'
-    }
+    tableRow: {
+      boxShadow: '0px 0px 10px 1px #e9e9e9',
+    },
 
   };
 });
@@ -223,6 +223,7 @@ export default function ReactTable<T extends object>({
     }
   }, [fetchData, pageIndex, pageSize, sortBy, filters, toggleResetTable]);
 
+  // @ts-ignore
   return (
     <>
       <Grid container>
@@ -231,12 +232,11 @@ export default function ReactTable<T extends object>({
             {!hideToolbar && (
               <TableToolbar
                 instance={instance}
-                loading={loading}
+                // loading={loading}
                 leftToolbarHtml={leftToolbarHtml}
               />
             )}
             {!hideToolbar && <FilterChipBar<T> instance={instance} />}
-            {/* @ts-ignore */}
             <Table {...getTableProps()} size='small' aria-label='a dense table' className={classes.tableRoot}>
               <TableHead>
                 {headerGroups.map((headerGroup, index) => (
@@ -256,30 +256,32 @@ export default function ReactTable<T extends object>({
                   </TableRow>
                 ))}
               </TableHead>
-              {/* @ts-ignore */}
-              <TableBody {...getTableBodyProps()}>
-                {page.map((row) => {
-                  prepareRow(row);
-                  return (
-                    <TableRow key={row.id} className={classes.tableRow}>
-                      {row.cells.map((cell, index) => {
-                        return (
-                          <TableCell
-                            style={{
-                              border: '1px solid rgba(224, 224, 224, 1)',
-                              textAlign: 'left',
-                            }}
-                            key={index}
-                            className={classes.tableCell}
-                          >
-                            {cell.render('Cell')}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
+              {
+                loading ? <TableSkeleton columnNumbers={headerGroups[0].headers.length}/> :
+                  <TableBody {...getTableBodyProps()}>
+                    {page.map((row) => {
+                      prepareRow(row);
+                      return (
+                        <TableRow key={row.id} className={classes.tableRow}>
+                          {row.cells.map((cell, index) => {
+                            return (
+                              <TableCell
+                                style={{
+                                  border: '1px solid rgba(224, 224, 224, 1)',
+                                  textAlign: 'left',
+                                }}
+                                key={index}
+                                className={classes.tableCell}
+                              >
+                                {cell.render('Cell')}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+              }
             </Table>
           </TableContainer>
         </Grid>

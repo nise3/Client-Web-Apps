@@ -1,22 +1,25 @@
 import React from 'react';
 import {Button} from '@material-ui/core';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
+import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
 
 interface Props {
   onClick: () => void;
   className?: string;
+  isLoading?: boolean;
 }
 
-const AddButton = ({onClick, className}: Props) => {
+const AddButton = ({onClick, className, isLoading}: Props) => {
   return (
-    <Button
-      variant='contained'
-      color={'primary'}
-      startIcon={<ControlPointIcon />}
-      onClick={onClick}
-      className={className}>
-      Add New
-    </Button>
+    isLoading ? <ButtonSkeleton /> :
+      <Button
+        variant='contained'
+        color={'primary'}
+        startIcon={<ControlPointIcon />}
+        onClick={onClick}
+        className={className}>
+        Add New
+      </Button>
   );
 };
 

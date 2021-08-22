@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {getInstitute} from '../../../services/instituteManagement/InstituteService';
-import CancelButton from '../../elements/Button/CancelButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import CustomDetailsViewMuiModal from '../../CustomDetailsViewMuiModal';
-import EditButton from '../../elements/Button/EditButton';
-import DetailsInputView from '../../DetailsInputView';
-import {sleep} from '../../common/helpers';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/Button/EditButton';
+import DetailsInputView from '../../../@softbd/DetailsInputView';
+import {sleep} from '../../../@softbd/common/helpers';
 
 type Props = {
   title: string;
