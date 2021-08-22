@@ -4,6 +4,7 @@ import {DialogContent, DialogActions} from '@material-ui/core';
 import {CremaTheme} from '../types/AppContextPropsType';
 import {Fonts} from '../shared/constants/AppEnums';
 import CustomMuiModal, {DialogTitle} from './CustomMuiModal';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   formRoot: {
@@ -34,6 +35,14 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   scrollRoot: {
     height: 595,
   },
+  title:{
+    fontWeight: Fonts.BOLD,
+    color: theme.palette.text.primary,
+    fontSize: '22px'
+  },
+  titleWrapper:{
+    padding: "20px 0px 0px 20px"
+  }
 }));
 
 interface CustomDetailsViewMuiModalPopupProps {
@@ -53,7 +62,7 @@ const FormikFormMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> = (
   return (
     <CustomMuiModal {...props}>
       <DialogTitle id='max-width-dialog-title' onClose={props.onClose}>
-        {props.title}
+        <FormLabel className={classes.title}>{props.title}</FormLabel>
       </DialogTitle>
       <form className={classes.formRoot}>
         <DialogContent dividers>{children}</DialogContent>

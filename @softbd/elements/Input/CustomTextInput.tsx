@@ -1,4 +1,6 @@
 import {TextField} from '@material-ui/core';
+import React from 'react';
+import TextInputSkeleton from '../Skeleton/TextInputSkeleton';
 
 type Props = {
   id: string;
@@ -11,23 +13,39 @@ type Props = {
   onChange: any;
   variant?: 'outlined' | 'standard' | 'filled';
   size?: 'small' | 'medium';
+  isLoading?: boolean;
 }
 
-const CustomTextInput = ({id, name, label, value, className, onChange, error, helperText, variant, size}: Props) => {
+const CustomTextInput = ({
+                           id,
+                           name,
+                           label,
+                           value,
+                           className,
+                           onChange,
+                           error,
+                           helperText,
+                           variant,
+                           size,
+                           isLoading,
+                         }: Props) => {
   return (
-    <TextField
-      fullWidth
-      variant={variant ? variant : 'outlined'}
-      size={size ? size : 'small'}
-      id={id}
-      name={name}
-      className={className}
-      label={label}
-      value={value}
-      onChange={onChange}
-      error={error}
-      helperText={helperText}
-    />
+    isLoading ?
+      <TextInputSkeleton/>
+      :
+      <TextField
+        fullWidth
+        variant={variant ? variant : 'outlined'}
+        size={size ? size : 'small'}
+        id={id}
+        name={name}
+        className={className}
+        label={label}
+        value={value}
+        onChange={onChange}
+        error={error}
+        helperText={helperText}
+      />
   );
 };
 

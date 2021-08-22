@@ -1,7 +1,8 @@
 import {makeStyles} from '@material-ui/core';
-import {Fonts} from '../../shared/constants/AppEnums';
+import {Fonts} from '../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
+import TextInputSkeleton from './elements/Skeleton/TextInputSkeleton';
 
 
 const useStyles = makeStyles(() => {
@@ -13,15 +14,15 @@ const useStyles = makeStyles(() => {
       minHeight: '40px',
       padding: '8px',
       lineHeight: 1.5,
-      boxShadow:'0px 0px 3px #ddd',
+      boxShadow: '0px 0px 3px #ddd',
       borderRadius: '0.25rem',
-      marginTop: '8px'
+      marginTop: '8px',
     },
 
     label: {
       fontWeight: Fonts.BOLD,
       fontSize: 16,
-      marginBottom: '5px'
+      marginBottom: '5px',
     },
   };
 });
@@ -29,16 +30,18 @@ const useStyles = makeStyles(() => {
 type Props = {
   label: string;
   value: string;
+  isLoading?: boolean;
 }
 
 
-const DetailsInputView = ({label, value}: Props) => {
+const DetailsInputView = ({label, value, isLoading}: Props) => {
   const classes = useStyles();
   return (
-    <Grid item xs={12}>
-      <FormLabel className={classes.label}>{label}</FormLabel>
-      <div className={classes.inputView}>{value}</div>
-    </Grid>
+    isLoading ? <TextInputSkeleton /> :
+      <Grid item xs={12}>
+        <FormLabel className={classes.label}>{label}</FormLabel>
+        <div className={classes.inputView}>{value}</div>
+      </Grid>
   );
 };
 

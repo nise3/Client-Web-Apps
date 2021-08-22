@@ -46,11 +46,11 @@ interface FormikFormMuiModalPopupProps {
 }
 
 const FormikFormMuiModalPopup: React.FC<FormikFormMuiModalPopupProps> = ({
-  formik,
-  children,
-  actions,
-  ...props
-}) => {
+                                                                           formik,
+                                                                           children,
+                                                                           actions,
+                                                                           ...props
+                                                                         }) => {
   const classes = useStyles();
 
   return (

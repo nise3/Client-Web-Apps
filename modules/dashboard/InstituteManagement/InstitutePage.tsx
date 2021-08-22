@@ -19,21 +19,9 @@ const InstitutePage = () => {
 
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [instituteId, setInstituteId] = useState<number | null>(null);
-  const [loadingInstituteData, setLoadingInstituteData] = useState<boolean>(true);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState(false);
-
-  // useEffect(() => {
-  //   loadInstitutesData();
-  // }, []);
-
-  // const loadInstitutesData = async () => {
-  //   let institutes = await getAllInstitutes();
-  //   console.log('institutes', institutes);
-  //   setInstitutes(institutes);
-  //   setLoadingInstituteData(false);
-  // };
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -41,6 +29,7 @@ const InstitutePage = () => {
   };
 
   const openAddEditModal = (instituteId: number | null = null) => {
+    setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
     setInstituteId(instituteId);
   };

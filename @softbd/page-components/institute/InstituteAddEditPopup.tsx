@@ -9,6 +9,8 @@ import CancelButton from '../../elements/Button/CancelButton';
 import SubmitButton from '../../elements/Button/SubmitButton';
 import FormRowStatus from '../../elements/FormRowStatus';
 import CustomTextInput from '../../elements/Input/CustomTextInput';
+import {DOMAIN_REGEX, MOBILE_NUMBER_REGEX, TEXT_REGEX_BANGLA} from '../../common/patternRegex';
+import {sleep} from '../../common/helpers';
 
 interface InstituteAddEditPopupProps {
   title: React.ReactNode | string;
@@ -37,11 +39,14 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
 
   const isEdit = itemId != null;
   const [itemData, setItemData] = React.useState(initialValues);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     (async () => {
+      setIsLoading(true);
       if (isEdit && itemId) {
         let item = await getInstitute(itemId);
+        await sleep(3000);
         setItemData({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -58,20 +63,21 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
       } else {
         setItemData(initialValues);
       }
+      setIsLoading(false);
     })();
   }, [itemId]);
 
   const validationSchema = yup.object({
-    title_en: yup.string().required('Enter title (En)'),
-    title_bn: yup.string().required('Enter title (Bn)'),
-    domain: yup.string().required('Enter domain'),
+    title_en: yup.string().trim().required('Enter title (En)'),
+    title_bn: yup.string().trim().required('Enter title (Bn)').matches(TEXT_REGEX_BANGLA,"Enter valid text"),
+    domain: yup.string().trim().required('Enter domain').matches(DOMAIN_REGEX,"Domain is not valid"),
     code: yup.string().required('Enter code'),
-    primary_phone: yup.string().required('Enter Phone Number'),
-    primary_mobile: yup.string().required('Enter Mobile Number'),
+    primary_phone: yup.string().required('Enter Phone Number').matches(MOBILE_NUMBER_REGEX,"Number is not valid"),
+    primary_mobile: yup.string().required('Enter Mobile Number').matches(MOBILE_NUMBER_REGEX,"Number is not valid"),
     address: yup.string().required('Enter address'),
-    google_map_src: yup.string().required('Enter Google map src'),
-    email: yup.string().required('Enter email'),
-    row_status: yup.string().required('Enter Status'),
+    google_map_src: yup.string(),
+    email: yup.string().required('Enter email').email('Enter valid email'),
+    row_status: yup.string(),
   });
 
   const formik = useFormik({
@@ -79,10 +85,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (data:Institute, {setSubmitting, resetForm}) => {
-      // onClose();
-      // resetForm();
-      // setSubmitting(false);
-
+      setSubmitting(true);
       if (isEdit && itemId) {
         let response = await updateInstitute(itemId, data);
         if (response) {
@@ -107,10 +110,11 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
       formik={formik}
       actions={
         <>
-          <CancelButton onClick={props.onClose}/>
-          <SubmitButton/>
+          <CancelButton onClick={props.onClose} isLoading={isLoading}/>
+          <SubmitButton isSubmitting={formik.isSubmitting} isLoading={isLoading}/>
         </>
-      }>
+      }
+    >
       <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
         <Grid container spacing={5}>
           <Grid item xs={6}>
@@ -122,6 +126,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.title_en && Boolean(formik.errors.title_en)}
               helperText={formik.touched.title_en && formik.errors.title_en}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -133,6 +138,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.title_bn && Boolean(formik.errors.title_bn)}
               helperText={formik.touched.title_bn && formik.errors.title_bn}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -144,6 +150,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -155,6 +162,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.code && Boolean(formik.errors.code)}
               helperText={formik.touched.code && formik.errors.code}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -166,6 +174,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.domain && Boolean(formik.errors.domain)}
               helperText={formik.touched.domain && formik.errors.domain}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -177,6 +186,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.primary_phone && Boolean(formik.errors.primary_phone)}
               helperText={formik.touched.primary_phone && formik.errors.primary_phone}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -188,6 +198,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.primary_mobile && Boolean(formik.errors.primary_mobile)}
               helperText={formik.touched.primary_mobile && formik.errors.primary_mobile}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -199,22 +210,17 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.address && Boolean(formik.errors.address)}
               helperText={formik.touched.address && formik.errors.address}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
               id='google_map_src'
               name='google_map_src'
-              label={'google_map_src'}
+              label={'Google map source'}
               value={formik.values.google_map_src}
               onChange={formik.handleChange}
-              error={
-                formik.touched.google_map_src &&
-                Boolean(formik.errors.google_map_src)
-              }
-              helperText={
-                formik.touched.google_map_src && formik.errors.google_map_src
-              }
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
@@ -223,6 +229,7 @@ const InstituteAddEditPopup: React.FC<InstituteAddEditPopupProps> = ({
               name='row_status'
               value={formik.values.row_status}
               onChange={formik.handleChange}
+              isLoading={isLoading}
             />
           </Grid>
         </Grid>

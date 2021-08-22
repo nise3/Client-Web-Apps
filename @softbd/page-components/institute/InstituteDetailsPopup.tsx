@@ -5,7 +5,8 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CustomDetailsViewMuiModal from '../../CustomDetailsViewMuiModal';
 import EditButton from '../../elements/Button/EditButton';
-import DetailsInputView from '../../utilities/DetailsInputView';
+import DetailsInputView from '../../DetailsInputView';
+import {sleep} from '../../common/helpers';
 
 type Props = {
   title: string;
@@ -18,6 +19,7 @@ type Props = {
 const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
 
   const [itemData, setItemData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (itemId) {
@@ -26,10 +28,13 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
   }, [itemId]);
 
   const setItemState = async (itemId: number) => {
+    setIsLoading(true);
     let institute = await getInstitute(itemId);
+    await sleep(3000);
     if (institute) {
       setItemData(institute);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -39,41 +44,42 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
         title={'View institute'}
         actions={
           <>
-            <CancelButton onClick={props.onClose} />
-            <EditButton onClick={() => props.openEditModal(itemData.id)} />
+            <CancelButton onClick={props.onClose} isLoading={isLoading}/>
+            <EditButton variant={'contained'} onClick={() => props.openEditModal(itemData.id)} isLoading={isLoading}/>
           </>
         }>
         <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
           <Grid container spacing={5}>
             <Grid item xs={6}>
-              <DetailsInputView label={'title_en'} value={itemData?.title_en} />
+              <DetailsInputView label={'title_en'} value={itemData?.title_en} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'title_bn'} value={itemData?.title_bn} />
+              <DetailsInputView label={'title_bn'} value={itemData?.title_bn} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'email'} value={itemData?.email} />
+              <DetailsInputView label={'email'} value={itemData?.email} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'code'} value={itemData?.code} />
+              <DetailsInputView label={'code'} value={itemData?.code} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'domain'} value={itemData?.domain} />
+              <DetailsInputView label={'domain'} value={itemData?.domain} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'primary_phone'} value={itemData?.primary_phone} />
+              <DetailsInputView label={'primary_phone'} value={itemData?.primary_phone} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'primary_mobile'} value={itemData?.primary_mobile} />
+              <DetailsInputView label={'primary_mobile'} value={itemData?.primary_mobile} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'address'} value={itemData?.address} />
+              <DetailsInputView label={'address'} value={itemData?.address} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'google_map_src'} value={itemData?.google_map_src} />
+              <DetailsInputView label={'google_map_src'} value={itemData?.google_map_src} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'active_status'} value={itemData?.row_status == 1 ? 'active' : 'inactive'} />
+              <DetailsInputView label={'active_status'} value={itemData?.row_status == 1 ? 'active' : 'inactive'}
+                                isLoading={isLoading} />
             </Grid>
           </Grid>
         </Box>
