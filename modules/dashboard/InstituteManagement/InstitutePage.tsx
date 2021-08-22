@@ -12,7 +12,7 @@ import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import {useReactTableFetchData} from '../../../@softbd/hooks/ReactTableHooks';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 

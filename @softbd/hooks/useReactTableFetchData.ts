@@ -97,4 +97,4 @@ const useReactTableFetchData = ({
   return <TReturnUseFetchData>{onFetchData, data, loading, pageCount};
 };
 
-export {useReactTableFetchData};
+export default useReactTableFetchData;
