@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {showMessage} from '../../../redux/actions';
-import InfoView from '../../../@crema/core/InfoView';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -127,13 +126,9 @@ const ComingSoon = () => {
             </Formik>
           </Box>
           <Box mb={5} maxWidth={{xs: 300, sm: 400, xl: 672}} width='100%'>
-            <img
-              src={'/images/errorPageImages/comingsoon.png'}
-              alt='404'
-            />
+            <img src={'/images/errorPageImages/comingsoon.png'} alt='404' />
           </Box>
         </Box>
-        <InfoView />
       </Box>
     </AppAnimate>
   );

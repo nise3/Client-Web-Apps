@@ -5,7 +5,6 @@ import {Checkbox} from '@material-ui/core';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
-import InfoView from '../../../@crema/core/InfoView';
 import {onJwtSignIn} from '../../../redux/actions';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -79,17 +78,13 @@ const MyTextField = (props: any) => {
 };
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email('Invalid Email')
-    .required('Email required'),
+  email: yup.string().email('Invalid Email').required('Email required'),
   password: yup.string().required('Password required'),
 });
 
-interface UserSigninProps {
-}
+interface UserSigninProps {}
 
-const SigninJwtAuth: React.FC<UserSigninProps> = props => {
+const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -127,7 +122,7 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
                 <MyTextField
                   placeholder={messages['common.email']}
                   name='email'
-                  label={<IntlMessages id='common.email'/>}
+                  label={<IntlMessages id='common.email' />}
                   variant='outlined'
                   className={classes.myTextFieldRoot}
                 />
@@ -137,7 +132,7 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
                 <MyTextField
                   type='password'
                   placeholder={messages['common.password']}
-                  label={<IntlMessages id='common.password'/>}
+                  label={<IntlMessages id='common.password' />}
                   name='password'
                   variant='outlined'
                   className={classes.myTextFieldRoot}
@@ -152,9 +147,9 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
                 justifyContent={{sm: 'space-between'}}
                 fontSize={15}>
                 <Box display='flex' alignItems='center'>
-                  <Checkbox className={classes.checkboxRoot}/>
+                  <Checkbox className={classes.checkboxRoot} />
                   <Box className={classes.textGrey} component='span'>
-                    <IntlMessages id='common.rememberMe'/>
+                    <IntlMessages id='common.rememberMe' />
                   </Box>
                 </Box>
                 <Box
@@ -164,7 +159,7 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
                   className={classes.pointer}
                   onClick={onGoToForgetPassword}
                   fontSize={15}>
-                  <IntlMessages id='common.forgetPassword'/>
+                  <IntlMessages id='common.forgetPassword' />
                 </Box>
               </Box>
 
@@ -180,7 +175,7 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
                   type='submit'
                   disabled={isSubmitting}
                   className={classes.btnRoot}>
-                  <IntlMessages id='common.login'/>
+                  <IntlMessages id='common.login' />
                 </Button>
 
                 <Box
@@ -189,15 +184,16 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
                   color='text.secondary'
                   fontSize={15}>
                   <Box className={classes.textGrey} component='span' mr={2}>
-                    <IntlMessages id='common.dontHaveAccount'/>
+                    <IntlMessages id='common.dontHaveAccount' />
                   </Box>
                   <Box component='span'>
                     <Link href='/signup'>
-                      <a className={clsx(
-                        classes.underlineNone,
-                        classes.colorTextPrimary,
-                      )}>
-                        <IntlMessages id='common.signup'/>
+                      <a
+                        className={clsx(
+                          classes.underlineNone,
+                          classes.colorTextPrimary,
+                        )}>
+                        <IntlMessages id='common.signup' />
                       </a>
                     </Link>
                   </Box>
@@ -207,8 +203,6 @@ const SigninJwtAuth: React.FC<UserSigninProps> = props => {
           )}
         </Formik>
       </Box>
-
-      <InfoView/>
     </Box>
   );
 };

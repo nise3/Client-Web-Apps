@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import InfoView from '../../../@crema/core/InfoView';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -95,15 +94,13 @@ const MyTextField = (props: any) => {
 const validationSchema = yup.object({
   email: yup
     .string()
-    .email('' + <IntlMessages id='validation.emailFormat'/>)
-    .required('' + <IntlMessages id='validation.emailRequired'/>),
+    .email('' + <IntlMessages id='validation.emailFormat' />)
+    .required('' + <IntlMessages id='validation.emailRequired' />),
 });
 
-interface ForgetPasswordProps {
-}
+interface ForgetPasswordProps {}
 
 const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
-
   const classes = useStyles();
 
   return (
@@ -128,12 +125,12 @@ const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
             color='text.primary'
             fontWeight={Fonts.REGULAR}
             fontSize={{xs: 24, xl: 26}}>
-            <IntlMessages id='common.forgetPassword'/>
+            <IntlMessages id='common.forgetPassword' />
           </Box>
           <Box mb={{xs: 6, xl: 12}} fontSize={18}>
             <Typography>
-              <IntlMessages id='common.forgetPasswordTextOne'/> <br/>
-              <IntlMessages id='common.forgetPasswordTextTwo'/>
+              <IntlMessages id='common.forgetPasswordTextOne' /> <br />
+              <IntlMessages id='common.forgetPasswordTextTwo' />
             </Typography>
           </Box>
 
@@ -155,7 +152,7 @@ const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
                   <MyTextField
                     placeholder='Email'
                     name='email'
-                    label={<IntlMessages id='common.emailAddress'/>}
+                    label={<IntlMessages id='common.emailAddress' />}
                     className={classes.textField}
                     variant='outlined'
                   />
@@ -167,7 +164,7 @@ const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
                     disabled={isSubmitting}
                     className={classes.btnRoot}
                     type='submit'>
-                    <IntlMessages id='common.sendNewPassword'/>
+                    <IntlMessages id='common.sendNewPassword' />
                   </Button>
                 </Box>
 
@@ -176,22 +173,20 @@ const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
                   textAlign='center'
                   fontSize={15}
                   className={classes.textGrey}>
-                  <IntlMessages id='common.alreadyHavePassword'/>
-                  <Link
-                    href='/signin'>
-                    <a className={clsx(
-                      classes.underlineNone,
-                      classes.textSecondary,
-                    )}>
-                      <IntlMessages id='common.signIn'/>
+                  <IntlMessages id='common.alreadyHavePassword' />
+                  <Link href='/signin'>
+                    <a
+                      className={clsx(
+                        classes.underlineNone,
+                        classes.textSecondary,
+                      )}>
+                      <IntlMessages id='common.signIn' />
                     </a>
                   </Link>
                 </Box>
               </Form>
             )}
           </Formik>
-
-          <InfoView/>
         </Card>
       </Box>
     </Box>
