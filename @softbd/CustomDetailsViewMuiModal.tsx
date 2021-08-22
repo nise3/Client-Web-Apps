@@ -35,14 +35,14 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   scrollRoot: {
     height: 595,
   },
-  title:{
+  title: {
     fontWeight: Fonts.BOLD,
     color: theme.palette.text.primary,
-    fontSize: '22px'
+    fontSize: '22px',
   },
-  titleWrapper:{
-    padding: "20px 0px 0px 20px"
-  }
+  titleWrapper: {
+    padding: '20px 0px 0px 20px',
+  },
 }));
 
 interface CustomDetailsViewMuiModalPopupProps {
@@ -52,24 +52,21 @@ interface CustomDetailsViewMuiModalPopupProps {
   onClose: () => void;
 }
 
-const FormikFormMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> = ({
-                                                                                  children,
-                                                                                  actions,
-                                                                                  ...props
-                                                                                }) => {
-  const classes = useStyles();
+const FormikFormMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> =
+  ({children, actions, ...props}) => {
+    const classes = useStyles();
 
-  return (
-    <CustomMuiModal {...props}>
-      <DialogTitle id='max-width-dialog-title' onClose={props.onClose}>
-        <FormLabel className={classes.title}>{props.title}</FormLabel>
-      </DialogTitle>
-      <form className={classes.formRoot}>
-        <DialogContent dividers>{children}</DialogContent>
-        {actions && <DialogActions>{actions}</DialogActions>}
-      </form>
-    </CustomMuiModal>
-  );
-};
+    return (
+      <CustomMuiModal {...props}>
+        <DialogTitle id='max-width-dialog-title' onClose={props.onClose}>
+          <FormLabel className={classes.title}>{props.title}</FormLabel>
+        </DialogTitle>
+        <form className={classes.formRoot}>
+          <DialogContent dividers>{children}</DialogContent>
+          {actions && <DialogActions>{actions}</DialogActions>}
+        </form>
+      </CustomMuiModal>
+    );
+  };
 
 export default FormikFormMuiModalPopup;
