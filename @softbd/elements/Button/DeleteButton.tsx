@@ -9,7 +9,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles(() => {
   return {
     button: {
-      color: '#ff256e',
+      color: '#f1675d',
     },
   };
 });

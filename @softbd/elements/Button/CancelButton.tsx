@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
+import {useIntl} from 'react-intl';
 
 interface Props {
   onClick?: () => void;
@@ -11,19 +12,19 @@ interface Props {
 }
 
 const CancelButton = ({onClick, className, label, isLoading}: Props) => {
-  const btnText = label ? label : 'Cancel';
-  return (
-    isLoading ? <ButtonSkeleton />
-      :
-      <Button
-        startIcon={<CancelIcon />}
-        variant='contained'
-        color='default'
-        onClick={onClick}
-        className={className}
-      >
-        {btnText}
-      </Button>
+  const {messages} = useIntl();
+  const btnText = label ? label : messages['common.cancel'];
+  return isLoading ? (
+    <ButtonSkeleton />
+  ) : (
+    <Button
+      startIcon={<CancelIcon />}
+      variant='contained'
+      color='default'
+      onClick={onClick}
+      className={className}>
+      {btnText}
+    </Button>
   );
 };
 
