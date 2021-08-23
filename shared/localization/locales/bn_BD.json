@@ -117,5 +117,6 @@
   "message.contactDeleted": "যোগাযোগ সফলভাবে মুছে ফেলা হয়েছে!",
   "message.contactCreated": "যোগাযোগ সফলভাবে তৈরি হয়েছে!",
   "message.contactUpdated": "যোগাযোগ সফলভাবে আপডেট হয়েছে!",
-  "message.labelUpdatedTo": "লেবেল সফলভাবে আপডেট হয়েছে!"
+  "message.labelUpdatedTo": "লেবেল সফলভাবে আপডেট হয়েছে!",
+  "dashboard.messages": "Messages"
 }
