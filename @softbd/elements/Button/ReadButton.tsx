@@ -5,10 +5,10 @@ import {makeStyles} from '@material-ui/core';
 import {ButtonProps} from '@material-ui/core/Button/Button';
 import clsx from 'clsx';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     button: {
-      color: '#009688',
+      color: theme.palette.primary.main,
     },
   };
 });

@@ -5,11 +5,15 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ConfirmationDialog from '../../../@crema/core/ConfirmationDialog';
 import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
+import {ThemeMode} from '../../../shared/constants/AppEnums';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     button: {
-      color: '#ff256e',
+      color:
+        theme.palette.type === ThemeMode.DARK
+          ? '#ff7373'
+          : theme.palette?.grey[600] || '#666',
     },
   };
 });
@@ -28,7 +32,6 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 }) => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const classes = useStyles();
-
   return (
     <>
       <Tooltip title={<IntlMessages id='common.delete_btn' />}>
