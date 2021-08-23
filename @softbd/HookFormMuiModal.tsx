@@ -45,11 +45,11 @@ interface HookFormMuiModalPopupProps {
 }
 
 const HookFormMuiModal: React.FC<HookFormMuiModalPopupProps> = ({
-                                                                    handleSubmit,
-                                                                    children,
-                                                                    actions,
-                                                                    ...props
-                                                                  }) => {
+  handleSubmit,
+  children,
+  actions,
+  ...props
+}) => {
   const classes = useStyles();
 
   return (

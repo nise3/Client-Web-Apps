@@ -52,7 +52,7 @@ interface CustomDetailsViewMuiModalPopupProps {
   onClose: () => void;
 }
 
-const FormikFormMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> =
+const CustomDetailsViewMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> =
   ({children, actions, ...props}) => {
     const classes = useStyles();
 
@@ -69,4 +69,4 @@ const FormikFormMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupProps> =
     );
   };
 
-export default FormikFormMuiModalPopup;
+export default CustomDetailsViewMuiModalPopup;

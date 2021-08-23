@@ -1,13 +1,21 @@
 import * as yup from 'yup';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import {createInstitute, getInstitute, updateInstitute} from '../../../services/instituteManagement/InstituteService';
+import {
+  createInstitute,
+  getInstitute,
+  updateInstitute,
+} from '../../../services/instituteManagement/InstituteService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
-import {DOMAIN_REGEX, MOBILE_NUMBER_REGEX, TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
+import {
+  DOMAIN_REGEX,
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_BANGLA,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
@@ -23,11 +31,25 @@ interface InstituteAddEditPopupProps {
 
 const validationSchema = yup.object().shape({
   title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup.string().trim().required('Enter title (Bn)').matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup.string().trim().required('Enter domain').matches(DOMAIN_REGEX, 'Domain is not valid'),
+  title_bn: yup
+    .string()
+    .trim()
+    .required('Enter title (Bn)')
+    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
+  domain: yup
+    .string()
+    .trim()
+    .required('Enter domain')
+    .matches(DOMAIN_REGEX, 'Domain is not valid'),
   code: yup.string().required('Enter code'),
-  primary_phone: yup.string().required('Enter Phone Number').matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-  primary_mobile: yup.string().required('Enter Mobile Number').matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
+  primary_phone: yup
+    .string()
+    .required('Enter Phone Number')
+    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
+  primary_mobile: yup
+    .string()
+    .required('Enter Mobile Number')
+    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
   address: yup.string().required('Enter address'),
   google_map_src: yup.string(),
   email: yup.string().required('Enter email').email('Enter valid email'),
@@ -49,17 +71,21 @@ const initialValues = {
 };
 
 const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
-                                                                 itemId,
-                                                                 ...props
-                                                               }) => {
+  itemId,
+  ...props
+}) => {
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const {register, reset, handleSubmit, formState: {errors, isSubmitting}} = useForm<Institute>({
-    resolver: yupResolver(validationSchema)
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: {errors, isSubmitting},
+  } = useForm<Institute>({
+    resolver: yupResolver(validationSchema),
   });
-
 
   useEffect(() => {
     (async () => {
@@ -85,7 +111,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
       setIsLoading(false);
     })();
   }, [itemId]);
-
 
   const onSubmit: SubmitHandler<Institute> = async (data: Institute) => {
     if (isEdit && itemId) {
@@ -114,8 +139,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
-      }
-    >
+      }>
       <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
         <Grid container spacing={5}>
           <Grid item xs={6}>
