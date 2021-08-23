@@ -11,8 +11,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import InstituteAddEditPopup from './InstituteAddEditPopup';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
+import InstituteAddEditPopup from './InstituteAddEditPopup';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
@@ -45,9 +45,13 @@ const InstitutePage = () => {
   const deleteInstituteItem = async (instituteId: number) => {
     let data = await deleteInstitute(instituteId);
     if (data) {
-      setIsToggleTable(true);
+      refreshDataTable();
     }
   };
+
+  const refreshDataTable = () =>{
+    setIsToggleTable(!isToggleTable);
+  }
 
   const columns = [
     {
@@ -120,10 +124,11 @@ const InstitutePage = () => {
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
               key={1}
-              title={'Add new institute'}
+              title={instituteId ? "Edit Institute" : "Add Institute"}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={instituteId}
+              refreshDataTable={refreshDataTable}
             />
           )}
 

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
 }));
 
-interface FormikFormMuiModalPopupProps {
+interface HookFormMuiModalPopupProps {
   title: React.ReactNode | string;
   actions?: React.ReactNode;
   handleSubmit: any;
@@ -44,7 +44,7 @@ interface FormikFormMuiModalPopupProps {
   onClose: () => void;
 }
 
-const HookFormMuiModal: React.FC<FormikFormMuiModalPopupProps> = ({
+const HookFormMuiModal: React.FC<HookFormMuiModalPopupProps> = ({
                                                                     handleSubmit,
                                                                     children,
                                                                     actions,
