@@ -92,13 +92,13 @@ function DefaultColumnFilter<T extends object>({
     setValue(filterValue || '');
   }, [filterValue]);
 
-  const firstIndex = !parent;
+  /*const firstIndex = !parent;*/
   return (
     <TextField
       name={id}
       label={render('Header')}
       value={value}
-      autoFocus={firstIndex}
+      /*autoFocus={firstIndex}*/
       variant={'standard'}
       onChange={handleChange}
       onBlur={(e) => {
