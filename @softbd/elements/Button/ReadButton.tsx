@@ -1,25 +1,14 @@
-import {EyeOutlined} from '@ant-design/icons';
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core';
-
-const useStyles = makeStyles(() => {
-  return {
-    button: {
-      color: "#009688"
-    },
-  };
-});
-
+import {PanoramaFishEye} from '@material-ui/icons';
 
 interface Props {
   onClick: () => void;
 }
 
-const ReadButton = ({onClick}: Props) => {
-  const classes = useStyles();
+const ReadButton = ({onClick, ...extra}: Props) => {
   return (
-    <Button startIcon={<EyeOutlined />} onClick={onClick} className={classes.button}>
+    <Button startIcon={<PanoramaFishEye />} onClick={onClick} {...extra}>
       Read
     </Button>
   );

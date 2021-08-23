@@ -8,28 +8,26 @@ import {Button} from '@material-ui/core';
 interface DeleteButtonProps {
   deleteAction: () => void;
   deleteTitle: string;
-  className?: string;
 }
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({
   deleteAction,
   deleteTitle,
-  className,
+  ...extra
 }) => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
     <>
-      <Tooltip title={<IntlMessages id='common.trash' />}>
+      <Tooltip title={<IntlMessages id='common.delete_btn' />}>
         <Button
           startIcon={<DeleteSharpIcon />}
           onClick={() => setDeleteDialogOpen(true)}
-          className={className}
-          color={'secondary'}
-        >
-          Delete
+          {...extra}>
+          {<IntlMessages id='common.delete_btn' />}
         </Button>
       </Tooltip>
+
       {isDeleteDialogOpen ? (
         <ConfirmationDialog
           open={isDeleteDialogOpen}
