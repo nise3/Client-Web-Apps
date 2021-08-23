@@ -6,9 +6,10 @@ type Props = {
   id: string;
   isLoading: boolean;
   register?: any;
+  value?: number,
 }
 
-const FormRowStatus = ({id, isLoading, register}: Props) => {
+const FormRowStatus = ({id, isLoading, register, value}: Props) => {
 
   return (
     isLoading ? <TextInputSkeleton />
@@ -18,9 +19,10 @@ const FormRowStatus = ({id, isLoading, register}: Props) => {
         <RadioGroup
           id={id}
           {...register(id)}
+          value={value}
         >
-          <FormControlLabel control={<Radio value={'1'} />} label={'Active'} />
-          <FormControlLabel control={<Radio value={'0'} />} label={'Inactive'} />
+          <FormControlLabel control={<Radio value={1} />} label={'Active'} />
+          <FormControlLabel control={<Radio value={0} />} label={'Inactive'} />
         </RadioGroup>
       </FormControl>
   );
