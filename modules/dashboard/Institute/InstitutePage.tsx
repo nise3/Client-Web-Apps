@@ -82,8 +82,9 @@ const InstitutePage = () => {
         let data = props.row.original;
         return (
           <ButtonGroup
+            variant='text'
             color='primary'
-            aria-label='outlined primary button group'>
+            aria-label='text primary button group'>
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton

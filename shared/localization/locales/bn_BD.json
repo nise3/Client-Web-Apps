@@ -106,6 +106,7 @@
   "customizer.slideRight": "ডানদিকে স্লাইড করুন",
   "customizer.slideUp": "উপরদিকে স্লাইড করুন",
   "customizer.slideDown": "নিচ স্লাইড করুন",
+  "customizer.layoutTypes": "Layout Types",
   "auth.loginWithAuth0": "Auth0 দিয়ে লগইন করুন",
   "auth.orSignupWith": "অথবা সাইনআপ দিয়ে",
   "auth.signupWithJwt": "Auth0 দিয়ে সাইনআপ করুন",
