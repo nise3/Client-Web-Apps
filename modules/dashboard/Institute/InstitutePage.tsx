@@ -49,9 +49,9 @@ const InstitutePage = () => {
     }
   };
 
-  const refreshDataTable = () =>{
+  const refreshDataTable = () => {
     setIsToggleTable(!isToggleTable);
-  }
+  };
 
   const columns = [
     {
@@ -82,9 +82,8 @@ const InstitutePage = () => {
         let data = props.row.original;
         return (
           <ButtonGroup
-            variant='text'
             color='primary'
-            aria-label='text primary button group'>
+            aria-label='outlined primary button group'>
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
@@ -109,7 +108,11 @@ const InstitutePage = () => {
         <PageBlock
           title={'Institutes'}
           extra={[
-            <AddButton key={1} onClick={() => openAddEditModal(null)} isLoading={loading}/>,
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal(null)}
+              isLoading={loading}
+            />,
           ]}>
           <ReactTable
             columns={columns}
@@ -124,7 +127,7 @@ const InstitutePage = () => {
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
               key={1}
-              title={instituteId ? "Edit Institute" : "Add Institute"}
+              title={instituteId ? 'Edit Institute' : 'Add Institute'}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={instituteId}

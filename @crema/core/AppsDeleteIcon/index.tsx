@@ -19,7 +19,7 @@ const AppsDeleteIcon: React.FC<AppsDeleteIconProps> = ({
 
   return (
     <>
-      <Tooltip title={<IntlMessages id='common.trash' />}>
+      <Tooltip title={<IntlMessages id='common.delete_btn' />}>
         <DeleteSharpIcon
           className={className}
           onClick={() => setDeleteDialogOpen(true)}
