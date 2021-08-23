@@ -137,7 +137,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                     active: themeStyle === ThemeStyle.MODERN,
                   })}
                   aria-label='left aligned'>
-                  <IntlMessages id='sidebar.pages.userList.modern' />
+                  <IntlMessages id='customizer.modern' />
                 </ToggleButton>
                 <ToggleButton
                   value={ThemeStyle.STANDARD}
@@ -145,7 +145,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                     active: themeStyle === ThemeStyle.STANDARD,
                   })}
                   aria-label='centered'>
-                  <IntlMessages id='sidebar.pages.userList.standard' />
+                  <IntlMessages id='customizer.standard' />
                 </ToggleButton>
               </ToggleButtonGroup>
             </Box>

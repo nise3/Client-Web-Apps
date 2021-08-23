@@ -58,19 +58,19 @@ const InstitutePage = () => {
       disableSortBy: true,
     },
     {
-      Header: messages['institute.title_en'],
+      Header: messages['common.title_en'],
       accessor: 'title_en',
     },
     {
-      Header: messages['institute.title_bn'],
+      Header: messages['common.title_bn'],
       accessor: 'title_bn',
     },
     {
-      Header: messages['institute.title_bn'],
+      Header: messages['common.title_bn'],
       accessor: 'domain',
     },
     {
-      Header: messages['institute.title_bn'],
+      Header: messages['common.title_bn'],
       accessor: 'address',
     },
     {

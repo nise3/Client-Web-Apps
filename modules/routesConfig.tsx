@@ -17,13 +17,13 @@ const routesConfig: NavItemProps[] = [
   {
     id: 'app',
     title: 'Application',
-    messageId: 'sidebar.application',
+    messageId: 'menu.application',
     type: 'group',
     children: [
       {
         id: 'dashboards',
         title: 'Dashboards',
-        messageId: 'sidebar.app.dashboard',
+        messageId: 'menu.dashboard',
         icon: 'dashboard',
         type: 'item',
         url: '/dashboard',
@@ -33,13 +33,13 @@ const routesConfig: NavItemProps[] = [
   {
     id: 'pages',
     title: 'Pages',
-    messageId: 'sidebar.pages',
+    messageId: 'menu.pages',
     type: 'group',
     children: [
       {
         id: 'timeline',
         title: 'Institute',
-        messageId: 'sidebar.pages.timeLine',
+        messageId: 'menu.institute',
         type: 'item',
         icon: 'timeline',
         url: '/dashboard/institutes',
