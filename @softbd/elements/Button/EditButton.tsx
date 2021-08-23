@@ -4,12 +4,12 @@ import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
 import {Edit} from '@material-ui/icons';
 import {makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
-import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     button: {
-      color: '#00bcd4',
+      color: theme.palette.success.main,
     },
   };
 });
@@ -22,7 +22,6 @@ interface Props {
 
 const EditButton = ({onClick, isLoading, className, ...extra}: Props) => {
   const classes = useStyles();
-  const {messages} = useIntl();
 
   return isLoading ? (
     <ButtonSkeleton />
@@ -32,7 +31,7 @@ const EditButton = ({onClick, isLoading, className, ...extra}: Props) => {
       onClick={onClick}
       className={clsx(classes.button, className)}
       {...extra}>
-      {messages['common.edit_btn']}
+      <IntlMessages id='common.edit_btn' />
     </Button>
   );
 };

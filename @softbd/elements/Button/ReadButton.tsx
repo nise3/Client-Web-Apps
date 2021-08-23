@@ -4,13 +4,13 @@ import {Visibility} from '@material-ui/icons';
 import {makeStyles} from '@material-ui/core';
 import {ButtonProps} from '@material-ui/core/Button/Button';
 import clsx from 'clsx';
-import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     button: {
-      color: '#009688',
+      color: theme.palette.primary.main,
     },
   };
 });
@@ -22,7 +22,6 @@ interface Props extends ButtonProps {
 }
 
 const ReadButton = ({onClick, className, isLoading, ...extra}: Props) => {
-  const {messages} = useIntl();
   const classes = useStyles();
   return isLoading ? (
     <ButtonSkeleton />
@@ -32,7 +31,7 @@ const ReadButton = ({onClick, className, isLoading, ...extra}: Props) => {
       onClick={onClick}
       className={clsx(classes.button, className)}
       {...extra}>
-      {messages['common.read_btn']}
+      <IntlMessages id='common.read_btn' />
     </Button>
   );
 };

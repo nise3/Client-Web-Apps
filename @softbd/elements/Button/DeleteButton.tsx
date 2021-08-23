@@ -6,10 +6,10 @@ import ConfirmationDialog from '../../../@crema/core/ConfirmationDialog';
 import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     button: {
-      color: '#f1675d',
+      color: theme.palette.error.main,
     },
   };
 });
