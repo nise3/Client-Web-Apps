@@ -13,7 +13,7 @@ export default AppPage(() => {
   return (
     <React.Fragment>
       <PageMeta title='Dashboard' />
-      <h1 onClick={() => onShowMessage()}>Sample page</h1>
+      <h1 onClick={() => onShowMessage()}>Welcome to Nise-3</h1>
     </React.Fragment>
   );
 });

@@ -3,7 +3,7 @@ import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_ORGANIZATION_UNIT_TYPES =
-  ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
+  ORGANIZATION_SERVICE_PATH + '/organization-type-types';
 
 export const getAllOrganizationUnitTypes = async () => {
   try {
