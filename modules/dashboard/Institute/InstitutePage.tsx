@@ -55,7 +55,7 @@ const InstitutePage = () => {
 
   const columns = [
     {
-      Header: 'ID',
+      Header: messages['common.id'],
       accessor: 'id',
       disableFilters: true,
       disableSortBy: true,
@@ -69,15 +69,15 @@ const InstitutePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['common.title_bn'],
+      Header: messages['institute.domain'],
       accessor: 'domain',
     },
     {
-      Header: messages['common.title_bn'],
-      accessor: 'address',
+      Header: messages['institute.code'],
+      accessor: 'code',
     },
     {
-      Header: 'Actions',
+      Header: messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (
@@ -89,7 +89,7 @@ const InstitutePage = () => {
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
               deleteAction={() => deleteInstituteItem(data.id)}
-              deleteTitle={'Are you sure?'}
+              deleteTitle='Are you sure?'
             />
           </ButtonGroup>
         );
@@ -107,7 +107,7 @@ const InstitutePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={'Institutes'}
+          title={messages['institute.institute_type_title']}
           extra={[
             <AddButton
               key={1}

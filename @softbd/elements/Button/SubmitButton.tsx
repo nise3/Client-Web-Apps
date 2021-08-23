@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from '@material-ui/core';
 import {Save} from '@material-ui/icons';
 import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
+import {useIntl} from 'react-intl';
 
 interface Props {
   onClick?: () => void;
@@ -11,21 +12,28 @@ interface Props {
   isLoading?: boolean;
 }
 
-const SubmitButton = ({onClick, className, label, isSubmitting, isLoading}: Props) => {
-  const btnText = label ? label : 'Submit';
-  return (
-    isLoading ? <ButtonSkeleton /> :
-      <Button
-        startIcon={<Save />}
-        variant='contained'
-        color='primary'
-        onClick={onClick}
-        className={className}
-        type='submit'
-        disabled={isSubmitting}
-      >
-        {btnText}
-      </Button>
+const SubmitButton = ({
+  onClick,
+  className,
+  label,
+  isSubmitting,
+  isLoading,
+}: Props) => {
+  const {messages} = useIntl();
+  const btnText = label ? label : messages['common.done'];
+  return isLoading ? (
+    <ButtonSkeleton />
+  ) : (
+    <Button
+      startIcon={<Save />}
+      variant='contained'
+      color='primary'
+      onClick={onClick}
+      className={className}
+      type='submit'
+      disabled={isSubmitting}>
+      {btnText}
+    </Button>
   );
 };
 

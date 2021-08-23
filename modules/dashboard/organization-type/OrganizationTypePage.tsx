@@ -13,6 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
 import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
 import OrganizationTypeDetailsPopup from './OrganizationTypeDetailsPopup';
+import {Chip} from '@material-ui/core';
 
 const OrganizationTypePage = () => {
   const {messages} = useIntl();
@@ -57,7 +58,7 @@ const OrganizationTypePage = () => {
 
   const columns = [
     {
-      Header: 'ID',
+      Header: messages['common.id'],
       accessor: 'id',
       disableFilters: true,
       disableSortBy: true,
@@ -71,7 +72,25 @@ const OrganizationTypePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: 'Actions',
+      Header: messages['organizationType.is_government'],
+      accessor: 'is_government',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return (
+          <Chip
+            size='small'
+            color={data.is_government == 1 ? 'primary' : 'secondary'}
+            label={
+              data.is_government == 1
+                ? messages['common.yes']
+                : messages['common.no']
+            }
+          />
+        );
+      },
+    },
+    {
+      Header: messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (
@@ -83,7 +102,7 @@ const OrganizationTypePage = () => {
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
               deleteAction={() => deleteOrganizationTypeItem(data.id)}
-              deleteTitle={'Are you sure?'}
+              deleteTitle='Are you sure?'
             />
           </ButtonGroup>
         );
@@ -101,7 +120,7 @@ const OrganizationTypePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title='Organization Types'
+          title={messages['organizationType.organization_type_title']}
           extra={[
             <AddButton
               key={1}
