@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
-import InstituteAddEditPopup from '../../../@softbd/page-components/institute/InstituteAddEditPopup';
 import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
@@ -12,16 +11,16 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import InstituteDetailsPopup from '../../../@softbd/page-components/institute/InstituteDetailsPopup';
+import InstituteDetailsPopup from './InstituteDetailsPopup';
+import InstituteAddEditPopup from './InstituteAddEditPopup';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
 
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [instituteId, setInstituteId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -46,9 +45,13 @@ const InstitutePage = () => {
   const deleteInstituteItem = async (instituteId: number) => {
     let data = await deleteInstitute(instituteId);
     if (data) {
-      setIsToggleTable(true);
+      refreshDataTable();
     }
   };
+
+  const refreshDataTable = () =>{
+    setIsToggleTable(!isToggleTable);
+  }
 
   const columns = [
     {
@@ -104,9 +107,9 @@ const InstitutePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={'Create Institute'}
+          title={'Institutes'}
           extra={[
-            <AddButton key={1} onClick={() => openAddEditModal(null)} />,
+            <AddButton key={1} onClick={() => openAddEditModal(null)} isLoading={loading}/>,
           ]}>
           <ReactTable
             columns={columns}
@@ -121,10 +124,11 @@ const InstitutePage = () => {
           {isOpenAddEditModal && (
             <InstituteAddEditPopup
               key={1}
-              title={'Add new institute'}
+              title={instituteId ? "Edit Institute" : "Add Institute"}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={instituteId}
+              refreshDataTable={refreshDataTable}
             />
           )}
 

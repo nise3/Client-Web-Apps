@@ -4,7 +4,7 @@ import AppPage from '../../../@crema/hoc/AppPage';
 import React from 'react';
 
 const InstitutePage = asyncComponent(
-  () => import('../../../modules/dashboard/InstituteManagement/InstitutePage'),
+  () => import('../../../modules/dashboard/Institute/InstitutePage'),
 );
 export default AppPage(() => (
   <>

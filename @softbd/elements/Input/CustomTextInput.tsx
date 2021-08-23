@@ -4,30 +4,24 @@ import TextInputSkeleton from '../Skeleton/TextInputSkeleton';
 
 type Props = {
   id: string;
-  name: string;
   label?: string;
-  value: string;
   className?: string;
-  error?: boolean;
-  helperText?: string | boolean;
-  onChange: any;
   variant?: 'outlined' | 'standard' | 'filled';
   size?: 'small' | 'medium';
   isLoading?: boolean;
+  register?:any;
+  errorInstance?:any;
 }
 
 const CustomTextInput = ({
                            id,
-                           name,
                            label,
-                           value,
                            className,
-                           onChange,
-                           error,
-                           helperText,
                            variant,
                            size,
                            isLoading,
+                           register,
+                           errorInstance
                          }: Props) => {
   return (
     isLoading ?
@@ -38,13 +32,11 @@ const CustomTextInput = ({
         variant={variant ? variant : 'outlined'}
         size={size ? size : 'small'}
         id={id}
-        name={name}
         className={className}
         label={label}
-        value={value}
-        onChange={onChange}
-        error={error}
-        helperText={helperText}
+        error={errorInstance[id] && Boolean(errorInstance[id])}
+        helperText={errorInstance[id] && errorInstance[id].message}
+        {...register(id)}
       />
   );
 };

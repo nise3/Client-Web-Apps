@@ -11,7 +11,7 @@ interface Props {
   isLoading?: boolean;
 }
 
-const CancelButton = ({onClick, className, label, isSubmitting, isLoading}: Props) => {
+const SubmitButton = ({onClick, className, label, isSubmitting, isLoading}: Props) => {
   const btnText = label ? label : 'Submit';
   return (
     isLoading ? <ButtonSkeleton /> :
@@ -29,4 +29,4 @@ const CancelButton = ({onClick, className, label, isSubmitting, isLoading}: Prop
   );
 };
 
-export default CancelButton;
+export default SubmitButton;

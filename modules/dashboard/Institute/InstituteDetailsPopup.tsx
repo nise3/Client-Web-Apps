@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {getInstitute} from '../../../services/instituteManagement/InstituteService';
-import CancelButton from '../../elements/Button/CancelButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import CustomDetailsViewMuiModal from '../../CustomDetailsViewMuiModal';
-import EditButton from '../../elements/Button/EditButton';
-import DetailsInputView from '../../DetailsInputView';
-import {sleep} from '../../common/helpers';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/Button/EditButton';
+import DetailsInputView from '../../../@softbd/DetailsInputView';
 
 type Props = {
   title: string;
@@ -30,7 +29,6 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
     let institute = await getInstitute(itemId);
-    await sleep(3000);
     if (institute) {
       setItemData(institute);
     }
@@ -44,8 +42,8 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
         title={'View institute'}
         actions={
           <>
-            <CancelButton onClick={props.onClose} isLoading={isLoading}/>
-            <EditButton variant={'contained'} onClick={() => props.openEditModal(itemData.id)} isLoading={isLoading}/>
+            <CancelButton onClick={props.onClose} isLoading={isLoading} />
+            <EditButton variant={'contained'} onClick={() => props.openEditModal(itemData.id)} isLoading={isLoading} />
           </>
         }>
         <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>

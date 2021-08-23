@@ -33,6 +33,7 @@ import {fuzzyTextFilter, numericTextFilter} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
+import TableSkeleton from '../../elements/Skeleton/TableSkeleton';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -233,7 +234,7 @@ export default function ReactTable<T extends object>({
             {!hideToolbar && (
               <TableToolbar
                 instance={instance}
-                loading={loading}
+                // loading={loading}
                 leftToolbarHtml={leftToolbarHtml}
               />
             )}
@@ -261,29 +262,34 @@ export default function ReactTable<T extends object>({
                   </TableRow>
                 ))}
               </TableHead>
-              {/* @ts-ignore */}
-              <TableBody {...getTableBodyProps()}>
-                {page.map((row) => {
-                  prepareRow(row);
-                  return (
-                    <TableRow key={row.id} className={classes.tableRow}>
-                      {row.cells.map((cell, index) => {
-                        return (
-                          <TableCell
-                            style={{
-                              border: '1px solid rgba(224, 224, 224, 1)',
-                              textAlign: 'left',
-                            }}
-                            key={index}
-                            className={classes.tableCell}>
-                            {cell.render('Cell')}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
+              {
+                loading ? <TableSkeleton columnNumbers={headerGroups[0].headers.length}/> :
+                  {/* @ts-ignore */}
+                <TableBody {...getTableBodyProps()}>
+                    {page.map((row) => {
+                      prepareRow(row);
+                      return (
+                        <TableRow key={row.id} className={classes.tableRow}>
+                          {row.cells.map((cell, index) => {
+                            return (
+                              <TableCell
+                                style={{
+                                  border: '1px solid rgba(224, 224, 224, 1)',
+                                  textAlign: 'left',
+                                }}
+                                key={index}
+                                className={classes.tableCell}
+                              >
+                                {cell.render('Cell')}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+              }
+
             </Table>
           </TableContainer>
         </Grid>

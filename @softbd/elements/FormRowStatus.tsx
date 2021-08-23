@@ -4,13 +4,11 @@ import React from 'react';
 
 type Props = {
   id: string;
-  name: string;
-  value: string;
-  onChange: any;
   isLoading: boolean;
+  register?: any;
 }
 
-const FormRowStatus = ({name, id, value, onChange, isLoading}: Props) => {
+const FormRowStatus = ({id, isLoading, register}: Props) => {
 
   return (
     isLoading ? <TextInputSkeleton />
@@ -19,9 +17,7 @@ const FormRowStatus = ({name, id, value, onChange, isLoading}: Props) => {
         <FormLabel component='legend'>Status</FormLabel>
         <RadioGroup
           id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
+          {...register(id)}
         >
           <FormControlLabel control={<Radio value={'1'} />} label={'Active'} />
           <FormControlLabel control={<Radio value={'0'} />} label={'Inactive'} />
