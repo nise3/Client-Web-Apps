@@ -155,7 +155,7 @@ export default function ReactTable<T extends object>({
   };
   const isServerSideTable = typeof fetchData !== 'undefined';
 
-  const classes = useStyles();
+  const classes: any = useStyles();
 
   const clientSideOptions = {
     ...props,
@@ -262,34 +262,32 @@ export default function ReactTable<T extends object>({
                   </TableRow>
                 ))}
               </TableHead>
-              {
-                loading ? <TableSkeleton columnNumbers={headerGroups[0].headers.length}/> :
-                  {/* @ts-ignore */}
+              {loading ? (
+                <TableSkeleton columnNumbers={headerGroups[0].headers.length} />
+              ) : (
                 <TableBody {...getTableBodyProps()}>
-                    {page.map((row) => {
-                      prepareRow(row);
-                      return (
-                        <TableRow key={row.id} className={classes.tableRow}>
-                          {row.cells.map((cell, index) => {
-                            return (
-                              <TableCell
-                                style={{
-                                  border: '1px solid rgba(224, 224, 224, 1)',
-                                  textAlign: 'left',
-                                }}
-                                key={index}
-                                className={classes.tableCell}
-                              >
-                                {cell.render('Cell')}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-              }
-
+                  {page.map((row) => {
+                    prepareRow(row);
+                    return (
+                      <TableRow key={row.id} className={classes.tableRow}>
+                        {row.cells.map((cell, index) => {
+                          return (
+                            <TableCell
+                              style={{
+                                border: '1px solid rgba(224, 224, 224, 1)',
+                                textAlign: 'left',
+                              }}
+                              key={index}
+                              className={classes.tableCell}>
+                              {cell.render('Cell')}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              )}
             </Table>
           </TableContainer>
         </Grid>
