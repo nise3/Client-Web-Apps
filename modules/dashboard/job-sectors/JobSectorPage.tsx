@@ -9,10 +9,7 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {
-  INSTITUTE_SERVICE_PATH,
-  ORGANIZATION_SERVICE_PATH,
-} from '../../../@softbd/common/apiRoutes';
+import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';

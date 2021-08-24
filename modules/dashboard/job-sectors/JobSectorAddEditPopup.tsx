@@ -59,15 +59,7 @@ const validationSchema = yup.object().shape({
 const initialValues = {
   title_en: '',
   title_bn: '',
-  domain: '',
-  code: '',
-  address: '',
-  primary_phone: '',
-  primary_mobile: '',
-  google_map_src: '',
-  email: '',
-  config: '',
-  row_status: 1,
+  row_status: '1',
 };
 
 const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
@@ -95,14 +87,6 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          domain: item.domain,
-          code: item.code,
-          primary_phone: item.primary_phone,
-          primary_mobile: item.primary_mobile,
-          address: item.address,
-          google_map_src: item.google_map_src,
-          email: item.email,
-          config: item.config,
           row_status: item.row_status,
         });
       } else {
@@ -155,69 +139,6 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
             <CustomTextInput
               id='title_bn'
               label='Title (Bn)'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='email'
-              label='Email'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='code'
-              label='Code'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='domain'
-              label='Domain'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='primary_phone'
-              label='Primary phone'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='primary_mobile'
-              label='Primary mobile'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='address'
-              label='Address'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='google_map_src'
-              label={'Google map source'}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
