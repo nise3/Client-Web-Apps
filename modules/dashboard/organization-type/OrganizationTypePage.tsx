@@ -2,48 +2,51 @@ import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
-import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import InstituteDetailsPopup from './InstituteDetailsPopup';
-import InstituteAddEditPopup from './InstituteAddEditPopup';
+import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
+import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
+import OrganizationTypeDetailsPopup from './OrganizationTypeDetailsPopup';
+import {Chip} from '@material-ui/core';
 
-const InstitutePage = () => {
+const OrganizationTypePage = () => {
   const {messages} = useIntl();
 
-  const [instituteId, setInstituteId] = useState<number | null>(null);
+  const [organizationTypeId, setOrganizationTypeId] = useState<number | null>(
+    null,
+  );
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setInstituteId(null);
+    setOrganizationTypeId(null);
   };
 
-  const openAddEditModal = (instituteId: number | null = null) => {
+  const openAddEditModal = (organizationTypeId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setInstituteId(instituteId);
+    setOrganizationTypeId(organizationTypeId);
   };
 
-  const openDetailsModal = (instituteId: number) => {
+  const openDetailsModal = (organizationTypeId: number) => {
     setIsOpenDetailsModal(true);
-    setInstituteId(instituteId);
+    setOrganizationTypeId(organizationTypeId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteInstituteItem = async (instituteId: number) => {
-    let data = await deleteInstitute(instituteId);
+  const deleteOrganizationTypeItem = async (organizationTypeId: number) => {
+    let data = await deleteOrganizationType(organizationTypeId);
     if (data) {
       refreshDataTable();
     }
@@ -69,12 +72,22 @@ const InstitutePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['institute.domain'],
-      accessor: 'domain',
-    },
-    {
-      Header: messages['institute.code'],
-      accessor: 'code',
+      Header: messages['organizationType.is_government'],
+      accessor: 'is_government',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return (
+          <Chip
+            size='small'
+            color={data.is_government == 1 ? 'primary' : 'secondary'}
+            label={
+              data.is_government == 1
+                ? messages['common.yes']
+                : messages['common.no']
+            }
+          />
+        );
+      },
     },
     {
       Header: messages['common.actions'],
@@ -88,7 +101,7 @@ const InstitutePage = () => {
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
-              deleteAction={() => deleteInstituteItem(data.id)}
+              deleteAction={() => deleteOrganizationTypeItem(data.id)}
               deleteTitle='Are you sure?'
             />
           </ButtonGroup>
@@ -99,7 +112,7 @@ const InstitutePage = () => {
   ];
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
+    urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
     dataAccessor: 'data',
   });
 
@@ -107,7 +120,7 @@ const InstitutePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['institute.institute_type_title']}
+          title={messages['organizationType.organization_type_title']}
           extra={[
             <AddButton
               key={1}
@@ -126,21 +139,25 @@ const InstitutePage = () => {
             toggleResetTable={isToggleTable}
           />
           {isOpenAddEditModal && (
-            <InstituteAddEditPopup
+            <OrganizationTypeAddEditPopup
               key={1}
-              title={instituteId ? 'Edit Institute' : 'Add Institute'}
+              title={
+                organizationTypeId
+                  ? 'Edit OrganizationType'
+                  : 'Add OrganizationType'
+              }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={instituteId}
+              itemId={organizationTypeId}
               refreshDataTable={refreshDataTable}
             />
           )}
 
           {isOpenDetailsModal && (
-            <InstituteDetailsPopup
+            <OrganizationTypeDetailsPopup
               key={1}
-              title={'View institute'}
-              itemId={instituteId}
+              title={'View organizationType'}
+              itemId={organizationTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}
@@ -152,4 +169,4 @@ const InstitutePage = () => {
   );
 };
 
-export default InstitutePage;
+export default OrganizationTypePage;
