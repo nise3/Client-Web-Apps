@@ -18,6 +18,7 @@ interface Props {
   onClick: () => void;
   isLoading?: boolean;
   className?: string;
+  variant?: 'text' | 'outlined' | 'contained' | undefined;
 }
 
 const EditButton = ({onClick, isLoading, className, ...extra}: Props) => {

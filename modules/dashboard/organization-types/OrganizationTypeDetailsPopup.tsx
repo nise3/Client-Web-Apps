@@ -6,6 +6,7 @@ import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModa
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/DetailsInputView';
 import {getOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
+import {useIntl} from 'react-intl';
 
 type Props = {
   title: string;
@@ -15,7 +16,8 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
+const OrganizationTypeDetailsPopup = ({itemId, title, ...props}: Props) => {
+  const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -38,37 +40,52 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        title={'View organizationType'}
+        title={title}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              variant={'contained'}
               onClick={() => props.openEditModal(itemData.id)}
               isLoading={isLoading}
+              variant={'contained'}
             />
           </>
         }>
         <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
           <Grid container spacing={5}>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DetailsInputView
-                label={'title_en'}
+                label={messages['common.title_en']}
                 value={itemData?.title_en}
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DetailsInputView
-                label={'title_bn'}
+                label={messages['common.title_bn']}
                 value={itemData?.title_bn}
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DetailsInputView
-                label={'active_status'}
-                value={itemData?.row_status == 1 ? 'active' : 'inactive'}
+                label={messages['organizationType.is_government']}
+                value={
+                  itemData?.is_government == 1
+                    ? (messages['common.yes'] as string)
+                    : (messages['common.no'] as string)
+                }
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <DetailsInputView
+                label={messages['common.status']}
+                value={
+                  itemData?.row_status == 1
+                    ? (messages['common.active'] as string)
+                    : (messages['common.inactive'] as string)
+                }
                 isLoading={isLoading}
               />
             </Grid>

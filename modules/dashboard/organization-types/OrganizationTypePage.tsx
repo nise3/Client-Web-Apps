@@ -156,7 +156,7 @@ const OrganizationTypePage = () => {
           {isOpenDetailsModal && (
             <OrganizationTypeDetailsPopup
               key={1}
-              title={'View organizationType'}
+              title={messages['common.read'] as string}
               itemId={organizationTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
