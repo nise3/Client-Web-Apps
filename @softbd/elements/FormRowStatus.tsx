@@ -13,16 +13,18 @@ type Props = {
   id: string;
   isLoading: boolean;
   register?: any;
+  value?: number;
+  onChange: () => void;
 };
 
-const FormRowStatus = ({id, isLoading, register}: Props) => {
+const FormRowStatus = ({id, isLoading, register, value, onChange}: Props) => {
   const {messages} = useIntl();
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <FormControl component='fieldset'>
       <FormLabel component='legend'>{messages['common.status']}</FormLabel>
-      <RadioGroup id={id} {...register(id)}>
+      <RadioGroup id={id} {...register(id)} value={value} onChange={onChange}>
         <FormControlLabel
           control={<Radio value={1} />}
           label={messages['common.active']}

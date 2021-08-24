@@ -28,18 +28,18 @@ interface OrganizationTypeAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
+  title_en: yup.string().trim().required(),
   title_bn: yup
     .string()
     .trim()
-    .required('Enter title (Bn)')
+    .required()
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
-  is_government: 1,
+  is_government: false,
   row_status: 1,
 };
 
@@ -53,12 +53,12 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checkedIsGovernment, setCheckedIsGovernment] =
     useState<boolean>(false);
+  const [selectedRowStatus, setSelectedRowStatus] = useState<number>(1);
 
   const {
     register,
     reset,
     handleSubmit,
-    control,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -72,9 +72,9 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          row_status: item.row_status,
         });
         setCheckedIsGovernment(item.is_government);
+        setSelectedRowStatus(item.row_status);
       } else {
         reset(initialValues);
       }
@@ -85,7 +85,6 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<OrganizationType> = async (
     data: OrganizationType,
   ) => {
-    console.log('dataaa', data);
     if (isEdit && itemId) {
       let response = await updateOrganizationType(itemId, data);
       if (response) {
@@ -102,7 +101,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       }
     }
   };
-  console.log(errors);
+
   return (
     <HookFormMuiModal
       {...props}
@@ -115,7 +114,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       }>
       <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomTextInput
               id='title_en'
               label={messages['common.title_en']}
@@ -124,7 +123,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomTextInput
               id='title_bn'
               label={messages['common.title_bn']}
@@ -133,21 +132,28 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomCheckbox
               id='is_government'
               label={messages['organizationType.is_government']}
               register={register}
               errorInstance={errors}
               checked={checkedIsGovernment}
-              onChange={() => setCheckedIsGovernment(!checkedIsGovernment)}
+              onChange={() => {
+                setCheckedIsGovernment((prevState) => !prevState);
+              }}
+              isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <FormRowStatus
               id='row_status'
               register={register}
               isLoading={isLoading}
+              value={selectedRowStatus}
+              onChange={() => {
+                setSelectedRowStatus((prevState) => (prevState == 0 ? 1 : 0));
+              }}
             />
           </Grid>
         </Grid>

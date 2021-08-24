@@ -143,8 +143,8 @@ const OrganizationTypePage = () => {
               key={1}
               title={
                 organizationTypeId
-                  ? 'Edit OrganizationType'
-                  : 'Add OrganizationType'
+                  ? [messages['common.edit']]
+                  : [messages['common.add']]
               }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}

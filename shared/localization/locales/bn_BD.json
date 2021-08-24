@@ -67,6 +67,9 @@
   "common.read_btn": "প্রদর্শন",
   "common.edit_btn": "সম্পাদনা",
   "common.delete_btn": "মুছুন",
+  "common.domain": "ডোমেইন",
+  "common.code": "কোড",
+  "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
   "button.click_me": "ক্লিক করুন",
   "error.404Error": "খুঁজে পাওয়া যাইনি",
   "error.message1": "আমরা পেজটা খুঁজে পাইনি যেটা",
@@ -122,8 +125,6 @@
   "message.contactUpdated": "যোগাযোগ সফলভাবে আপডেট হয়েছে!",
   "message.labelUpdatedTo": "লেবেল সফলভাবে আপডেট হয়েছে!",
   "institute.institute_type_title": "প্রতিষ্ঠান সমূহ",
-  "institute.domain": "ডোমেইন",
-  "institute.code": "কোড",
   "organizationType.is_government": "সরকারী?",
   "organizationType.organization_type_title": "সংস্থ্যার ধরণসমূহ"
 }
