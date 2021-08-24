@@ -27,7 +27,7 @@ type OrganizationType = {
   id: number;
   title_en: string;
   title_bn: string;
-  is_government: number;
+  is_government: boolean;
   row_status: number;
   created_at?: string;
   updated_at?: string;
