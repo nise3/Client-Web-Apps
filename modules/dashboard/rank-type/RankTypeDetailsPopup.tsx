@@ -57,10 +57,10 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
               <DetailsInputView label={'title_bn'} value={itemData?.title_bn} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'email'} value={itemData?.description} isLoading={isLoading} />
+              <DetailsInputView label={'Organization'} value={itemData?.organization_id} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'code'} value={itemData?.organization_id} isLoading={isLoading} />
+              <DetailsInputView label={'Description'} value={itemData?.description} isLoading={isLoading} />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView label={'active_status'} value={itemData?.row_status == 1 ? 'active' : 'inactive'}
