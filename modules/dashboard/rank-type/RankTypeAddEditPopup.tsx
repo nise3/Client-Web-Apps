@@ -75,6 +75,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
+    setValue,
   } = useForm<RankType>({
     resolver: yupResolver(validationSchema),
   });
@@ -93,6 +94,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         });
       } else {
         reset(initialValues);
+        setValue("row_status",'1');
       }
       setIsLoading(false);
     })();
@@ -169,7 +171,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
               id='row_status'
               register={register}
               isLoading={isLoading}
-              value={initialValues.row_status}
+              // value={initialValues.row_status}
             />
           </Grid>
         </Grid>

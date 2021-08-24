@@ -7,7 +7,7 @@ type RankType =
         title_bn: string;
         description?: string;
         organization_title_en?: string;
-        row_status?: number;
+        row_status?: any;
     }
 
 type Rank =
