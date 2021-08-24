@@ -6,10 +6,10 @@ import ConfirmationDialog from '../../../@crema/core/ConfirmationDialog';
 import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
   return {
     button: {
-      color: theme.palette.error.main,
+      color: '#f1675d',
     },
   };
 });
@@ -28,6 +28,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 }) => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const classes = useStyles();
+
   return (
     <>
       <Tooltip title={<IntlMessages id='common.delete_btn' />}>
