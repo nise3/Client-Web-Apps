@@ -40,7 +40,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   is_government: false,
-  row_status: 1,
+  row_status: '1',
 };
 
 const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
@@ -53,7 +53,6 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checkedIsGovernment, setCheckedIsGovernment] =
     useState<boolean>(false);
-  const [selectedRowStatus, setSelectedRowStatus] = useState<number>(1);
 
   const {
     register,
@@ -72,9 +71,9 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
+          row_status: item.row_status,
         });
         setCheckedIsGovernment(item.is_government);
-        setSelectedRowStatus(item.row_status);
       } else {
         reset(initialValues);
       }
@@ -85,6 +84,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<OrganizationType> = async (
     data: OrganizationType,
   ) => {
+    console.log('data', data);
     if (isEdit && itemId) {
       let response = await updateOrganizationType(itemId, data);
       if (response) {
@@ -149,11 +149,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
             <FormRowStatus
               id='row_status'
               register={register}
+              defaultValue={initialValues.row_status}
               isLoading={isLoading}
-              value={selectedRowStatus}
-              onChange={() => {
-                setSelectedRowStatus((prevState) => (prevState == 0 ? 1 : 0));
-              }}
             />
           </Grid>
         </Grid>
