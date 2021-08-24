@@ -1,5 +1,4 @@
-import {Checkbox, FormControlLabel} from '@material-ui/core';
-import {Controller} from 'react-hook-form';
+import {Checkbox} from '@material-ui/core';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../Skeleton/TextInputSkeleton';
 import React from 'react';
@@ -10,10 +9,9 @@ type Props = {
   label: string | MessageFormatElement[];
   isLoading?: boolean;
   register?: any;
-  control: any;
   errorInstance?: any;
   checked?: any;
-  onChange?: any;
+  onChange: () => void;
 };
 
 const CustomCheckbox = ({
@@ -21,7 +19,6 @@ const CustomCheckbox = ({
   register,
   label,
   isLoading,
-  control,
   errorInstance,
   checked,
   onChange,
@@ -29,22 +26,15 @@ const CustomCheckbox = ({
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <FormControlLabel
-      control={
-        <Controller
-          control={control}
-          {...register(id)}
-          render={({field: {onChange}}) => (
-            <Checkbox color='primary' checked={checked} onChange={onChange} />
-          )}
-        />
-      }
-      label={
-        <Typography color={errorInstance[id] ? 'error' : 'inherit'}>
-          {label}
-        </Typography>
-      }
-    />
+    <Typography color={errorInstance[id] ? 'error' : 'inherit'}>
+      {label}
+      <Checkbox
+        {...register(id)}
+        checked={checked}
+        onChange={onChange}
+        style={{padding: '2px'}}
+      />
+    </Typography>
   );
 };
 

@@ -51,7 +51,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [itemData, setItemData] = useState<OrganizationType>();
+  const [checkedIsGovernment, setCheckedIsGovernment] =
+    useState<boolean>(false);
 
   const {
     register,
@@ -68,15 +69,13 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       setIsLoading(true);
       if (isEdit && itemId) {
         let item = await getOrganizationType(itemId);
-        setItemData(item);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          is_government: item.is_government,
           row_status: item.row_status,
         });
+        setCheckedIsGovernment(item.is_government);
       } else {
-        setItemData(initialValues);
         reset(initialValues);
       }
       setIsLoading(false);
@@ -139,10 +138,9 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
               id='is_government'
               label={messages['organizationType.is_government']}
               register={register}
-              control={control}
               errorInstance={errors}
-              checked={itemData.is_government}
-              onChange={(e) => handleCheckEnable(e.target.checked)}
+              checked={checkedIsGovernment}
+              onChange={() => setCheckedIsGovernment(!checkedIsGovernment)}
             />
           </Grid>
           <Grid item xs={6}>
