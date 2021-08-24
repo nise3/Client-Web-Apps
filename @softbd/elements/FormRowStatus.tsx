@@ -20,6 +20,7 @@ const FormRowStatus = ({id, isLoading, register, value}: Props) => {
           id={id}
           {...register(id)}
           name="row_status"
+          value={value}
         >
           <FormControlLabel control={<Radio value={'1'} />} label={'Active'} />
           <FormControlLabel control={<Radio value={'0'} />} label={'Inactive'} />

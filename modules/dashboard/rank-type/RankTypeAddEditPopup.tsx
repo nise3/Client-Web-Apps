@@ -7,8 +7,6 @@ import {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {
-  DOMAIN_REGEX,
-  MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
@@ -33,23 +31,9 @@ const validationSchema = yup.object().shape({
     .trim()
     .required('Enter title (Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup
-    .string()
-    .trim()
-    .required('Enter domain')
-    .matches(DOMAIN_REGEX, 'Domain is not valid'),
-  code: yup.string().required('Enter code'),
-  primary_phone: yup
-    .string()
-    .required('Enter Phone Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-  primary_mobile: yup
-    .string()
-    .required('Enter Mobile Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-  address: yup.string().required('Enter address'),
-  google_map_src: yup.string(),
-  email: yup.string().required('Enter email').email('Enter valid email'),
+  organization_id: yup
+    .string(),
+  description: yup.string(),
   row_status: yup.string(),
 });
 
@@ -57,7 +41,7 @@ const initialValues = {
   id: 0,
   title_en: '',
   title_bn: '',
-  organization_title_en: '',
+  organization_id: '',
   description: '',
   row_status: 1,
 };
@@ -94,7 +78,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         });
       } else {
         reset(initialValues);
-        setValue("row_status",'1');
       }
       setIsLoading(false);
     })();
@@ -171,7 +154,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
               id='row_status'
               register={register}
               isLoading={isLoading}
-              // value={initialValues.row_status}
+              value={initialValues.row_status}
             />
           </Grid>
         </Grid>
