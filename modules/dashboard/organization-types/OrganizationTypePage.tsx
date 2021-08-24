@@ -78,6 +78,7 @@ const OrganizationTypePage = () => {
         let data = props.row.original;
         return (
           <Chip
+            variant='outlined'
             size='small'
             color={data.is_government == 1 ? 'primary' : 'secondary'}
             label={
