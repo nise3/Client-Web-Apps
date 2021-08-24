@@ -101,6 +101,12 @@ const InstitutePage = () => {
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
     dataAccessor: 'data',
+    filters: {
+      title_en: 'title_en',
+      title_bn: 'title_bn',
+      domain: 'domain',
+      code: 'code',
+    },
   });
 
   return (

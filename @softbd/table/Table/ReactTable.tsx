@@ -102,9 +102,9 @@ function DefaultColumnFilter<T extends object>({
       /*autoFocus={firstIndex}*/
       variant={'standard'}
       onChange={handleChange}
-      onBlur={(e) => {
+      /*onBlur={(e) => {
         setFilter(e.target.value || undefined);
-      }}
+      }}*/
     />
   );
 }
