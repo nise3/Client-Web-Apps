@@ -12,6 +12,8 @@ type Props = {
   register?: any;
   control: any;
   errorInstance?: any;
+  checked?: any;
+  onChange?: any;
 };
 
 const CustomCheckbox = ({
@@ -21,6 +23,8 @@ const CustomCheckbox = ({
   isLoading,
   control,
   errorInstance,
+  checked,
+  onChange,
 }: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
@@ -29,13 +33,9 @@ const CustomCheckbox = ({
       control={
         <Controller
           control={control}
-          defaultValue='false'
           {...register(id)}
           render={({field: {onChange}}) => (
-            <Checkbox
-              color='primary'
-              onChange={(e) => onChange(e.target.checked)}
-            />
+            <Checkbox color='primary' checked={checked} onChange={onChange} />
           )}
         />
       }

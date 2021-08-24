@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 import Box from '@material-ui/core/Box';
-import {Checkbox, FormControlLabel, Grid} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm, Controller} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
@@ -39,7 +39,7 @@ const validationSchema = yup.object().shape({
 const initialValues = {
   title_en: '',
   title_bn: '',
-  is_government: '1',
+  is_government: 1,
   row_status: 1,
 };
 
@@ -51,6 +51,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [itemData, setItemData] = useState<OrganizationType>();
 
   const {
     register,
@@ -67,7 +68,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       setIsLoading(true);
       if (isEdit && itemId) {
         let item = await getOrganizationType(itemId);
-        console.log('item', item);
+        setItemData(item);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -75,6 +76,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           row_status: item.row_status,
         });
       } else {
+        setItemData(initialValues);
         reset(initialValues);
       }
       setIsLoading(false);
@@ -139,6 +141,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
               register={register}
               control={control}
               errorInstance={errors}
+              checked={itemData.is_government}
+              onChange={(e) => handleCheckEnable(e.target.checked)}
             />
           </Grid>
           <Grid item xs={6}>
