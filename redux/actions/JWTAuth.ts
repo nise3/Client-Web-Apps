@@ -22,7 +22,7 @@ export const onJwtUserSignUp = (body: {
     try {
       const res = await jwtAxios.post('users', body);
       const cookies = new Cookies();
-      cookies.set("token", res.data.token, { path: "/" });
+      cookies.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
       await loadJWTUser(dispatch);
     } catch (err) {
@@ -36,9 +36,16 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
   return async (dispatch: Dispatch<AppActions>) => {
     dispatch(fetchStart());
     try {
-      const res = await jwtAxios.post('auth', body);
+      // const res = await jwtAxios.post('auth', body);
+      const token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY0ZjE5ZWNjN2Y5ZGEwMDE3ZDg1YmFkIn0sImlhdCI6MTU5OTA3MDc3MCwiZXhwIjoxNTk5NTAyNzcwfQ.fK3L6ZmU8S7I-i21kJj_0sA212JOPgFaTWeSeAUaORQ';
+      const res = {
+        data: {
+          token: token,
+        },
+      };
       const cookies = new Cookies();
-      cookies.set("token", res.data.token, { path: "/" });
+      cookies.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
       await loadJWTUser(dispatch);
     } catch (err) {
@@ -52,7 +59,17 @@ export const loadJWTUser = async (dispatch: Dispatch<AppActions>) => {
   dispatch(fetchStart());
   try {
     console.log('res.data loading');
-    const res = await jwtAxios.get('/auth');
+    // const res = await jwtAxios.get('/auth');
+    const res = {
+      data: {
+        id: 4,
+        name: 'Demo User',
+        email: 'demo@ample.com',
+        email_verified_at: null,
+        created_at: '2020-09-03T04:25:55.000000Z',
+        updated_at: '2020-09-03T04:25:55.000000Z',
+      },
+    };
     dispatch(fetchSuccess());
     console.log('res.data', res.data);
     dispatch({
@@ -89,7 +106,7 @@ export const onJWTAuthSignout = () => {
       dispatch({type: SIGNOUT_AUTH_SUCCESS});
       dispatch(fetchSuccess());
       const cookies = new Cookies();
-      cookies.remove("token");
+      cookies.remove('token');
     }, 500);
   };
 };

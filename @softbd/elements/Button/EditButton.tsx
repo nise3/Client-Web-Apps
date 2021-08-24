@@ -4,11 +4,12 @@ import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
 import {Edit} from '@material-ui/icons';
 import {makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     button: {
-      color: '#ff7011',
+      color: theme.palette.success.main,
     },
   };
 });
@@ -30,7 +31,7 @@ const EditButton = ({onClick, isLoading, className, ...extra}: Props) => {
       onClick={onClick}
       className={clsx(classes.button, className)}
       {...extra}>
-      Edit
+      <IntlMessages id='common.edit_btn' />
     </Button>
   );
 };

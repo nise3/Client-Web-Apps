@@ -14,7 +14,6 @@ export const useAuthToken = () => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   useEffect(() => {
-
     const validateAuth = async () => {
       dispatch(fetchStart());
       const cookies = new Cookies();
@@ -26,7 +25,19 @@ export const useAuthToken = () => {
       }
       dispatch(setJWTToken(token));
       try {
-        const res = await jwtAxios.get('/auth');
+        // const res = await jwtAxios.get('/auth');
+        const res = {
+          data: {
+            id: 4,
+            name: 'Demo User',
+            email: 'demo@ample.com',
+            email_verified_at: null,
+            created_at: '2020-09-03T04:25:55.000000Z',
+            updated_at: '2020-09-03T04:25:55.000000Z',
+            _id: 4,
+            avatar: '',
+          },
+        };
         dispatch(fetchSuccess());
         dispatch({
           type: UPDATE_AUTH_USER,
