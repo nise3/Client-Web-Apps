@@ -82,7 +82,8 @@ const validationSchema = yup.object({
   password: yup.string().required('Password required'),
 });
 
-interface UserSigninProps {}
+interface UserSigninProps {
+}
 
 const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
   const dispatch = useDispatch();
