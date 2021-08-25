@@ -1,8 +1,15 @@
 import React, {ReactNode} from 'react';
 import AppsHeader from '../@crema/core/AppsContainer/AppsHeader';
-import {Box, Typography} from '@material-ui/core';
+import {Box, makeStyles, Theme, Typography} from '@material-ui/core';
 import AppsContent from '../@crema/core/AppsContainer/AppsContent';
 import AppsContainer from '../@crema/core/AppsContainer';
+
+const useStyles = makeStyles((theme: Theme): any => ({
+  pageTitle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+}));
 
 interface PageBlockProps {
   title?: string | ReactNode;
@@ -14,13 +21,17 @@ interface PageBlockProps {
 }
 
 const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
+  const classes: any = useStyles();
+
   return (
     <AppsContainer fullView>
       <AppsHeader>
         <Box display='flex' flexDirection='row' alignItems='center' width={1}>
           {title && (
             <Box style={{display: 'flex', alignItems: 'center'}}>
-              <Typography>{title}</Typography>
+              <Typography variant={'h6'} className={classes.pageTitle}>
+                {title}
+              </Typography>
             </Box>
           )}
           {extra && (
