@@ -69,11 +69,11 @@ const InstitutePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['institute.domain'],
+      Header: messages['common.domain'],
       accessor: 'domain',
     },
     {
-      Header: messages['institute.code'],
+      Header: messages['common.code'],
       accessor: 'code',
     },
     {

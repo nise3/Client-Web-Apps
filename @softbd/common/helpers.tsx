@@ -1,4 +1,6 @@
 import moment from 'moment';
+import IntlMessages from '../../@crema/utility/IntlMessages';
+import React from 'react';
 
 export const catchBlockHandler = (error: any, message = '') => {
   console.log('catchBlockHandler', error);
@@ -132,10 +134,11 @@ export const countPaginatePage = (
 };
 
 export const getRowStatusText = (rowStatus: number) => {
-  //const {t} = useTranslation(['common', 'organization-types']);
-  // return rowStatus == 1 ? t("active") : t("inactive");
-  return rowStatus == 1 ? 'active' : 'inactive';
+  return rowStatus == 1 ? (
+    <IntlMessages id='common.active' />
+  ) : (
+    <IntlMessages id='common.inactive' />
+  );
 };
 
-export const sleep = (ms:number) => new Promise((r) => setTimeout(r, ms));
-
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

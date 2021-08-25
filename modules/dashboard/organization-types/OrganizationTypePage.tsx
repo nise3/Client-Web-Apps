@@ -13,7 +13,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
 import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
 import OrganizationTypeDetailsPopup from './OrganizationTypeDetailsPopup';
-import {Chip} from '@material-ui/core';
+import CustomChip from '../../../@softbd/elements/CustomChip';
+import {getRowStatusText} from '../../../@softbd/common/helpers';
+import {CheckCircleOutline} from '@material-ui/icons';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const OrganizationTypePage = () => {
   const {messages} = useIntl();
@@ -77,15 +80,32 @@ const OrganizationTypePage = () => {
       Cell: (props: any) => {
         let data = props.row.original;
         return (
-          <Chip
-            variant='outlined'
-            size='small'
+          <CustomChip
+            icon={
+              data.is_government == 1 ? <CheckCircleOutline /> : <CancelIcon />
+            }
             color={data.is_government == 1 ? 'primary' : 'secondary'}
             label={
               data.is_government == 1
                 ? messages['common.yes']
                 : messages['common.no']
             }
+          />
+        );
+      },
+    },
+    {
+      Header: messages['common.active'],
+      accessor: 'row_status',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return (
+          <CustomChip
+            icon={
+              data.row_status == 1 ? <CheckCircleOutline /> : <CancelIcon />
+            }
+            color={data.row_status == 1 ? 'primary' : 'secondary'}
+            label={getRowStatusText(data.row_status)}
           />
         );
       },

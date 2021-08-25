@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -40,7 +40,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   is_government: false,
-  row_status: 0,
+  row_status: '1',
 };
 
 const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
@@ -55,6 +55,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     useState<boolean>(false);
 
   const {
+    control,
     register,
     reset,
     handleSubmit,
@@ -148,7 +149,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           <Grid item xs={12}>
             <FormRowStatus
               id='row_status'
-              register={register}
+              control={control}
               defaultValue={initialValues.row_status}
               isLoading={isLoading}
             />
