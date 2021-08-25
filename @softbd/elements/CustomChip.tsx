@@ -8,15 +8,7 @@ type Props = {
 };
 
 const CustomChip = ({color, label, icon}: Props) => {
-  return (
-    <Chip
-      icon={icon}
-      variant='outlined'
-      size='small'
-      color={color}
-      label={label}
-    />
-  );
+  return <Chip icon={icon} size='small' color={color} label={label} />;
 };
 
 export default CustomChip;

@@ -70,6 +70,14 @@
   "common.delete_btn": "মুছুন",
   "common.domain": "ডোমেইন",
   "common.code": "কোড",
+  "common.mobile": "মোবাইল নাম্বার",
+  "common.email": "ইমেইল",
+  "common.fax_no": "ফ্যাক্স নাম্বার",
+  "common.contact_person_name": "কন্টাক্ট পারসনের নাম",
+  "common.contact_person_mobile": "কন্টাক্ট পারসনের মোবাইল নাম্বার",
+  "common.contact_person_email": "কন্টাক্ট পারসনের ইমেইল",
+  "common.contact_person_designation": "কন্টাক্ট পারসনের পদবী",
+  "common.description": "বর্ণণা",
   "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
   "button.click_me": "ক্লিক করুন",
   "error.404Error": "খুঁজে পাওয়া যাইনি",
@@ -138,5 +146,9 @@
   "occupations.job_sector_title": "জব সেক্টর",
   "occupations.occupation_add_title": "পেশা যুক্ত করুন",
   "occupations.occupation_edit_title": "পেশা সম্পাদনা করুন",
-  "occupations.occupation_view_title": "পেশার বিস্তারিত"
+  "occupations.occupation_view_title": "পেশার বিস্তারিত",
+  "organization.organization_title": "সংস্থ্যা সমূহ",
+  "organization.organization_add_title": "সংস্থ্যা যুক্ত করুন",
+  "organization.organization_edit_title": "সংস্থ্যা সম্পাদনা করুন",
+  "organization.organization_view_title": "সংস্থ্যার বিস্তারিত"
 }

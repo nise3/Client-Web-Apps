@@ -10,46 +10,44 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
-import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
-import OrganizationTypeDetailsPopup from './OrganizationTypeDetailsPopup';
+import OrganizationAddEditPopup from './OrganizationAddEditPopup';
+import {deleteOrganization} from '../../../services/organaizationManagement/OrganizationService';
+import OrganizationDetailsPopup from './OrganizationDetailsPopup';
 import CustomChip from '../../../@softbd/elements/CustomChip';
 import {getRowStatusText} from '../../../@softbd/common/helpers';
 import {CheckCircleOutline} from '@material-ui/icons';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const OrganizationTypePage = () => {
+const OrganizationPage = () => {
   const {messages} = useIntl();
 
-  const [organizationTypeId, setOrganizationTypeId] = useState<number | null>(
-    null,
-  );
+  const [organizationId, setOrganizationId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setOrganizationTypeId(null);
+    setOrganizationId(null);
   };
 
-  const openAddEditModal = (organizationTypeId: number | null = null) => {
+  const openAddEditModal = (organizationId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setOrganizationTypeId(organizationTypeId);
+    setOrganizationId(organizationId);
   };
 
-  const openDetailsModal = (organizationTypeId: number) => {
+  const openDetailsModal = (organizationId: number) => {
     setIsOpenDetailsModal(true);
-    setOrganizationTypeId(organizationTypeId);
+    setOrganizationId(organizationId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteOrganizationTypeItem = async (organizationTypeId: number) => {
-    let data = await deleteOrganizationType(organizationTypeId);
+  const deleteOrganizationItem = async (organizationId: number) => {
+    let data = await deleteOrganization(organizationId);
     if (data) {
       refreshDataTable();
     }
@@ -75,24 +73,16 @@ const OrganizationTypePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['organizationType.is_government'],
-      accessor: 'is_government',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <CustomChip
-            icon={
-              data.is_government == 1 ? <CheckCircleOutline /> : <CancelIcon />
-            }
-            color={data.is_government == 1 ? 'primary' : 'secondary'}
-            label={
-              data.is_government == 1
-                ? messages['common.yes']
-                : messages['common.no']
-            }
-          />
-        );
-      },
+      Header: messages['common.domain'],
+      accessor: 'domain',
+    },
+    {
+      Header: messages['common.email'],
+      accessor: 'email',
+    },
+    {
+      Header: messages['common.mobile'],
+      accessor: 'mobile',
     },
     {
       Header: messages['common.status'],
@@ -122,7 +112,7 @@ const OrganizationTypePage = () => {
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
-              deleteAction={() => deleteOrganizationTypeItem(data.id)}
+              deleteAction={() => deleteOrganizationItem(data.id)}
               deleteTitle='Are you sure?'
             />
           </ButtonGroup>
@@ -133,7 +123,7 @@ const OrganizationTypePage = () => {
   ];
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
+    urlPath: ORGANIZATION_SERVICE_PATH + '/organizations',
     dataAccessor: 'data',
   });
 
@@ -141,7 +131,7 @@ const OrganizationTypePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['organizationType.organization_type_title']}
+          title={messages['organization.organization_title']}
           extra={[
             <AddButton
               key={1}
@@ -160,29 +150,25 @@ const OrganizationTypePage = () => {
             toggleResetTable={isToggleTable}
           />
           {isOpenAddEditModal && (
-            <OrganizationTypeAddEditPopup
+            <OrganizationAddEditPopup
               key={1}
               title={
-                organizationTypeId
-                  ? [messages['organizationType.organization_type_add_title']]
-                  : [messages['organizationType.organization_type_edit_title']]
+                organizationId
+                  ? [messages['organization.organization_add_title']]
+                  : [messages['organization.organization_edit_title']]
               }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={organizationTypeId}
+              itemId={organizationId}
               refreshDataTable={refreshDataTable}
             />
           )}
 
           {isOpenDetailsModal && (
-            <OrganizationTypeDetailsPopup
+            <OrganizationDetailsPopup
               key={1}
-              title={
-                messages[
-                  'organizationType.organization_type_view_title'
-                ] as string
-              }
-              itemId={organizationTypeId}
+              title={messages['organization.organization_view_title'] as string}
+              itemId={organizationId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}
@@ -194,4 +180,4 @@ const OrganizationTypePage = () => {
   );
 };
 
-export default OrganizationTypePage;
+export default OrganizationPage;
