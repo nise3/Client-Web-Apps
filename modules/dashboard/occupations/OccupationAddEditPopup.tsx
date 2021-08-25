@@ -16,7 +16,7 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
-import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 
 interface OccupationAddEditPopupProps {

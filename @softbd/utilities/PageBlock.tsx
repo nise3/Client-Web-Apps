@@ -1,8 +1,8 @@
 import React, {ReactNode} from 'react';
-import AppsHeader from '../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../@crema/core/AppsContainer/AppsHeader';
 import {Box, makeStyles, Theme, Typography} from '@material-ui/core';
-import AppsContent from '../@crema/core/AppsContainer/AppsContent';
-import AppsContainer from '../@crema/core/AppsContainer';
+import AppsContent from '../../@crema/core/AppsContainer/AppsContent';
+import AppsContainer from '../../@crema/core/AppsContainer';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   pageTitle: {

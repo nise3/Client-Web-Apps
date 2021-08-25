@@ -3,9 +3,9 @@ import {getJobSector} from '../../../services/organaizationManagement/JobSectorS
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModal';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DetailsInputView from '../../../@softbd/DetailsInputView';
+import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {useIntl} from 'react-intl';
 import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
 

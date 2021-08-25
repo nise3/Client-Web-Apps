@@ -1,8 +1,8 @@
 import {makeStyles} from '@material-ui/core';
-import {Fonts} from '../shared/constants/AppEnums';
+import {Fonts} from '../../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
-import TextInputSkeleton from './elements/Skeleton/TextInputSkeleton';
+import TextInputSkeleton from './Skeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import React from 'react';
 

@@ -9,7 +9,7 @@ import {
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {FC, ReactNode, useEffect, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {
   DOMAIN_REGEX,

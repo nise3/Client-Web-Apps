@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
-import PageBlock from '../../../@softbd/PageBlock';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
@@ -56,10 +56,12 @@ const JobSectorPage = () => {
 
   const columns = [
     {
-      Header: 'ID',
-      accessor: 'id',
+      Header: '#',
       disableFilters: true,
       disableSortBy: true,
+      Cell: (props: any) => {
+        return props.row.index + 1;
+      },
     },
     {
       Header: messages['common.title_en'],

@@ -1,8 +1,8 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {DialogContent, DialogActions} from '@material-ui/core';
-import {CremaTheme} from '../types/AppContextPropsType';
-import {Fonts} from '../shared/constants/AppEnums';
+import {CremaTheme} from '../../types/AppContextPropsType';
+import {Fonts} from '../../shared/constants/AppEnums';
 import CustomMuiModal, {DialogTitle} from './CustomMuiModal';
 import FormLabel from '@material-ui/core/FormLabel';
 
@@ -58,7 +58,7 @@ const CustomDetailsViewMuiModalPopup: React.FC<CustomDetailsViewMuiModalPopupPro
 
     return (
       <CustomMuiModal {...props}>
-        <DialogTitle id='max-width-dialog-title' onClose={props.onClose}>
+        <DialogTitle onClose={props.onClose}>
           <FormLabel className={classes.title}>{props.title}</FormLabel>
         </DialogTitle>
         <form className={classes.formRoot}>

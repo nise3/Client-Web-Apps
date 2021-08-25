@@ -5,8 +5,8 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import DetailsInputView from '../../../@softbd/DetailsInputView';
-import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModal';
+import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 
 type Props = {
   title: string;

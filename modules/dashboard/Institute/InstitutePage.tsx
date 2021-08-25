@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
-import PageBlock from '../../../@softbd/PageBlock';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';

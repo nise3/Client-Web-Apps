@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModal';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DetailsInputView from '../../../@softbd/DetailsInputView';
+import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getRankType} from '../../../services/instituteManagement/RankTypeService';
 
 type Props = {
@@ -13,10 +13,9 @@ type Props = {
   open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
-}
+};
 
 const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
-
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -43,28 +42,51 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
-            {
-              itemData && <EditButton variant="contained" onClick={() => props.openEditModal(itemData.id)} isLoading={isLoading} />
-            }
+            {itemData && (
+              <EditButton
+                variant='contained'
+                onClick={() => props.openEditModal(itemData.id)}
+                isLoading={isLoading}
+              />
+            )}
           </>
         }>
         <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
           <Grid container spacing={5}>
             <Grid item xs={6}>
-              <DetailsInputView label={'title_en'} value={itemData?.title_en} isLoading={isLoading} />
+              <DetailsInputView
+                label={'title_en'}
+                value={itemData?.title_en}
+                isLoading={isLoading}
+              />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'title_bn'} value={itemData?.title_bn} isLoading={isLoading} />
+              <DetailsInputView
+                label={'title_bn'}
+                value={itemData?.title_bn}
+                isLoading={isLoading}
+              />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'Organization'} value={itemData?.organization_id} isLoading={isLoading} />
+              <DetailsInputView
+                label={'Organization'}
+                value={itemData?.organization_id}
+                isLoading={isLoading}
+              />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'Description'} value={itemData?.description} isLoading={isLoading} />
+              <DetailsInputView
+                label={'Description'}
+                value={itemData?.description}
+                isLoading={isLoading}
+              />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView label={'active_status'} value={itemData?.row_status == 1 ? 'active' : 'inactive'}
-                                isLoading={isLoading} />
+              <DetailsInputView
+                label={'active_status'}
+                value={itemData?.row_status == 1 ? 'active' : 'inactive'}
+                isLoading={isLoading}
+              />
             </Grid>
           </Grid>
         </Box>

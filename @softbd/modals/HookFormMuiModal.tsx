@@ -1,8 +1,8 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {DialogContent, DialogActions} from '@material-ui/core';
-import {CremaTheme} from '../types/AppContextPropsType';
-import {Fonts} from '../shared/constants/AppEnums';
+import {CremaTheme} from '../../types/AppContextPropsType';
+import {Fonts} from '../../shared/constants/AppEnums';
 import CustomMuiModal, {DialogTitle} from './CustomMuiModal';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
