@@ -14,6 +14,7 @@ import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';
 import {SnackbarProvider} from 'notistack';
+import Nprogress from '../@softbd/utilities/Nprogress';
 
 const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -32,6 +33,7 @@ const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   return (
     <React.Fragment>
       <PageMeta />
+      <Nprogress />
       <ContextProvider>
         <Provider store={store}>
           <CremaThemeProvider>
