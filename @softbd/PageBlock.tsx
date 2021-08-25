@@ -19,7 +19,7 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
       <AppsHeader>
         <Box display='flex' flexDirection='row' alignItems='center' width={1}>
           {title && (
-            <Typography variant='h4' color={'inherit'}>
+            <Typography variant='h5' style={{fontWeight: 600}} color='inherit'>
               {title}
             </Typography>
           )}

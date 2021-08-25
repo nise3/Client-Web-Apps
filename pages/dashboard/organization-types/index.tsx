@@ -3,7 +3,7 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import AppPage from '../../../@crema/hoc/AppPage';
 import React from 'react';
 
-const OrganizationUnitPage = asyncComponent(
+const OrganizationTypePage = asyncComponent(
   () =>
     import(
       '../../../modules/dashboard/organization-types/OrganizationTypePage'
@@ -12,6 +12,6 @@ const OrganizationUnitPage = asyncComponent(
 export default AppPage(() => (
   <>
     <PageMeta title='Organization Type' />
-    <OrganizationUnitPage />
+    <OrganizationTypePage />
   </>
 ));
