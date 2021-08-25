@@ -7,7 +7,7 @@ import {
   updateJobSector,
 } from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm, Controller} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
@@ -16,9 +16,6 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import {FormControlLabel} from '@material-ui/core';
 
 interface JobSectorAddEditPopupProps {
   title: ReactNode | string;
@@ -29,19 +26,19 @@ interface JobSectorAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
+  title_en: yup.string().trim().required(),
   title_bn: yup
     .string()
     .trim()
-    .required('Enter title (Bn)')
+    .required()
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
+  row_status: yup.string().trim().required(),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
   row_status: '1',
-  RadioGroup: 'male',
 };
 
 const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
@@ -61,7 +58,6 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-  console.log('errors', errors);
 
   useEffect(() => {
     (async () => {
@@ -132,29 +128,9 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           <Grid item xs={6}>
             <FormRowStatus
               id='row_status'
-              register={register}
+              control={control}
               defaultValue={initialValues.row_status}
               isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Controller
-              render={({field}) => (
-                <RadioGroup aria-label='gender' {...field}>
-                  <FormControlLabel
-                    value='female'
-                    control={<Radio />}
-                    label='Female'
-                  />
-                  <FormControlLabel
-                    value='male'
-                    control={<Radio />}
-                    label='Male'
-                  />
-                </RadioGroup>
-              )}
-              name='RadioGroup'
-              control={control}
             />
           </Grid>
         </Grid>

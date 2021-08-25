@@ -38,7 +38,7 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        title={'View institute'}
+        title={'View Job Sector'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -61,55 +61,6 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
               <DetailsInputView
                 label={'title_bn'}
                 value={itemData?.title_bn}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'email'}
-                value={itemData?.email}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'code'}
-                value={itemData?.code}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'domain'}
-                value={itemData?.domain}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'primary_phone'}
-                value={itemData?.primary_phone}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'primary_mobile'}
-                value={itemData?.primary_mobile}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'address'}
-                value={itemData?.address}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={'google_map_src'}
-                value={itemData?.google_map_src}
                 isLoading={isLoading}
               />
             </Grid>

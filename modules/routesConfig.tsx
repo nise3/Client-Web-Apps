@@ -52,6 +52,14 @@ const routesConfig: NavItemProps[] = [
         icon: 'timeline',
         url: '/dashboard/organization-types',
       },
+      {
+        id: 'job-sectors',
+        title: 'Job Sector',
+        messageId: 'menu.job_sector',
+        type: 'item',
+        icon: 'work',
+        url: '/dashboard/job-sectors',
+      },
     ],
   },
 ];

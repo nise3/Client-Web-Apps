@@ -19,9 +19,9 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
       <AppsHeader>
         <Box display='flex' flexDirection='row' alignItems='center' width={1}>
           {title && (
-            <Typography variant='h4' color={'inherit'}>
-              {title}
-            </Typography>
+            <Box style={{display: 'flex', alignItems: 'center'}}>
+              <Typography>{title}</Typography>
+            </Box>
           )}
           {extra && (
             <Box
