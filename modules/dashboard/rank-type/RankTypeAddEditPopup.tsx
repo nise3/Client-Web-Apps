@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {
@@ -15,6 +15,8 @@ import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {createRankType, updateRankType} from '../../../services/instituteManagement/RankTypeService';
+import CustomSelectInput from '../../../@softbd/elements/Input/CustomSelectInput';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 
 interface RankTypeAddEditPopupProps {
   title: ReactNode | string;
@@ -41,25 +43,25 @@ const initialValues = {
   id: 0,
   title_en: '',
   title_bn: '',
-  organization_id: '',
+  organization_id: 0,
   description: '',
   row_status: 1,
 };
 
 const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
-  itemId,
-  ...props
-}) => {
+                                                               itemId,
+                                                               ...props
+                                                             }) => {
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [organizations, setOrganizations] = useState<Organization | []>([]);
 
   const {
     register,
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-    setValue,
   } = useForm<RankType>({
     resolver: yupResolver(validationSchema),
   });
@@ -83,6 +85,15 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     })();
   }, [itemId]);
 
+  useEffect(() => {
+
+    (async () => {
+      let organizations = await getAllOrganizations();
+      setOrganizations(organizations);
+    })();
+
+  }, []);
+
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
       let response = await updateRankType(itemId, data);
@@ -100,6 +111,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       }
     }
   };
+
 
   return (
     <HookFormMuiModal
@@ -132,12 +144,13 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <CustomTextInput
-              id='organization_id'
-              label='Organization'
+            <CustomSelectInput
+              id={'organization_id'}
+              label={'Organization'}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
+              options={organizations}
             />
           </Grid>
           <Grid item xs={6}>
