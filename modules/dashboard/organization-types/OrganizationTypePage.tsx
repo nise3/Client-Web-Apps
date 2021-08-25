@@ -144,8 +144,8 @@ const OrganizationTypePage = () => {
               key={1}
               title={
                 organizationTypeId
-                  ? [messages['common.edit']]
-                  : [messages['common.add']]
+                  ? [messages['organizationType.organization_type_add_title']]
+                  : [messages['organizationType.organization_type_edit_title']]
               }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
@@ -157,7 +157,11 @@ const OrganizationTypePage = () => {
           {isOpenDetailsModal && (
             <OrganizationTypeDetailsPopup
               key={1}
-              title={messages['common.read'] as string}
+              title={
+                messages[
+                  'organizationType.organization_type_view_title'
+                ] as string
+              }
               itemId={organizationTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}

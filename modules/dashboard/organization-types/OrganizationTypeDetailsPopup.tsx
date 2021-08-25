@@ -35,7 +35,7 @@ const OrganizationTypeDetailsPopup = ({itemId, title, ...props}: Props) => {
     }
     setIsLoading(false);
   };
-
+  console.log('title', title);
   return (
     <>
       <CustomDetailsViewMuiModal
