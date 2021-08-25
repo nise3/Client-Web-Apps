@@ -17,6 +17,7 @@ import {Grid} from '@material-ui/core';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
+import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 
 interface OccupationAddEditPopupProps {
   title: ReactNode | string;
@@ -39,7 +40,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   job_sector_id: null,
-  row_status: 0,
+  row_status: '1',
 };
 
 const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
@@ -50,8 +51,10 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [jobSectors, setJobSectors] = useState<Array<JobSector>>([]);
 
   const {
+    control,
     register,
     reset,
     handleSubmit,
@@ -128,11 +131,21 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12}>
+            <CustomFormSelect
+              id='job_sector_id'
+              label={messages['occupations.job_sector_title']}
+              isLoading={isLoading}
+              control={control}
+              options={jobSectors}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+            />
+          </Grid>
           <Grid item xs={12}>
             <FormRowStatus
               id='row_status'
-              register={register}
+              control={control}
               defaultValue={initialValues.row_status}
               isLoading={isLoading}
             />
