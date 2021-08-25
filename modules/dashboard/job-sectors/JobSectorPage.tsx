@@ -13,6 +13,7 @@ import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';
+import {WorkOutline} from '@material-ui/icons';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
@@ -69,7 +70,7 @@ const JobSectorPage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: 'Actions',
+      Header: messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (
@@ -99,7 +100,11 @@ const JobSectorPage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={'Job Sectors'}
+          title={
+            <>
+              <WorkOutline /> Job Sectors
+            </>
+          }
           extra={[
             <AddButton
               key={1}

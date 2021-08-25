@@ -6,13 +6,14 @@ import {
   RadioGroup,
 } from '@material-ui/core';
 import TextInputSkeleton from './Skeleton/TextInputSkeleton';
-import React, {useState} from 'react';
+import React from 'react';
 import {useIntl} from 'react-intl';
+import {Controller} from 'react-hook-form';
 
 type Props = {
   id: string;
   isLoading: boolean;
-  register?: any;
+  control: any;
   defaultValue: string;
   onChange?: (e: any) => any;
 };
@@ -20,11 +21,10 @@ type Props = {
 const FormRowStatus = ({
   id,
   isLoading,
-  register,
+  control,
   defaultValue,
-  onChange,
+  onChange: onChangeCallback,
 }: Props) => {
-  const [rowStatus, setRowStatus] = useState<string>(defaultValue);
   const {messages} = useIntl();
 
   return isLoading ? (
@@ -32,29 +32,32 @@ const FormRowStatus = ({
   ) : (
     <FormControl component='fieldset'>
       <FormLabel component='legend'>{messages['common.status']}</FormLabel>
-      <RadioGroup
-        aria-label={id}
-        id={id}
-        {...register(id)}
-        value={rowStatus}
-        onChange={(e) => {
-          console.log(e.target.value);
-          setRowStatus(e.target.value);
-          if (onChange) {
-            onChange(e);
-          }
-        }}>
-        <FormControlLabel
-          value={'1'}
-          control={<Radio />}
-          label={messages['common.active']}
-        />
-        <FormControlLabel
-          value={'0'}
-          control={<Radio />}
-          label={messages['common.inactive']}
-        />
-      </RadioGroup>
+      <Controller
+        render={({field: {onChange, value = defaultValue}}) => (
+          <RadioGroup
+            aria-label={id}
+            value={value}
+            onChange={(e) => {
+              onChange(e.target.value);
+              if (onChangeCallback && typeof onChangeCallback === 'function') {
+                onChangeCallback(e);
+              }
+            }}>
+            <FormControlLabel
+              value={'1'}
+              control={<Radio />}
+              label={messages['common.active']}
+            />
+            <FormControlLabel
+              value={'0'}
+              control={<Radio />}
+              label={messages['common.inactive']}
+            />
+          </RadioGroup>
+        )}
+        name={id}
+        control={control}
+      />
     </FormControl>
   );
 };
