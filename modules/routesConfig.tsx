@@ -60,6 +60,14 @@ const routesConfig: NavItemProps[] = [
         icon: 'work',
         url: '/dashboard/job-sectors',
       },
+      {
+        id: 'occupations',
+        title: 'Occupations',
+        messageId: 'menu.occupations',
+        type: 'item',
+        icon: 'timeline',
+        url: '/dashboard/occupations',
+      },
     ],
   },
 ];

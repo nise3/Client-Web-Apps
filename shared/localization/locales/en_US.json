@@ -32,6 +32,7 @@
   "menu.dashboard": "Dashboard",
   "menu.pages": "Pages",
   "menu.institute": "Institute",
+  "menu.occupations": "Occupation",
   "customizer.modern": "Modern",
   "customizer.standard": "Standard",
   "customizer.extension": "extension",
@@ -64,5 +65,10 @@
   "message.contactDeleted": "Contact deleted successfully!",
   "message.contactCreated": "Contact created successfully!",
   "message.contactUpdated": "Contact updated successfully!",
-  "message.labelUpdatedTo": "Label Updated successfully!"
+  "message.labelUpdatedTo": "Label Updated successfully!",
+  "occupations.occupation_title": "Occupations",
+  "occupations.job_sector_title": "Job sector",
+  "occupations.occupation_add_title": "Add Occupation",
+  "occupations.occupation_edit_title": "Edit Occupation",
+  "occupations.occupation_view_title": "Occupation Details"
 }

@@ -92,6 +92,7 @@
   "menu.institute": "প্রতিষ্ঠান",
   "menu.organization_type": "সংস্থ্যার ধরণ",
   "menu.job_sector": "চাকরি খাত",
+  "menu.occupations": "পেশা",
   "customizer.modern": "আধুনিক",
   "customizer.standard": "মান",
   "customizer.extension": "সম্প্রসারণ",
@@ -131,5 +132,10 @@
   "organizationType.organization_type_title": "সংস্থ্যার ধরণসমূহ",
   "organizationType.organization_type_add_title": "সংস্থ্যার ধরণ যুক্ত করুন",
   "organizationType.organization_type_edit_title": "সংস্থ্যার ধরণ সম্পাদনা করুন",
-  "organizationType.organization_type_view_title": "সংস্থ্যার ধরণের বিস্তারিত"
+  "organizationType.organization_type_view_title": "সংস্থ্যার ধরণের বিস্তারিত",
+  "occupations.occupation_title": "পেশা সমূহ",
+  "occupations.job_sector_title": "জব সেক্টর",
+  "occupations.occupation_add_title": "পেশা যুক্ত করুন",
+  "occupations.occupation_edit_title": "পেশা সম্পাদনা করুন",
+  "occupations.occupation_view_title": "পেশার বিস্তারিত"
 }
