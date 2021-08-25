@@ -44,6 +44,14 @@ const routesConfig: NavItemProps[] = [
         icon: 'timeline',
         url: '/dashboard/institutes',
       },
+      {
+        id: 'timeline',
+        title: 'Organization Type',
+        messageId: 'menu.organization_type',
+        type: 'item',
+        icon: 'timeline',
+        url: '/dashboard/organization-types',
+      },
     ],
   },
 ];

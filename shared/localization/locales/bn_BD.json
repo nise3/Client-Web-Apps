@@ -90,6 +90,7 @@
   "menu.dashboard": "ড্যাশবোর্ড",
   "menu.pages": "পেজ",
   "menu.institute": "প্রতিষ্ঠান",
+  "menu.organization_type": "সংস্থ্যার ধরণ",
   "customizer.modern": "আধুনিক",
   "customizer.standard": "মান",
   "customizer.extension": "সম্প্রসারণ",
@@ -126,5 +127,8 @@
   "message.labelUpdatedTo": "লেবেল সফলভাবে আপডেট হয়েছে!",
   "institute.institute_type_title": "প্রতিষ্ঠান সমূহ",
   "organizationType.is_government": "সরকারী?",
-  "organizationType.organization_type_title": "সংস্থ্যার ধরণসমূহ"
+  "organizationType.organization_type_title": "সংস্থ্যার ধরণসমূহ",
+  "organizationType.organization_type_add_title": "সংস্থ্যার ধরণ যুক্ত করুন",
+  "organizationType.organization_type_edit_title": "সংস্থ্যার ধরণ সম্পাদনা করুন",
+  "organizationType.organization_type_view_title": "সংস্থ্যার ধরণের বিস্তারিত"
 }

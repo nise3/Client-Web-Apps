@@ -3,7 +3,7 @@ import {Fonts} from '../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextInputSkeleton from './elements/Skeleton/TextInputSkeleton';
-
+import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 
 const useStyles = makeStyles(() => {
   return {
@@ -28,20 +28,20 @@ const useStyles = makeStyles(() => {
 });
 
 type Props = {
-  label: string;
+  label: string | MessageFormatElement[];
   value: string;
   isLoading?: boolean;
-}
-
+};
 
 const DetailsInputView = ({label, value, isLoading}: Props) => {
   const classes = useStyles();
-  return (
-    isLoading ? <TextInputSkeleton /> :
-      <Grid item xs={12}>
-        <FormLabel className={classes.label}>{label}</FormLabel>
-        <div className={classes.inputView}>{value}</div>
-      </Grid>
+  return isLoading ? (
+    <TextInputSkeleton />
+  ) : (
+    <Grid item xs={12}>
+      <FormLabel className={classes.label}>{label}</FormLabel>
+      <div className={classes.inputView}>{value}</div>
+    </Grid>
   );
 };
 

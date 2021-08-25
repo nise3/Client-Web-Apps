@@ -78,6 +78,7 @@ const OrganizationTypePage = () => {
         let data = props.row.original;
         return (
           <Chip
+            variant='outlined'
             size='small'
             color={data.is_government == 1 ? 'primary' : 'secondary'}
             label={
@@ -143,8 +144,8 @@ const OrganizationTypePage = () => {
               key={1}
               title={
                 organizationTypeId
-                  ? [messages['common.edit']]
-                  : [messages['common.add']]
+                  ? [messages['organizationType.organization_type_add_title']]
+                  : [messages['organizationType.organization_type_edit_title']]
               }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
@@ -156,7 +157,11 @@ const OrganizationTypePage = () => {
           {isOpenDetailsModal && (
             <OrganizationTypeDetailsPopup
               key={1}
-              title={'View organizationType'}
+              title={
+                messages[
+                  'organizationType.organization_type_view_title'
+                ] as string
+              }
               itemId={organizationTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
