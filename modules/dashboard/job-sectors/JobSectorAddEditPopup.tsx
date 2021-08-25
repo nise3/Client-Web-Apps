@@ -7,19 +7,18 @@ import {
   updateJobSector,
 } from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {FC, ReactNode, useEffect, useState} from 'react';
+import {SubmitHandler, useForm, Controller} from 'react-hook-form';
+import React, {FC, ReactNode, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
-import {
-  DOMAIN_REGEX,
-  MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA,
-} from '../../../@softbd/common/patternRegex';
+import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import {FormControlLabel} from '@material-ui/core';
 
 interface JobSectorAddEditPopupProps {
   title: ReactNode | string;
@@ -36,30 +35,13 @@ const validationSchema = yup.object().shape({
     .trim()
     .required('Enter title (Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup
-    .string()
-    .trim()
-    .required('Enter domain')
-    .matches(DOMAIN_REGEX, 'Domain is not valid'),
-  code: yup.string().required('Enter code'),
-  primary_phone: yup
-    .string()
-    .required('Enter Phone Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-  primary_mobile: yup
-    .string()
-    .required('Enter Mobile Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-  address: yup.string().required('Enter address'),
-  google_map_src: yup.string(),
-  email: yup.string().required('Enter email').email('Enter valid email'),
-  row_status: yup.string(),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
   row_status: '1',
+  RadioGroup: 'male',
 };
 
 const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
@@ -73,11 +55,13 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   const {
     register,
     reset,
+    control,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<JobSector>({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+  console.log('errors', errors);
 
   useEffect(() => {
     (async () => {
@@ -94,9 +78,10 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
       }
       setIsLoading(false);
     })();
-  }, [itemId]);
+  }, [itemId, reset]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+    console.table(data);
     if (isEdit && itemId) {
       let response = await updateJobSector(itemId, data);
       if (response) {
@@ -148,7 +133,28 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
             <FormRowStatus
               id='row_status'
               register={register}
+              defaultValue={initialValues.row_status}
               isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Controller
+              render={({field}) => (
+                <RadioGroup aria-label='gender' {...field}>
+                  <FormControlLabel
+                    value='female'
+                    control={<Radio />}
+                    label='Female'
+                  />
+                  <FormControlLabel
+                    value='male'
+                    control={<Radio />}
+                    label='Male'
+                  />
+                </RadioGroup>
+              )}
+              name='RadioGroup'
+              control={control}
             />
           </Grid>
         </Grid>

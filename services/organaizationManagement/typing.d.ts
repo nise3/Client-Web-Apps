@@ -73,7 +73,7 @@ type JobSector = {
   id: number;
   title_en: string;
   title_bn: string;
-  row_status: number;
+  row_status: string;
   updated_at?: string;
   crated_at?: string;
 };

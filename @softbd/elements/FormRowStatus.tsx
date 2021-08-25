@@ -33,23 +33,25 @@ const FormRowStatus = ({
     <FormControl component='fieldset'>
       <FormLabel component='legend'>{messages['common.status']}</FormLabel>
       <RadioGroup
+        aria-label={id}
         id={id}
         {...register(id)}
         value={rowStatus}
         onChange={(e) => {
           console.log(e.target.value);
-          setRowStatus(e.target.value.toString());
-
+          setRowStatus(e.target.value);
           if (onChange) {
             onChange(e);
           }
         }}>
         <FormControlLabel
-          control={<Radio value={'1'} />}
+          value={'1'}
+          control={<Radio />}
           label={messages['common.active']}
         />
         <FormControlLabel
-          control={<Radio value={'0'} />}
+          value={'0'}
+          control={<Radio />}
           label={messages['common.inactive']}
         />
       </RadioGroup>

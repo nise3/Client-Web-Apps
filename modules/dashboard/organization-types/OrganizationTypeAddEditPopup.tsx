@@ -40,7 +40,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   is_government: false,
-  row_status: '1',
+  row_status: 0,
 };
 
 const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
@@ -71,7 +71,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          row_status: item.row_status,
+          row_status: parseInt(item.row_status),
         });
         setCheckedIsGovernment(item.is_government);
       } else {
