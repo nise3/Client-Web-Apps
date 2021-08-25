@@ -19,7 +19,14 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       margin: 0,
-      padding: theme.spacing(2),
+      padding: theme.spacing(3),
+    },
+    pageTitle: {
+      display: 'flex',
+      alignItems: 'center',
+      '& svg': {
+        marginRight: '12px',
+      },
     },
     closeButton: {
       position: 'absolute',
@@ -30,16 +37,18 @@ const styles = (theme: Theme) =>
   });
 
 export interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string;
   children: React.ReactNode;
   onClose: () => void;
 }
 
 export const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const {children, classes, onClose, ...other} = props;
+
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant='h6'>{children}</Typography>
+      <Typography variant='h6' className={classes.pageTitle}>
+        {children}
+      </Typography>
       {onClose ? (
         <IconButton
           aria-label='close'
@@ -64,12 +73,14 @@ interface CustomMuiModalProps {
   onClose: () => any;
   title: React.ReactNode | string;
   children: React.ReactNode;
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
   title,
   onClose,
   children,
+  maxWidth = 'md',
   ...props
 }) => {
   return (
@@ -78,7 +89,7 @@ const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
       TransitionComponent={Transition}
       aria-describedby='simple-modal-description'
       {...props}
-      maxWidth={'lg'}
+      maxWidth={maxWidth}
       fullWidth
       scroll={'body'}
       onClose={onClose}>

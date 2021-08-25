@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextInputSkeleton from './elements/Skeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
+import React from 'react';
 
 const useStyles = makeStyles(() => {
   return {
@@ -29,7 +30,7 @@ const useStyles = makeStyles(() => {
 
 type Props = {
   label: string | MessageFormatElement[];
-  value: string;
+  value: string | React.ReactNode;
   isLoading?: boolean;
 };
 

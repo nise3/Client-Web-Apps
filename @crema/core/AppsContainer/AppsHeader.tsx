@@ -3,7 +3,7 @@ import {Box} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   appHeader: {
     height: 60,
     display: 'flex',
@@ -28,7 +28,7 @@ interface AppsFooterProps {
 const AppsHeader: React.FC<AppsFooterProps> = ({children}) => {
   const classes = useStyles();
   return (
-    <Box px={6} py={{xs: 1, xl: 3}} className={classes.appHeader}>
+    <Box px={6} className={classes.appHeader}>
       {children}
     </Box>
   );

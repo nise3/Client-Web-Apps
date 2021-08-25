@@ -133,6 +133,10 @@ export const countPaginatePage = (
   return totalData < 1 ? 0 : Math.ceil(totalData / pageSize);
 };
 
+/**
+ * @deprecated use <DecoratedRowStatus />
+ * @param rowStatus
+ */
 export const getRowStatusText = (rowStatus: number) => {
   return rowStatus == 1 ? (
     <IntlMessages id='common.active' />

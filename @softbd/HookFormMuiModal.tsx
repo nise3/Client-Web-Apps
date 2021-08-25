@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: 20,
     [theme.breakpoints.up('xl')]: {},
   },
   fontBold: {
@@ -42,6 +41,7 @@ interface HookFormMuiModalPopupProps {
   handleSubmit: any;
   open: boolean;
   onClose: () => void;
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const HookFormMuiModal: React.FC<HookFormMuiModalPopupProps> = ({
@@ -54,9 +54,7 @@ const HookFormMuiModal: React.FC<HookFormMuiModalPopupProps> = ({
 
   return (
     <CustomMuiModal {...props}>
-      <DialogTitle id='max-width-dialog-title' onClose={props.onClose}>
-        {props.title}
-      </DialogTitle>
+      <DialogTitle onClose={props.onClose}>{props.title}</DialogTitle>
       <form
         onSubmit={handleSubmit}
         className={classes.formRoot}

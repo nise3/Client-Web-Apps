@@ -125,7 +125,12 @@ const JobSectorPage = () => {
           {isOpenAddEditModal && (
             <JobSectorAddEditPopup
               key={1}
-              title={jobSectorId ? 'Edit Job Sector' : 'Add Job Sector'}
+              title={
+                <>
+                  <WorkOutline />
+                  {jobSectorId ? 'Edit Job Sector' : 'Add Job Sector'}
+                </>
+              }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={jobSectorId}

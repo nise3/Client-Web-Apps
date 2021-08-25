@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme): any => ({
   pageTitle: {
     display: 'flex',
     alignItems: 'center',
+    '& svg': {
+      marginRight: '12px',
+    },
   },
 }));
 

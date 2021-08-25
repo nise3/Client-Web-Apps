@@ -35,6 +35,7 @@ const FormRowStatus = ({
       <Controller
         render={({field: {onChange, value = defaultValue}}) => (
           <RadioGroup
+            row
             aria-label={id}
             value={value}
             onChange={(e) => {

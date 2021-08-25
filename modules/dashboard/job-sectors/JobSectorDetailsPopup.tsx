@@ -6,6 +6,8 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/DetailsInputView';
+import {useIntl} from 'react-intl';
+import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
 
 type Props = {
   title: string;
@@ -18,6 +20,7 @@ type Props = {
 const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {messages} = useIntl();
 
   useEffect(() => {
     if (itemId) {
@@ -52,22 +55,22 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid container spacing={5}>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'title_en'}
+                label={messages['common.title_en']}
                 value={itemData?.title_en}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'title_bn'}
+                label={messages['common.title_bn']}
                 value={itemData?.title_bn}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'active_status'}
-                value={itemData?.row_status == 1 ? 'active' : 'inactive'}
+                label={messages['common.status']}
+                value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
                 isLoading={isLoading}
               />
             </Grid>

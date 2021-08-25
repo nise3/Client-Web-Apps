@@ -98,6 +98,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -105,9 +106,9 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
+      <Box>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomTextInput
               id='title_en'
               label='Title (En)'
@@ -116,7 +117,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomTextInput
               id='title_bn'
               label='Title (Bn)'
@@ -125,7 +126,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <FormRowStatus
               id='row_status'
               control={control}
