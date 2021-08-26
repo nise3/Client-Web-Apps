@@ -35,12 +35,13 @@ const validationSchema = yup.object().shape({
     .trim()
     .required()
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
+  job_sector_id: yup.string().trim().required(),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
-  job_sector_id: null,
+  job_sector_id: '',
   row_status: '1',
 };
 
