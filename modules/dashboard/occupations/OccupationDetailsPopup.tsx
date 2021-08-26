@@ -7,16 +7,17 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
+import {BusinessCenter} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 type Props = {
-  title: string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
-const OccupationDetailsPopup = ({itemId, title, ...props}: Props) => {
+const OccupationDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,7 +40,12 @@ const OccupationDetailsPopup = ({itemId, title, ...props}: Props) => {
   return (
     <CustomDetailsViewMuiModal
       {...props}
-      title={title}
+      title={
+        <>
+          <BusinessCenter />
+          <IntlMessages id='occupations.label' />
+        </>
+      }
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -68,7 +74,7 @@ const OccupationDetailsPopup = ({itemId, title, ...props}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['occupations.job_sector_title']}
+              label={messages['job_sectors.label']}
               value={itemData?.job_sector_title}
               isLoading={isLoading}
             />

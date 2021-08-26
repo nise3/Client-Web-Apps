@@ -1,4 +1,4 @@
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
@@ -19,9 +19,10 @@ import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import {getAllJobSectors} from '../../../services/organaizationManagement/JobSectorService';
+import {BusinessCenter} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 interface OccupationAddEditPopupProps {
-  title: ReactNode | string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -29,13 +30,14 @@ interface OccupationAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required(),
+  title_en: yup.string().trim().required().label('Title (En)'),
   title_bn: yup
     .string()
     .trim()
     .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  job_sector_id: yup.string().trim().required(),
+    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
+    .label('Title (Bn)'),
+  job_sector_id: yup.string().trim().required().label('Job sector'),
 });
 
 const initialValues = {
@@ -113,6 +115,23 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      title={
+        <>
+          <BusinessCenter />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='occupations.label' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='occupations.label' />}}
+            />
+          )}
+        </>
+      }
+      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -143,7 +162,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
           <Grid item xs={12}>
             <CustomFormSelect
               id='job_sector_id'
-              label={messages['occupations.job_sector_title']}
+              label={messages['job_sectors.label']}
               isLoading={isLoading}
               control={control}
               options={jobSectors}
