@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
@@ -7,6 +6,7 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
+import DetailsRowStatusView from '../../../@softbd/elements/DetailsRowStatusView';
 
 type Props = {
   title: string;
@@ -35,7 +35,7 @@ const OrganizationDetailsPopup = ({itemId, title, ...props}: Props) => {
     }
     setIsLoading(false);
   };
-  console.log('title', title);
+
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -51,46 +51,106 @@ const OrganizationDetailsPopup = ({itemId, title, ...props}: Props) => {
             />
           </>
         }>
-        <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <DetailsInputView
-                label={messages['common.title_en']}
-                value={itemData?.title_en}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <DetailsInputView
-                label={messages['common.title_bn']}
-                value={itemData?.title_bn}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <DetailsInputView
-                label={messages['organization.is_government']}
-                value={
-                  itemData?.is_government == 1
-                    ? (messages['common.yes'] as string)
-                    : (messages['common.no'] as string)
-                }
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <DetailsInputView
-                label={messages['common.status']}
-                value={
-                  itemData?.row_status == 1
-                    ? (messages['common.active'] as string)
-                    : (messages['common.inactive'] as string)
-                }
-                isLoading={isLoading}
-              />
-            </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.title_bn']}
+              value={itemData?.title_bn}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.organization_type']}
+              value={itemData?.organization_types_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.domain']}
+              value={itemData?.domain}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.email']}
+              value={itemData?.email}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.fax_no']}
+              value={itemData?.fax_no}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.mobile']}
+              value={itemData?.mobile}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_name']}
+              value={itemData?.contact_person_name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_mobile']}
+              value={itemData?.contact_person_mobile}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_email']}
+              value={itemData?.contact_person_email}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.contact_person_designation']}
+              value={itemData?.contact_person_designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.description']}
+              value={itemData?.description}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.address']}
+              value={itemData?.address}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <DetailsRowStatusView
+              value={itemData?.row_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+        </Grid>
       </CustomDetailsViewMuiModal>
     </>
   );

@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -45,6 +44,7 @@ const initialValues = {
 
 const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   itemId,
+  refreshDataTable,
   ...props
 }) => {
   const {messages} = useIntl();
@@ -89,16 +89,16 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     if (isEdit && itemId) {
       let response = await updateOrganizationType(itemId, data);
       if (response) {
-        successStack('OrganizationType Updated Successfully');
+        successStack('Organization Type Updated Successfully');
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
       let response = await createOrganizationType(data);
       if (response) {
-        successStack('OrganizationType Created Successfully');
+        successStack('Organization Type Created Successfully');
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     }
   };
@@ -113,49 +113,47 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='title_en'
-              label={messages['common.title_en']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='title_bn'
-              label={messages['common.title_bn']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomCheckbox
-              id='is_government'
-              label={messages['organizationType.is_government']}
-              register={register}
-              errorInstance={errors}
-              checked={checkedIsGovernment}
-              onChange={() => {
-                setCheckedIsGovernment((prevState) => !prevState);
-              }}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormRowStatus
-              id='row_status'
-              control={control}
-              defaultValue={initialValues.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
-      </Box>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_bn'
+            label={messages['common.title_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomCheckbox
+            id='is_government'
+            label={messages['organizationType.is_government']}
+            register={register}
+            errorInstance={errors}
+            checked={checkedIsGovernment}
+            onChange={() => {
+              setCheckedIsGovernment((prevState) => !prevState);
+            }}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };

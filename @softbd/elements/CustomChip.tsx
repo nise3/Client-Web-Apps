@@ -1,5 +1,13 @@
 import React from 'react';
-import {Chip} from '@material-ui/core';
+import {Chip, makeStyles} from '@material-ui/core';
+
+const useStyles = makeStyles(() => {
+  return {
+    chipWrapper: {
+      padding: '15px',
+    },
+  };
+});
 
 type Props = {
   color: 'primary' | 'secondary' | 'default' | undefined;
@@ -8,7 +16,16 @@ type Props = {
 };
 
 const CustomChip = ({color, label, icon}: Props) => {
-  return <Chip icon={icon} size='small' color={color} label={label} />;
+  const classes = useStyles();
+  return (
+    <Chip
+      icon={icon}
+      size='small'
+      color={color}
+      label={label}
+      className={classes.chipWrapper}
+    />
+  );
 };
 
 export default CustomChip;

@@ -4,13 +4,12 @@ import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextInputSkeleton from './Skeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
-import React from 'react';
 
 const useStyles = makeStyles(() => {
   return {
     inputView: {
       fontWeight: Fonts.MEDIUM,
-      fontSize: 16,
+      fontSize: 14,
       width: '100%',
       minHeight: '40px',
       padding: '8px',
@@ -22,7 +21,7 @@ const useStyles = makeStyles(() => {
 
     label: {
       fontWeight: Fonts.BOLD,
-      fontSize: 16,
+      fontSize: 14,
       marginBottom: '5px',
     },
   };
@@ -36,6 +35,7 @@ type Props = {
 
 const DetailsInputView = ({label, value, isLoading}: Props) => {
   const classes = useStyles();
+
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
