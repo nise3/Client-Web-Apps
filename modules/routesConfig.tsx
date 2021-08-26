@@ -49,7 +49,7 @@ const routesConfig: NavItemProps[] = [
         title: 'Organization Type',
         messageId: 'menu.organization_type',
         type: 'item',
-        icon: 'timeline',
+        icon: 'business',
         url: '/dashboard/organization-types',
       },
       {
@@ -57,7 +57,7 @@ const routesConfig: NavItemProps[] = [
         title: 'Organizations',
         messageId: 'menu.organization',
         type: 'item',
-        icon: 'timeline',
+        icon: 'businessCenter',
         url: '/dashboard/organizations',
       },
       {

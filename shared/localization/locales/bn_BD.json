@@ -144,17 +144,10 @@
   "message.contactCreated": "যোগাযোগ সফলভাবে তৈরি হয়েছে!",
   "message.contactUpdated": "যোগাযোগ সফলভাবে আপডেট হয়েছে!",
   "message.labelUpdatedTo": "লেবেল সফলভাবে আপডেট হয়েছে!",
-  "institute.institute_type_title": "প্রতিষ্ঠান সমূহ",
   "organizationType.is_government": "সরকারী?",
-  "organizationType.organization_type_title": "সংস্থ্যার ধরণসমূহ",
-  "organizationType.organization_type_add_title": "সংস্থ্যার ধরণ যুক্ত করুন",
-  "organizationType.organization_type_edit_title": "সংস্থ্যার ধরণ সম্পাদনা করুন",
-  "organizationType.organization_type_view_title": "সংস্থ্যার ধরণের বিস্তারিত",
   "occupations.label": "পেশা",
-  "organization.organization_title": "সংস্থ্যা সমূহ",
-  "organization.organization_add_title": "সংস্থ্যা যুক্ত করুন",
-  "organization.organization_edit_title": "সংস্থ্যা সম্পাদনা করুন",
-  "organization.organization_view_title": "সংস্থ্যার বিস্তারিত",
   "job_sectors.label": "চাকরির খাত",
-  "divisions.label": "বিভাগ"
+  "divisions.label": "বিভাগ",
+  "organization.label": "সংস্থ্যা",
+  "organization_type.label": "সংস্থ্যার ধরন"
 }

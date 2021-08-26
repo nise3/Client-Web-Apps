@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {
@@ -21,9 +21,10 @@ import {
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import {getAllOrganizationTypes} from '../../../services/organaizationManagement/OrganizationTypeService';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {Business} from '@material-ui/icons';
 
 interface OrganizationAddEditPopupProps {
-  title: ReactNode | string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -122,7 +123,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       setIsLoading(true);
       if (isEdit && itemId) {
         let item = await getOrganization(itemId);
-        console.log('item', item);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -178,6 +178,22 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      title={
+        <>
+          <Business />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='organization.label' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='organization.label' />}}
+            />
+          )}
+        </>
+      }
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

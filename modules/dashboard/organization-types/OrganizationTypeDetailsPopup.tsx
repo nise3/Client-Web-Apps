@@ -7,16 +7,17 @@ import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
 import {useIntl} from 'react-intl';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import {Business} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 type Props = {
-  title: string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
-const OrganizationTypeDetailsPopup = ({itemId, title, ...props}: Props) => {
+const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,7 +41,12 @@ const OrganizationTypeDetailsPopup = ({itemId, title, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        title={title}
+        title={
+          <>
+            <Business />
+            <IntlMessages id='organization_type.label' />
+          </>
+        }
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

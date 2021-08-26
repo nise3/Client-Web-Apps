@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -17,9 +17,10 @@ import {
 } from '../../../services/organaizationManagement/OrganizationTypeService';
 import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/Checkbox/CustomCheckbox';
+import {BusinessCenter} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 interface OrganizationTypeAddEditPopupProps {
-  title: ReactNode | string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -106,6 +107,22 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      title={
+        <>
+          <BusinessCenter />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='organization_type.label' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='organization_type.label' />}}
+            />
+          )}
+        </>
+      }
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
