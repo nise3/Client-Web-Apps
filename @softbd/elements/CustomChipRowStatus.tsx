@@ -7,6 +7,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../shared/constants/AppEnums';
 import TextInputSkeleton from './Skeleton/TextInputSkeleton';
+import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 
 const useStyles = makeStyles(() => {
   return {
@@ -22,18 +23,18 @@ const useStyles = makeStyles(() => {
 type Props = {
   value: number;
   isLoading?: boolean;
+  label?: string | MessageFormatElement[];
 };
 
-const DetailsRowStatusView = ({value, isLoading}: Props) => {
+const CustomChipRowStatus = ({value, isLoading, label}: Props) => {
   const classes = useStyles();
 
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <>
-      <FormLabel className={classes.label}>
-        <IntlMessages id={'common.status'} />
-      </FormLabel>
+      {label && <FormLabel className={classes.label}>{label}</FormLabel>}
+
       <CustomChip
         icon={value == 1 ? <CheckCircleOutline /> : <CancelIcon />}
         color={value == 1 ? 'primary' : 'secondary'}
@@ -49,4 +50,4 @@ const DetailsRowStatusView = ({value, isLoading}: Props) => {
   );
 };
 
-export default DetailsRowStatusView;
+export default CustomChipRowStatus;

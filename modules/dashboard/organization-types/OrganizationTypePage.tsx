@@ -14,9 +14,9 @@ import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
 import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
 import OrganizationTypeDetailsPopup from './OrganizationTypeDetailsPopup';
 import CustomChip from '../../../@softbd/elements/CustomChip';
-import {getRowStatusText} from '../../../@softbd/common/helpers';
 import {CheckCircleOutline} from '@material-ui/icons';
 import CancelIcon from '@material-ui/icons/Cancel';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 const OrganizationTypePage = () => {
   const {messages} = useIntl();
@@ -99,15 +99,7 @@ const OrganizationTypePage = () => {
       accessor: 'row_status',
       Cell: (props: any) => {
         let data = props.row.original;
-        return (
-          <CustomChip
-            icon={
-              data.row_status == 1 ? <CheckCircleOutline /> : <CancelIcon />
-            }
-            color={data.row_status == 1 ? 'primary' : 'secondary'}
-            label={getRowStatusText(data.row_status)}
-          />
-        );
+        return <CustomChipRowStatus value={data?.row_status} />;
       },
     },
     {
