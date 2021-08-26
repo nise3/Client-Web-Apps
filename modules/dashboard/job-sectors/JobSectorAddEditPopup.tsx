@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import {
   createJobSector,
@@ -26,12 +25,13 @@ interface JobSectorAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required(),
+  title_en: yup.string().trim().required().label('Title (En)'),
   title_bn: yup
     .string()
     .trim()
     .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
+    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
+    .label('Title (Bn)'),
   row_status: yup.string().trim().required(),
 });
 
@@ -43,6 +43,7 @@ const initialValues = {
 
 const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   itemId,
+  refreshDataTable,
   ...props
 }) => {
   const {successStack} = useNotiStack();
@@ -81,16 +82,16 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     if (isEdit && itemId) {
       let response = await updateJobSector(itemId, data);
       if (response) {
-        successStack('JobSector Updated Successfully');
+        successStack('Job Sector Updated Successfully');
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
       let response = await createJobSector(data);
       if (response) {
-        successStack('JobSector Created Successfully');
+        successStack('Job Sector Created Successfully');
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     }
   };
@@ -106,36 +107,34 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='title_en'
-              label='Title (En)'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='title_bn'
-              label='Title (Bn)'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormRowStatus
-              id='row_status'
-              control={control}
-              defaultValue={initialValues.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_en'
+            label='Title (En)'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
-      </Box>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_bn'
+            label='Title (Bn)'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };

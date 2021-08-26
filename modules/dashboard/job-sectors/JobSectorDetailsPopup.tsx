@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {getJobSector} from '../../../services/organaizationManagement/JobSectorService';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
@@ -40,6 +39,7 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
+        maxWidth={'sm'}
         {...props}
         title={'View Job Sector'}
         actions={
@@ -51,31 +51,29 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </>
         }>
-        <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-          <Grid container spacing={5}>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.title_en']}
-                value={itemData?.title_en}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.title_bn']}
-                value={itemData?.title_bn}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.status']}
-                value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
-                isLoading={isLoading}
-              />
-            </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.title_bn']}
+              value={itemData?.title_bn}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.status']}
+              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
+              isLoading={isLoading}
+            />
+          </Grid>
+        </Grid>
       </CustomDetailsViewMuiModal>
     </>
   );

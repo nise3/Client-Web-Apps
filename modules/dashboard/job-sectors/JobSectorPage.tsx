@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
@@ -50,9 +50,9 @@ const JobSectorPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable(!isToggleTable);
-  };
+  }, [isToggleTable]);
 
   const columns = [
     {
