@@ -73,6 +73,8 @@
   "common.mobile": "মোবাইল নাম্বার",
   "common.email": "ইমেইল",
   "common.fax_no": "ফ্যাক্স নাম্বার",
+  "common.address": "ঠিকানা",
+  "common.organization_type": "সংস্থ্যার ধরন",
   "common.contact_person_name": "কন্টাক্ট পারসনের নাম",
   "common.contact_person_mobile": "কন্টাক্ট পারসনের মোবাইল নাম্বার",
   "common.contact_person_email": "কন্টাক্ট পারসনের ইমেইল",

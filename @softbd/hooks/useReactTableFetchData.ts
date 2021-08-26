@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import __ from 'lodash';
 import {useAsyncDebounce} from 'react-table';
 import {apiGet} from '../common/api';
+import {catchBlockHandler} from '../common/helpers';
 
 export const countPaginatePage = (
   totalData: number,
@@ -85,7 +86,10 @@ const useReactTableFetchData = ({
         .catch(
           typeof onError === 'function'
             ? onError
-            : (e: any) => console.log(e.message),
+            : (e: any) => {
+                catchBlockHandler(e);
+                console.log(e.message);
+              },
         )
         .finally(() => setLoading(false));
     },

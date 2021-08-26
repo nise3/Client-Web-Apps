@@ -1,12 +1,10 @@
 import moment from 'moment';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import React from 'react';
 
 export const catchBlockHandler = (error: any, message = '') => {
-  console.log('catchBlockHandler', error);
-  // notification.error({
-  //     message: message || error.message,
-  // });
+  //const {errorStack} = useNotiStack();
+  //console.log('catchBlockHandler', error);
+  //errorStack(message || error.message);
 };
 
 export const getGenderText = (genderCode: string): string => {

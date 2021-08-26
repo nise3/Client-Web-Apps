@@ -17,7 +17,6 @@ import {
   updateOrganization,
 } from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
-import CustomTextArea from '../../../@softbd/elements/Input/CustomTextArea';
 
 interface OrganizationAddEditPopupProps {
   title: ReactNode | string;
@@ -131,6 +130,15 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              id='organization_type_id'
+              label={messages['common.organization_type']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
               id='domain'
               label={messages['common.domain']}
               register={register}
@@ -192,7 +200,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomTextInput
               id='contact_person_designation'
               label={messages['common.contact_person_designation']}
@@ -201,22 +209,26 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomTextInput
-              id='contact_person_designation'
-              label={messages['common.contact_person_designation']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextArea
               id='description'
               label={messages['common.description']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
+              multiline={true}
+              rows={4}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomTextInput
+              id='address'
+              label={messages['common.address']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              multiline={true}
+              rows={4}
             />
           </Grid>
 
