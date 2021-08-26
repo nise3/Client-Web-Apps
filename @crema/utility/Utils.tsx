@@ -4,10 +4,6 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 import {Breakpoint} from '@material-ui/core/styles/createBreakpoints';
 import moment from 'moment';
 import {useIntl} from 'react-intl';
-import {
-  FilterData,
-  ProductData,
-} from '../../types/models/ecommerce/EcommerceApp';
 
 type BreakpointOrNull = Breakpoint | null;
 
@@ -79,8 +75,8 @@ export const getBreakPointsValue = (valueSet: any, breakpoint: string) => {
 };
 
 export const multiPropsFilter = (
-  products: ProductData[],
-  filters: FilterData,
+  products: any[],
+  filters: any,
   stringKey = 'title',
 ) => {
   const filterKeys = Object.keys(filters);

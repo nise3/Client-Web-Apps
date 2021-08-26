@@ -1,8 +1,5 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {
-  API_DISTRICTS,
-  ORGANIZATION_SERVICE_PATH,
-} from '../../@softbd/common/apiRoutes';
+import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_ORGANIZATION_UNITS =

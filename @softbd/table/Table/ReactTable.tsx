@@ -149,10 +149,6 @@ export default function ReactTable<T extends object>({
   hideToolbar = false,
   ...props
 }: any): ReactElement {
-  const devices = {
-    desktop: true, // use MUI breaking point here.
-    phone: false,
-  };
   const isServerSideTable = typeof fetchData !== 'undefined';
 
   const classes: any = useStyles();
@@ -212,12 +208,7 @@ export default function ReactTable<T extends object>({
     // setAllFilters, // to reset filter manually.
     prepareRow,
     state: {pageIndex, pageSize, sortBy, filters},
-    canPreviousPage,
-    canNextPage,
     pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
   } = instance;
 
   React.useEffect(() => {
@@ -225,7 +216,6 @@ export default function ReactTable<T extends object>({
       fetchData({pageIndex, pageSize, sortBy, filters});
     }
   }, [fetchData, pageIndex, pageSize, sortBy, filters, toggleResetTable]);
-
   return (
     <>
       <Grid container>
@@ -239,9 +229,8 @@ export default function ReactTable<T extends object>({
               />
             )}
             {!hideToolbar && <FilterChipBar<T> instance={instance} />}
-            {/* @ts-ignore */}
             <Table
-              {...getTableProps()}
+              {...(getTableProps() as any)}
               size='small'
               aria-label='a dense table'
               className={classes.tableRoot}>
@@ -265,7 +254,7 @@ export default function ReactTable<T extends object>({
               {loading ? (
                 <TableSkeleton columnNumbers={headerGroups[0].headers.length} />
               ) : (
-                <TableBody {...getTableBodyProps()}>
+                <TableBody {...(getTableBodyProps() as any)}>
                   {page.map((row) => {
                     prepareRow(row);
                     return (

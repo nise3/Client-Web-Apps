@@ -134,7 +134,8 @@ const GridView: React.FC<GridViewProps> = ({
   if (border) {
     style = {...style, ...borderStyle};
   }
-  useBottomScrollListener(onEndReached, 200);
+  // useBottomScrollListener(onEndReached, 200);
+  useBottomScrollListener(onEndReached);
   return (
     <Box className={classes.gridContainer}>
       <Box className={classes.columnRow} style={{...style}} {...rest}>

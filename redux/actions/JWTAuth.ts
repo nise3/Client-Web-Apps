@@ -55,7 +55,7 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
   };
 };
 
-export const loadJWTUser = async (dispatch: Dispatch<AppActions>) => {
+export const loadJWTUser = async (dispatch: Dispatch<AppActions | any>) => {
   dispatch(fetchStart());
   try {
     console.log('res.data loading');
@@ -82,7 +82,7 @@ export const loadJWTUser = async (dispatch: Dispatch<AppActions>) => {
   }
 };
 
-export const setJWTToken = (token: string | null): AppActions => ({
+export const setJWTToken = (token: string | null): AppActions | any => ({
   type: SET_AUTH_TOKEN,
   payload: token,
 });
@@ -100,7 +100,7 @@ const getUserObject = (authUser: any): AuthUser => {
 };
 
 export const onJWTAuthSignout = () => {
-  return (dispatch: Dispatch<AppActions>) => {
+  return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchSuccess());
     setTimeout(() => {
       dispatch({type: SIGNOUT_AUTH_SUCCESS});

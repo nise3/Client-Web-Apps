@@ -18,7 +18,6 @@ import {
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface InstituteAddEditPopupProps {
@@ -220,13 +219,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               label={'Google map source'}
               register={register}
               errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormRowStatus
-              id='row_status'
-              register={register}
               isLoading={isLoading}
             />
           </Grid>

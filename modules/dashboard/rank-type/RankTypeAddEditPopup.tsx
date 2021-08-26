@@ -9,15 +9,12 @@ import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {
   createRankType,
   updateRankType,
 } from '../../../services/instituteManagement/RankTypeService';
-import CustomSelectInput from '../../../@softbd/elements/Input/CustomSelectInput';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 
 interface RankTypeAddEditPopupProps {
   title: ReactNode | string;
@@ -55,7 +52,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Organization | []>([]);
 
   const {
     register,
@@ -84,13 +80,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       setIsLoading(false);
     })();
   }, [itemId]);
-
-  useEffect(() => {
-    (async () => {
-      let organizations = await getAllOrganizations();
-      setOrganizations(organizations);
-    })();
-  }, []);
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
@@ -141,30 +130,12 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <CustomSelectInput
-              id={'organization_id'}
-              label={'Organization'}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-              options={organizations}
-            />
-          </Grid>
-          <Grid item xs={6}>
             <CustomTextInput
               id='description'
               label='Description'
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormRowStatus
-              id='row_status'
-              register={register}
-              isLoading={isLoading}
-              value={initialValues.row_status}
             />
           </Grid>
         </Grid>

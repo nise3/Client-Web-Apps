@@ -1,6 +1,6 @@
-import { TablePagination as _MuiTablePagination } from '@material-ui/core';
-import React, { PropsWithChildren, ReactElement, useCallback } from 'react';
-import { TableInstance } from 'react-table';
+import {TablePagination as _MuiTablePagination} from '@material-ui/core';
+import React, {PropsWithChildren, ReactElement, useCallback} from 'react';
+import {TableInstance} from 'react-table';
 
 const rowsPerPageOptions = [5, 10, 25, 50];
 
@@ -14,25 +14,35 @@ const interestingPropsEqual = (prevProps: any, nextProps: any) =>
 
 // a bit of a type hack to keep OverridableComponent working as desired
 type T = typeof _MuiTablePagination;
-const MuiTablePagination: T = React.memo(_MuiTablePagination, interestingPropsEqual) as T;
+const MuiTablePagination: T = React.memo(
+  _MuiTablePagination,
+  interestingPropsEqual,
+) as T;
 
 export function TablePagination<T extends object>({
-  instance
-}: PropsWithChildren<{ instance: TableInstance<T> }>): ReactElement | null {
+  instance,
+}: PropsWithChildren<{instance: TableInstance<T>}>): ReactElement | null {
   const {
-    state: { pageIndex, pageSize, rowCount },
+    state: {pageIndex, pageSize, rowCount},
+    // @ts-ignore
     canPreviousPage,
+    // @ts-ignore
     canNextPage,
+    // @ts-ignore
     pageOptions,
     setPageSize,
+    // @ts-ignore
     pageCount,
     gotoPage,
     nextPage,
-    previousPage
+    previousPage,
   } = instance;
 
   const handleChangePage = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
+    (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+      newPage: number,
+    ) => {
       if (newPage === pageIndex + 1) {
         nextPage();
       } else if (newPage === pageIndex - 1) {
@@ -41,25 +51,28 @@ export function TablePagination<T extends object>({
         gotoPage(newPage);
       }
     },
-    [gotoPage, nextPage, pageIndex, previousPage]
+    [gotoPage, nextPage, pageIndex, previousPage],
   );
 
   const onChangeRowsPerPage = useCallback(
     (e) => {
       setPageSize(Number(e.target.value));
     },
-    [setPageSize]
+    [setPageSize],
   );
 
   return pageSize ? (
-    <MuiTablePagination
-      rowsPerPageOptions={rowsPerPageOptions}
-      component='div'
-      count={rowCount}
-      rowsPerPage={pageSize}
-      page={pageIndex}
-      onChangePage={handleChangePage}
-      onChangeRowsPerPage={onChangeRowsPerPage}
-    />
+    <>
+      {/* @ts-ignore */}
+      <MuiTablePagination
+        rowsPerPageOptions={rowsPerPageOptions}
+        component='div'
+        count={rowCount}
+        rowsPerPage={pageSize}
+        page={pageIndex}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={onChangeRowsPerPage}
+      />
+    </>
   ) : null;
 }

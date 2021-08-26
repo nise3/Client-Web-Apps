@@ -15,6 +15,7 @@ import JobSectorAddEditPopup from './JobSectorAddEditPopup';
 import {WorkOutline} from '@material-ui/icons';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
@@ -71,6 +72,14 @@ const JobSectorPage = () => {
     {
       Header: messages['common.title_bn'],
       accessor: 'title_bn',
+    },
+    {
+      Header: messages['common.status'],
+      accessor: 'row_status',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return <CustomChipRowStatus value={data?.row_status} />;
+      },
     },
     {
       Header: messages['common.actions'],
