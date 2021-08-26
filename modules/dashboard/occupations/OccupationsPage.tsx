@@ -4,7 +4,7 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {useIntl} from 'react-intl';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
@@ -78,17 +78,14 @@ const OccupationsPage = () => {
       Cell: (props: any) => {
         let data = props.row.original;
         return (
-          <ButtonGroup
-            variant='text'
-            color='primary'
-            aria-label='text primary button group'>
+          <DatatableButtonGroup>
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
               deleteAction={() => deleteOccupationItem(data.id)}
               deleteTitle='Are you sure?'
             />
-          </ButtonGroup>
+          </DatatableButtonGroup>
         );
       },
       sortable: false,

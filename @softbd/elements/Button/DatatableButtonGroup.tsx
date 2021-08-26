@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {ButtonGroup} from '@material-ui/core';
 
 interface Props {
   children: React.ReactNode;
