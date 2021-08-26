@@ -128,8 +128,8 @@ const OccupationsPage = () => {
               key={1}
               title={
                 occupationId
-                  ? [messages['occupations.occupation_add_title']]
-                  : [messages['occupations.occupation_edit_title']]
+                  ? [messages['occupations.occupation_edit_title']]
+                  : [messages['occupations.occupation_add_title']]
               }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}

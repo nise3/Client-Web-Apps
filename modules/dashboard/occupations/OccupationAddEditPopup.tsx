@@ -18,6 +18,7 @@ import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
+import {getAllJobSectors} from '../../../services/organaizationManagement/JobSectorService';
 
 interface OccupationAddEditPopupProps {
   title: ReactNode | string;
@@ -66,6 +67,8 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
+      await loadJobSectors();
+
       if (isEdit && itemId) {
         let item = await getOccupation(itemId);
         reset({
@@ -99,6 +102,11 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
         props.refreshDataTable();
       }
     }
+  };
+
+  const loadJobSectors = async () => {
+    let jobSectors = await getAllJobSectors();
+    setJobSectors(jobSectors);
   };
 
   return (
@@ -140,6 +148,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
               options={jobSectors}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
             />
           </Grid>
           <Grid item xs={12}>
