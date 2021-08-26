@@ -1,24 +1,23 @@
 import React, {useState} from 'react';
-import AppAnimate from '../../../@crema/core/AppAnimate';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {deleteOccupation} from '../../../services/organaizationManagement/OccupationService';
-import OccupationAddEditPopup from './OccupationAddEditPopup';
-import OccupationDetailsPopup from './OccupationDetailsPopup';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
-import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import {CORE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import AppAnimate from '../../../@crema/core/AppAnimate';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import AddButton from '../../../@softbd/elements/Button/AddButton';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import {deleteDivision} from '../../../services/locationManagement/DivisionService';
+import DivisionAddEditPopup from './DivisionAddEditPopup';
+import DivisionDetailsPopup from './DivisionDetailsPopup';
 
-const OccupationsPage = () => {
+const DivisionsPage = () => {
   const {messages} = useIntl();
 
-  const [occupationId, setOccupationId] = useState<number | null>(null);
+  const [divisionId, setDivisionId] = useState<number | null>(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -26,26 +25,26 @@ const OccupationsPage = () => {
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setOccupationId(null);
+    setDivisionId(null);
   };
 
-  const openAddEditModal = (occupationId: number | null = null) => {
+  const openAddEditModal = (divisionId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setOccupationId(occupationId);
+    setDivisionId(divisionId);
   };
 
-  const openDetailsModal = (occupationId: number) => {
+  const openDetailsModal = (divisionId: number) => {
     setIsOpenDetailsModal(true);
-    setOccupationId(occupationId);
+    setDivisionId(divisionId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteOccupationItem = async (occupationId: number) => {
-    let data = await deleteOccupation(occupationId);
+  const deleteDivisionItem = async (divisionId: number) => {
+    let data = await deleteDivision(divisionId);
     if (data) {
       refreshDataTable();
     }
@@ -71,16 +70,8 @@ const OccupationsPage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['job_sectors.label'],
-      accessor: 'job_sector_title',
-    },
-    {
-      Header: messages['common.status'],
-      accessor: 'row_status',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return <CustomChipRowStatus value={data?.row_status} />;
-      },
+      Header: messages['common.bbs_code'],
+      accessor: 'bbs_code',
     },
     {
       Header: messages['common.actions'],
@@ -91,7 +82,7 @@ const OccupationsPage = () => {
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
-              deleteAction={() => deleteOccupationItem(data.id)}
+              deleteAction={() => deleteDivisionItem(data.id)}
               deleteTitle='Are you sure?'
             />
           </DatatableButtonGroup>
@@ -102,7 +93,7 @@ const OccupationsPage = () => {
   ];
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/occupations',
+    urlPath: CORE_SERVICE_PATH + '/divisions',
     dataAccessor: 'data',
     filters: {
       title_en: 'title_en',
@@ -114,7 +105,7 @@ const OccupationsPage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['occupations.label']}
+          title={messages['divisions.label']}
           extra={[
             <AddButton
               key={1}
@@ -133,19 +124,19 @@ const OccupationsPage = () => {
             toggleResetTable={isToggleTable}
           />
           {isOpenAddEditModal && (
-            <OccupationAddEditPopup
+            <DivisionAddEditPopup
               key={1}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={occupationId}
+              itemId={divisionId}
               refreshDataTable={refreshDataTable}
             />
           )}
 
           {isOpenDetailsModal && (
-            <OccupationDetailsPopup
+            <DivisionDetailsPopup
               key={1}
-              itemId={occupationId}
+              itemId={divisionId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}
@@ -157,4 +148,4 @@ const OccupationsPage = () => {
   );
 };
 
-export default OccupationsPage;
+export default DivisionsPage;

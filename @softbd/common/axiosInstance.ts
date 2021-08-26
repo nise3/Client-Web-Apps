@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
 
     if (urlPath == 'institute') {
       apiToken = token.instituteApi;
-    } else if (urlPath == 'core-api') {
+    } else if (urlPath == 'core') {
       apiToken = token.coreApi;
     } else if (urlPath == 'org') {
       apiToken = token.orgApi;

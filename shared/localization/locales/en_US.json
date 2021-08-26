@@ -12,6 +12,7 @@
   "common.read_btn": "Read",
   "common.edit_btn": "Edit",
   "common.delete_btn": "Delete",
+  "common.bbs_code": "BBS Code",
   "button.click_me": "Click Me",
   "error.404Error": "404 Error",
   "error.message1": "We can't find the page that",
@@ -33,6 +34,10 @@
   "menu.pages": "Pages",
   "menu.institute": "Institute",
   "menu.occupations": "Occupation",
+  "menu.location": "Location",
+  "menu.division": "Division",
+  "menu.district": "District",
+  "menu.upazila": "Upazila",
   "customizer.modern": "Modern",
   "customizer.standard": "Standard",
   "customizer.extension": "extension",
@@ -66,9 +71,6 @@
   "message.contactCreated": "Contact created successfully!",
   "message.contactUpdated": "Contact updated successfully!",
   "message.labelUpdatedTo": "Label Updated successfully!",
-  "occupations.occupation_title": "Occupations",
-  "occupations.job_sector_title": "Job sector",
-  "occupations.occupation_add_title": "Add Occupation",
-  "occupations.occupation_edit_title": "Edit Occupation",
-  "occupations.occupation_view_title": "Occupation Details"
+  "occupations.label": "Occupation",
+  "divisions.label": "Division"
 }
