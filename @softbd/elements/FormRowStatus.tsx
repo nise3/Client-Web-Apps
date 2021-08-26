@@ -33,7 +33,7 @@ const FormRowStatus = ({
     <FormControl component='fieldset'>
       <FormLabel component='legend'>{messages['common.status']}</FormLabel>
       <Controller
-        render={({field: {onChange, value = defaultValue}}) => (
+        render={({field: {onChange, value = defaultValue.toString()}}) => (
           <RadioGroup
             row
             aria-label={id}

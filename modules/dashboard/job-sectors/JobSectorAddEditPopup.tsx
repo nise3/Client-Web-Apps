@@ -7,7 +7,7 @@ import {
 } from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -15,9 +15,10 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 interface JobSectorAddEditPopupProps {
-  title: ReactNode | string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -38,7 +39,6 @@ const validationSchema = yup.object().shape({
 const initialValues = {
   title_en: '',
   title_bn: '',
-  row_status: '1',
 };
 
 const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
@@ -49,6 +49,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentRowStatus, setCurrentRowStatus] = useState<string>('1');
 
   const {
     register,
@@ -68,10 +69,11 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          row_status: item.row_status,
         });
+        setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
+        setCurrentRowStatus('1');
       }
       setIsLoading(false);
     })();
@@ -99,6 +101,22 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      title={
+        <>
+          <WorkOutline />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='job_sectors.label' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='job_sectors.label' />}}
+            />
+          )}
+        </>
+      }
       maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
@@ -130,7 +148,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={initialValues.row_status}
+            defaultValue={currentRowStatus}
             isLoading={isLoading}
           />
         </Grid>

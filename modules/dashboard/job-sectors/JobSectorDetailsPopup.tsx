@@ -8,9 +8,9 @@ import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {useIntl} from 'react-intl';
 import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
 import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 type Props = {
-  title: string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -45,7 +45,7 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
         title={
           <>
             <WorkOutline />
-            {'View Job Sector'}
+            <IntlMessages id='job_sectors.label' />
           </>
         }
         actions={

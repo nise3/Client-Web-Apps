@@ -14,6 +14,7 @@ import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';
 import {WorkOutline} from '@material-ui/icons';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
@@ -101,7 +102,7 @@ const JobSectorPage = () => {
         <PageBlock
           title={
             <>
-              <WorkOutline /> Job Sectors
+              <WorkOutline /> <IntlMessages id='job_sectors.label' />
             </>
           }
           extra={[
@@ -109,6 +110,14 @@ const JobSectorPage = () => {
               key={1}
               onClick={() => openAddEditModal(null)}
               isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['job_sectors.label'],
+                  }}
+                />
+              }
             />,
           ]}>
           <ReactTable
@@ -124,12 +133,6 @@ const JobSectorPage = () => {
           {isOpenAddEditModal && (
             <JobSectorAddEditPopup
               key={1}
-              title={
-                <>
-                  <WorkOutline />
-                  {jobSectorId ? 'Edit Job Sector' : 'Add Job Sector'}
-                </>
-              }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={jobSectorId}
@@ -140,7 +143,6 @@ const JobSectorPage = () => {
           {isOpenDetailsModal && (
             <JobSectorDetailsPopup
               key={1}
-              title={'View job Sector'}
               itemId={jobSectorId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
