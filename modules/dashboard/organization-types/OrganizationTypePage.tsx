@@ -17,6 +17,7 @@ import CustomChip from '../../../@softbd/elements/CustomChip';
 import {CheckCircleOutline} from '@material-ui/icons';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const OrganizationTypePage = () => {
   const {messages} = useIntl();
@@ -77,6 +78,8 @@ const OrganizationTypePage = () => {
     {
       Header: messages['organizationType.is_government'],
       accessor: 'is_government',
+      disableFilters: true,
+      disableSortBy: true,
       Cell: (props: any) => {
         let data = props.row.original;
         return (
@@ -124,18 +127,30 @@ const OrganizationTypePage = () => {
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
     dataAccessor: 'data',
+    filters: {
+      title_en: 'title_en',
+      title_bn: 'title_bn',
+    },
   });
 
   return (
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['organizationType.organization_type_title']}
+          title={messages['organization_type.label']}
           extra={[
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
               isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['organization_type.label'],
+                  }}
+                />
+              }
             />,
           ]}>
           <ReactTable
@@ -151,11 +166,6 @@ const OrganizationTypePage = () => {
           {isOpenAddEditModal && (
             <OrganizationTypeAddEditPopup
               key={1}
-              title={
-                organizationTypeId
-                  ? [messages['organizationType.organization_type_add_title']]
-                  : [messages['organizationType.organization_type_edit_title']]
-              }
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={organizationTypeId}
@@ -166,11 +176,6 @@ const OrganizationTypePage = () => {
           {isOpenDetailsModal && (
             <OrganizationTypeDetailsPopup
               key={1}
-              title={
-                messages[
-                  'organizationType.organization_type_view_title'
-                ] as string
-              }
               itemId={organizationTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
