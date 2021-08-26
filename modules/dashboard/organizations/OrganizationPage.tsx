@@ -13,10 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationAddEditPopup from './OrganizationAddEditPopup';
 import {deleteOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import OrganizationDetailsPopup from './OrganizationDetailsPopup';
-import CustomChip from '../../../@softbd/elements/CustomChip';
-import {getRowStatusText} from '../../../@softbd/common/helpers';
-import {CheckCircleOutline} from '@material-ui/icons';
-import CancelIcon from '@material-ui/icons/Cancel';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 const OrganizationPage = () => {
   const {messages} = useIntl();
@@ -73,6 +70,10 @@ const OrganizationPage = () => {
       accessor: 'title_bn',
     },
     {
+      Header: messages['common.organization_type'],
+      accessor: 'organization_types_title',
+    },
+    {
       Header: messages['common.domain'],
       accessor: 'domain',
     },
@@ -89,15 +90,7 @@ const OrganizationPage = () => {
       accessor: 'row_status',
       Cell: (props: any) => {
         let data = props.row.original;
-        return (
-          <CustomChip
-            icon={
-              data.row_status == 1 ? <CheckCircleOutline /> : <CancelIcon />
-            }
-            color={data.row_status == 1 ? 'primary' : 'secondary'}
-            label={getRowStatusText(data.row_status)}
-          />
-        );
+        return <CustomChipRowStatus value={data?.row_status} />;
       },
     },
     {

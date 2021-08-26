@@ -29,6 +29,7 @@ const CustomCheckbox = ({
     <Typography color={errorInstance[id] ? 'error' : 'inherit'}>
       {label}
       <Checkbox
+        color='primary'
         {...register(id)}
         checked={checked}
         onChange={onChange}

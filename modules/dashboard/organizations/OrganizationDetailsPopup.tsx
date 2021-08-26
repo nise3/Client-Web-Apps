@@ -6,7 +6,7 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
-import DetailsRowStatusView from '../../../@softbd/elements/DetailsRowStatusView';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 type Props = {
   title: string;
@@ -145,8 +145,9 @@ const OrganizationDetailsPopup = ({itemId, title, ...props}: Props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <DetailsRowStatusView
+            <CustomChipRowStatus
               value={itemData?.row_status}
+              label={messages['common.status']}
               isLoading={isLoading}
             />
           </Grid>

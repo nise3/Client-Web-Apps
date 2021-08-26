@@ -122,6 +122,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       setIsLoading(true);
       if (isEdit && itemId) {
         let item = await getOrganization(itemId);
+        console.log('item', item);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -212,6 +213,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             options={organizationTypes}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={6}>
