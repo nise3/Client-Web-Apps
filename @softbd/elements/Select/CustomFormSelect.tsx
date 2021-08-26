@@ -11,10 +11,13 @@ type Props = {
   size?: any;
   control: any;
   options?: Array<any>;
+  errorInstance?: any;
   defaultValue?: number;
   optionValueProp?: any;
   optionTitleProp?: Array<string>;
+  maxHeight?: number;
   onChange?: (e: any) => any;
+  onLazyLoad?: (e: any) => any;
 };
 
 const CustomFormSelect = ({
@@ -23,12 +26,24 @@ const CustomFormSelect = ({
   control,
   label,
   size,
+  errorInstance,
   options,
   defaultValue,
   optionValueProp,
   optionTitleProp,
+  maxHeight,
   onChange: onChangeCallback,
+  onLazyLoad: onScrollCallback,
 }: Props) => {
+  maxHeight = maxHeight ? maxHeight : 400;
+  const onScrollHandler = (event: any) => {
+    if (event.target.scrollTop === event.target.scrollHeight) {
+      /*if (onScrollCallback && typeof onScrollCallback === 'function') {
+        onScrollCallback(e);
+      }*/
+    }
+  };
+
   const getTitle = (
     option: any,
     optionTitleProp: Array<string> | undefined,
@@ -56,6 +71,22 @@ const CustomFormSelect = ({
       <Controller
         render={({field: {onChange, value = defaultValue}}) => (
           <Select
+            MenuProps={
+              onScrollHandler
+                ? {
+                    PaperProps: {
+                      onScroll: onScrollHandler,
+                    },
+                    style: {
+                      maxHeight: maxHeight,
+                    },
+                  }
+                : {
+                    style: {
+                      maxHeight: maxHeight,
+                    },
+                  }
+            }
             labelId='select-outlined-label'
             aria-label={id}
             label={label}
