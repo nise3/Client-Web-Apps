@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button} from '@material-ui/core';
-import ControlPointIcon from '@material-ui/icons/ControlPoint';
+import {Fab} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
-import {useIntl} from 'react-intl';
 
 interface Props {
   onClick: () => void;
@@ -11,18 +10,17 @@ interface Props {
 }
 
 const AddButton = ({onClick, className, isLoading}: Props) => {
-  const {messages} = useIntl();
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
-    <Button
-      variant='contained'
-      color={'primary'}
-      startIcon={<ControlPointIcon />}
+    <Fab
+      size='small'
+      color='primary'
       onClick={onClick}
-      className={className}>
-      {messages['common.add']}
-    </Button>
+      className={className}
+      aria-label='add'>
+      <AddIcon />
+    </Fab>
   );
 };
 

@@ -7,6 +7,7 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {useIntl} from 'react-intl';
 import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
+import {WorkOutline} from '@material-ui/icons';
 
 type Props = {
   title: string;
@@ -41,7 +42,12 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
       <CustomDetailsViewMuiModal
         maxWidth={'sm'}
         {...props}
-        title={'View Job Sector'}
+        title={
+          <>
+            <WorkOutline />
+            {'View Job Sector'}
+          </>
+        }
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

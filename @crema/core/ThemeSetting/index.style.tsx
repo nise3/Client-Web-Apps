@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   customizerOption: {
     position: 'absolute',
     right: 0,
-    top: 85,
+    bottom: 20,
     zIndex: 1110,
     [theme.breakpoints.up('xl')]: {
-      top: 125,
+      bottom: 20,
     },
   },
   customizerButton: {

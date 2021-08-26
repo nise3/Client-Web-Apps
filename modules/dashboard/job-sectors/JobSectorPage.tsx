@@ -7,13 +7,13 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';
 import {WorkOutline} from '@material-ui/icons';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
@@ -76,17 +76,14 @@ const JobSectorPage = () => {
       Cell: (props: any) => {
         let data = props.row.original;
         return (
-          <ButtonGroup
-            variant='text'
-            color='primary'
-            aria-label='text primary button group'>
+          <DatatableButtonGroup>
             <ReadButton onClick={() => openDetailsModal(data.id)} />
             <EditButton onClick={() => openAddEditModal(data.id)} />
             <DeleteButton
               deleteAction={() => deleteJobSectorItem(data.id)}
               deleteTitle={'Are you sure?'}
             />
-          </ButtonGroup>
+          </DatatableButtonGroup>
         );
       },
       sortable: false,

@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import Tooltip from '@material-ui/core/Tooltip';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ConfirmationDialog from '../../../@crema/core/ConfirmationDialog';
 import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
+import {FiTrash2} from 'react-icons/fi';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -33,7 +33,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
     <>
       <Tooltip title={<IntlMessages id='common.delete_btn' />}>
         <Button
-          startIcon={<DeleteSharpIcon />}
+          startIcon={<FiTrash2 />}
           onClick={() => setDeleteDialogOpen(true)}
           className={clsx(classes.button, className)}
           {...extra}>
