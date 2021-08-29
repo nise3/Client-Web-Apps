@@ -4,9 +4,9 @@ import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
 
-export const getAllRanks = async () => {
+export const getAllRanks = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_RANKS);
+    let response: any = await apiGet(API_RANKS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

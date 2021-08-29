@@ -4,9 +4,9 @@ import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_TRAINING_CENTERS = INSTITUTE_SERVICE_PATH + '/training-centers';
 
-export const getAllTrainingCenters = async () => {
+export const getAllTrainingCenters = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_TRAINING_CENTERS);
+    let response: any = await apiGet(API_TRAINING_CENTERS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

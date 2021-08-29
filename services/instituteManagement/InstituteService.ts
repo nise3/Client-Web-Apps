@@ -4,9 +4,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 
-export const getAllInstitutes = async () => {
+export const getAllInstitutes = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_INSTITUTES);
+    let response: any = await apiGet(API_INSTITUTES, {params});
     return response.data.data;
   } catch (error) {
     console.log(error);

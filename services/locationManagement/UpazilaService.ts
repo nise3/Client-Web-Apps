@@ -4,9 +4,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
 
-export const getAllUpazilas = async () => {
+export const getAllUpazilas = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_UPAZILAS);
+    let response: any = await apiGet(API_UPAZILAS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

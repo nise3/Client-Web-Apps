@@ -4,9 +4,9 @@ import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programmes';
 
-export const getAllProgrammes = async () => {
+export const getAllProgrammes = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_PROGRAMMES);
+    let response: any = await apiGet(API_PROGRAMMES, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

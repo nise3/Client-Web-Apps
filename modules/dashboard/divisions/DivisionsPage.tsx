@@ -13,6 +13,9 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import {RoomOutlined} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const DivisionsPage = () => {
   const {messages} = useIntl();
@@ -74,6 +77,14 @@ const DivisionsPage = () => {
       accessor: 'bbs_code',
     },
     {
+      Header: messages['common.status'],
+      accessor: 'row_status',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return <CustomChipRowStatus value={data?.row_status} />;
+      },
+    },
+    {
       Header: messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
@@ -105,12 +116,24 @@ const DivisionsPage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['divisions.label']}
+          title={
+            <>
+              <RoomOutlined /> <IntlMessages id='divisions.label' />
+            </>
+          }
           extra={[
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
               isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['divisions.label'],
+                  }}
+                />
+              }
             />,
           ]}>
           <ReactTable

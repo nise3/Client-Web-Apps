@@ -1,25 +1,29 @@
 import React, {FC, useEffect, useState} from 'react';
 import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
+import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
+import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import Grid from '@material-ui/core/Grid';
+import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
-import {
-  createDivision,
-  getDivision,
-  updateDivision,
-} from '../../../services/locationManagement/DivisionService';
-import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import {
+  createUpazila,
+  getUpazila,
+  updateUpazila,
+} from '../../../services/locationManagement/UpazilaService';
+import {RowStatus} from '../../../@softbd/enums/RowStatus';
 
-interface DivisionAddEditPopupProps {
+interface UpazilaAddEditPopupProps {
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -35,16 +39,20 @@ const validationSchema = yup.object().shape({
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
     .label('Title (Bn)'),
   bbs_code: yup.string().trim().required().label('BBS code'),
+  loc_division_id: yup.string().trim().required().label('Division'),
+  loc_district_id: yup.string().trim().required().label('District'),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
   bbs_code: '',
-  row_status: '',
+  row_status: '1',
+  loc_division_id: '',
+  loc_district_id: '',
 };
 
-const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
+const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -53,6 +61,8 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [divisions, setDivisions] = useState<Array<Division>>([]);
+  const [districts, setDistricts] = useState<Array<District>>([]);
 
   const {
     register,
@@ -68,12 +78,14 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getDivision(itemId);
+        let item = await getUpazila(itemId);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
           bbs_code: item.bbs_code,
           row_status: String(item.row_status),
+          loc_division_id: item.loc_division_id,
+          loc_district_id: item.loc_district_id,
         });
       } else {
         reset(initialValues);
@@ -82,18 +94,49 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     })();
   }, [itemId]);
 
-  const onSubmit: SubmitHandler<Division> = async (data: Division) => {
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
+      if (divisions) setDivisions(divisions);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  const loadDistrictsDataByDivision = async (divisionId: number) => {
+    setIsLoading(true);
+    if (divisionId) {
+      let districts = await getAllDistricts({
+        row_status: RowStatus.ACTIVE,
+        division_id: divisionId,
+      });
+      if (districts) {
+        setDistricts(districts);
+      } else {
+        setDistricts([]);
+      }
+    } else {
+      setDistricts([]);
+    }
+    setIsLoading(false);
+  };
+
+  const changeDivisionAction = (value: number) => {
+    loadDistrictsDataByDivision(value);
+  };
+
+  const onSubmit: SubmitHandler<Upazila> = async (data: Upazila) => {
     if (isEdit && itemId) {
-      let response = await updateDivision(itemId, data);
+      let response = await updateUpazila(itemId, data);
       if (response) {
-        successStack('Division Updated Successfully');
+        successStack('Upazila Updated Successfully');
         props.onClose();
         refreshDataTable();
       }
     } else {
-      let response = await createDivision(data);
+      let response = await createUpazila(data);
       if (response) {
-        successStack('Division Created Successfully');
+        successStack('Upazila Created Successfully');
         props.onClose();
         refreshDataTable();
       }
@@ -109,12 +152,12 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='divisions.label' />}}
+              values={{subject: <IntlMessages id='upazilas.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='divisions.label' />}}
+              values={{subject: <IntlMessages id='upazilas.label' />}}
             />
           )}
         </>
@@ -128,6 +171,31 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoading}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={changeDivisionAction}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoading}
+            control={control}
+            options={districts}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
         <Grid item xs={12}>
           <CustomTextInput
             id='title_en'
@@ -168,4 +236,4 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   );
 };
 
-export default DivisionAddEditPopup;
+export default UpazilaAddEditPopup;

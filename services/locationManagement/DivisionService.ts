@@ -4,9 +4,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 
-export const getAllDivisions = async () => {
+export const getAllDivisions = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_DIVISIONS);
+    let response: any = await apiGet(API_DIVISIONS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);
