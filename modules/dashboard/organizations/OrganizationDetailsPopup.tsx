@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
-import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconOrganization from '../../../@softbd/icons/IconOrganization';
 
 type Props = {
   itemId: number | null;
@@ -43,7 +43,7 @@ const OrganizationDetailsPopup = ({itemId, ...props}: Props) => {
         {...props}
         title={
           <>
-            <BusinessCenter />
+            <IconOrganization />
             <IntlMessages id='organization.label' />
           </>
         }

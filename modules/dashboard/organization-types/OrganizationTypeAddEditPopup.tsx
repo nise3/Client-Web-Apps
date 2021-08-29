@@ -17,8 +17,8 @@ import {
 } from '../../../services/organaizationManagement/OrganizationTypeService';
 import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/Checkbox/CustomCheckbox';
-import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -40,7 +40,6 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   is_government: false,
-  row_status: '1',
 };
 
 const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
@@ -54,6 +53,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checkedIsGovernment, setCheckedIsGovernment] =
     useState<boolean>(false);
+  const [currentRowStatus, setCurrentRowStatus] = useState<string>('1');
 
   const {
     control,
@@ -68,16 +68,17 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      if (isEdit && itemId) {
+      if (itemId) {
         let item = await getOrganizationType(itemId);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          row_status: parseInt(item.row_status),
         });
         setCheckedIsGovernment(item.is_government);
+        setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
+        setCurrentRowStatus('1');
       }
       setIsLoading(false);
     })();
@@ -86,8 +87,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<OrganizationType> = async (
     data: OrganizationType,
   ) => {
-    console.log('data', data);
-    if (isEdit && itemId) {
+    if (itemId) {
       let response = await updateOrganizationType(itemId, data);
       if (response) {
         successStack('Organization Type Updated Successfully');
@@ -109,7 +109,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <BusinessCenter />
+          <IconOrganizationType />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -166,7 +166,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={initialValues.row_status}
+            defaultValue={currentRowStatus}
             isLoading={isLoading}
           />
         </Grid>
