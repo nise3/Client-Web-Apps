@@ -14,6 +14,8 @@ import {deleteRankType} from '../../../services/instituteManagement/RankTypeServ
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -113,12 +115,24 @@ const RankTypePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['rank-type.rank_types']}
+          title={
+            <>
+              <WorkOutline /> <IntlMessages id='rank_types.label' />
+            </>
+          }
           extra={[
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
               isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['rank_types.label'],
+                  }}
+                />
+              }
             />,
           ]}>
           <ReactTable
@@ -134,7 +148,6 @@ const RankTypePage = () => {
           {isOpenAddEditModal && (
             <RankTypeAddEditPopup
               key={1}
-              title={rankTypeId ? 'Edit Rank Types' : 'Add Rank Types'}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={rankTypeId}
@@ -145,7 +158,6 @@ const RankTypePage = () => {
           {isOpenDetailsModal && (
             <RankTypeDetailsPopup
               key={1}
-              title={'View Rank Type'}
               itemId={rankTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}

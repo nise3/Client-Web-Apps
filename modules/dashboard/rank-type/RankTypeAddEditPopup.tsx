@@ -19,9 +19,10 @@ import {getAllOrganizations} from '../../../services/organaizationManagement/Org
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 interface RankTypeAddEditPopupProps {
-  title: ReactNode | string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -117,6 +118,23 @@ const setOrganizationState = async () => {
   return (
     <HookFormMuiModal
       {...props}
+      title={
+        <>
+          <WorkOutline />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='rank_types.label' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='rank_types.label' />}}
+            />
+          )}
+        </>
+      }
+      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

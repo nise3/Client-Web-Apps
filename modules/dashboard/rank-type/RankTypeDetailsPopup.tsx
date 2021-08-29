@@ -7,9 +7,10 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getRankType} from '../../../services/instituteManagement/RankTypeService';
 import {useIntl} from 'react-intl';
+import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 type Props = {
-  title: string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -40,7 +41,13 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        title={'View Rank Type'}
+        title={
+          <>
+            <WorkOutline />
+            <IntlMessages id='rank_types.label' />
+          </>
+        }
+        maxWidth={'sm'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
