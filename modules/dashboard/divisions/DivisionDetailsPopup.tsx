@@ -23,11 +23,11 @@ const DivisionDetailsPopup = ({itemId, ...props}: Props) => {
 
   useEffect(() => {
     if (itemId) {
-      setItemState(itemId);
+      setItemToState(itemId);
     }
   }, [itemId]);
 
-  const setItemState = async (itemId: number) => {
+  const setItemToState = async (itemId: number) => {
     setIsLoading(true);
     let division = await getDivision(itemId);
     if (division) {
