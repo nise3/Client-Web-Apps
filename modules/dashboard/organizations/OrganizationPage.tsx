@@ -141,7 +141,7 @@ const OrganizationPage = () => {
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    subject: messages['job_sectors.label'],
+                    subject: messages['organization.label'],
                   }}
                 />
               }

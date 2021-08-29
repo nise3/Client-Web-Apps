@@ -77,6 +77,7 @@ const validationSchema = yup.object().shape({
     .required()
     .label('Organization type designation'),
   address: yup.string().trim().required().label('Address'),
+  row_status: yup.string().trim().required(),
 });
 
 const initialValues = {
@@ -93,7 +94,6 @@ const initialValues = {
   organization_type_id: '',
   address: '',
   description: '',
-  row_status: '1',
 };
 
 const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
@@ -108,6 +108,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const [organizationTypes, setOrganizationTypes] = useState<
     Array<OrganizationType>
   >([]);
+  const [currentRowStatus, setCurrentRowStatus] = useState<string>('1');
+
   const {
     control,
     register,
@@ -121,7 +123,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      if (isEdit && itemId) {
+      if (itemId) {
         let item = await getOrganization(itemId);
         reset({
           title_en: item.title_en,
@@ -137,10 +139,11 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           organization_type_id: item.organization_type_id,
           address: item.address,
           description: item.description,
-          row_status: parseInt(item.row_status),
         });
+        setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
+        setCurrentRowStatus('1');
       }
       setIsLoading(false);
     })();
@@ -158,7 +161,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
-    if (isEdit && itemId) {
+    if (itemId) {
       let response = await updateOrganization(itemId, data);
       if (response) {
         successStack('Organization Updated Successfully');
@@ -331,7 +334,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={initialValues.row_status}
+            defaultValue={currentRowStatus}
             isLoading={isLoading}
           />
         </Grid>
