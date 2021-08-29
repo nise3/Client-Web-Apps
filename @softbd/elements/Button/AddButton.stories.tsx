@@ -15,7 +15,12 @@ const Template: ComponentStory<typeof AddButton> = (args) => (
   <AddButton {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const WithTooltip = Template.bind({});
+WithTooltip.args = {
   tooltip: 'Add new',
+};
+
+export const WithIsLoading = Template.bind({});
+WithIsLoading.args = {
+  isLoading: true,
 };
