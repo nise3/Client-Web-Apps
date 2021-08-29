@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
@@ -50,10 +50,12 @@ const JobSectorPage = () => {
   const deleteJobSectorItem = async (jobSectorId: number) => {
     let response = await deleteJobSector(jobSectorId);
     if (response) {
-      successStack(  <IntlMessages
-        id='common.subject_deleted_successfully'
-        values={{subject: <IntlMessages id='job_sectors.label' />}}
-      />);
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='job_sectors.label' />}}
+        />,
+      );
       refreshDataTable();
     }
   };
@@ -62,7 +64,7 @@ const JobSectorPage = () => {
     setIsToggleTable(!isToggleTable);
   }, [isToggleTable]);
 
-  const columns = [
+  const columns = useRef([
     {
       Header: '#',
       disableFilters: true,
@@ -104,7 +106,7 @@ const JobSectorPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/job-sectors',
@@ -136,7 +138,7 @@ const JobSectorPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}

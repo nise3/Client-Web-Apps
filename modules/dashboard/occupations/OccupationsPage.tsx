@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
@@ -53,11 +53,11 @@ const OccupationsPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable(!isToggleTable);
-  };
+  }, [isToggleTable]);
 
-  const columns = [
+  const columns = useRef([
     {
       Header: messages['common.id'],
       accessor: 'id',
@@ -101,7 +101,7 @@ const OccupationsPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/occupations',
@@ -137,7 +137,7 @@ const OccupationsPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}

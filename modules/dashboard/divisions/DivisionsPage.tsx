@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
@@ -52,9 +52,9 @@ const DivisionsPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable(!isToggleTable);
-  };
+  }, [isToggleTable]);
 
   const columns = useRef([
     {

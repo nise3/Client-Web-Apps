@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
@@ -54,11 +54,11 @@ const UpazilasPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable(!isToggleTable);
-  };
+  }, [isToggleTable]);
 
-  const columns = [
+  const columns = useRef([
     {
       Header: messages['common.id'],
       accessor: 'id',
@@ -111,7 +111,7 @@ const UpazilasPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: CORE_SERVICE_PATH + '/upazilas',
@@ -147,7 +147,7 @@ const UpazilasPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}
