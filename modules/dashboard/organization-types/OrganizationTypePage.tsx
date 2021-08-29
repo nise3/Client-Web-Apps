@@ -128,10 +128,6 @@ const OrganizationTypePage = () => {
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
     dataAccessor: 'data',
-    filters: {
-      title_en: 'title_en',
-      title_bn: 'title_bn',
-    },
   });
 
   return (

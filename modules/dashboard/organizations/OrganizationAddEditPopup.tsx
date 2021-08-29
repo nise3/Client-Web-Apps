@@ -153,7 +153,9 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let organizationTypes = await getAllOrganizationTypes();
+      let organizationTypes = await getAllOrganizationTypes({
+        row_status: RowStatus.ACTIVE,
+      });
       if (organizationTypes) {
         setOrganizationTypes(organizationTypes);
       }
