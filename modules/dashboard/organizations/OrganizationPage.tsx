@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
@@ -60,11 +60,11 @@ const OrganizationPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable(!isToggleTable);
-  };
+  }, [isToggleTable]);
 
-  const columns = [
+  const columns = useRef([
     {
       Header: messages['common.id'],
       accessor: 'id',
@@ -122,7 +122,7 @@ const OrganizationPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/organizations',
@@ -154,7 +154,7 @@ const OrganizationPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}

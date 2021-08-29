@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
@@ -53,11 +53,11 @@ const DistrictsPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable(!isToggleTable);
-  };
+  }, [isToggleTable]);
 
-  const columns = [
+  const columns = useRef([
     {
       Header: messages['common.id'],
       accessor: 'id',
@@ -105,7 +105,7 @@ const DistrictsPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: CORE_SERVICE_PATH + '/districts',
@@ -141,7 +141,7 @@ const DistrictsPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}
