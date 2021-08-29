@@ -16,9 +16,11 @@ import {WorkOutline} from '@material-ui/icons';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [jobSectorId, setJobSectorId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -46,8 +48,12 @@ const JobSectorPage = () => {
   };
 
   const deleteJobSectorItem = async (jobSectorId: number) => {
-    let data = await deleteJobSector(jobSectorId);
-    if (data) {
+    let response = await deleteJobSector(jobSectorId);
+    if (response) {
+      successStack(  <IntlMessages
+        id='common.subject_deleted_successfully'
+        values={{subject: <IntlMessages id='job_sectors.label' />}}
+      />);
       refreshDataTable();
     }
   };

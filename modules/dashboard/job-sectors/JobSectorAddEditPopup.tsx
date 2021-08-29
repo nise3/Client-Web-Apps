@@ -17,7 +17,6 @@ import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {RowStatus} from '../../../@softbd/enums/RowStatus';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -40,6 +39,7 @@ const validationSchema = yup.object().shape({
 const initialValues = {
   title_en: '',
   title_bn: '',
+  row_status: '1',
 };
 
 const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
@@ -50,7 +50,6 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currentRowStatus, setCurrentRowStatus] = useState<string>('1');
 
   const {
     register,
@@ -70,17 +69,17 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
+          row_status: String(item?.row_status)
         });
-        setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
-        setCurrentRowStatus(RowStatus.ACTIVE);
       }
       setIsLoading(false);
     })();
   }, [itemId, reset]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+    console.log("data", data);
     if (isEdit && itemId) {
       let response = await updateJobSector(itemId, data);
       if (response) {
@@ -154,7 +153,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={currentRowStatus}
+            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>
@@ -162,4 +161,5 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
+
 export default JobSectorAddEditPopup;

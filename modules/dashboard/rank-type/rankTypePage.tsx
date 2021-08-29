@@ -16,9 +16,11 @@ import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [rankTypeId, setRankTypeId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -46,8 +48,12 @@ const RankTypePage = () => {
   };
 
   const deleteRankTypeItem = async (rankTypeId: number) => {
-    let data = await deleteRankType(rankTypeId);
-    if (data) {
+    let response = await deleteRankType(rankTypeId);
+    if (response) {
+      successStack(  <IntlMessages
+        id='common.subject_deleted_successfully'
+        values={{subject: <IntlMessages id='job_sectors.label' />}}
+      />);
       refreshDataTable();
     }
   };

@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -101,14 +101,20 @@ const setOrganizationState = async () => {
     if (isEdit && itemId) {
       let response = await updateRankType(itemId, data);
       if (response) {
-        successStack('Rank Type Updated Successfully');
+        successStack(<IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />);
         props.onClose();
         props.refreshDataTable();
       }
     } else {
       let response = await createRankType(data);
       if (response) {
-        successStack('Rank Type Created Successfully');
+        successStack(<IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />);
         props.onClose();
         props.refreshDataTable();
       }
