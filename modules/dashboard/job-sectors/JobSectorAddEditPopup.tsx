@@ -84,7 +84,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
       let response = await updateJobSector(itemId, data);
       if (response) {
         successStack(  <IntlMessages
-          id='common.subject_created_successfully'
+          id='common.subject_updated_successfully'
           values={{subject: <IntlMessages id='job_sectors.label' />}}
         />);
         props.onClose();
@@ -94,7 +94,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
       let response = await createJobSector(data);
       if (response) {
         successStack(  <IntlMessages
-          id='common.subject_updated_successfully'
+          id='common.subject_created_successfully'
           values={{subject: <IntlMessages id='job_sectors.label' />}}
         />);
         props.onClose();
