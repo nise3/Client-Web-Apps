@@ -17,7 +17,7 @@ import {deleteUpazila} from '../../../services/locationManagement/UpazilaService
 import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
 import {ActiveInactiveColumnFilter} from '../../../@softbd/table/Filters/filter';
-import {rowStatus, status} from '../../../@softbd/common/helpers';
+import {status} from '../../../@softbd/common/helpers';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
