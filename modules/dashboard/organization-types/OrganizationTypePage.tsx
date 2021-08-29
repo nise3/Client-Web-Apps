@@ -18,6 +18,7 @@ import {CheckCircleOutline} from '@material-ui/icons';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 
 const OrganizationTypePage = () => {
   const {messages} = useIntl();
@@ -137,7 +138,12 @@ const OrganizationTypePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['organization_type.label']}
+          title={
+            <>
+              <IconOrganizationType />
+              <IntlMessages id='organization_type.label' />
+            </>
+          }
           extra={[
             <AddButton
               key={1}

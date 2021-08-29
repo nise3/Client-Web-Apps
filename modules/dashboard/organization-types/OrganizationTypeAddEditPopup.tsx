@@ -17,8 +17,8 @@ import {
 } from '../../../services/organaizationManagement/OrganizationTypeService';
 import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/Checkbox/CustomCheckbox';
-import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -109,7 +109,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <BusinessCenter />
+          <IconOrganizationType />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

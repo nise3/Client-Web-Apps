@@ -15,6 +15,7 @@ import {deleteOrganization} from '../../../services/organaizationManagement/Orga
 import OrganizationDetailsPopup from './OrganizationDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {Business} from '@material-ui/icons';
 
 const OrganizationPage = () => {
   const {messages} = useIntl();
@@ -131,7 +132,11 @@ const OrganizationPage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['organization.label']}
+          title={
+            <>
+              <Business /> <IntlMessages id='organization.label' />
+            </>
+          }
           extra={[
             <AddButton
               key={1}

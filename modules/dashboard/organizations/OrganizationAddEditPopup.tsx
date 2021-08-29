@@ -22,7 +22,8 @@ import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import {getAllOrganizationTypes} from '../../../services/organaizationManagement/OrganizationTypeService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {Business} from '@material-ui/icons';
+import {RowStatus} from '../../../@softbd/enums/RowStatus';
+import IconOrganization from '../../../@softbd/icons/IconOrganization';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -143,7 +144,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
-        setCurrentRowStatus('1');
+        setCurrentRowStatus(RowStatus.ACTIVE);
       }
       setIsLoading(false);
     })();
@@ -183,7 +184,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <Business />
+          <IconOrganization />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
