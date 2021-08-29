@@ -152,7 +152,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         <Grid item xs={12}>
           <CustomCheckbox
             id='is_government'
-            label={messages['organizationType.is_government']}
+            label={messages['organization_type.is_government']}
             register={register}
             errorInstance={errors}
             checked={checkedIsGovernment}

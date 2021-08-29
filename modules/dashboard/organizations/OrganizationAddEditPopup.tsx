@@ -165,14 +165,24 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     if (itemId) {
       let response = await updateOrganization(itemId, data);
       if (response) {
-        successStack('Organization Updated Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='organization.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createOrganization(data);
       if (response) {
-        successStack('Organization Created Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='organization.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }

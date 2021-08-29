@@ -74,7 +74,7 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['organizationType.is_government']}
+              label={messages['organization_type.is_government']}
               value={
                 itemData?.is_government == 1
                   ? (messages['common.yes'] as string)

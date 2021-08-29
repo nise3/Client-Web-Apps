@@ -16,8 +16,10 @@ import OrganizationDetailsPopup from './OrganizationDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {Business} from '@material-ui/icons';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const OrganizationPage = () => {
+  const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
   const [organizationId, setOrganizationId] = useState<number | null>(null);
@@ -48,6 +50,12 @@ const OrganizationPage = () => {
   const deleteOrganizationItem = async (organizationId: number) => {
     let data = await deleteOrganization(organizationId);
     if (data) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='organization.label' />}}
+        />,
+      );
       refreshDataTable();
     }
   };

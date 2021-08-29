@@ -13,7 +13,7 @@ interface Props {
 
 const AddButton = ({onClick, className, tooltip, isLoading}: Props) => {
   return isLoading ? (
-    <ButtonSkeleton />
+    <ButtonSkeleton isCircle={true} />
   ) : (
     <Tooltip title={tooltip as any}>
       <Fab

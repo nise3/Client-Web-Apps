@@ -77,7 +77,7 @@ const OrganizationTypePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['organizationType.is_government'],
+      Header: messages['organization_type.is_government'],
       accessor: 'is_government',
       disableFilters: true,
       disableSortBy: true,

@@ -1,10 +1,18 @@
 import {Skeleton} from '@material-ui/lab';
 import React from 'react';
 
-const ButtonSkeleton = () => {
+type Props = {
+  isCircle?: boolean;
+};
+
+const ButtonSkeleton = ({isCircle}: Props) => {
   return (
     <>
-      <Skeleton variant="text" height={60} width={100}/>
+      {isCircle ? (
+        <Skeleton variant='circle' width={60} height={60} />
+      ) : (
+        <Skeleton variant='text' height={60} width={100} />
+      )}
     </>
   );
 };
