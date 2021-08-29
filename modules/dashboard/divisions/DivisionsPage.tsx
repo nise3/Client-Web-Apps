@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
@@ -20,34 +20,33 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 const DivisionsPage = () => {
   const {messages} = useIntl();
 
-  const [divisionId, setDivisionId] = useState<number | null>(null);
-
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setDivisionId(null);
+    setSelectedItemId(null);
   };
 
-  const openAddEditModal = (divisionId: number | null = null) => {
+  const openAddEditModal = (selectedItemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setDivisionId(divisionId);
+    setSelectedItemId(selectedItemId);
   };
 
-  const openDetailsModal = (divisionId: number) => {
+  const openDetailsModal = (selectedItemId: number) => {
     setIsOpenDetailsModal(true);
-    setDivisionId(divisionId);
+    setSelectedItemId(selectedItemId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteDivisionItem = async (divisionId: number) => {
-    let data = await deleteDivision(divisionId);
+  const deleteDivisionItem = async (selectedItemId: number) => {
+    let data = await deleteDivision(selectedItemId);
     if (data) {
       refreshDataTable();
     }
@@ -57,7 +56,7 @@ const DivisionsPage = () => {
     setIsToggleTable(!isToggleTable);
   };
 
-  const columns = [
+  const columns = useRef([
     {
       Header: messages['common.id'],
       accessor: 'id',
@@ -101,15 +100,11 @@ const DivisionsPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: CORE_SERVICE_PATH + '/divisions',
     dataAccessor: 'data',
-    filters: {
-      title_en: 'title_en',
-      title_bn: 'title_bn',
-    },
   });
 
   return (
@@ -137,7 +132,7 @@ const DivisionsPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}
@@ -151,7 +146,7 @@ const DivisionsPage = () => {
               key={1}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={divisionId}
+              itemId={selectedItemId}
               refreshDataTable={refreshDataTable}
             />
           )}
@@ -159,7 +154,7 @@ const DivisionsPage = () => {
           {isOpenDetailsModal && (
             <DivisionDetailsPopup
               key={1}
-              itemId={divisionId}
+              itemId={selectedItemId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}

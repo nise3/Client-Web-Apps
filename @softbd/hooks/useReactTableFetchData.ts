@@ -47,16 +47,17 @@ const useReactTableFetchData = ({
         page_size: pageSize,
       };
 
+      let keyedFilters = __.keyBy(filters, (item) => item.id);
       if (
-        typeof mappedFilters !== 'undefined' &&
-        mappedFilters &&
-        Object.keys(mappedFilters).length
+        typeof keyedFilters !== 'undefined' &&
+        keyedFilters &&
+        Object.keys(keyedFilters).length
       ) {
-        let keyedFilters = __.keyBy(filters, (item) => item.id);
-
-        Object.keys(mappedFilters).forEach((item) => {
-          if (keyedFilters.hasOwnProperty(item) && keyedFilters[item].value) {
+        Object.keys(keyedFilters).forEach((item) => {
+          if (mappedFilters?.hasOwnProperty(item) && keyedFilters[item].value) {
             params[mappedFilters[item]] = keyedFilters[item].value;
+          } else if (keyedFilters[item].value) {
+            params[keyedFilters[item]] = keyedFilters[item].value;
           }
         });
       }

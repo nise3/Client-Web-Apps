@@ -6,9 +6,10 @@ import React from 'react';
 const DivisionsPage = asyncComponent(
   () => import('../../../modules/dashboard/divisions/DivisionsPage'),
 );
+
 export default AppPage(() => (
   <>
-    <PageMeta title='Districts' />
+    <PageMeta title='Divisions' />
     <DivisionsPage />
   </>
 ));
