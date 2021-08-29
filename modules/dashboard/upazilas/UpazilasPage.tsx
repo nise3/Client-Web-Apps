@@ -16,6 +16,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteUpazila} from '../../../services/locationManagement/UpazilaService';
 import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
+import {ActiveInactiveColumnFilter} from '../../../@softbd/table/Filters/filter';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
@@ -87,6 +88,7 @@ const UpazilasPage = () => {
     {
       Header: messages['common.status'],
       accessor: 'row_status',
+      Filter: ActiveInactiveColumnFilter,
       Cell: (props: any) => {
         let data = props.row.original;
         return <CustomChipRowStatus value={data?.row_status} />;

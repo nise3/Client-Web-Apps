@@ -1,10 +1,11 @@
 // This is a custom aggregator that
 // takes in an array of values and
 // returns the rounded median
-import { FilterProps, FilterValue, IdType, Row } from 'react-table';
-import { PersonData } from '../utils';
-import React from 'react';
-import { Button, InputLabel, MenuItem, TextField } from '@material-ui/core';
+import {FilterProps, FilterValue, IdType, Row} from 'react-table';
+import {PersonData} from '../utils';
+import React, {useEffect} from 'react';
+import {Button, InputLabel, MenuItem, TextField} from '@material-ui/core';
+import {rowStatus} from '../../common/helpers';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -21,7 +22,7 @@ export function roundedMedian(values: any[]) {
 export function filterGreaterThan(
   rows: Array<Row<any>>,
   id: Array<IdType<any>>,
-  filterValue: FilterValue
+  filterValue: FilterValue,
 ) {
   return rows.filter((row) => {
     const rowValue = row.values[id[0]];
@@ -36,7 +37,7 @@ export function filterGreaterThan(
 filterGreaterThan.autoRemove = (val: any) => typeof val !== 'number';
 
 export function SelectAutoColumnFilter({
-  column: { filterValue, render, setFilter, preFilteredRows, id }
+  column: {filterValue, render, setFilter, preFilteredRows, id},
 }: FilterProps<PersonData>) {
   const options = React.useMemo(() => {
     const options: any = new Set();
@@ -54,8 +55,7 @@ export function SelectAutoColumnFilter({
       value={filterValue || ''}
       onChange={(e) => {
         setFilter(e.target.value || undefined);
-      }}
-    >
+      }}>
       <MenuItem value={''}>All</MenuItem>
       {options.map((option: any, i) => (
         <MenuItem key={i} value={option}>
@@ -67,7 +67,7 @@ export function SelectAutoColumnFilter({
 }
 
 export function SelectBooleanMatchEnableDisableColumnFilter({
-  column: { filterValue, render, setFilter, preFilteredRows, id }
+  column: {filterValue, render, setFilter, preFilteredRows, id},
 }: FilterProps<PersonData>) {
   const options = ['Disable', 'Enable'];
 
@@ -78,8 +78,7 @@ export function SelectBooleanMatchEnableDisableColumnFilter({
       value={filterValue || ''}
       onChange={(e) => {
         setFilter(e.target.value || undefined);
-      }}
-    >
+      }}>
       <MenuItem value={''}>All</MenuItem>
       {options.map((option, i) => (
         <MenuItem key={i} value={option}>
@@ -91,7 +90,7 @@ export function SelectBooleanMatchEnableDisableColumnFilter({
 }
 
 export function SelectStringMatchEnableDisableColumnFilter({
-  column: { filterValue, render, setFilter, preFilteredRows, id }
+  column: {filterValue, render, setFilter, preFilteredRows, id},
 }: FilterProps<PersonData>) {
   const options = ['Disable', 'Enable'];
 
@@ -102,8 +101,7 @@ export function SelectStringMatchEnableDisableColumnFilter({
       value={filterValue || ''}
       onChange={(e) => {
         setFilter(e.target.value || undefined);
-      }}
-    >
+      }}>
       <MenuItem value={''}>All</MenuItem>
       {options.map((option, i) => (
         <MenuItem key={i} value={option}>
@@ -125,19 +123,27 @@ export const getMinMax = (rows: Row<PersonData>[], id: IdType<PersonData>) => {
 };
 
 export function SliderColumnFilter({
-  column: { render, filterValue, setFilter, preFilteredRows, id }
+  column: {render, filterValue, setFilter, preFilteredRows, id},
 }: FilterProps<PersonData>) {
-  const [min, max] = React.useMemo(() => getMinMax(preFilteredRows, id), [id, preFilteredRows]);
+  const [min, max] = React.useMemo(
+    () => getMinMax(preFilteredRows, id),
+    [id, preFilteredRows],
+  );
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+      }}>
       <TextField
         name={id}
         label={render('Header')}
         type='range'
         inputProps={{
           min,
-          max
+          max,
         }}
         value={filterValue || min}
         onChange={(e) => {
@@ -146,9 +152,8 @@ export function SliderColumnFilter({
       />
       <Button
         variant='outlined'
-        style={{ width: 60, height: 36 }}
-        onClick={() => setFilter(undefined)}
-      >
+        style={{width: 60, height: 36}}
+        onClick={() => setFilter(undefined)}>
         Off
       </Button>
     </div>
@@ -176,12 +181,16 @@ export const useActiveElement = () => {
 // filter. It uses two number boxes and filters rows to
 // ones that have values between the two
 export function NumberRangeColumnFilter({
-  column: { filterValue = [], render, preFilteredRows, setFilter, id }
+  column: {filterValue = [], render, preFilteredRows, setFilter, id},
 }: FilterProps<PersonData>) {
-  const [min, max] = React.useMemo(() => getMinMax(preFilteredRows, id), [id, preFilteredRows]);
+  const [min, max] = React.useMemo(
+    () => getMinMax(preFilteredRows, id),
+    [id, preFilteredRows],
+  );
   const focusedElement = useActiveElement();
   const hasFocus =
-    focusedElement && (focusedElement.id === `${id}_1` || focusedElement.id === `${id}_2`);
+    focusedElement &&
+    (focusedElement.id === `${id}_1` || focusedElement.id === `${id}_2`);
   return (
     <>
       <InputLabel htmlFor={id} shrink focused={!!hasFocus}>
@@ -192,21 +201,23 @@ export function NumberRangeColumnFilter({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'baseline',
-          paddingTop: 5
-        }}
-      >
+          paddingTop: 5,
+        }}>
         <TextField
           id={`${id}_1`}
           value={filterValue[0] || ''}
           type='number'
           onChange={(e) => {
             const val = e.target.value;
-            setFilter((old: any[] = []) => [val ? parseInt(val, 10) : undefined, old[1]]);
+            setFilter((old: any[] = []) => [
+              val ? parseInt(val, 10) : undefined,
+              old[1],
+            ]);
           }}
           placeholder={`Min (${min})`}
           style={{
             width: '70px',
-            marginRight: '0.5rem'
+            marginRight: '0.5rem',
           }}
         />
         to
@@ -216,15 +227,48 @@ export function NumberRangeColumnFilter({
           type='number'
           onChange={(e) => {
             const val = e.target.value;
-            setFilter((old: any[] = []) => [old[0], val ? parseInt(val, 10) : undefined]);
+            setFilter((old: any[] = []) => [
+              old[0],
+              val ? parseInt(val, 10) : undefined,
+            ]);
           }}
           placeholder={`Max (${max})`}
           style={{
             width: '70px',
-            marginLeft: '0.5rem'
+            marginLeft: '0.5rem',
           }}
         />
       </div>
     </>
+  );
+}
+
+export function ActiveInactiveColumnFilter({
+  column: {filterValue, render, id},
+}: FilterProps<PersonData>) {
+  const [value, setValue] = React.useState(filterValue || '');
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+  // ensure that reset loads the new value
+  useEffect(() => {
+    setValue(filterValue || '');
+  }, [filterValue]);
+
+  return (
+    <TextField
+      name={id}
+      select
+      label={render('Header')}
+      value={value}
+      variant={'standard'}
+      onChange={handleChange}>
+      {Object.keys(rowStatus).map((option, i) => (
+        <MenuItem key={i} value={option}>
+          {option}
+        </MenuItem>
+      ))}
+    </TextField>
   );
 }
