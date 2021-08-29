@@ -45,6 +45,14 @@ const routesConfig: NavItemProps[] = [
         url: '/dashboard/institutes',
       },
       {
+        id: 'rank_types',
+        title: 'Rank Type',
+        messageId: 'menu.rank_type',
+        type: 'item',
+        icon: 'business',
+        url: '/dashboard/rank-types',
+      },
+      {
         id: 'organization_type',
         title: 'Organization Type',
         messageId: 'menu.organization_type',

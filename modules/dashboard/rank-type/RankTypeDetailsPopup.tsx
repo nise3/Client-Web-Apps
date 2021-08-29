@@ -6,9 +6,11 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getRankType} from '../../../services/instituteManagement/RankTypeService';
+import {useIntl} from 'react-intl';
+import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 type Props = {
-  title: string;
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -18,6 +20,7 @@ type Props = {
 const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {messages} = useIntl();
 
   useEffect(() => {
     if (itemId) {
@@ -38,7 +41,13 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        title={'View Rank Type'}
+        title={
+          <>
+            <WorkOutline />
+            <IntlMessages id='rank_types.label' />
+          </>
+        }
+        maxWidth={'sm'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -55,36 +64,36 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid container spacing={5}>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'title_en'}
+                label={messages['common.title_en']}
                 value={itemData?.title_en}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'title_bn'}
+                label={messages['common.title_bn']}
                 value={itemData?.title_bn}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'Organization'}
-                value={itemData?.organization_id}
+                label={messages['organization.label']}
+                value={itemData?.organization_title_en}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'Description'}
+                label={messages['common.description']}
                 value={itemData?.description}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={'active_status'}
-                value={itemData?.row_status == 1 ? 'active' : 'inactive'}
+                label={messages['common.active_status']}
+                value={itemData?.row_status == 1 ? messages['common.active'] : messages['common.inactive']}
                 isLoading={isLoading}
               />
             </Grid>

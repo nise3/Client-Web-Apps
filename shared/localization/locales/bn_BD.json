@@ -67,6 +67,7 @@
   "common.title_bn": "টাইটেল (বাংলা)",
   "common.actions": "পদক্ষেপ",
   "common.active": "সক্রিয়",
+  "common.active_status": "সক্রিয় অবস্থা",
   "common.inactive": "নিষ্ক্রিয়",
   "common.domain": "ডোমেইন",
   "common.code": "কোড",
@@ -103,6 +104,7 @@
   "menu.pages": "পেজ",
   "menu.institute": "প্রতিষ্ঠান",
   "menu.organization_type": "সংস্থ্যার ধরণ",
+  "menu.rank_type": "পদমর্যাদা ধরণ",
   "menu.organization": "সংস্থ্যা",
   "menu.job_sector": "চাকরির খাত",
   "menu.occupations": "পেশা",
@@ -151,5 +153,9 @@
   "organization.label": "সংস্থ্যা",
   "organization_type.label": "সংস্থ্যার ধরন",
   "districts.label": "জেলা",
-  "upazilas.label": "উপজেলা"
+  "upazilas.label": "উপজেলা",
+  "rank_types.label": "পদমর্যাদার ধরন",
+  "common.subject_created_successfully" : "{subject} সফলভাবে তৈরি করা হয়েছে",
+  "common.subject_updated_successfully" : "{subject} সফলভাবে আপডেট হয়েছে",
+  "common.subject_deleted_successfully" : "{subject} সাফল্যের সাথে মুছে ফেলা হয়েছে"
 }

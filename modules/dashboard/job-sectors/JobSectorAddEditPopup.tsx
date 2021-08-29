@@ -81,18 +81,23 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   }, [itemId, reset]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
-    console.table(data);
     if (isEdit && itemId) {
       let response = await updateJobSector(itemId, data);
       if (response) {
-        successStack('Job Sector Updated Successfully');
+        successStack(  <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='job_sectors.label' />}}
+        />);
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createJobSector(data);
       if (response) {
-        successStack('Job Sector Created Successfully');
+        successStack(  <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='job_sectors.label' />}}
+        />);
         props.onClose();
         refreshDataTable();
       }

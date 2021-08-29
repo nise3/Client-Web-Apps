@@ -13,6 +13,9 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteRankType} from '../../../services/instituteManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import {WorkOutline} from '@material-ui/icons';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -69,15 +72,23 @@ const RankTypePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['common.title_en'],
+      Header: messages['common.description'],
       accessor: 'description',
     },
     {
-      Header: messages['common.title_bn'],
-      accessor: 'organization_id',
+      Header: messages['organization.label'],
+      accessor: 'organization_title_en',
     },
     {
-      Header: 'Actions',
+      Header: messages['common.status'],
+      accessor: 'row_status',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return <CustomChipRowStatus value={data?.row_status} />;
+      },
+    },
+    {
+      Header:  messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (
@@ -104,12 +115,24 @@ const RankTypePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={'Rank Types'}
+          title={
+            <>
+              <WorkOutline /> <IntlMessages id='rank_types.label' />
+            </>
+          }
           extra={[
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
               isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['rank_types.label'],
+                  }}
+                />
+              }
             />,
           ]}>
           <ReactTable
@@ -125,7 +148,6 @@ const RankTypePage = () => {
           {isOpenAddEditModal && (
             <RankTypeAddEditPopup
               key={1}
-              title={rankTypeId ? 'Edit Rank Types' : 'Add Rank Types'}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
               itemId={rankTypeId}
@@ -136,7 +158,6 @@ const RankTypePage = () => {
           {isOpenDetailsModal && (
             <RankTypeDetailsPopup
               key={1}
-              title={'View Rank Type'}
               itemId={rankTypeId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
