@@ -57,7 +57,7 @@ const useReactTableFetchData = ({
           if (mappedFilters?.hasOwnProperty(item) && keyedFilters[item].value) {
             params[mappedFilters[item]] = keyedFilters[item].value;
           } else if (keyedFilters[item].value) {
-            params[keyedFilters[item]] = keyedFilters[item].value;
+            params[item] = keyedFilters[item].value;
           }
         });
       }

@@ -5,7 +5,7 @@ import {FilterProps, FilterValue, IdType, Row} from 'react-table';
 import {PersonData} from '../utils';
 import React, {useEffect} from 'react';
 import {Button, InputLabel, MenuItem, TextField} from '@material-ui/core';
-import {rowStatus} from '../../common/helpers';
+import {status} from '../../common/helpers';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -264,9 +264,9 @@ export function ActiveInactiveColumnFilter({
       value={value}
       variant={'standard'}
       onChange={handleChange}>
-      {Object.keys(rowStatus).map((option, i) => (
-        <MenuItem key={i} value={option}>
-          {option}
+      {status.map((option: any, i: any) => (
+        <MenuItem key={i} value={option.value}>
+          {option.label_en}
         </MenuItem>
       ))}
     </TextField>

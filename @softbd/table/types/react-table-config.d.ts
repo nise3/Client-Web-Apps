@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import {MouseEventHandler} from 'react';
 import {
   TableInstance,
   UseColumnOrderInstanceProps,
@@ -41,7 +41,7 @@ import {
   UseSortByHooks,
   UseSortByInstanceProps,
   UseSortByOptions,
-  UseSortByState
+  UseSortByState,
 } from 'react-table';
 
 declare module 'react-table' {
@@ -108,7 +108,9 @@ declare module 'react-table' {
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
       UseFlexLayoutColumnProps<D>,
-      UseSortByColumnProps<D> {}
+      UseSortByColumnProps<D> {
+    options?: any;
+  }
 
   export interface Cell<D extends object = {}> extends UseGroupByCellProps<D> {}
 

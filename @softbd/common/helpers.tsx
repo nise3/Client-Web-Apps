@@ -150,6 +150,11 @@ export const rowStatus: any = {
   Inactive: 0,
 };
 
+export const status = [
+  {value: 1, label_en: 'Active'},
+  {value: 0, label_en: 'Inactive'},
+];
+
 export const getRowStatusFromText = (text: any) => {
   return rowStatus[text];
 };
