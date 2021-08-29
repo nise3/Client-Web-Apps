@@ -87,6 +87,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
           loc_division_id: item.loc_division_id,
           loc_district_id: item.loc_district_id,
         });
+        loadDistrictsDataByDivision(item.loc_division_id);
       } else {
         reset(initialValues);
       }

@@ -144,3 +144,12 @@ export const getRowStatusText = (rowStatus: number) => {
 };
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export const rowStatus: any = {
+  Active: 1,
+  Inactive: 0,
+};
+
+export const getRowStatusFromText = (text: any) => {
+  return rowStatus[text];
+};
