@@ -17,6 +17,7 @@ import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {RowStatus} from '../../../@softbd/enums/RowStatus';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -73,7 +74,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
         setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
-        setCurrentRowStatus('1');
+        setCurrentRowStatus(RowStatus.ACTIVE);
       }
       setIsLoading(false);
     })();
