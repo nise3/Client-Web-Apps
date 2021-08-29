@@ -19,12 +19,12 @@ type Props = {
 };
 
 const FormRowStatus = ({
-  id,
-  isLoading,
-  control,
-  defaultValue,
-  onChange: onChangeCallback,
-}: Props) => {
+                         id,
+                         isLoading,
+                         control,
+                         defaultValue,
+                         onChange: onChangeCallback,
+                       }: Props) => {
   const {messages} = useIntl();
 
   return isLoading ? (

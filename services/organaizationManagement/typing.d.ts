@@ -6,7 +6,7 @@ type RankType = {
   title_bn: string;
   description?: string;
   organization_title_en?: string;
-  row_status?: number;
+  row_status?: string;
 };
 
 type Rank = {
@@ -18,7 +18,7 @@ type Rank = {
   rank_type_id?: number;
   grade?: string;
   order?: number;
-  row_status: number;
+  row_status?: any;
   created_at?: string;
   updated_at?: string;
 };

@@ -15,6 +15,10 @@ import {
   createRankType,
   updateRankType,
 } from '../../../services/instituteManagement/RankTypeService';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
+import {useIntl} from 'react-intl';
+import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 
 interface RankTypeAddEditPopupProps {
   title: ReactNode | string;
@@ -42,18 +46,21 @@ const initialValues = {
   title_bn: '',
   organization_id: 0,
   description: '',
-  row_status: 1,
+  row_status: '1',
 };
 
 const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   itemId,
   ...props
 }) => {
+  const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [organizations, setOrganizations] = useState<Array<Organization>|[]>([]);
 
   const {
+    control,
     register,
     reset,
     handleSubmit,
@@ -72,7 +79,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           title_bn: item.title_bn,
           organization_id: item.organization_id,
           description: item.description,
-          row_status: item.row_status,
+          row_status: String(item.row_status),
         });
       } else {
         reset(initialValues);
@@ -80,6 +87,14 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       setIsLoading(false);
     })();
   }, [itemId]);
+
+  useEffect(() => {
+    setOrganizationState();
+  }, [])
+
+const setOrganizationState = async () => {
+    setOrganizations(await getAllOrganizations());
+}
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
@@ -114,7 +129,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           <Grid item xs={6}>
             <CustomTextInput
               id='title_en'
-              label='Title (En)'
+              label={messages['common.title_en']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -123,18 +138,38 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           <Grid item xs={6}>
             <CustomTextInput
               id='title_bn'
-              label='Title (Bn)'
+              label={messages['common.title_bn']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoading}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <CustomTextInput
               id='description'
-              label='Description'
+              label={messages['common.description']}
               register={register}
               errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormRowStatus
+              id='row_status'
+              control={control}
+              defaultValue={initialValues.row_status}
               isLoading={isLoading}
             />
           </Grid>

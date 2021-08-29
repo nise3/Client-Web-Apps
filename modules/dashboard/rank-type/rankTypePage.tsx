@@ -13,6 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteRankType} from '../../../services/instituteManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -69,15 +70,23 @@ const RankTypePage = () => {
       accessor: 'title_bn',
     },
     {
-      Header: messages['common.title_en'],
+      Header: messages['common.description'],
       accessor: 'description',
     },
     {
-      Header: messages['common.title_bn'],
-      accessor: 'organization_id',
+      Header: messages['organization.label'],
+      accessor: 'organization_title_en',
     },
     {
-      Header: 'Actions',
+      Header: messages['common.status'],
+      accessor: 'row_status',
+      Cell: (props: any) => {
+        let data = props.row.original;
+        return <CustomChipRowStatus value={data?.row_status} />;
+      },
+    },
+    {
+      Header:  messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (
@@ -104,7 +113,7 @@ const RankTypePage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={'Rank Types'}
+          title={messages['rank-type.rank_types']}
           extra={[
             <AddButton
               key={1}
