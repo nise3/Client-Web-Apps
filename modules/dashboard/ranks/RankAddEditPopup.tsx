@@ -104,12 +104,23 @@ const setRankTypeState = async () => {
     if (organizationId) {
       setRankTypes(await getAllRankTypesBasedOnOrganization(organizationId));
     }else {
-      setOrganizations(await getAllRankTypes());
+      setRankTypes(await getAllRankTypes());
     }
 }
 
   const setOrganizationState = async () => {
     setOrganizations(await getAllOrganizations());
+  }
+
+  const loadRankTypes = (organizationId: number) => {
+    loadRankTypesDataByOrganization(organizationId);
+  }
+
+  const loadRankTypesDataByOrganization = async (organizationId: number) => {
+    let rankTypes = await getAllRankTypesBasedOnOrganization(organizationId);
+    if (rankTypes) {
+      setRankTypes(rankTypes);
+    }
   }
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
@@ -193,6 +204,7 @@ const setRankTypeState = async () => {
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
+              onChange={loadRankTypes}
             />
           </Grid>
           <Grid item xs={6}>
@@ -209,8 +221,17 @@ const setRankTypeState = async () => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='description'
-              label={messages['common.description']}
+              id='display_order'
+              label={messages['ranks.display_order']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id='grade'
+              label={messages['ranks.grade']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
