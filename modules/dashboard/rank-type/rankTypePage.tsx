@@ -88,7 +88,7 @@ const RankTypePage = () => {
       },
     },
     {
-      Header:  messages['common.actions'],
+      Header: messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (
