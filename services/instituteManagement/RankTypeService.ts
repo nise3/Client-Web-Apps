@@ -9,7 +9,16 @@ export const getAllRankTypes = async (params = {}) => {
     let response: any = await apiGet(API_RANK_TYPES, {params});
     return response.data.data;
   } catch (error) {
-    console.log(error);
+    catchBlockHandler(error);
+  }
+};
+
+export const getAllRankTypesBasedOnOrganization = async (params = {}) => {
+  console.log('params:', params);
+  try {
+    let response: any = await apiGet(API_RANK_TYPES, {params});
+    return response.data.data;
+  } catch (error) {
     catchBlockHandler(error);
   }
 };

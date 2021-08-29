@@ -18,7 +18,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
+const RankDetailsPopup = ({itemId, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -104,4 +104,4 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
     </>
   );
 };
-export default RankTypeDetailsPopup;
+export default RankDetailsPopup;

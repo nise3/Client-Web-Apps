@@ -10,9 +10,8 @@ import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {getRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {
-  createRankType,
+  createRankType, getAllRankTypes, getAllRankTypesBasedOnOrganization,
   updateRankType,
 } from '../../../services/instituteManagement/RankTypeService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
@@ -21,8 +20,9 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {getRank} from '../../../services/organaizationManagement/RankService';
 
-interface RankTypeAddEditPopupProps {
+interface RankAddEditPopupProps {
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -46,11 +46,13 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   organization_id: 0,
-  description: '',
+  rank_type_id: 0,
+  display_order: 0,
+  grade: '',
   row_status: '1',
 };
 
-const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
+const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   itemId,
   ...props
 }) => {
@@ -59,6 +61,8 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState<Array<Organization>|[]>([]);
+  const [rankTypes, setRankTypes] = useState<Array<RankType>|[]>([]);
+  const [organizationId, setOrganizationId] = useState<number|null>(null);
 
   const {
     control,
@@ -66,7 +70,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<RankType>({
+  } = useForm<Rank>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -74,12 +78,14 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getRankType(itemId);
+        let item = await getRank(itemId);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
           organization_id: item.organization_id,
-          description: item.description,
+          rank_type_id: item.rank_type_id,
+          grade: item.grade,
+          display_order: item.display_order,
           row_status: String(item.row_status),
         });
       } else {
@@ -91,11 +97,20 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
 
   useEffect(() => {
     setOrganizationState();
+    setRankTypeState();
   }, [])
 
-const setOrganizationState = async () => {
-    setOrganizations(await getAllOrganizations());
+const setRankTypeState = async () => {
+    if (organizationId) {
+      setRankTypes(await getAllRankTypesBasedOnOrganization(organizationId));
+    }else {
+      setOrganizations(await getAllRankTypes());
+    }
 }
+
+  const setOrganizationState = async () => {
+    setOrganizations(await getAllOrganizations());
+  }
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
@@ -103,7 +118,7 @@ const setOrganizationState = async () => {
       if (response) {
         successStack(<IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='ranks.label' />}}
         />);
         props.onClose();
         props.refreshDataTable();
@@ -113,7 +128,7 @@ const setOrganizationState = async () => {
       if (response) {
         successStack(<IntlMessages
           id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='ranks.label' />}}
         />);
         props.onClose();
         props.refreshDataTable();
@@ -130,12 +145,12 @@ const setOrganizationState = async () => {
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='rank_types.label' />}}
+              values={{subject: <IntlMessages id='ranks.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='rank_types.label' />}}
+              values={{subject: <IntlMessages id='ranks.label' />}}
             />
           )}
         </>
@@ -181,6 +196,18 @@ const setOrganizationState = async () => {
             />
           </Grid>
           <Grid item xs={6}>
+            <CustomFormSelect
+              id='rank_type_id'
+              label={messages['rank_types.label']}
+              isLoading={isLoading}
+              control={control}
+              options={rankTypes}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <CustomTextInput
               id='description'
               label={messages['common.description']}
@@ -202,4 +229,4 @@ const setOrganizationState = async () => {
     </HookFormMuiModal>
   );
 };
-export default RankTypeAddEditPopup;
+export default RankAddEditPopup;

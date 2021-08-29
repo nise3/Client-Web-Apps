@@ -154,7 +154,11 @@
   "organization_type.label": "সংস্থার ধরন",
   "districts.label": "জেলা",
   "upazilas.label": "উপজেলা",
+  "ranks.display_order": "প্রদর্শন ক্রম",
+  "ranks.grade": "মান",
+  "ranks.label": "পদমর্যাদা",
   "rank_types.label": "পদমর্যাদার ধরন",
+  "rank.label": "পদমর্যাদা",
   "common.subject_created_successfully" : "{subject} সফলভাবে তৈরি করা হয়েছে",
   "common.subject_updated_successfully" : "{subject} সফলভাবে আপডেট হয়েছে",
   "common.subject_deleted_successfully" : "{subject} সাফল্যের সাথে মুছে ফেলা হয়েছে"
