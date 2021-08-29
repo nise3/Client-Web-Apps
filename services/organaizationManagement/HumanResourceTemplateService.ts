@@ -4,9 +4,9 @@ import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 export const API_HUMAN_RESOURCE_TEMPLATES =
   ORGANIZATION_SERVICE_PATH + '/human-resource-templates';
 
-export const getAllHumanResourceTemplates = async () => {
+export const getAllHumanResourceTemplates = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_HUMAN_RESOURCE_TEMPLATES);
+    let response: any = await apiGet(API_HUMAN_RESOURCE_TEMPLATES, {params});
     return response.data.data;
   } catch (catchBlockHandler) {}
 };

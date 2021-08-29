@@ -3,9 +3,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_COURSES = '/courses';
 
-export const getAllCourses = async () => {
+export const getAllCourses = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_COURSES);
+    let response: any = await apiGet(API_COURSES, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

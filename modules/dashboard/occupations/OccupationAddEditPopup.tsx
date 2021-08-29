@@ -70,14 +70,12 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      await loadJobSectors();
-
       if (isEdit && itemId) {
         let item = await getOccupation(itemId);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          row_status: parseInt(item.row_status),
+          row_status: String(item.row_status),
           job_sector_id: item.job_sector_id,
         });
       } else {
@@ -86,6 +84,15 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
       setIsLoading(false);
     })();
   }, [itemId]);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let jobSectors = await getAllJobSectors();
+      if (jobSectors) setJobSectors(jobSectors);
+      setIsLoading(false);
+    })();
+  }, []);
 
   const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
     console.log('data', data);
@@ -105,11 +112,6 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
         props.refreshDataTable();
       }
     }
-  };
-
-  const loadJobSectors = async () => {
-    let jobSectors = await getAllJobSectors();
-    setJobSectors(jobSectors);
   };
 
   return (

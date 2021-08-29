@@ -4,9 +4,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
 
-export const getAllRankTypes = async () => {
+export const getAllRankTypes = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_RANK_TYPES);
+    let response: any = await apiGet(API_RANK_TYPES, {params});
     return response.data.data;
   } catch (error) {
     console.log(error);

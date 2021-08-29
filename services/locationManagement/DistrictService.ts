@@ -4,20 +4,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 
-export const getAllDistricts = async () => {
+export const getAllDistricts = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_DISTRICTS);
-    return response.data.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-export const getDistrictsByDivision = async (divisionId: number) => {
-  try {
-    let response: any = await apiGet(
-      API_DISTRICTS + '?division_id=' + divisionId,
-    );
+    let response: any = await apiGet(API_DISTRICTS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

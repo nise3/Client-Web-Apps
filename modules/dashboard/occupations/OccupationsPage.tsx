@@ -14,6 +14,8 @@ import OccupationAddEditPopup from './OccupationAddEditPopup';
 import OccupationDetailsPopup from './OccupationDetailsPopup';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {BusinessCenter} from '@material-ui/icons';
 
 const OccupationsPage = () => {
   const {messages} = useIntl();
@@ -114,12 +116,24 @@ const OccupationsPage = () => {
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
         <PageBlock
-          title={messages['occupations.label']}
+          title={
+            <>
+              <BusinessCenter /> <IntlMessages id='occupations.label' />
+            </>
+          }
           extra={[
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
               isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['occupations.label'],
+                  }}
+                />
+              }
             />,
           ]}>
           <ReactTable

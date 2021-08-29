@@ -5,9 +5,9 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 const API_ORGANIZATION_UNITS =
   ORGANIZATION_SERVICE_PATH + '/organization-units';
 
-export const getAllOrganizationUnits = async () => {
+export const getAllOrganizationUnits = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_ORGANIZATION_UNITS);
+    let response: any = await apiGet(API_ORGANIZATION_UNITS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

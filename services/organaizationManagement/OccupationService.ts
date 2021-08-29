@@ -4,9 +4,9 @@ import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 
-export const getAllOccupations = async () => {
+export const getAllOccupations = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_OCCUPATIONS);
+    let response: any = await apiGet(API_OCCUPATIONS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

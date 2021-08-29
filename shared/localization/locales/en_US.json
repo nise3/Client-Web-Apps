@@ -72,5 +72,7 @@
   "message.contactUpdated": "Contact updated successfully!",
   "message.labelUpdatedTo": "Label Updated successfully!",
   "occupations.label": "Occupation",
-  "divisions.label": "Division"
+  "divisions.label": "Division",
+  "districts.label": "District",
+  "upazilas.label": "Upazila"
 }

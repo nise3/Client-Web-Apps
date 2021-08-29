@@ -85,7 +85,7 @@ const CustomFormSelect = ({
                   onChangeCallback &&
                   typeof onChangeCallback === 'function'
                 ) {
-                  onChangeCallback(e);
+                  onChangeCallback(e.target.value);
                 }
               }}>
               <MenuItem value=''>

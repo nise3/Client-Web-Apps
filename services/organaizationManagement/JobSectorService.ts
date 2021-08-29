@@ -4,9 +4,9 @@ import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 
-export const getAllJobSectors = async () => {
+export const getAllJobSectors = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_JOB_SECTORS);
+    let response: any = await apiGet(API_JOB_SECTORS, {params});
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);

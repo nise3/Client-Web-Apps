@@ -7,7 +7,7 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
-import {getDivision} from '../../../services/locationManagement/DivisionService';
+import {getUpazila} from '../../../services/locationManagement/UpazilaService';
 
 type Props = {
   itemId: number | null;
@@ -16,7 +16,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const DivisionDetailsPopup = ({itemId, ...props}: Props) => {
+const UpazilaDetailsPopup = ({itemId, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -29,9 +29,9 @@ const DivisionDetailsPopup = ({itemId, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let division = await getDivision(itemId);
-    if (division) {
-      setItemData(division);
+    let upazila = await getUpazila(itemId);
+    if (upazila) {
+      setItemData(upazila);
     }
     setIsLoading(false);
   };
@@ -44,7 +44,7 @@ const DivisionDetailsPopup = ({itemId, ...props}: Props) => {
         title={
           <>
             <RoomOutlined />
-            <IntlMessages id='divisions.label' />
+            <IntlMessages id='upazilas.label' />
           </>
         }
         actions={
@@ -57,6 +57,20 @@ const DivisionDetailsPopup = ({itemId, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['divisions.label']}
+              value={itemData?.division_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['districts.label']}
+              value={itemData?.district_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_en']}
@@ -95,4 +109,4 @@ const DivisionDetailsPopup = ({itemId, ...props}: Props) => {
   );
 };
 
-export default DivisionDetailsPopup;
+export default UpazilaDetailsPopup;

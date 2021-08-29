@@ -1,9 +1,9 @@
 import React, {FC, useEffect, useState} from 'react';
-import * as yup from 'yup';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
+import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -11,15 +11,18 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import Grid from '@material-ui/core/Grid';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import * as yup from 'yup';
+import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {
-  createDivision,
-  getDivision,
-  updateDivision,
-} from '../../../services/locationManagement/DivisionService';
-import {useIntl} from 'react-intl';
+  createDistrict,
+  getDistrict,
+  updateDistrict,
+} from '../../../services/locationManagement/DistrictService';
+import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import {RowStatus} from '../../../@softbd/enums/RowStatus';
 
-interface DivisionAddEditPopupProps {
+interface DistrictAddEditPopupProps {
   itemId: number | null;
   open: boolean;
   onClose: () => void;
@@ -35,16 +38,18 @@ const validationSchema = yup.object().shape({
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
     .label('Title (Bn)'),
   bbs_code: yup.string().trim().required().label('BBS code'),
+  loc_division_id: yup.string().trim().required().label('Division'),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
   bbs_code: '',
-  row_status: '',
+  row_status: '1',
+  loc_division_id: '',
 };
 
-const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
+const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -53,6 +58,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [divisions, setDivisions] = useState<Array<Division>>([]);
 
   const {
     register,
@@ -68,12 +74,13 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getDivision(itemId);
+        let item = await getDistrict(itemId);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
           bbs_code: item.bbs_code,
           row_status: String(item.row_status),
+          loc_division_id: item.loc_division_id,
         });
       } else {
         reset(initialValues);
@@ -82,18 +89,27 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     })();
   }, [itemId]);
 
-  const onSubmit: SubmitHandler<Division> = async (data: Division) => {
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
+      if (divisions) setDivisions(divisions);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  const onSubmit: SubmitHandler<District> = async (data: District) => {
     if (isEdit && itemId) {
-      let response = await updateDivision(itemId, data);
+      let response = await updateDistrict(itemId, data);
       if (response) {
-        successStack('Division Updated Successfully');
+        successStack('District Updated Successfully');
         props.onClose();
         refreshDataTable();
       }
     } else {
-      let response = await createDivision(data);
+      let response = await createDistrict(data);
       if (response) {
-        successStack('Division Created Successfully');
+        successStack('District Created Successfully');
         props.onClose();
         refreshDataTable();
       }
@@ -109,12 +125,12 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='divisions.label' />}}
+              values={{subject: <IntlMessages id='districts.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='divisions.label' />}}
+              values={{subject: <IntlMessages id='districts.label' />}}
             />
           )}
         </>
@@ -128,6 +144,18 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoading}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
         <Grid item xs={12}>
           <CustomTextInput
             id='title_en'
@@ -168,4 +196,4 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   );
 };
 
-export default DivisionAddEditPopup;
+export default DistrictAddEditPopup;
