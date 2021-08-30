@@ -16,7 +16,6 @@ import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {BusinessCenter} from '@material-ui/icons';
-import {ActiveInactiveColumnFilter} from '../../../@softbd/table/Filters/filter';
 
 const OccupationsPage = () => {
   const {messages} = useIntl();
@@ -80,7 +79,6 @@ const OccupationsPage = () => {
     {
       Header: messages['common.status'],
       accessor: 'row_status',
-      Filter: ActiveInactiveColumnFilter,
       Cell: (props: any) => {
         let data = props.row.original;
         return <CustomChipRowStatus value={data?.row_status} />;

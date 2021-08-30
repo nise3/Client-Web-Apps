@@ -16,7 +16,6 @@ import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {ActiveInactiveColumnFilter} from '../../../@softbd/table/Filters/filter';
 
 const DivisionsPage = () => {
   const {messages} = useIntl();
@@ -79,7 +78,6 @@ const DivisionsPage = () => {
     {
       Header: messages['common.status'],
       accessor: 'row_status',
-      Filter: ActiveInactiveColumnFilter,
       Cell: (props: any) => {
         let data = props.row.original;
         return <CustomChipRowStatus value={data?.row_status} />;
