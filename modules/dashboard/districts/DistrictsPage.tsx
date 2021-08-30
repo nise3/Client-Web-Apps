@@ -4,12 +4,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {CORE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
-import ReadButton from '../../../@softbd/elements/Button/ReadButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
