@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -19,8 +18,8 @@ import {getAllOrganizations} from '../../../services/organaizationManagement/Org
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
-import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconRankType from '../../../@softbd/icons/IconRankType';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -51,14 +50,15 @@ const initialValues = {
 };
 
 const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
-  itemId,
-  ...props
-}) => {
+                                                               itemId,
+                                                               refreshDataTable,
+                                                               ...props
+                                                             }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Array<Organization>|[]>([]);
+  const [organizations, setOrganizations] = useState<Array<Organization> | []>([]);
 
   const {
     control,
@@ -91,11 +91,11 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
 
   useEffect(() => {
     setOrganizationState();
-  }, [])
+  }, []);
 
-const setOrganizationState = async () => {
+  const setOrganizationState = async () => {
     setOrganizations(await getAllOrganizations());
-}
+  };
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
@@ -106,7 +106,7 @@ const setOrganizationState = async () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />);
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
       let response = await createRankType(data);
@@ -116,7 +116,7 @@ const setOrganizationState = async () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />);
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     }
   };
@@ -126,7 +126,7 @@ const setOrganizationState = async () => {
       {...props}
       title={
         <>
-          <WorkOutline />
+          <IconRankType />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -148,58 +148,57 @@ const setOrganizationState = async () => {
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-        <Grid container spacing={5}>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='title_en'
-              label={messages['common.title_en']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='title_bn'
-              label={messages['common.title_bn']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoading}
-              control={control}
-              options={organizations}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='description'
-              label={messages['common.description']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormRowStatus
-              id='row_status'
-              control={control}
-              defaultValue={initialValues.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+      <Grid container spacing={5}>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
-      </Box>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_bn'
+            label={messages['common.title_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='organization_id'
+            label={messages['organization.label']}
+            isLoading={isLoading}
+            control={control}
+            options={organizations}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='description'
+            label={messages['common.description']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };
+
 export default RankTypeAddEditPopup;

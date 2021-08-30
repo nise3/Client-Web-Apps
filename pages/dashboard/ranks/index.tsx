@@ -4,7 +4,7 @@ import AppPage from '../../../@crema/hoc/AppPage';
 import React from 'react';
 
 const RankPage = asyncComponent(
-  () => import('../../../modules/dashboard/ranks/rankPage'),
+  () => import('../../../modules/dashboard/ranks/RankPage'),
 );
 export default AppPage(() => (
   <>
