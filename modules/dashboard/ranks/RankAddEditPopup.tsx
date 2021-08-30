@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -7,22 +6,24 @@ import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
-  createRankType,
   getAllRankTypes,
   getAllRankTypesBasedOnOrganization,
-  updateRankType,
 } from '../../../services/instituteManagement/RankTypeService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
-import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getRank} from '../../../services/organaizationManagement/RankService';
+import {
+  createRank,
+  getRank,
+  updateRank,
+} from '../../../services/organaizationManagement/RankService';
+import IconRank from '../../../@softbd/icons/IconRank';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 
 interface RankAddEditPopupProps {
   itemId: number | null;
@@ -38,8 +39,9 @@ const validationSchema = yup.object().shape({
     .trim()
     .required('Enter title (Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  organization_id: yup.string(),
-  description: yup.string(),
+  organization_id: yup.string().trim().required(),
+  rank_type_id: yup.string().trim().required(),
+  display_order: yup.string(),
   row_status: yup.string(),
 });
 
@@ -49,12 +51,16 @@ const initialValues = {
   title_bn: '',
   organization_id: 0,
   rank_type_id: 0,
-  display_order: 0,
+  display_order: '',
   grade: '',
   row_status: '1',
 };
 
-const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
+const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -80,6 +86,11 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
       setIsLoading(true);
       if (isEdit && itemId) {
         let item = await getRank(itemId);
+        setOrganizationId(item.organization_id);
+        organizationId &&
+          setRankTypes(
+            await getAllRankTypesBasedOnOrganization(organizationId),
+          );
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -90,6 +101,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
           row_status: String(item.row_status),
         });
       } else {
+        setRankTypes(await getAllRankTypes());
         reset(initialValues);
       }
       setIsLoading(false);
@@ -97,11 +109,14 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
   }, [itemId]);
 
   useEffect(() => {
-    setOrganizationState();
-    setRankTypeState();
+    loadAllOrganizations();
   }, []);
 
-  const setRankTypeState = async () => {
+  useEffect(() => {
+    loadAllRankTypes();
+  }, [organizationId]);
+
+  const loadAllRankTypes = async () => {
     if (organizationId) {
       setRankTypes(await getAllRankTypesBasedOnOrganization(organizationId));
     } else {
@@ -109,24 +124,17 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
     }
   };
 
-  const setOrganizationState = async () => {
+  const loadAllOrganizations = async () => {
     setOrganizations(await getAllOrganizations());
   };
 
-  const loadRankTypes = (organizationId: number) => {
-    loadRankTypesDataByOrganization(organizationId);
+  const handleOrganizationChange = (organizationId: any) => {
+    setOrganizationId(organizationId);
   };
 
-  const loadRankTypesDataByOrganization = async (organizationId: number) => {
-    let rankTypes = await getAllRankTypesBasedOnOrganization(organizationId);
-    if (rankTypes) {
-      setRankTypes(rankTypes);
-    }
-  };
-
-  const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
+  const onSubmit: SubmitHandler<Rank> = async (data: Rank) => {
     if (isEdit && itemId) {
-      let response = await updateRankType(itemId, data);
+      let response = await updateRank(itemId, data);
       if (response) {
         successStack(
           <IntlMessages
@@ -135,10 +143,10 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
           />,
         );
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
-      let response = await createRankType(data);
+      let response = await createRank(data);
       if (response) {
         successStack(
           <IntlMessages
@@ -147,7 +155,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
           />,
         );
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     }
   };
@@ -157,7 +165,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
       {...props}
       title={
         <>
-          <WorkOutline />
+          <IconRank />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -179,79 +187,77 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({itemId, ...props}) => {
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-        <Grid container spacing={5}>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='title_en'
-              label={messages['common.title_en']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='title_bn'
-              label={messages['common.title_bn']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoading}
-              control={control}
-              options={organizations}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
-              errorInstance={errors}
-              onChange={loadRankTypes}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='rank_type_id'
-              label={messages['rank_types.label']}
-              isLoading={isLoading}
-              control={control}
-              options={rankTypes}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='display_order'
-              label={messages['ranks.display_order']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='grade'
-              label={messages['ranks.grade']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormRowStatus
-              id='row_status'
-              control={control}
-              defaultValue={initialValues.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+      <Grid container spacing={5}>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
-      </Box>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_bn'
+            label={messages['common.title_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='organization_id'
+            label={messages['organization.label']}
+            isLoading={isLoading}
+            control={control}
+            options={organizations}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={handleOrganizationChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='rank_type_id'
+            label={messages['rank_types.label']}
+            isLoading={isLoading}
+            control={control}
+            options={rankTypes}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='display_order'
+            label={messages['ranks.display_order']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='grade'
+            label={messages['ranks.grade']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };
