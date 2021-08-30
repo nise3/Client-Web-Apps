@@ -1,12 +1,10 @@
 import React, {useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -17,6 +15,8 @@ import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconRankType from '../../../@softbd/icons/IconRankType';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
+import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -50,10 +50,12 @@ const RankTypePage = () => {
   const deleteRankTypeItem = async (rankTypeId: number) => {
     let response = await deleteRankType(rankTypeId);
     if (response) {
-      successStack(  <IntlMessages
-        id='common.subject_deleted_successfully'
-        values={{subject: <IntlMessages id='rank_types.label' />}}
-      />);
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
       refreshDataTable();
     }
   };
@@ -110,7 +112,7 @@ const RankTypePage = () => {
       },
       sortable: false,
     },
-  ])
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/rank-types',
