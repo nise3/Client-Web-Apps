@@ -7,7 +7,7 @@ import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getRankType} from '../../../services/organaizationManagement/RankTypeService';
@@ -58,7 +58,9 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Array<Organization>|[]>([]);
+  const [organizations, setOrganizations] = useState<Array<Organization> | []>(
+    [],
+  );
 
   const {
     control,
@@ -91,30 +93,34 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
 
   useEffect(() => {
     setOrganizationState();
-  }, [])
+  }, []);
 
-const setOrganizationState = async () => {
+  const setOrganizationState = async () => {
     setOrganizations(await getAllOrganizations());
-}
+  };
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
       let response = await updateRankType(itemId, data);
       if (response) {
-        successStack(<IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
-        />);
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='rank_types.label' />}}
+          />,
+        );
         props.onClose();
         props.refreshDataTable();
       }
     } else {
       let response = await createRankType(data);
       if (response) {
-        successStack(<IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
-        />);
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='rank_types.label' />}}
+          />,
+        );
         props.onClose();
         props.refreshDataTable();
       }

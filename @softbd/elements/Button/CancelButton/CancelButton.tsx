@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
-import ButtonSkeleton from '../Skeleton/ButtonSkeleton';
+import ButtonSkeleton from '../../Skeleton/ButtonSkeleton';
 import {useIntl} from 'react-intl';
 
 interface Props {

@@ -1,6 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
@@ -8,7 +8,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {CORE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton';
+import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';

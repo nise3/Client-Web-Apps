@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton';
+import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -50,10 +50,12 @@ const RankPage = () => {
   const deleteRankItem = async (rankId: number) => {
     let response = await deleteRank(rankId);
     if (response) {
-      successStack(  <IntlMessages
-        id='common.subject_deleted_successfully'
-        values={{subject: <IntlMessages id='ranks.label' />}}
-      />);
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='ranks.label' />}}
+        />,
+      );
       refreshDataTable();
     }
   };
@@ -102,7 +104,7 @@ const RankPage = () => {
       },
     },
     {
-      Header:  messages['common.actions'],
+      Header: messages['common.actions'],
       Cell: (props: any) => {
         let data = props.row.original;
         return (

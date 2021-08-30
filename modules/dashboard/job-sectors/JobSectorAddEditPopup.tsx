@@ -11,7 +11,7 @@ import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -69,7 +69,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          row_status: String(item?.row_status)
+          row_status: String(item?.row_status),
         });
       } else {
         reset(initialValues);
@@ -79,24 +79,28 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   }, [itemId, reset]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
-    console.log("data", data);
+    console.log('data', data);
     if (isEdit && itemId) {
       let response = await updateJobSector(itemId, data);
       if (response) {
-        successStack(  <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
-        />);
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='job_sectors.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createJobSector(data);
       if (response) {
-        successStack(  <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
-        />);
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='job_sectors.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }

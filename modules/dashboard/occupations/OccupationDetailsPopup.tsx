@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {getOccupation} from '../../../services/organaizationManagement/OccupationService';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
