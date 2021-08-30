@@ -17,7 +17,11 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
+const OrganizationTypeDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -52,7 +56,7 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              onClick={() => props.openEditModal(itemData.id)}
+              onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
               variant={'contained'}
             />

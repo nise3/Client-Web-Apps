@@ -105,7 +105,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
+const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -361,4 +361,4 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default OrganizationAddEditPopup;
+export default OrganizationUnitAddEditPopup;
