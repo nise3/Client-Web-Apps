@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
+import AddButton from '../../../@softbd/elements/Button/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -14,9 +14,9 @@ import {deleteRankType} from '../../../services/instituteManagement/RankTypeServ
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
-import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconRankType from '../../../@softbd/icons/IconRankType';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -50,12 +50,10 @@ const RankTypePage = () => {
   const deleteRankTypeItem = async (rankTypeId: number) => {
     let response = await deleteRankType(rankTypeId);
     if (response) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
-        />,
-      );
+      successStack(  <IntlMessages
+        id='common.subject_deleted_successfully'
+        values={{subject: <IntlMessages id='rank_types.label' />}}
+      />);
       refreshDataTable();
     }
   };
@@ -64,9 +62,9 @@ const RankTypePage = () => {
     setIsToggleTable(!isToggleTable);
   };
 
-  const columns = [
+  const columns = useRef([
     {
-      Header: 'ID',
+      Header: messages['common.id'],
       accessor: 'id',
       disableFilters: true,
       disableSortBy: true,
@@ -112,7 +110,7 @@ const RankTypePage = () => {
       },
       sortable: false,
     },
-  ];
+  ])
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/rank-types',
@@ -125,7 +123,7 @@ const RankTypePage = () => {
         <PageBlock
           title={
             <>
-              <WorkOutline /> <IntlMessages id='rank_types.label' />
+              <IconRankType /> <IntlMessages id='rank_types.label' />
             </>
           }
           extra={[
@@ -144,7 +142,7 @@ const RankTypePage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}

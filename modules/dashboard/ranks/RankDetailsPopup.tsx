@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
-import {getRankType} from '../../../services/instituteManagement/RankTypeService';
 import {useIntl} from 'react-intl';
-import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
+import IconRank from '../../../@softbd/icons/IconRank';
+import {getRank} from '../../../services/organaizationManagement/RankService';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 type Props = {
   itemId: number | null;
@@ -31,7 +30,7 @@ const RankDetailsPopup = ({itemId, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let rankType = await getRankType(itemId);
+    let rankType = await getRank(itemId);
     if (rankType) {
       setItemData(rankType);
     }
@@ -44,7 +43,7 @@ const RankDetailsPopup = ({itemId, ...props}: Props) => {
         {...props}
         title={
           <>
-            <WorkOutline />
+            <IconRank />
             <IntlMessages id='rank_types.label' />
           </>
         }
@@ -61,7 +60,6 @@ const RankDetailsPopup = ({itemId, ...props}: Props) => {
             )}
           </>
         }>
-        <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
           <Grid container spacing={5}>
             <Grid item xs={6}>
               <DetailsInputView
@@ -86,22 +84,36 @@ const RankDetailsPopup = ({itemId, ...props}: Props) => {
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.description']}
-                value={itemData?.description}
+                label={messages['rank_types.label']}
+                value={itemData?.rank_type_title_en}
                 isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
+                label={messages['ranks.display_order']}
+                value={itemData?.display_order}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['ranks.grade']}
+                value={itemData?.grade}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomChipRowStatus
                 label={messages['common.active_status']}
-                value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
+                value={itemData?.row_status}
                 isLoading={isLoading}
               />
             </Grid>
           </Grid>
-        </Box>
       </CustomDetailsViewMuiModal>
     </>
   );
 };
+
 export default RankDetailsPopup;

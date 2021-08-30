@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
@@ -17,6 +17,7 @@ import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteRank} from '../../../services/organaizationManagement/RankService';
+import IconRank from '../../../@softbd/icons/IconRank';
 
 const RankPage = () => {
   const {messages} = useIntl();
@@ -64,9 +65,9 @@ const RankPage = () => {
     setIsToggleTable(!isToggleTable);
   };
 
-  const columns = [
+  const columns = useRef([
     {
-      Header: 'ID',
+      Header: messages['common.id'],
       accessor: 'id',
       disableFilters: true,
       disableSortBy: true,
@@ -120,7 +121,7 @@ const RankPage = () => {
       },
       sortable: false,
     },
-  ];
+  ]);
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/ranks',
@@ -133,7 +134,7 @@ const RankPage = () => {
         <PageBlock
           title={
             <>
-              <WorkOutline /> <IntlMessages id='ranks.label' />
+              <IconRank /> <IntlMessages id='ranks.label' />
             </>
           }
           extra={[
@@ -152,7 +153,7 @@ const RankPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns}
+            columns={columns.current}
             data={data}
             fetchData={onFetchData}
             loading={loading}

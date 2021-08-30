@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
@@ -7,9 +6,9 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getRankType} from '../../../services/instituteManagement/RankTypeService';
 import {useIntl} from 'react-intl';
-import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import IconRankType from '../../../@softbd/icons/IconRankType';
 
 type Props = {
   itemId: number | null;
@@ -44,7 +43,7 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
         {...props}
         title={
           <>
-            <WorkOutline />
+            <IconRankType />
             <IntlMessages id='rank_types.label' />
           </>
         }
@@ -61,7 +60,6 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
             )}
           </>
         }>
-        <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
           <Grid container spacing={5}>
             <Grid item xs={6}>
               <DetailsInputView
@@ -92,14 +90,13 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.active_status']}
-                value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
+              <CustomChipRowStatus
+                value={itemData?.row_status}
                 isLoading={isLoading}
+                label={messages['common.active_status']}
               />
             </Grid>
           </Grid>
-        </Box>
       </CustomDetailsViewMuiModal>
     </>
   );
