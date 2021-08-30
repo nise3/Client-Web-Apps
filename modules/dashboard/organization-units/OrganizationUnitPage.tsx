@@ -1,22 +1,22 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/Button/ReadButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationUnitAddEditPopup from './OrganizationUnitAddEditPopup';
 import {deleteOrganizationUnit} from '../../../services/organaizationManagement/OrganizationUnitService';
-//import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganizationUnit from '../../../@softbd/icons/IconOrganizationUnit';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
 
 const OrganizationUnitPage = () => {
   const {successStack} = useNotiStack();
@@ -69,10 +69,12 @@ const OrganizationUnitPage = () => {
   const columns = useMemo(
     () => [
       {
-        Header: messages['common.id'],
-        accessor: 'id',
+        Header: '#',
         disableFilters: true,
         disableSortBy: true,
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
       },
       {
         Header: messages['common.title_en'],
@@ -87,8 +89,8 @@ const OrganizationUnitPage = () => {
         accessor: 'email',
       },
       {
-        Header: messages['common.email'],
-        accessor: 'email',
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
       },
       {
         Header: messages['organization.label'],
@@ -133,7 +135,7 @@ const OrganizationUnitPage = () => {
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/organizationUnits',
+    urlPath: ORGANIZATION_SERVICE_PATH + '/organization-units',
     dataAccessor: 'data',
   });
 
@@ -182,15 +184,15 @@ const OrganizationUnitPage = () => {
             />
           )}
 
-          {/*{isOpenDetailsModal && (*/}
-          {/*  <OrganizationUnitDetailsPopup*/}
-          {/*    key={1}*/}
-          {/*    itemId={organizationUnitId}*/}
-          {/*    open={isOpenDetailsModal}*/}
-          {/*    onClose={closeDetailsModal}*/}
-          {/*    openEditModal={openAddEditModal}*/}
-          {/*  />*/}
-          {/*)}*/}
+          {isOpenDetailsModal && (
+            <OrganizationUnitDetailsPopup
+              key={1}
+              itemId={organizationUnitId}
+              open={isOpenDetailsModal}
+              onClose={closeDetailsModal}
+              openEditModal={openAddEditModal}
+            />
+          )}
         </PageBlock>
       </AppAnimate>
     </>
