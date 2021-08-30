@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {Grid} from '@material-ui/core';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';

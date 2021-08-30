@@ -10,7 +10,7 @@ import {
   getOccupation,
   updateOccupation,
 } from '../../../services/organaizationManagement/OccupationService';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';

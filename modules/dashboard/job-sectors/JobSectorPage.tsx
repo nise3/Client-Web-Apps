@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton';
+import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
@@ -13,7 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';
 import {WorkOutline} from '@material-ui/icons';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';

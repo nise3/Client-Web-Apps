@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton';
+import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -50,10 +50,12 @@ const RankTypePage = () => {
   const deleteRankTypeItem = async (rankTypeId: number) => {
     let response = await deleteRankType(rankTypeId);
     if (response) {
-      successStack(  <IntlMessages
-        id='common.subject_deleted_successfully'
-        values={{subject: <IntlMessages id='job_sectors.label' />}}
-      />);
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='job_sectors.label' />}}
+        />,
+      );
       refreshDataTable();
     }
   };

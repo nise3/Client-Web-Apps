@@ -16,7 +16,7 @@ import {
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 

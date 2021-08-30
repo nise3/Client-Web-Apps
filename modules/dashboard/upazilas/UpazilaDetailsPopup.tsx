@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
