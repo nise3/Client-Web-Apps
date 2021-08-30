@@ -47,6 +47,7 @@ const FormRowStatus = ({
             }}>
             {rowStatusArray().map((status) => (
               <FormControlLabel
+                key={status.key}
                 value={status.key}
                 control={<Radio />}
                 label={status.label}
