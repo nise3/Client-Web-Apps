@@ -1,16 +1,17 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {CORE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteDistrict} from '../../../services/locationManagement/DistrictService';
+import {
+  deleteDistrict,
+  getAllDistricts,
+} from '../../../services/locationManagement/DistrictService';
 import DistrictAddEditPopup from './DistrictAddEditPopup';
 import DistrictDetailsPopup from './DistrictDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
@@ -24,6 +25,17 @@ const DistrictsPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [districts, setDistricts] = useState<Array<District>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let districts = await getAllDistricts();
+      setDistricts(districts);
+      setIsLoading(false);
+    })();
+  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -109,11 +121,6 @@ const DistrictsPage = () => {
     },
   ]);
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: CORE_SERVICE_PATH + '/districts',
-    dataAccessor: 'data',
-  });
-
   return (
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
@@ -127,7 +134,7 @@ const DistrictsPage = () => {
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
-              isLoading={loading}
+              isLoading={isLoading}
               tooltip={
                 <IntlMessages
                   id={'common.add_new'}
@@ -140,10 +147,8 @@ const DistrictsPage = () => {
           ]}>
           <ReactTable
             columns={columns.current}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
+            data={districts}
+            loading={isLoading}
             skipDefaultFilter={true}
             skipPageResetRef={false}
             toggleResetTable={isToggleTable}

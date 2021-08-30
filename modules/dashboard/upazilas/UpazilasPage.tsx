@@ -1,53 +1,65 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/Button/ReadButton';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {CORE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteUpazila} from '../../../services/locationManagement/UpazilaService';
+import {
+  deleteUpazila,
+  getAllUpazilas,
+} from '../../../services/locationManagement/UpazilaService';
 import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
 
-  const [upazilaId, setUpazilaId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let upazilas = await getAllUpazilas();
+      setUpazilas(upazilas);
+      setIsLoading(false);
+    })();
+  }, []);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setUpazilaId(null);
+    setSelectedItemId(null);
   };
 
-  const openAddEditModal = (upazilaId: number | null = null) => {
+  const openAddEditModal = (itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setUpazilaId(upazilaId);
+    setSelectedItemId(itemId);
   };
 
-  const openDetailsModal = (upazilaId: number) => {
+  const openDetailsModal = (itemId: number) => {
     setIsOpenDetailsModal(true);
-    setUpazilaId(upazilaId);
+    setSelectedItemId(itemId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteUpazilaItem = async (upazilaId: number) => {
-    let data = await deleteUpazila(upazilaId);
+  const deleteUpazilaItem = async (itemId: number) => {
+    let data = await deleteUpazila(itemId);
     if (data) {
       refreshDataTable();
     }
@@ -112,11 +124,6 @@ const UpazilasPage = () => {
     },
   ]);
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: CORE_SERVICE_PATH + '/upazilas',
-    dataAccessor: 'data',
-  });
-
   return (
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
@@ -130,7 +137,7 @@ const UpazilasPage = () => {
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
-              isLoading={loading}
+              isLoading={isLoading}
               tooltip={
                 <IntlMessages
                   id={'common.add_new'}
@@ -143,10 +150,8 @@ const UpazilasPage = () => {
           ]}>
           <ReactTable
             columns={columns.current}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
+            data={upazilas}
+            loading={isLoading}
             skipDefaultFilter={true}
             skipPageResetRef={false}
             toggleResetTable={isToggleTable}
@@ -156,7 +161,7 @@ const UpazilasPage = () => {
               key={1}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={upazilaId}
+              itemId={selectedItemId}
               refreshDataTable={refreshDataTable}
             />
           )}
@@ -164,7 +169,7 @@ const UpazilasPage = () => {
           {isOpenDetailsModal && (
             <UpazilaDetailsPopup
               key={1}
-              itemId={upazilaId}
+              itemId={selectedItemId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}
