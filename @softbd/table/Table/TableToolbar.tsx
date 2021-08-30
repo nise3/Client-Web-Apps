@@ -5,25 +5,25 @@ import {
   Toolbar,
   Tooltip,
   createStyles,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ViewColumnsIcon from '@material-ui/icons/ViewColumn';
-import classnames from 'classnames';
 import React, {
   MouseEvent,
   MouseEventHandler,
   PropsWithChildren,
   ReactElement,
   useCallback,
-  useState
+  useState,
 } from 'react';
-import { TableInstance } from 'react-table';
+import {TableInstance} from 'react-table';
 
-import { TableMouseEventHandler } from '../types/react-table-config';
-import { ColumnHidePage } from './ColumnHidePage';
-import { FilterPage } from './FilterPage';
+import {TableMouseEventHandler} from '../types/react-table-config';
+import {ColumnHidePage} from './ColumnHidePage';
+import {FilterPage} from './FilterPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import clsx from 'clsx';
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,14 +31,14 @@ export const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'space-between',
       height: '30px',
-      minHeight: '30px'
+      minHeight: '30px',
     },
     leftButtons: {},
     rightButtons: {},
     leftIcons: {
       '&:first-of-type': {
-        marginLeft: -12
-      }
+        marginLeft: -12,
+      },
     },
     rightIcons: {
       padding: 12,
@@ -46,10 +46,10 @@ export const useStyles = makeStyles((theme: Theme) =>
       width: 48,
       height: 48,
       '&:last-of-type': {
-        marginRight: -12
-      }
-    }
-  })
+        marginRight: -12,
+      },
+    },
+  }),
 );
 
 type InstanceActionButton<T extends object> = {
@@ -74,15 +74,14 @@ export const InstanceLabeledActionButton = <T extends object>({
   icon,
   onClick,
   label,
-  enabled = () => true
+  enabled = () => true,
 }: InstanceActionButton<T>): ReactElement => {
   return (
     <Button
       variant='contained'
       color='primary'
       onClick={onClick(instance)}
-      disabled={!enabled(instance)}
-    >
+      disabled={!enabled(instance)}>
       {icon}
       {label}
     </Button>
@@ -93,10 +92,14 @@ export const LabeledActionButton = <T extends object>({
   icon,
   onClick,
   label,
-  enabled = true
+  enabled = true,
 }: ActionButton<T>): ReactElement => {
   return (
-    <Button variant='contained' color='primary' onClick={onClick} disabled={!enabled}>
+    <Button
+      variant='contained'
+      color='primary'
+      onClick={onClick}
+      disabled={!enabled}>
       {icon}
       {label}
     </Button>
@@ -109,20 +112,19 @@ export const InstanceSmallIconActionButton = <T extends object>({
   onClick,
   label,
   enabled = () => true,
-  variant
+  variant,
 }: InstanceActionButton<T>) => {
   const classes = useStyles({});
   return (
     <Tooltip title={label} aria-label={label}>
       <span>
         <IconButton
-          className={classnames({
+          className={clsx({
             [classes.rightIcons]: variant === 'right',
-            [classes.leftIcons]: variant === 'left'
+            [classes.leftIcons]: variant === 'left',
           })}
           onClick={onClick(instance)}
-          disabled={!enabled(instance)}
-        >
+          disabled={!enabled(instance)}>
           {icon}
         </IconButton>
       </span>
@@ -135,20 +137,19 @@ export const SmallIconActionButton = <T extends object>({
   onClick,
   label,
   enabled = true,
-  variant
+  variant,
 }: ActionButton<T>) => {
   const classes = useStyles({});
   return (
     <Tooltip title={label} aria-label={label}>
       <span>
         <IconButton
-          className={classnames({
+          className={clsx({
             [classes.rightIcons]: variant === 'right',
-            [classes.leftIcons]: variant === 'left'
+            [classes.leftIcons]: variant === 'left',
           })}
           onClick={onClick}
-          disabled={!enabled}
-        >
+          disabled={!enabled}>
           {icon}
         </IconButton>
       </span>
@@ -165,21 +166,23 @@ type TableToolbar<T extends object> = {
 export function TableToolbar<T extends object>({
   instance,
   leftToolbarHtml = '',
-  loading
+  loading,
 }: PropsWithChildren<TableToolbar<T>>): ReactElement | null {
-  const { columns } = instance;
+  const {columns} = instance;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<Element | undefined>(undefined);
   const [columnsOpen, setColumnsOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
-  const hideableColumns = columns.filter((column) => !(column.id === '_selector'));
+  const hideableColumns = columns.filter(
+    (column) => !(column.id === '_selector'),
+  );
 
   const handleColumnsClick = useCallback(
     (event: MouseEvent) => {
       setAnchorEl(event.currentTarget);
       setColumnsOpen(true);
     },
-    [setAnchorEl, setColumnsOpen]
+    [setAnchorEl, setColumnsOpen],
   );
 
   const handleFilterClick = useCallback(
@@ -187,7 +190,7 @@ export function TableToolbar<T extends object>({
       setAnchorEl(event.currentTarget);
       setFilterOpen(true);
     },
-    [setAnchorEl, setFilterOpen]
+    [setAnchorEl, setFilterOpen],
   );
 
   const handleClose = useCallback(() => {

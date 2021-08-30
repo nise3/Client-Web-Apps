@@ -1,18 +1,22 @@
-import cx from 'classnames';
 import React from 'react';
-import { ColumnInstance } from 'react-table';
+import {ColumnInstance} from 'react-table';
 
-import { useStyles } from './TableStyles';
+import {useStyles} from './TableStyles';
+import clsx from 'clsx';
 
-export const ResizeHandle = <T extends {}>({ column }: { column: ColumnInstance<T> }) => {
+export const ResizeHandle = <T extends {}>({
+  column,
+}: {
+  column: ColumnInstance<T>;
+}) => {
   const classes = useStyles();
   return (
     <div
       {...column.getResizerProps()}
-      style={{ cursor: 'col-resize' }} // override the useResizeColumns default
-      className={cx({
+      style={{cursor: 'col-resize'}} // override the useResizeColumns default
+      className={clsx({
         [classes.resizeHandle]: true,
-        handleActive: column.isResizing
+        handleActive: column.isResizing,
       })}
     />
   );

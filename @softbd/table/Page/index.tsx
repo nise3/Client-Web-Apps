@@ -1,7 +1,7 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import {Theme, makeStyles} from '@material-ui/core/styles';
 import createStyles from '@material-ui/core/styles/createStyles';
-import classNames from 'classnames';
 import React from 'react';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,16 +13,16 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '6px',
       boxShadow:
         '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
-      padding: theme.spacing(3)
-    }
-  })
+      padding: theme.spacing(3),
+    },
+  }),
 );
 
 type Page = {
   className?: string;
 };
 
-export const Page: React.FC<Page> = ({ children, className }) => {
+export const Page: React.FC<Page> = ({children, className}) => {
   const classes = useStyles();
-  return <div className={classNames(classes.main, className)}>{children}</div>;
+  return <div className={clsx(classes.main, className)}>{children}</div>;
 };
