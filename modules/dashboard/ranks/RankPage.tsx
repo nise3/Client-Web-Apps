@@ -13,7 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import RankAddEditPopup from './RankAddEditPopup';
 import RankDetailsPopup from './RankDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {WorkOutline} from '@material-ui/icons';
+
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteRank} from '../../../services/organaizationManagement/RankService';

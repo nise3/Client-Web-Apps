@@ -17,7 +17,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const RankDetailsPopup = ({itemId, ...props}: Props) => {
+const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -54,7 +54,7 @@ const RankDetailsPopup = ({itemId, ...props}: Props) => {
             {itemData && (
               <EditButton
                 variant='contained'
-                onClick={() => props.openEditModal(itemData.id)}
+                onClick={() => openEditModal(itemData.id)}
                 isLoading={isLoading}
               />
             )}
