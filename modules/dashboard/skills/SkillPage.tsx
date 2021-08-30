@@ -1,68 +1,69 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import JobSectorDetailsPopup from './JobSectorDetailsPopup';
-import JobSectorAddEditPopup from './JobSectorAddEditPopup';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import SkillAddEditPopup from './SkillAddEditPopup';
+import SkillDetailsPopup from './SkillDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconJobSector from '../../../@softbd/icons/IconJobSector';
 
-const JobSectorPage = () => {
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconRank from '../../../@softbd/icons/IconRank';
+import {deleteSkill} from '../../../services/organaizationManagement/SkillService';
+
+const SkillPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [jobSectorId, setJobSectorId] = useState<number | null>(null);
+  const [skillId, setSkillId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setJobSectorId(null);
+    setSkillId(null);
   };
 
-  const openAddEditModal = (jobSectorId: number | null = null) => {
+  const openAddEditModal = (rankId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setJobSectorId(jobSectorId);
+    setSkillId(rankId);
   };
 
-  const openDetailsModal = (jobSectorId: number) => {
+  const openDetailsModal = (rankId: number) => {
     setIsOpenDetailsModal(true);
-    setJobSectorId(jobSectorId);
+    setSkillId(rankId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteJobSectorItem = async (jobSectorId: number) => {
-    let response = await deleteJobSector(jobSectorId);
+  const deleteRankItem = async (skillId: number) => {
+    let response = await deleteSkill(skillId);
     if (response) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
+          values={{subject: <IntlMessages id='skill.label' />}}
         />,
       );
       refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
+  const refreshDataTable = () => {
     setIsToggleTable(!isToggleTable);
-  }, [isToggleTable]);
+  };
 
   const columns = useMemo(
     () => [
@@ -99,7 +100,7 @@ const JobSectorPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteJobSectorItem(data.id)}
+                deleteAction={() => deleteRankItem(data.id)}
                 deleteTitle={'Are you sure?'}
               />
             </DatatableButtonGroup>
@@ -112,7 +113,7 @@ const JobSectorPage = () => {
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/job-sectors',
+    urlPath: ORGANIZATION_SERVICE_PATH + '/skills',
     dataAccessor: 'data',
   });
 
@@ -122,7 +123,7 @@ const JobSectorPage = () => {
         <PageBlock
           title={
             <>
-              <IconJobSector /> <IntlMessages id='job_sectors.label' />
+              <IconRank /> <IntlMessages id='skill.label' />
             </>
           }
           extra={[
@@ -134,7 +135,7 @@ const JobSectorPage = () => {
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    subject: messages['job_sectors.label'],
+                    subject: messages['skill.label'],
                   }}
                 />
               }
@@ -151,19 +152,19 @@ const JobSectorPage = () => {
             toggleResetTable={isToggleTable}
           />
           {isOpenAddEditModal && (
-            <JobSectorAddEditPopup
+            <SkillAddEditPopup
               key={1}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={jobSectorId}
+              itemId={skillId}
               refreshDataTable={refreshDataTable}
             />
           )}
 
           {isOpenDetailsModal && (
-            <JobSectorDetailsPopup
+            <SkillDetailsPopup
               key={1}
-              itemId={jobSectorId}
+              itemId={skillId}
               open={isOpenDetailsModal}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}
@@ -175,4 +176,4 @@ const JobSectorPage = () => {
   );
 };
 
-export default JobSectorPage;
+export default SkillPage;

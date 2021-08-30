@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
@@ -64,55 +64,60 @@ const RankTypePage = () => {
     setIsToggleTable(!isToggleTable);
   };
 
-  const columns = useRef([
-    {
-      Header: messages['common.id'],
-      accessor: 'id',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.title_en'],
-      accessor: 'title_en',
-    },
-    {
-      Header: messages['common.title_bn'],
-      accessor: 'title_bn',
-    },
-    {
-      Header: messages['common.description'],
-      accessor: 'description',
-    },
-    {
-      Header: messages['organization.label'],
-      accessor: 'organization_title_en',
-    },
-    {
-      Header: messages['common.status'],
-      accessor: 'row_status',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return <CustomChipRowStatus value={data?.row_status} />;
+  const columns = useMemo(
+    () => [
+      {
+        Header: '#',
+        disableFilters: true,
+        disableSortBy: true,
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
       },
-    },
-    {
-      Header: messages['common.actions'],
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <DatatableButtonGroup>
-            <ReadButton onClick={() => openDetailsModal(data.id)} />
-            <EditButton onClick={() => openAddEditModal(data.id)} />
-            <DeleteButton
-              deleteAction={() => deleteRankTypeItem(data.id)}
-              deleteTitle={'Are you sure?'}
-            />
-          </DatatableButtonGroup>
-        );
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
       },
-      sortable: false,
-    },
-  ]);
+      {
+        Header: messages['common.title_bn'],
+        accessor: 'title_bn',
+      },
+      {
+        Header: messages['common.description'],
+        accessor: 'description',
+      },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_title_en',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteRankTypeItem(data.id)}
+                deleteTitle={'Are you sure?'}
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [],
+  );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/rank-types',
@@ -144,7 +149,7 @@ const RankTypePage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns.current}
+            columns={columns}
             data={data}
             fetchData={onFetchData}
             loading={loading}

@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRank from '../../../@softbd/icons/IconRank';
-import {getRank} from '../../../services/organaizationManagement/RankService';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {getSkill} from '../../../services/organaizationManagement/SkillService';
 
 type Props = {
   itemId: number | null;
@@ -17,7 +17,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -30,7 +30,7 @@ const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let rankType = await getRank(itemId);
+    let rankType = await getSkill(itemId);
     if (rankType) {
       setItemData(rankType);
     }
@@ -44,7 +44,7 @@ const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconRank />
-            <IntlMessages id='rank.label' />
+            <IntlMessages id='skill.label' />
           </>
         }
         maxWidth={'sm'}
@@ -75,31 +75,10 @@ const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
-              label={messages['organization.label']}
-              value={itemData?.organization_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['rank_types.label']}
-              value={itemData?.rank_type_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['ranks.display_order']}
-              value={itemData?.display_order}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['ranks.grade']}
-              value={itemData?.grade}
+              label={messages['common.description']}
+              value={itemData?.description}
               isLoading={isLoading}
             />
           </Grid>
@@ -116,4 +95,4 @@ const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default RankDetailsPopup;
+export default SkillDetailsPopup;

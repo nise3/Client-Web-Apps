@@ -127,8 +127,8 @@ type Skill = {
   id: number;
   title_en: string;
   title_bn: string;
-  organization_id: number;
-  row_status: number;
+  description: string;
+  row_status?: string;
   updated_at?: string;
   crated_at?: string;
 };
