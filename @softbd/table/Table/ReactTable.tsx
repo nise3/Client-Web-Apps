@@ -31,7 +31,7 @@ import {fuzzyTextFilter, numericTextFilter} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
-import TableSkeleton from '../../elements/Skeleton/TableSkeleton';
+import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSkeleton';
 import {DefaultColumnFilter} from '../Filters/filter';
 
 const useStyles = makeStyles((theme: Theme): any => ({

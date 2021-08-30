@@ -3,12 +3,12 @@ import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganizationType,
@@ -16,7 +16,7 @@ import {
   updateOrganizationType,
 } from '../../../services/organaizationManagement/OrganizationTypeService';
 import {useIntl} from 'react-intl';
-import CustomCheckbox from '../../../@softbd/elements/Checkbox/CustomCheckbox';
+import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 

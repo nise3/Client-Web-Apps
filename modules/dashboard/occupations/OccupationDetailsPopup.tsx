@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {getOccupation} from '../../../services/organaizationManagement/OccupationService';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
+import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 
 type Props = {
   itemId: number | null;

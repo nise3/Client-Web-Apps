@@ -7,21 +7,21 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
 import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@material-ui/core/Grid';
-import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
   createUpazila,
   getUpazila,
   updateUpazila,
 } from '../../../services/locationManagement/UpazilaService';
-import {RowStatus} from '../../../@softbd/enums/RowStatus';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface UpazilaAddEditPopupProps {
   itemId: number | null;

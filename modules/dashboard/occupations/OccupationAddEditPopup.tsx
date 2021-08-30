@@ -10,14 +10,14 @@ import {
   getOccupation,
   updateOccupation,
 } from '../../../services/organaizationManagement/OccupationService';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
-import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {getAllJobSectors} from '../../../services/organaizationManagement/JobSectorService';
 import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';

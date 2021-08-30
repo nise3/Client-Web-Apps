@@ -2,21 +2,21 @@ import React, {useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/Button/ReadButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteRankType} from '../../../services/instituteManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconRankType from '../../../@softbd/icons/IconRankType';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
-import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 
 const RankTypePage = () => {
   const {messages} = useIntl();

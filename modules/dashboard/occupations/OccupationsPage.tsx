@@ -1,19 +1,19 @@
 import React, {useCallback, useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {useIntl} from 'react-intl';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
-import ReadButton from '../../../@softbd/elements/Button/ReadButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {deleteOccupation} from '../../../services/organaizationManagement/OccupationService';
 import OccupationAddEditPopup from './OccupationAddEditPopup';
 import OccupationDetailsPopup from './OccupationDetailsPopup';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
-import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {BusinessCenter} from '@material-ui/icons';
 

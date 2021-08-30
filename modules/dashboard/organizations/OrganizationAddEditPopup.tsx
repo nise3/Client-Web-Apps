@@ -3,16 +3,16 @@ import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganization,
@@ -20,11 +20,11 @@ import {
   updateOrganization,
 } from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {getAllOrganizationTypes} from '../../../services/organaizationManagement/OrganizationTypeService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {RowStatus} from '../../../@softbd/enums/RowStatus';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;

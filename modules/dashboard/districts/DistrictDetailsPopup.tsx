@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@material-ui/core';
-import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {getDistrict} from '../../../services/locationManagement/DistrictService';
-import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
+import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 
 type Props = {
   itemId: number | null;

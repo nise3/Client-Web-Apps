@@ -3,19 +3,19 @@ import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   getAllRankTypes,
   getAllRankTypesBasedOnOrganization,
 } from '../../../services/instituteManagement/RankTypeService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
-import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {
   createRank,
@@ -23,7 +23,7 @@ import {
   updateRank,
 } from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface RankAddEditPopupProps {
   itemId: number | null;

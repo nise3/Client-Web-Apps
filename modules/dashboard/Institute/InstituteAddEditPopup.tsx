@@ -8,15 +8,15 @@ import {
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {FC, ReactNode, useEffect, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface InstituteAddEditPopupProps {

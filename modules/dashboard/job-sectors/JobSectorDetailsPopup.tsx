@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {getJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {Grid} from '@material-ui/core';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
+import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 

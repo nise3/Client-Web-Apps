@@ -1,21 +1,21 @@
 import React, {useCallback, useRef, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/Button/ReadButton';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';
 import {WorkOutline} from '@material-ui/icons';
-import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const JobSectorPage = () => {

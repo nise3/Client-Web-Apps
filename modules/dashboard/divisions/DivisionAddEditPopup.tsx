@@ -4,20 +4,20 @@ import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@material-ui/core/Grid';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   createDivision,
   getDivision,
   updateDivision,
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
