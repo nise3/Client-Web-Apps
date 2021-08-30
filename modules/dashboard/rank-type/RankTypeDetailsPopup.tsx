@@ -17,7 +17,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
+const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -54,49 +54,49 @@ const RankTypeDetailsPopup = ({itemId, ...props}: Props) => {
             {itemData && (
               <EditButton
                 variant='contained'
-                onClick={() => props.openEditModal(itemData.id)}
+                onClick={() => openEditModal(itemData.id)}
                 isLoading={isLoading}
               />
             )}
           </>
         }>
-          <Grid container spacing={5}>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.title_en']}
-                value={itemData?.title_en}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.title_bn']}
-                value={itemData?.title_bn}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['organization.label']}
-                value={itemData?.organization_title_en}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.description']}
-                value={itemData?.description}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomChipRowStatus
-                value={itemData?.row_status}
-                isLoading={isLoading}
-                label={messages['common.active_status']}
-              />
-            </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
           </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.title_bn']}
+              value={itemData?.title_bn}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['organization.label']}
+              value={itemData?.organization_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.description']}
+              value={itemData?.description}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomChipRowStatus
+              value={itemData?.row_status}
+              isLoading={isLoading}
+              label={messages['common.active_status']}
+            />
+          </Grid>
+        </Grid>
       </CustomDetailsViewMuiModal>
     </>
   );

@@ -6,9 +6,9 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {useIntl} from 'react-intl';
-import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 
 type Props = {
   itemId: number | null;
@@ -17,7 +17,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
+const JobSectorDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -52,7 +52,7 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              onClick={() => props.openEditModal(itemData.id)}
+              onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
             />
           </>
@@ -73,9 +73,9 @@ const JobSectorDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <DetailsInputView
+            <CustomChipRowStatus
               label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
+              value={itemData?.row_status}
               isLoading={isLoading}
             />
           </Grid>
