@@ -91,6 +91,7 @@ const CustomFormSelect = ({
               <MenuItem value=''>
                 <em>None</em>
               </MenuItem>
+
               {(options || []).map((option: any, index: number) => {
                 let value = option[optionValueProp] && option[optionValueProp];
                 let title = getTitle(option, optionTitleProp);
