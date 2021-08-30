@@ -9,6 +9,7 @@ import TextInputSkeleton from './Skeleton/TextInputSkeleton';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
+import {rowStatusArray} from '../utilities/rowStatus';
 
 type Props = {
   id: string;
@@ -19,12 +20,12 @@ type Props = {
 };
 
 const FormRowStatus = ({
-                         id,
-                         isLoading,
-                         control,
-                         defaultValue,
-                         onChange: onChangeCallback,
-                       }: Props) => {
+  id,
+  isLoading,
+  control,
+  defaultValue,
+  onChange: onChangeCallback,
+}: Props) => {
   const {messages} = useIntl();
 
   return isLoading ? (
@@ -44,16 +45,13 @@ const FormRowStatus = ({
                 onChangeCallback(e);
               }
             }}>
-            <FormControlLabel
-              value={'1'}
-              control={<Radio />}
-              label={messages['common.active']}
-            />
-            <FormControlLabel
-              value={'0'}
-              control={<Radio />}
-              label={messages['common.inactive']}
-            />
+            {rowStatusArray().map((status) => (
+              <FormControlLabel
+                value={status.key}
+                control={<Radio />}
+                label={status.label}
+              />
+            ))}
           </RadioGroup>
         )}
         name={id}
