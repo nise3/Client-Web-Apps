@@ -3,7 +3,6 @@ import {useIntl} from 'react-intl';
 export enum rowStatus {
   ACTIVE = '1',
   INACTIVE = '0',
-  DELETED = '99',
 }
 
 export const getRowStatusLabel = (key: number | string): string => {
@@ -11,20 +10,15 @@ export const getRowStatusLabel = (key: number | string): string => {
   switch (key) {
     case rowStatus.ACTIVE:
       return messages['common.active'] as string;
-
     case rowStatus.INACTIVE:
       return messages['common.inactive'] as string;
-
-    case rowStatus.DELETED:
-      return messages['common.deleted'] as string;
-
     default:
       return 'unknown';
   }
 };
 
 export const rowStatusArray = (): Array<{
-  key: rowStatus.ACTIVE | rowStatus.INACTIVE | rowStatus.DELETED;
+  key: rowStatus.ACTIVE | rowStatus.INACTIVE;
   label: string;
 }> => {
   return [
@@ -35,10 +29,6 @@ export const rowStatusArray = (): Array<{
     {
       key: rowStatus.INACTIVE,
       label: getRowStatusLabel(rowStatus.INACTIVE),
-    },
-    {
-      key: rowStatus.DELETED,
-      label: getRowStatusLabel(rowStatus.DELETED),
     },
   ];
 };
