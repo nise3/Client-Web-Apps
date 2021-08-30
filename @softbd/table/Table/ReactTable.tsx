@@ -27,7 +27,7 @@ import {
 
 import {camelToWords} from '../utils';
 import {FilterChipBar} from './FilterChipBar';
-import {fuzzyTextFilter, numericTextFilter} from './filters';
+import {fuzzyTextFilter, numericTextFilter, rowStatusFilter} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
@@ -105,7 +105,7 @@ const hooks = [
 const filterTypes = {
   fuzzyText: fuzzyTextFilter,
   numeric: numericTextFilter,
-  rowStatusFilter: () => null,
+  rowStatusFilter: rowStatusFilter,
 };
 
 export default function ReactTable<T extends object>({

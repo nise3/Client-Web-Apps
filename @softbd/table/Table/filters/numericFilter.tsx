@@ -35,5 +35,13 @@ export function numericTextFilter<T extends object>(
   return rows.filter((row) => comparator(row.values[id[0]]));
 }
 
+export function rowStatusFilter<T extends object>(
+  rows: Array<Row<T>>,
+  id: IdType<T>,
+  filterValue: FilterValue,
+) {
+  return rows.filter((row) => filterValue == row.values[id[0]]);
+}
+
 // Let the table remove the filter if the string is empty
 numericTextFilter.autoRemove = (val: any) => !val;
