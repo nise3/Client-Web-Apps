@@ -69,6 +69,14 @@ const routesConfig: NavItemProps[] = [
         url: '/dashboard/organizations',
       },
       {
+        id: 'organization_unit_type',
+        title: 'Organization Unit Type',
+        messageId: 'menu.organization_unit_type',
+        type: 'item',
+        icon: 'businessCenter',
+        url: '/dashboard/organization-unit-types',
+      },
+      {
         id: 'job-sectors',
         title: 'Job Sector',
         messageId: 'menu.job_sector',

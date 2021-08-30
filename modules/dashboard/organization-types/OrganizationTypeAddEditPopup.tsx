@@ -28,11 +28,12 @@ interface OrganizationTypeAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required(),
+  title_en: yup.string().trim().required().label('Title(En)'),
   title_bn: yup
     .string()
     .trim()
     .required()
+    .label('Title(Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
 });
 
@@ -40,6 +41,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   is_government: false,
+  row_status: '1',
 };
 
 const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
@@ -53,7 +55,6 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checkedIsGovernment, setCheckedIsGovernment] =
     useState<boolean>(false);
-  const [currentRowStatus, setCurrentRowStatus] = useState<string>('1');
 
   const {
     control,
@@ -73,12 +74,11 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
+          row_status: String(item.row_status),
         });
         setCheckedIsGovernment(item.is_government);
-        setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
-        setCurrentRowStatus('1');
       }
       setIsLoading(false);
     })();
@@ -90,14 +90,24 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     if (itemId) {
       let response = await updateOrganizationType(itemId, data);
       if (response) {
-        successStack('Organization Type Updated Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='organization_type.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createOrganizationType(data);
       if (response) {
-        successStack('Organization Type Created Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='organization.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
@@ -123,6 +133,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -166,7 +177,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={currentRowStatus}
+            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>

@@ -3,24 +3,11 @@ import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_ORGANIZATION_UNIT_TYPES =
-  ORGANIZATION_SERVICE_PATH + '/organization-types-types';
+  ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
 
 export const getAllOrganizationUnitTypes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATION_UNIT_TYPES, {params});
-    return response.data.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-export const getOrganizationUnitTypesByOrganization = async (
-  organizationId: number,
-) => {
-  try {
-    let response: any = await apiGet(
-      API_ORGANIZATION_UNIT_TYPES + '?organization_id=' + organizationId,
-    );
     return response.data.data;
   } catch (error) {
     catchBlockHandler(error);
