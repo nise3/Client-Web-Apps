@@ -1,16 +1,17 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {CORE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteDivision} from '../../../services/locationManagement/DivisionService';
+import {
+  deleteDivision,
+  getAllDivisions,
+} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -24,6 +25,17 @@ const DivisionsPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [divisions, setDivisions] = useState<Array<Division>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let divisions = await getAllDivisions();
+      setDivisions(divisions);
+      setIsLoading(false);
+    })();
+  }, []);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -102,11 +114,6 @@ const DivisionsPage = () => {
     },
   ]);
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: CORE_SERVICE_PATH + '/divisions',
-    dataAccessor: 'data',
-  });
-
   return (
     <>
       <AppAnimate animation='transition.slideUpIn' delay={200}>
@@ -120,7 +127,7 @@ const DivisionsPage = () => {
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}
-              isLoading={loading}
+              isLoading={isLoading}
               tooltip={
                 <IntlMessages
                   id={'common.add_new'}
@@ -133,10 +140,8 @@ const DivisionsPage = () => {
           ]}>
           <ReactTable
             columns={columns.current}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
+            data={divisions}
+            loading={isLoading}
             skipDefaultFilter={true}
             skipPageResetRef={false}
             toggleResetTable={isToggleTable}
