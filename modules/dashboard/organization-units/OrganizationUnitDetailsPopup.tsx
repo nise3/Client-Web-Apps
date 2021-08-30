@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Grid} from '@material-ui/core';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/Button/EditButton';
-import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
-import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 
 type Props = {
   itemId: number | null;
@@ -17,7 +17,11 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const OrganizationUnitDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -162,4 +166,4 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
     </>
   );
 };
-export default OrganizationDetailsPopup;
+export default OrganizationUnitDetailsPopup;

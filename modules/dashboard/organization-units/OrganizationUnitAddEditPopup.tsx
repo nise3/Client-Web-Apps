@@ -2,29 +2,30 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {
-  DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
-import SubmitButton from '../../../@softbd/elements/Button/SubmitButton';
-import FormRowStatus from '../../../@softbd/elements/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganization,
+  getAllOrganizations,
   getOrganization,
   updateOrganization,
 } from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../@softbd/elements/Select/CustomFormSelect';
-import {getAllOrganizationTypes} from '../../../services/organaizationManagement/OrganizationTypeService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {RowStatus} from '../../../@softbd/enums/RowStatus';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
-import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
+import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -41,12 +42,11 @@ const validationSchema = yup.object().shape({
     .required()
     .label('Title(Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup
+  organization_id: yup.string().required().label('Organization'),
+  organization_unit_type_id: yup
     .string()
-    .trim()
     .required()
-    .matches(DOMAIN_REGEX, 'Enter valid domain')
-    .label('Domain'),
+    .label('Organization Unit Type'),
   email: yup
     .string()
     .email('Enter valid email')
@@ -80,18 +80,17 @@ const validationSchema = yup.object().shape({
     .trim()
     .required()
     .label('Contact person designation'),
-  organization_type_id: yup
-    .string()
-    .required()
-    .label('Organization type designation'),
-  address: yup.string().trim().required().label('Address'),
-  row_status: yup.string().trim().required(),
+  employee_size: yup.string().trim().required().label('Employee Size'),
 });
 
 const initialValues = {
   title_en: '',
   title_bn: '',
-  domain: '',
+  organization_id: '',
+  organization_unit_type_id: '',
+  loc_division_id: '',
+  loc_district_id: '',
+  loc_upazila_id: '',
   email: '',
   mobile: '',
   fax_no: '',
@@ -99,9 +98,7 @@ const initialValues = {
   contact_person_mobile: '',
   contact_person_email: '',
   contact_person_designation: '',
-  organization_type_id: '',
-  address: '',
-  description: '',
+  employee_size: '',
   row_status: '1',
 };
 
@@ -114,9 +111,15 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizationTypes, setOrganizationTypes] = useState<
-    Array<OrganizationType>
-  >([]);
+  const [organizations, setOrganizations] = useState<Array<OrganizationType>>(
+    [],
+  );
+  const [divisions, setDivisions] = useState<Array<Division>>([]);
+  const [districts, setDistricts] = useState<Array<District>>([]);
+  const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
+  const [selectedOrganizationId, setSelectedOrganizationId] =
+    useState<number>();
+  const [selectedDivisionId, setSelectedDivisionId] = useState<number>();
 
   const {
     control,
@@ -136,7 +139,11 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
-          domain: item.domain,
+          organization_id: item.organization_id,
+          organization_unit_type_id: item.organization_unit_type_id,
+          loc_division_id: item.loc_division_id,
+          loc_district_id: item.loc_district_id,
+          loc_upazila_id: item.loc_upazila_id,
           email: item.email,
           mobile: item.mobile,
           fax_no: item.fax_no,
@@ -144,9 +151,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           contact_person_mobile: item.contact_person_mobile,
           contact_person_email: item.contact_person_email,
           contact_person_designation: item.contact_person_designation,
-          organization_type_id: item.organization_type_id,
-          address: item.address,
-          description: item.description,
+          employee_size: item.employee_size,
           row_status: String(item.row_status),
         });
       } else {
@@ -157,17 +162,41 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   }, [itemId]);
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let organizationTypes = await getAllOrganizationTypes({
+    setIsLoading(true);
+    loadOrganizations();
+    loadDivisions();
+    setIsLoading(false);
+  }, []);
+
+  const loadOrganizations = async () => {
+    let organizations = await getAllOrganizations({
+      row_status: RowStatus.ACTIVE,
+    });
+    if (organizations) {
+      setOrganizations(organizations);
+    }
+  };
+
+  useMemo(async () => {
+    if (selectedDivisionId) {
+      console.log('load district', selectedDivisionId);
+      let districts = await getAllDistricts({
+        division_id: selectedDivisionId,
         row_status: RowStatus.ACTIVE,
       });
-      if (organizationTypes) {
-        setOrganizationTypes(organizationTypes);
-      }
-      setIsLoading(false);
-    })();
-  }, []);
+      console.log('districts', districts);
+      if (districts) setDistricts(districts);
+    }
+  }, [selectedDivisionId]);
+
+  const changeDivisionAction = (value: any) => {
+    setSelectedDivisionId(value);
+  };
+
+  const loadDivisions = async () => {
+    let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
+    if (divisions) setDivisions(divisions);
+  };
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
     if (itemId) {
@@ -245,22 +274,62 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='organization_type_id'
-            label={messages['common.organization_type']}
+            label={messages['organization.label']}
             isLoading={isLoading}
             control={control}
-            options={organizationTypes}
+            options={organizations}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
           />
         </Grid>
         <Grid item xs={6}>
-          <CustomTextInput
-            id='domain'
-            label={messages['common.domain']}
-            register={register}
-            errorInstance={errors}
+          <CustomFormSelect
+            id='organization_unit_type_id'
+            label={messages['organization_unit_type.label']}
             isLoading={isLoading}
+            control={control}
+            options={organizations}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoading}
+            control={control}
+            options={divisions}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={changeDivisionAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoading}
+            control={control}
+            options={districts}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={isLoading}
+            control={control}
+            options={districts}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={6}>
@@ -317,7 +386,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='contact_person_designation'
             label={messages['common.contact_person_designation']}
@@ -326,29 +395,15 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
-            id='description'
-            label={messages['common.description']}
+            id='employee_size'
+            label={messages['organization_unit.employee_size']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            multiline={true}
-            rows={4}
           />
         </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='address'
-            label={messages['common.address']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            multiline={true}
-            rows={4}
-          />
-        </Grid>
-
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

@@ -71,10 +71,12 @@ const OrganizationUnitTypePage = () => {
   const columns = useMemo(
     () => [
       {
-        Header: messages['common.id'],
-        accessor: 'id',
+        Header: '#',
         disableFilters: true,
         disableSortBy: true,
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
       },
       {
         Header: messages['common.title_en'],
