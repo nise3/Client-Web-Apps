@@ -22,30 +22,32 @@ const DistrictsPage = () => {
   const {messages} = useIntl();
 
   const [districtId, setDistrictId] = useState<number | null>(null);
-
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setDistrictId(null);
-  };
+  }, []);
 
-  const openAddEditModal = (districtId: number | null = null) => {
+  const openAddEditModal = useCallback((districtId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
     setDistrictId(districtId);
-  };
+  }, []);
 
-  const openDetailsModal = (districtId: number) => {
-    setIsOpenDetailsModal(true);
-    setDistrictId(districtId);
-  };
+  const openDetailsModal = useCallback(
+    (districtId: number) => {
+      setIsOpenDetailsModal(true);
+      setDistrictId(districtId);
+    },
+    [districtId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteDistrictItem = async (districtId: number) => {
     let data = await deleteDistrict(districtId);

@@ -1,6 +1,7 @@
 import {Chip, createStyles, makeStyles} from '@material-ui/core';
 import React, {useCallback} from 'react';
 import {ColumnInstance, FilterValue, IdType, TableInstance} from 'react-table';
+import {getRowStatusLabel} from '../../utilities/rowStatus';
 
 const useStyles = makeStyles(
   createStyles({
@@ -37,14 +38,10 @@ const getFilterValue = (
       const min = filterValue[0];
       const max = filterValue[1];
       return min ? (max ? `${min}-${max}` : `>=${min}`) : `<=${max}`;
+    case 'rowStatusFilter':
+      return getRowStatusLabel(filterValue);
   }
 
-  if (column.options) {
-    let option = column.options.find((op: any) => op.value == filterValue);
-    if (option) {
-      return option.label_en;
-    }
-  }
   return filterValue;
 };
 

@@ -1,4 +1,4 @@
-import { FilterValue, IdType, Row } from 'react-table';
+import {FilterValue, IdType, Row} from 'react-table';
 
 const regex = /([=<>!]*)\s*((?:[0-9].?[0-9]*)+)/;
 
@@ -29,7 +29,7 @@ function parseValue(filterValue: FilterValue) {
 export function numericTextFilter<T extends object>(
   rows: Array<Row<T>>,
   id: IdType<T>,
-  filterValue: FilterValue
+  filterValue: FilterValue,
 ) {
   const comparator = parseValue(filterValue);
   return rows.filter((row) => comparator(row.values[id[0]]));

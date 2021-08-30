@@ -8,12 +8,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   Theme,
 } from '@material-ui/core';
-import React, {ReactElement, useEffect} from 'react';
+import React, {ReactElement} from 'react';
 import {
-  FilterProps,
   HeaderProps,
   useColumnOrder,
   useExpanded,
@@ -34,6 +32,7 @@ import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 import TableSkeleton from '../../elements/Skeleton/TableSkeleton';
+import {DefaultColumnFilter} from '../Filters/filter';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -81,34 +80,6 @@ const DefaultHeader: React.FC<HeaderProps<any>> = ({column}) => (
   <>{column.id.startsWith('_') ? null : camelToWords(column.id)}</>
 );
 
-function DefaultColumnFilter<T extends object>({
-  column: {id, filterValue, setFilter, render, parent},
-}: FilterProps<T>) {
-  const [value, setValue] = React.useState(filterValue || '');
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-  // ensure that reset loads the new value
-  useEffect(() => {
-    setValue(filterValue || '');
-  }, [filterValue]);
-
-  /*const firstIndex = !parent;*/
-  return (
-    <TextField
-      name={id}
-      label={render('Header')}
-      value={value}
-      /*autoFocus={firstIndex}*/
-      variant={'standard'}
-      onChange={handleChange}
-      /*onBlur={(e) => {
-        setFilter(e.target.value || undefined);
-      }}*/
-    />
-  );
-}
-
 const defaultColumn = {
   Filter: DefaultColumnFilter,
   Cell: TooltipCell,
@@ -134,6 +105,7 @@ const hooks = [
 const filterTypes = {
   fuzzyText: fuzzyTextFilter,
   numeric: numericTextFilter,
+  rowStatusFilter: () => null,
 };
 
 export default function ReactTable<T extends object>({

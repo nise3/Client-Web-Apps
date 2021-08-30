@@ -1,5 +1,4 @@
 import moment from 'moment';
-import IntlMessages from '../../@crema/utility/IntlMessages';
 
 export const catchBlockHandler = (error: any, message = '') => {
   //const {errorStack} = useNotiStack();
@@ -131,30 +130,4 @@ export const countPaginatePage = (
   return totalData < 1 ? 0 : Math.ceil(totalData / pageSize);
 };
 
-/**
- * @deprecated use <DecoratedRowStatus />
- * @param rowStatus
- */
-export const getRowStatusText = (rowStatus: number) => {
-  return rowStatus == 1 ? (
-    <IntlMessages id='common.active' />
-  ) : (
-    <IntlMessages id='common.inactive' />
-  );
-};
-
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-export const rowStatus: any = {
-  Active: 1,
-  Inactive: 0,
-};
-
-export const status = [
-  {value: 1, label_en: 'Active'},
-  {value: 0, label_en: 'Inactive'},
-];
-
-export const getRowStatusFromText = (text: any) => {
-  return rowStatus[text];
-};

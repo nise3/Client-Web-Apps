@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import {
   createInstitute,
@@ -139,91 +138,89 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-        <Grid container spacing={5}>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='title_en'
-              label='Title (En)'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='title_bn'
-              label='Title (Bn)'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='email'
-              label='Email'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='code'
-              label='Code'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='domain'
-              label='Domain'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='primary_phone'
-              label='Primary phone'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='primary_mobile'
-              label='Primary mobile'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='address'
-              label='Address'
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id='google_map_src'
-              label={'Google map source'}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
+      <Grid container spacing={5}>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label='Title (En)'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
-      </Box>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_bn'
+            label='Title (Bn)'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='email'
+            label='Email'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='code'
+            label='Code'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='domain'
+            label='Domain'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='primary_phone'
+            label='Primary phone'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='primary_mobile'
+            label='Primary mobile'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='address'
+            label='Address'
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='google_map_src'
+            label={'Google map source'}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };

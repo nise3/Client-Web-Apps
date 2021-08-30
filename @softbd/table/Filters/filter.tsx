@@ -5,7 +5,7 @@ import {FilterProps, FilterValue, IdType, Row} from 'react-table';
 import {PersonData} from '../utils';
 import React, {useEffect} from 'react';
 import {Button, InputLabel, MenuItem, TextField} from '@material-ui/core';
-import {status} from '../../common/helpers';
+import {rowStatusArray} from '../../utilities/rowStatus';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -243,20 +243,21 @@ export function NumberRangeColumnFilter({
   );
 }
 
-export function ActiveInactiveColumnFilter({
-  column: {filterValue, render, id},
-}: FilterProps<PersonData>) {
+export function DefaultColumnFilter<T extends object>({
+  column: {id, filterValue, setFilter, render, parent, filter},
+}: FilterProps<T>) {
+  console.log(filter);
   const [value, setValue] = React.useState(filterValue || '');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
-
   // ensure that reset loads the new value
   useEffect(() => {
     setValue(filterValue || '');
   }, [filterValue]);
 
-  return (
+  /*const firstIndex = !parent;*/
+  return filter === 'rowStatusFilter' ? (
     <TextField
       name={id}
       select
@@ -264,11 +265,19 @@ export function ActiveInactiveColumnFilter({
       value={value}
       variant={'standard'}
       onChange={handleChange}>
-      {status.map((option: any, i: any) => (
-        <MenuItem key={i} value={option.value}>
-          {option.label_en}
+      {rowStatusArray().map((option: any, i: any) => (
+        <MenuItem key={i} value={option.key}>
+          {option.label}
         </MenuItem>
       ))}
     </TextField>
+  ) : (
+    <TextField
+      name={id}
+      label={render('Header')}
+      value={value}
+      variant={'standard'}
+      onChange={handleChange}
+    />
   );
 }
