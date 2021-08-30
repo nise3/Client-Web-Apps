@@ -8,6 +8,7 @@ import EditButton from '../../../@softbd/elements/Button/EditButton';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getDistrict} from '../../../services/locationManagement/DistrictService';
+import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
 
 type Props = {
   itemId: number | null;
@@ -88,11 +89,7 @@ const DistrictDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.status']}
-              value={
-                itemData?.row_status == 1
-                  ? (messages['common.active'] as string)
-                  : (messages['common.inactive'] as string)
-              }
+              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
               isLoading={isLoading}
             />
           </Grid>

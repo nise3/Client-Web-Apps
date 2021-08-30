@@ -9,6 +9,7 @@ import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import DecoratedRowStatus from '../../../@softbd/elements/DecoratedRowStatus';
 
 type Props = {
   itemId: number | null;
@@ -82,11 +83,7 @@ const OccupationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.status']}
-              value={
-                itemData?.row_status == 1
-                  ? (messages['common.active'] as string)
-                  : (messages['common.inactive'] as string)
-              }
+              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
               isLoading={isLoading}
             />
           </Grid>
