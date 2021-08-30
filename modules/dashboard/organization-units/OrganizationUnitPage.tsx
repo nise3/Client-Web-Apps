@@ -1,31 +1,28 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import AddButton from '../../../@softbd/elements/Button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import ReadButton from '../../../@softbd/elements/Button/ReadButton';
+import EditButton from '../../../@softbd/elements/Button/EditButton';
+import DeleteButton from '../../../@softbd/elements/Button/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/Button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
-import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
-import OrganizationTypeDetailsPopup from './OrganizationTypeDetailsPopup';
-import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import {CheckCircleOutline} from '@material-ui/icons';
-import CancelIcon from '@material-ui/icons/Cancel';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import OrganizationUnitAddEditPopup from './OrganizationUnitAddEditPopup';
+import {deleteOrganizationUnit} from '../../../services/organaizationManagement/OrganizationUnitService';
+//import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconOrganizationUnit from '../../../@softbd/icons/IconOrganizationUnit';
 
-const OrganizationTypePage = () => {
+const OrganizationUnitPage = () => {
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
-  const [organizationTypeId, setOrganizationTypeId] = useState<number | null>(
+  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
     null,
   );
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -34,31 +31,31 @@ const OrganizationTypePage = () => {
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
-    setOrganizationTypeId(null);
+    setOrganizationUnitId(null);
   };
 
-  const openAddEditModal = (organizationTypeId: number | null = null) => {
+  const openAddEditModal = (organizationUnitId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setOrganizationTypeId(organizationTypeId);
+    setOrganizationUnitId(organizationUnitId);
   };
 
-  const openDetailsModal = (organizationTypeId: number) => {
+  const openDetailsModal = (organizationUnitId: number) => {
     setIsOpenDetailsModal(true);
-    setOrganizationTypeId(organizationTypeId);
+    setOrganizationUnitId(organizationUnitId);
   };
 
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
 
-  const deleteOrganizationTypeItem = async (organizationTypeId: number) => {
-    let data = await deleteOrganizationType(organizationTypeId);
+  const deleteOrganizationUnitItem = async (organizationUnitId: number) => {
+    let data = await deleteOrganizationUnit(organizationUnitId);
     if (data) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='organization_type.label' />}}
+          values={{subject: <IntlMessages id='organization_unit.label' />}}
         />,
       );
       refreshDataTable();
@@ -86,30 +83,24 @@ const OrganizationTypePage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['organization_type.is_government'],
-        accessor: 'is_government',
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+      {
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_name',
         disableFilters: true,
         disableSortBy: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <CustomChip
-              icon={
-                data.is_government == 1 ? (
-                  <CheckCircleOutline />
-                ) : (
-                  <CancelIcon />
-                )
-              }
-              color={data.is_government == 1 ? 'primary' : 'secondary'}
-              label={
-                data.is_government == 1
-                  ? messages['common.yes']
-                  : messages['common.no']
-              }
-            />
-          );
-        },
+      },
+      {
+        Header: messages['organization_unit_type.label'],
+        accessor: 'organization_unit_type_title_en',
+        disableFilters: true,
+        disableSortBy: true,
       },
       {
         Header: messages['common.status'],
@@ -129,7 +120,7 @@ const OrganizationTypePage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteOrganizationTypeItem(data.id)}
+                deleteAction={() => deleteOrganizationUnitItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -142,7 +133,7 @@ const OrganizationTypePage = () => {
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
+    urlPath: ORGANIZATION_SERVICE_PATH + '/organizationUnits',
     dataAccessor: 'data',
   });
 
@@ -152,8 +143,8 @@ const OrganizationTypePage = () => {
         <PageBlock
           title={
             <>
-              <IconOrganizationType />
-              <IntlMessages id='organization_type.label' />
+              <IconOrganizationUnit />{' '}
+              <IntlMessages id='organization_unit.label' />
             </>
           }
           extra={[
@@ -165,7 +156,7 @@ const OrganizationTypePage = () => {
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    subject: messages['organization_type.label'],
+                    subject: messages['organization_unit.label'],
                   }}
                 />
               }
@@ -182,28 +173,28 @@ const OrganizationTypePage = () => {
             toggleResetTable={isToggleTable}
           />
           {isOpenAddEditModal && (
-            <OrganizationTypeAddEditPopup
+            <OrganizationUnitAddEditPopup
               key={1}
               open={isOpenAddEditModal}
               onClose={closeAddEditModal}
-              itemId={organizationTypeId}
+              itemId={organizationUnitId}
               refreshDataTable={refreshDataTable}
             />
           )}
 
-          {isOpenDetailsModal && (
-            <OrganizationTypeDetailsPopup
-              key={1}
-              itemId={organizationTypeId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
+          {/*{isOpenDetailsModal && (*/}
+          {/*  <OrganizationUnitDetailsPopup*/}
+          {/*    key={1}*/}
+          {/*    itemId={organizationUnitId}*/}
+          {/*    open={isOpenDetailsModal}*/}
+          {/*    onClose={closeDetailsModal}*/}
+          {/*    openEditModal={openAddEditModal}*/}
+          {/*  />*/}
+          {/*)}*/}
         </PageBlock>
       </AppAnimate>
     </>
   );
 };
 
-export default OrganizationTypePage;
+export default OrganizationUnitPage;

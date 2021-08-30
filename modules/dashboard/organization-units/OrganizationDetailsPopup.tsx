@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Grid} from '@material-ui/core';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import CancelButton from '../../../@softbd/elements/Button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/Button/EditButton';
+import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
 import {getOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 

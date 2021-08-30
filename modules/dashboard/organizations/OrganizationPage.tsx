@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
@@ -64,65 +64,69 @@ const OrganizationPage = () => {
     setIsToggleTable(!isToggleTable);
   }, [isToggleTable]);
 
-  const columns = useRef([
-    {
-      Header: messages['common.id'],
-      accessor: 'id',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.title_en'],
-      accessor: 'title_en',
-    },
-    {
-      Header: messages['common.title_bn'],
-      accessor: 'title_bn',
-    },
-    {
-      Header: messages['common.organization_type'],
-      accessor: 'organization_types_title',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.domain'],
-      accessor: 'domain',
-    },
-    {
-      Header: messages['common.email'],
-      accessor: 'email',
-    },
-    {
-      Header: messages['common.mobile'],
-      accessor: 'mobile',
-    },
-    {
-      Header: messages['common.status'],
-      accessor: 'row_status',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return <CustomChipRowStatus value={data?.row_status} />;
+  const columns = useMemo(
+    () => [
+      {
+        Header: messages['common.id'],
+        accessor: 'id',
+        disableFilters: true,
+        disableSortBy: true,
       },
-    },
-    {
-      Header: messages['common.actions'],
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <DatatableButtonGroup>
-            <ReadButton onClick={() => openDetailsModal(data.id)} />
-            <EditButton onClick={() => openAddEditModal(data.id)} />
-            <DeleteButton
-              deleteAction={() => deleteOrganizationItem(data.id)}
-              deleteTitle={messages['common.delete_confirm'] as string}
-            />
-          </DatatableButtonGroup>
-        );
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
       },
-      sortable: false,
-    },
-  ]);
+      {
+        Header: messages['common.title_bn'],
+        accessor: 'title_bn',
+      },
+      {
+        Header: messages['common.organization_type'],
+        accessor: 'organization_types_title',
+        disableFilters: true,
+        disableSortBy: true,
+      },
+      {
+        Header: messages['common.domain'],
+        accessor: 'domain',
+      },
+      {
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+      {
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteOrganizationItem(data.id)}
+                deleteTitle={messages['common.delete_confirm'] as string}
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [],
+  );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/organizations',
@@ -154,7 +158,7 @@ const OrganizationPage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns.current}
+            columns={columns}
             data={data}
             fetchData={onFetchData}
             loading={loading}
