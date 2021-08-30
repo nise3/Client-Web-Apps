@@ -4,11 +4,11 @@ import CancelButton from '../../../@softbd/elements/Button/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/Button/EditButton';
 import DetailsInputView from '../../../@softbd/elements/DetailsInputView';
-import {getOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
+import {getOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {useIntl} from 'react-intl';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
+import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 
 type Props = {
   itemId: number | null;
@@ -17,7 +17,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
+const OrganizationUnitTypeDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -30,9 +30,9 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let organizationType = await getOrganizationType(itemId);
-    if (organizationType) {
-      setItemData(organizationType);
+    let organizationUnitType = await getOrganizationUnitType(itemId);
+    if (organizationUnitType) {
+      setItemData(organizationUnitType);
     }
     setIsLoading(false);
   };
@@ -41,13 +41,13 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        maxWidth={'sm'}
         title={
           <>
-            <IconOrganizationType />
-            <IntlMessages id='organization_type.label' />
+            <IconOrganizationUnitType />
+            <IntlMessages id='organization_unit_type.label' />
           </>
         }
+        maxWidth={'sm'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -75,12 +75,8 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['organization_type.is_government']}
-              value={
-                itemData?.is_government == 1
-                  ? (messages['common.yes'] as string)
-                  : (messages['common.no'] as string)
-              }
+              label={messages['common.organization.label']}
+              value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
@@ -96,4 +92,4 @@ const OrganizationTypeDetailsPopup = ({itemId, ...props}: Props) => {
     </>
   );
 };
-export default OrganizationTypeDetailsPopup;
+export default OrganizationUnitTypeDetailsPopup;

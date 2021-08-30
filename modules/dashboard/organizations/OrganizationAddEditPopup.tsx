@@ -6,6 +6,7 @@ import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/Input/CustomTextInput';
 import {
+  DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
@@ -40,7 +41,12 @@ const validationSchema = yup.object().shape({
     .required()
     .label('Title(Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup.string().trim().required().label('Domain'),
+  domain: yup
+    .string()
+    .trim()
+    .required()
+    .matches(DOMAIN_REGEX, 'Enter valid domain')
+    .label('Domain'),
   email: yup
     .string()
     .email('Enter valid email')
@@ -62,7 +68,8 @@ const validationSchema = yup.object().shape({
     .string()
     .trim()
     .required()
-    .label('Contact person mobile'),
+    .label('Contact person mobile')
+    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
   contact_person_email: yup
     .string()
     .trim()
@@ -74,7 +81,7 @@ const validationSchema = yup.object().shape({
     .required()
     .label('Contact person designation'),
   organization_type_id: yup
-    .number()
+    .string()
     .required()
     .label('Organization type designation'),
   address: yup.string().trim().required().label('Address'),
@@ -95,6 +102,7 @@ const initialValues = {
   organization_type_id: '',
   address: '',
   description: '',
+  row_status: '1',
 };
 
 const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
@@ -109,7 +117,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const [organizationTypes, setOrganizationTypes] = useState<
     Array<OrganizationType>
   >([]);
-  const [currentRowStatus, setCurrentRowStatus] = useState<string>('1');
 
   const {
     control,
@@ -140,11 +147,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           organization_type_id: item.organization_type_id,
           address: item.address,
           description: item.description,
+          row_status: String(item.row_status),
         });
-        setCurrentRowStatus(item.row_status);
       } else {
         reset(initialValues);
-        setCurrentRowStatus(RowStatus.ACTIVE);
       }
       setIsLoading(false);
     })();
@@ -347,7 +353,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={currentRowStatus}
+            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>

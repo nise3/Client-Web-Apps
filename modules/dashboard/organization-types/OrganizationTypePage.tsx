@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/Button/AddButton';
@@ -19,8 +19,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CustomChipRowStatus from '../../../@softbd/elements/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const OrganizationTypePage = () => {
+  const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
   const [organizationTypeId, setOrganizationTypeId] = useState<number | null>(
@@ -53,6 +55,12 @@ const OrganizationTypePage = () => {
   const deleteOrganizationTypeItem = async (organizationTypeId: number) => {
     let data = await deleteOrganizationType(organizationTypeId);
     if (data) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='organization_type.label' />}}
+        />,
+      );
       refreshDataTable();
     }
   };
@@ -61,69 +69,76 @@ const OrganizationTypePage = () => {
     setIsToggleTable(!isToggleTable);
   }, [isToggleTable]);
 
-  const columns = useRef([
-    {
-      Header: messages['common.id'],
-      accessor: 'id',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.title_en'],
-      accessor: 'title_en',
-    },
-    {
-      Header: messages['common.title_bn'],
-      accessor: 'title_bn',
-    },
-    {
-      Header: messages['organization_type.is_government'],
-      accessor: 'is_government',
-      disableFilters: true,
-      disableSortBy: true,
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <CustomChip
-            icon={
-              data.is_government == 1 ? <CheckCircleOutline /> : <CancelIcon />
-            }
-            color={data.is_government == 1 ? 'primary' : 'secondary'}
-            label={
-              data.is_government == 1
-                ? messages['common.yes']
-                : messages['common.no']
-            }
-          />
-        );
+  const columns = useMemo(
+    () => [
+      {
+        Header: messages['common.id'],
+        accessor: 'id',
+        disableFilters: true,
+        disableSortBy: true,
       },
-    },
-    {
-      Header: messages['common.status'],
-      accessor: 'row_status',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return <CustomChipRowStatus value={data?.row_status} />;
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
       },
-    },
-    {
-      Header: messages['common.actions'],
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <DatatableButtonGroup>
-            <ReadButton onClick={() => openDetailsModal(data.id)} />
-            <EditButton onClick={() => openAddEditModal(data.id)} />
-            <DeleteButton
-              deleteAction={() => deleteOrganizationTypeItem(data.id)}
-              deleteTitle='Are you sure?'
+      {
+        Header: messages['common.title_bn'],
+        accessor: 'title_bn',
+      },
+      {
+        Header: messages['organization_type.is_government'],
+        accessor: 'is_government',
+        disableFilters: true,
+        disableSortBy: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <CustomChip
+              icon={
+                data.is_government == 1 ? (
+                  <CheckCircleOutline />
+                ) : (
+                  <CancelIcon />
+                )
+              }
+              color={data.is_government == 1 ? 'primary' : 'secondary'}
+              label={
+                data.is_government == 1
+                  ? messages['common.yes']
+                  : messages['common.no']
+              }
             />
-          </DatatableButtonGroup>
-        );
+          );
+        },
       },
-      sortable: false,
-    },
-  ]);
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteOrganizationTypeItem(data.id)}
+                deleteTitle={messages['common.delete_confirm'] as string}
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [],
+  );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
     urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
@@ -156,7 +171,7 @@ const OrganizationTypePage = () => {
             />,
           ]}>
           <ReactTable
-            columns={columns.current}
+            columns={columns}
             data={data}
             fetchData={onFetchData}
             loading={loading}

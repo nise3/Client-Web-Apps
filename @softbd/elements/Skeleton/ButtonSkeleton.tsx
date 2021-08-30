@@ -9,7 +9,7 @@ const ButtonSkeleton = ({isCircle}: Props) => {
   return (
     <>
       {isCircle ? (
-        <Skeleton variant='circle' width={60} height={60} />
+        <Skeleton variant='circle' width={40} height={40} />
       ) : (
         <Skeleton variant='text' height={60} width={100} />
       )}

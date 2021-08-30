@@ -1,5 +1,7 @@
 import moment from 'moment';
 import IntlMessages from '../../@crema/utility/IntlMessages';
+import React from 'react';
+import useNotiStack from '../hooks/useNotifyStack';
 
 export const catchBlockHandler = (error: any, message = '') => {
   //const {errorStack} = useNotiStack();
@@ -157,4 +159,14 @@ export const status = [
 
 export const getRowStatusFromText = (text: any) => {
   return rowStatus[text];
+};
+
+export const showSuccessMessage = () => {
+  const {successStack} = useNotiStack();
+  successStack(
+    <IntlMessages
+      id='common.subject_created_successfully'
+      values={{subject: <IntlMessages id='organization.label' />}}
+    />,
+  );
 };
