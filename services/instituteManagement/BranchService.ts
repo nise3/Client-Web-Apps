@@ -1,7 +1,8 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
-const API_BRANCHES = '/branches';
+const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
 
 export const getAllBranches = async (params = {}) => {
   try {
@@ -27,7 +28,9 @@ export const getBranch = async (branchId: number) => {
   try {
     let response: any = await apiGet(API_BRANCHES + '/' + branchId);
     return response.data.data;
-  } catch (catchBlockHandler) {}
+  } catch (error) {
+    catchBlockHandler(error);
+  }
 };
 
 export const createBranch = async (data: Branch) => {

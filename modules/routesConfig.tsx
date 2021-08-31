@@ -45,6 +45,22 @@ const routesConfig: NavItemProps[] = [
         url: '/dashboard/institutes',
       },
       {
+        id: 'timeline',
+        title: 'Branch',
+        messageId: 'menu.branch',
+        type: 'item',
+        icon: 'timeline',
+        url: '/dashboard/branches',
+      },
+      {
+        id: 'timeline',
+        title: 'Programme',
+        messageId: 'menu.programme',
+        type: 'item',
+        icon: 'timeline',
+        url: '/dashboard/programmes',
+      },
+      {
         id: 'rank_types',
         title: 'Rank Type',
         messageId: 'menu.rank_type',
