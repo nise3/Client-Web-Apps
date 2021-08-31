@@ -12,7 +12,7 @@ const useStyle = makeStyles({
 });
 
 interface EmptyResultProps {
-  title: string;
+  title?: string;
   description: string;
   actionTitle: string;
   onAction: () => void;

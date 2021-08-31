@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 
 interface AppCircularProgressProps {
   pathColor?: string;
-  activeColor: string;
+  activeColor?: string;
   value: number;
   centerNode?: any;
   minWidth?: number;

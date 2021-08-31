@@ -4,7 +4,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
@@ -33,6 +32,7 @@ import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSkeleton';
 import {DefaultColumnFilter} from '../Filters/filter';
+import AppTableContainer from '../../../@crema/core/AppTableContainer';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -192,7 +192,7 @@ export default function ReactTable<T extends object>({
     <>
       <Grid container>
         <Grid item md={12}>
-          <TableContainer style={{position: 'relative'}}>
+          <AppTableContainer>
             {!hideToolbar && (
               <TableToolbar
                 instance={instance}
@@ -250,7 +250,7 @@ export default function ReactTable<T extends object>({
                 </TableBody>
               )}
             </Table>
-          </TableContainer>
+          </AppTableContainer>
         </Grid>
 
         <Grid item md={12}>
