@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles, Paper} from '@material-ui/core';
+import {Box, makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors/index';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
@@ -27,7 +27,7 @@ const AppTableContainer = (props: any) => {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.tableResponsiveMaterial}>{props.children}</Paper>
+    <Box className={classes.tableResponsiveMaterial}>{props.children}</Box>
   );
 };
 

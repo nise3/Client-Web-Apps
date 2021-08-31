@@ -211,15 +211,18 @@ export default function ReactTable<T extends object>({
     <>
       <Grid container>
         <Grid item md={12}>
+          {!hideToolbar && (
+            <TableToolbar
+              instance={instance}
+              // loading={loading}
+              leftToolbarHtml={leftToolbarHtml}
+            />
+          )}
+          {!hideToolbar && <FilterChipBar<T> instance={instance} />}
+        </Grid>
+
+        <Grid item md={12}>
           <AppTableContainer>
-            {!hideToolbar && (
-              <TableToolbar
-                instance={instance}
-                // loading={loading}
-                leftToolbarHtml={leftToolbarHtml}
-              />
-            )}
-            {!hideToolbar && <FilterChipBar<T> instance={instance} />}
             <Table
               {...(getTableProps() as any)}
               size='small'
