@@ -20,7 +20,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 const DistrictsPage = () => {
   const {messages} = useIntl();
 
-  const [districtId, setDistrictId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -38,21 +38,21 @@ const DistrictsPage = () => {
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setDistrictId(null);
+    setSelectedItemId(null);
   }, []);
 
-  const openAddEditModal = useCallback((districtId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setDistrictId(districtId);
+    setSelectedItemId(itemId);
   }, []);
 
   const openDetailsModal = useCallback(
-    (districtId: number) => {
+    (itemId: number) => {
       setIsOpenDetailsModal(true);
-      setDistrictId(districtId);
+      setSelectedItemId(itemId);
     },
-    [districtId],
+    [selectedItemId],
   );
 
   const closeDetailsModal = useCallback(() => {
@@ -148,6 +148,7 @@ const DistrictsPage = () => {
           columns={columns.current}
           data={districts}
           loading={isLoading}
+          totalCount={districts?.length}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}
@@ -157,7 +158,7 @@ const DistrictsPage = () => {
             key={1}
             open={isOpenAddEditModal}
             onClose={closeAddEditModal}
-            itemId={districtId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -165,7 +166,7 @@ const DistrictsPage = () => {
         {isOpenDetailsModal && (
           <DistrictDetailsPopup
             key={1}
-            itemId={districtId}
+            itemId={selectedItemId}
             open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

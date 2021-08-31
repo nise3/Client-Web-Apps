@@ -36,25 +36,31 @@ const DivisionsPage = () => {
     })();
   }, []);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-  };
+  }, []);
 
-  const openAddEditModal = (selectedItemId: number | null = null) => {
+  const openAddEditModal = useCallback(
+    (selectedItemId: number | null = null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenAddEditModal(true);
+      setSelectedItemId(selectedItemId);
+    },
+    [],
+  );
+
+  const openDetailsModal = useCallback(
+    (selectedItemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(selectedItemId);
+    },
+    [selectedItemId],
+  );
+
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(selectedItemId);
-  };
-
-  const openDetailsModal = (selectedItemId: number) => {
-    setIsOpenDetailsModal(true);
-    setSelectedItemId(selectedItemId);
-  };
-
-  const closeDetailsModal = () => {
-    setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteDivisionItem = async (selectedItemId: number) => {
     let data = await deleteDivision(selectedItemId);
@@ -141,6 +147,7 @@ const DivisionsPage = () => {
           columns={columns.current}
           data={divisions}
           loading={isLoading}
+          totalCount={divisions?.length}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}

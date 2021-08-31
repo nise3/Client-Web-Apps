@@ -1,29 +1,28 @@
-import {Chip, createStyles, makeStyles} from '@material-ui/core';
+import {Chip, makeStyles, Theme} from '@material-ui/core';
 import React, {useCallback} from 'react';
 import {ColumnInstance, FilterValue, IdType, TableInstance} from 'react-table';
-import {getRowStatusLabel} from '../../utilities/rowStatus';
+import {getRowStatusLabel} from '../../utilities/RowStatus';
+import {ThemeMode} from '../../../shared/constants/AppEnums';
 
-const useStyles = makeStyles(
-  createStyles({
-    filtersActiveLabel: {
-      color: '#998',
-      fontSize: '14px',
-      paddingRight: 10,
-    },
-    chipZone: {
-      padding: '18px 0 5px 10px',
-      width: '100%',
-    },
-    chipLabel: {
-      fontWeight: 500,
-      marginRight: 5,
-    },
-    filterChip: {
-      marginRight: 4,
-      color: '#222',
-    },
-  }),
-);
+const useStyles = makeStyles((theme: Theme): any => ({
+  filtersActiveLabel: {
+    color: theme.palette.type === ThemeMode.DARK ? '#FFF' : '#998',
+    fontSize: '14px',
+    paddingRight: 10,
+  },
+  chipZone: {
+    padding: '18px 0 5px 10px',
+    width: '100%',
+  },
+  chipLabel: {
+    fontWeight: 500,
+    marginRight: 5,
+  },
+  filterChip: {
+    marginRight: 4,
+    color: theme.palette.type === ThemeMode.DARK ? '#FFF' : '#222',
+  },
+}));
 
 type FilterChipBar<T extends object> = {
   instance: TableInstance<T>;
@@ -46,7 +45,7 @@ const getFilterValue = (
 };
 
 export function FilterChipBar<T extends object>({instance}: FilterChipBar<T>) {
-  const classes = useStyles({});
+  const classes: any = useStyles();
   const {
     allColumns,
     setFilter,

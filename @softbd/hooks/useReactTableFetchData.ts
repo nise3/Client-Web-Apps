@@ -25,6 +25,7 @@ interface TReturnUseFetchData {
   data: Array<any> | any;
   loading: boolean;
   pageCount: number;
+  totalCount?: number;
 }
 
 const useReactTableFetchData = ({
@@ -38,6 +39,7 @@ const useReactTableFetchData = ({
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [pageCount, setPageCount] = React.useState(0);
+  const [totalCount, setTotalCount] = useState<any>(0);
 
   const fetchDataFunction = useCallback(
     ({pageIndex, pageSize, sortBy, filters}: any) => {
@@ -82,7 +84,8 @@ const useReactTableFetchData = ({
             responseData = dataModifier(responseData);
           }
           setData(responseData);
-          setPageCount(countPaginatePage(response.data?.totalCount, pageSize));
+          setTotalCount(response.data?.total);
+          setPageCount(countPaginatePage(response.data?.total, pageSize));
         })
         .catch(
           typeof onError === 'function'
@@ -99,7 +102,13 @@ const useReactTableFetchData = ({
 
   const onFetchData = useAsyncDebounce(fetchDataFunction);
 
-  return <TReturnUseFetchData>{onFetchData, data, loading, pageCount};
+  return <TReturnUseFetchData>{
+    onFetchData,
+    data,
+    loading,
+    pageCount,
+    totalCount,
+  };
 };
 
 export default useReactTableFetchData;

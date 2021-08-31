@@ -1,13 +1,14 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
+import {
+  deleteJobSector,
+  getAllJobSectors,
+} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import JobSectorDetailsPopup from './JobSectorDetailsPopup';
 import JobSectorAddEditPopup from './JobSectorAddEditPopup';
@@ -21,33 +22,47 @@ const JobSectorPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [jobSectorId, setJobSectorId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [jobSectors, setJobSectors] = useState<Array<JobSector>>([]);
 
-  const closeAddEditModal = () => {
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      let jobSectors = await getAllJobSectors();
+      setJobSectors(jobSectors);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setJobSectorId(null);
-  };
+    setSelectedItemId(null);
+  }, []);
 
-  const openAddEditModal = (jobSectorId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setJobSectorId(jobSectorId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const openDetailsModal = (jobSectorId: number) => {
-    setIsOpenDetailsModal(true);
-    setJobSectorId(jobSectorId);
-  };
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
-  const deleteJobSectorItem = async (jobSectorId: number) => {
-    let response = await deleteJobSector(jobSectorId);
+  const deleteJobSectorItem = async (itemId: number) => {
+    let response = await deleteJobSector(itemId);
     if (response) {
       successStack(
         <IntlMessages
@@ -84,6 +99,7 @@ const JobSectorPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -110,11 +126,6 @@ const JobSectorPage = () => {
     [],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/job-sectors',
-    dataAccessor: 'data',
-  });
-
   return (
     <>
       <PageBlock
@@ -127,7 +138,7 @@ const JobSectorPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -140,10 +151,9 @@ const JobSectorPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
+          data={jobSectors}
+          loading={isLoading}
+          totalCount={jobSectors?.length}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}
@@ -153,7 +163,7 @@ const JobSectorPage = () => {
             key={1}
             open={isOpenAddEditModal}
             onClose={closeAddEditModal}
-            itemId={jobSectorId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -161,7 +171,7 @@ const JobSectorPage = () => {
         {isOpenDetailsModal && (
           <JobSectorDetailsPopup
             key={1}
-            itemId={jobSectorId}
+            itemId={selectedItemId}
             open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
