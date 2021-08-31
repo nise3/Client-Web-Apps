@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme: Theme): any => ({
         ? '0px 0px 10px 1px #222'
         : '0px 0px 10px 1px #e9e9e9',
   },
+  tablePagination: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 export const range = (total: number, startFrom: number = 0): Array<number> => {
@@ -289,17 +293,20 @@ export default function ReactTable<T extends object>({
           </AppTableContainer>
         </Grid>
 
-        <Grid item md={12}>
-          <TablePagination
-            rowsPerPageOptions={pageSizeData}
-            component='div'
-            count={totalCount}
-            rowsPerPage={pageSize}
-            page={pageIndex}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Grid>
+        {page.length > 0 && (
+          <Grid item md={12}>
+            <TablePagination
+              component='div'
+              className={classes.tablePagination}
+              rowsPerPageOptions={pageSizeData}
+              count={totalCount}
+              rowsPerPage={pageSize}
+              page={pageIndex}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Grid>
+        )}
       </Grid>
     </>
   );
