@@ -5,9 +5,8 @@ import LinkIcon from '@material-ui/icons/Link';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../AppAnimate';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   containerHeader: {
     display: 'flex',
     flexDirection: 'column',
@@ -42,38 +41,36 @@ const ComponentHeader: React.FC<ComponentHeaderProps> = ({
 }) => {
   const classes = useStyles();
   return (
-    <AppAnimate animation='transition.slideDownIn' delay={300}>
-      <Box className={classes.containerHeader}>
-        <Box mb={3} pr={{sm: 3}} flex={{sm: 1}}>
-          <Box
-            component='h3'
-            color='text.primary'
-            fontWeight={Fonts.MEDIUM}
-            fontSize={{xs: 18, sm: 20}}>
-            {title}
-          </Box>
-          {description ? (
-            <Typography
-              variant='h6'
-              className={classes.textbase}
-              color='textSecondary'>
-              {description}
-            </Typography>
-          ) : null}
+    <Box className={classes.containerHeader}>
+      <Box mb={3} pr={{sm: 3}} flex={{sm: 1}}>
+        <Box
+          component='h3'
+          color='text.primary'
+          fontWeight={Fonts.MEDIUM}
+          fontSize={{xs: 18, sm: 20}}>
+          {title}
         </Box>
-        {refUrl ? (
-          <Box height={40}>
-            <Button
-              variant='outlined'
-              color='primary'
-              href={refUrl}
-              target='_blank'>
-              Reference <LinkIcon className={classes.linkIcon} />
-            </Button>
-          </Box>
+        {description ? (
+          <Typography
+            variant='h6'
+            className={classes.textbase}
+            color='textSecondary'>
+            {description}
+          </Typography>
         ) : null}
       </Box>
-    </AppAnimate>
+      {refUrl ? (
+        <Box height={40}>
+          <Button
+            variant='outlined'
+            color='primary'
+            href={refUrl}
+            target='_blank'>
+            Reference <LinkIcon className={classes.linkIcon} />
+          </Button>
+        </Box>
+      ) : null}
+    </Box>
   );
 };
 

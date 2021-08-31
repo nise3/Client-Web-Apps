@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
@@ -108,49 +107,47 @@ const InstitutePage = () => {
 
   return (
     <>
-      <AppAnimate animation='transition.slideUpIn' delay={200}>
-        <PageBlock
-          title={messages['institute.institute_type_title']}
-          extra={[
-            <AddButton
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              isLoading={loading}
-            />,
-          ]}>
-          <ReactTable
-            columns={columns}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
-            skipDefaultFilter={true}
-            skipPageResetRef={false}
-            toggleResetTable={isToggleTable}
+      <PageBlock
+        title={messages['institute.institute_type_title']}
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+          />,
+        ]}>
+        <ReactTable
+          columns={columns}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <InstituteAddEditPopup
+            key={1}
+            title={instituteId ? 'Edit Institute' : 'Add Institute'}
+            open={isOpenAddEditModal}
+            onClose={closeAddEditModal}
+            itemId={instituteId}
+            refreshDataTable={refreshDataTable}
           />
-          {isOpenAddEditModal && (
-            <InstituteAddEditPopup
-              key={1}
-              title={instituteId ? 'Edit Institute' : 'Add Institute'}
-              open={isOpenAddEditModal}
-              onClose={closeAddEditModal}
-              itemId={instituteId}
-              refreshDataTable={refreshDataTable}
-            />
-          )}
+        )}
 
-          {isOpenDetailsModal && (
-            <InstituteDetailsPopup
-              key={1}
-              title={'View institute'}
-              itemId={instituteId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
-        </PageBlock>
-      </AppAnimate>
+        {isOpenDetailsModal && (
+          <InstituteDetailsPopup
+            key={1}
+            title={'View institute'}
+            itemId={instituteId}
+            open={isOpenDetailsModal}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
     </>
   );
 };

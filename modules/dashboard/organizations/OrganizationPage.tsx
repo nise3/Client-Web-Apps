@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -137,59 +136,57 @@ const OrganizationPage = () => {
 
   return (
     <>
-      <AppAnimate animation='transition.slideUpIn' delay={200}>
-        <PageBlock
-          title={
-            <>
-              <IconOrganization /> <IntlMessages id='organization.label' />
-            </>
-          }
-          extra={[
-            <AddButton
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['organization.label'],
-                  }}
-                />
-              }
-            />,
-          ]}>
-          <ReactTable
-            columns={columns}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
-            skipDefaultFilter={true}
-            skipPageResetRef={false}
-            toggleResetTable={isToggleTable}
+      <PageBlock
+        title={
+          <>
+            <IconOrganization /> <IntlMessages id='organization.label' />
+          </>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['organization.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <OrganizationAddEditPopup
+            key={1}
+            open={isOpenAddEditModal}
+            onClose={closeAddEditModal}
+            itemId={organizationId}
+            refreshDataTable={refreshDataTable}
           />
-          {isOpenAddEditModal && (
-            <OrganizationAddEditPopup
-              key={1}
-              open={isOpenAddEditModal}
-              onClose={closeAddEditModal}
-              itemId={organizationId}
-              refreshDataTable={refreshDataTable}
-            />
-          )}
+        )}
 
-          {isOpenDetailsModal && (
-            <OrganizationDetailsPopup
-              key={1}
-              itemId={organizationId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
-        </PageBlock>
-      </AppAnimate>
+        {isOpenDetailsModal && (
+          <OrganizationDetailsPopup
+            key={1}
+            itemId={organizationId}
+            open={isOpenDetailsModal}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
     </>
   );
 };

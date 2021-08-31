@@ -5,7 +5,6 @@ import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import Badge from '../../@crema/core/Badge';
 import {Box, Grid} from '@material-ui/core';
 import AppCard from '../../@crema/core/AppCard';
-import AppAnimation from '../../@crema/core/AppAnimate';
 
 export default AppPage(() => {
   const {successStack} = useNotiStack();
@@ -27,11 +26,7 @@ export default AppPage(() => {
         </Grid>
         <Grid item md={12}>
           <Box>
-            <AppCard>
-              <AppAnimation animation='transition.slideUpIn' delay={200}>
-                AppCard
-              </AppAnimation>
-            </AppCard>
+            <AppCard>AppCard</AppCard>
           </Box>
         </Grid>
       </Grid>

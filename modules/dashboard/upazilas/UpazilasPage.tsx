@@ -5,7 +5,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -126,57 +125,55 @@ const UpazilasPage = () => {
 
   return (
     <>
-      <AppAnimate animation='transition.slideUpIn' delay={200}>
-        <PageBlock
-          title={
-            <>
-              <RoomOutlined /> <IntlMessages id='upazilas.label' />
-            </>
-          }
-          extra={[
-            <AddButton
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              isLoading={isLoading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['upazilas.label'],
-                  }}
-                />
-              }
-            />,
-          ]}>
-          <ReactTable
-            columns={columns.current}
-            data={upazilas}
-            loading={isLoading}
-            skipDefaultFilter={true}
-            skipPageResetRef={false}
-            toggleResetTable={isToggleTable}
+      <PageBlock
+        title={
+          <>
+            <RoomOutlined /> <IntlMessages id='upazilas.label' />
+          </>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={isLoading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['upazilas.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns.current}
+          data={upazilas}
+          loading={isLoading}
+          skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <UpazilaAddEditPopup
+            key={1}
+            open={isOpenAddEditModal}
+            onClose={closeAddEditModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
           />
-          {isOpenAddEditModal && (
-            <UpazilaAddEditPopup
-              key={1}
-              open={isOpenAddEditModal}
-              onClose={closeAddEditModal}
-              itemId={selectedItemId}
-              refreshDataTable={refreshDataTable}
-            />
-          )}
+        )}
 
-          {isOpenDetailsModal && (
-            <UpazilaDetailsPopup
-              key={1}
-              itemId={selectedItemId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
-        </PageBlock>
-      </AppAnimate>
+        {isOpenDetailsModal && (
+          <UpazilaDetailsPopup
+            key={1}
+            itemId={selectedItemId}
+            open={isOpenDetailsModal}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
     </>
   );
 };

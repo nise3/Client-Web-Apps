@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
@@ -118,59 +117,57 @@ const JobSectorPage = () => {
 
   return (
     <>
-      <AppAnimate animation='transition.slideUpIn' delay={200}>
-        <PageBlock
-          title={
-            <>
-              <IconJobSector /> <IntlMessages id='job_sectors.label' />
-            </>
-          }
-          extra={[
-            <AddButton
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['job_sectors.label'],
-                  }}
-                />
-              }
-            />,
-          ]}>
-          <ReactTable
-            columns={columns}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
-            skipDefaultFilter={true}
-            skipPageResetRef={false}
-            toggleResetTable={isToggleTable}
+      <PageBlock
+        title={
+          <>
+            <IconJobSector /> <IntlMessages id='job_sectors.label' />
+          </>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['job_sectors.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <JobSectorAddEditPopup
+            key={1}
+            open={isOpenAddEditModal}
+            onClose={closeAddEditModal}
+            itemId={jobSectorId}
+            refreshDataTable={refreshDataTable}
           />
-          {isOpenAddEditModal && (
-            <JobSectorAddEditPopup
-              key={1}
-              open={isOpenAddEditModal}
-              onClose={closeAddEditModal}
-              itemId={jobSectorId}
-              refreshDataTable={refreshDataTable}
-            />
-          )}
+        )}
 
-          {isOpenDetailsModal && (
-            <JobSectorDetailsPopup
-              key={1}
-              itemId={jobSectorId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
-        </PageBlock>
-      </AppAnimate>
+        {isOpenDetailsModal && (
+          <JobSectorDetailsPopup
+            key={1}
+            itemId={jobSectorId}
+            open={isOpenDetailsModal}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
     </>
   );
 };

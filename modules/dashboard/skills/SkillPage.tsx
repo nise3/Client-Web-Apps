@@ -1,5 +1,4 @@
 import React, {useMemo, useState} from 'react';
-import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -119,59 +118,57 @@ const SkillPage = () => {
 
   return (
     <>
-      <AppAnimate animation='transition.slideUpIn' delay={200}>
-        <PageBlock
-          title={
-            <>
-              <IconRank /> <IntlMessages id='skill.label' />
-            </>
-          }
-          extra={[
-            <AddButton
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['skill.label'],
-                  }}
-                />
-              }
-            />,
-          ]}>
-          <ReactTable
-            columns={columns}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
-            skipDefaultFilter={true}
-            skipPageResetRef={false}
-            toggleResetTable={isToggleTable}
+      <PageBlock
+        title={
+          <>
+            <IconRank /> <IntlMessages id='skill.label' />
+          </>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['skill.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <SkillAddEditPopup
+            key={1}
+            open={isOpenAddEditModal}
+            onClose={closeAddEditModal}
+            itemId={skillId}
+            refreshDataTable={refreshDataTable}
           />
-          {isOpenAddEditModal && (
-            <SkillAddEditPopup
-              key={1}
-              open={isOpenAddEditModal}
-              onClose={closeAddEditModal}
-              itemId={skillId}
-              refreshDataTable={refreshDataTable}
-            />
-          )}
+        )}
 
-          {isOpenDetailsModal && (
-            <SkillDetailsPopup
-              key={1}
-              itemId={skillId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
-        </PageBlock>
-      </AppAnimate>
+        {isOpenDetailsModal && (
+          <SkillDetailsPopup
+            key={1}
+            itemId={skillId}
+            open={isOpenDetailsModal}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
     </>
   );
 };

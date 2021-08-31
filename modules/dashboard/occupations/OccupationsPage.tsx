@@ -1,5 +1,4 @@
 import React, {useCallback, useRef, useState} from 'react';
-import AppAnimate from '../../../@crema/core/AppAnimate';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -115,59 +114,57 @@ const OccupationsPage = () => {
 
   return (
     <>
-      <AppAnimate animation='transition.slideUpIn' delay={200}>
-        <PageBlock
-          title={
-            <>
-              <BusinessCenter /> <IntlMessages id='occupations.label' />
-            </>
-          }
-          extra={[
-            <AddButton
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['occupations.label'],
-                  }}
-                />
-              }
-            />,
-          ]}>
-          <ReactTable
-            columns={columns.current}
-            data={data}
-            fetchData={onFetchData}
-            loading={loading}
-            pageCount={pageCount}
-            skipDefaultFilter={true}
-            skipPageResetRef={false}
-            toggleResetTable={isToggleTable}
+      <PageBlock
+        title={
+          <>
+            <BusinessCenter /> <IntlMessages id='occupations.label' />
+          </>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['occupations.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns.current}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <OccupationAddEditPopup
+            key={1}
+            open={isOpenAddEditModal}
+            onClose={closeAddEditModal}
+            itemId={occupationId}
+            refreshDataTable={refreshDataTable}
           />
-          {isOpenAddEditModal && (
-            <OccupationAddEditPopup
-              key={1}
-              open={isOpenAddEditModal}
-              onClose={closeAddEditModal}
-              itemId={occupationId}
-              refreshDataTable={refreshDataTable}
-            />
-          )}
+        )}
 
-          {isOpenDetailsModal && (
-            <OccupationDetailsPopup
-              key={1}
-              itemId={occupationId}
-              open={isOpenDetailsModal}
-              onClose={closeDetailsModal}
-              openEditModal={openAddEditModal}
-            />
-          )}
-        </PageBlock>
-      </AppAnimate>
+        {isOpenDetailsModal && (
+          <OccupationDetailsPopup
+            key={1}
+            itemId={occupationId}
+            open={isOpenDetailsModal}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
     </>
   );
 };
