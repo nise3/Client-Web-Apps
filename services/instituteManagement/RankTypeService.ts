@@ -13,15 +13,6 @@ export const getAllRankTypes = async (params = {}) => {
   }
 };
 
-export const getAllRankTypesBasedOnOrganization = async (organizationId: number) => {
-  try {
-    let response: any = await apiGet(API_RANK_TYPES, + "?organizationId=" + organizationId);
-    return response.data.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
 export const getRankType = async (rankTypeId: number) => {
   try {
     let response: any = await apiGet(API_RANK_TYPES + '/' + rankTypeId);
