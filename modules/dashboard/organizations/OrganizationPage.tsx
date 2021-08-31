@@ -133,7 +133,7 @@ const OrganizationPage = () => {
     urlPath: ORGANIZATION_SERVICE_PATH + '/organizations',
     dataAccessor: 'data',
   });
-  console.log(isToggleTable);
+
   return (
     <>
       <PageBlock
