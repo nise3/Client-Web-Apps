@@ -103,6 +103,8 @@
   "menu.dashboard": "ড্যাশবোর্ড",
   "menu.pages": "পেজ",
   "menu.institute": "প্রতিষ্ঠান",
+  "menu.branch": "ব্রাঞ্চ",
+  "menu.programme": "প্রোগ্রাম",
   "menu.organization_type": "সংস্থার ধরণ",
   "menu.organization_unit_type": "সংস্থা ইউনিটের ধরণ",
   "menu.organization_unit": "সংস্থা ইউনিট",
@@ -171,5 +173,11 @@
   "common.subject_created_successfully" : "{subject} সফলভাবে তৈরি করা হয়েছে",
   "common.subject_updated_successfully" : "{subject} সফলভাবে আপডেট হয়েছে",
   "common.subject_deleted_successfully" : "{subject} সাফল্যের সাথে মুছে ফেলা হয়েছে",
-  "common.delete_confirm" : "আপনি কি নিশ্চিত?"
+  "common.delete_confirm" : "আপনি কি নিশ্চিত?",
+  "branch.label": "ব্রাঞ্চ",
+  "institute.label": "প্রতিষ্ঠান",
+  "common.google_map_src": "গুগল ম্যাপ সোর্স",
+  "programme.label": "প্রোগ্রাম",
+  "programme.programme_code": "প্রোগ্রাম কোড",
+  "programme.programme_logo": "প্রোগ্রাম লোগো"
 }
