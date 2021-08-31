@@ -20,7 +20,7 @@ const useStyle = makeStyles({
 
 interface ConfirmationDialogProps {
   open: boolean;
-  onDeny: (x: boolean) => void;
+  onDeny: () => void;
   onConfirm: () => void;
   title: any;
   dialogTitle: any;
@@ -36,7 +36,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   const classes = useStyle();
 
   return (
-    <Dialog open={open} onClose={() => onDeny(false)}>
+    <Dialog open={open} onClose={onDeny}>
       <Box px={{xs: 5, md: 7}} pt={{xs: 4, md: 6}} pb={{xs: 2, md: 4}}>
         <Box
           mb={3}
@@ -54,10 +54,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
           </DialogContentText>
         </Box>
         <Box pt={2}>
-          <Button
-            className={classes.btn}
-            onClick={() => onDeny(false)}
-            color='primary'>
+          <Button className={classes.btn} onClick={onDeny} color='primary'>
             <IntlMessages id='common.no' />
           </Button>
           <Button

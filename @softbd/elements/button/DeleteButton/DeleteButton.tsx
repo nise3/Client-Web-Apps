@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import ConfirmationDialog from '../../../../@crema/core/ConfirmationDialog';
@@ -29,6 +29,15 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const classes = useStyles();
 
+  const onConfirm = useCallback(() => {
+    deleteAction();
+    setDeleteDialogOpen(false);
+  }, [setDeleteDialogOpen]);
+
+  const onDeny = useCallback(() => {
+    setDeleteDialogOpen(false);
+  }, []);
+
   return (
     <>
       <Tooltip title={<IntlMessages id='common.delete_btn' />}>
@@ -44,8 +53,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
       {isDeleteDialogOpen ? (
         <ConfirmationDialog
           open={isDeleteDialogOpen}
-          onDeny={setDeleteDialogOpen}
-          onConfirm={deleteAction}
+          onDeny={onDeny}
+          onConfirm={onConfirm}
           title={deleteTitle}
           dialogTitle={<IntlMessages id='common.deleteItem' />}
         />

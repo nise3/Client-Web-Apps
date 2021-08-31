@@ -63,6 +63,7 @@ const JobSectorPage = () => {
 
   const deleteJobSectorItem = async (itemId: number) => {
     let response = await deleteJobSector(itemId);
+    console.log(response);
     if (response) {
       successStack(
         <IntlMessages
@@ -70,6 +71,7 @@ const JobSectorPage = () => {
           values={{subject: <IntlMessages id='job_sectors.label' />}}
         />,
       );
+
       refreshDataTable();
     }
   };
