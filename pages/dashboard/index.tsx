@@ -150,7 +150,7 @@ export default AppPage(() => {
 
         <Grid item md={12}>
           <AppCard title={'Loader in center of app.'}>
-            <Loader />
+            {'Loader' || <Loader />}
           </AppCard>
         </Grid>
 

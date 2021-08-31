@@ -3,6 +3,7 @@ import {Box} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import useStyles from './index.style';
 import {AppContext} from '../../index';
+import clsx from 'clsx';
 
 interface AppsContainerProps {
   fullView?: boolean;
@@ -23,7 +24,7 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
   return (
     <Box flex={1} display='flex' flexDirection='column'>
       <Box className={classes.appsContainer}>
-        <Box className={classes.appsMainContent}>
+        <Box className={clsx(classes.appsMainContent)}>
           <Card
             style={{
               height: fullHeight ? '100%' : 'auth',
