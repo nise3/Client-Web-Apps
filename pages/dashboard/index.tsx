@@ -29,6 +29,18 @@ export default AppPage(() => {
             <AppCard>AppCard</AppCard>
           </Box>
         </Grid>
+        {/*<Grid item md={12}>*/}
+        {/*  <Box> */}
+        {/*    <AppAnimateGroup animation={'zoom'}> use case unknown. */}
+        {/*      <AppCard>AppCard</AppCard>*/}
+        {/*    </AppAnimateGroup>*/}
+        {/*  </Box>*/}
+        {/*</Grid>*/}
+        <Grid item md={12}>
+          <Box>
+            <AppCard>AppCard</AppCard>
+          </Box>
+        </Grid>
       </Grid>
     </React.Fragment>
   );
