@@ -14,6 +14,7 @@ type Props = {
   errorInstance?: any;
   multiline?: boolean;
   rows?: number;
+  type?: string;
 };
 
 const CustomTextInput = ({
@@ -27,6 +28,7 @@ const CustomTextInput = ({
   errorInstance,
   multiline,
   rows,
+  type,
 }: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
@@ -40,6 +42,7 @@ const CustomTextInput = ({
       label={label}
       multiline={multiline}
       rows={rows}
+      type={type}
       error={errorInstance[id] && Boolean(errorInstance[id])}
       helperText={errorInstance[id] && errorInstance[id].message}
       {...register(id)}

@@ -72,6 +72,7 @@ const validationSchema = yup.object().shape({
     .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
   contact_person_email: yup
     .string()
+    .email()
     .trim()
     .required()
     .label('Contact person email'),
