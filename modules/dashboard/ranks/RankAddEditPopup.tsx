@@ -8,10 +8,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  getAllRankTypes,
-  getAllRankTypesBasedOnOrganization,
-} from '../../../services/instituteManagement/RankTypeService';
+import {getAllRankTypes} from '../../../services/instituteManagement/RankTypeService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
@@ -89,7 +86,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         setOrganizationId(item.organization_id);
         organizationId &&
           setRankTypes(
-            await getAllRankTypesBasedOnOrganization(organizationId),
+            await getAllRankTypes({organization_id: organizationId}),
           );
         reset({
           title_en: item.title_en,
@@ -118,7 +115,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
 
   const loadAllRankTypes = async () => {
     if (organizationId) {
-      setRankTypes(await getAllRankTypesBasedOnOrganization(organizationId));
+      setRankTypes(await getAllRankTypes({organization_id: organizationId}));
     } else {
       setRankTypes(await getAllRankTypes());
     }
