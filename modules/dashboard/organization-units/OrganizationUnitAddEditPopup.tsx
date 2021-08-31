@@ -2,17 +2,15 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
-  createOrganization,
   getAllOrganizations,
   getOrganization,
-  updateOrganization,
 } from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -26,6 +24,12 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
+import {getAllOrganizationUnitTypes} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import {getAllUpazilas} from '../../../services/locationManagement/UpazilaService';
+import {
+  createOrganizationUnit,
+  updateOrganizationUnit,
+} from '../../../services/organaizationManagement/OrganizationUnitService';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -72,6 +76,7 @@ const validationSchema = yup.object().shape({
     .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
   contact_person_email: yup
     .string()
+    .email()
     .trim()
     .required()
     .label('Contact person email'),
@@ -117,9 +122,13 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const [divisions, setDivisions] = useState<Array<Division>>([]);
   const [districts, setDistricts] = useState<Array<District>>([]);
   const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
+  const [organizationUnitTypes, setOrganizationUnitTypes] = useState<
+    Array<OrganizationUnitType>
+  >([]);
   const [selectedOrganizationId, setSelectedOrganizationId] =
     useState<number>();
   const [selectedDivisionId, setSelectedDivisionId] = useState<number>();
+  const [selectedDistrictId, setSelectedDistrictId] = useState<number>();
 
   const {
     control,
@@ -177,7 +186,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     }
   };
 
-  useMemo(async () => {
+  const loadDivisions = async () => {
+    let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
+    if (divisions) setDivisions(divisions);
+  };
+
+  const loadDistrictsByDivision = useMemo(async () => {
     if (selectedDivisionId) {
       console.log('load district', selectedDivisionId);
       let districts = await getAllDistricts({
@@ -189,35 +203,64 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     }
   }, [selectedDivisionId]);
 
-  const changeDivisionAction = (value: any) => {
+  const loadUpazilasByDistrict = useMemo(async () => {
+    if (selectedDistrictId) {
+      console.log('load upazilas', selectedDistrictId);
+      let upazilas = await getAllUpazilas({
+        district_id: selectedDistrictId,
+        row_status: RowStatus.ACTIVE,
+      });
+      console.log('upazilas', upazilas);
+      if (upazilas) setUpazilas(upazilas);
+    }
+  }, [selectedDistrictId]);
+
+  const loadOrganizationUnitTypesByOrganization = useMemo(async () => {
+    if (selectedOrganizationId) {
+      console.log('load organization Unit type', selectedOrganizationId);
+      let unitTypes = await getAllOrganizationUnitTypes({
+        organization_id: selectedOrganizationId,
+        row_status: RowStatus.ACTIVE,
+      });
+      console.log('unitTypes', unitTypes);
+      if (unitTypes) setOrganizationUnitTypes(unitTypes);
+    }
+  }, [selectedOrganizationId]);
+
+  const changeDivisionAction = useCallback((value) => {
     setSelectedDivisionId(value);
-  };
+  }, []);
 
-  const loadDivisions = async () => {
-    let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
-    if (divisions) setDivisions(divisions);
-  };
+  const changeOrganizationAction = useCallback((value) => {
+    setSelectedOrganizationId(value);
+  }, []);
 
-  const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
+  const changeDistrictAction = useCallback((value) => {
+    setSelectedDistrictId(value);
+  }, []);
+
+  const onSubmit: SubmitHandler<OrganizationUnit> = async (
+    data: OrganizationUnit,
+  ) => {
     if (itemId) {
-      let response = await updateOrganization(itemId, data);
+      let response = await updateOrganizationUnit(itemId, data);
       if (response) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='organization.label' />}}
+            values={{subject: <IntlMessages id='organization_unit.label' />}}
           />,
         );
         props.onClose();
         refreshDataTable();
       }
     } else {
-      let response = await createOrganization(data);
+      let response = await createOrganizationUnit(data);
       if (response) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='organization.label' />}}
+            values={{subject: <IntlMessages id='organization_unit.label' />}}
           />,
         );
         props.onClose();
@@ -235,12 +278,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='organization.label' />}}
+              values={{subject: <IntlMessages id='organization_unit.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='organization.label' />}}
+              values={{subject: <IntlMessages id='organization_unit.label' />}}
             />
           )}
         </>
@@ -273,7 +316,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
-            id='organization_type_id'
+            id='organization_id'
             label={messages['organization.label']}
             isLoading={isLoading}
             control={control}
@@ -281,6 +324,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
+            onChange={changeOrganizationAction}
           />
         </Grid>
         <Grid item xs={6}>
@@ -289,7 +333,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             label={messages['organization_unit_type.label']}
             isLoading={isLoading}
             control={control}
-            options={organizations}
+            options={organizationUnitTypes}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
@@ -318,6 +362,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
+            onChange={changeDistrictAction}
           />
         </Grid>
         <Grid item xs={6}>
@@ -326,7 +371,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             label={messages['upazilas.label']}
             isLoading={isLoading}
             control={control}
-            options={districts}
+            options={upazilas}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
@@ -400,6 +445,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             id='employee_size'
             label={messages['organization_unit.employee_size']}
             register={register}
+            type='number'
             errorInstance={errors}
             isLoading={isLoading}
           />
