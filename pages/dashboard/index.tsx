@@ -5,6 +5,8 @@ import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import Badge from '../../@crema/core/Badge';
 import {Box, Grid} from '@material-ui/core';
 import AppCard from '../../@crema/core/AppCard';
+import AddButton from '../../@softbd/elements/button/AddButton/AddButton';
+import AppCircularProgress from '../../@crema/core/AppCircularProgress';
 
 export default AppPage(() => {
   const {successStack} = useNotiStack();
@@ -24,11 +26,6 @@ export default AppPage(() => {
             <Badge count={'badge'} />
           </Box>
         </Grid>
-        <Grid item md={12}>
-          <Box>
-            <AppCard>AppCard</AppCard>
-          </Box>
-        </Grid>
         {/*<Grid item md={12}>*/}
         {/*  <Box> */}
         {/*    <AppAnimateGroup animation={'zoom'}> use case unknown. */}
@@ -38,9 +35,19 @@ export default AppPage(() => {
         {/*</Grid>*/}
         <Grid item md={12}>
           <Box>
-            <AppCard>AppCard</AppCard>
+            <AppCard
+              title={'Hello world'}
+              action={<AddButton onClick={() => null} />}>
+              AppCard
+            </AppCard>
           </Box>
         </Grid>
+
+        {/*<Grid item md={12}>*/}
+        {/*  <Box>*/}
+        {/*    <AppCircularProgress value={}><AddButton onClick={() => null} /></AppCircularProgress>*/}
+        {/*  </Box>*/}
+        {/*</Grid>*/}
       </Grid>
     </React.Fragment>
   );

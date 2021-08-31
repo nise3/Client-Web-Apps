@@ -34,7 +34,7 @@ interface AppCardProps {
   footerPosition?: string;
   footerStyle?: any;
   children: ReactNode;
-
+  title?: any;
   [x: string]: any;
 }
 
