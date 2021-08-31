@@ -108,6 +108,7 @@ type OrganizationUnit = {
   contact_person_email: string;
   contact_person_mobile: string;
   contact_person_name: string;
+  services?: Array<number>;
   row_status: number;
   updated_at?: string;
   crated_at?: string;

@@ -26,7 +26,7 @@ export const getOrganizationUnit = async (OrganizationUnitId: number) => {
 export const createOrganizationUnit = async (data: OrganizationUnit) => {
   try {
     let response: any = await apiPost(API_ORGANIZATION_UNITS, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -53,6 +53,25 @@ export const deleteOrganizationUnit = async (OrganizationUnitId: number) => {
       API_ORGANIZATION_UNITS + '/' + OrganizationUnitId,
     );
     return response.data._response_status.success;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const assignServiceToOrganizationUnit = async (
+  organization_id: number,
+  data: any,
+) => {
+  let serviceIds = {serviceIds: data};
+  try {
+    let response: any = await apiPost(
+      API_ORGANIZATION_UNITS +
+        '/' +
+        organization_id +
+        '/assign-service-to-organization-unit',
+      serviceIds,
+    );
+    return response.data.data;
   } catch (error) {
     catchBlockHandler(error);
   }
