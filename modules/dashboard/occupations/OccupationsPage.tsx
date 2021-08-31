@@ -25,25 +25,25 @@ const OccupationsPage = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setOccupationId(null);
-  };
+  }, []);
 
-  const openAddEditModal = (occupationId: number | null = null) => {
+  const openAddEditModal = useCallback((occupationId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
     setOccupationId(occupationId);
-  };
+  }, []);
 
-  const openDetailsModal = (occupationId: number) => {
+  const openDetailsModal = useCallback((occupationId: number) => {
     setIsOpenDetailsModal(true);
     setOccupationId(occupationId);
-  };
+  }, []);
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteOccupationItem = async (occupationId: number) => {
     let data = await deleteOccupation(occupationId);
@@ -103,14 +103,11 @@ const OccupationsPage = () => {
     },
   ]);
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/occupations',
-    dataAccessor: 'data',
-    filters: {
-      title_en: 'title_en',
-      title_bn: 'title_bn',
-    },
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: ORGANIZATION_SERVICE_PATH + '/occupations',
+      dataAccessor: 'data',
+    });
 
   return (
     <>
@@ -140,6 +137,7 @@ const OccupationsPage = () => {
           data={data}
           fetchData={onFetchData}
           loading={loading}
+          totalCount={totalCount}
           pageCount={pageCount}
           skipDefaultFilter={true}
           skipPageResetRef={false}

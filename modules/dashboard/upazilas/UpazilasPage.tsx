@@ -37,25 +37,28 @@ const UpazilasPage = () => {
     })();
   }, []);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-  };
+  }, []);
 
-  const openAddEditModal = (itemId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
-  };
+  }, []);
 
-  const openDetailsModal = (itemId: number) => {
-    setIsOpenDetailsModal(true);
-    setSelectedItemId(itemId);
-  };
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteUpazilaItem = async (itemId: number) => {
     let data = await deleteUpazila(itemId);
@@ -150,6 +153,7 @@ const UpazilasPage = () => {
           columns={columns.current}
           data={upazilas}
           loading={isLoading}
+          totalCount={upazilas?.length}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}

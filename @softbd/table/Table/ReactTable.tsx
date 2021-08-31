@@ -117,8 +117,10 @@ export default function ReactTable<T extends object>({
   skipDefaultFilter = false,
   loading = false,
   toggleResetTable = false,
-  pageSize: controlledPageSize = 10,
+  pageSize: controlledPageSize,
   hideToolbar = false,
+  pageSizeData = [10, 15, 20, 25, 30],
+  totalCount = 0,
   ...props
 }: any): ReactElement {
   const isServerSideTable = typeof fetchData !== 'undefined';
@@ -128,6 +130,7 @@ export default function ReactTable<T extends object>({
   const clientSideOptions = {
     ...props,
     columns,
+    initialState: {pageSize: pageSizeData[0]},
     filterTypes,
     defaultColumn,
   };
@@ -150,7 +153,7 @@ export default function ReactTable<T extends object>({
     manualSortBy: true,
     manualRowSelectedKey: true,
     pageCount: controlledPageCount,
-    initialState: {pageSize: controlledPageSize},
+    initialState: {pageSize: pageSizeData[0]},
     filterTypes,
     defaultColumn,
     // stateReducer: (newState, action, prevState) => {
@@ -180,7 +183,8 @@ export default function ReactTable<T extends object>({
     // setAllFilters, // to reset filter manually.
     prepareRow,
     state: {pageIndex, pageSize, sortBy, filters},
-    pageCount,
+    gotoPage,
+    setPageSize,
   } = instance;
 
   React.useEffect(() => {
@@ -188,6 +192,21 @@ export default function ReactTable<T extends object>({
       fetchData({pageIndex, pageSize, sortBy, filters});
     }
   }, [fetchData, pageIndex, pageSize, sortBy, filters, toggleResetTable]);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    gotoPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setPageSize(parseInt(event.target.value, 10));
+    gotoPage(0);
+  };
+
   return (
     <>
       <Grid container>
@@ -247,6 +266,20 @@ export default function ReactTable<T extends object>({
                       </TableRow>
                     );
                   })}
+                  {page.length == 0 && (
+                    <TableRow key={0} className={classes.tableRow}>
+                      <TableCell
+                        style={{
+                          border: '1px solid rgba(224, 224, 224, 1)',
+                          textAlign: 'center',
+                        }}
+                        colSpan={columns?.length}
+                        key={0}
+                        className={classes.tableCell}>
+                        No Data Found
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               )}
             </Table>
@@ -254,17 +287,15 @@ export default function ReactTable<T extends object>({
         </Grid>
 
         <Grid item md={12}>
-          {pageCount > 1 && (
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component='div'
-              count={pageCount}
-              rowsPerPage={10}
-              page={1}
-              onPageChange={() => null}
-              onRowsPerPageChange={() => null}
-            />
-          )}
+          <TablePagination
+            rowsPerPageOptions={pageSizeData}
+            component='div'
+            count={totalCount}
+            rowsPerPage={pageSize}
+            page={pageIndex}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Grid>
       </Grid>
     </>
