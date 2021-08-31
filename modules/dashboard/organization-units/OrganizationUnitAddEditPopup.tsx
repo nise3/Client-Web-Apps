@@ -2,16 +2,13 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  getAllOrganizations,
-  getOrganization,
-} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
@@ -27,9 +24,12 @@ import {getAllDistricts} from '../../../services/locationManagement/DistrictServ
 import {getAllOrganizationUnitTypes} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {getAllUpazilas} from '../../../services/locationManagement/UpazilaService';
 import {
+  assignServiceToOrganizationUnit,
   createOrganizationUnit,
+  getOrganizationUnit,
   updateOrganizationUnit,
 } from '../../../services/organaizationManagement/OrganizationUnitService';
+import {getAllServices} from '../../../services/organaizationManagement/OrganizationServiceService';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -104,6 +104,7 @@ const initialValues = {
   contact_person_email: '',
   contact_person_designation: '',
   employee_size: '',
+  services: [],
   row_status: '1',
 };
 
@@ -119,6 +120,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const [organizations, setOrganizations] = useState<Array<OrganizationType>>(
     [],
   );
+  const [services, setServices] = useState<Array<Service>>([]);
   const [divisions, setDivisions] = useState<Array<Division>>([]);
   const [districts, setDistricts] = useState<Array<District>>([]);
   const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
@@ -144,7 +146,9 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (itemId) {
-        let item = await getOrganization(itemId);
+        let item = await getOrganizationUnit(itemId);
+        console.log('item', item);
+
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -161,8 +165,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           contact_person_email: item.contact_person_email,
           contact_person_designation: item.contact_person_designation,
           employee_size: item.employee_size,
+          services: getServiceIds(item.services),
           row_status: String(item.row_status),
         });
+        setSelectedOrganizationId(item.organization_id);
+        setSelectedDivisionId(item.loc_division_id);
+        setSelectedDistrictId(item.loc_district_id);
       } else {
         reset(initialValues);
       }
@@ -170,10 +178,17 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     })();
   }, [itemId]);
 
+  const getServiceIds = (services: Array<Service>) => {
+    let ids = services.map((item: Service) => item.id);
+    console.log('getServiceIds services', ids);
+    return ids;
+  };
+
   useEffect(() => {
     setIsLoading(true);
     loadOrganizations();
     loadDivisions();
+    loadServices();
     setIsLoading(false);
   }, []);
 
@@ -191,60 +206,59 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     if (divisions) setDivisions(divisions);
   };
 
-  const loadDistrictsByDivision = useMemo(async () => {
-    if (selectedDivisionId) {
-      console.log('load district', selectedDivisionId);
-      let districts = await getAllDistricts({
-        division_id: selectedDivisionId,
-        row_status: RowStatus.ACTIVE,
-      });
-      console.log('districts', districts);
-      if (districts) setDistricts(districts);
-    }
+  const loadServices = async () => {
+    let services = await getAllServices({row_status: RowStatus.ACTIVE});
+    if (services) setServices(services);
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (selectedDivisionId) {
+        let districts = await getAllDistricts({
+          division_id: selectedDivisionId,
+          row_status: RowStatus.ACTIVE,
+        });
+        console.log('load district', districts);
+        if (districts) setDistricts(districts);
+      }
+    })();
   }, [selectedDivisionId]);
 
-  const loadUpazilasByDistrict = useMemo(async () => {
-    if (selectedDistrictId) {
-      console.log('load upazilas', selectedDistrictId);
-      let upazilas = await getAllUpazilas({
-        district_id: selectedDistrictId,
-        row_status: RowStatus.ACTIVE,
-      });
-      console.log('upazilas', upazilas);
-      if (upazilas) setUpazilas(upazilas);
-    }
+  useEffect(() => {
+    (async () => {
+      if (selectedDistrictId) {
+        let upazilas = await getAllUpazilas({
+          district_id: selectedDistrictId,
+          row_status: RowStatus.ACTIVE,
+        });
+        if (upazilas) setUpazilas(upazilas);
+      }
+    })();
   }, [selectedDistrictId]);
 
-  const loadOrganizationUnitTypesByOrganization = useMemo(async () => {
-    if (selectedOrganizationId) {
-      console.log('load organization Unit type', selectedOrganizationId);
-      let unitTypes = await getAllOrganizationUnitTypes({
-        organization_id: selectedOrganizationId,
-        row_status: RowStatus.ACTIVE,
-      });
-      console.log('unitTypes', unitTypes);
-      if (unitTypes) setOrganizationUnitTypes(unitTypes);
-    }
+  useEffect(() => {
+    (async () => {
+      if (selectedOrganizationId) {
+        let unitTypes = await getAllOrganizationUnitTypes({
+          organization_id: selectedOrganizationId,
+          row_status: RowStatus.ACTIVE,
+        });
+        if (unitTypes) setOrganizationUnitTypes(unitTypes);
+      }
+    })();
   }, [selectedOrganizationId]);
-
-  const changeDivisionAction = useCallback((value) => {
-    setSelectedDivisionId(value);
-  }, []);
-
-  const changeOrganizationAction = useCallback((value) => {
-    setSelectedOrganizationId(value);
-  }, []);
-
-  const changeDistrictAction = useCallback((value) => {
-    setSelectedDistrictId(value);
-  }, []);
 
   const onSubmit: SubmitHandler<OrganizationUnit> = async (
     data: OrganizationUnit,
   ) => {
+    console.log('data', data);
     if (itemId) {
       let response = await updateOrganizationUnit(itemId, data);
-      if (response) {
+      let assignServicesResponse = await assignServiceToOrganizationUnit(
+        itemId,
+        data.services,
+      );
+      if (response && assignServicesResponse) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -256,7 +270,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganizationUnit(data);
-      if (response) {
+      console.log('response', response.data.id);
+      let assignServicesResponse = await assignServiceToOrganizationUnit(
+        response.data.id,
+        data.services,
+      );
+      if (response && assignServicesResponse) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
@@ -324,7 +343,9 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={changeOrganizationAction}
+            onChange={useCallback((value) => {
+              setSelectedOrganizationId(value);
+            }, [])}
           />
         </Grid>
         <Grid item xs={6}>
@@ -349,7 +370,9 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={changeDivisionAction}
+            onChange={useCallback((value) => {
+              setSelectedDivisionId(value);
+            }, [])}
           />
         </Grid>
         <Grid item xs={6}>
@@ -362,7 +385,9 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             optionValueProp='id'
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={changeDistrictAction}
+            onChange={useCallback((value) => {
+              setSelectedDistrictId(value);
+            }, [])}
           />
         </Grid>
         <Grid item xs={6}>
@@ -450,7 +475,21 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='services'
+            label={messages['service.label']}
+            isLoading={isLoading}
+            control={control}
+            options={services}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            multiple={true}
+            defaultValue={initialValues.services}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <FormRowStatus
             id='row_status'
             control={control}

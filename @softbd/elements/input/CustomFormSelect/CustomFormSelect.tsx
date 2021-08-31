@@ -18,11 +18,12 @@ type Props = {
   control: any;
   options?: Array<any>;
   errorInstance?: any;
-  defaultValue?: number;
+  defaultValue?: number | Array<string>;
   optionValueProp?: any;
   optionTitleProp?: Array<string>;
   maxHeight?: number;
   onChange?: (e: any) => any;
+  multiple?: boolean;
 };
 
 const CustomFormSelect = ({
@@ -37,6 +38,7 @@ const CustomFormSelect = ({
   optionValueProp,
   optionTitleProp,
   maxHeight,
+  multiple,
   onChange: onChangeCallback,
 }: Props) => {
   maxHeight = maxHeight ? maxHeight : 400;
@@ -78,7 +80,8 @@ const CustomFormSelect = ({
               labelId='select-outlined-label'
               aria-label={id}
               label={label}
-              value={value}
+              value={value ? value : ''}
+              multiple={multiple}
               onChange={(e) => {
                 onChange(e.target.value);
                 if (

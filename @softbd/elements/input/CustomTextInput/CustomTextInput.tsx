@@ -45,6 +45,7 @@ const CustomTextInput = ({
       type={type}
       error={errorInstance[id] && Boolean(errorInstance[id])}
       helperText={errorInstance[id] && errorInstance[id].message}
+      InputLabelProps={{shrink: true}}
       {...register(id)}
     />
   );
