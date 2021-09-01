@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -6,8 +6,6 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import SkillAddEditPopup from './SkillAddEditPopup';
 import SkillDetailsPopup from './SkillDetailsPopup';
@@ -16,36 +14,56 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconRank from '../../../@softbd/icons/IconRank';
-import {deleteSkill} from '../../../services/organaizationManagement/SkillService';
+import {
+  deleteSkill,
+  getAllSkills,
+} from '../../../services/organaizationManagement/SkillService';
 
 const SkillPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [skillId, setSkillId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [skills, setSkills] = useState<Array<Skill> | []>([]);
 
-  const closeAddEditModal = () => {
-    setIsOpenAddEditModal(false);
-    setSkillId(null);
+  useEffect(() => {
+    (async () => {
+      await loadSkills();
+    })();
+  }, []);
+
+  const loadSkills = async () => {
+    setIsLoading(true);
+    let skills = await getAllSkills();
+    skills && setSkills(skills);
+    setIsLoading(false);
   };
 
-  const openAddEditModal = (rankId: number | null = null) => {
+  const closeAddEditModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setSelectedItemId(null);
+  }, []);
+
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setSkillId(rankId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const openDetailsModal = (rankId: number) => {
-    setIsOpenDetailsModal(true);
-    setSkillId(rankId);
-  };
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteRankItem = async (skillId: number) => {
     let response = await deleteSkill(skillId);
@@ -60,9 +78,11 @@ const SkillPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
-    setIsToggleTable(!isToggleTable);
-  };
+  const refreshDataTable = useCallback(() => {
+    (async () => {
+      await loadSkills();
+    })();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -111,11 +131,6 @@ const SkillPage = () => {
     [],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/skills',
-    dataAccessor: 'data',
-  });
-
   return (
     <>
       <PageBlock
@@ -128,7 +143,7 @@ const SkillPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -141,20 +156,15 @@ const SkillPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
+          data={skills || []}
+          loading={isLoading}
           skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <SkillAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
-            itemId={skillId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -162,8 +172,7 @@ const SkillPage = () => {
         {isOpenDetailsModal && (
           <SkillDetailsPopup
             key={1}
-            itemId={skillId}
-            open={isOpenDetailsModal}
+            itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

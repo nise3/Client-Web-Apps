@@ -12,7 +12,6 @@ import IconRankType from '../../../@softbd/icons/IconRankType';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -41,6 +40,7 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
+        open={true}
         title={
           <>
             <IconRankType />

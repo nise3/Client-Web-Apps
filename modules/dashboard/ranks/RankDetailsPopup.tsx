@@ -12,7 +12,6 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -40,6 +39,7 @@ const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
+        open={true}
         {...props}
         title={
           <>
