@@ -41,7 +41,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   bbs_code: '',
-  row_status: '',
+  row_status: '1',
 };
 
 const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
@@ -86,14 +86,24 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     if (isEdit && itemId) {
       let response = await updateDivision(itemId, data);
       if (response) {
-        successStack('Division Updated Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='divisions.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createDivision(data);
       if (response) {
-        successStack('Division Created Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='divisions.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }

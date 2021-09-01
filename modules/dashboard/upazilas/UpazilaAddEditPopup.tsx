@@ -130,14 +130,24 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
     if (isEdit && itemId) {
       let response = await updateUpazila(itemId, data);
       if (response) {
-        successStack('Upazila Updated Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='upazilas.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createUpazila(data);
       if (response) {
-        successStack('Upazila Created Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='upazilas.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }

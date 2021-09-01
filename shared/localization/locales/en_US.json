@@ -14,6 +14,7 @@
   "common.delete_btn": "Delete",
   "common.bbs_code": "BBS Code",
   "common.cancel": "Cancel",
+  "common.no_data_found": "No data found",
   "button.click_me": "Click Me",
   "error.404Error": "404 Error",
   "error.message1": "We can't find the page that",

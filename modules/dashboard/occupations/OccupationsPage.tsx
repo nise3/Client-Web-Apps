@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -15,9 +15,11 @@ import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {BusinessCenter} from '@material-ui/icons';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const OccupationsPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [occupationId, setOccupationId] = useState<number | null>(null);
 
@@ -46,62 +48,72 @@ const OccupationsPage = () => {
   }, []);
 
   const deleteOccupationItem = async (occupationId: number) => {
-    let data = await deleteOccupation(occupationId);
-    if (data) {
+    let response = await deleteOccupation(occupationId);
+    if (response) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='occupations.label' />}}
+        />,
+      );
+
       refreshDataTable();
     }
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
+    setIsToggleTable((previousToggle) => !previousToggle);
   }, [isToggleTable]);
 
-  const columns = useRef([
-    {
-      Header: messages['common.id'],
-      accessor: 'id',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.title_en'],
-      accessor: 'title_en',
-    },
-    {
-      Header: messages['common.title_bn'],
-      accessor: 'title_bn',
-    },
-    {
-      Header: messages['job_sectors.label'],
-      accessor: 'job_sector_title',
-    },
-    {
-      Header: messages['common.status'],
-      accessor: 'row_status',
-      filter: 'rowStatusFilter',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return <CustomChipRowStatus value={data?.row_status} />;
+  const columns = useMemo(
+    () => [
+      {
+        Header: '#',
+        accessor: 'id',
+        disableFilters: true,
+        disableSortBy: true,
       },
-    },
-    {
-      Header: messages['common.actions'],
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <DatatableButtonGroup>
-            <ReadButton onClick={() => openDetailsModal(data.id)} />
-            <EditButton onClick={() => openAddEditModal(data.id)} />
-            <DeleteButton
-              deleteAction={() => deleteOccupationItem(data.id)}
-              deleteTitle='Are you sure?'
-            />
-          </DatatableButtonGroup>
-        );
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
       },
-      sortable: false,
-    },
-  ]);
+      {
+        Header: messages['common.title_bn'],
+        accessor: 'title_bn',
+      },
+      {
+        Header: messages['job_sectors.label'],
+        accessor: 'job_sector_title',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteOccupationItem(data.id)}
+                deleteTitle='Are you sure?'
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [],
+  );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
@@ -133,7 +145,7 @@ const OccupationsPage = () => {
           />,
         ]}>
         <ReactTable
-          columns={columns.current}
+          columns={columns}
           data={data}
           fetchData={onFetchData}
           loading={loading}
