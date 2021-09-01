@@ -1,14 +1,14 @@
-import matchSorter from 'match-sorter';
-import { FilterValue, IdType, Row } from 'react-table';
+import {matchSorter} from 'match-sorter';
+import {FilterValue, IdType, Row} from 'react-table';
 
 export function fuzzyTextFilter<T extends object>(
   rows: Array<Row<T>>,
   id: IdType<T>,
-  filterValue: FilterValue
+  filterValue: FilterValue,
 ) {
   console.log(rows);
   return matchSorter(rows, filterValue, {
-    keys: [(row: Row<T>) => row.values[id]]
+    keys: [(row: Row<T>) => row.values[id]],
   });
 }
 
