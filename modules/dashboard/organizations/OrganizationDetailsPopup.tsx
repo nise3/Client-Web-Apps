@@ -12,7 +12,6 @@ import IconOrganization from '../../../@softbd/icons/IconOrganization';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -41,6 +40,7 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         {...props}
+        open={true}
         title={
           <>
             <IconOrganization />
@@ -75,7 +75,7 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.organization_type']}
-              value={itemData?.organization_types_title}
+              value={itemData?.organization_type_title_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -128,14 +128,14 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.contact_person_designation']}
               value={itemData?.contact_person_designation}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.description']}
               value={itemData?.description}

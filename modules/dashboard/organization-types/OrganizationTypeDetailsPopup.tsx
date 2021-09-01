@@ -12,7 +12,6 @@ import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -46,6 +45,7 @@ const OrganizationTypeDetailsPopup = ({
       <CustomDetailsViewMuiModal
         {...props}
         maxWidth={'sm'}
+        open={true}
         title={
           <>
             <IconOrganizationType />

@@ -12,7 +12,6 @@ import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUni
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -45,6 +44,7 @@ const OrganizationUnitTypeDetailsPopup = ({
     <>
       <CustomDetailsViewMuiModal
         {...props}
+        open={true}
         title={
           <>
             <IconOrganizationUnitType />
@@ -80,7 +80,7 @@ const OrganizationUnitTypeDetailsPopup = ({
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['organization.label']}
-              value={itemData?.organization_name}
+              value={itemData?.organization_title_en}
               isLoading={isLoading}
             />
           </Grid>

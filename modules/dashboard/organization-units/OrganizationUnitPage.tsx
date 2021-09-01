@@ -133,10 +133,11 @@ const OrganizationUnitPage = () => {
     [],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/organization-units',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-units',
+      dataAccessor: 'data',
+    });
 
   return (
     <>
@@ -167,6 +168,7 @@ const OrganizationUnitPage = () => {
           data={data}
           fetchData={onFetchData}
           loading={loading}
+          totalCount={totalCount}
           pageCount={pageCount}
           skipDefaultFilter={true}
           skipPageResetRef={false}
@@ -175,7 +177,6 @@ const OrganizationUnitPage = () => {
         {isOpenAddEditModal && (
           <OrganizationUnitAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
             itemId={organizationUnitId}
             refreshDataTable={refreshDataTable}
@@ -186,7 +187,6 @@ const OrganizationUnitPage = () => {
           <OrganizationUnitDetailsPopup
             key={1}
             itemId={organizationUnitId}
-            open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

@@ -12,7 +12,6 @@ import {getOrganizationUnit} from '../../../services/organaizationManagement/Org
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -53,6 +52,7 @@ const OrganizationUnitDetailsPopup = ({
     <>
       <CustomDetailsViewMuiModal
         {...props}
+        open={true}
         title={
           <>
             <IconOrganization />
