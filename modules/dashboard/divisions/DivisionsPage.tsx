@@ -16,25 +16,30 @@ import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const DivisionsPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [divisions, setDivisions] = useState<Array<Division>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      let divisions = await getAllDivisions();
-      setDivisions(divisions);
-      setIsLoading(false);
+      await loadDivisionsData();
     })();
   }, []);
+
+  const loadDivisionsData = async () => {
+    setIsLoading(true);
+    let divisions = await getAllDivisions();
+    if (divisions) setDivisions(divisions);
+    setIsLoading(false);
+  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -63,15 +68,22 @@ const DivisionsPage = () => {
   }, []);
 
   const deleteDivisionItem = async (selectedItemId: number) => {
-    let data = await deleteDivision(selectedItemId);
-    if (data) {
-      refreshDataTable();
+    let response = await deleteDivision(selectedItemId);
+    if (response) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='divisions.label' />}}
+        />,
+      );
+
+      await refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
-  }, [isToggleTable]);
+  const refreshDataTable = useCallback(async () => {
+    await loadDivisionsData();
+  }, []);
 
   const columns = useRef([
     {
@@ -145,12 +157,9 @@ const DivisionsPage = () => {
         ]}>
         <ReactTable
           columns={columns.current}
-          data={divisions}
+          data={divisions || []}
           loading={isLoading}
-          totalCount={divisions?.length}
           skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <DivisionAddEditPopup

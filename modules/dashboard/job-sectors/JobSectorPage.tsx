@@ -25,18 +25,21 @@ const JobSectorPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [jobSectors, setJobSectors] = useState<Array<JobSector>>([]);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      let jobSectors = await getAllJobSectors();
-      setJobSectors(jobSectors);
-      setIsLoading(false);
+      await loadJobSectorsData();
     })();
   }, []);
+
+  const loadJobSectorsData = async () => {
+    setIsLoading(true);
+    let jobSectors = await getAllJobSectors();
+    if (jobSectors) setJobSectors(jobSectors);
+    setIsLoading(false);
+  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -63,7 +66,6 @@ const JobSectorPage = () => {
 
   const deleteJobSectorItem = async (itemId: number) => {
     let response = await deleteJobSector(itemId);
-    console.log(response);
     if (response) {
       successStack(
         <IntlMessages
@@ -76,9 +78,9 @@ const JobSectorPage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
-  }, [isToggleTable]);
+  const refreshDataTable = useCallback(async () => {
+    await loadJobSectorsData();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -153,12 +155,9 @@ const JobSectorPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={jobSectors}
+          data={jobSectors || []}
           loading={isLoading}
-          totalCount={jobSectors?.length}
           skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <JobSectorAddEditPopup

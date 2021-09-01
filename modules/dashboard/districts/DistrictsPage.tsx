@@ -16,25 +16,30 @@ import DistrictDetailsPopup from './DistrictDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const DistrictsPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [districts, setDistricts] = useState<Array<District>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      let districts = await getAllDistricts();
-      setDistricts(districts);
-      setIsLoading(false);
+      await loadDistrictData();
     })();
   }, []);
+
+  const loadDistrictData = async () => {
+    setIsLoading(true);
+    let districts = await getAllDistricts();
+    if (districts) setDistricts(districts);
+    setIsLoading(false);
+  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -60,15 +65,22 @@ const DistrictsPage = () => {
   }, []);
 
   const deleteDistrictItem = async (districtId: number) => {
-    let data = await deleteDistrict(districtId);
-    if (data) {
-      refreshDataTable();
+    let response = await deleteDistrict(districtId);
+    if (response) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='districts.label' />}}
+        />,
+      );
+
+      await refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
-  }, [isToggleTable]);
+  const refreshDataTable = useCallback(async () => {
+    await loadDistrictData();
+  }, []);
 
   const columns = useRef([
     {
@@ -146,12 +158,9 @@ const DistrictsPage = () => {
         ]}>
         <ReactTable
           columns={columns.current}
-          data={districts}
+          data={districts || []}
           loading={isLoading}
-          totalCount={districts?.length}
           skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <DistrictAddEditPopup

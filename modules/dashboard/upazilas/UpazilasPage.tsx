@@ -16,26 +16,31 @@ import {
 } from '../../../services/locationManagement/UpazilaService';
 import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      let upazilas = await getAllUpazilas();
-      setUpazilas(upazilas);
-      setIsLoading(false);
+      await loadUpazilasData();
     })();
   }, []);
+
+  const loadUpazilasData = async () => {
+    setIsLoading(true);
+    let upazilas = await getAllUpazilas();
+    if (upazilas) setUpazilas(upazilas);
+    setIsLoading(false);
+  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -61,15 +66,22 @@ const UpazilasPage = () => {
   }, []);
 
   const deleteUpazilaItem = async (itemId: number) => {
-    let data = await deleteUpazila(itemId);
-    if (data) {
-      refreshDataTable();
+    let response = await deleteUpazila(itemId);
+    if (response) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='upazilas.label' />}}
+        />,
+      );
+
+      await refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
-  }, [isToggleTable]);
+  const refreshDataTable = useCallback(async () => {
+    await loadUpazilasData();
+  }, []);
 
   const columns = useRef([
     {
@@ -151,12 +163,9 @@ const UpazilasPage = () => {
         ]}>
         <ReactTable
           columns={columns.current}
-          data={upazilas}
+          data={upazilas || []}
           loading={isLoading}
-          totalCount={upazilas?.length}
           skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <UpazilaAddEditPopup

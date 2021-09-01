@@ -95,19 +95,27 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
-    console.log('data', data);
-
     if (isEdit && itemId) {
       let response = await updateOccupation(itemId, data);
       if (response) {
-        successStack('Occupation Updated Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='occupations.label' />}}
+          />,
+        );
         props.onClose();
         props.refreshDataTable();
       }
     } else {
       let response = await createOccupation(data);
       if (response) {
-        successStack('Occupation Created Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='occupations.label' />}}
+          />,
+        );
         props.onClose();
         props.refreshDataTable();
       }

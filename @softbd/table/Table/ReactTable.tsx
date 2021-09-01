@@ -33,6 +33,7 @@ import {ThemeMode} from '../../../shared/constants/AppEnums';
 import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSkeleton';
 import {DefaultColumnFilter} from '../Filters/filter';
 import AppTableContainer from '../../../@crema/core/AppTableContainer';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -124,14 +125,17 @@ export default function ReactTable<T extends object>({
   pageSize: controlledPageSize,
   hideToolbar = false,
   pageSizeData = [10, 15, 20, 25, 30],
-  totalCount = 0,
+  data,
+  totalCount = data ? data.length : 0,
   ...props
 }: any): ReactElement {
+  const {messages} = useIntl();
   const isServerSideTable = typeof fetchData !== 'undefined';
 
   const classes: any = useStyles();
 
   const clientSideOptions = {
+    data,
     ...props,
     columns,
     initialState: {pageSize: pageSizeData[0]},
@@ -139,6 +143,7 @@ export default function ReactTable<T extends object>({
     defaultColumn,
   };
   const serverSideOptions = {
+    data,
     ...props,
     columns,
     autoResetHiddenColumns: false,
@@ -283,7 +288,7 @@ export default function ReactTable<T extends object>({
                         colSpan={columns?.length}
                         key={0}
                         className={classes.tableCell}>
-                        No Data Found
+                        {messages['common.no_data_found']}
                       </TableCell>
                     </TableRow>
                   )}

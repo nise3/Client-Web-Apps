@@ -15,9 +15,11 @@ import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {BusinessCenter} from '@material-ui/icons';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const OccupationsPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [occupationId, setOccupationId] = useState<number | null>(null);
 
@@ -46,14 +48,21 @@ const OccupationsPage = () => {
   }, []);
 
   const deleteOccupationItem = async (occupationId: number) => {
-    let data = await deleteOccupation(occupationId);
-    if (data) {
+    let response = await deleteOccupation(occupationId);
+    if (response) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='occupations.label' />}}
+        />,
+      );
+
       refreshDataTable();
     }
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
+    setIsToggleTable((previousToggle) => !previousToggle);
   }, [isToggleTable]);
 
   const columns = useRef([

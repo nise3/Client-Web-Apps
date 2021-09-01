@@ -102,14 +102,24 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
     if (isEdit && itemId) {
       let response = await updateDistrict(itemId, data);
       if (response) {
-        successStack('District Updated Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='districts.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }
     } else {
       let response = await createDistrict(data);
       if (response) {
-        successStack('District Created Successfully');
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{subject: <IntlMessages id='districts.label' />}}
+          />,
+        );
         props.onClose();
         refreshDataTable();
       }

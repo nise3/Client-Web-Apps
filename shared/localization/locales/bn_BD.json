@@ -83,6 +83,7 @@
   "common.contact_person_designation": "কন্টাক্ট পারসনের পদবী",
   "common.description": "বর্ণণা",
   "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
+  "common.no_data_found": "কোনো তথ্য পাওয়া যায়নি",
   "button.click_me": "ক্লিক করুন",
   "error.404Error": "খুঁজে পাওয়া যাইনি",
   "error.message1": "আমরা পেজটা খুঁজে পাইনি যেটা",
