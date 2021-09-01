@@ -9,7 +9,7 @@ import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInpu
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
-import {rowStatusArray} from '../../../utilities/rowStatus';
+import {rowStatusArray} from '../../../utilities/RowStatus';
 
 type Props = {
   id: string;

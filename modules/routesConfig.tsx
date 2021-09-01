@@ -45,7 +45,7 @@ const routesConfig: NavItemProps[] = [
         url: '/dashboard/institutes',
       },
       {
-        id: 'timeline',
+        id: 'branch',
         title: 'Branch',
         messageId: 'menu.branch',
         type: 'item',
@@ -53,7 +53,7 @@ const routesConfig: NavItemProps[] = [
         url: '/dashboard/branches',
       },
       {
-        id: 'timeline',
+        id: 'programme',
         title: 'Programme',
         messageId: 'menu.programme',
         type: 'item',

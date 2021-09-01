@@ -1,6 +1,6 @@
 import {useIntl} from 'react-intl';
 
-enum rowStatus {
+enum RowStatus {
   ACTIVE = '1',
   INACTIVE = '0',
 }
@@ -8,9 +8,9 @@ enum rowStatus {
 export const getRowStatusLabel = (key: number | string): string => {
   const {messages} = useIntl();
   switch (key) {
-    case rowStatus.ACTIVE:
+    case RowStatus.ACTIVE:
       return messages['common.active'] as string;
-    case rowStatus.INACTIVE:
+    case RowStatus.INACTIVE:
       return messages['common.inactive'] as string;
     default:
       return 'unknown';
@@ -18,19 +18,19 @@ export const getRowStatusLabel = (key: number | string): string => {
 };
 
 export const rowStatusArray = (): Array<{
-  key: rowStatus.ACTIVE | rowStatus.INACTIVE;
+  key: RowStatus.ACTIVE | RowStatus.INACTIVE;
   label: string;
 }> => {
   return [
     {
-      key: rowStatus.ACTIVE,
-      label: getRowStatusLabel(rowStatus.ACTIVE),
+      key: RowStatus.ACTIVE,
+      label: getRowStatusLabel(RowStatus.ACTIVE),
     },
     {
-      key: rowStatus.INACTIVE,
-      label: getRowStatusLabel(rowStatus.INACTIVE),
+      key: RowStatus.INACTIVE,
+      label: getRowStatusLabel(RowStatus.INACTIVE),
     },
   ];
 };
 
-export default rowStatus;
+export default RowStatus;

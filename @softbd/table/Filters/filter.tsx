@@ -5,7 +5,7 @@ import {FilterProps, FilterValue, IdType, Row} from 'react-table';
 import {PersonData} from '../utils';
 import React, {useEffect} from 'react';
 import {Button, InputLabel, MenuItem, TextField} from '@material-ui/core';
-import {rowStatusArray} from '../../utilities/rowStatus';
+import {rowStatusArray} from '../../utilities/RowStatus';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
