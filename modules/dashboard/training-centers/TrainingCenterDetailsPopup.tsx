@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {getBranch} from '../../../services/instituteManagement/BranchService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {getProgramme} from '../../../services/instituteManagement/ProgrammeService';
 
 type Props = {
   itemId: number | null;
@@ -16,7 +16,11 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const TrainingCenterDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -29,9 +33,9 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let branch = await getBranch(itemId);
-    if (branch) {
-      setItemData(branch);
+    let programme = await getProgramme(itemId);
+    if (programme) {
+      setItemData(programme);
     }
     setIsLoading(false);
   };
@@ -44,7 +48,7 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconProgramme />
-            <IntlMessages id='branch.label' />
+            <IntlMessages id='programme.label' />
           </>
         }
         maxWidth={'sm'}
@@ -84,15 +88,22 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
+              label={messages['programme.programme_code']}
+              value={itemData?.programme_code}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.google_map_src']}
-              value={itemData?.google_map_src}
+              label={messages['programme.programme_logo']}
+              value={itemData?.programme_logo}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.description']}
+              value={itemData?.description}
               isLoading={isLoading}
             />
           </Grid>
@@ -109,4 +120,4 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default BranchDetailsPopup;
+export default TrainingCenterDetailsPopup;

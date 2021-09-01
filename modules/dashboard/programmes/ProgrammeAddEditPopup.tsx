@@ -23,7 +23,6 @@ import IconProgramme from '../../../@softbd/icons/IconProgramme';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -129,6 +128,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 
   return (
     <HookFormMuiModal
+      open={true}
       {...props}
       title={
         <>

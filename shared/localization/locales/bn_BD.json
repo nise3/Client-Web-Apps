@@ -185,5 +185,6 @@
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
   "programme.programme_code": "প্রোগ্রাম কোড",
-  "programme.programme_logo": "প্রোগ্রাম লোগো"
+  "programme.programme_logo": "প্রোগ্রাম লোগো",
+  "training_center.label": "ত্রাইনিং সেন্টার"
 }

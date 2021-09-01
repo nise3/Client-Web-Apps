@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -22,30 +22,33 @@ const BranchPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [branchId, setBranchId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setBranchId(null);
-  };
+    setSelectedItemId(null);
+  }, []);
 
-  const openAddEditModal = (branchId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setBranchId(branchId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const openDetailsModal = (branchId: number) => {
-    setIsOpenDetailsModal(true);
-    setBranchId(branchId);
-  };
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteBranchItem = async (branchId: number) => {
     let response = await deleteBranch(branchId);
@@ -61,7 +64,7 @@ const BranchPage = () => {
   };
 
   const refreshDataTable = () => {
-    setIsToggleTable(!isToggleTable);
+    setIsToggleTable((prevToggle: any) => !prevToggle);
   };
 
   const columns = useMemo(
@@ -160,9 +163,8 @@ const BranchPage = () => {
         {isOpenAddEditModal && (
           <BranchAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
-            itemId={branchId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -170,8 +172,7 @@ const BranchPage = () => {
         {isOpenDetailsModal && (
           <BranchDetailsPopup
             key={1}
-            itemId={branchId}
-            open={isOpenDetailsModal}
+            itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

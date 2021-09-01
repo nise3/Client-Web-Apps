@@ -9,16 +9,16 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ProgrammeAddEditPopup from './ProgrammeAddEditPopup';
-import ProgrammeDetailsPopup from './ProgrammeDetailsPopup';
+import TrainingCenterAddEditPopup from './TrainingCenterAddEditPopup';
+import TrainingCenterDetailsPopup from './TrainingCenterDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
+import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 
-const ProgrammePage = () => {
+const TrainingCenterPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -50,8 +50,8 @@ const ProgrammePage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteProgrammeItem = async (programmeId: number) => {
-    let response = await deleteProgramme(programmeId);
+  const deleteTrainingCenterItem = async (trainingCenterId: number) => {
+    let response = await deleteProgramme(trainingCenterId);
     if (response) {
       successStack(
         <IntlMessages
@@ -59,7 +59,7 @@ const ProgrammePage = () => {
           values={{subject: <IntlMessages id='programme.label' />}}
         />,
       );
-      refreshDataTable();
+      await refreshDataTable();
     }
   };
 
@@ -90,8 +90,16 @@ const ProgrammePage = () => {
         accessor: 'institute_title_en',
       },
       {
-        Header: messages['programme.programme_code'],
-        accessor: 'programme_code',
+        Header: messages['branch.label'],
+        accessor: 'branch_title_en',
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
+      },
+      {
+        Header: messages['common.google_map_src'],
+        accessor: 'google_map_src',
       },
       {
         Header: messages['common.status'],
@@ -110,7 +118,7 @@ const ProgrammePage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteProgrammeItem(data.id)}
+                deleteAction={() => deleteTrainingCenterItem(data.id)}
                 deleteTitle={'Are you sure?'}
               />
             </DatatableButtonGroup>
@@ -123,7 +131,7 @@ const ProgrammePage = () => {
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/programmes',
+    urlPath: INSTITUTE_SERVICE_PATH + '/training-centers',
     dataAccessor: 'data',
   });
 
@@ -132,7 +140,7 @@ const ProgrammePage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='programme.label' />
+            <IconTrainingCenter /> <IntlMessages id='training_center.label' />
           </>
         }
         extra={[
@@ -144,7 +152,7 @@ const ProgrammePage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['programme.label'],
+                  subject: messages['training_center.label'],
                 }}
               />
             }
@@ -161,7 +169,7 @@ const ProgrammePage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <ProgrammeAddEditPopup
+          <TrainingCenterAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -170,7 +178,7 @@ const ProgrammePage = () => {
         )}
 
         {isOpenDetailsModal && (
-          <ProgrammeDetailsPopup
+          <TrainingCenterDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -182,4 +190,4 @@ const ProgrammePage = () => {
   );
 };
 
-export default ProgrammePage;
+export default TrainingCenterPage;

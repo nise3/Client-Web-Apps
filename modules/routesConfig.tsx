@@ -163,7 +163,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.training_center',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/training_centers',
+            url: '/dashboard/training-centers',
           },
         ],
       },
