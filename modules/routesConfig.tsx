@@ -125,6 +125,14 @@ const routesConfig: NavItemProps[] = [
         url: '/dashboard/occupations',
       },
       {
+        id: 'services',
+        title: 'services',
+        messageId: 'menu.services',
+        type: 'item',
+        icon: 'timeline',
+        url: '/dashboard/services',
+      },
+      {
         id: 'location',
         title: 'Location',
         messageId: 'menu.location',
