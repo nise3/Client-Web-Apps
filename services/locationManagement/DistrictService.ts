@@ -25,7 +25,7 @@ export const getDistrict = async (districtId: number) => {
 export const createDistrict = async (data: District) => {
   try {
     let response: any = await apiPost(API_DISTRICTS, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -34,7 +34,7 @@ export const createDistrict = async (data: District) => {
 export const updateDistrict = async (districtId: number, data: District) => {
   try {
     let response: any = await apiPut(API_DISTRICTS + '/' + districtId, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -43,7 +43,7 @@ export const updateDistrict = async (districtId: number, data: District) => {
 export const deleteDistrict = async (districtId: number) => {
   try {
     let response: any = await apiDelete(API_DISTRICTS + '/' + districtId);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
