@@ -85,7 +85,7 @@ const DistrictsPage = () => {
   const columns = useMemo(
     () => [
       {
-        Header: messages['common.id'],
+        Header: '#',
         accessor: 'id',
         disableFilters: true,
         disableSortBy: true,
