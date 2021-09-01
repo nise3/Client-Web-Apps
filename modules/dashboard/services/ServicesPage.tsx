@@ -13,28 +13,32 @@ import {
 } from '../../../services/organaizationManagement/OrganizationServiceService';
 import ServiceAddEditPopup from './ServiceAddEditPopup';
 import ServiceDetailsPopup from './ServiceDetailsPopup';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import IconOrganization from "../../../@softbd/icons/IconOrganization";
 
 const ServicesPage = () => {
     const {messages} = useIntl();
-
+    const {successStack} = useNotiStack();
     const [serviceId, setServiceId] = useState<number | null>(null);
     const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
     const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-    const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
     const [services, setServices] = useState<Array<Service>>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         (async () => {
-            setIsLoading(true);
-            let services = await getAllServices();
-            setServices(services);
-            setIsLoading(false);
+            await loadServicesData();
         })();
     }, []);
+
+    const loadServicesData = async () => {
+        setIsLoading(true);
+        let services = await getAllServices();
+        if(services) setServices(services);
+        setIsLoading(false);
+    };
 
     const closeAddEditModal = useCallback(() => {
         setIsOpenAddEditModal(false);
@@ -59,16 +63,24 @@ const ServicesPage = () => {
         setIsOpenDetailsModal(false);
     }, []);
 
-    const deleteServiceItem = async (serviceId: number) => {
-        let data = await deleteService(serviceId);
-        if (data) {
-            refreshDataTable();
+
+    const deleteServiceItem = async (itemId: number) => {
+        let response = await deleteService(itemId);
+        if (response) {
+            successStack(
+                <IntlMessages
+                    id='common.subject_deleted_successfully'
+                    values={{subject: <IntlMessages id='job_sectors.label' />}}
+                />,
+            );
+            await refreshDataTable();
         }
     };
-
     const refreshDataTable = useCallback(() => {
-        setIsToggleTable((previousToggle) => !previousToggle)
-    }, [isToggleTable]);
+        (async () => {
+            await loadServicesData();
+        })();
+    }, []);
 
     const columns = useMemo(() => [
         {
@@ -117,7 +129,7 @@ const ServicesPage = () => {
             <PageBlock
                 title={
                     <>
-                        <RoomOutlined/> <IntlMessages id='services.label'/>
+                        <IconOrganization/> <IntlMessages id='services.label'/>
                     </>
                 }
                 extra={[
@@ -137,16 +149,13 @@ const ServicesPage = () => {
                 ]}>
                 <ReactTable
                     columns={columns}
-                    data={services}
+                    data={services || []}
                     loading={isLoading}
                     skipDefaultFilter={true}
-                    skipPageResetRef={false}
-                    toggleResetTable={isToggleTable}
                 />
                 {isOpenAddEditModal && (
                     <ServiceAddEditPopup
                         key={1}
-                        open={isOpenAddEditModal}
                         onClose={closeAddEditModal}
                         itemId={serviceId}
                         refreshDataTable={refreshDataTable}
@@ -157,7 +166,6 @@ const ServicesPage = () => {
                     <ServiceDetailsPopup
                         key={1}
                         itemId={serviceId}
-                        open={isOpenDetailsModal}
                         onClose={closeDetailsModal}
                         openEditModal={openAddEditModal}
                     />

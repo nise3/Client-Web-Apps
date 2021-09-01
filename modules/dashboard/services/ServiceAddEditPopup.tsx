@@ -21,7 +21,6 @@ import FormRowStatus from "../../../@softbd/elements/input/FormRowStatus/FormRow
 
 interface ServiceAddEditPopupProps {
     itemId: number | null;
-    open: boolean;
     onClose: () => void;
     refreshDataTable: () => void;
 }
@@ -111,6 +110,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
     return (
         <HookFormMuiModal
             {...props}
+            open = {true}
             title={
                 <>
                     <IconOrganization/>
