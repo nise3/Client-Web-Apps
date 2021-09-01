@@ -74,12 +74,14 @@ const JobSectorPage = () => {
         />,
       );
 
-      refreshDataTable();
+      await refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(async () => {
-    await loadJobSectorsData();
+  const refreshDataTable = useCallback(() => {
+    (async () => {
+      await loadJobSectorsData();
+    })();
   }, []);
 
   const columns = useMemo(
