@@ -24,7 +24,6 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 
 interface RankAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -159,6 +158,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
 
   return (
     <HookFormMuiModal
+      open={true}
       {...props}
       title={
         <>

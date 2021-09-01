@@ -12,7 +12,6 @@ import {getSkill} from '../../../services/organaizationManagement/SkillService';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -40,6 +39,7 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
+        open={true}
         {...props}
         title={
           <>

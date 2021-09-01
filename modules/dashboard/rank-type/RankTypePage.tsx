@@ -1,13 +1,14 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteRankType} from '../../../services/instituteManagement/RankTypeService';
+import {
+  deleteRankType,
+  getAllRankTypes,
+} from '../../../services/instituteManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -21,30 +22,47 @@ const RankTypePage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [rankTypeId, setRankTypeId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [rankTypes, setRankTypes] = useState<Array<RankType>>([]);
 
-  const closeAddEditModal = () => {
-    setIsOpenAddEditModal(false);
-    setRankTypeId(null);
+  useEffect(() => {
+    (async () => {
+      await loadRankTypesData();
+    })();
+  }, []);
+
+  const loadRankTypesData = async () => {
+    setIsLoading(true);
+    let rankTypes = await getAllRankTypes();
+    rankTypes && setRankTypes(rankTypes);
+    setIsLoading(false);
   };
 
-  const openAddEditModal = (rankTypeId: number | null = null) => {
+  const closeAddEditModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setSelectedItemId(null);
+  }, []);
+
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setRankTypeId(rankTypeId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const openDetailsModal = (rankTypeId: number) => {
-    setIsOpenDetailsModal(true);
-    setRankTypeId(rankTypeId);
-  };
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
   const deleteRankTypeItem = async (rankTypeId: number) => {
     let response = await deleteRankType(rankTypeId);
@@ -59,9 +77,11 @@ const RankTypePage = () => {
     }
   };
 
-  const refreshDataTable = () => {
-    setIsToggleTable(!isToggleTable);
-  };
+  const refreshDataTable = useCallback(() => {
+    (async () => {
+      await loadRankTypesData();
+    })();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -118,11 +138,6 @@ const RankTypePage = () => {
     [],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: ORGANIZATION_SERVICE_PATH + '/rank-types',
-    dataAccessor: 'data',
-  });
-
   return (
     <>
       <PageBlock
@@ -135,7 +150,7 @@ const RankTypePage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -148,20 +163,15 @@ const RankTypePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
+          data={rankTypes || []}
+          loading={isLoading}
           skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <RankTypeAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
-            itemId={rankTypeId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -169,8 +179,7 @@ const RankTypePage = () => {
         {isOpenDetailsModal && (
           <RankTypeDetailsPopup
             key={1}
-            itemId={rankTypeId}
-            open={isOpenDetailsModal}
+            itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

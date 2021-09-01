@@ -21,7 +21,6 @@ import {
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -113,6 +112,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
 
   return (
     <HookFormMuiModal
+      open={true}
       {...props}
       title={
         <>
