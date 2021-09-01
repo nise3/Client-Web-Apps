@@ -22,7 +22,6 @@ import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -117,6 +116,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
           <IconOrganizationType />

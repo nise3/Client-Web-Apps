@@ -28,7 +28,6 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -201,6 +200,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
           <IconOrganization />

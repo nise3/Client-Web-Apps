@@ -33,7 +33,6 @@ import {getAllServices} from '../../../services/organaizationManagement/Organiza
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -286,6 +285,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
           <IconOrganization />

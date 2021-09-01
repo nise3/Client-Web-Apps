@@ -24,7 +24,6 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -133,6 +132,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     return (
       <HookFormMuiModal
         {...props}
+        open={true}
         title={
           <>
             <IconOrganizationUnitType />
