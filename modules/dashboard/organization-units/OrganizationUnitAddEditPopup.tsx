@@ -190,12 +190,10 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   }, []);
 
   const loadOrganizations = async () => {
-    let organizations = await getAllOrganizations({
+    let response = await getAllOrganizations({
       row_status: RowStatus.ACTIVE,
     });
-    if (organizations) {
-      setOrganizations(organizations);
-    }
+    response && setOrganizations(response.data);
   };
 
   const loadDivisions = async () => {

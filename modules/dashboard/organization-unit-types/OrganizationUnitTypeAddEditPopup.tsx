@@ -68,7 +68,8 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
       (async () => {
         setIsLoading(true);
         if (itemId) {
-          let item = await getOrganizationUnitType(itemId);
+          let response = await getOrganizationUnitType(itemId);
+          let {data: item} = response;
           reset({
             title_en: item.title_en,
             title_bn: item.title_bn,
@@ -85,11 +86,11 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     useEffect(() => {
       (async () => {
         setIsLoading(true);
-        let organizations = await getAllOrganizations({
+        let response = await getAllOrganizations({
           row_status: RowStatus.ACTIVE,
         });
-        if (organizations) {
-          setOrganizations(organizations);
+        if (response) {
+          setOrganizations(response.data);
         }
         setIsLoading(false);
       })();
@@ -100,7 +101,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     ) => {
       if (itemId) {
         let response = await updateOrganizationUnitType(itemId, data);
-        if (response) {
+        if (response && response._response_status.success) {
           successStack(
             <IntlMessages
               id='common.subject_updated_successfully'
@@ -114,7 +115,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
         }
       } else {
         let response = await createOrganizationUnitType(data);
-        if (response) {
+        if (response && response._response_status.success) {
           successStack(
             <IntlMessages
               id='common.subject_created_successfully'

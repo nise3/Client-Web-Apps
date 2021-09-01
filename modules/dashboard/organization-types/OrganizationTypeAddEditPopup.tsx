@@ -69,7 +69,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (itemId) {
-        let item = await getOrganizationType(itemId);
+        let response = await getOrganizationType(itemId);
+        let {data: item} = response;
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -88,7 +89,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   ) => {
     if (itemId) {
       let response = await updateOrganizationType(itemId, data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -100,7 +101,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganizationType(data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

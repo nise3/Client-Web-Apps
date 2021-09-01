@@ -52,8 +52,8 @@ const OrganizationTypePage = () => {
   };
 
   const deleteOrganizationTypeItem = async (organizationTypeId: number) => {
-    let data = await deleteOrganizationType(organizationTypeId);
-    if (data) {
+    let response = await deleteOrganizationType(organizationTypeId);
+    if (response && response._response_status.success) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
