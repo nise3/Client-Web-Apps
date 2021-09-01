@@ -20,7 +20,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -109,6 +108,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
 
   return (
     <HookFormMuiModal
+      open={true}
       {...props}
       title={
         <>

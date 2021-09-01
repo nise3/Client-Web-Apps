@@ -162,7 +162,6 @@ const JobSectorPage = () => {
         {isOpenAddEditModal && (
           <JobSectorAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
