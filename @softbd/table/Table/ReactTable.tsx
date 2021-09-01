@@ -34,6 +34,7 @@ import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSk
 import {DefaultColumnFilter} from '../Filters/filter';
 import AppTableContainer from '../../../@crema/core/AppTableContainer';
 import {useIntl} from 'react-intl';
+import {AiOutlineInbox} from 'react-icons/ai';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -54,6 +55,13 @@ const useStyles = makeStyles((theme: Theme): any => ({
   tablePagination: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  noDataIcon: {
+    color: theme.palette.type === ThemeMode.DARK ? '#6c6c6c' : '#ddd',
+  },
+  noDataText: {
+    display: 'block',
+    color: theme.palette.type === ThemeMode.DARK ? '#7d7d7d' : '#000',
   },
 }));
 
@@ -135,17 +143,17 @@ export default function ReactTable<T extends object>({
   const classes: any = useStyles();
 
   const clientSideOptions = {
-    data,
     ...props,
     columns,
+    data,
     initialState: {pageSize: pageSizeData[0]},
     filterTypes,
     defaultColumn,
   };
   const serverSideOptions = {
-    data,
     ...props,
     columns,
+    data,
     autoResetHiddenColumns: false,
     manualPagination: true,
     manualFilters: skipDefaultFilter,
@@ -288,7 +296,13 @@ export default function ReactTable<T extends object>({
                         colSpan={columns?.length}
                         key={0}
                         className={classes.tableCell}>
-                        {messages['common.no_data_found']}
+                        <AiOutlineInbox
+                          className={classes.noDataIcon}
+                          size={'5em'}
+                        />
+                        <span className={classes.noDataText}>
+                          {messages['common.no_data_found']}
+                        </span>
                       </TableCell>
                     </TableRow>
                   )}

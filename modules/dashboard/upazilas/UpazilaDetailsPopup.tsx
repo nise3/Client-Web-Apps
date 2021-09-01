@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -9,10 +8,10 @@ import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {getUpazila} from '../../../services/locationManagement/UpazilaService';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import IconUpazila from '../../../@softbd/icons/IconUpazila';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -30,9 +29,9 @@ const UpazilaDetailsPopup = ({itemId, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let upazila = await getUpazila(itemId);
-    if (upazila) {
-      setItemData(upazila);
+    let response = await getUpazila(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };
@@ -41,10 +40,11 @@ const UpazilaDetailsPopup = ({itemId, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         maxWidth={'sm'}
+        open={true}
         {...props}
         title={
           <>
-            <RoomOutlined />
+            <IconUpazila />
             <IntlMessages id='upazilas.label' />
           </>
         }

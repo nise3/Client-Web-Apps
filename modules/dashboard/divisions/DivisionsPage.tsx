@@ -14,9 +14,9 @@ import {
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconDivision from '../../../@softbd/icons/IconDivision';
 
 const DivisionsPage = () => {
   const {messages} = useIntl();
@@ -36,8 +36,8 @@ const DivisionsPage = () => {
 
   const loadDivisionsData = async () => {
     setIsLoading(true);
-    let divisions = await getAllDivisions();
-    if (divisions) setDivisions(divisions);
+    let response = await getAllDivisions();
+    if (response) setDivisions(response.data);
     setIsLoading(false);
   };
 
@@ -81,8 +81,10 @@ const DivisionsPage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(async () => {
-    await loadDivisionsData();
+  const refreshDataTable = useCallback(() => {
+    (async () => {
+      await loadDivisionsData();
+    })();
   }, []);
 
   const columns = useMemo(
@@ -140,7 +142,7 @@ const DivisionsPage = () => {
       <PageBlock
         title={
           <>
-            <RoomOutlined /> <IntlMessages id='divisions.label' />
+            <IconDivision /> <IntlMessages id='divisions.label' />
           </>
         }
         extra={[
@@ -167,7 +169,6 @@ const DivisionsPage = () => {
         {isOpenAddEditModal && (
           <DivisionAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -178,7 +179,6 @@ const DivisionsPage = () => {
           <DivisionDetailsPopup
             key={1}
             itemId={selectedItemId}
-            open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

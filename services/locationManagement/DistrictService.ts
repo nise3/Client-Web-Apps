@@ -7,7 +7,7 @@ const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 export const getAllDistricts = async (params = {}) => {
   try {
     let response: any = await apiGet(API_DISTRICTS, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -16,7 +16,7 @@ export const getAllDistricts = async (params = {}) => {
 export const getDistrict = async (districtId: number) => {
   try {
     let response: any = await apiGet(API_DISTRICTS + '/' + districtId);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

@@ -6,7 +6,6 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -17,6 +16,7 @@ import {
 import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconUpazila from '../../../@softbd/icons/IconUpazila';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
@@ -37,8 +37,10 @@ const UpazilasPage = () => {
 
   const loadUpazilasData = async () => {
     setIsLoading(true);
-    let upazilas = await getAllUpazilas();
-    if (upazilas) setUpazilas(upazilas);
+    let response = await getAllUpazilas();
+    if (response) {
+      setUpazilas(response.data);
+    }
     setIsLoading(false);
   };
 
@@ -79,8 +81,10 @@ const UpazilasPage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(async () => {
-    await loadUpazilasData();
+  const refreshDataTable = useCallback(() => {
+    (async () => {
+      await loadUpazilasData();
+    })();
   }, []);
 
   const columns = useMemo(
@@ -146,7 +150,7 @@ const UpazilasPage = () => {
       <PageBlock
         title={
           <>
-            <RoomOutlined /> <IntlMessages id='upazilas.label' />
+            <IconUpazila /> <IntlMessages id='upazilas.label' />
           </>
         }
         extra={[
@@ -173,7 +177,6 @@ const UpazilasPage = () => {
         {isOpenAddEditModal && (
           <UpazilaAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -184,7 +187,6 @@ const UpazilasPage = () => {
           <UpazilaDetailsPopup
             key={1}
             itemId={selectedItemId}
-            open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

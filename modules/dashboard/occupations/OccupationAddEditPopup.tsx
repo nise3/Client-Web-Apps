@@ -19,12 +19,11 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {getAllJobSectors} from '../../../services/organaizationManagement/JobSectorService';
-import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconOccupation from '../../../@softbd/icons/IconOccupation';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -125,9 +124,10 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
-          <BusinessCenter />
+          <IconOccupation />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

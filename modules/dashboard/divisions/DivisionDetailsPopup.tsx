@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -9,10 +8,10 @@ import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {getDivision} from '../../../services/locationManagement/DivisionService';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import IconDivision from '../../../@softbd/icons/IconDivision';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -30,9 +29,9 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemToState = async (itemId: number) => {
     setIsLoading(true);
-    let division = await getDivision(itemId);
-    if (division) {
-      setItemData(division);
+    let response = await getDivision(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };
@@ -41,10 +40,11 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         maxWidth={'sm'}
+        open={true}
         {...props}
         title={
           <>
-            <RoomOutlined />
+            <IconDivision />
             <IntlMessages id='divisions.label' />
           </>
         }

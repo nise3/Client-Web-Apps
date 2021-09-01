@@ -5,7 +5,6 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -18,10 +17,10 @@ import {
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import IconDivision from '../../../@softbd/icons/IconDivision';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -68,13 +67,18 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getDivision(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          bbs_code: item.bbs_code,
-          row_status: String(item.row_status),
-        });
+        let response = await getDivision(itemId);
+        if (response) {
+          let {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            bbs_code: item?.bbs_code,
+            row_status: item?.row_status
+              ? String(item.row_status)
+              : initialValues.row_status,
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -113,9 +117,10 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
-          <RoomOutlined />
+          <IconDivision />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

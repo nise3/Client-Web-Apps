@@ -8,7 +8,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
 import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -22,10 +21,10 @@ import {
   updateUpazila,
 } from '../../../services/locationManagement/UpazilaService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import IconUpazila from '../../../@softbd/icons/IconUpazila';
 
 interface UpazilaAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -78,16 +77,21 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getUpazila(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          bbs_code: item.bbs_code,
-          row_status: String(item.row_status),
-          loc_division_id: item.loc_division_id,
-          loc_district_id: item.loc_district_id,
-        });
-        loadDistrictsDataByDivision(item.loc_division_id);
+        let response = await getUpazila(itemId);
+        if (response) {
+          let {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            bbs_code: item?.bbs_code,
+            row_status: item?.row_status
+              ? String(item.row_status)
+              : initialValues.row_status,
+            loc_division_id: item?.loc_division_id,
+            loc_district_id: item?.loc_district_id,
+          });
+          loadDistrictsDataByDivision(item?.loc_division_id);
+        }
       } else {
         reset(initialValues);
       }
@@ -98,8 +102,8 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
-      if (divisions) setDivisions(divisions);
+      let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
+      if (response) setDivisions(response.data);
       setIsLoading(false);
     })();
   }, []);
@@ -107,12 +111,12 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   const loadDistrictsDataByDivision = async (divisionId: number) => {
     setIsLoading(true);
     if (divisionId) {
-      let districts = await getAllDistricts({
+      let response = await getAllDistricts({
         row_status: RowStatus.ACTIVE,
         division_id: divisionId,
       });
-      if (districts) {
-        setDistricts(districts);
+      if (response) {
+        setDistricts(response.data);
       } else {
         setDistricts([]);
       }
@@ -157,9 +161,10 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
-          <RoomOutlined />
+          <IconUpazila />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
