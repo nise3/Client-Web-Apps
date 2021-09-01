@@ -64,7 +64,7 @@ const OrganizationUnitTypePage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
+    setIsToggleTable((prevToggle) => !prevToggle);
   }, [isToggleTable]);
 
   const columns = useMemo(

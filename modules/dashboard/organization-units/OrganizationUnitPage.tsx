@@ -62,7 +62,7 @@ const OrganizationUnitPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable(!isToggleTable);
+    setIsToggleTable((prevToggle) => !prevToggle);
   }, [isToggleTable]);
 
   const columns = useMemo(
@@ -93,7 +93,7 @@ const OrganizationUnitPage = () => {
       },
       {
         Header: messages['organization.label'],
-        accessor: 'organization_name',
+        accessor: 'organization_title_en',
         disableFilters: true,
         disableSortBy: true,
       },
