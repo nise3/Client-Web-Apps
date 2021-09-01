@@ -7,7 +7,7 @@ const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 export const getAllDivisions = async (params = {}) => {
   try {
     let response: any = await apiGet(API_DIVISIONS, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -16,7 +16,7 @@ export const getAllDivisions = async (params = {}) => {
 export const getDivision = async (divisionId: number) => {
   try {
     let response: any = await apiGet(API_DIVISIONS + '/' + divisionId);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

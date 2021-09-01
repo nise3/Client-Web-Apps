@@ -7,18 +7,7 @@ const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
 export const getAllUpazilas = async (params = {}) => {
   try {
     let response: any = await apiGet(API_UPAZILAS, {params});
-    return response.data.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-export const getUpazilasByDistrict = async (districtId: number) => {
-  try {
-    let response: any = await apiGet(
-      API_UPAZILAS + '?district_id=' + districtId,
-    );
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -27,7 +16,7 @@ export const getUpazilasByDistrict = async (districtId: number) => {
 export const getUpazila = async (upazilaId: number) => {
   try {
     let response: any = await apiGet(API_UPAZILAS + '/' + upazilaId);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

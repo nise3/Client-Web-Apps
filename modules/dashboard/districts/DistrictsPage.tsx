@@ -14,9 +14,9 @@ import {
 import DistrictAddEditPopup from './DistrictAddEditPopup';
 import DistrictDetailsPopup from './DistrictDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconDistrict from '../../../@softbd/icons/IconDistrict';
 
 const DistrictsPage = () => {
   const {messages} = useIntl();
@@ -36,8 +36,8 @@ const DistrictsPage = () => {
 
   const loadDistrictData = async () => {
     setIsLoading(true);
-    let districts = await getAllDistricts();
-    if (districts) setDistricts(districts);
+    let response = await getAllDistricts();
+    if (response) setDistricts(response.data);
     setIsLoading(false);
   };
 
@@ -78,8 +78,10 @@ const DistrictsPage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(async () => {
-    await loadDistrictData();
+  const refreshDataTable = useCallback(() => {
+    (async () => {
+      await loadDistrictData();
+    })();
   }, []);
 
   const columns = useMemo(
@@ -141,7 +143,7 @@ const DistrictsPage = () => {
       <PageBlock
         title={
           <>
-            <RoomOutlined /> <IntlMessages id='districts.label' />
+            <IconDistrict /> <IntlMessages id='districts.label' />
           </>
         }
         extra={[
@@ -168,7 +170,6 @@ const DistrictsPage = () => {
         {isOpenAddEditModal && (
           <DistrictAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -179,7 +180,6 @@ const DistrictsPage = () => {
           <DistrictDetailsPopup
             key={1}
             itemId={selectedItemId}
-            open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

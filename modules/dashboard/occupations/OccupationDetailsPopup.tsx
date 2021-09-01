@@ -7,13 +7,12 @@ import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {BusinessCenter} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import IconOccupation from '../../../@softbd/icons/IconOccupation';
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -41,9 +40,10 @@ const OccupationDetailsPopup = ({itemId, ...props}: Props) => {
   return (
     <CustomDetailsViewMuiModal
       {...props}
+      open={true}
       title={
         <>
-          <BusinessCenter />
+          <IconOccupation />
           <IntlMessages id='occupations.label' />
         </>
       }

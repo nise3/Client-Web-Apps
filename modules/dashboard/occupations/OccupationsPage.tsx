@@ -14,8 +14,8 @@ import OccupationDetailsPopup from './OccupationDetailsPopup';
 import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {BusinessCenter} from '@material-ui/icons';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IconOccupation from '../../../@softbd/icons/IconOccupation';
 
 const OccupationsPage = () => {
   const {messages} = useIntl();
@@ -84,6 +84,7 @@ const OccupationsPage = () => {
       {
         Header: messages['job_sectors.label'],
         accessor: 'job_sector_title',
+        isVisible: false,
       },
       {
         Header: messages['common.status'],
@@ -126,7 +127,7 @@ const OccupationsPage = () => {
       <PageBlock
         title={
           <>
-            <BusinessCenter /> <IntlMessages id='occupations.label' />
+            <IconOccupation /> <IntlMessages id='occupations.label' />
           </>
         }
         extra={[
@@ -158,7 +159,6 @@ const OccupationsPage = () => {
         {isOpenAddEditModal && (
           <OccupationAddEditPopup
             key={1}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
             itemId={occupationId}
             refreshDataTable={refreshDataTable}
@@ -169,7 +169,6 @@ const OccupationsPage = () => {
           <OccupationDetailsPopup
             key={1}
             itemId={occupationId}
-            open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

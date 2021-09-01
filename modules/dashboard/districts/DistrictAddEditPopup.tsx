@@ -5,7 +5,6 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {RoomOutlined} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -21,10 +20,10 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import IconDistrict from '../../../@softbd/icons/IconDistrict';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -74,14 +73,19 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getDistrict(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          bbs_code: item.bbs_code,
-          row_status: String(item.row_status),
-          loc_division_id: item.loc_division_id,
-        });
+        let response = await getDistrict(itemId);
+        if (response) {
+          let {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            bbs_code: item?.bbs_code,
+            row_status: item?.row
+              ? String(item.row_status)
+              : initialValues.row_status,
+            loc_division_id: item?.loc_division_id,
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -92,8 +96,8 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
-      if (divisions) setDivisions(divisions);
+      let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
+      if (response) setDivisions(response.data);
       setIsLoading(false);
     })();
   }, []);
@@ -129,9 +133,10 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   return (
     <HookFormMuiModal
       {...props}
+      open={true}
       title={
         <>
-          <RoomOutlined />
+          <IconDistrict />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
