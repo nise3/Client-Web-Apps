@@ -172,7 +172,6 @@ const JobSectorPage = () => {
           <JobSectorDetailsPopup
             key={1}
             itemId={selectedItemId}
-            open={isOpenDetailsModal}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

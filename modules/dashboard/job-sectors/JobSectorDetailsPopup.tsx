@@ -12,7 +12,6 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -41,6 +40,7 @@ const JobSectorDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
     <>
       <CustomDetailsViewMuiModal
         maxWidth={'sm'}
+        open={true}
         {...props}
         title={
           <>
