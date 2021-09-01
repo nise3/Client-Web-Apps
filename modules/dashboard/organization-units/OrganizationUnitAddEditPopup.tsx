@@ -147,7 +147,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       setIsLoading(true);
       if (itemId) {
         let item = await getOrganizationUnit(itemId);
-        console.log('item', item);
 
         reset({
           title_en: item.title_en,
@@ -180,7 +179,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
 
   const getServiceIds = (services: Array<Service>) => {
     let ids = services.map((item: Service) => item.id);
-    console.log('getServiceIds services', ids);
     return ids;
   };
 
@@ -218,7 +216,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           division_id: selectedDivisionId,
           row_status: RowStatus.ACTIVE,
         });
-        console.log('load district', districts);
         if (districts) setDistricts(districts);
       }
     })();
@@ -251,7 +248,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<OrganizationUnit> = async (
     data: OrganizationUnit,
   ) => {
-    console.log('data', data);
     if (itemId) {
       let response = await updateOrganizationUnit(itemId, data);
       let assignServicesResponse = await assignServiceToOrganizationUnit(
@@ -270,7 +266,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganizationUnit(data);
-      console.log('response', response.data.id);
       let assignServicesResponse = await assignServiceToOrganizationUnit(
         response.data.id,
         data.services,
@@ -322,6 +317,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            defaultValue={''}
           />
         </Grid>
         <Grid item xs={6}>

@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Grid} from '@material-ui/core';
-import {getOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
@@ -9,6 +8,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import {getOrganizationUnit} from '../../../services/organaizationManagement/OrganizationUnitService';
 
 type Props = {
   itemId: number | null;
@@ -34,12 +34,20 @@ const OrganizationUnitDetailsPopup = ({
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let organization = await getOrganization(itemId);
-    if (organization) {
-      setItemData(organization);
+    let organizationUnit = await getOrganizationUnit(itemId);
+    if (organizationUnit) {
+      setItemData(organizationUnit);
     }
     setIsLoading(false);
   };
+
+  const getServicesName = useCallback(
+    (services: any = []) => {
+      let namesArray = services.map((item: Service) => item.title_en);
+      return namesArray.join();
+    },
+    [itemId],
+  );
 
   return (
     <>
@@ -48,7 +56,7 @@ const OrganizationUnitDetailsPopup = ({
         title={
           <>
             <IconOrganization />
-            <IntlMessages id='organization.label' />
+            <IntlMessages id='organization_unit.label' />
           </>
         }
         actions={
@@ -78,15 +86,36 @@ const OrganizationUnitDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.organization_type']}
-              value={itemData?.organization_types_title}
+              label={messages['organization.label']}
+              value={itemData?.organization_title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
+              label={messages['organization_unit_type.label']}
+              value={itemData?.organization_unit_type_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['divisions.label']}
+              value={itemData?.loc_division_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['districts.label']}
+              value={itemData?.loc_district_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['upazilas.label']}
+              value={itemData?.loc_upazila_title_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -127,34 +156,33 @@ const OrganizationUnitDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.contact_person_email']}
-              value={itemData?.contact_person_email}
+              label={messages['common.contact_person_mobile']}
+              value={itemData?.contact_person_mobile}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.contact_person_designation']}
               value={itemData?.contact_person_designation}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.description']}
-              value={itemData?.description}
+              label={messages['organization_unit.employee_size']}
+              value={itemData?.employee_size}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
+              label={messages['service.label']}
+              value={getServicesName(itemData?.services)}
               isLoading={isLoading}
             />
           </Grid>
-
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <CustomChipRowStatus
               value={itemData?.row_status}
               label={messages['common.status']}
