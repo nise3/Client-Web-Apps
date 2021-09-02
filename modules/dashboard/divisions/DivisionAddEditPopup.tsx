@@ -89,7 +89,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Division> = async (data: Division) => {
     if (isEdit && itemId) {
       let response = await updateDivision(itemId, data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -101,7 +101,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
       }
     } else {
       let response = await createDivision(data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

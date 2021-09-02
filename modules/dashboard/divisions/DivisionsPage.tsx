@@ -69,7 +69,7 @@ const DivisionsPage = () => {
 
   const deleteDivisionItem = async (selectedItemId: number) => {
     let response = await deleteDivision(selectedItemId);
-    if (response) {
+    if (response && response._response_status.success) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

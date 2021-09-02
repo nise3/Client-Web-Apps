@@ -133,7 +133,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Upazila> = async (data: Upazila) => {
     if (isEdit && itemId) {
       let response = await updateUpazila(itemId, data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -145,7 +145,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
       }
     } else {
       let response = await createUpazila(data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

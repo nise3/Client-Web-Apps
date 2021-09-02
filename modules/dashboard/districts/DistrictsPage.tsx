@@ -66,7 +66,7 @@ const DistrictsPage = () => {
 
   const deleteDistrictItem = async (districtId: number) => {
     let response = await deleteDistrict(districtId);
-    if (response) {
+    if (response && response._response_status.success) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

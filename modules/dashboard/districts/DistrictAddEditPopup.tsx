@@ -105,7 +105,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<District> = async (data: District) => {
     if (isEdit && itemId) {
       let response = await updateDistrict(itemId, data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -117,7 +117,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
       }
     } else {
       let response = await createDistrict(data);
-      if (response) {
+      if (response && response._response_status.success) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

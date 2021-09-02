@@ -69,7 +69,7 @@ const UpazilasPage = () => {
 
   const deleteUpazilaItem = async (itemId: number) => {
     let response = await deleteUpazila(itemId);
-    if (response) {
+    if (response && response._response_status.success) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

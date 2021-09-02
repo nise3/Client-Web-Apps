@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme): any => ({
   },
   noDataText: {
     display: 'block',
-    color: theme.palette.type === ThemeMode.DARK ? '#7d7d7d' : '#000',
+    color: theme.palette.type === ThemeMode.DARK ? '#7d7d7d' : '#a0a0a0',
   },
 }));
 
