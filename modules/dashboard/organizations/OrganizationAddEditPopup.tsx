@@ -203,7 +203,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         refreshDataTable();
       } else {
         if (isValidationError(response)) {
-          //setServerValidationErrors(response.errors, setError);
+          setServerValidationErrors(response.errors, setError);
         }
       }
     }

@@ -1,23 +1,14 @@
-import {createIntl} from 'react-intl';
-
-const intl: any = createIntl({
-  locale: 'bn-BD',
-  messages: {},
-});
-
 const ERRORS: any = {
   61000: 'common.validation_exist_error',
   49000: 'common.validation_exist_error',
 };
 
 const getValidationMessage = (code: string) => {
-  console.log(
-    'intl',
-    intl.message({
-      id: 'common.validation_exist_error',
-    }),
-  );
-  return intl.messages[ERRORS[code]] as string;
+  // const messages = defineMessages(bnMessages);
+  // let locale = 'bn-BD';
+  // const {intl} = new IntlProvider({locale, messages}).getChildContext();
+  // console.log(intl.formatMessage({id: 'common.validation_exist_error'}));
+  return ERRORS[code];
 };
 
 export const setServerValidationErrors = (errors: any, setError: any) => {
