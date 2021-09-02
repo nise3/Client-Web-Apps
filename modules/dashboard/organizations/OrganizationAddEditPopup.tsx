@@ -25,6 +25,7 @@ import {getAllOrganizationTypes} from '../../../services/organaizationManagement
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -132,7 +133,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (itemId) {
-        let item = await getOrganization(itemId);
+        let response = await getOrganization(itemId);
+        let {data: item} = response;
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -159,11 +161,11 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let organizationTypes = await getAllOrganizationTypes({
+      let response = await getAllOrganizationTypes({
         row_status: RowStatus.ACTIVE,
       });
-      if (organizationTypes) {
-        setOrganizationTypes(organizationTypes);
+      if (response) {
+        setOrganizationTypes(response.data);
       }
       setIsLoading(false);
     })();
@@ -172,7 +174,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
     if (itemId) {
       let response = await updateOrganization(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -184,7 +186,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganization(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

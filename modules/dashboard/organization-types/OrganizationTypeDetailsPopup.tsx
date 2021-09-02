@@ -33,9 +33,9 @@ const OrganizationTypeDetailsPopup = ({
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let organizationType = await getOrganizationType(itemId);
-    if (organizationType) {
-      setItemData(organizationType);
+    let response = await getOrganizationType(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

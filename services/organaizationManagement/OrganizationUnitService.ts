@@ -8,7 +8,7 @@ const API_ORGANIZATION_UNITS =
 export const getAllOrganizationUnits = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATION_UNITS, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -19,7 +19,7 @@ export const getOrganizationUnit = async (OrganizationUnitId: number) => {
     let response: any = await apiGet(
       API_ORGANIZATION_UNITS + '/' + OrganizationUnitId,
     );
-    return response.data.data;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
 
@@ -41,7 +41,7 @@ export const updateOrganizationUnit = async (
       API_ORGANIZATION_UNITS + '/' + OrganizationUnitId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -52,7 +52,7 @@ export const deleteOrganizationUnit = async (OrganizationUnitId: number) => {
     let response: any = await apiDelete(
       API_ORGANIZATION_UNITS + '/' + OrganizationUnitId,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -71,7 +71,7 @@ export const assignServiceToOrganizationUnit = async (
         '/assign-service-to-organization-unit',
       serviceIds,
     );
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

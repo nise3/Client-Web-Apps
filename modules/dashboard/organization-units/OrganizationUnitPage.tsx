@@ -16,6 +16,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const OrganizationUnitPage = () => {
   const {successStack} = useNotiStack();
@@ -49,8 +50,8 @@ const OrganizationUnitPage = () => {
   };
 
   const deleteOrganizationUnitItem = async (organizationUnitId: number) => {
-    let data = await deleteOrganizationUnit(organizationUnitId);
-    if (data) {
+    let response = await deleteOrganizationUnit(organizationUnitId);
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

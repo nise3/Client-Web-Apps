@@ -29,9 +29,9 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let organization = await getOrganization(itemId);
-    if (organization) {
-      setItemData(organization);
+    let response = await getOrganization(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

@@ -144,3 +144,7 @@ export const showSuccessMessage = () => {
     />,
   );
 };
+
+export const isResponseSuccess = (response: any) => {
+  return response && response._response_status.success;
+};

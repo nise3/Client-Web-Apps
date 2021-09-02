@@ -16,6 +16,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const OrganizationUnitTypePage = () => {
   const {successStack} = useNotiStack();
@@ -51,8 +52,8 @@ const OrganizationUnitTypePage = () => {
   const deleteOrganizationUnitTypeItem = async (
     organizationUnitTypeId: number,
   ) => {
-    let data = await deleteOrganizationUnitType(organizationUnitTypeId);
-    if (data) {
+    let response = await deleteOrganizationUnitType(organizationUnitTypeId);
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

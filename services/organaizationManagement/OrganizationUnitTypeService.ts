@@ -8,7 +8,7 @@ const API_ORGANIZATION_UNIT_TYPES =
 export const getAllOrganizationUnitTypes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATION_UNIT_TYPES, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -21,7 +21,7 @@ export const getOrganizationUnitType = async (
     let response: any = await apiGet(
       API_ORGANIZATION_UNIT_TYPES + '/' + OrganizationUnitTypeId,
     );
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -32,7 +32,7 @@ export const createOrganizationUnitType = async (
 ) => {
   try {
     let response: any = await apiPost(API_ORGANIZATION_UNIT_TYPES, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -47,7 +47,7 @@ export const updateOrganizationUnitType = async (
       API_ORGANIZATION_UNIT_TYPES + '/' + OrganizationUnitTypeId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -60,7 +60,7 @@ export const deleteOrganizationUnitType = async (
     let response: any = await apiDelete(
       API_ORGANIZATION_UNIT_TYPES + '/' + organizationUnitTypeId,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

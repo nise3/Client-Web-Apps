@@ -7,7 +7,7 @@ const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
 export const getAllOrganizations = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATIONS, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -16,14 +16,14 @@ export const getAllOrganizations = async (params = {}) => {
 export const getOrganization = async (OrganizationId: number) => {
   try {
     let response: any = await apiGet(API_ORGANIZATIONS + '/' + OrganizationId);
-    return response.data.data;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
 
 export const createOrganization = async (data: Organization) => {
   try {
     let response: any = await apiPost(API_ORGANIZATIONS, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -38,7 +38,7 @@ export const updateOrganization = async (
       API_ORGANIZATIONS + '/' + OrganizationId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -49,7 +49,7 @@ export const deleteOrganization = async (OrganizationId: number) => {
     let response: any = await apiDelete(
       API_ORGANIZATIONS + '/' + OrganizationId,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
