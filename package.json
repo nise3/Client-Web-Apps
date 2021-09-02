@@ -26,6 +26,7 @@
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.20.0",
     "clsx": "^1.1.1",
+    "eslint-config-prettier": "^8.3.0",
     "formik": "^2.2.9",
     "jss": "^10.7.1",
     "jss-rtl": "^0.3.0",
@@ -55,6 +56,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
+    "swr": "^1.0.0",
     "typescript": "^4.3.5",
     "use-url-search-params": "^2.3.13",
     "yup": "^0.32.9"
@@ -72,15 +74,10 @@
     "@types/react-redux": "^7.1.18",
     "@types/react-slick": "^0.23.5",
     "@types/yup": "^0.29.13",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "babel-loader": "^8.2.2",
     "eslint": "^7.32.0",
-    "eslint-config-next": "11.1.2",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.1",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "@next/eslint-plugin-next": "11.1.2",
     "prettier": "^2.3.2"
   }
 }
