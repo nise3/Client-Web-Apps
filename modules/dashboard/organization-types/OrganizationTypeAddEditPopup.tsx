@@ -19,6 +19,7 @@ import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -89,7 +90,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   ) => {
     if (itemId) {
       let response = await updateOrganizationType(itemId, data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -101,7 +102,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganizationType(data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

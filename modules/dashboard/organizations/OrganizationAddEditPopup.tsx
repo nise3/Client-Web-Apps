@@ -25,6 +25,7 @@ import {getAllOrganizationTypes} from '../../../services/organaizationManagement
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -173,7 +174,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
     if (itemId) {
       let response = await updateOrganization(itemId, data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -185,7 +186,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganization(data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

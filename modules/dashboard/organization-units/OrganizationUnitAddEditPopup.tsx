@@ -30,6 +30,7 @@ import {
   updateOrganizationUnit,
 } from '../../../services/organaizationManagement/OrganizationUnitService';
 import {getAllServices} from '../../../services/organaizationManagement/OrganizationServiceService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -145,8 +146,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (itemId) {
-        let item = await getOrganizationUnit(itemId);
-
+        let response = await getOrganizationUnit(itemId);
+        let {data: item} = response;
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
@@ -193,27 +194,35 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     let response = await getAllOrganizations({
       row_status: RowStatus.ACTIVE,
     });
-    response && setOrganizations(response.data);
+    if (response) {
+      setOrganizations(response.data);
+    }
   };
 
   const loadDivisions = async () => {
-    let divisions = await getAllDivisions({row_status: RowStatus.ACTIVE});
-    if (divisions) setDivisions(divisions);
+    let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
+    if (response) {
+      setDivisions(response.data);
+    }
   };
 
   const loadServices = async () => {
-    let services = await getAllServices({row_status: RowStatus.ACTIVE});
-    if (services) setServices(services);
+    let response = await getAllServices({row_status: RowStatus.ACTIVE});
+    if (response) {
+      setServices(response.data);
+    }
   };
 
   useEffect(() => {
     (async () => {
       if (selectedDivisionId) {
-        let districts = await getAllDistricts({
+        let response = await getAllDistricts({
           division_id: selectedDivisionId,
           row_status: RowStatus.ACTIVE,
         });
-        if (districts) setDistricts(districts);
+        if (response) {
+          setDistricts(response.data);
+        }
       }
     })();
   }, [selectedDivisionId]);
@@ -221,11 +230,13 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       if (selectedDistrictId) {
-        let upazilas = await getAllUpazilas({
+        let response = await getAllUpazilas({
           district_id: selectedDistrictId,
           row_status: RowStatus.ACTIVE,
         });
-        if (upazilas) setUpazilas(upazilas);
+        if (response) {
+          setUpazilas(response.data);
+        }
       }
     })();
   }, [selectedDistrictId]);
@@ -233,11 +244,11 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       if (selectedOrganizationId) {
-        let unitTypes = await getAllOrganizationUnitTypes({
+        let response = await getAllOrganizationUnitTypes({
           organization_id: selectedOrganizationId,
           row_status: RowStatus.ACTIVE,
         });
-        if (unitTypes) setOrganizationUnitTypes(unitTypes);
+        if (response) setOrganizationUnitTypes(response.data);
       }
     })();
   }, [selectedOrganizationId]);
@@ -251,7 +262,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         itemId,
         data.services,
       );
-      if (response && assignServicesResponse) {
+      if (isResponseSuccess(response) && assignServicesResponse) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -267,7 +278,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         response.data.id,
         data.services,
       );
-      if (response && assignServicesResponse) {
+      if (isResponseSuccess(response) && assignServicesResponse) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
@@ -315,7 +326,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            defaultValue={''}
           />
         </Grid>
         <Grid item xs={6}>

@@ -21,6 +21,7 @@ import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUni
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
@@ -101,7 +102,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     ) => {
       if (itemId) {
         let response = await updateOrganizationUnitType(itemId, data);
-        if (response && response._response_status.success) {
+        if (isResponseSuccess(response)) {
           successStack(
             <IntlMessages
               id='common.subject_updated_successfully'
@@ -115,7 +116,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
         }
       } else {
         let response = await createOrganizationUnitType(data);
-        if (response && response._response_status.success) {
+        if (isResponseSuccess(response)) {
           successStack(
             <IntlMessages
               id='common.subject_created_successfully'
