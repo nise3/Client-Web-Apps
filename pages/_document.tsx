@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line @next/next/no-document-import-in-page
 import Document, {Head, Html, Main, NextScript} from 'next/document';
 import {ServerStyleSheets} from '@material-ui/core/styles';
 import defaultConfig from '../@crema/utility/ContextProvider/defaultConfig';
@@ -14,17 +15,19 @@ export default class MyDocument extends Document {
             name='theme-color'
             content={defaultConfig.theme.palette.primary.main}
           />
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap"
-                rel="stylesheet" />
+          <link
+            href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap'
+            rel='stylesheet'
+          />
           <link
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
         </Head>
         <body>
-        <div id='root' />
-        <Main />
-        <NextScript />
+          <div id='root' />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );
@@ -62,6 +65,7 @@ MyDocument.getInitialProps = async (ctx) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
+      // eslint-disable-next-line react/display-name
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
 
