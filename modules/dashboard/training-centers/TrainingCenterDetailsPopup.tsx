@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {getBranch} from '../../../services/instituteManagement/BranchService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {getTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
 
 type Props = {
   itemId: number | null;
@@ -16,7 +16,11 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const TrainingCenterDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -29,9 +33,9 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let branch = await getBranch(itemId);
-    if (branch) {
-      setItemData(branch);
+    let trainingCenter = await getTrainingCenter(itemId);
+    if (trainingCenter) {
+      setItemData(trainingCenter);
     }
     setIsLoading(false);
   };
@@ -44,7 +48,7 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconProgramme />
-            <IntlMessages id='branch.label' />
+            <IntlMessages id='programme.label' />
           </>
         }
         maxWidth={'sm'}
@@ -84,6 +88,13 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['branch.label']}
+              value={itemData?.branch_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.address']}
               value={itemData?.address}
               isLoading={isLoading}
@@ -109,4 +120,4 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default BranchDetailsPopup;
+export default TrainingCenterDetailsPopup;

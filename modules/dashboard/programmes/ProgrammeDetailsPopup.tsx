@@ -12,7 +12,6 @@ import {getProgramme} from '../../../services/instituteManagement/ProgrammeServi
 
 type Props = {
   itemId: number | null;
-  open: boolean;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -40,6 +39,7 @@ const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
+        open={true}
         {...props}
         title={
           <>

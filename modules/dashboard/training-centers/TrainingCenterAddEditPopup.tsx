@@ -12,16 +12,17 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  createBranch,
-  getBranch,
-  updateBranch,
-} from '../../../services/instituteManagement/BranchService';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {
+  createTrainingCenter,
+  getTrainingCenter,
+  updateTrainingCenter,
+} from '../../../services/instituteManagement/TrainingCenterService';
+import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 
-interface BranchAddEditPopupProps {
+interface ProgrammeAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -35,6 +36,7 @@ const validationSchema = yup.object().shape({
     .required('Enter title (Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
   institute_id: yup.string().trim().required(),
+  branch_id: yup.string(),
   address: yup.string(),
   google_map_src: yup.string(),
   row_status: yup.string(),
@@ -45,12 +47,13 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   institute_id: 0,
+  branch_id: 0,
   address: '',
   google_map_src: '',
   row_status: '1',
 };
 
-const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
+const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -60,6 +63,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const [branches, setBranches] = useState<Array<Branch> | []>([]);
 
   const {
     control,
@@ -67,7 +71,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Branch>({
+  } = useForm<TrainingCenter>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -75,20 +79,22 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getBranch(itemId);
+        let item = await getTrainingCenter(itemId);
         reset({
           title_en: item.title_en,
           title_bn: item.title_bn,
           institute_id: item.institute_id,
-          address: item.address,
-          google_map_src: item.google_map_src,
-          row_status: String(item.row_status),
+          branch_id: item?.branch_id,
+          address: item?.address,
+          google_map_src: item?.google_map_src,
+          row_status: String(item?.row_status),
         });
       } else {
         reset(initialValues);
       }
       setIsLoading(false);
-      loadInstitutes();
+      await loadInstitutes();
+      await loadBranches();
     })();
   }, [itemId]);
 
@@ -96,26 +102,32 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     setInstitutes(await getAllInstitutes());
   };
 
-  const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
+  const loadBranches = async () => {
+    setBranches(await getAllBranches());
+  };
+
+  const onSubmit: SubmitHandler<TrainingCenter> = async (
+    data: TrainingCenter,
+  ) => {
     if (isEdit && itemId) {
-      let response = await updateBranch(itemId, data);
+      let response = await updateTrainingCenter(itemId, data);
       if (response) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='branch.label' />}}
+            values={{subject: <IntlMessages id='training_center.label' />}}
           />,
         );
         props.onClose();
         refreshDataTable();
       }
     } else {
-      let response = await createBranch(data);
+      let response = await createTrainingCenter(data);
       if (response) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='branch.label' />}}
+            values={{subject: <IntlMessages id='training_center.label' />}}
           />,
         );
         props.onClose();
@@ -130,16 +142,16 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconProgramme />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='branch.label' />}}
+              values={{subject: <IntlMessages id='training_center.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='branch.label' />}}
+              values={{subject: <IntlMessages id='training_center.label' />}}
             />
           )}
         </>
@@ -184,6 +196,18 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
+          <CustomFormSelect
+            id='branch_id'
+            label={messages['branch.label']}
+            isLoading={isLoading}
+            control={control}
+            options={branches}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <CustomTextInput
             id='address'
             label={messages['common.address']}
@@ -213,4 +237,4 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default BranchAddEditPopup;
+export default TrainingCenterAddEditPopup;
