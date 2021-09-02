@@ -11,13 +11,13 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import IconOrganization from "../../../@softbd/icons/IconOrganization";
 import {
     createService,
     getService,
     updateService
 } from "../../../services/organaizationManagement/OrganizationServiceService";
 import FormRowStatus from "../../../@softbd/elements/input/FormRowStatus/FormRowStatus";
+import IconService from "../../../@softbd/icons/IconService";
 
 interface ServiceAddEditPopupProps {
     itemId: number | null;
@@ -113,7 +113,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
             open = {true}
             title={
                 <>
-                    <IconOrganization/>
+                    <IconService/>
                     {isEdit ? (
                         <IntlMessages
                             id='common.edit'
@@ -136,7 +136,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
                 </>
             }>
             <Grid container spacing={5}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <CustomTextInput
                         id='title_en'
                         label={messages['common.title_en']}
@@ -145,7 +145,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
                         isLoading={isLoading}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <CustomTextInput
                         id='title_bn'
                         label={messages['common.title_bn']}
@@ -162,7 +162,6 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
                         isLoading={isLoading}
                     />
                 </Grid>
-
             </Grid>
         </HookFormMuiModal>
     );

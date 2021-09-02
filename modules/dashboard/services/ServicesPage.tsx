@@ -16,7 +16,7 @@ import ServiceDetailsPopup from './ServiceDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus";
 import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import IconOrganization from "../../../@softbd/icons/IconOrganization";
+import IconService from "../../../@softbd/icons/IconService";
 
 const ServicesPage = () => {
     const {messages} = useIntl();
@@ -129,7 +129,7 @@ const ServicesPage = () => {
             <PageBlock
                 title={
                     <>
-                        <IconOrganization/> <IntlMessages id='services.label'/>
+                        <IconService/> <IntlMessages id='services.label'/>
                     </>
                 }
                 extra={[

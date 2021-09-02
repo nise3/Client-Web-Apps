@@ -5,10 +5,10 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {getService} from "../../../services/organaizationManagement/OrganizationServiceService";
+import IconService from "../../../@softbd/icons/IconService";
 
 type Props = {
   itemId: number | null;
@@ -44,7 +44,7 @@ const ServiceDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             {...props}
             title={
               <>
-                <WorkOutline />
+                <IconService />
                 <IntlMessages id='services.label' />
               </>
             }
