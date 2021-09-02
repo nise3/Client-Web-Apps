@@ -25,7 +25,11 @@ import {getAllOrganizationTypes} from '../../../services/organaizationManagement
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/common/helpers';
+import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -34,59 +38,59 @@ interface OrganizationAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title(En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .label('Title(Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup
-    .string()
-    .trim()
-    .required()
-    .matches(DOMAIN_REGEX, 'Enter valid domain')
-    .label('Domain'),
-  email: yup
-    .string()
-    .email('Enter valid email')
-    .trim()
-    .required()
-    .label('Email'),
-  mobile: yup
-    .string()
-    .trim()
-    .required()
-    .label('Mobile Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
-  contact_person_name: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person name'),
-  contact_person_mobile: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person mobile')
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
-  contact_person_email: yup
-    .string()
-    .email()
-    .trim()
-    .required()
-    .label('Contact person email'),
-  contact_person_designation: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person designation'),
-  organization_type_id: yup
-    .string()
-    .required()
-    .label('Organization type designation'),
-  address: yup.string().trim().required().label('Address'),
-  row_status: yup.string().trim().required(),
+  // title_en: yup.string().trim().required().label('Title(En)'),
+  // title_bn: yup
+  //   .string()
+  //   .trim()
+  //   .required()
+  //   .label('Title(Bn)')
+  //   .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
+  //domain: yup
+  // .string()
+  //.trim()
+  //.required()
+  //.matches(DOMAIN_REGEX, 'Enter valid domain')
+  // .label('Domain'),
+  // email: yup
+  //   .string()
+  //   .email('Enter valid email')
+  //   .trim()
+  //   .required()
+  //   .label('Email'),
+  // mobile: yup
+  //   .string()
+  //   .trim()
+  //   .required()
+  //   .label('Mobile Number')
+  //   .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
+  // contact_person_name: yup
+  //   .string()
+  //   .trim()
+  //   .required()
+  //   .label('Contact person name'),
+  // contact_person_mobile: yup
+  //   .string()
+  //   .trim()
+  //   .required()
+  //   .label('Contact person mobile')
+  //   .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
+  // contact_person_email: yup
+  //   .string()
+  //   .email()
+  //   .trim()
+  //   .required()
+  //   .label('Contact person email'),
+  // contact_person_designation: yup
+  //   .string()
+  //   .trim()
+  //   .required()
+  //   .label('Contact person designation'),
+  // organization_type_id: yup
+  //   .string()
+  //   .required()
+  //   .label('Organization type designation'),
+  // address: yup.string().trim().required().label('Address'),
+  // row_status: yup.string().trim().required(),
 });
 
 const initialValues = {
@@ -124,6 +128,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     register,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -186,6 +191,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       }
     } else {
       let response = await createOrganization(data);
+      console.log('response', response);
       if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
@@ -195,10 +201,15 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         );
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          //setServerValidationErrors(response.errors, setError);
+        }
       }
     }
   };
 
+  console.log('errors', errors);
   return (
     <HookFormMuiModal
       {...props}

@@ -186,5 +186,7 @@
   "programme.label": "প্রোগ্রাম",
   "programme.programme_code": "প্রোগ্রাম কোড",
   "programme.programme_logo": "প্রোগ্রাম লোগো",
-  "training_center.label": "ট্রেইনিং সেন্টার"
+  "training_center.label": "ট্রেইনিং সেন্টার",
+  "common.validation_required_error" : "এই ঘরটি অবশ্যই পূরণ করতে হবে",
+  "common.validation_exist_error" : "এই ঘরটির ভ্যালু আগে থেকেই আছে"
 }

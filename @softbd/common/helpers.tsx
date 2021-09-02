@@ -1,7 +1,4 @@
 import moment from 'moment';
-import IntlMessages from '../../@crema/utility/IntlMessages';
-import React from 'react';
-import useNotiStack from '../hooks/useNotifyStack';
 
 export const catchBlockHandler = (error: any, message = '') => {
   //const {errorStack} = useNotiStack();
@@ -135,16 +132,14 @@ export const countPaginatePage = (
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export const showSuccessMessage = () => {
-  const {successStack} = useNotiStack();
-  successStack(
-    <IntlMessages
-      id='common.subject_created_successfully'
-      values={{subject: <IntlMessages id='organization.label' />}}
-    />,
-  );
-};
-
 export const isResponseSuccess = (response: any) => {
   return response && response._response_status.success;
+};
+
+export const isValidationError = (response: any) => {
+  return (
+    response &&
+    !response._response_status.success &&
+    response._response_status.code == 400
+  );
 };
