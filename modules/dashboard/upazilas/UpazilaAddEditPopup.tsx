@@ -22,6 +22,7 @@ import {
 } from '../../../services/locationManagement/UpazilaService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface UpazilaAddEditPopupProps {
   itemId: number | null;
@@ -84,9 +85,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
             title_en: item?.title_en,
             title_bn: item?.title_bn,
             bbs_code: item?.bbs_code,
-            row_status: item?.row_status
-              ? String(item.row_status)
-              : initialValues.row_status,
+            row_status: String(item?.row_status),
             loc_division_id: item?.loc_division_id,
             loc_district_id: item?.loc_district_id,
           });
@@ -133,7 +132,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Upazila> = async (data: Upazila) => {
     if (isEdit && itemId) {
       let response = await updateUpazila(itemId, data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -145,7 +144,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
       }
     } else {
       let response = await createUpazila(data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

@@ -30,9 +30,9 @@ const OccupationDetailsPopup = ({itemId, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let occupation = await getOccupation(itemId);
-    if (occupation) {
-      setItemData(occupation);
+    let response = await getOccupation(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

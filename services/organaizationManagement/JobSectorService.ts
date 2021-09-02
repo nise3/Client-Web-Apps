@@ -7,7 +7,7 @@ const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 export const getAllJobSectors = async (params = {}) => {
   try {
     let response: any = await apiGet(API_JOB_SECTORS, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -16,7 +16,7 @@ export const getAllJobSectors = async (params = {}) => {
 export const getJobSector = async (jobSectorId: number) => {
   try {
     let response: any = await apiGet(API_JOB_SECTORS + '/' + jobSectorId);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -25,7 +25,7 @@ export const getJobSector = async (jobSectorId: number) => {
 export const createJobSector = async (data: JobSector) => {
   try {
     let response: any = await apiPost(API_JOB_SECTORS, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -34,7 +34,7 @@ export const createJobSector = async (data: JobSector) => {
 export const updateJobSector = async (jobSectorId: number, data: JobSector) => {
   try {
     let response: any = await apiPut(API_JOB_SECTORS + '/' + jobSectorId, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -43,7 +43,7 @@ export const updateJobSector = async (jobSectorId: number, data: JobSector) => {
 export const deleteJobSector = async (jobSectorId: number) => {
   try {
     let response: any = await apiDelete(API_JOB_SECTORS + '/' + jobSectorId);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

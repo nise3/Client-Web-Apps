@@ -21,6 +21,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
@@ -80,9 +81,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
             title_en: item?.title_en,
             title_bn: item?.title_bn,
             bbs_code: item?.bbs_code,
-            row_status: item?.row
-              ? String(item.row_status)
-              : initialValues.row_status,
+            row_status: String(item?.row_status),
             loc_division_id: item?.loc_division_id,
           });
         }
@@ -105,7 +104,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<District> = async (data: District) => {
     if (isEdit && itemId) {
       let response = await updateDistrict(itemId, data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -117,7 +116,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
       }
     } else {
       let response = await createDistrict(data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

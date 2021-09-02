@@ -12,7 +12,7 @@ export default AppPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['districts.label'] as string} />
+      <PageMeta title={messages['districts.label']} />
       <DistrictsPage />
     </>
   );

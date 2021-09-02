@@ -17,6 +17,7 @@ import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
@@ -69,7 +70,7 @@ const UpazilasPage = () => {
 
   const deleteUpazilaItem = async (itemId: number) => {
     let response = await deleteUpazila(itemId);
-    if (response && response._response_status.success) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

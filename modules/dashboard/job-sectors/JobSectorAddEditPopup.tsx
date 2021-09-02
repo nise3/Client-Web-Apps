@@ -17,6 +17,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -64,12 +65,15 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getJobSector(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          row_status: String(item?.row_status),
-        });
+        let response = await getJobSector(itemId);
+        if (response) {
+          let {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            row_status: String(item?.row_status),
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -78,10 +82,9 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   }, [itemId, reset]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
-    console.log('data', data);
     if (isEdit && itemId) {
       let response = await updateJobSector(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -93,7 +96,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
       }
     } else {
       let response = await createJobSector(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
