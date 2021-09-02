@@ -102,6 +102,7 @@
   "error.notifyMe": "আমাকে অবহিত করুন",
   "menu.organization_management": "সংস্থা ব্যবস্থাপনা",
   "menu.institute_management": "প্রতিষ্ঠান ব্যবস্থাপনা",
+  "menu.course": "কোর্স",
   "menu.application": "আবেদন",
   "menu.dashboard": "ড্যাশবোর্ড",
   "menu.pages": "পেজ",
@@ -186,5 +187,17 @@
   "programme.label": "প্রোগ্রাম",
   "programme.programme_code": "প্রোগ্রাম কোড",
   "programme.programme_logo": "প্রোগ্রাম লোগো",
-  "training_center.label": "ট্রেইনিং সেন্টার"
+  "training_center.label": "ট্রেইনিং সেন্টার",
+  "course.label": "কোর্স",
+  "course.duration": "সময়কাল",
+  "course.code": "কোড",
+  "course.fee": "ফি",
+  "course.target_group": "যাদের জন্য কোর্স",
+  "course.objectives": "উদ্দেশ্য",
+  "course.contents": "বিষয়বস্তু",
+  "course.training_methodology": "প্রশিক্ষণ পদ্ধতি",
+  "course.evaluation_system": "মূল্যায়ন সিস্টেম",
+  "course.prerequisite": "পূর্বশর্ত",
+  "course.eligibility": "যোগ্যতা",
+  "course.cover_image": "কভার ইমেজ"
 }
