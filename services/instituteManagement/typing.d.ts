@@ -79,10 +79,10 @@ type TrainingCenter = {
   title_en: string;
   title_bn: string;
   institute_id: number;
-  branch_id: number;
+  branch_id?: number;
   address: string;
   google_map_src: string;
-  row_status: number;
+  row_status: string;
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

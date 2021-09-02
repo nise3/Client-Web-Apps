@@ -14,12 +14,12 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import {
-  createProgramme,
-  updateProgramme,
-} from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {getTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import {
+  createTrainingCenter,
+  getTrainingCenter,
+  updateTrainingCenter,
+} from '../../../services/instituteManagement/TrainingCenterService';
 import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 
 interface ProgrammeAddEditPopupProps {
@@ -71,7 +71,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Programme>({
+  } = useForm<TrainingCenter>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -85,9 +85,9 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           title_bn: item.title_bn,
           institute_id: item.institute_id,
           branch_id: item?.branch_id,
-          address: item.address,
+          address: item?.address,
           google_map_src: item?.google_map_src,
-          row_status: String(item.row_status),
+          row_status: String(item?.row_status),
         });
       } else {
         reset(initialValues);
@@ -110,24 +110,24 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     data: TrainingCenter,
   ) => {
     if (isEdit && itemId) {
-      let response = await updateProgramme(itemId, data);
+      let response = await updateTrainingCenter(itemId, data);
       if (response) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='programme.label' />}}
+            values={{subject: <IntlMessages id='training_center.label' />}}
           />,
         );
         props.onClose();
         refreshDataTable();
       }
     } else {
-      let response = await createProgramme(data);
+      let response = await createTrainingCenter(data);
       if (response) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='programme.label' />}}
+            values={{subject: <IntlMessages id='training_center.label' />}}
           />,
         );
         props.onClose();
@@ -146,12 +146,12 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='programme.label' />}}
+              values={{subject: <IntlMessages id='training_center.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='programme.label' />}}
+              values={{subject: <IntlMessages id='training_center.label' />}}
             />
           )}
         </>
@@ -196,9 +196,21 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
+          <CustomFormSelect
+            id='branch_id'
+            label={messages['branch.label']}
+            isLoading={isLoading}
+            control={control}
+            options={branches}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <CustomTextInput
-            id='code'
-            label={messages['programme.programme_code']}
+            id='address'
+            label={messages['common.address']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -206,17 +218,8 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='logo'
-            label={messages['programme.programme_logo']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='description'
-            label={messages['common.description']}
+            id='google_map_src'
+            label={messages['common.google_map_src']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

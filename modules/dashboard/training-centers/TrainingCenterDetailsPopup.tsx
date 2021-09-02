@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {getProgramme} from '../../../services/instituteManagement/ProgrammeService';
+import {getTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
 
 type Props = {
   itemId: number | null;
@@ -33,9 +33,9 @@ const TrainingCenterDetailsPopup = ({
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let programme = await getProgramme(itemId);
-    if (programme) {
-      setItemData(programme);
+    let trainingCenter = await getTrainingCenter(itemId);
+    if (trainingCenter) {
+      setItemData(trainingCenter);
     }
     setIsLoading(false);
   };
@@ -88,22 +88,22 @@ const TrainingCenterDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['programme.programme_code']}
-              value={itemData?.programme_code}
+              label={messages['branch.label']}
+              value={itemData?.branch_title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['programme.programme_logo']}
-              value={itemData?.programme_logo}
+              label={messages['common.address']}
+              value={itemData?.address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.description']}
-              value={itemData?.description}
+              label={messages['common.google_map_src']}
+              value={itemData?.google_map_src}
               isLoading={isLoading}
             />
           </Grid>
