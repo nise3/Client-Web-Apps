@@ -217,15 +217,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='domain'
-            label={messages['common.domain']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='primary_phone'
             label={messages['common.phone']}
             register={register}
@@ -233,10 +224,20 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={6}>
           <CustomTextInput
             id='primary_mobile'
             label={messages['common.mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='domain'
+            label={messages['common.domain']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

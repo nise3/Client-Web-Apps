@@ -88,6 +88,48 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['common.phone']}
+              value={itemData?.primary_phone}
+              isLoading={isLoading}
+            />
+          </Grid>
+          {itemData?.phone_numbers &&
+            Array.isArray(itemData.phone_numbers) &&
+            itemData.phone_numbers.map((phone: any, index: any) => {
+              return (
+                <Grid item xs={6}>
+                  <DetailsInputView
+                    label={messages['common.phone'] + ' #' + index}
+                    value={phone}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              );
+            })}
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.mobile']}
+              value={itemData?.primary_mobile}
+              isLoading={isLoading}
+            />
+          </Grid>
+          {itemData?.mobile_numbers &&
+            Array.isArray(itemData.mobile_numbers) &&
+            itemData.mobile_numbers.map((mobile: any, index: any) => {
+              return (
+                <Grid item xs={6}>
+                  <DetailsInputView
+                    label={messages['common.mobile'] + ' #' + index}
+                    value={mobile}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              );
+            })}
+
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.domain']}
               value={itemData?.domain}
               isLoading={isLoading}
@@ -95,15 +137,22 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.phone']}
-              value={itemData?.primary_phone}
+              label={messages['divisions.label']}
+              value={itemData?.division_title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.primary_mobile}
+              label={messages['districts.label']}
+              value={itemData?.district_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['upazilas.label']}
+              value={itemData?.upazila_title_en}
               isLoading={isLoading}
             />
           </Grid>
