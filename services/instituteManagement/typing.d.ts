@@ -36,13 +36,13 @@ type Programme = {
 
 type Course = {
   id: number;
-  code: number;
+  code: string;
   institute_id: number;
   institute_title_en: string;
   title_en: string;
   title_bn: string;
-  course_fee: number;
-  duration?: number;
+  course_fee: string;
+  duration?: string;
   description?: string;
   target_group?: string;
   objectives?: string;
@@ -52,7 +52,7 @@ type Course = {
   prerequisite?: string;
   eligibility?: string;
   cover_image?: string;
-  row_status: number;
+  row_status: string;
   crated_by?: string;
   updated_by?: string;
   created_at?: string;

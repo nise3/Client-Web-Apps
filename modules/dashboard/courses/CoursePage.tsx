@@ -9,16 +9,16 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import TrainingCenterAddEditPopup from './TrainingCenterAddEditPopup';
-import TrainingCenterDetailsPopup from './TrainingCenterDetailsPopup';
+import CourseAddEditPopup from './CourseAddEditPopup';
+import CourseDetailsPopup from './CourseDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
-import {deleteTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {deleteCourse} from '../../../services/instituteManagement/CourseService';
 
-const TrainingCenterPage = () => {
+const CoursePage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -50,21 +50,21 @@ const TrainingCenterPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteTrainingCenterItem = async (trainingCenterId: number) => {
-    let response = await deleteTrainingCenter(trainingCenterId);
+  const deleteCourseItem = async (courseId: number) => {
+    let response = await deleteCourse(courseId);
     if (response) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='training_center.label' />}}
+          values={{subject: <IntlMessages id='course.label' />}}
         />,
       );
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
+    setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
 
   const columns = useMemo(
@@ -90,16 +90,12 @@ const TrainingCenterPage = () => {
         accessor: 'institute_title_en',
       },
       {
-        Header: messages['branch.label'],
-        accessor: 'branch_title_en',
+        Header: messages['course.fee'],
+        accessor: 'course_fee',
       },
       {
-        Header: messages['common.address'],
-        accessor: 'address',
-      },
-      {
-        Header: messages['common.google_map_src'],
-        accessor: 'google_map_src',
+        Header: messages['course.duration'],
+        accessor: 'duration',
       },
       {
         Header: messages['common.status'],
@@ -118,7 +114,7 @@ const TrainingCenterPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteTrainingCenterItem(data.id)}
+                deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={'Are you sure?'}
               />
             </DatatableButtonGroup>
@@ -131,7 +127,7 @@ const TrainingCenterPage = () => {
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/training-centers',
+    urlPath: INSTITUTE_SERVICE_PATH + '/courses',
     dataAccessor: 'data',
   });
 
@@ -140,7 +136,7 @@ const TrainingCenterPage = () => {
       <PageBlock
         title={
           <>
-            <IconTrainingCenter /> <IntlMessages id='training_center.label' />
+            <IconProgramme /> <IntlMessages id='course.label' />
           </>
         }
         extra={[
@@ -152,7 +148,7 @@ const TrainingCenterPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['training_center.label'],
+                  subject: messages['course.label'],
                 }}
               />
             }
@@ -169,7 +165,7 @@ const TrainingCenterPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <TrainingCenterAddEditPopup
+          <CourseAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -178,7 +174,7 @@ const TrainingCenterPage = () => {
         )}
 
         {isOpenDetailsModal && (
-          <TrainingCenterDetailsPopup
+          <CourseDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -190,4 +186,4 @@ const TrainingCenterPage = () => {
   );
 };
 
-export default TrainingCenterPage;
+export default CoursePage;

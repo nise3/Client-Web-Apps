@@ -165,6 +165,14 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/dashboard/training-centers',
           },
+          {
+            id: 'course',
+            title: 'Course',
+            messageId: 'menu.course',
+            type: 'item',
+            icon: 'timeline',
+            url: '/dashboard/courses',
+          },
         ],
       },
       {

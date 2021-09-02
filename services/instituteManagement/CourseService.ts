@@ -1,7 +1,8 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
-const API_COURSES = '/courses';
+const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 
 export const getAllCourses = async (params = {}) => {
   try {

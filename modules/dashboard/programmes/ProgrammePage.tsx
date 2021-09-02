@@ -63,9 +63,9 @@ const ProgrammePage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
-  };
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [

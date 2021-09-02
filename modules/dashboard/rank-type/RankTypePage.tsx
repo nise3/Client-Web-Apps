@@ -102,10 +102,6 @@ const RankTypePage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['common.description'],
-        accessor: 'description',
-      },
-      {
         Header: messages['organization.label'],
         accessor: 'organization_title_en',
       },

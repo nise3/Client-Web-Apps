@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {getTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import {getCourse} from '../../../services/instituteManagement/CourseService';
+import IconCourse from '../../../@softbd/icons/IconProgramme';
 
 type Props = {
   itemId: number | null;
@@ -16,11 +16,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const TrainingCenterDetailsPopup = ({
-  itemId,
-  openEditModal,
-  ...props
-}: Props) => {
+const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
@@ -33,9 +29,9 @@ const TrainingCenterDetailsPopup = ({
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let trainingCenter = await getTrainingCenter(itemId);
-    if (trainingCenter) {
-      setItemData(trainingCenter);
+    let course = await getCourse(itemId);
+    if (course) {
+      setItemData(course);
     }
     setIsLoading(false);
   };
@@ -47,8 +43,8 @@ const TrainingCenterDetailsPopup = ({
         {...props}
         title={
           <>
-            <IconProgramme />
-            <IntlMessages id='training_center.label' />
+            <IconCourse />
+            <IntlMessages id='course.label' />
           </>
         }
         maxWidth={'sm'}
@@ -88,22 +84,85 @@ const TrainingCenterDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['branch.label']}
-              value={itemData?.branch_title_en}
+              label={messages['course.code']}
+              value={itemData?.code}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
+              label={messages['course.fee']}
+              value={itemData?.course_fee}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.google_map_src']}
-              value={itemData?.google_map_src}
+              label={messages['course.duration']}
+              value={itemData?.duration}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.description']}
+              value={itemData?.description}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.target_group']}
+              value={itemData?.target_group}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.objectives']}
+              value={itemData?.objectives}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.contents']}
+              value={itemData?.contents}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.training_methodology']}
+              value={itemData?.training_methodology}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.evaluation_system']}
+              value={itemData?.evaluation_system}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.prerequisite']}
+              value={itemData?.prerequisite}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.eligibility']}
+              value={itemData?.eligibility}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['course.cover_image']}
+              value={itemData?.cover_image}
               isLoading={isLoading}
             />
           </Grid>
@@ -120,4 +179,4 @@ const TrainingCenterDetailsPopup = ({
   );
 };
 
-export default TrainingCenterDetailsPopup;
+export default CourseDetailsPopup;

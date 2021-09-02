@@ -63,9 +63,9 @@ const BranchPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
-  };
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
