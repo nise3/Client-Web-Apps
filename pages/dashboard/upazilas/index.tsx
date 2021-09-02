@@ -11,7 +11,7 @@ export default AppPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['upazilas.label'] as string} />
+      <PageMeta title={messages['upazilas.label']} />
       <UpazilasPage />
     </>
   );

@@ -18,6 +18,7 @@ import {
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
@@ -74,9 +75,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
             title_en: item?.title_en,
             title_bn: item?.title_bn,
             bbs_code: item?.bbs_code,
-            row_status: item?.row_status
-              ? String(item.row_status)
-              : initialValues.row_status,
+            row_status: String(item?.row_status),
           });
         }
       } else {
@@ -89,7 +88,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Division> = async (data: Division) => {
     if (isEdit && itemId) {
       let response = await updateDivision(itemId, data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -101,7 +100,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
       }
     } else {
       let response = await createDivision(data);
-      if (response && response._response_status.success) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

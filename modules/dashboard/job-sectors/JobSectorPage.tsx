@@ -17,6 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
@@ -36,8 +37,8 @@ const JobSectorPage = () => {
 
   const loadJobSectorsData = async () => {
     setIsLoading(true);
-    let jobSectors = await getAllJobSectors();
-    if (jobSectors) setJobSectors(jobSectors);
+    let response = await getAllJobSectors();
+    if (response) setJobSectors(response.data);
     setIsLoading(false);
   };
 
@@ -66,7 +67,7 @@ const JobSectorPage = () => {
 
   const deleteJobSectorItem = async (itemId: number) => {
     let response = await deleteJobSector(itemId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

@@ -29,9 +29,9 @@ const JobSectorDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let institute = await getJobSector(itemId);
-    if (institute) {
-      setItemData(institute);
+    let response = await getJobSector(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

@@ -17,6 +17,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const DivisionsPage = () => {
   const {messages} = useIntl();
@@ -69,7 +70,7 @@ const DivisionsPage = () => {
 
   const deleteDivisionItem = async (selectedItemId: number) => {
     let response = await deleteDivision(selectedItemId);
-    if (response && response._response_status.success) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

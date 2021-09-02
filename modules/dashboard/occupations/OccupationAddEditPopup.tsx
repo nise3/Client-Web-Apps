@@ -21,6 +21,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {getAllJobSectors} from '../../../services/organaizationManagement/JobSectorService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
@@ -70,13 +71,16 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getOccupation(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          row_status: String(item.row_status),
-          job_sector_id: item.job_sector_id,
-        });
+        let response = await getOccupation(itemId);
+        if (response) {
+          let {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            row_status: String(item?.row_status),
+            job_sector_id: item?.job_sector_id,
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -87,8 +91,8 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let jobSectors = await getAllJobSectors();
-      if (jobSectors) setJobSectors(jobSectors);
+      let response = await getAllJobSectors();
+      if (response) setJobSectors(response.data);
       setIsLoading(false);
     })();
   }, []);
@@ -96,7 +100,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
     if (isEdit && itemId) {
       let response = await updateOccupation(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -108,7 +112,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
       }
     } else {
       let response = await createOccupation(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

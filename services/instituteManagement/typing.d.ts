@@ -13,7 +13,7 @@ type Institute = {
   mobile_numbers: string;
   email: string;
   config: string;
-  row_status: number;
+  row_status: string;
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

@@ -12,7 +12,7 @@ export default AppPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['divisions.label'] as string} />
+      <PageMeta title={messages['divisions.label']} />
       <DivisionsPage />
     </>
   );

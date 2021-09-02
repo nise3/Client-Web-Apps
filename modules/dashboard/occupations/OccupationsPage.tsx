@@ -16,12 +16,13 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const OccupationsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [occupationId, setOccupationId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -29,27 +30,27 @@ const OccupationsPage = () => {
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setOccupationId(null);
+    setSelectedItemId(null);
   }, []);
 
-  const openAddEditModal = useCallback((occupationId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setOccupationId(occupationId);
+    setSelectedItemId(itemId);
   }, []);
 
-  const openDetailsModal = useCallback((occupationId: number) => {
+  const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
-    setOccupationId(occupationId);
+    setSelectedItemId(itemId);
   }, []);
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteOccupationItem = async (occupationId: number) => {
-    let response = await deleteOccupation(occupationId);
-    if (response) {
+  const deleteOccupationItem = async (itemId: number) => {
+    let response = await deleteOccupation(itemId);
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -84,7 +85,6 @@ const OccupationsPage = () => {
       {
         Header: messages['job_sectors.label'],
         accessor: 'job_sector_title',
-        isVisible: false,
       },
       {
         Header: messages['common.status'],
@@ -160,7 +160,7 @@ const OccupationsPage = () => {
           <OccupationAddEditPopup
             key={1}
             onClose={closeAddEditModal}
-            itemId={occupationId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -168,7 +168,7 @@ const OccupationsPage = () => {
         {isOpenDetailsModal && (
           <OccupationDetailsPopup
             key={1}
-            itemId={occupationId}
+            itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

@@ -17,6 +17,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const DistrictsPage = () => {
   const {messages} = useIntl();
@@ -66,7 +67,7 @@ const DistrictsPage = () => {
 
   const deleteDistrictItem = async (districtId: number) => {
     let response = await deleteDistrict(districtId);
-    if (response && response._response_status.success) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
