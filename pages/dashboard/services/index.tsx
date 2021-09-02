@@ -11,7 +11,7 @@ export default AppPage(() => {
     const {messages} = useIntl();
     return (
         <>
-            <PageMeta title= {messages['services.label'] as string} />
+            <PageMeta title= {messages['services.label']} />
             <ServicesPage />
         </>
     )
