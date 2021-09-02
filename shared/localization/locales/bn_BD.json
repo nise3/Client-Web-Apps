@@ -200,5 +200,7 @@
   "course.evaluation_system": "মূল্যায়ন সিস্টেম",
   "course.prerequisite": "পূর্বশর্ত",
   "course.eligibility": "যোগ্যতা",
-  "course.cover_image": "কভার ইমেজ"
+  "course.cover_image": "কভার ইমেজ",
+  "common.validation_required_error" : "এই ঘরটি অবশ্যই পূরণ করতে হবে",
+  "common.validation_exist_error" : "এই ঘরটির ভ্যালু আগে থেকেই আছে"
 }
