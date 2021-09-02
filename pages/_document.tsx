@@ -1,5 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line @next/next/no-document-import-in-page
 import Document, {Head, Html, Main, NextScript} from 'next/document';
 import {ServerStyleSheets} from '@material-ui/core/styles';
 import defaultConfig from '../@crema/utility/ContextProvider/defaultConfig';
@@ -23,6 +22,7 @@ export default class MyDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
+          <title></title>
         </Head>
         <body>
           <div id='root' />
