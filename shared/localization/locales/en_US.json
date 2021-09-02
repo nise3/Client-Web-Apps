@@ -76,5 +76,6 @@
   "occupations.label": "Occupation",
   "divisions.label": "Division",
   "districts.label": "District",
-  "upazilas.label": "Upazila"
+  "upazilas.label": "Upazila",
+  "services.label": "Services"
 }

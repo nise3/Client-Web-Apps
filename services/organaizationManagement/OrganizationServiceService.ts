@@ -7,7 +7,7 @@ const API_ORGANIZATION_SERVICES = ORGANIZATION_SERVICE_PATH + '/services';
 export const getAllServices = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATION_SERVICES, {params});
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -18,7 +18,7 @@ export const getService = async (serviceId: number) => {
     let response: any = await apiGet(
       API_ORGANIZATION_SERVICES + '/' + serviceId,
     );
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -29,7 +29,7 @@ export const deleteService = async (serviceId: number) => {
     let response: any = await apiDelete(
       API_ORGANIZATION_SERVICES + '/' + serviceId,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -38,7 +38,7 @@ export const deleteService = async (serviceId: number) => {
 export const createService = async (data: Service) => {
   try {
     let response: any = await apiPost(API_ORGANIZATION_SERVICES, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -50,7 +50,7 @@ export const updateService = async (serviceId: number, data: Service) => {
       API_ORGANIZATION_SERVICES + '/' + serviceId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

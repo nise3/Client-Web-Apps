@@ -6,9 +6,9 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {getService} from "../../../services/organaizationManagement/OrganizationServiceService";
 import IconService from "../../../@softbd/icons/IconService";
+import DecoratedRowStatus from "../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus";
 
 type Props = {
   itemId: number | null;
@@ -29,9 +29,9 @@ const ServiceDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let institute = await getService(itemId);
-    if (institute) {
-      setItemData(institute);
+    let response = await getService(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };
@@ -73,9 +73,9 @@ const ServiceDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <CustomChipRowStatus
+              <DetailsInputView
                   label={messages['common.status']}
-                  value={itemData?.row_status}
+                  value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
                   isLoading={isLoading}
               />
             </Grid>

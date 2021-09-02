@@ -16,7 +16,8 @@ import ServiceDetailsPopup from './ServiceDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus";
 import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import IconService from "../../../@softbd/icons/IconService";
+import IconOrganization from "../../../@softbd/icons/IconOrganization";
+import {isResponseSuccess} from "../../../@softbd/common/helpers";
 
 const ServicesPage = () => {
     const {messages} = useIntl();
@@ -35,8 +36,8 @@ const ServicesPage = () => {
 
     const loadServicesData = async () => {
         setIsLoading(true);
-        let services = await getAllServices();
-        if(services) setServices(services);
+        let response = await getAllServices();
+        if(response) setServices(response.data);
         setIsLoading(false);
     };
 
@@ -63,10 +64,9 @@ const ServicesPage = () => {
         setIsOpenDetailsModal(false);
     }, []);
 
-
     const deleteServiceItem = async (itemId: number) => {
         let response = await deleteService(itemId);
-        if (response) {
+        if (isResponseSuccess(response)) {
             successStack(
                 <IntlMessages
                     id='common.subject_deleted_successfully'
@@ -129,7 +129,7 @@ const ServicesPage = () => {
             <PageBlock
                 title={
                     <>
-                        <IconService/> <IntlMessages id='services.label'/>
+                        <IconOrganization/> <IntlMessages id='services.label'/>
                     </>
                 }
                 extra={[

@@ -65,12 +65,18 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
         (async () => {
             setIsLoading(true);
             if (isEdit && itemId) {
-                let item = await getService(itemId);
-                reset({
-                    title_en: item.title_en,
-                    title_bn: item.title_bn,
-                    row_status: String(item.row_status)
-                });
+                let response = await getService(itemId);
+                if (response) {
+                    let {data: item} = response;
+                    reset({
+                        title_en: item?.title_en,
+                        title_bn: item?.title_bn,
+                        row_status: item?.row_status
+                            ? String(item.row_status)
+                            : initialValues.row_status,
+                    });
+                }
+
             } else {
                 reset(initialValues);
             }
