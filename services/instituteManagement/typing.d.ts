@@ -8,9 +8,9 @@ type Institute = {
   google_map_src: string;
   logo: string;
   primary_phone: string;
-  phone_numbers: string;
+  phone_numbers: Array<object>;
   primary_mobile: string;
-  mobile_numbers: string;
+  mobile_numbers: Array<object>;
   email: string;
   config: string;
   row_status: string;
