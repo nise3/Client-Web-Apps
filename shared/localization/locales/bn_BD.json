@@ -202,5 +202,9 @@
   "course.eligibility": "যোগ্যতা",
   "course.cover_image": "কভার ইমেজ",
   "common.validation_required_error" : "এই ঘরটি অবশ্যই পূরণ করতে হবে",
-  "common.validation_exist_error" : "এই ঘরটির ভ্যালু আগে থেকেই আছে"
+  "common.validation_exist_error" : "এই ঘরটির ভ্যালু আগে থেকেই আছে",
+  "common.validation_number_error" : "ভ্যালুটি অবশ্যই নাম্বার হতে হবে",
+  "common.validation_password_error" : "পাসওয়ার্ডটি সঠিক নয়",
+  "common.validation_regex_error" : "ভ্যালু ফরমেটটি সঠিক নয়",
+  "common.validation_email_error" : "ইমেইলটি সঠিক নয়"
 }
