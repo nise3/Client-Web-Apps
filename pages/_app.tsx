@@ -15,6 +15,7 @@ import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';
 import {SnackbarProvider} from 'notistack';
 import Nprogress from '../@softbd/utilities/Nprogress';
+import {SWRConfig} from 'swr';
 
 const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -36,23 +37,25 @@ const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
       <Nprogress />
       <ContextProvider>
         <Provider store={store}>
-          <CremaThemeProvider>
-            <CremaStyleProvider>
-              <LocaleProvider>
-                <AuthRoutes>
-                  <CssBaseline />
-                  <SnackbarProvider
-                    maxSnack={20}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}>
-                    <Component {...pageProps} />
-                  </SnackbarProvider>
-                </AuthRoutes>
-              </LocaleProvider>
-            </CremaStyleProvider>
-          </CremaThemeProvider>
+          <SWRConfig>
+            <CremaThemeProvider>
+              <CremaStyleProvider>
+                <LocaleProvider>
+                  <AuthRoutes>
+                    <CssBaseline />
+                    <SnackbarProvider
+                      maxSnack={20}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}>
+                      <Component {...pageProps} />
+                    </SnackbarProvider>
+                  </AuthRoutes>
+                </LocaleProvider>
+              </CremaStyleProvider>
+            </CremaThemeProvider>
+          </SWRConfig>
         </Provider>
       </ContextProvider>
     </React.Fragment>

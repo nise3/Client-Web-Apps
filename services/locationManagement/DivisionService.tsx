@@ -1,3 +1,4 @@
+import useSWR from 'swr';
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
@@ -11,6 +12,12 @@ export const getAllDivisions = async (params = {}) => {
   } catch (error) {
     catchBlockHandler(error);
   }
+};
+
+export const useDivisions = (params = {}) => {
+  return useSWR(API_DIVISIONS, () => {
+    return apiGet(API_DIVISIONS, params);
+  });
 };
 
 export const getDivision = async (divisionId: number) => {

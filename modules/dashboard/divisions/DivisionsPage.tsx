@@ -10,6 +10,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   deleteDivision,
   getAllDivisions,
+  useDivisions,
 } from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
@@ -22,6 +23,7 @@ import {isResponseSuccess} from '../../../@softbd/common/helpers';
 const DivisionsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const {data, error}: any = useDivisions();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -29,6 +31,8 @@ const DivisionsPage = () => {
   const [divisions, setDivisions] = useState<Array<Division>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  console.log('data', data);
+  console.log('error', error);
   useEffect(() => {
     (async () => {
       await loadDivisionsData();
