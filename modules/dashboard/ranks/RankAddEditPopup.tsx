@@ -8,7 +8,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {getAllRankTypes} from '../../../services/instituteManagement/RankTypeService';
+import {getAllRankTypes} from '../../../services/organaizationManagement/RankTypeService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
@@ -21,6 +21,7 @@ import {
 } from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface RankAddEditPopupProps {
   itemId: number | null;
@@ -81,23 +82,21 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getRank(itemId);
-        setOrganizationId(item.organization_id);
-        organizationId &&
-          setRankTypes(
-            await getAllRankTypes({organization_id: organizationId}),
-          );
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          organization_id: item.organization_id,
-          rank_type_id: item.rank_type_id,
-          grade: item.grade,
-          display_order: item.display_order,
-          row_status: String(item.row_status),
-        });
+        let response = await getRank(itemId);
+        if (response) {
+          let {data: item} = response;
+          setOrganizationId(item.organization_id);
+          reset({
+            title_en: item.title_en,
+            title_bn: item.title_bn,
+            organization_id: item.organization_id,
+            rank_type_id: item.rank_type_id,
+            grade: item.grade,
+            display_order: item.display_order,
+            row_status: String(item.row_status),
+          });
+        }
       } else {
-        setRankTypes(await getAllRankTypes());
         reset(initialValues);
       }
       setIsLoading(false);
@@ -105,24 +104,27 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   }, [itemId]);
 
   useEffect(() => {
-    loadAllOrganizations();
+    (async () => {
+      setIsLoading(true);
+      let response = await getAllOrganizations();
+      if (response) {
+        setOrganizations(response.data);
+      }
+      setIsLoading(false);
+    })();
   }, []);
 
   useEffect(() => {
-    loadAllRankTypes();
+    (async () => {
+      if (organizationId) {
+        let response = await getAllRankTypes({organization_id: organizationId});
+        response && setRankTypes(response.data);
+      } else {
+        let response = await getAllRankTypes();
+        response && setRankTypes(response.data);
+      }
+    })();
   }, [organizationId]);
-
-  const loadAllRankTypes = async () => {
-    if (organizationId) {
-      setRankTypes(await getAllRankTypes({organization_id: organizationId}));
-    } else {
-      setRankTypes(await getAllRankTypes());
-    }
-  };
-
-  const loadAllOrganizations = async () => {
-    setOrganizations(await getAllOrganizations());
-  };
 
   const handleOrganizationChange = (organizationId: any) => {
     setOrganizationId(organizationId);
@@ -131,7 +133,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Rank> = async (data: Rank) => {
     if (isEdit && itemId) {
       let response = await updateRank(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -143,7 +145,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
       }
     } else {
       let response = await createRank(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

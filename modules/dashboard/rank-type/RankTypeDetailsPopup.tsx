@@ -4,7 +4,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {getRankType} from '../../../services/instituteManagement/RankTypeService';
+import {getRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -30,8 +30,8 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
     let rankType = await getRankType(itemId);
-    if (rankType) {
-      setItemData(rankType);
+    if (rankType.data) {
+      setItemData(rankType.data);
     }
     setIsLoading(false);
   };

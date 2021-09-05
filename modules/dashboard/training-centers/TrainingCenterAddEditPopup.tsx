@@ -14,13 +14,14 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
   createTrainingCenter,
   getTrainingCenter,
   updateTrainingCenter,
 } from '../../../services/instituteManagement/TrainingCenterService';
 import {getAllBranches} from '../../../services/instituteManagement/BranchService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -64,6 +65,9 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [branches, setBranches] = useState<Array<Branch> | []>([]);
+  const [selectedInstitute, setSelectedInstitute] = useState<
+    number | string | null
+  >(null);
 
   const {
     control,
@@ -79,31 +83,46 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getTrainingCenter(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          institute_id: item.institute_id,
-          branch_id: item?.branch_id,
-          address: item?.address,
-          google_map_src: item?.google_map_src,
-          row_status: String(item?.row_status),
-        });
+        let response = await getTrainingCenter(itemId);
+        if (response) {
+          const {data: item} = response;
+          reset({
+            title_en: item.title_en,
+            title_bn: item.title_bn,
+            institute_id: item.institute_id,
+            branch_id: item?.branch_id,
+            address: item?.address,
+            google_map_src: item?.google_map_src,
+            row_status: String(item?.row_status),
+          });
+        }
       } else {
         reset(initialValues);
       }
       setIsLoading(false);
       await loadInstitutes();
-      await loadBranches();
     })();
   }, [itemId]);
 
+  useEffect(() => {
+    (async () => {
+      if (selectedInstitute) {
+        let response = await getAllBranches({institute_id: selectedInstitute});
+        response && setBranches(response.data);
+      } else {
+        let response = await getAllBranches();
+        response && setBranches(response.data);
+      }
+    })();
+  }, [selectedInstitute]);
+
   const loadInstitutes = async () => {
-    setInstitutes(await getAllInstitutes());
+    const response = await getAllInstitutes();
+    response && setInstitutes(response.data);
   };
 
-  const loadBranches = async () => {
-    setBranches(await getAllBranches());
+  const handleInstituteChange = (instituteId: number) => {
+    setSelectedInstitute(instituteId);
   };
 
   const onSubmit: SubmitHandler<TrainingCenter> = async (
@@ -111,7 +130,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   ) => {
     if (isEdit && itemId) {
       let response = await updateTrainingCenter(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -123,7 +142,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       }
     } else {
       let response = await createTrainingCenter(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
@@ -142,7 +161,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconProgramme />
+          <IconTrainingCenter />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -193,6 +212,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
+            onChange={handleInstituteChange}
           />
         </Grid>
         <Grid item xs={6}>

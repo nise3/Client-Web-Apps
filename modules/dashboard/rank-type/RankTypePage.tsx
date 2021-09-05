@@ -8,7 +8,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   deleteRankType,
   getAllRankTypes,
-} from '../../../services/instituteManagement/RankTypeService';
+} from '../../../services/organaizationManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -17,6 +17,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -37,7 +38,7 @@ const RankTypePage = () => {
   const loadRankTypesData = async () => {
     setIsLoading(true);
     let rankTypes = await getAllRankTypes();
-    rankTypes && setRankTypes(rankTypes);
+    rankTypes && setRankTypes(rankTypes.data);
     setIsLoading(false);
   };
 
@@ -66,7 +67,7 @@ const RankTypePage = () => {
 
   const deleteRankTypeItem = async (rankTypeId: number) => {
     let response = await deleteRankType(rankTypeId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -131,7 +132,7 @@ const RankTypePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (

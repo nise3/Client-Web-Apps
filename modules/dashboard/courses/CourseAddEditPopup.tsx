@@ -20,6 +20,7 @@ import {
   updateCourse,
 } from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconProgramme';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -91,39 +92,43 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getCourse(itemId);
-        reset({
-          title_en: item?.title_en,
-          title_bn: item?.title_bn,
-          institute_id: item?.institute_id,
-          code: item?.code,
-          course_fee: item?.course_fee,
-          duration: item?.duration,
-          description: item?.description,
-          objectives: item?.objectives,
-          target_group: item?.target_group,
-          eligibility: item?.eligibility,
-          prerequisite: item?.prerequisite,
-          training_methodology: item?.training_methodology,
-          contents: item?.contents,
-          row_status: String(item?.row_status),
-        });
+        let response = await getCourse(itemId);
+        if (response) {
+          const {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            institute_id: item?.institute_id,
+            code: item?.code,
+            course_fee: item?.course_fee,
+            duration: item?.duration,
+            description: item?.description,
+            objectives: item?.objectives,
+            target_group: item?.target_group,
+            eligibility: item?.eligibility,
+            prerequisite: item?.prerequisite,
+            training_methodology: item?.training_methodology,
+            contents: item?.contents,
+            row_status: String(item?.row_status),
+          });
+        }
       } else {
         reset(initialValues);
       }
       setIsLoading(false);
-      loadInstitutes();
+      await loadInstitutes();
     })();
   }, [itemId]);
 
   const loadInstitutes = async () => {
-    setInstitutes(await getAllInstitutes());
+    const response = await getAllInstitutes();
+    response && setInstitutes(response.data);
   };
 
   const onSubmit: SubmitHandler<Course> = async (data: Course) => {
     if (isEdit && itemId) {
       let response = await updateCourse(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -135,7 +140,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       }
     } else {
       let response = await createCourse(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
