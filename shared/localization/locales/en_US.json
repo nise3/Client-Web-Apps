@@ -40,6 +40,7 @@
   "menu.division": "Division",
   "menu.district": "District",
   "menu.upazila": "Upazila",
+  "menu.trainers" : "Trainer",
   "customizer.modern": "Modern",
   "customizer.standard": "Standard",
   "customizer.extension": "extension",
@@ -77,5 +78,6 @@
   "divisions.label": "Division",
   "districts.label": "District",
   "upazilas.label": "Upazila",
-  "services.label": "Services"
+  "services.label": "Services",
+  "trainer.about" : "About me"
 }
