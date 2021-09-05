@@ -37,7 +37,13 @@ const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
       <Nprogress />
       <ContextProvider>
         <Provider store={store}>
-          <SWRConfig>
+          <SWRConfig
+            value={{
+              provider: () => new Map(),
+              revalidateIfStale: false,
+              revalidateOnFocus: false,
+              revalidateOnReconnect: false,
+            }}>
             <CremaThemeProvider>
               <CremaStyleProvider>
                 <LocaleProvider>

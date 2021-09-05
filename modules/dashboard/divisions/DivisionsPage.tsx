@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -9,7 +9,6 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   deleteDivision,
-  getAllDivisions,
   useDivisions,
 } from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
@@ -28,23 +27,9 @@ const DivisionsPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   console.log('data', data);
   console.log('error', error);
-  useEffect(() => {
-    (async () => {
-      await loadDivisionsData();
-    })();
-  }, []);
-
-  const loadDivisionsData = async () => {
-    setIsLoading(true);
-    let response = await getAllDivisions();
-    if (response) setDivisions(response.data);
-    setIsLoading(false);
-  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -86,11 +71,7 @@ const DivisionsPage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadDivisionsData();
-    })();
-  }, []);
+  const refreshDataTable = useCallback(() => {}, []);
 
   const columns = useMemo(
     () => [
@@ -154,7 +135,7 @@ const DivisionsPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoading}
+            isLoading={typeof data === 'undefined'}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -167,9 +148,8 @@ const DivisionsPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={divisions || []}
-          loading={isLoading}
-          skipDefaultFilter={true}
+          data={data?.data?.data || []}
+          loading={typeof data === 'undefined'}
         />
         {isOpenAddEditModal && (
           <DivisionAddEditPopup

@@ -5,6 +5,12 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 
+function paramsBuilder(data: any) {
+  return Object.keys(data)
+    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+    .join('&');
+}
+
 export const getAllDivisions = async (params = {}) => {
   try {
     let response: any = await apiGet(API_DIVISIONS, {params});
@@ -14,9 +20,9 @@ export const getAllDivisions = async (params = {}) => {
   }
 };
 
-export const useDivisions = (params = {}) => {
-  return useSWR(API_DIVISIONS, () => {
-    return apiGet(API_DIVISIONS, params);
+export const useDivisions = (params = {limit: 20}) => {
+  return useSWR(API_DIVISIONS + '?' + paramsBuilder(params), (uri) => {
+    return apiGet(uri);
   });
 };
 
