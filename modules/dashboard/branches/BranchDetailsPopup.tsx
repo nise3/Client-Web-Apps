@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {getBranch} from '../../../services/instituteManagement/BranchService';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import IconBranch from '../../../@softbd/icons/IconBranch';
 
 type Props = {
   itemId: number | null;
@@ -29,9 +29,9 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let branch = await getBranch(itemId);
-    if (branch) {
-      setItemData(branch);
+    let response = await getBranch(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };
@@ -43,7 +43,7 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         {...props}
         title={
           <>
-            <IconProgramme />
+            <IconBranch />
             <IntlMessages id='branch.label' />
           </>
         }

@@ -12,7 +12,6 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createBranch,
@@ -20,6 +19,8 @@ import {
   updateBranch,
 } from '../../../services/instituteManagement/BranchService';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import IconBranch from '../../../@softbd/icons/IconBranch';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -75,15 +76,18 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getBranch(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          institute_id: item.institute_id,
-          address: item.address,
-          google_map_src: item.google_map_src,
-          row_status: String(item.row_status),
-        });
+        let response = await getBranch(itemId);
+        if (response) {
+          const {data: item} = response;
+          reset({
+            title_en: item.title_en,
+            title_bn: item.title_bn,
+            institute_id: item.institute_id,
+            address: item.address,
+            google_map_src: item.google_map_src,
+            row_status: String(item.row_status),
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -93,13 +97,14 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   }, [itemId]);
 
   const loadInstitutes = async () => {
-    setInstitutes(await getAllInstitutes());
+    const response = await getAllInstitutes();
+    response && setInstitutes(response.data);
   };
 
   const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
     if (isEdit && itemId) {
       let response = await updateBranch(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -111,7 +116,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       }
     } else {
       let response = await createBranch(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
@@ -130,7 +135,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconBranch />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

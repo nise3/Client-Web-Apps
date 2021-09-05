@@ -29,9 +29,9 @@ const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let programme = await getProgramme(itemId);
-    if (programme) {
-      setItemData(programme);
+    let response = await getProgramme(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

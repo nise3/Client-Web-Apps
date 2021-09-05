@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {getCourse} from '../../../services/instituteManagement/CourseService';
-import IconCourse from '../../../@softbd/icons/IconProgramme';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
   itemId: number | null;
@@ -29,9 +29,9 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let course = await getCourse(itemId);
-    if (course) {
-      setItemData(course);
+    let response = await getCourse(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

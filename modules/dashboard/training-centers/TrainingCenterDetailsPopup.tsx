@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {getTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 
 type Props = {
   itemId: number | null;
@@ -33,9 +33,9 @@ const TrainingCenterDetailsPopup = ({
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let trainingCenter = await getTrainingCenter(itemId);
-    if (trainingCenter) {
-      setItemData(trainingCenter);
+    let response = await getTrainingCenter(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };
@@ -47,7 +47,7 @@ const TrainingCenterDetailsPopup = ({
         {...props}
         title={
           <>
-            <IconProgramme />
+            <IconTrainingCenter />
             <IntlMessages id='training_center.label' />
           </>
         }

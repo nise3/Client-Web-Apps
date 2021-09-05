@@ -15,8 +15,9 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteCourse} from '../../../services/instituteManagement/CourseService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 const CoursePage = () => {
   const {messages} = useIntl();
@@ -52,7 +53,7 @@ const CoursePage = () => {
 
   const deleteCourseItem = async (courseId: number) => {
     let response = await deleteCourse(courseId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -123,7 +124,7 @@ const CoursePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
@@ -136,7 +137,7 @@ const CoursePage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='course.label' />
+            <IconCourse /> <IntlMessages id='course.label' />
           </>
         }
         extra={[
