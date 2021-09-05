@@ -127,10 +127,11 @@ const CoursePage = () => {
     [messages],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/courses',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: INSTITUTE_SERVICE_PATH + '/courses',
+      dataAccessor: 'data',
+    });
 
   return (
     <>
@@ -161,6 +162,7 @@ const CoursePage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
+          totalCount={totalCount}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}

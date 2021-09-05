@@ -13,12 +13,12 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconRank from '../../../@softbd/icons/IconRank';
 import {
   deleteSkill,
   getAllSkills,
 } from '../../../services/organaizationManagement/SkillService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import IconSkill from '../../../@softbd/icons/IconSkill';
 
 const SkillPage = () => {
   const {messages} = useIntl();
@@ -137,7 +137,7 @@ const SkillPage = () => {
       <PageBlock
         title={
           <>
-            <IconRank /> <IntlMessages id='skill.label' />
+            <IconSkill /> <IntlMessages id='skill.label' />
           </>
         }
         extra={[
