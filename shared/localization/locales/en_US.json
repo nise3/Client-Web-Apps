@@ -40,6 +40,7 @@
   "menu.division": "Division",
   "menu.district": "District",
   "menu.upazila": "Upazila",
+  "menu.trainers" : "Trainer",
   "customizer.modern": "Modern",
   "customizer.standard": "Standard",
   "customizer.extension": "extension",
@@ -78,6 +79,7 @@
   "districts.label": "District",
   "upazilas.label": "Upazila",
   "services.label": "Services",
+  "trainer.about" : "About me",
   "common.validation_required_error" : "This field is required",
   "common.validation_exist_error" : "Already exists"
 }
