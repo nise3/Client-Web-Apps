@@ -63,18 +63,19 @@ const validationSchema = yup.object().shape({
     .label('Phone Number'),
   phone_numbers: yup.array().of(
     yup.object().shape({
-      value: yup
-        .string()
-        .trim()
-        .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
+      value: yup.string().matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
     }),
   ),
   primary_mobile: yup
     .string()
     .trim()
-    .required()
     .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
     .label('Mobile Number'),
+  mobile_numbers: yup.array().of(
+    yup.object().shape({
+      value: yup.string().matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
+    }),
+  ),
   address: yup.string().trim().required().label('Address'),
   google_map_src: yup.string(),
   email: yup.string().required().email('Enter valid email').label('Email'),

@@ -1,25 +1,24 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteUpazila,
-  getAllUpazilas,
-} from '../../../services/locationManagement/UpazilaService';
-import UpazilaAddEditPopup from './UpazilaAddEditPopup';
-import UpazilaDetailsPopup from './UpazilaDetailsPopup';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconUpazila from '../../../@softbd/icons/IconUpazila';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import IconOccupation from '../../../@softbd/icons/IconOccupation';
+import InstituteAddEditPopup from '../Institute/InstituteAddEditPopup';
+import InstituteDetailsPopup from '../Institute/InstituteDetailsPopup';
 
-const UpazilasPage = () => {
+const BatchesPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -27,23 +26,7 @@ const UpazilasPage = () => {
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      await loadUpazilasData();
-    })();
-  }, []);
-
-  const loadUpazilasData = async () => {
-    setIsLoading(true);
-    let response = await getAllUpazilas();
-    if (response) {
-      setUpazilas(response.data);
-    }
-    setIsLoading(false);
-  };
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -56,36 +39,31 @@ const UpazilasPage = () => {
     setSelectedItemId(itemId);
   }, []);
 
-  const openDetailsModal = useCallback(
-    (itemId: number) => {
-      setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
-    },
-    [selectedItemId],
-  );
+  const openDetailsModal = useCallback((itemId: number) => {
+    setIsOpenDetailsModal(true);
+    setSelectedItemId(itemId);
+  }, []);
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteUpazilaItem = async (itemId: number) => {
-    let response = await deleteUpazila(itemId);
+  const deleteInstituteItem = async (itemId: number) => {
+    let response = await deleteInstitute(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='upazilas.label' />}}
+          values={{subject: <IntlMessages id='institute.label' />}}
         />,
       );
 
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadUpazilasData();
-    })();
+    setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
   const columns = useMemo(
@@ -107,16 +85,12 @@ const UpazilasPage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['common.bbs_code'],
-        accessor: 'bbs_code',
+        Header: messages['common.domain'],
+        accessor: 'domain',
       },
       {
-        Header: messages['divisions.label'],
-        accessor: 'division_title_en',
-      },
-      {
-        Header: messages['districts.label'],
-        accessor: 'district_title_en',
+        Header: messages['common.code'],
+        accessor: 'code',
       },
       {
         Header: messages['common.status'],
@@ -136,7 +110,7 @@ const UpazilasPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteUpazilaItem(data.id)}
+                deleteAction={() => deleteInstituteItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -148,24 +122,30 @@ const UpazilasPage = () => {
     [],
   );
 
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
+      dataAccessor: 'data',
+    });
+
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconUpazila /> <IntlMessages id='upazilas.label' />
+            <IconOccupation /> <IntlMessages id='institute.label' />
           </>
         }
         extra={[
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoading}
+            isLoading={loading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['upazilas.label'],
+                  subject: messages['institute.label'],
                 }}
               />
             }
@@ -173,12 +153,17 @@ const UpazilasPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={upazilas || []}
-          loading={isLoading}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
           skipDefaultFilter={true}
+          skipPageResetRef={false}
+          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <UpazilaAddEditPopup
+          <InstituteAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -187,7 +172,7 @@ const UpazilasPage = () => {
         )}
 
         {isOpenDetailsModal && (
-          <UpazilaDetailsPopup
+          <InstituteDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -199,4 +184,4 @@ const UpazilasPage = () => {
   );
 };
 
-export default UpazilasPage;
+export default BatchesPage;
