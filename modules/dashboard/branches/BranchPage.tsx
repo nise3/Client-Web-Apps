@@ -112,7 +112,7 @@ const BranchPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteBranchItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );

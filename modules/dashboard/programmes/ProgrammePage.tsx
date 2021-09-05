@@ -112,7 +112,7 @@ const ProgrammePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteProgrammeItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );

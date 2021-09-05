@@ -116,7 +116,7 @@ const CoursePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteCourseItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );

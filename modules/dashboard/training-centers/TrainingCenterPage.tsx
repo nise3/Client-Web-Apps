@@ -119,7 +119,7 @@ const TrainingCenterPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteTrainingCenterItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
