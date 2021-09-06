@@ -23,11 +23,13 @@ import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {
   createHumanResourceTemplate,
+  getAllHumanResourceTemplates,
   getHumanResourceTemplate,
   updateHumanResourceTemplate,
 } from '../../../services/organaizationManagement/HumanResourceTemplateService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
+import {getAllOrganizationUnitTypes} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
@@ -76,6 +78,15 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     const [organizations, setOrganizations] = useState<
       Array<Organization> | []
     >([]);
+    const [selectedOrganizationId, setSelectedOrganizationId] = useState<
+      null | number
+    >(null);
+    const [organizationUnitTypes, setOrganizationUnitTypes] = useState<
+      Array<OrganizationUnitType> | []
+    >([]);
+    const [humanResourceTemplates, setHumanResourceTemplates] = useState<
+      Array<HumanResourceTemplate> | []
+    >([]);
 
     const {
       control,
@@ -108,14 +119,35 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
         } else {
           reset(initialValues);
         }
-        setIsLoading(false);
         loadOrganizations();
+        loadHumanResourceTemplates();
+        setIsLoading(false);
       })();
     }, [itemId]);
+
+    useEffect(() => {
+      loadOrganizationUnitTypes();
+    }, [selectedOrganizationId]);
+
+    const loadOrganizationUnitTypes = async () => {
+      let response = await getAllOrganizationUnitTypes({
+        organization_id: selectedOrganizationId,
+      });
+      response && setOrganizationUnitTypes(response.data);
+    };
+
+    const loadHumanResourceTemplates = async () => {
+      let response = await getAllHumanResourceTemplates();
+      response && setHumanResourceTemplates(response.data);
+    };
 
     const loadOrganizations = async () => {
       const response = await getAllOrganizations();
       response && setOrganizations(response.data);
+    };
+
+    const handleOrganizationChange = (organizationId: any) => {
+      setSelectedOrganizationId(organizationId);
     };
 
     const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
@@ -213,7 +245,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
-              onSelect={handleOrganizationSelect}
+              onChange={handleOrganizationChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -229,9 +261,21 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             />
           </Grid>
           <Grid item xs={6}>
+            <CustomFormSelect
+              id='parent_id'
+              label={messages['human_resource_template.parent']}
+              isLoading={isLoading}
+              control={control}
+              options={humanResourceTemplates}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <CustomTextInput
-              id='address'
-              label={messages['common.address']}
+              id='parent_id'
+              label={messages['human_resource_template.parent']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}

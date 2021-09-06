@@ -7,7 +7,7 @@ export const API_HUMAN_RESOURCE_TEMPLATES =
 export const getAllHumanResourceTemplates = async (params = {}) => {
   try {
     let response: any = await apiGet(API_HUMAN_RESOURCE_TEMPLATES, {params});
-    return response.data.data;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
 
@@ -18,7 +18,7 @@ export const getHumanResourceTemplate = async (
     let response: any = await apiGet(
       API_HUMAN_RESOURCE_TEMPLATES + '/' + humanResourceTemplateId,
     );
-    return response.data.data;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
 
@@ -29,7 +29,7 @@ export const deleteHumanResourceTemplate = async (
     let response: any = await apiDelete(
       API_HUMAN_RESOURCE_TEMPLATES + '/' + humanResourceTemplateId,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
 
@@ -38,7 +38,7 @@ export const createHumanResourceTemplate = async (
 ) => {
   try {
     let response: any = await apiPost(API_HUMAN_RESOURCE_TEMPLATES, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
 
@@ -51,6 +51,6 @@ export const updateHumanResourceTemplate = async (
       API_HUMAN_RESOURCE_TEMPLATES + '/' + humanResourceTemplateId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (catchBlockHandler) {}
 };
