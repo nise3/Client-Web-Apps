@@ -27,7 +27,11 @@ export const getMomentDateFormat = (
   format = 'MM-DD-YYYY',
 ): string => {
   const myDate = new Date(dateValue);
-  return moment(myDate).format(format);
+  if (moment(myDate).isValid()) {
+    return moment(myDate).format(format);
+  } else {
+    return '';
+  }
 };
 
 export const enterPressFocus = (ev: any, refField: any): void => {

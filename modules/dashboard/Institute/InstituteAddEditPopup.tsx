@@ -40,6 +40,21 @@ interface InstituteAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
+const nonRequiredValidationSchema = yup.object().shape(
+  {
+    value: yup
+      .string()
+      .nullable()
+      .notRequired()
+      .when('value', {
+        is: (value: any) => value && value.length > 0,
+        then: (rule: any) =>
+          rule.matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
+      }),
+  },
+  [['value', 'value']],
+);
+
 const validationSchema = yup.object().shape({
   title_en: yup.string().trim().required().label('Title (En)'),
   title_bn: yup
@@ -61,21 +76,14 @@ const validationSchema = yup.object().shape({
     .required()
     .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
     .label('Phone Number'),
-  phone_numbers: yup.array().of(
-    yup.object().shape({
-      value: yup.string().matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-    }),
-  ),
+  phone_numbers: yup.array().of(nonRequiredValidationSchema),
   primary_mobile: yup
     .string()
     .trim()
+    .required()
     .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
     .label('Mobile Number'),
-  mobile_numbers: yup.array().of(
-    yup.object().shape({
-      value: yup.string().matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-    }),
-  ),
+  mobile_numbers: yup.array().of(nonRequiredValidationSchema),
   address: yup.string().trim().required().label('Address'),
   google_map_src: yup.string(),
   email: yup.string().required().email('Enter valid email').label('Email'),

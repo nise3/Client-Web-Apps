@@ -5,8 +5,10 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  getMomentDateFormat,
+  isResponseSuccess,
+} from '../../../@softbd/common/helpers';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -14,9 +16,10 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
-import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import InstituteAddEditPopup from '../Institute/InstituteAddEditPopup';
-import InstituteDetailsPopup from '../Institute/InstituteDetailsPopup';
+import {deleteBatch} from '../../../services/instituteManagement/BatchService';
+import IconBatch from '../../../@softbd/icons/IconBatch';
+import BatchAddEditPopup from './BatchAddEditPopup';
+import BatchDetailsPopup from './BatchDetailsPopup';
 
 const BatchesPage = () => {
   const {messages} = useIntl();
@@ -48,13 +51,13 @@ const BatchesPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteInstituteItem = async (itemId: number) => {
-    let response = await deleteInstitute(itemId);
+  const deleteBatchItem = async (itemId: number) => {
+    let response = await deleteBatch(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='institute.label' />}}
+          values={{subject: <IntlMessages id='batches.label' />}}
         />,
       );
 
@@ -77,20 +80,52 @@ const BatchesPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
+        Header: messages['course.label'],
+        accessor: 'course_title_en',
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        Header: messages['batches.total_seat'],
+        accessor: 'number_of_seats',
       },
       {
-        Header: messages['common.domain'],
-        accessor: 'domain',
+        Header: messages['batches.available_seat'],
+        accessor: 'available_seats',
       },
       {
-        Header: messages['common.code'],
-        accessor: 'code',
+        Header: messages['batches.registration_start_date'],
+        accessor: 'registration_start_date',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.registration_start_date)}</span>
+          );
+        },
+      },
+      {
+        Header: messages['batches.registration_end_date'],
+        accessor: 'registration_end_date',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.registration_end_date)}</span>
+          );
+        },
+      },
+      {
+        Header: messages['batches.start_date'],
+        accessor: 'batch_start_date',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <span>{getMomentDateFormat(data?.batch_start_date)}</span>;
+        },
+      },
+      {
+        Header: messages['batches.end_date'],
+        accessor: 'batch_end_date',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <span>{getMomentDateFormat(data?.batch_end_date)}</span>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -110,7 +145,7 @@ const BatchesPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteInstituteItem(data.id)}
+                deleteAction={() => deleteBatchItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -124,7 +159,7 @@ const BatchesPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
+      urlPath: INSTITUTE_SERVICE_PATH + '/batches',
       dataAccessor: 'data',
     });
 
@@ -133,7 +168,7 @@ const BatchesPage = () => {
       <PageBlock
         title={
           <>
-            <IconOccupation /> <IntlMessages id='institute.label' />
+            <IconBatch /> <IntlMessages id='batches.label' />
           </>
         }
         extra={[
@@ -145,7 +180,7 @@ const BatchesPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['institute.label'],
+                  subject: messages['batches.label'],
                 }}
               />
             }
@@ -163,7 +198,7 @@ const BatchesPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <InstituteAddEditPopup
+          <BatchAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -172,7 +207,7 @@ const BatchesPage = () => {
         )}
 
         {isOpenDetailsModal && (
-          <InstituteDetailsPopup
+          <BatchDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}

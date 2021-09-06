@@ -59,123 +59,132 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
         }>
         <Grid container spacing={5}>
           <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
-              isLoading={isLoading}
-            />
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.title_en']}
+                  value={itemData?.title_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.email']}
+                  value={itemData?.email}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.phone']}
+                  value={itemData?.primary_phone}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              {itemData?.phone_numbers &&
+                Array.isArray(itemData.phone_numbers) &&
+                itemData.phone_numbers.map((phone: any, index: any) => {
+                  return (
+                    <Grid item xs={12}>
+                      <DetailsInputView
+                        label={messages['common.phone'] + ' #' + (index + 1)}
+                        value={phone}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                  );
+                })}
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.address']}
+                  value={itemData?.address}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['divisions.label']}
+                  value={itemData?.division_title_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['upazilas.label']}
+                  value={itemData?.upazila_title_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.status']}
+                  value={
+                    <DecoratedRowStatus rowStatus={itemData?.row_status} />
+                  }
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_bn']}
-              value={itemData?.title_bn}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.email']}
-              value={itemData?.email}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.code']}
-              value={itemData?.code}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.phone']}
-              value={itemData?.primary_phone}
-              isLoading={isLoading}
-            />
-          </Grid>
-          {itemData?.phone_numbers &&
-            Array.isArray(itemData.phone_numbers) &&
-            itemData.phone_numbers.map((phone: any, index: any) => {
-              return (
-                <Grid item xs={6}>
-                  <DetailsInputView
-                    label={messages['common.phone'] + ' #' + index}
-                    value={phone}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              );
-            })}
 
           <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.primary_mobile}
-              isLoading={isLoading}
-            />
-          </Grid>
-          {itemData?.mobile_numbers &&
-            Array.isArray(itemData.mobile_numbers) &&
-            itemData.mobile_numbers.map((mobile: any, index: any) => {
-              return (
-                <Grid item xs={6}>
-                  <DetailsInputView
-                    label={messages['common.mobile'] + ' #' + index}
-                    value={mobile}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              );
-            })}
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['divisions.label']}
-              value={itemData?.division_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['districts.label']}
-              value={itemData?.district_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['upazilas.label']}
-              value={itemData?.upazila_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.google_map_src']}
-              value={itemData?.google_map_src}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
-              isLoading={isLoading}
-            />
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.title_bn']}
+                  value={itemData?.title_bn}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.code']}
+                  value={itemData?.code}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.mobile']}
+                  value={itemData?.primary_mobile}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              {itemData?.mobile_numbers &&
+                Array.isArray(itemData.mobile_numbers) &&
+                itemData.mobile_numbers.map((mobile: any, index: any) => {
+                  return (
+                    <Grid item xs={12}>
+                      <DetailsInputView
+                        label={messages['common.mobile'] + ' #' + (index + 1)}
+                        value={mobile}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                  );
+                })}
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.domain']}
+                  value={itemData?.domain}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['districts.label']}
+                  value={itemData?.district_title_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.google_map_src']}
+                  value={itemData?.google_map_src}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>

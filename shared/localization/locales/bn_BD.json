@@ -127,6 +127,7 @@
   "menu.upazila": "উপজেলা",
   "menu.services": "সার্ভিস",
   "menu.trainers": "প্রশিক্ষক",
+  "menu.batch": "ব্যাচ",
   "customizer.modern": "আধুনিক",
   "customizer.standard": "মান",
   "customizer.extension": "সম্প্রসারণ",
@@ -211,5 +212,11 @@
   "common.validation_password_error": "পাসওয়ার্ডটি সঠিক নয়",
   "common.validation_regex_error": "ভ্যালু ফরমেটটি সঠিক নয়",
   "common.validation_email_error": "ইমেইলটি সঠিক নয়",
-  "batches.label": "ব্যাচ"
+  "batches.label": "ব্যাচ",
+  "batches.available_seat": "খালি আসন",
+  "batches.total_seat": "মোট আসন",
+  "batches.start_date": "ব্যাচ শুরুর তারিখ",
+  "batches.end_date": "ব্যাচের শেষ তারিখ",
+  "batches.registration_start_date": "নিবন্ধন শুরুর তারিখ",
+  "batches.registration_end_date": "নিবন্ধনের শেষ তারিখ"
 }
