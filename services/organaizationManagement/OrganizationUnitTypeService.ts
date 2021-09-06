@@ -65,3 +65,19 @@ export const deleteOrganizationUnitType = async (
     catchBlockHandler(error);
   }
 };
+
+export const getOrganizationUnitTypeHierarchy = async (
+  OrganizationUnitTypeId: number,
+) => {
+  try {
+    let response: any = await apiGet(
+      API_ORGANIZATION_UNIT_TYPES +
+        '/' +
+        OrganizationUnitTypeId +
+        '/get-hierarchy',
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
