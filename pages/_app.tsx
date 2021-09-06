@@ -7,14 +7,14 @@ import ContextProvider from '../@crema/utility/ContextProvider';
 import CremaThemeProvider from '../@crema/utility/CremaThemeProvider';
 import CremaStyleProvider from '../@crema/utility/CremaStyleProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import 'react-perfect-scrollbar/dist/css/styles.css';
-import '../styles/index.css';
-import '../@crema/services/index';
 import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';
 import {SnackbarProvider} from 'notistack';
 import Nprogress from '../@softbd/utilities/Nprogress';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import '../styles/index.css';
+import '../@crema/services/index';
 
 const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
