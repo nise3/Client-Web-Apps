@@ -56,8 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     coverImage: {
       position: 'absolute',
-      width: '520px',
-      height: '420px',
+      width: '530px',
       right: 0,
       bottom: 0,
       borderRadius: '5px',
@@ -149,7 +148,7 @@ const CoverArea = () => {
           </Container>
           <Grid item style={{position: 'relative'}}>
             <img
-              src='/images/courseImage.jpeg'
+              src='/images/cover-area.png'
               alt='crema-logo'
               className={classes.coverImage}
             />
