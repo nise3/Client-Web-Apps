@@ -15,13 +15,13 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import {useDivisions} from '../../../services/locationManagement/hooks';
+import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {
   const [filters] = useState({name: 20});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {data, isLoading}: any = useDivisions(filters);
+  const {data, isLoading}: any = useFetchDivisions(filters);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);

@@ -8,7 +8,7 @@ import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
-import {useDivision} from '../../../services/locationManagement/hooks';
+import {useFetchDivision} from '../../../services/locationManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const {data, isLoading} = useDivision(itemId);
+  const {data, isLoading} = useFetchDivision(itemId);
   const {messages} = useIntl();
 
   return (
