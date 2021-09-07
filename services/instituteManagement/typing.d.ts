@@ -103,6 +103,7 @@ type Batch = {
   batch_end_date: string;
   dynamic_form_field: string;
   row_status: string;
+  trainers?: Array<number>;
   crated_by?: string;
   updated_by?: string;
   created_at?: string;

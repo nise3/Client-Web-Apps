@@ -46,3 +46,16 @@ export const deleteBatch = async (batchId: number) => {
     catchBlockHandler(error);
   }
 };
+
+export const assignTrainersToBatch = async (batchId: number, data: any) => {
+  let trainersId = {trainerIds: data};
+  try {
+    let response: any = await apiPost(
+      API_BATCHES + '/' + batchId + '/assign-trainer-to-batch',
+      trainersId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};

@@ -206,7 +206,7 @@ const BatchesPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <BatchDetailsPopup
             key={1}
             itemId={selectedItemId}

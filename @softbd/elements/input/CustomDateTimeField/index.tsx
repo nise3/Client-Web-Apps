@@ -36,11 +36,16 @@ const CustomDateTimeField = ({
       id={id}
       className={className}
       label={label}
-      type={'datetime-local'}
+      type='date'
+      defaultValue={defaultValue}
+      inputProps={{
+        max: '9999-12-31',
+      }}
+      InputLabelProps={{
+        shrink: true,
+      }}
       error={errorInstance[id] && Boolean(errorInstance[id])}
       helperText={errorInstance[id] && errorInstance[id].message}
-      InputLabelProps={{shrink: true}}
-      defaultValue={defaultValue}
       {...register(id)}
     />
   );

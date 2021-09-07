@@ -12,7 +12,7 @@ import IconBatch from '../../../@softbd/icons/IconBatch';
 import {getMomentDateFormat} from '../../../@softbd/common/helpers';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -41,6 +41,30 @@ const BatchDetailsPopup = ({itemId, ...props}: Props) => {
     let namesArray = trainers.map((item: Trainer) => item.trainer_name_en);
     return namesArray.join(', ');
   }, []);
+
+  const getConfigs = (config: any) => {
+    let text = '';
+    try {
+      let configJson = JSON.parse(config);
+
+      Object.keys(configJson).map((key: string) => {
+        let value = configJson[key];
+        if (value[0]) {
+          if (text) text += ', ';
+          text +=
+            messages['batches.' + key] +
+            '(' +
+            (value[1]
+              ? messages['common.required']
+              : messages['common.not_required']) +
+            ')';
+        }
+      });
+    } catch (e) {
+      console.log('Failed to parse config data', e);
+    }
+    return text;
+  };
 
   return (
     <>
@@ -145,6 +169,14 @@ const BatchDetailsPopup = ({itemId, ...props}: Props) => {
             <DetailsInputView
               label={messages['trainers.label']}
               value={getTrainersName(itemData?.trainers)}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['batches.configs']}
+              value={getConfigs(itemData?.dynamic_form_field)}
               isLoading={isLoading}
             />
           </Grid>

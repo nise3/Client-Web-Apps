@@ -1,9 +1,12 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  getMomentDateFormat,
+  isResponseSuccess,
+} from '../../../@softbd/common/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -12,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import * as yup from 'yup';
 import {
+  assignTrainersToBatch,
   createBatch,
   getBatch,
   updateBatch,
@@ -26,6 +30,9 @@ import {getAllProgrammes} from '../../../services/instituteManagement/ProgrammeS
 import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
 import {getAllCourses} from '../../../services/instituteManagement/CourseService';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {FormControlLabel, Switch} from '@material-ui/core';
+import {getAllTrainers} from '../../../services/instituteManagement/TrainerService';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -33,7 +40,23 @@ interface BatchAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
-const validationSchema = yup.object().shape({});
+const validationSchema = yup.object().shape({
+  course_id: yup.string().trim().required().label('Course'),
+  training_center_id: yup.string().trim().required().label('Training Center'),
+  number_of_seats: yup.string().trim().required().label('Training Center'),
+  registration_start_date: yup
+    .string()
+    .trim()
+    .required()
+    .label('Registration start date'),
+  registration_end_date: yup
+    .string()
+    .trim()
+    .required()
+    .label('Registration end date'),
+  batch_start_date: yup.string().trim().required().label('Batch start date'),
+  batch_end_date: yup.string().trim().required().label('Batch end date'),
+});
 
 const initialValues = {
   course_id: '',
@@ -48,46 +71,9 @@ const initialValues = {
   number_of_seats: '',
   available_seats: '',
   row_status: '1',
+  dynamic_form_field: {},
+  trainers: [],
 };
-
-const configItemList = [
-  {
-    key: 'ethnic_group_info',
-    label: 'Ethnic Group Info',
-  },
-  {
-    key: 'freedom_fighter_info',
-    label: 'Freedom Fighter Info',
-  },
-  {
-    key: 'disability_info',
-    label: 'Disability Info',
-  },
-  {
-    key: 'ssc_passing_info',
-    label: 'SSC Passing Info',
-  },
-  {
-    key: 'hsc_passing_status',
-    label: 'HSC Passing Info',
-  },
-  {
-    key: 'honors_passing_info',
-    label: 'Honours Passing Info',
-  },
-  {
-    key: 'masters_passing_info',
-    label: 'Masters Passing Info',
-  },
-  {
-    key: 'occupation_info',
-    label: 'Occupation Info',
-  },
-  {
-    key: 'guardian_info',
-    label: 'Guardian Info',
-  },
-];
 
 const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   itemId,
@@ -105,6 +91,51 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const [programmes, setProgrammes] = useState<Array<Programme>>([]);
   const [branches, setBranches] = useState<Array<Branch>>([]);
   const [courses, setCourses] = useState<Array<Course>>([]);
+  const [configItemsState, setConfigItemsState] = useState<any>([]);
+  const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
+  const [trainers, setTrainers] = useState<Array<Trainer>>([]);
+
+  const configItemList = useMemo(
+    () => [
+      {
+        key: 'ethnic_group_info',
+        label: messages['batches.ethnic_group_info'],
+      },
+      {
+        key: 'freedom_fighter_info',
+        label: messages['batches.freedom_fighter_info'],
+      },
+      {
+        key: 'disability_info',
+        label: messages['batches.disability_info'],
+      },
+      {
+        key: 'ssc_passing_info',
+        label: messages['batches.ssc_passing_info'],
+      },
+      {
+        key: 'hsc_passing_status',
+        label: messages['batches.hsc_passing_status'],
+      },
+      {
+        key: 'honors_passing_info',
+        label: messages['batches.honors_passing_info'],
+      },
+      {
+        key: 'masters_passing_info',
+        label: messages['batches.masters_passing_info'],
+      },
+      {
+        key: 'occupation_info',
+        label: messages['batches.occupation_info'],
+      },
+      {
+        key: 'guardian_info',
+        label: messages['batches.guardian_info'],
+      },
+    ],
+    [],
+  );
 
   const {
     register,
@@ -129,16 +160,26 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             institute_id: item?.institute_id,
             branch_id: item?.branch_id,
             training_center_id: item?.training_center_id,
-            registration_start_date: item?.registration_start_date,
-            registration_end_date: item?.registration_end_date,
-            batch_start_date: item?.batch_start_date,
-            batch_end_date: item?.batch_end_date,
+            registration_start_date: item?.registration_start_date
+              ? getMomentDateFormat(item.registration_start_date, 'YYYY-MM-DD')
+              : '',
+            registration_end_date: item?.registration_end_date
+              ? getMomentDateFormat(item.registration_end_date, 'YYYY-MM-DD')
+              : '',
+            batch_start_date: item?.batch_start_date
+              ? getMomentDateFormat(item.batch_start_date, 'YYYY-MM-DD')
+              : '',
+            batch_end_date: item?.batch_end_date
+              ? getMomentDateFormat(item.batch_end_date, 'YYYY-MM-DD')
+              : '',
             number_of_seats: item?.number_of_seats,
             available_seats: item?.available_seats,
+            trainers: getTrainerIds(item?.trainers),
             row_status: String(item?.row_status),
           });
           onInstituteChange(item?.institute_id);
           onBranchChange(item?.branch_id);
+          setValuesOfConfigs(item?.dynamic_form_field);
         }
       } else {
         reset(initialValues);
@@ -151,9 +192,24 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     setIsLoading(true);
     (async () => {
       await loadInstituteData();
+      await loadTrainersData();
     })();
     setIsLoading(false);
   }, []);
+
+  const getTrainerIds = (trainers: Array<Trainer>) => {
+    let ids = trainers.map((item: Trainer) => item.id);
+    return ids;
+  };
+
+  const loadTrainersData = async () => {
+    let response = await getAllTrainers({
+      row_status: RowStatus.ACTIVE,
+    });
+    if (response) {
+      setTrainers(response.data);
+    }
+  };
 
   const loadInstituteData = async () => {
     let response = await getAllInstitutes({
@@ -222,10 +278,48 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     })();
   };
 
+  const setValuesOfConfigs = (config: any) => {
+    try {
+      let configJson = JSON.parse(config);
+      let itemsState: any = [];
+      let itemsRequiredState: any = [];
+      Object.keys(configJson).map((key: string) => {
+        let value = configJson[key];
+        if (value[0]) {
+          itemsState.push(key);
+        }
+        if (value[1]) {
+          itemsRequiredState.push(key);
+        }
+      });
+      setConfigItemsState(itemsState);
+      setConfigRequiredItems(itemsRequiredState);
+    } catch (e) {
+      console.log('Failed to parse config data', e);
+    }
+  };
+  const getConfigInfoData = (config: any) => {
+    let configJson: any = {};
+    Object.keys(config).map((key: any) => {
+      configJson[key] = [
+        configItemsState.includes(key),
+        configRequiredItems.includes(key),
+      ];
+    });
+
+    return JSON.stringify(configJson);
+  };
+
   const onSubmit: SubmitHandler<Batch> = async (data: Batch) => {
+    data.dynamic_form_field = getConfigInfoData(data.dynamic_form_field);
+
     if (isEdit && itemId) {
       let response = await updateBatch(itemId, data);
-      if (isResponseSuccess(response)) {
+      let assignTrainersResponse = await assignTrainersToBatch(
+        itemId,
+        data.trainers,
+      );
+      if (isResponseSuccess(response) && assignTrainersResponse) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -237,7 +331,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       }
     } else {
       let response = await createBatch(data);
-      if (isResponseSuccess(response)) {
+      let assignTrainersResponse = await assignTrainersToBatch(
+        response.data.id,
+        data.trainers,
+      );
+      if (isResponseSuccess(response) && assignTrainersResponse) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
@@ -398,6 +496,83 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='trainers'
+            label={messages['trainers.label']}
+            isLoading={isLoading}
+            control={control}
+            options={trainers}
+            optionValueProp='id'
+            optionTitleProp={['trainer_name_en', 'trainer_name_bn']}
+            errorInstance={errors}
+            multiple={true}
+            defaultValue={initialValues.trainers}
+          />
+        </Grid>
+
+        <Grid item container xs={12}>
+          {configItemList.map((item: any, index: any) => {
+            let states = [...configItemsState];
+            return (
+              <>
+                <Grid container xs={6} style={{minHeight: 40}}>
+                  <Grid item xs={5} style={{marginTop: 5}}>
+                    <CustomCheckbox
+                      id={`dynamic_form_field[${item.key}]`}
+                      label={item.label}
+                      checked={states.includes(item.key)}
+                      isLoading={isLoading}
+                      register={register}
+                      errorInstance={errors}
+                      onChange={() => {
+                        let itemStates = [...configItemsState];
+                        if (itemStates.includes(item.key)) {
+                          itemStates = itemStates.filter(
+                            (key: any) => key != item.key,
+                          );
+                        } else {
+                          itemStates.push(item.key);
+                        }
+                        setConfigItemsState(itemStates);
+                      }}
+                    />
+                  </Grid>
+
+                  {states.includes(item.key) && (
+                    <Grid item xs={4}>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={configRequiredItems.includes(item.key)}
+                            onChange={() => {
+                              let requiredStates = [...configRequiredItems];
+                              if (requiredStates.includes(item.key)) {
+                                requiredStates = requiredStates.filter(
+                                  (key: any) => key != item.key,
+                                );
+                              } else {
+                                requiredStates.push(item.key);
+                              }
+                              setConfigRequiredItems(requiredStates);
+                            }}
+                            color='primary'
+                          />
+                        }
+                        label={
+                          configRequiredItems.includes(item.key)
+                            ? messages['common.required']
+                            : messages['common.not_required']
+                        }
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+              </>
+            );
+          })}
         </Grid>
 
         <Grid item xs={6}>
