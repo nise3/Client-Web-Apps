@@ -16,7 +16,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/index.css';
 import '../@crema/services/index';
 
-const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
+const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
   pageProps,
 }: any) => {
@@ -58,4 +58,4 @@ const CremaApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     </React.Fragment>
   );
 };
-export default CremaApp;
+export default Nise3AdminApp;
