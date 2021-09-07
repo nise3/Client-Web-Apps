@@ -13,14 +13,7 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  createBranch,
-  getBranch,
-  updateBranch,
-} from '../../../services/instituteManagement/BranchService';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import IconBranch from '../../../@softbd/icons/IconBranch';
 import {
   createHumanResourceTemplate,
   getAllHumanResourceTemplates,
@@ -30,6 +23,7 @@ import {
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
 import {getAllOrganizationUnitTypes} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import {getAllRanks} from '../../../services/organaizationManagement/RankService';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
@@ -45,12 +39,15 @@ const validationSchema = yup.object().shape({
     .required()
     .label('Title[Bn]')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  organization_id: yup.string().trim().required(),
+  organization_id: yup.string().trim().required().label('Organization'),
   parent_id: yup.string(),
   rank_id: yup.string(),
   display_order: yup.string(),
   is_designation: yup.string().required().label('Designation'),
-  organization_unit_type_id: yup.string().required(),
+  organization_unit_type_id: yup
+    .string()
+    .required()
+    .label('Organization Unit Type'),
   status: yup.string(),
   row_status: yup.string(),
 });
@@ -88,6 +85,10 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       Array<HumanResourceTemplate> | []
     >([]);
 
+    const [ranks, setRanks] = useState<Array<Rank> | []>([]);
+    const [selectedOrganizationUnitTypeId, setSelectedOrganizationUnitTypeId] =
+      useState<number | null>(null);
+
     const {
       control,
       register,
@@ -113,6 +114,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               parent_id: item.parent_id,
               rank_id: item?.rank_id,
               display_order: item?.display_order,
+              is_designation: String(item.is_designation),
               row_status: String(item.row_status),
             });
           }
@@ -120,14 +122,23 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           reset(initialValues);
         }
         loadOrganizations();
-        loadHumanResourceTemplates();
         setIsLoading(false);
       })();
     }, [itemId]);
 
     useEffect(() => {
-      loadOrganizationUnitTypes();
+      if (selectedOrganizationId) {
+        loadOrganizationUnitTypes();
+        loadRanks();
+      }
     }, [selectedOrganizationId]);
+
+    const loadRanks = async () => {
+      let response = await getAllRanks({
+        organization_id: selectedOrganizationId,
+      });
+      response && setRanks(response.data);
+    };
 
     const loadOrganizationUnitTypes = async () => {
       let response = await getAllOrganizationUnitTypes({
@@ -136,8 +147,15 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       response && setOrganizationUnitTypes(response.data);
     };
 
+    useEffect(() => {
+      selectedOrganizationUnitTypeId && loadHumanResourceTemplates();
+    }, [selectedOrganizationUnitTypeId]);
+
     const loadHumanResourceTemplates = async () => {
-      let response = await getAllHumanResourceTemplates();
+      let response = await getAllHumanResourceTemplates({
+        organization_id: selectedOrganizationId,
+        organization_unit_type_id: selectedOrganizationUnitTypeId,
+      });
       response && setHumanResourceTemplates(response.data);
     };
 
@@ -148,6 +166,12 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
 
     const handleOrganizationChange = (organizationId: any) => {
       setSelectedOrganizationId(organizationId);
+    };
+
+    const handleOrganizationUnitTypeChange = (
+      organizationUnitTypeId: number,
+    ) => {
+      setSelectedOrganizationUnitTypeId(organizationUnitTypeId);
     };
 
     const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
@@ -258,6 +282,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
+              onChange={handleOrganizationUnitTypeChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -273,18 +298,21 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             />
           </Grid>
           <Grid item xs={6}>
-            <CustomTextInput
-              id='parent_id'
-              label={messages['human_resource_template.parent']}
-              register={register}
-              errorInstance={errors}
+            <CustomFormSelect
+              id='rank_id'
+              label={messages['rank.label']}
               isLoading={isLoading}
+              control={control}
+              options={ranks}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
             />
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='google_map_src'
-              label={messages['common.google_map_src']}
+              id='display_order'
+              label={messages['human_resource_template.display_order']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}

@@ -11,7 +11,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import {useIntl} from 'react-intl';
 import HumanResourceTemplateAddEditPopup from '../../../modules/dashboard/human-resource-templates/HumanResourceTemplateAddEditPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteBranch} from '../../../services/instituteManagement/BranchService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
