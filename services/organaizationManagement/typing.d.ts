@@ -138,7 +138,11 @@ type HumanResourceTemplate = {
   title_en: string;
   title_bn: string;
   organization_id: number;
+  organization_title_en: string;
+  organization_title_bn: string;
   organization_unit_type_id: number;
+  organization_unit_type_title_en: string;
+  organization_unit_type_title_bn: string;
   rank_id?: string;
   parent_id?: string;
   display_order?: string;
