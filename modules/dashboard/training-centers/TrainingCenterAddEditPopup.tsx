@@ -55,19 +55,17 @@ const initialValues = {
 };
 
 const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
-  itemId,
-  refreshDataTable,
-  ...props
-}) => {
+                                                                      itemId,
+                                                                      refreshDataTable,
+                                                                      ...props
+                                                                    }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [branches, setBranches] = useState<Array<Branch> | []>([]);
-  const [selectedInstitute, setSelectedInstitute] = useState<
-    number | string | null
-  >(null);
+  const [selectedInstitute, setSelectedInstitute] = useState<number | string | null>(null);
 
   const {
     control,

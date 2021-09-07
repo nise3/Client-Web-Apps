@@ -33,3 +33,22 @@ export const deleteTrainer = async (trainerId: number) => {
     catchBlockHandler(error);
   }
 };
+export const createTrainer = async (data: Trainer) => {
+  try {
+    let response: any = await apiPost(API_INSTITUTE_SERVICES, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+export const updateTrainer = async (trainerId: number, data: Trainer) => {
+  try {
+    let response: any = await apiPut(
+      API_INSTITUTE_SERVICES + '/' + trainerId,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
