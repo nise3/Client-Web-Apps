@@ -87,6 +87,48 @@ type TrainingCenter = {
   updated_at?: string;
   deleted_at?: string;
 };
+type Trainer = {
+  id: number;
+  title_en: string;
+  title_bn: string;
+  trainer_name_en: string;
+  trainer_name_bn: string;
+  institute_id: number;
+  branch_id: number;
+  training_center_id: number;
+  trainer_registration_number: number;
+  email: string;
+  mobile: string;
+  date_of_birth: string;
+  about_me: string;
+  gender: number;
+  marital_status: number;
+  religion: number;
+  nationality: string;
+  nid: string;
+  passport_number: string;
+  physical_disabilities_status: number;
+  freedom_fighter_status: number;
+  present_address_division_id: number;
+  present_address_district_id: number;
+  present_address_upazila_id: number;
+  permanent_address_district_id: number;
+  permanent_address_upazila_id: number;
+  permanent_address_division_id: number;
+  present_house_address: string;
+  permanent_house_address: string;
+  educational_qualification: string;
+  skills: string;
+  photo: string;
+  signature: string;
+  branches_title_bn: string;
+  institutes_title_en : string;
+  training_centers_title_en : string;
+  row_status: string;
+  updated_at?: string;
+  crated_at?: string;
+
+};
 
 type Batch = {
   id: number;

@@ -39,7 +39,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'sm'}
         open={true}
         {...props}
         title={
@@ -75,254 +74,186 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['trainer.about']}
+              label={messages['common.about_me']}
               value={itemData?.about_me}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.branch_id']}
-              value={itemData?.branch_id}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.branches_title_bn}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.branches_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.date_of_birth}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.district_title_bn_permanent_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.district_title_en_present_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.division_title_bn_permanent_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.division_title_bn_present_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.division_title_en_permanent_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.division_title_en_present_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.upazila_title_bn_permanent_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.upazila_title_bn_present_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.upazila_title_en_permanent_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.upazila_title_en_present_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.educational_qualification}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.email}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.freedom_fighter_status}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.gender}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.institutes_title_bn}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.institutes_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.marital_status}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.nationality}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.nid}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.passport_number}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.permanent_house_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.photo}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.physical_disabilities_status}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.present_house_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.religion}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.signature}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.passport_number}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.skills}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.training_center_id}
               isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.training_centers_title_bn}
+              label={messages['common.branches_title_en']}
+              value={itemData?.branches_title_bn}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.training_centers_title_en}
+              label={messages['common.date_of_birth']}
+              value={itemData?.date_of_birth}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.district_title_bn_permanent_address']}
+              value={itemData?.district_title_bn_permanent_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.district_title_bn_present_address']}
+              value={itemData?.district_title_bn_present_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.division_title_bn_permanent_address']}
+              value={itemData?.division_title_bn_permanent_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.division_title_bn_present_address']}
+              value={itemData?.division_title_bn_present_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.upazila_title_bn_permanent_address']}
+              value={itemData?.upazila_title_bn_permanent_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.upazila_title_bn_present_address']}
+              value={itemData?.upazila_title_bn_present_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.educational_qualification_bn']}
+              value={itemData?.educational_qualification}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.email']}
+              value={itemData?.email}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.freedom_fighter_status']}
+              value={itemData?.freedom_fighter_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.gender']}
+              value={itemData?.gender}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['institute.label']}
+              value={itemData?.institutes_title_bn}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.marital_status']}
+              value={itemData?.marital_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.nationality']}
+              value={itemData?.nationality}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.nid']}
+              value={itemData?.nid}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.passport_number_bn']}
+              value={itemData?.passport_number}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.permanent_house_address']}
+              value={itemData?.permanent_house_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.photo']}
+              value={itemData?.photo}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.physical_disabilities_status']}
+              value={itemData?.physical_disabilities_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.present_house_address']}
+              value={itemData?.present_house_address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.religion']}
+              value={itemData?.religion}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.signature']}
+              value={itemData?.signature}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['menu.skill']}
+              value={itemData?.skills}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['training_center.label']}
+              value={itemData?.training_centers_title_bn}
               isLoading={isLoading}
             />
           </Grid>
