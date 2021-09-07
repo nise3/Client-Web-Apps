@@ -92,11 +92,11 @@ const CustomFormSelect = ({
                 ) {
                   onChangeCallback(e.target.value);
                 }
-              }}>
+              }}
+              inputProps={inputProps}>
               <MenuItem value=''>
                 <em>None</em>
               </MenuItem>
-
               {(options || []).map((option: any, index: number) => {
                 let value = option[optionValueProp] && option[optionValueProp];
                 let title = getTitle(option, optionTitleProp);
@@ -114,7 +114,6 @@ const CustomFormSelect = ({
         )}
         name={id}
         control={control}
-        inputProps={inputProps}
       />
     </FormControl>
   );

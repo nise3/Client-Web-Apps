@@ -127,7 +127,9 @@ const OrgChart = () => {
           }}>
           <Typography>
             <DatatableButtonGroup>
-              <AddButton onClick={() => openAddEditModal(selectedItemId)} />
+              <AddButton
+                onClick={() => openAddEditModal(selectedItemId, false)}
+              />
               <EditButton
                 onClick={() => openAddEditModal(selectedItemId, true)}
               />

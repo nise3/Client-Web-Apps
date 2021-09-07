@@ -20,9 +20,7 @@ import {
   getHumanResourceTemplate,
   updateHumanResourceTemplate,
 } from '../../../services/organaizationManagement/HumanResourceTemplateService';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
-import {getAllOrganizationUnitTypes} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {getAllRanks} from '../../../services/organaizationManagement/RankService';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
@@ -74,22 +72,17 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     const {successStack} = useNotiStack();
     const isEdit = props.isEdit;
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [organizations, setOrganizations] = useState<
-      Array<Organization> | []
-    >([]);
-    const [selectedOrganizationId, setSelectedOrganizationId] = useState<
-      null | number
-    >(null);
-    const [organizationUnitTypes, setOrganizationUnitTypes] = useState<
-      Array<OrganizationUnitType> | []
-    >([]);
     const [humanResourceTemplates, setHumanResourceTemplates] = useState<
       Array<HumanResourceTemplate> | []
     >([]);
+    const [humanResourceTemplate, setHumanResourceTemplate] =
+      useState<HumanResourceTemplate | null>(null);
 
     const [ranks, setRanks] = useState<Array<Rank> | []>([]);
-    const [selectedOrganizationUnitTypeId, setSelectedOrganizationUnitTypeId] =
-      useState<number | null>(null);
+    const [organizationId, setOrganizationId] = useState<number | null>(null);
+    const [organizationUnitTypeId, setOrganizationUnitTypeId] = useState<
+      number | null
+    >(null);
 
     const {
       control,
@@ -106,8 +99,11 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
         setIsLoading(true);
         if (isEdit && itemId) {
           let response = await getHumanResourceTemplate(itemId);
+          setHumanResourceTemplate(response.data);
           if (response) {
             const {data: item} = response;
+            setOrganizationId(item.organization_id);
+            setOrganizationUnitTypeId(item.organization_unit_type_id);
             reset({
               title_en: item.title_en,
               title_bn: item.title_bn,
@@ -121,60 +117,36 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             });
           }
         } else {
-          let response = await getHumanResourceTemplate(itemId);
+          if (!isEdit && itemId) {
+            let response = await getHumanResourceTemplate(itemId);
+            setHumanResourceTemplate(response.data);
+            const {data: item} = response;
+            setOrganizationId(item.organization_id);
+            setOrganizationUnitTypeId(item.organization_unit_type_id);
+          }
+
           reset(initialValues);
         }
-        loadOrganizations();
         setIsLoading(false);
       })();
     }, [itemId]);
 
-    useEffect(() => {
-      if (selectedOrganizationId) {
-        loadOrganizationUnitTypes();
-        loadRanks();
-      }
-    }, [selectedOrganizationId]);
-
     const loadRanks = async () => {
-      let response = await getAllRanks({
-        organization_id: selectedOrganizationId,
-      });
+      let response = await getAllRanks({});
       response && setRanks(response.data);
     };
 
-    const loadOrganizationUnitTypes = async () => {
-      let response = await getAllOrganizationUnitTypes({
-        organization_id: selectedOrganizationId,
-      });
-      response && setOrganizationUnitTypes(response.data);
-    };
-
     useEffect(() => {
-      selectedOrganizationUnitTypeId && loadHumanResourceTemplates();
-    }, [selectedOrganizationUnitTypeId]);
+      loadHumanResourceTemplates();
+      loadRanks();
+    }, []);
 
     const loadHumanResourceTemplates = async () => {
       let response = await getAllHumanResourceTemplates({
-        organization_id: selectedOrganizationId,
-        organization_unit_type_id: selectedOrganizationUnitTypeId,
+        organization_id: organizationId,
+        organization_unit_type_id: organizationUnitTypeId,
       });
       response && setHumanResourceTemplates(response.data);
-    };
-
-    const loadOrganizations = async () => {
-      const response = await getAllOrganizations();
-      response && setOrganizations(response.data);
-    };
-
-    const handleOrganizationChange = (organizationId: any) => {
-      setSelectedOrganizationId(organizationId);
-    };
-
-    const handleOrganizationUnitTypeChange = (
-      organizationUnitTypeId: number,
-    ) => {
-      setSelectedOrganizationUnitTypeId(organizationUnitTypeId);
     };
 
     const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
@@ -278,11 +250,16 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               label={messages['organization.label']}
               isLoading={isLoading}
               control={control}
-              options={organizations}
+              options={[
+                {
+                  id: humanResourceTemplate?.organization_id,
+                  title_en: humanResourceTemplate?.organization_title_en,
+                  title_bn: humanResourceTemplate?.organization_title_bn,
+                },
+              ]}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
-              onChange={handleOrganizationChange}
               inputProps={{readOnly: true}}
             />
           </Grid>
@@ -292,11 +269,18 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               label={messages['organization_unit_type.label']}
               isLoading={isLoading}
               control={control}
-              options={organizationUnitTypes}
+              options={[
+                {
+                  id: humanResourceTemplate?.organization_unit_type_id,
+                  title_en:
+                    humanResourceTemplate?.organization_unit_type_title_en,
+                  title_bn:
+                    humanResourceTemplate?.organization_unit_type_title_bn,
+                },
+              ]}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
-              onChange={handleOrganizationUnitTypeChange}
             />
           </Grid>
           <Grid item xs={6}>
