@@ -7,10 +7,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteDivision,
-  useDivisions,
-} from '../../../services/locationManagement/DivisionService';
+import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -18,18 +15,16 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {
+  const [filters] = useState({name: 20});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {data, error}: any = useDivisions();
-
+  const {data, isLoading}: any = useDivisions(filters);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  console.log('data', data);
-  console.log('error', error);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -120,7 +115,7 @@ const DivisionsPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -146,11 +141,7 @@ const DivisionsPage = () => {
             }
           />,
         ]}>
-        <ReactTable
-          columns={columns}
-          data={data?.data?.data || []}
-          loading={typeof data === 'undefined'}
-        />
+        <ReactTable columns={columns} data={data || []} loading={isLoading} />
         {isOpenAddEditModal && (
           <DivisionAddEditPopup
             key={1}
@@ -160,7 +151,7 @@ const DivisionsPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <DivisionDetailsPopup
             key={1}
             itemId={selectedItemId}

@@ -1,16 +1,13 @@
-import useSWR from 'swr';
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 
-function paramsBuilder(data: any) {
-  return Object.keys(data)
-    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
-    .join('&');
-}
-
+/**
+ * @deprecated
+ * @param params
+ */
 export const getAllDivisions = async (params = {}) => {
   try {
     let response: any = await apiGet(API_DIVISIONS, {params});
@@ -20,12 +17,10 @@ export const getAllDivisions = async (params = {}) => {
   }
 };
 
-export const useDivisions = (params = {limit: 20}) => {
-  return useSWR(API_DIVISIONS + '?' + paramsBuilder(params), (uri) => {
-    return apiGet(uri);
-  });
-};
-
+/**
+ * @deprecated
+ * @param divisionId
+ */
 export const getDivision = async (divisionId: number) => {
   try {
     let response: any = await apiGet(API_DIVISIONS + '/' + divisionId);
