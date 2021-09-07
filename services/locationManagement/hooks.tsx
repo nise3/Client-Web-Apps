@@ -1,8 +1,6 @@
 import useSWR from 'swr';
 import {apiGet} from '../../@softbd/common/api';
-import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-
-const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
+import {API_DISTRICTS, API_DIVISIONS} from '../../@softbd/common/apiRoutes';
 
 export function useFetchDivisions(params: any) {
   const {
@@ -19,16 +17,46 @@ export function useFetchDivisions(params: any) {
   };
 }
 
-export function useFetchDivision(divisionId: number) {
+export function useFetchDivision(divisionId: number | null) {
   const {
     data: {data = undefined, ...metaData} = {},
     error,
     isValidating,
-  } = useSWR(API_DIVISIONS + '/' + divisionId, apiGet);
+  } = useSWR(divisionId ? API_DIVISIONS + '/' + divisionId : null, apiGet);
+  return {
+    data,
+    metaData,
+    isLoading: !!divisionId && !data && !error,
+    error,
+    isValidating,
+  };
+}
+
+export function useFetchDistricts(params: any) {
+  const {
+    data: {data: {data = undefined, ...metaData} = {}} = {},
+    error,
+    isValidating,
+  } = useSWR([API_DISTRICTS, params], apiGet);
   return {
     data,
     metaData,
     isLoading: !data && !error,
+    error,
+    isValidating,
+  };
+}
+
+export function useFetchDistrict(districtId: number | null) {
+  const {
+    data: {data = undefined, ...metaData} = {},
+    error,
+    isValidating,
+  } = useSWR(districtId ? API_DISTRICTS + '/' + districtId : null, apiGet);
+  return {
+    data,
+    metaData,
+    isLoading: !!districtId && !data && !error,
     error,
     isValidating,
   };

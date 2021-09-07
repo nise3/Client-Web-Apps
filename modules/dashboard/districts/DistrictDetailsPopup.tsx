@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -6,35 +6,19 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {getDistrict} from '../../../services/locationManagement/DistrictService';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
+import {useFetchDistrict} from '../../../services/locationManagement/hooks';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
 const DistrictDetailsPopup = ({itemId, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getDistrict(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchDistrict(itemId);
 
   return (
     <>

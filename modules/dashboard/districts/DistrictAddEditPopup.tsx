@@ -3,7 +3,6 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -14,14 +13,17 @@ import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {
   createDistrict,
-  getDistrict,
   updateDistrict,
 } from '../../../services/locationManagement/DistrictService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  useFetchDistrict,
+  useFetchDivisions,
+} from '../../../services/locationManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
@@ -57,8 +59,10 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
+  const {data: itemData, isLoading} = useFetchDistrict(itemId);
+  const [divisionFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: divisions, isLoading: isDivisionsLoading} =
+    useFetchDivisions(divisionFilters);
 
   const {
     register,
@@ -71,36 +75,18 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getDistrict(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            bbs_code: item?.bbs_code,
-            row_status: String(item?.row_status),
-            loc_division_id: item?.loc_division_id,
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
-      if (response) setDivisions(response.data);
-      setIsLoading(false);
-    })();
-  }, []);
-
+    if (itemData) {
+      reset({
+        title_en: itemData?.data?.title_en,
+        title_bn: itemData?.data?.title_bn,
+        bbs_code: itemData?.data?.bbs_code,
+        row_status: String(itemData?.data?.row_status),
+        loc_division_id: itemData?.data?.loc_division_id,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
   const onSubmit: SubmitHandler<District> = async (data: District) => {
     if (isEdit && itemId) {
       let response = await updateDistrict(itemId, data);
@@ -162,7 +148,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
           <CustomFormSelect
             id='loc_division_id'
             label={messages['divisions.label']}
-            isLoading={isLoading}
+            isLoading={isDivisionsLoading}
             control={control}
             options={divisions}
             optionValueProp={'id'}
