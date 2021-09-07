@@ -7,58 +7,57 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import OrganizationUnitTypeAddEditPopup from './OrganizationUnitTypeAddEditPopup';
-import {deleteOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
-import OrganizationUnitTypeDetailsPopup from './OrganizationUnitTypeDetailsPopup';
+import HumanResourceTemplateAddEditPopup from './HumanResourceTemplateAddEditPopup';
+import HumanResourceTemplateDetailsPopup from './HumanResourceTemplateDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {deleteBranch} from '../../../services/instituteManagement/BranchService';
+import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import {Button} from '@material-ui/core';
 
-const OrganizationUnitTypePage = () => {
-  const {successStack} = useNotiStack();
+const BranchPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
-  const [organizationUnitTypeId, setOrganizationUnitTypeId] = useState<
-    number | null
-  >(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setOrganizationUnitTypeId(null);
-  };
+    setSelectedItemId(null);
+  }, []);
 
-  const openAddEditModal = (organizationUnitTypeId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setOrganizationUnitTypeId(organizationUnitTypeId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const openDetailsModal = (organizationUnitTypeId: number) => {
-    setIsOpenDetailsModal(true);
-    setOrganizationUnitTypeId(organizationUnitTypeId);
-  };
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
-  const deleteOrganizationUnitTypeItem = async (
-    organizationUnitTypeId: number,
-  ) => {
-    let response = await deleteOrganizationUnitType(organizationUnitTypeId);
+  const deleteBranchItem = async (branchId: number) => {
+    let response = await deleteBranch(branchId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='organization_unit_type.label' />}}
+          values={{subject: <IntlMessages id='branch.label' />}}
         />,
       );
       refreshDataTable();
@@ -66,7 +65,7 @@ const OrganizationUnitTypePage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prevToggle) => !prevToggle);
+    setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
 
   const columns = useMemo(
@@ -88,15 +87,16 @@ const OrganizationUnitTypePage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['organization.label'],
-        accessor: 'organization_title_en',
-        disableFilters: true,
-        disableSortBy: true,
+        Header: messages['institute.label'],
+        accessor: 'institute_title_en',
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -111,14 +111,9 @@ const OrganizationUnitTypePage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteOrganizationUnitTypeItem(data.id)}
+                deleteAction={() => deleteBranchItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              <Button
-                href='/../../dashboard/organization-unit-types/org-chart/1'
-                variant='contained'>
-                Hierarchy
-              </Button>
             </DatatableButtonGroup>
           );
         },
@@ -130,7 +125,7 @@ const OrganizationUnitTypePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-unit-types',
+      urlPath: INSTITUTE_SERVICE_PATH + '/branches',
       dataAccessor: 'data',
     });
 
@@ -139,8 +134,7 @@ const OrganizationUnitTypePage = () => {
       <PageBlock
         title={
           <>
-            <IconOrganizationUnitType />
-            <IntlMessages id='organization_unit_type.label' />
+            <IconProgramme /> <IntlMessages id='branch.label' />
           </>
         }
         extra={[
@@ -152,7 +146,7 @@ const OrganizationUnitTypePage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['organization_unit_type.label'],
+                  subject: messages['branch.label'],
                 }}
               />
             }
@@ -163,25 +157,25 @@ const OrganizationUnitTypePage = () => {
           data={data}
           fetchData={onFetchData}
           loading={loading}
-          totalCount={totalCount}
           pageCount={pageCount}
+          totalCount={totalCount}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <OrganizationUnitTypeAddEditPopup
+          <HumanResourceTemplateAddEditPopup
             key={1}
             onClose={closeAddEditModal}
-            itemId={organizationUnitTypeId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
 
         {isOpenDetailsModal && (
-          <OrganizationUnitTypeDetailsPopup
+          <HumanResourceTemplateDetailsPopup
             key={1}
-            itemId={organizationUnitTypeId}
+            itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />
@@ -191,4 +185,4 @@ const OrganizationUnitTypePage = () => {
   );
 };
 
-export default OrganizationUnitTypePage;
+export default BranchPage;

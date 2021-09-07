@@ -119,7 +119,7 @@ const TrainingCenterPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteTrainingCenterItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -130,10 +130,11 @@ const TrainingCenterPage = () => {
     [messages],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/training-centers',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: INSTITUTE_SERVICE_PATH + '/training-centers',
+      dataAccessor: 'data',
+    });
 
   return (
     <>
@@ -164,6 +165,7 @@ const TrainingCenterPage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
+          totalCount={totalCount}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}

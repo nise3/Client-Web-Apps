@@ -112,7 +112,7 @@ const BranchPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteBranchItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -123,10 +123,11 @@ const BranchPage = () => {
     [],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/branches',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: INSTITUTE_SERVICE_PATH + '/branches',
+      dataAccessor: 'data',
+    });
 
   return (
     <>
@@ -157,6 +158,7 @@ const BranchPage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
+          totalCount={totalCount}
           skipDefaultFilter={true}
           skipPageResetRef={false}
           toggleResetTable={isToggleTable}

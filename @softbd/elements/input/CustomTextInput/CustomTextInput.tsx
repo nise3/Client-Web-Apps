@@ -16,6 +16,7 @@ type Props = {
   rows?: number;
   type?: string;
   defaultValue?: string;
+  inputProps?: any;
 };
 
 const CustomTextInput = ({
@@ -31,6 +32,7 @@ const CustomTextInput = ({
   rows,
   type,
   defaultValue,
+  inputProps,
 }: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
@@ -50,6 +52,7 @@ const CustomTextInput = ({
       //InputLabelProps={{shrink: true}}
       defaultValue={defaultValue}
       {...register(id)}
+      inputProps={inputProps}
     />
   );
 };

@@ -37,8 +37,8 @@ const RankTypePage = () => {
 
   const loadRankTypesData = async () => {
     setIsLoading(true);
-    let rankTypes = await getAllRankTypes();
-    rankTypes && setRankTypes(rankTypes.data);
+    let response = await getAllRankTypes();
+    response && setRankTypes(response.data);
     setIsLoading(false);
   };
 
@@ -124,7 +124,7 @@ const RankTypePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteRankTypeItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
