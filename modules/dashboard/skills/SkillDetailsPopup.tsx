@@ -6,9 +6,9 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {getSkill} from '../../../services/organaizationManagement/SkillService';
+import IconSkill from '../../../@softbd/icons/IconSkill';
 
 type Props = {
   itemId: number | null;
@@ -29,9 +29,9 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let rankType = await getSkill(itemId);
-    if (rankType) {
-      setItemData(rankType);
+    let response = await getSkill(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };
@@ -43,7 +43,7 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         {...props}
         title={
           <>
-            <IconRank />
+            <IconSkill />
             <IntlMessages id='skill.label' />
           </>
         }

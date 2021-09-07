@@ -27,14 +27,14 @@ const CustomCheckbox = ({
     <TextInputSkeleton />
   ) : (
     <Typography color={errorInstance[id] ? 'error' : 'inherit'}>
-      {label}
       <Checkbox
         color='primary'
         {...register(id)}
         checked={checked}
         onChange={onChange}
-        style={{padding: '2px'}}
+        style={{padding: '2px', marginRight: 5}}
       />
+      {label}
     </Typography>
   );
 };

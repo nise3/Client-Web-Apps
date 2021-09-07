@@ -8,9 +8,9 @@ type Institute = {
   google_map_src: string;
   logo: string;
   primary_phone: string;
-  phone_numbers: string;
+  phone_numbers: Array<object>;
   primary_mobile: string;
-  mobile_numbers: string;
+  mobile_numbers: Array<object>;
   email: string;
   config: string;
   row_status: string;
@@ -83,6 +83,29 @@ type TrainingCenter = {
   address: string;
   google_map_src: string;
   row_status: string;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
+};
+
+type Batch = {
+  id: number;
+  institute_id: number;
+  course_id: number;
+  training_center_id: number;
+  programme_id: number;
+  branch_id: number;
+  number_of_seats: number;
+  available_seats: number;
+  registration_start_date: string;
+  registration_end_date: string;
+  batch_start_date: string;
+  batch_end_date: string;
+  dynamic_form_field: string;
+  row_status: string;
+  trainers?: Array<number>;
+  crated_by?: string;
+  updated_by?: string;
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;

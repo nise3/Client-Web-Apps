@@ -18,6 +18,7 @@ import {
   getAllRanks,
 } from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const RankPage = () => {
   const {messages} = useIntl();
@@ -37,8 +38,8 @@ const RankPage = () => {
 
   const loadRanks = async () => {
     setIsLoading(true);
-    let ranks = await getAllRanks();
-    ranks && setRanks(ranks);
+    let response = await getAllRanks();
+    response && setRanks(response.data);
     setIsLoading(false);
   };
 
@@ -67,7 +68,7 @@ const RankPage = () => {
 
   const deleteRankItem = async (rankId: number) => {
     let response = await deleteRank(rankId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -144,7 +145,7 @@ const RankPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (

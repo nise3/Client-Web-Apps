@@ -27,7 +27,11 @@ export const getMomentDateFormat = (
   format = 'MM-DD-YYYY',
 ): string => {
   const myDate = new Date(dateValue);
-  return moment(myDate).format(format);
+  if (moment(myDate).isValid()) {
+    return moment(myDate).format(format);
+  } else {
+    return '';
+  }
 };
 
 export const enterPressFocus = (ev: any, refField: any): void => {
@@ -142,4 +146,24 @@ export const isValidationError = (response: any) => {
     !response._response_status.success &&
     response._response_status.code == 400
   );
+};
+
+export const getObjectArrayFromValueArray = (valueArray: any) => {
+  if (valueArray && Array.isArray(valueArray)) {
+    return valueArray.map((item: any) => {
+      return {value: item};
+    });
+  } else {
+    return [{value: ''}];
+  }
+};
+
+export const getValuesFromObjectArray = (objectArray: any) => {
+  if (objectArray && Array.isArray(objectArray)) {
+    return objectArray
+      .map((item: any) => item.value)
+      .filter((value: any) => value != '');
+  } else {
+    return [];
+  }
 };

@@ -17,6 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const ProgrammePage = () => {
   const {messages} = useIntl();
@@ -52,7 +53,7 @@ const ProgrammePage = () => {
 
   const deleteProgrammeItem = async (programmeId: number) => {
     let response = await deleteProgramme(programmeId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -119,7 +120,7 @@ const ProgrammePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({

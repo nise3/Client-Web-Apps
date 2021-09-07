@@ -16,7 +16,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconOccupation from '../../../@softbd/icons/IconOccupation';
+import IconInstitute from '../../../@softbd/icons/IconInstitute';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
@@ -70,7 +70,9 @@ const InstitutePage = () => {
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
         disableFilters: true,
         disableSortBy: true,
       },
@@ -131,7 +133,7 @@ const InstitutePage = () => {
       <PageBlock
         title={
           <>
-            <IconOccupation /> <IntlMessages id='institute.label' />
+            <IconInstitute /> <IntlMessages id='institute.label' />
           </>
         }
         extra={[

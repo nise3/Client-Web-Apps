@@ -12,11 +12,11 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import TrainingCenterAddEditPopup from './TrainingCenterAddEditPopup';
 import TrainingCenterDetailsPopup from './TrainingCenterDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {deleteTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const TrainingCenterPage = () => {
   const {messages} = useIntl();
@@ -52,7 +52,7 @@ const TrainingCenterPage = () => {
 
   const deleteTrainingCenterItem = async (trainingCenterId: number) => {
     let response = await deleteTrainingCenter(trainingCenterId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -127,7 +127,7 @@ const TrainingCenterPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount} = useReactTableFetchData({

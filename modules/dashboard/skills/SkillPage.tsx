@@ -18,6 +18,7 @@ import {
   deleteSkill,
   getAllSkills,
 } from '../../../services/organaizationManagement/SkillService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const SkillPage = () => {
   const {messages} = useIntl();
@@ -37,8 +38,8 @@ const SkillPage = () => {
 
   const loadSkills = async () => {
     setIsLoading(true);
-    let skills = await getAllSkills();
-    skills && setSkills(skills);
+    let response = await getAllSkills();
+    response && setSkills(response.data);
     setIsLoading(false);
   };
 
@@ -67,7 +68,7 @@ const SkillPage = () => {
 
   const deleteRankItem = async (skillId: number) => {
     let response = await deleteSkill(skillId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -128,7 +129,7 @@ const SkillPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (

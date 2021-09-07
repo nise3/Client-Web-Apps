@@ -17,6 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteBranch} from '../../../services/instituteManagement/BranchService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 const BranchPage = () => {
   const {messages} = useIntl();
@@ -52,7 +53,7 @@ const BranchPage = () => {
 
   const deleteBranchItem = async (branchId: number) => {
     let response = await deleteBranch(branchId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'

@@ -18,6 +18,7 @@ import {
   getSkill,
   updateSkill,
 } from '../../../services/organaizationManagement/SkillService';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
@@ -68,13 +69,16 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getSkill(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          description: item.description,
-          row_status: String(item.row_status),
-        });
+        let response = await getSkill(itemId);
+        if (response) {
+          const {data: item} = response;
+          reset({
+            title_en: item.title_en,
+            title_bn: item.title_bn,
+            description: item.description,
+            row_status: String(item.row_status),
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -85,7 +89,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Skill> = async (data: Skill) => {
     if (isEdit && itemId) {
       let response = await updateSkill(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -97,7 +101,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
       }
     } else {
       let response = await createSkill(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'

@@ -1,6 +1,6 @@
 import {BusinessCenter} from '@material-ui/icons';
 
-const IconCourse = () => {
+const IconProgramme = () => {
   return (
     <>
       <BusinessCenter />
@@ -8,4 +8,4 @@ const IconCourse = () => {
   );
 };
 
-export default IconCourse;
+export default IconProgramme;

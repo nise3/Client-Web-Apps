@@ -1,23 +1,16 @@
-import {createIntl} from 'react-intl';
-
-const intl: any = createIntl({
-  locale: 'bn-BD',
-  messages: {},
-});
+import intl from './IntlMessage';
 
 const ERRORS: any = {
   61000: 'common.validation_exist_error',
-  49000: 'common.validation_exist_error',
+  49000: 'common.validation_required_error',
+  45000: 'common.validation_number_error',
+  46000: 'common.validation_password_error',
+  48000: 'common.validation_regex_error',
+  22000: 'common.validation_email_error',
 };
 
 const getValidationMessage = (code: string) => {
-  console.log(
-    'intl',
-    intl.message({
-      id: 'common.validation_exist_error',
-    }),
-  );
-  return intl.messages[ERRORS[code]] as string;
+  return intl.formatMessage({id: ERRORS[code]});
 };
 
 export const setServerValidationErrors = (errors: any, setError: any) => {

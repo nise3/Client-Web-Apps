@@ -173,6 +173,22 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/dashboard/courses',
           },
+          {
+            id: 'batch',
+            title: 'Batch',
+            messageId: 'menu.batch',
+            type: 'item',
+            icon: 'timeline',
+            url: '/dashboard/batches',
+          },
+          {
+            id: 'trainers',
+            title: '',
+            messageId: 'menu.trainers',
+            type: 'item',
+            icon: 'timeline',
+            url: '/dashboard/trainers',
+          },
         ],
       },
       {

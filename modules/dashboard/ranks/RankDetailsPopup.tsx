@@ -29,9 +29,9 @@ const RankDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const setItemState = async (itemId: number) => {
     setIsLoading(true);
-    let rankType = await getRank(itemId);
-    if (rankType) {
-      setItemData(rankType);
+    let response = await getRank(itemId);
+    if (response) {
+      setItemData(response.data);
     }
     setIsLoading(false);
   };

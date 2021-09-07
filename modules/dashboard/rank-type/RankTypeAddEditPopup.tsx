@@ -12,7 +12,7 @@ import {getRankType} from '../../../services/organaizationManagement/RankTypeSer
 import {
   createRankType,
   updateRankType,
-} from '../../../services/instituteManagement/RankTypeService';
+} from '../../../services/organaizationManagement/RankTypeService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
@@ -20,6 +20,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -75,14 +76,17 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     (async () => {
       setIsLoading(true);
       if (isEdit && itemId) {
-        let item = await getRankType(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          organization_id: item.organization_id,
-          description: item.description,
-          row_status: String(item.row_status),
-        });
+        let response = await getRankType(itemId);
+        if (response) {
+          let {data: item} = response;
+          reset({
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            organization_id: item?.organization_id,
+            description: item?.description,
+            row_status: String(item?.row_status),
+          });
+        }
       } else {
         reset(initialValues);
       }
@@ -91,17 +95,16 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   }, [itemId]);
 
   useEffect(() => {
-    setOrganizationState();
+    (async () => {
+      let response = await getAllOrganizations();
+      response && setOrganizations(response.data);
+    })();
   }, []);
-
-  const setOrganizationState = async () => {
-    setOrganizations(await getAllOrganizations());
-  };
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
     if (isEdit && itemId) {
       let response = await updateRankType(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
@@ -113,7 +116,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       }
     } else {
       let response = await createRankType(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
