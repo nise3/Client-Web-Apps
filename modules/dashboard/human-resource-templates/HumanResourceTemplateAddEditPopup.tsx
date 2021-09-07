@@ -24,11 +24,13 @@ import {getAllOrganizations} from '../../../services/organaizationManagement/Org
 import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
 import {getAllOrganizationUnitTypes} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {getAllRanks} from '../../../services/organaizationManagement/RankService';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
+  isEdit: boolean;
 }
 
 const validationSchema = yup.object().shape({
@@ -70,7 +72,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
   ({itemId, refreshDataTable, ...props}) => {
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
-    const isEdit = itemId != null;
+    const isEdit = props.isEdit;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [organizations, setOrganizations] = useState<
       Array<Organization> | []
@@ -119,6 +121,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             });
           }
         } else {
+          let response = await getHumanResourceTemplate(itemId);
           reset(initialValues);
         }
         loadOrganizations();
@@ -260,6 +263,16 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             />
           </Grid>
           <Grid item xs={6}>
+            <CustomTextInput
+              id='organization_id'
+              label={messages['organization.label']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              inputProps={{readOnly: true}}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <CustomFormSelect
               id='organization_id'
               label={messages['organization.label']}
@@ -270,6 +283,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
               onChange={handleOrganizationChange}
+              inputProps={{readOnly: true}}
             />
           </Grid>
           <Grid item xs={6}>
@@ -315,6 +329,25 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               label={messages['human_resource_template.display_order']}
               register={register}
               errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormRadioButtons
+              id='is_designation'
+              label={'human_resource_template.is_designation'}
+              radios={[
+                {
+                  key: '1',
+                  label: messages['common.yes'],
+                },
+                {
+                  key: '2',
+                  label: messages['common.no'],
+                },
+              ]}
+              control={control}
+              defaultValue={initialValues.is_designation}
               isLoading={isLoading}
             />
           </Grid>

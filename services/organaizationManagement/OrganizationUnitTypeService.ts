@@ -67,7 +67,7 @@ export const deleteOrganizationUnitType = async (
 };
 
 export const getOrganizationUnitTypeHierarchy = async (
-  OrganizationUnitTypeId: number,
+  OrganizationUnitTypeId: any,
 ) => {
   try {
     let response: any = await apiGet(

@@ -24,6 +24,7 @@ type Props = {
   maxHeight?: number;
   onChange?: (e: any) => any;
   multiple?: boolean;
+  inputProps?: any;
 };
 
 const CustomFormSelect = ({
@@ -40,6 +41,7 @@ const CustomFormSelect = ({
   maxHeight,
   multiple,
   onChange: onChangeCallback,
+  inputProps,
 }: Props) => {
   maxHeight = maxHeight ? maxHeight : 400;
 
@@ -112,6 +114,7 @@ const CustomFormSelect = ({
         )}
         name={id}
         control={control}
+        inputProps={inputProps}
       />
     </FormControl>
   );

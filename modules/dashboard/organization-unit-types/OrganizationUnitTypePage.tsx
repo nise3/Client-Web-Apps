@@ -17,6 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {Button} from '@material-ui/core';
 
 const OrganizationUnitTypePage = () => {
   const {successStack} = useNotiStack();
@@ -113,6 +114,11 @@ const OrganizationUnitTypePage = () => {
                 deleteAction={() => deleteOrganizationUnitTypeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Button
+                href='/../../dashboard/organization-unit-types/org-chart/1'
+                variant='contained'>
+                Hierarchy
+              </Button>
             </DatatableButtonGroup>
           );
         },

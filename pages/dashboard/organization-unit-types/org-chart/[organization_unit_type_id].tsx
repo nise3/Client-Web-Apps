@@ -2,44 +2,58 @@
 import OrganizationChart from 'nextjs-orgchart';
 import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
-import {getOrganizationUnitTypeHierarchy} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import {getOrganizationUnitTypeHierarchy} from '../../../../services/organaizationManagement/OrganizationUnitTypeService';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Popover, Typography} from '@material-ui/core';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useIntl} from 'react-intl';
-import HumanResourceTemplateAddEditPopup from '../../../modules/dashboard/human-resource-templates/HumanResourceTemplateAddEditPopup';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteHumanResourceTemplate} from '../../../services/organaizationManagement/HumanResourceTemplateService';
+import HumanResourceTemplateAddEditPopup from '../../../../modules/dashboard/human-resource-templates/HumanResourceTemplateAddEditPopup';
+import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
+import {isResponseSuccess} from '../../../../@softbd/common/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {deleteHumanResourceTemplate} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
+import {useRouter} from 'next/router';
+import AppPage from '../../../../@crema/hoc/AppPage';
+import PageMeta from '../../../../@crema/core/PageMeta';
 
 const OrgChart = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
   const [chartData, setChartData] = useState<object>({});
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [orgUnitTypeId, setOrgUnitTypeId] = useState<any>(1);
+  const router = useRouter();
 
   useEffect(() => {
-    setHierarchyChartData();
-  }, []);
+    (async () => {
+      const {organization_unit_type_id} = router.query;
+      await setOrgUnitTypeId(organization_unit_type_id);
+    })();
+    getHierarchyChartData();
+  }, [chartData]);
 
-  const setHierarchyChartData = async () => {
-    let {data: response} = await getOrganizationUnitTypeHierarchy(1);
-    response.title = response.title_en;
-    response.name = response.title_en;
-    if (response.children && Array.isArray(response.children)) {
-      response.children.map((node: any) => {
-        node.title = node.id;
-        node.name = node.title_bn;
-      });
-    } else {
-      response.children.title = response.children.title_en;
-      response.children.name = response.children.title_en;
+  const getHierarchyChartData = async () => {
+    if (orgUnitTypeId) {
+      let {data: response} = await getOrganizationUnitTypeHierarchy(
+        orgUnitTypeId,
+      );
+      response.title = response.title_en;
+      response.name = response.title_en;
+      if (response.children && Array.isArray(response.children)) {
+        response.children.map((node: any) => {
+          node.title = node.id;
+          node.name = node.title_bn;
+        });
+      } else {
+        response.children.title = response.children.title_en;
+        response.children.name = response.children.title_en;
+      }
+      await setChartData(response);
     }
-    await setChartData(response);
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,10 +65,14 @@ const OrgChart = () => {
     setSelectedItemId(null);
   }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  const openAddEditModal = useCallback(
+    (itemId: number | null = null, isEdit: boolean = false) => {
+      setIsOpenAddEditModal(true);
+      setSelectedItemId(itemId);
+      setIsEdit(isEdit);
+    },
+    [],
+  );
 
   const handleClick = (event: any) => {
     setAnchorEl(event.id);
@@ -68,7 +86,7 @@ const OrgChart = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const reloadData = () => {
-    setHierarchyChartData();
+    getHierarchyChartData();
   };
 
   const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
@@ -109,8 +127,10 @@ const OrgChart = () => {
           }}>
           <Typography>
             <DatatableButtonGroup>
-              <AddButton onClick={() => openAddEditModal()} />
-              <EditButton onClick={() => openAddEditModal(selectedItemId)} />
+              <AddButton onClick={() => openAddEditModal(selectedItemId)} />
+              <EditButton
+                onClick={() => openAddEditModal(selectedItemId, true)}
+              />
               <DeleteButton
                 deleteAction={() =>
                   selectedItemId &&
@@ -127,10 +147,16 @@ const OrgChart = () => {
           itemId={selectedItemId}
           onClose={closeAddEditModal}
           refreshDataTable={reloadData}
+          isEdit={isEdit}
         />
       )}
     </>
   );
 };
 
-export default OrgChart;
+export default AppPage(() => (
+  <>
+    <PageMeta title='Organization Chart' />
+    <OrgChart />
+  </>
+));
