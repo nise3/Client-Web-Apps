@@ -1,6 +1,11 @@
-import React from 'react';
-import AppPage from '../@crema/hoc/DefaultPage';
+//import AppPage from '../@crema/hoc/DefaultPage';
 import asyncComponent from '../@crema/utility/asyncComponent';
 
 const Home = asyncComponent(() => import('../modules/home'));
-export default AppPage(() => <Home />);
+//export default Home(() => <Home />);
+
+const HomePage = () => {
+  return <Home />;
+};
+
+export default HomePage;
