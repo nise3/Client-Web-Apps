@@ -4,6 +4,10 @@ import {catchBlockHandler} from '../../@softbd/common/helpers';
 
 const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 
+/**
+ * @deprecated
+ * @param params
+ */
 export const getAllDivisions = async (params = {}) => {
   try {
     let response: any = await apiGet(API_DIVISIONS, {params});
@@ -13,6 +17,10 @@ export const getAllDivisions = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ * @param divisionId
+ */
 export const getDivision = async (divisionId: number) => {
   try {
     let response: any = await apiGet(API_DIVISIONS + '/' + divisionId);

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -6,35 +6,19 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {getDivision} from '../../../services/locationManagement/DivisionService';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
+import {useFetchDivision} from '../../../services/locationManagement/hooks';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
 const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {data, isLoading} = useFetchDivision(itemId);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemToState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemToState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getDivision(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
 
   return (
     <>
@@ -52,7 +36,7 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              onClick={() => openEditModal(itemData.id)}
+              onClick={() => openEditModal(data?.data?.id)}
               isLoading={isLoading}
             />
           </>
@@ -61,28 +45,28 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_en']}
-              value={itemData?.title_en}
+              value={data?.data?.title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_bn']}
-              value={itemData?.title_bn}
+              value={data?.data?.title_bn}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.bbs_code']}
-              value={itemData?.bbs_code}
+              value={data?.data?.bbs_code}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
+              value={<DecoratedRowStatus rowStatus={data?.data?.row_status} />}
               isLoading={isLoading}
             />
           </Grid>

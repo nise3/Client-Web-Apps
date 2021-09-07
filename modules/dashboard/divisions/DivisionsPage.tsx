@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -7,10 +7,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteDivision,
-  getAllDivisions,
-} from '../../../services/locationManagement/DivisionService';
+import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -18,29 +15,16 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {
+  const [filters] = useState({name: 20});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-
+  const {data, isLoading}: any = useFetchDivisions(filters);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      await loadDivisionsData();
-    })();
-  }, []);
-
-  const loadDivisionsData = async () => {
-    setIsLoading(true);
-    let response = await getAllDivisions();
-    if (response) setDivisions(response.data);
-    setIsLoading(false);
-  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -82,17 +66,15 @@ const DivisionsPage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadDivisionsData();
-    })();
-  }, []);
+  const refreshDataTable = useCallback(() => {}, []);
 
   const columns = useMemo(
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
         disableFilters: true,
         disableSortBy: true,
       },
@@ -135,7 +117,7 @@ const DivisionsPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -150,7 +132,7 @@ const DivisionsPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoading}
+            isLoading={typeof data === 'undefined'}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -161,12 +143,7 @@ const DivisionsPage = () => {
             }
           />,
         ]}>
-        <ReactTable
-          columns={columns}
-          data={divisions || []}
-          loading={isLoading}
-          skipDefaultFilter={true}
-        />
+        <ReactTable columns={columns} data={data || []} loading={isLoading} />
         {isOpenAddEditModal && (
           <DivisionAddEditPopup
             key={1}
@@ -176,7 +153,7 @@ const DivisionsPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <DivisionDetailsPopup
             key={1}
             itemId={selectedItemId}

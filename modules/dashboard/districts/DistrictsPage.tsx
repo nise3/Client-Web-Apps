@@ -89,7 +89,9 @@ const DistrictsPage = () => {
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
         disableFilters: true,
         disableSortBy: true,
       },

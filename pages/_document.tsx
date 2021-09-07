@@ -22,7 +22,6 @@ export default class MyDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
-          <title></title>
         </Head>
         <body>
           <div id='root' />

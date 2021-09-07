@@ -1,13 +1,14 @@
 import React from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import {Button, ButtonGroup, Grid} from '@material-ui/core';
-import CustomTextInput from '../CustomTextInput/CustomTextInput';
+import {Button, ButtonGroup, Grid, TextField} from '@material-ui/core';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
   id: string;
+  variant?: 'outlined' | 'standard' | 'filled';
+  size?: 'small' | 'medium';
   labelLanguageId?: string;
   isLoading?: boolean;
   register?: any;
@@ -17,6 +18,8 @@ type Props = {
 
 const CustomFieldArray = ({
   id,
+  variant,
+  size,
   labelLanguageId,
   isLoading,
   register,
@@ -33,18 +36,24 @@ const CustomFieldArray = ({
   ) : (
     <>
       {fields.map((item: any, index: any) => {
+        let itemId = `${id}.${index}.value`;
         return (
           <Grid item xs={12} style={{paddingBottom: 20}}>
-            <CustomTextInput
-              id={`${id}.${index}.value`}
+            <TextField
+              fullWidth
+              variant={variant ? variant : 'outlined'}
+              size={size ? size : 'small'}
+              id={itemId}
               label={
                 (labelLanguageId ? messages[labelLanguageId] : '') +
                 ' #' +
                 (index + 1)
               }
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
+              error={errors[id]?.[index] && Boolean(errors[id]?.[index])}
+              helperText={
+                errors[id]?.[index] && errors[id]?.[index]?.value?.message
+              }
+              {...register(itemId)}
             />
           </Grid>
         );

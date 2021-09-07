@@ -15,6 +15,7 @@ import Nprogress from '../@softbd/utilities/Nprogress';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/index.css';
 import '../@crema/services/index';
+import {SWRConfig} from 'swr';
 
 const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -36,23 +37,31 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> = 
       <Nprogress />
       <ContextProvider>
         <Provider store={store}>
-          <CremaThemeProvider>
-            <CremaStyleProvider>
-              <LocaleProvider>
-                <AuthRoutes>
-                  <CssBaseline />
-                  <SnackbarProvider
-                    maxSnack={20}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}>
-                    <Component {...pageProps} />
-                  </SnackbarProvider>
-                </AuthRoutes>
-              </LocaleProvider>
-            </CremaStyleProvider>
-          </CremaThemeProvider>
+          <SWRConfig
+            value={{
+              provider: () => new Map(),
+              revalidateIfStale: false,
+              revalidateOnFocus: false,
+              revalidateOnReconnect: false,
+            }}>
+            <CremaThemeProvider>
+              <CremaStyleProvider>
+                <LocaleProvider>
+                  <AuthRoutes>
+                    <CssBaseline />
+                    <SnackbarProvider
+                      maxSnack={20}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}>
+                      <Component {...pageProps} />
+                    </SnackbarProvider>
+                  </AuthRoutes>
+                </LocaleProvider>
+              </CremaStyleProvider>
+            </CremaThemeProvider>
+          </SWRConfig>
         </Provider>
       </ContextProvider>
     </React.Fragment>
