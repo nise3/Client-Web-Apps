@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useMemo} from 'react';
+import React, {useCallback, useState, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -7,7 +7,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteTrainer, getAllTrainers} from '../../../services/instituteManagement/TrainerService'
+import {deleteTrainer} from '../../../services/instituteManagement/TrainerService'
 import TrainerAddEditPopup from './TrainerAddEditPopup';
 import TrainerDetailsPopup from './TrainerDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -15,6 +15,8 @@ import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRow
 import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
 import {isResponseSuccess} from "../../../@softbd/common/helpers";
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 
 const TrainersPage = () => {
   const {messages} = useIntl();
@@ -22,21 +24,8 @@ const TrainersPage = () => {
   const [trainerId, setTrainerId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [trainers, setTrainers] = useState<Array<Trainer>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  useEffect(() => {
-    (async () => {
-      await loadTrainersData();
-    })();
-  }, []);
-
-  const loadTrainersData = async () => {
-    setIsLoading(true);
-    let response = await getAllTrainers();
-    if(response) setTrainers(response.data);
-    setIsLoading(false);
-  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -74,9 +63,7 @@ const TrainersPage = () => {
     }
   };
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadTrainersData();
-    })();
+    setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
   const columns = useMemo(() => [
@@ -121,6 +108,12 @@ const TrainersPage = () => {
       sortable: false,
     },
   ], []);
+
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: INSTITUTE_SERVICE_PATH + '/trainers',
+      dataAccessor: 'data',
+    });
   return (
     <>
       <PageBlock
@@ -133,7 +126,7 @@ const TrainersPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoading}
+            isLoading={loading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -146,9 +139,14 @@ const TrainersPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={trainers || []}
-          loading={isLoading}
           skipDefaultFilter={true}
+          toggleResetTable={isToggleTable}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          skipPageResetRef={false}
         />
         {isOpenAddEditModal && (
           <TrainerAddEditPopup

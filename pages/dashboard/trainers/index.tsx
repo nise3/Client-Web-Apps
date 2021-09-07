@@ -8,7 +8,7 @@ const TrainerPage = asyncComponent(
 );
 export default AppPage(() => (
   <>
-    <PageMeta title='Skill' />
+    <PageMeta title='Trainer' />
     <TrainerPage />
   </>
 ));
