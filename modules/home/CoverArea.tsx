@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       color: '#fff',
-      height: '350px',
+      height: '380px',
       background:
         'linear-gradient(152deg, rgba(5, 99, 7, 1) 0%, rgb(108 95 9) 51%, rgb(100 89 15) 74%)',
     },
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '12px 0px 5px 15px',
       background: '#fff',
       position: 'absolute',
-      zIndex: 2,
+      zIndex: 1,
       width: 'auto',
       borderRadius: '2px',
     },
@@ -68,22 +68,26 @@ const CoverArea = () => {
   const classes = useStyles();
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item xs={12} className={classes.root}>
           <Container maxWidth='md'>
             <Box pt={10}>
               <Typography variant='h4' gutterBottom={true}>
-                এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
-                প্রশিক্ষণ
+                <Box fontWeight='fontWeightBold'>
+                  এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
+                  প্রশিক্ষণ
+                </Box>
               </Typography>
               <Typography variant='subtitle2' gutterBottom={true}>
-                আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
-                তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
-                <br />
-                অনুসারে চাকরি
+                <Box fontWeight={500} mt={5}>
+                  আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
+                  তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
+                  <br />
+                  অনুসারে চাকরি
+                </Box>
               </Typography>
             </Box>
-            <Box mb={2}>
+            <Box mt={10} mb={1}>
               <NativeSelect className={classes.select}>
                 <option>দক্ষতা</option>
                 <option>চাকরি</option>

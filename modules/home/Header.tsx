@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
       width: '100px',
+      marginTop: '-12px',
     },
     appBar: {
       color: '#14496b',
