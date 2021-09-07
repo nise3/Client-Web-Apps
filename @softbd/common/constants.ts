@@ -1,5 +1,8 @@
 export const APP_TITLE = 'NISE3 TMS';
 
+export const LINK_LOGIN = '/signin';
+export const LINK_SIGNUP = '/signup';
+
 /**  User Role Permission links */
 export const LINK_PERMISSION = '/dashboard/permissions';
 export const LINK_PERMISSION_GROUP = '/dashboard/permission-groups';

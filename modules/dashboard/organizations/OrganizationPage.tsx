@@ -62,7 +62,7 @@ const OrganizationPage = () => {
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle) => !prevToggle);
-  }, [isToggleTable]);
+  }, []);
 
   const columns = useMemo(
     () => [
