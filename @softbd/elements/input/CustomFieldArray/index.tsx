@@ -3,7 +3,7 @@ import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInpu
 import {Button, ButtonGroup, Grid, TextField} from '@material-ui/core';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {AddCircleOutline, RemoveCircleOutline} from '@material-ui/icons';
 
 type Props = {
   id: string;
@@ -58,26 +58,23 @@ const CustomFieldArray = ({
           </Grid>
         );
       })}
-      <div>
+      <Grid xs={12} container justifyContent='flex-end'>
         <ButtonGroup color='primary' aria-label='outlined primary button group'>
           <Button
             onClick={() => {
               append({});
             }}>
-            <IntlMessages
-              id='common.add_new'
-              values={{subject: <IntlMessages id={labelLanguageId} />}}
-            />
+            <AddCircleOutline />
           </Button>
           <Button
             onClick={() => {
               if (fields.length > 1) remove(fields.length - 1);
             }}
             disabled={fields.length < 2}>
-            <IntlMessages id='common.remove_one' />
+            <RemoveCircleOutline />
           </Button>
         </ButtonGroup>
-      </div>
+      </Grid>
     </>
   );
 };
