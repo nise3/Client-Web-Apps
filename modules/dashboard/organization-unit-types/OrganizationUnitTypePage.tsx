@@ -115,8 +115,8 @@ const OrganizationUnitTypePage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Button
-                href='/../../dashboard/organization-unit-types/org-chart/1'
-                variant='contained'>
+                href='/../../dashboard/organization-unit-types/org-chart/'
+                variant='outlined'>
                 Hierarchy
               </Button>
             </DatatableButtonGroup>

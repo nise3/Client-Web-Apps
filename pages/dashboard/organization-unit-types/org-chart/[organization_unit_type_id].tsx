@@ -25,16 +25,19 @@ const OrgChart = () => {
 
   const [chartData, setChartData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [orgUnitTypeId, setOrgUnitTypeId] = useState<any>(1);
+  const [orgUnitTypeId, setOrgUnitTypeId] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
-    (async () => {
-      const {organization_unit_type_id} = router.query;
-      await setOrgUnitTypeId(organization_unit_type_id);
-    })();
+    const {organization_unit_type_id} = router.query;
+    console.log('org unit type id:', router.query);
+    setOrgUnitTypeId(organization_unit_type_id);
+  }, []);
+
+  useEffect(() => {
     getHierarchyChartData();
-  }, [chartData]);
+    console.log(orgUnitTypeId);
+  }, [orgUnitTypeId]);
 
   const getHierarchyChartData = async () => {
     if (orgUnitTypeId) {
@@ -65,14 +68,14 @@ const OrgChart = () => {
     setSelectedItemId(null);
   }, []);
 
-  const openAddEditModal = useCallback(
-    (itemId: number | null = null, isEdit: boolean = false) => {
-      setIsOpenAddEditModal(true);
-      setSelectedItemId(itemId);
-      setIsEdit(isEdit);
-    },
-    [],
-  );
+  const openAddEditModal = (
+    itemId: number | null = null,
+    isEdit: boolean = false,
+  ) => {
+    setIsOpenAddEditModal(true);
+    setSelectedItemId(itemId);
+    setIsEdit(isEdit);
+  };
 
   const handleClick = (event: any) => {
     setAnchorEl(event.id);
