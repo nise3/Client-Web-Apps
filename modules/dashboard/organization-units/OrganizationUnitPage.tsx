@@ -85,14 +85,6 @@ const OrganizationUnitPage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['common.email'],
-        accessor: 'email',
-      },
-      {
-        Header: messages['common.mobile'],
-        accessor: 'mobile',
-      },
-      {
         Header: messages['organization.label'],
         accessor: 'organization_title_en',
         disableFilters: true,
@@ -131,7 +123,7 @@ const OrganizationUnitPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -184,7 +176,7 @@ const OrganizationUnitPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && organizationUnitId && (
           <OrganizationUnitDetailsPopup
             key={1}
             itemId={organizationUnitId}

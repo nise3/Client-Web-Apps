@@ -176,7 +176,7 @@ const CoursePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <CourseDetailsPopup
             key={1}
             itemId={selectedItemId}

@@ -12,7 +12,6 @@ import {
 } from '../../../services/organaizationManagement/OccupationService';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import Box from '@material-ui/core/Box';
 import {Grid} from '@material-ui/core';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -153,48 +152,46 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Box py={5} px={{xs: 5, lg: 8, xl: 10}}>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='title_en'
-              label={messages['common.title_en']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='title_bn'
-              label={messages['common.title_bn']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomFormSelect
-              id='job_sector_id'
-              label={messages['job_sectors.label']}
-              isLoading={isLoading}
-              control={control}
-              options={jobSectors}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormRowStatus
-              id='row_status'
-              control={control}
-              defaultValue={initialValues.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
-      </Box>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_bn'
+            label={messages['common.title_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='job_sector_id'
+            label={messages['job_sectors.label']}
+            isLoading={isLoading}
+            control={control}
+            options={jobSectors}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };

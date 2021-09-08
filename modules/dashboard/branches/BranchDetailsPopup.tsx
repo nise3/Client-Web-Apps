@@ -11,7 +11,7 @@ import {getBranch} from '../../../services/instituteManagement/BranchService';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };

@@ -89,18 +89,6 @@ const OrganizationPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.domain'],
-        accessor: 'domain',
-      },
-      {
-        Header: messages['common.email'],
-        accessor: 'email',
-      },
-      {
-        Header: messages['common.mobile'],
-        accessor: 'mobile',
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
         filter: 'rowStatusFilter',
@@ -127,7 +115,7 @@ const OrganizationPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -179,7 +167,7 @@ const OrganizationPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && organizationId && (
           <OrganizationDetailsPopup
             key={1}
             itemId={organizationId}

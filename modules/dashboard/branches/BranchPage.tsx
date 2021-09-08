@@ -120,7 +120,7 @@ const BranchPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -172,7 +172,7 @@ const BranchPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <BranchDetailsPopup
             key={1}
             itemId={selectedItemId}

@@ -11,7 +11,7 @@ import {getTrainingCenter} from '../../../services/instituteManagement/TrainingC
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };

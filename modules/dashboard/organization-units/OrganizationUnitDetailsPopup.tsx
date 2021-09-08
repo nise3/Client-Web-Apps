@@ -11,7 +11,7 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import {getOrganizationUnit} from '../../../services/organaizationManagement/OrganizationUnitService';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };

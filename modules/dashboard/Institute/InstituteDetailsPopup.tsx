@@ -11,12 +11,12 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
-const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
+const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -52,7 +52,7 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
               variant={'contained'}
-              onClick={() => props.openEditModal(itemData.id)}
+              onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
             />
           </>
@@ -85,7 +85,7 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
                 Array.isArray(itemData.phone_numbers) &&
                 itemData.phone_numbers.map((phone: any, index: any) => {
                   return (
-                    <Grid item xs={12}>
+                    <Grid item xs={12} key={index}>
                       <DetailsInputView
                         label={messages['common.phone'] + ' #' + (index + 1)}
                         value={phone}
@@ -154,7 +154,7 @@ const InstituteDetailsPopup = ({itemId, ...props}: Props) => {
                 Array.isArray(itemData.mobile_numbers) &&
                 itemData.mobile_numbers.map((mobile: any, index: any) => {
                   return (
-                    <Grid item xs={12}>
+                    <Grid item xs={12} key={index}>
                       <DetailsInputView
                         label={messages['common.mobile'] + ' #' + (index + 1)}
                         value={mobile}

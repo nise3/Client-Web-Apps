@@ -172,7 +172,7 @@ const ProgrammePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <ProgrammeDetailsPopup
             key={1}
             itemId={selectedItemId}

@@ -119,7 +119,7 @@ const InstitutePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -171,7 +171,7 @@ const InstitutePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <InstituteDetailsPopup
             key={1}
             itemId={selectedItemId}

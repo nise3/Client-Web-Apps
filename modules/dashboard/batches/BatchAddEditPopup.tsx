@@ -134,7 +134,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         label: messages['batches.guardian_info'],
       },
     ],
-    [],
+    [messages],
   );
 
   const {
@@ -278,12 +278,12 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     })();
   };
 
-  const setValuesOfConfigs = (config: any) => {
+  const setValuesOfConfigs = (config: string | undefined | null) => {
     try {
-      let configJson = JSON.parse(config);
+      let configJson = JSON.parse(config || '{}');
       let itemsState: any = [];
       let itemsRequiredState: any = [];
-      Object.keys(configJson).map((key: string) => {
+      Object.keys(configJson || {}).map((key: string) => {
         let value = configJson[key];
         if (value[0]) {
           itemsState.push(key);

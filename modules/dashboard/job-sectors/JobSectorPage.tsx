@@ -130,7 +130,7 @@ const JobSectorPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -171,7 +171,7 @@ const JobSectorPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <JobSectorDetailsPopup
             key={1}
             itemId={selectedItemId}
