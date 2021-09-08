@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {AccessTime, Info} from '@material-ui/icons';
+import {AccessTime, ArrowRightAlt, Info} from '@material-ui/icons';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image: {
       width: '100%',
-      height: '200px',
+      height: '125px',
     },
     timeDetails: {
       display: 'flex',
@@ -97,7 +97,7 @@ const SkillMatchingJobs = () => {
         </CustomCarousel>
       </Box>
       <Grid container justifyContent='center'>
-        <Button variant='outlined' color='primary'>
+        <Button variant='outlined' color='primary' endIcon={<ArrowRightAlt />}>
           আরো দেখুন
         </Button>
       </Grid>

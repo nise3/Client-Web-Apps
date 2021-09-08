@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {AccessTime, Info} from '@material-ui/icons';
+import {AccessTime, ArrowRightAlt, Info} from '@material-ui/icons';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
@@ -116,7 +116,7 @@ const PopularCourse = () => {
         </CustomCarousel>
       </Box>
       <Grid container justifyContent='center' spacing={2}>
-        <Button variant='outlined' color='primary'>
+        <Button variant='outlined' color='primary' endIcon={<ArrowRightAlt />}>
           আরো দেখুন
         </Button>
       </Grid>
