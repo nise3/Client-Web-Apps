@@ -106,6 +106,11 @@ const OrganizationUnitTypePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let HREF =
+            '/../../dashboard/organization-unit-types/org-chart/__'.replace(
+              '__',
+              String(data.id),
+            );
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -114,9 +119,7 @@ const OrganizationUnitTypePage = () => {
                 deleteAction={() => deleteOrganizationUnitTypeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              <Button
-                href='/../../dashboard/organization-unit-types/org-chart/'
-                variant='outlined'>
+              <Button href={HREF} variant='outlined'>
                 Hierarchy
               </Button>
             </DatatableButtonGroup>
