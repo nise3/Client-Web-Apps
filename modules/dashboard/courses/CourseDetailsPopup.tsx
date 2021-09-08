@@ -11,7 +11,7 @@ import {getCourse} from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };

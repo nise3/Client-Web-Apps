@@ -11,7 +11,7 @@ import {getSkill} from '../../../services/organaizationManagement/SkillService';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };

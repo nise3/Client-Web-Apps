@@ -122,6 +122,7 @@ const RankPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -186,7 +187,7 @@ const RankPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <RankDetailsPopup
             key={1}
             itemId={selectedItemId}

@@ -11,7 +11,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconRankType from '../../../@softbd/icons/IconRankType';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };

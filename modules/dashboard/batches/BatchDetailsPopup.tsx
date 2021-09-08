@@ -45,9 +45,9 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const getConfigs = (config: string | undefined | null) => {
     let text = '';
     try {
-      let configJson = JSON.parse(config || '');
+      let configJson = JSON.parse(config || '{}');
 
-      Object.keys(configJson).map((key: string) => {
+      Object.keys(configJson || {}).map((key: string) => {
         let value = configJson[key];
         if (value[0]) {
           if (text) text += ', ';

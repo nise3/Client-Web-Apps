@@ -212,6 +212,7 @@
   "course.eligibility": "যোগ্যতা",
   "course.cover_image": "কভার ইমেজ",
   "batches.label": "ব্যাচ",
+  "batches.total_and_available_seat": "খালি/মোট আসন",
   "batches.available_seat": "খালি আসন",
   "batches.total_seat": "মোট আসন",
   "batches.start_date": "ব্যাচ শুরুর তারিখ",

@@ -84,12 +84,14 @@ const BatchesPage = () => {
         accessor: 'course_title_en',
       },
       {
-        Header: messages['batches.total_seat'],
+        Header: messages['batches.total_and_available_seat'],
         accessor: 'number_of_seats',
-      },
-      {
-        Header: messages['batches.available_seat'],
-        accessor: 'available_seats',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{data?.available_seats + '/' + data?.number_of_seats}</span>
+          );
+        },
       },
       {
         Header: messages['batches.registration_start_date'],
@@ -102,29 +104,11 @@ const BatchesPage = () => {
         },
       },
       {
-        Header: messages['batches.registration_end_date'],
-        accessor: 'registration_end_date',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <span>{getMomentDateFormat(data?.registration_end_date)}</span>
-          );
-        },
-      },
-      {
         Header: messages['batches.start_date'],
         accessor: 'batch_start_date',
         Cell: (props: any) => {
           let data = props.row.original;
           return <span>{getMomentDateFormat(data?.batch_start_date)}</span>;
-        },
-      },
-      {
-        Header: messages['batches.end_date'],
-        accessor: 'batch_end_date',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <span>{getMomentDateFormat(data?.batch_end_date)}</span>;
         },
       },
       {
@@ -154,7 +138,7 @@ const BatchesPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

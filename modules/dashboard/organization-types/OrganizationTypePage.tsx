@@ -140,7 +140,7 @@ const OrganizationTypePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -193,7 +193,7 @@ const OrganizationTypePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && organizationTypeId && (
           <OrganizationTypeDetailsPopup
             key={1}
             itemId={organizationTypeId}

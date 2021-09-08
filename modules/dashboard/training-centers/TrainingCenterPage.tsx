@@ -179,7 +179,7 @@ const TrainingCenterPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <TrainingCenterDetailsPopup
             key={1}
             itemId={selectedItemId}

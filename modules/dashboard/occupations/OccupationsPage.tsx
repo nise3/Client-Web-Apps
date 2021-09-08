@@ -115,7 +115,7 @@ const OccupationsPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -167,7 +167,7 @@ const OccupationsPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <OccupationDetailsPopup
             key={1}
             itemId={selectedItemId}

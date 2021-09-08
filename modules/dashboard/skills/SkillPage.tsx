@@ -170,7 +170,7 @@ const SkillPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <SkillDetailsPopup
             key={1}
             itemId={selectedItemId}

@@ -11,7 +11,7 @@ import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {getProgramme} from '../../../services/instituteManagement/ProgrammeService';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
