@@ -76,15 +76,17 @@ const OrgChart = () => {
     setIsOpenAddEditModal(true);
   };
 
-  // useEffect(() => {
-  //   const circles = Array.from(document.querySelectorAll('.oc-hierarchy'));
-  //   circles.map((trigger) => {
-  //     trigger.addEventListener('click', (e: any) => {
-  //       console.log(e);
-  //       alert('clicked');
-  //     });
-  //   });
-  // }, []);
+  useEffect(() => {
+    const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
+    node.map((trigger) => {
+      trigger.addEventListener('drop', (e: any) => {
+        let target = e.target;
+        if (!target.id) {
+          console.log(target);
+        }
+      });
+    });
+  }, []);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.id);

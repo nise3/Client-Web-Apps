@@ -173,7 +173,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={'xl'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -246,6 +246,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -255,6 +257,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -264,6 +268,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -273,6 +279,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -282,6 +290,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -291,6 +301,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -300,6 +312,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>

@@ -47,7 +47,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='course.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={'xl'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
