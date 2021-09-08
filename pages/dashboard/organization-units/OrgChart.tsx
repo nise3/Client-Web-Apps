@@ -127,6 +127,7 @@ const OrgChart = () => {
           itemId={selectedItemId}
           onClose={closeAddEditModal}
           refreshDataTable={reloadData}
+          isEdit
         />
       )}
     </>
