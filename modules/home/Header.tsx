@@ -1,5 +1,5 @@
 import React from 'react';
-import {alpha, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import {alpha, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,8 +11,6 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {Container} from '@material-ui/core';
-import logo from '/public/images/logo-with-name.png';
-import Image from 'next/image';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
