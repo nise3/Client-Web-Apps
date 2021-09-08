@@ -77,11 +77,13 @@ const OrgChart = () => {
   };
 
   useEffect(() => {
-    const circles = Array.from(document.querySelectorAll('.oc-hierarchy'));
-    circles.map((trigger) => {
+    const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
+    node.map((trigger) => {
       trigger.addEventListener('drop', (e: any) => {
-        console.log(e.target);
-        alert('clicked');
+        let target = e.target;
+        if (!target.id) {
+          console.log(target);
+        }
       });
     });
   }, []);
