@@ -1,25 +1,22 @@
-// import * as yup from 'yup';
+import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {
   createTrainer,
   getTrainer,
   updateTrainer,
 } from '../../../services/instituteManagement/TrainerService';
-// import {yupResolver} from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-// import {
-//   DOMAIN_REGEX,
-//   MOBILE_NUMBER_REGEX,
-//   TEXT_REGEX_BANGLA,
-// } from '../../../@softbd/common/patternRegex';
+import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import {
+  getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/common/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -33,6 +30,10 @@ import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
+import {genders} from '../../../@softbd/common/helpers';
+import {religions} from '../../../@softbd/common/helpers';
+import {maritial_status} from '../../../@softbd/common/helpers';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -40,53 +41,20 @@ interface TrainerAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
-//
-// const validationSchema = yup.object().shape({
-//   title_en: yup.string().trim().required().label('Title (En)'),
-//   title_bn: yup
-//     .string()
-//     .trim()
-//     .required()
-//     .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-//     .label('Title (Bn)'),
-//   domain: yup
-//     .string()
-//     .trim()
-//     .required()
-//     .matches(DOMAIN_REGEX, 'Domain is not valid')
-//     .label('Domain'),
-//   code: yup.string().required().label('Code'),
-//   primary_phone: yup
-//     .string()
-//     .trim()
-//     .required()
-//     .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
-//     .label('Phone Number'),
-//   phone_numbers: yup.array().of(
-//     yup.object().shape({
-//       value: yup
-//         .string()
-//         .trim()
-//         .matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-//     }),
-//   ),
-//   primary_mobile: yup
-//     .string()
-//     .trim()
-//     .required()
-//     .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
-//     .label('Mobile Number'),
-//   address: yup.string().trim().required().label('Address'),
-//   google_map_src: yup.string(),
-//   email: yup.string().required().email('Enter valid email').label('Email'),
-//   loc_division_id: yup.string().trim().required().label('Division'),
-//   loc_district_id: yup.string().trim().required().label('District'),
-//   loc_upazila_id: yup.string().trim().required().label('Upazila'),
-// });
+const validationSchema = yup.object().shape({
+  trainer_name_en: yup.string().trim().required().label('Trainer Name(En)'),
+  trainer_name_bn: yup
+    .string()
+    .trim()
+    .required()
+    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
+    .label('Trainer Name(Bn)'),
+  email: yup.string().required().email('Enter valid email').label('Email'),
+  institute_id: yup.string().trim().required().label('Institutes'),
+  nationality: yup.string().trim().required().label('nationality'),
+});
 
 const initialValues = {
-  title_en: '',
-  title_bn: '',
   trainer_name_en: '',
   trainer_name_bn: '',
   institute_id: '',
@@ -102,10 +70,6 @@ const initialValues = {
   nationality: '',
   nid: '',
   passport_number: '',
-  physical_disabilities_status: '',
-  freedom_fighter_status: '',
-  training_centers_title_en: '',
-  branches_title_en: '',
   present_address_division_id: '',
   present_address_district_id: '',
   present_address_upazila_id: '',
@@ -116,35 +80,33 @@ const initialValues = {
   permanent_house_address: '',
   educational_qualification: '',
   skills: '',
-  photo: '',
-  signature: '',
+  date_of_birth: '',
   row_status: '1',
-
 };
 
 const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
-                                                             itemId,
-                                                             ...props
-                                                           }) => {
+  itemId,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [divisions, setDivisions] = useState<Array<Division>>([]);
   const [presentDistricts, setPresentDistricts] = useState<Array<District>>([]);
-  const [permanentDistricts, setPermanentDistricts] = useState<Array<District>>([]);
+  const [permanentDistricts, setPermanentDistricts] = useState<Array<District>>(
+    [],
+  );
   const [presentUpazilas, setPresentUpazilas] = useState<Array<Upazila>>([]);
-  const [permanentUpazilas, setPermanentUpazilas] = useState<Array<Upazila>>([]);
-  const [selectedPresentDivision, setSelectedPresentDivision] = useState<number | string | null>(null);
-  const [selectedPermanentDivision, setSelectedPermanentDivision] = useState<number | string | null>(null);
-  const [selectedPresentDistrict, setSelectedPresentDistrict] = useState<number | string | null>(null);
-  const [selectedPermanentDistrict, setSelectedPermanentDistrict] = useState<number | string | null>(null);
+  const [permanentUpazilas, setPermanentUpazilas] = useState<Array<Upazila>>(
+    [],
+  );
 
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [branches, setBranches] = useState<Array<Branch> | []>([]);
-  const [trainingCenters, setTrainingCenters] = useState<Array<Branch> | []>([]);
-  const [selectedInstitute, setSelectedInstitute] = useState<number | string | null>(null);
-  const [selectedBranch, setSelectedBranch] = useState<number | string | null>(null);
+  const [trainingCenters, setTrainingCenters] = useState<
+    Array<TrainingCenter> | []
+  >([]);
 
   const {
     register,
@@ -152,7 +114,9 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({});
+  } = useForm<any>({
+    resolver: yupResolver(validationSchema),
+  });
 
   useEffect(() => {
     (async () => {
@@ -162,8 +126,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         if (response) {
           let {data: item} = response;
           reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
             trainer_name_en: item?.trainer_name_en,
             trainer_name_bn: item?.trainer_name_bn,
             institute_id: item?.institute_id,
@@ -176,13 +138,12 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             gender: item?.gender,
             marital_status: item?.marital_status,
             religion: item?.religion,
+            date_of_birth: item?.date_of_birth
+              ? getMomentDateFormat(item.date_of_birth, 'YYYY-MM-DD')
+              : '',
             nationality: item?.nationality,
-            training_centers_title_en: item?.training_centers_title_en,
-            branches_title_en: item?.branches_title_en,
             nid: item?.nid,
             passport_number: item?.passport_number,
-            physical_disabilities_status: item?.physical_disabilities_status,
-            freedom_fighter_status: item?.freedom_fighter_status,
             present_address_division_id: item?.present_address_division_id,
             present_address_district_id: item?.present_address_district_id,
             present_address_upazila_id: item?.present_address_upazila_id,
@@ -193,104 +154,24 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             permanent_house_address: item?.permanent_house_address,
             educational_qualification: item?.educational_qualification,
             skills: item?.skills,
-            photo: item?.photo,
-            signature: item?.signature,
             row_status: String(item?.row_status),
           });
-
         }
       } else {
         reset(initialValues);
       }
       setIsLoading(false);
-      await loadInstitutes();
-      await loadDivisions();
     })();
   }, [itemId]);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
-      if (response) setDivisions(response.data);
+      await loadInstitutes();
+      await loadDivisions();
       setIsLoading(false);
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (selectedPresentDivision) {
-        let response = await getAllDistricts({division_id: selectedPresentDivision});
-        response && setPresentDistricts(response.data);
-      } else {
-        let response = await getAllDistricts();
-        response && setPresentDistricts(response.data);
-      }
-    })();
-  }, [selectedPresentDivision]);
-
-  useEffect(() => {
-    (async () => {
-      if (selectedPermanentDivision) {
-        let response = await getAllDistricts({division_id: selectedPermanentDivision});
-        response && setPermanentDistricts(response.data);
-      } else {
-        let response = await getAllDistricts();
-        response && setPermanentDistricts(response.data);
-      }
-    })();
-  }, [selectedPermanentDivision]);
-
-  useEffect(() => {
-    (async () => {
-      if (selectedPresentDistrict) {
-        let response = await getAllUpazilas({district_id: selectedPresentDistrict});
-        response && setPresentUpazilas(response.data);
-      } else {
-        let response = await getAllUpazilas();
-        response && setPresentUpazilas(response.data);
-      }
-    })();
-  }, [selectedPresentDistrict]);
-
-  useEffect(() => {
-    (async () => {
-      if (selectedPermanentDistrict) {
-        let response = await getAllUpazilas({district_id: selectedPermanentDistrict});
-        response && setPermanentUpazilas(response.data);
-      } else {
-        let response = await getAllUpazilas();
-        response && setPermanentUpazilas(response.data);
-      }
-    })();
-  }, [selectedPermanentDistrict]);
-
-
-
-  useEffect(() => {
-    (async () => {
-      if (selectedInstitute) {
-        let response = await getAllBranches({institute_id: selectedInstitute});
-        response && setBranches(response.data);
-      } else {
-        let response = await getAllBranches();
-        response && setBranches(response.data);
-      }
-    })();
-  }, [selectedInstitute]);
-
-  useEffect(() => {
-    (async () => {
-      if (selectedBranch) {
-        let response = await getAllTrainingCenters({institute_id: selectedBranch});
-        response && setTrainingCenters(response.data);
-      } else {
-        let response = await getAllTrainingCenters();
-        response && setTrainingCenters(response.data);
-      }
-    })();
-  }, [selectedBranch]);
-
 
   const loadInstitutes = async () => {
     const response = await getAllInstitutes();
@@ -301,36 +182,76 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     response && setDivisions(response.data);
   };
 
-  const handlePresentDivisionChange = (presentDivisionId: number) => {
-    setSelectedPresentDivision(presentDivisionId);
-  };
-  const handlePresentDistrictChange = (presentDistrictId: number) => {
-    setSelectedPresentDistrict(presentDistrictId);
-  };
-  const handlePermanentDivisionChange = (permanentDivisionId: number) => {
-    setSelectedPermanentDivision(permanentDivisionId);
-  };
-  const handlePermanentDistrictChange = (permanentDistrictId: number) => {
-    setSelectedPermanentDistrict(permanentDistrictId);
-  };
-  const handleInstituteChange = (instituteId: number) => {
-    setSelectedInstitute(instituteId);
-  };
-  const handleBranchChange = (branchId: number) => {
-    setSelectedBranch(branchId);
+  const handleDivisionChange = async (
+    divisionId: number,
+    isPresent: boolean,
+  ) => {
+    let response = await getAllDistricts({division_id: divisionId});
+    if (response) {
+      if (isPresent) {
+        setPresentDistricts(response.data);
+        setPresentUpazilas([]);
+      } else {
+        setPermanentDistricts(response.data);
+        setPermanentUpazilas([]);
+      }
+    }
   };
 
+  const handleDistrictChange = async (
+    districtId: number,
+    isPresent: boolean,
+  ) => {
+    let response = await getAllUpazilas({district_id: districtId});
+    if (response) {
+      if (isPresent) {
+        setPresentUpazilas(response.data);
+      } else {
+        setPermanentUpazilas(response.data);
+      }
+    }
+  };
 
+  const onInstituteChange = useCallback((instituteId: number) => {
+    loadBranchByInstitute(instituteId);
+  }, []);
+
+  const onBranchChange = useCallback((BranchId: number) => {
+    loadTrainingCenterByBranch(BranchId);
+  }, []);
+
+  const loadBranchByInstitute = (instituteId: number) => {
+    (async () => {
+      let response = await getAllBranches({
+        row_status: RowStatus.ACTIVE,
+        institute_id: instituteId,
+      });
+      if (response) {
+        setBranches(response.data);
+        setTrainingCenters([]);
+      }
+    })();
+  };
+
+  const loadTrainingCenterByBranch = (branchId: number) => {
+    (async () => {
+      let response = await getAllTrainingCenters({
+        row_status: RowStatus.ACTIVE,
+        branch_id: branchId,
+      });
+      if (response) {
+        setTrainingCenters(response.data);
+      }
+    })();
+  };
   const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
-    // data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
-    // data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
     if (isEdit && itemId) {
       let response = await updateTrainer(itemId, data);
       if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='institute.label' />}}
+            values={{subject: <IntlMessages id='trainers.label' />}}
           />,
         );
         props.onClose();
@@ -342,7 +263,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='institute.label' />}}
+            values={{subject: <IntlMessages id='trainers.label' />}}
           />,
         );
         props.onClose();
@@ -380,274 +301,308 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='trainer_name_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='email'
-                label={messages['common.email']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='about_me'
-                label={messages['common.about_me']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='date_of_birth'
-                label={messages['common.date_of_birth']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='permanent_address_division_id'
-                label={messages['common.division_title_bn_permanent_address']}
-                isLoading={isLoading}
-                control={control}
-                options={divisions}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-                onChange={handlePermanentDivisionChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='permanent_address_district_id'
-                label={messages['common.district_title_bn_permanent_address']}
-                isLoading={isLoading}
-                control={control}
-                options={permanentDistricts}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-                onChange={handlePermanentDistrictChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='permanent_address_upazila_id'
-                label={messages['common.upazila_title_bn_permanent_address']}
-                isLoading={isLoading}
-                control={control}
-                options={permanentUpazilas}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='gender'
-                label={messages['common.gender']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            {/*<Grid item xs={12}>*/}
-            {/*  <CustomTextInput*/}
-            {/*    id='marital_status'*/}
-            {/*    label={messages['common.marital_status']}*/}
-            {/*    register={register}*/}
-            {/*    errorInstance={errors}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*  />*/}
-            {/*</Grid>*/}
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='religion'
-                label={messages['common.religion']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='nid'
-                label={messages['common.nid']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='passport_number'
-                label={messages['common.passport_number_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormRowStatus
-                id='row_status'
-                control={control}
-                defaultValue={initialValues.row_status}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-          </Grid>
+          <CustomTextInput
+            id='trainer_name_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='trainer_name_bn'
+            label={messages['common.title_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='email'
+            label={messages['common.email']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='about_me'
+            label={messages['common.about_me']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='mobile'
+            label={messages['common.mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomDateTimeField
+            id='date_of_birth'
+            label={messages['common.date_of_birth']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='present_house_address'
+            label={messages['common.present_house_address']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='permanent_house_address'
+            label={messages['common.permanent_house_address']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='present_address_division_id'
+            label={messages['common.division_title_bn_present_address']}
+            isLoading={isLoading}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={useCallback((divisionId: number) => {
+              (async () => {
+                await handleDivisionChange(divisionId, true);
+              })();
+            }, [])}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='permanent_address_division_id'
+            label={messages['common.division_title_bn_permanent_address']}
+            isLoading={isLoading}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={useCallback((divisionId: number) => {
+              (async () => {
+                await handleDivisionChange(divisionId, false);
+              })();
+            }, [])}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='present_address_district_id'
+            label={messages['common.district_title_bn_present_address']}
+            isLoading={isLoading}
+            control={control}
+            options={presentDistricts}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={useCallback((divisionId: number) => {
+              (async () => {
+                await handleDistrictChange(divisionId, true);
+              })();
+            }, [])}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='permanent_address_district_id'
+            label={messages['common.district_title_bn_permanent_address']}
+            isLoading={isLoading}
+            control={control}
+            options={permanentDistricts}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={useCallback((districtId: number) => {
+              (async () => {
+                await handleDistrictChange(districtId, false);
+              })();
+            }, [])}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='present_address_upazila_id'
+            label={messages['common.upazila_title_bn_present_address']}
+            isLoading={isLoading}
+            control={control}
+            options={presentUpazilas}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='permanent_address_upazila_id'
+            label={messages['common.upazila_title_bn_permanent_address']}
+            isLoading={isLoading}
+            control={control}
+            options={permanentUpazilas}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
         </Grid>
 
         <Grid item xs={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='trainer_name_bn'
-                label={messages['common.title_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='educational_qualification'
-                label={messages['common.educational_qualification_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='skills'
-                label={messages['menu.skill']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='physical_disabilities_status'
-                label={messages['common.physical_disabilities_status']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='present_address_division_id'
-                label={messages['common.division_title_bn_present_address']}
-                isLoading={isLoading}
-                control={control}
-                options={divisions}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-                onChange={handlePresentDivisionChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='present_address_district_id'
-                label={messages['common.district_title_bn_present_address']}
-                isLoading={isLoading}
-                control={control}
-                options={presentDistricts}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-                onChange={handlePresentDistrictChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='present_address_upazila_id'
-                label={messages['common.upazila_title_bn_present_address']}
-                isLoading={isLoading}
-                control={control}
-                options={presentUpazilas}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='institute_id'
-                label={messages['institute.label']}
-                isLoading={isLoading}
-                control={control}
-                options={institutes}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-                onChange={handleInstituteChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='branch_id'
-                label={messages['branch.label']}
-                isLoading={isLoading}
-                control={control}
-                options={branches}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-                onChange={handleBranchChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='training_center_id'
-                label={messages['menu.training_center']}
-                isLoading={isLoading}
-                control={control}
-                options={trainingCenters}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            {/*<Grid item xs={12}>*/}
-            {/*  <FormRowStatus*/}
-            {/*    id='row_status'*/}
-            {/*    control={control}*/}
-            {/*    defaultValue={initialValues.row_status}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*  />*/}
-            {/*</Grid>*/}
-            {/*<Grid item xs={12}>*/}
-            {/*  <FormRowStatus*/}
-            {/*    id='row_status'*/}
-            {/*    control={control}*/}
-            {/*    defaultValue={initialValues.row_status}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*  />*/}
-            {/*</Grid>*/}
-
-          </Grid>
+          <CustomFormSelect
+            id='gender'
+            label={messages['common.gender']}
+            isLoading={isLoading}
+            control={control}
+            options={genders}
+            optionValueProp={'id'}
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='religion'
+            label={messages['common.religion']}
+            isLoading={isLoading}
+            control={control}
+            options={religions}
+            optionValueProp={'id'}
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='marital_status'
+            label={messages['common.marital_status']}
+            isLoading={isLoading}
+            control={control}
+            options={maritial_status}
+            optionValueProp={'id'}
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='nid'
+            label={messages['common.nid']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
         </Grid>
 
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='educational_qualification'
+            label={messages['common.educational_qualification_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='trainer_registration_number'
+            label={messages['common.registration_number']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='skills'
+            label={messages['menu.skill']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='passport_number'
+            label={messages['common.passport_number_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='institute_id'
+            label={messages['institute.label']}
+            isLoading={isLoading}
+            control={control}
+            options={institutes}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={onInstituteChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='branch_id'
+            label={messages['branch.label']}
+            isLoading={isLoading}
+            control={control}
+            options={branches}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+            onChange={onBranchChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='training_center_id'
+            label={messages['menu.training_center']}
+            isLoading={isLoading}
+            control={control}
+            options={trainingCenters}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='nationality'
+            label={messages['common.nationality']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
       </Grid>
     </HookFormMuiModal>
   );

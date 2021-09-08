@@ -1,10 +1,57 @@
 import moment from 'moment';
 
+
+export const genders = [
+  {
+    id: 0,
+    label: 'Male',
+  },
+  {
+    id: 1,
+    label: 'Female',
+  },
+];
+
+export const maritial_status = [
+  {
+    id: 0,
+    label: 'Married',
+  },
+  {
+    id: 1,
+    label: 'Unmarried',
+  },
+];
+
+export const religions = [
+  {
+    id: 0,
+    label: 'Islam',
+  },
+  {
+    id: 1,
+    label: 'Hindu',
+  },
+  {
+    id: 2,
+    label: 'Buddha',
+  },
+  {
+    id: 3,
+    label: 'Christian',
+  },
+  {
+    id: 4,
+    label: 'Others'
+  },
+];
 export const catchBlockHandler = (error: any, message = '') => {
   //const {errorStack} = useNotiStack();
   //console.log('catchBlockHandler', error);
   //errorStack(message || error.message);
 };
+
+
 
 export const getGenderText = (genderCode: string): string => {
   switch (genderCode) {

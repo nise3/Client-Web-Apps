@@ -88,6 +88,7 @@
   "common.remove_one": "একটি মুছুন",
   "common.required": "আবশ্যক",
   "common.not_required": "ঐচ্ছিক",
+  "common.registration_number": "নিবন্ধন নম্বর",
   "button.click_me": "ক্লিক করুন",
   "error.404Error": "খুঁজে পাওয়া যাইনি",
   "error.message1": "আমরা পেজটা খুঁজে পাইনি যেটা",
