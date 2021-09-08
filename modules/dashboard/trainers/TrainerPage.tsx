@@ -7,13 +7,13 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteTrainer} from '../../../services/instituteManagement/TrainerService'
+import {deleteTrainer} from '../../../services/instituteManagement/TrainerService';
 import TrainerAddEditPopup from './TrainerAddEditPopup';
 import TrainerDetailsPopup from './TrainerDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import {isResponseSuccess} from "../../../@softbd/common/helpers";
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
@@ -25,7 +25,6 @@ const TrainersPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -66,48 +65,51 @@ const TrainersPage = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
-  const columns = useMemo(() => [
-    {
-      Header: '#',
-      accessor: 'id',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.title_en'],
-      accessor: 'trainer_name_en',
-    },
-    {
-      Header: messages['common.title_bn'],
-      accessor: 'trainer_name_bn',
-    },
-    {
-      Header: messages['common.status'],
-      accessor: 'row_status',
-      filter: 'rowStatusFilter',
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return <CustomChipRowStatus value={data?.row_status}/>;
+  const columns = useMemo(
+    () => [
+      {
+        Header: '#',
+        accessor: 'id',
+        disableFilters: true,
+        disableSortBy: true,
       },
-    },
-    {
-      Header: messages['common.actions'],
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <DatatableButtonGroup>
-            <ReadButton onClick={() => openDetailsModal(data.id)}/>
-            <EditButton onClick={() => openAddEditModal(data.id)}/>
-            <DeleteButton
-              deleteAction={() => deleteTrainerItem(data.id)}
-              deleteTitle='Are you sure?'
-            />
-          </DatatableButtonGroup>
-        );
+      {
+        Header: messages['common.title_en'],
+        accessor: 'trainer_name_en',
       },
-      sortable: false,
-    },
-  ], []);
+      {
+        Header: messages['common.title_bn'],
+        accessor: 'trainer_name_bn',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteTrainerItem(data.id)}
+                deleteTitle='Are you sure?'
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [messages],
+  );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
@@ -119,7 +121,7 @@ const TrainersPage = () => {
       <PageBlock
         title={
           <>
-            <IconTrainer/> <IntlMessages id='trainers.label'/>
+            <IconTrainer /> <IntlMessages id='trainers.label' />
           </>
         }
         extra={[
@@ -157,7 +159,7 @@ const TrainersPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && trainerId && (
           <TrainerDetailsPopup
             key={1}
             itemId={trainerId}

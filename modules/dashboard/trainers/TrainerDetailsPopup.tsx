@@ -13,7 +13,7 @@ import {genders} from '../../../@softbd/common/helpers';
 import {religions} from '../../../@softbd/common/helpers';
 import {maritial_status} from '../../../@softbd/common/helpers';
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -240,7 +240,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
         </Grid>
       </CustomDetailsViewMuiModal>
     </>
