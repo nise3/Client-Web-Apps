@@ -46,7 +46,6 @@ const useReactTableFetchData = ({
 
   const fetchDataFunction = useCallback(
     ({pageIndex, pageSize, sortBy, filters}: any) => {
-      console.log('fetchDataFunction,', pageIndex);
       let _params: any = {
         page: pageIndex + 1,
         page_size: pageSize,

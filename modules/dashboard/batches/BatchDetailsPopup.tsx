@@ -17,7 +17,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const BatchDetailsPopup = ({itemId, ...props}: Props) => {
+const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -82,7 +82,7 @@ const BatchDetailsPopup = ({itemId, ...props}: Props) => {
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
               variant={'contained'}
-              onClick={() => props.openEditModal(itemData.id)}
+              onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
             />
           </>
