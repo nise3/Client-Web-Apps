@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -55,17 +55,16 @@ const initialValues = {
 };
 
 const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
-                                                                      itemId,
-                                                                      refreshDataTable,
-                                                                      ...props
-                                                                    }) => {
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
   const [branches, setBranches] = useState<Array<Branch> | []>([]);
-  const [selectedInstitute, setSelectedInstitute] = useState<number | string | null>(null);
 
   const {
     control,
@@ -93,35 +92,38 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             google_map_src: item?.google_map_src,
             row_status: String(item?.row_status),
           });
+          await loadBranchesByInstituteId(item?.institute_id);
         }
       } else {
         reset(initialValues);
       }
       setIsLoading(false);
-      await loadInstitutes();
     })();
   }, [itemId]);
 
   useEffect(() => {
     (async () => {
-      if (selectedInstitute) {
-        let response = await getAllBranches({institute_id: selectedInstitute});
-        response && setBranches(response.data);
-      } else {
-        let response = await getAllBranches();
-        response && setBranches(response.data);
-      }
+      await loadInstitutes();
     })();
-  }, [selectedInstitute]);
+  }, []);
+
+  const loadBranchesByInstituteId = async (instituteId: number | null) => {
+    if (instituteId) {
+      let response = await getAllBranches({institute_id: instituteId});
+      if (response) setBranches(response.data);
+    }
+  };
 
   const loadInstitutes = async () => {
     const response = await getAllInstitutes();
     response && setInstitutes(response.data);
   };
 
-  const handleInstituteChange = (instituteId: number) => {
-    setSelectedInstitute(instituteId);
-  };
+  const handleInstituteChange = useCallback((instituteId: number) => {
+    (async () => {
+      await loadBranchesByInstituteId(instituteId);
+    })();
+  }, []);
 
   const onSubmit: SubmitHandler<TrainingCenter> = async (
     data: TrainingCenter,
@@ -173,7 +175,6 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

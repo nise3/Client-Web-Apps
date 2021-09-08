@@ -156,8 +156,8 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             email: item?.email,
             row_status: String(item?.row_status),
           });
-          loadDistrictsDataByDivision(item?.loc_division_id);
-          loadUpazilasDataByDistrict(item?.loc_district_id);
+          await loadDistrictsDataByDivision(item?.loc_division_id);
+          await loadUpazilasDataByDistrict(item?.loc_district_id);
         }
       } else {
         reset(initialValues);
@@ -176,7 +176,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   }, []);
 
   const loadDistrictsDataByDivision = async (divisionId: number) => {
-    setIsLoading(true);
     if (divisionId) {
       let response = await getAllDistricts({
         row_status: RowStatus.ACTIVE,
@@ -190,7 +189,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     } else {
       setDistricts([]);
     }
-    setIsLoading(false);
+    setUpazilas([]);
   };
 
   const changeDivisionAction = useCallback((value: number) => {
@@ -200,7 +199,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   }, []);
 
   const loadUpazilasDataByDistrict = async (districtId: number) => {
-    setIsLoading(true);
     if (districtId) {
       let response = await getAllUpazilas({
         row_status: RowStatus.ACTIVE,
@@ -214,7 +212,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     } else {
       setUpazilas([]);
     }
-    setIsLoading(false);
   };
 
   const changeDistrictAction = useCallback((value: number) => {

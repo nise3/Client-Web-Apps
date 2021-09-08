@@ -94,14 +94,6 @@ const TrainingCenterPage = () => {
         accessor: 'branch_title_en',
       },
       {
-        Header: messages['common.address'],
-        accessor: 'address',
-      },
-      {
-        Header: messages['common.google_map_src'],
-        accessor: 'google_map_src',
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
         Cell: (props: any) => {
