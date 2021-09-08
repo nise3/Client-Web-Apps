@@ -61,42 +61,42 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_en']}
               value={itemData?.title_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_bn']}
               value={itemData?.title_bn}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['institute.label']}
               value={itemData?.institute_title_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.address']}
               value={itemData?.address}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.google_map_src']}
               value={itemData?.google_map_src}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomChipRowStatus
               label={messages['common.active_status']}
               value={itemData?.row_status}

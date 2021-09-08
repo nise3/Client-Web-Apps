@@ -101,6 +101,7 @@ const CoursePage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
