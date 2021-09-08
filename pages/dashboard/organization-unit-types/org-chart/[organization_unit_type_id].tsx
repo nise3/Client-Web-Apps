@@ -25,34 +25,37 @@ const OrgChart = () => {
 
   const [chartData, setChartData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [orgUnitTypeId, setOrgUnitTypeId] = useState<any>(1);
   const router = useRouter();
 
+  const {organization_unit_type_id} = router.query;
+
   useEffect(() => {
-    (async () => {
-      const {organization_unit_type_id} = router.query;
-      await setOrgUnitTypeId(organization_unit_type_id);
-    })();
     getHierarchyChartData();
-  }, [chartData]);
+  }, [organization_unit_type_id]);
 
   const getHierarchyChartData = async () => {
-    if (orgUnitTypeId) {
-      let {data: response} = await getOrganizationUnitTypeHierarchy(
-        orgUnitTypeId,
-      );
-      response.title = response.title_en;
-      response.name = response.title_en;
-      if (response.children && Array.isArray(response.children)) {
-        response.children.map((node: any) => {
-          node.title = node.id;
-          node.name = node.title_bn;
-        });
-      } else {
-        response.children.title = response.children.title_en;
-        response.children.name = response.children.title_en;
+    let response = await getOrganizationUnitTypeHierarchy(
+      organization_unit_type_id,
+    );
+    if (response) {
+      const {data: item} = response;
+      if (item) {
+        item.id = 'm' + item.id;
+        item.title = item.title_en;
+        item.name = item.title_en;
+        if (item.children && Array.isArray(item.children)) {
+          item.children.map((node: any) => {
+            node.id = 'm' + node.id;
+            node.title = node.title_en;
+            node.name = node.title_bn;
+          });
+        } else {
+          item.children.id = 'm' + item.children.id;
+          item.children.title = item.children.title_en;
+          item.children.name = item.children.title_en;
+        }
+        setChartData(item);
       }
-      await setChartData(response);
     }
   };
 
@@ -62,17 +65,26 @@ const OrgChart = () => {
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
   }, []);
 
-  const openAddEditModal = useCallback(
-    (itemId: number | null = null, isEdit: boolean = false) => {
-      setIsOpenAddEditModal(true);
-      setSelectedItemId(itemId);
-      setIsEdit(isEdit);
-    },
-    [],
-  );
+  const openAddEditModal = (
+    itemId: number | null = null,
+    isEdit: boolean = false,
+  ) => {
+    setSelectedItemId(itemId);
+    setIsEdit(isEdit);
+    setIsOpenAddEditModal(true);
+  };
+
+  // useEffect(() => {
+  //   const circles = Array.from(document.querySelectorAll('.oc-hierarchy'));
+  //   circles.map((trigger) => {
+  //     trigger.addEventListener('click', (e: any) => {
+  //       console.log(e);
+  //       alert('clicked');
+  //     });
+  //   });
+  // }, []);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.id);

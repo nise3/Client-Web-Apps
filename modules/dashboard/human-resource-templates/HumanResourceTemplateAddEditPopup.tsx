@@ -97,6 +97,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     useEffect(() => {
       (async () => {
         setIsLoading(true);
+
         if (isEdit && itemId) {
           let response = await getHumanResourceTemplate(itemId);
           setHumanResourceTemplate(response.data);
@@ -117,15 +118,18 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             });
           }
         } else {
-          if (!isEdit && itemId) {
+          if (itemId) {
             let response = await getHumanResourceTemplate(itemId);
             setHumanResourceTemplate(response.data);
             const {data: item} = response;
             setOrganizationId(item.organization_id);
             setOrganizationUnitTypeId(item.organization_unit_type_id);
+            initialValues.organization_id = item.organization_id;
+            initialValues.organization_unit_type_id =
+              item.organization_unit_type_id;
+            initialValues.parent_id = item.parent_id;
+            reset(initialValues);
           }
-
-          reset(initialValues);
         }
         setIsLoading(false);
       })();
@@ -137,8 +141,10 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     };
 
     useEffect(() => {
+      setIsLoading(true);
       loadHumanResourceTemplates();
       loadRanks();
+      setIsLoading(false);
     }, []);
 
     const loadHumanResourceTemplates = async () => {
@@ -235,16 +241,6 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             />
           </Grid>
           <Grid item xs={6}>
-            <CustomTextInput
-              id='organization_id'
-              label={messages['organization.label']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-              inputProps={{readOnly: true}}
-            />
-          </Grid>
-          <Grid item xs={6}>
             <CustomFormSelect
               id='organization_id'
               label={messages['organization.label']}
@@ -281,6 +277,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
+              inputProps={{readOnly: true}}
             />
           </Grid>
           <Grid item xs={6}>
