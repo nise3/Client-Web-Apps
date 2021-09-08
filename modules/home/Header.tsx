@@ -10,6 +10,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import {Container} from '@material-ui/core';
+import logo from '/public/images/logo-with-name.png';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       color: '#14496b',
       backgroundColor: '#fff !important',
+      boxShadow: 'none',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -167,47 +171,58 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position='static' className={classes.appBar}>
-        <Toolbar>
-          <img
-            className={classes.logo}
-            src='/images/logo-with-name.png'
-            alt='crema-logo'
-          />
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label='show 4 new mails' color='inherit'>
-              <Badge badgeContent={4} color='secondary'>
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label='show 17 new notifications' color='inherit'>
-              <Badge badgeContent={17} color='secondary'>
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge='end'
-              aria-label='account of current user'
-              aria-controls={menuId}
-              aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'>
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label='show more'
-              aria-controls={mobileMenuId}
-              aria-haspopup='true'
-              onClick={handleMobileMenuOpen}
-              color='inherit'>
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
+      <Container maxWidth='md' disableGutters>
+        <AppBar position='static' className={classes.appBar}>
+          <Toolbar>
+            {/*<Image*/}
+            {/*  src={logo}*/}
+            {/*  alt='logo'*/}
+            {/*  width={100}*/}
+            {/*  className={classes.logo}*/}
+            {/*  quality={100}*/}
+            {/*/>*/}
+            <img
+              className={classes.logo}
+              src='/images/logo-with-name.png'
+              alt='crema-logo'
+            />
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <IconButton aria-label='show 4 new mails' color='inherit'>
+                <Badge badgeContent={4} color='secondary'>
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                aria-label='show 17 new notifications'
+                color='inherit'>
+                <Badge badgeContent={17} color='secondary'>
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                edge='end'
+                aria-label='account of current user'
+                aria-controls={menuId}
+                aria-haspopup='true'
+                onClick={handleProfileMenuOpen}
+                color='inherit'>
+                <AccountCircle />
+              </IconButton>
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-label='show more'
+                aria-controls={mobileMenuId}
+                aria-haspopup='true'
+                onClick={handleMobileMenuOpen}
+                color='inherit'>
+                <MoreIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </Container>
       {renderMobileMenu}
       {renderMenu}
     </div>

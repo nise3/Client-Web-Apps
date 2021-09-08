@@ -8,6 +8,8 @@ import SelfAssessment from './SelfAssessment';
 import StatisticsCardSection from './StatisticsCardSection';
 import Nise3WorkProcess from './Nise3WorkProcess';
 import RecentActivities from './RecentActivities';
+import PopularCourse from './PopularCourse';
+import SkillMatchingJobs from './SkillMatchingJobs';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,6 +32,8 @@ const Home: React.FC<{}> = () => {
         <StatisticsCardSection />
         <Nise3WorkProcess />
         <RecentActivities />
+        <PopularCourse />
+        <SkillMatchingJobs />
       </Grid>
     </div>
   );

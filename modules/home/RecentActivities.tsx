@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {DateRangeOutlined} from '@material-ui/icons';
+import SectionTitle from './SectionTitle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,17 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '5px',
       marginBottom: '10px',
     },
-    title: {
-      color: '#682988',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    vBar: {
-      height: '40px',
-      width: '5px',
-      background: 'linear-gradient(45deg, #ec5c17,#5affab)',
-      marginRight: '10px',
-    },
   }),
 );
 
@@ -63,12 +53,7 @@ const RecentActivities = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
-        <Typography variant='h5'>
-          <Box mb={5} className={classes.title}>
-            <Box className={classes.vBar}></Box>
-            <Box fontWeight='fontWeightBold'>সাম্প্রতিক কার্যক্রম</Box>
-          </Box>
-        </Typography>
+        <SectionTitle title='সাম্প্রতিক কার্যক্রম'></SectionTitle>
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <Box className={classes.imgWrapper}>

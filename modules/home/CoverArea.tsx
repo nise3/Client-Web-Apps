@@ -145,9 +145,6 @@ const CoverArea = () => {
               <Grid item xl={3}>
                 <Box className={classes.trendSearchItem}>হেলথ কেয়ার জব</Box>
               </Grid>
-              <Grid item xl={3}>
-                <Box className={classes.trendSearchItem}>ওয়েব ডিজাইন কোর্স</Box>
-              </Grid>
             </Grid>
           </Container>
           <Grid item style={{position: 'relative'}}>
