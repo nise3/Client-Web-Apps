@@ -21,7 +21,11 @@ const DivisionsPage = () => {
   const [filters] = useState({name: 20});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {data, isLoading}: any = useFetchDivisions(filters);
+  const {
+    data,
+    isLoading,
+    mutate: mutateDivisions,
+  }: any = useFetchDivisions(filters);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -29,6 +33,7 @@ const DivisionsPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    mutateDivisions();
   }, []);
 
   const openAddEditModal = useCallback(
@@ -62,11 +67,13 @@ const DivisionsPage = () => {
         />,
       );
 
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {}, []);
+  const refreshDataTable = useCallback(() => {
+    mutateDivisions();
+  }, [mutateDivisions]);
 
   const columns = useMemo(
     () => [

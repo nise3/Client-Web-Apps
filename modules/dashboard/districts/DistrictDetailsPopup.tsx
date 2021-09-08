@@ -16,7 +16,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const DistrictDetailsPopup = ({itemId, ...props}: Props) => {
+const DistrictDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchDistrict(itemId);
 
@@ -36,7 +36,7 @@ const DistrictDetailsPopup = ({itemId, ...props}: Props) => {
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              onClick={() => props.openEditModal(itemData.id)}
+              onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
             />
           </>

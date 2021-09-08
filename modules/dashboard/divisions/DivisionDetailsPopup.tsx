@@ -17,7 +17,7 @@ type Props = {
 };
 
 const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const {data, isLoading} = useFetchDivision(itemId);
+  const {data: itemData, isLoading} = useFetchDivision(itemId);
   const {messages} = useIntl();
 
   return (
@@ -36,7 +36,7 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              onClick={() => openEditModal(data?.data?.id)}
+              onClick={() => openEditModal(itemData?.id)}
               isLoading={isLoading}
             />
           </>
@@ -45,28 +45,28 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_en']}
-              value={data?.data?.title_en}
+              value={itemData?.title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_bn']}
-              value={data?.data?.title_bn}
+              value={itemData?.title_bn}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.bbs_code']}
-              value={data?.data?.bbs_code}
+              value={itemData?.bbs_code}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={data?.data?.row_status} />}
+              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
               isLoading={isLoading}
             />
           </Grid>

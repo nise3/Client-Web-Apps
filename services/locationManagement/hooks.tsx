@@ -1,63 +1,51 @@
 import useSWR from 'swr';
 import {apiGet} from '../../@softbd/common/api';
-import {API_DISTRICTS, API_DIVISIONS} from '../../@softbd/common/apiRoutes';
+import {
+  API_DISTRICTS,
+  API_DIVISIONS,
+  API_UPAZILAS,
+} from '../../@softbd/common/apiRoutes';
 
-export function useFetchDivisions(params: any) {
-  const {
-    data: {data: {data = undefined, ...metaData} = {}} = {},
-    error,
-    isValidating,
-  } = useSWR([API_DIVISIONS, params], apiGet);
+function common({
+  data: {data: {data = undefined, ...metaData} = {}} = {},
+  error,
+  mutate,
+  isValidating,
+}: any) {
   return {
     data,
     metaData,
-    isLoading: !data && !error,
+    isLoading: isValidating && !data && !error,
+    mutate,
     error,
     isValidating,
   };
+}
+
+function useAxiosSWR(deps: any) {
+  return common(useSWR(deps, (url, params) => apiGet(url, {params})));
+}
+
+export function useFetchDivisions(params: any) {
+  return useAxiosSWR([API_DIVISIONS, params]);
 }
 
 export function useFetchDivision(divisionId: number | null) {
-  const {
-    data: {data = undefined, ...metaData} = {},
-    error,
-    isValidating,
-  } = useSWR(divisionId ? API_DIVISIONS + '/' + divisionId : null, apiGet);
-  return {
-    data,
-    metaData,
-    isLoading: !!divisionId && !data && !error,
-    error,
-    isValidating,
-  };
+  return useAxiosSWR(divisionId ? API_DIVISIONS + '/' + divisionId : null);
 }
 
 export function useFetchDistricts(params: any) {
-  const {
-    data: {data: {data = undefined, ...metaData} = {}} = {},
-    error,
-    isValidating,
-  } = useSWR([API_DISTRICTS, params], apiGet);
-  return {
-    data,
-    metaData,
-    isLoading: !data && !error,
-    error,
-    isValidating,
-  };
+  return useAxiosSWR([API_DISTRICTS, params]);
 }
 
 export function useFetchDistrict(districtId: number | null) {
-  const {
-    data: {data = undefined, ...metaData} = {},
-    error,
-    isValidating,
-  } = useSWR(districtId ? API_DISTRICTS + '/' + districtId : null, apiGet);
-  return {
-    data,
-    metaData,
-    isLoading: !!districtId && !data && !error,
-    error,
-    isValidating,
-  };
+  return useAxiosSWR(districtId ? API_DISTRICTS + '/' + districtId : null);
+}
+
+export function useFetchUpazilas(params: any) {
+  return useAxiosSWR([API_UPAZILAS, params]);
+}
+
+export function useFetchUpazila(upazilaId: number | null) {
+  return useAxiosSWR(upazilaId ? API_UPAZILAS + '/' + upazilaId : null);
 }

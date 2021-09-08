@@ -77,11 +77,11 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        title_en: itemData?.data?.title_en,
-        title_bn: itemData?.data?.title_bn,
-        bbs_code: itemData?.data?.bbs_code,
-        row_status: String(itemData?.data?.row_status),
-        loc_division_id: itemData?.data?.loc_division_id,
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        bbs_code: itemData?.bbs_code,
+        row_status: String(itemData?.row_status),
+        loc_division_id: itemData?.loc_division_id,
       });
     } else {
       reset(initialValues);

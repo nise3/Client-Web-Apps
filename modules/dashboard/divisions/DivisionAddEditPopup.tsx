@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -12,13 +12,13 @@ import Grid from '@material-ui/core/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   createDivision,
-  getDivision,
   updateDivision,
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchDivision} from '../../../services/locationManagement/hooks';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
@@ -52,7 +52,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {data: itemData, isLoading} = useFetchDivision(itemId);
 
   const {
     register,
@@ -65,25 +65,19 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getDivision(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            bbs_code: item?.bbs_code,
-            row_status: String(item?.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
+    if (itemId) {
+      if (itemData) {
+        reset({
+          title_en: itemData?.title_en,
+          title_bn: itemData?.title_bn,
+          bbs_code: itemData?.bbs_code,
+          row_status: String(itemData?.row_status),
+        });
       }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Division> = async (data: Division) => {
     if (isEdit && itemId) {

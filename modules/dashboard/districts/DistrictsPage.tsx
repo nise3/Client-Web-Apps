@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -7,10 +7,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteDistrict,
-  getAllDistricts,
-} from '../../../services/locationManagement/DistrictService';
+import {deleteDistrict} from '../../../services/locationManagement/DistrictService';
 import DistrictAddEditPopup from './DistrictAddEditPopup';
 import DistrictDetailsPopup from './DistrictDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -18,6 +15,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchDistricts} from '../../../services/locationManagement/hooks';
 
 const DistrictsPage = () => {
   const {messages} = useIntl();
@@ -26,21 +24,12 @@ const DistrictsPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [districts, setDistricts] = useState<Array<District>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      await loadDistrictData();
-    })();
-  }, []);
-
-  const loadDistrictData = async () => {
-    setIsLoading(true);
-    let response = await getAllDistricts();
-    if (response) setDistricts(response.data);
-    setIsLoading(false);
-  };
+  const [districtsFilter] = useState<any>({});
+  const {
+    data: districts,
+    mutate: mutateDistricts,
+    isLoading,
+  } = useFetchDistricts(districtsFilter);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -53,13 +42,10 @@ const DistrictsPage = () => {
     setSelectedItemId(itemId);
   }, []);
 
-  const openDetailsModal = useCallback(
-    (itemId: number) => {
-      setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
-    },
-    [selectedItemId],
-  );
+  const openDetailsModal = useCallback((itemId: number) => {
+    setIsOpenDetailsModal(true);
+    setSelectedItemId(itemId);
+  }, []);
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
@@ -75,15 +61,11 @@ const DistrictsPage = () => {
         />,
       );
 
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadDistrictData();
-    })();
-  }, []);
+  const refreshDataTable = useCallback(() => mutateDistricts(), []);
 
   const columns = useMemo(
     () => [
@@ -179,7 +161,7 @@ const DistrictsPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <DistrictDetailsPopup
             key={1}
             itemId={selectedItemId}

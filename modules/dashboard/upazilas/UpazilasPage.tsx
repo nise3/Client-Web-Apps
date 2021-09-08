@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -9,41 +9,26 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteUpazila,
-  getAllUpazilas,
-} from '../../../services/locationManagement/UpazilaService';
+import {deleteUpazila} from '../../../services/locationManagement/UpazilaService';
 import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
 const UpazilasPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      await loadUpazilasData();
-    })();
-  }, []);
-
-  const loadUpazilasData = async () => {
-    setIsLoading(true);
-    let response = await getAllUpazilas();
-    if (response) {
-      setUpazilas(response.data);
-    }
-    setIsLoading(false);
-  };
+  const [upazilasFilter] = useState({});
+  const {
+    data: upazilas,
+    mutate: mutateUpazilas,
+    isLoading,
+  } = useFetchUpazilas(upazilasFilter);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -78,15 +63,11 @@ const UpazilasPage = () => {
         />,
       );
 
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadUpazilasData();
-    })();
-  }, []);
+  const refreshDataTable = useCallback(() => mutateUpazilas(), []);
 
   const columns = useMemo(
     () => [
@@ -145,7 +126,7 @@ const UpazilasPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -186,7 +167,7 @@ const UpazilasPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <UpazilaDetailsPopup
             key={1}
             itemId={selectedItemId}
