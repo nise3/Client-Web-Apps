@@ -9580,6 +9580,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-multi-carousel@^2.6.5:
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/react-multi-carousel/-/react-multi-carousel-2.6.5.tgz#faeceb697b138c7a1c403c58ddc5f33cfc19b3f2"
+  integrity sha512-i5iuAm5XRT/h7uBL9/pGWeRsQXzqvjBrPVP1sobKgDKEvfZuKFpYp/alaQhTRM56Jtkb8jZpSqLn52Ku6jJbDg==
+
 react-perfect-scrollbar@^1.5.8:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/react-perfect-scrollbar/-/react-perfect-scrollbar-1.5.8.tgz#380959387a325c5c9d0268afc08b3f73ed5b3078"

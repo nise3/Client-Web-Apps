@@ -7,6 +7,9 @@ import InfoCardSection from './InfoCardSection';
 import SelfAssessment from './SelfAssessment';
 import StatisticsCardSection from './StatisticsCardSection';
 import Nise3WorkProcess from './Nise3WorkProcess';
+import RecentActivities from './RecentActivities';
+import PopularCourse from './PopularCourse';
+import SkillMatchingJobs from './SkillMatchingJobs';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,15 +24,16 @@ const Home: React.FC<{}> = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Header />
-          <CoverArea />
-          <InfoCardSection />
-          <SelfAssessment />
-          <StatisticsCardSection />
-          <Nise3WorkProcess />
-        </Grid>
+      <Grid container>
+        <Header />
+        <CoverArea />
+        <InfoCardSection />
+        <SelfAssessment />
+        <StatisticsCardSection />
+        <Nise3WorkProcess />
+        <RecentActivities />
+        <PopularCourse />
+        <SkillMatchingJobs />
       </Grid>
     </div>
   );
