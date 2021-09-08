@@ -223,7 +223,7 @@ export default function ReactTable<T extends object>({
     setPageSize(parseInt(event.target.value, 10));
     gotoPage(0);
   };
-
+  
   return (
     <>
       <Grid container>
@@ -263,7 +263,10 @@ export default function ReactTable<T extends object>({
                 ))}
               </TableHead>
               {loading ? (
-                <TableSkeleton columnNumbers={headerGroups[0].headers.length} />
+                <TableSkeleton
+                  rowSize={pageSize}
+                  columnNumbers={headerGroups[0].headers.length}
+                />
               ) : (
                 <TableBody {...(getTableBodyProps() as any)}>
                   {page.map((row) => {
