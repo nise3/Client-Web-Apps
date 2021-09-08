@@ -89,8 +89,6 @@ type TrainingCenter = {
 };
 type Trainer = {
   id: number;
-  title_en: string;
-  title_bn: string;
   trainer_name_en: string;
   trainer_name_bn: string;
   institute_id: number;
@@ -107,8 +105,6 @@ type Trainer = {
   nationality: string;
   nid: string;
   passport_number: string;
-  physical_disabilities_status: number;
-  freedom_fighter_status: number;
   present_address_division_id: number;
   present_address_district_id: number;
   present_address_upazila_id: number;
@@ -119,15 +115,9 @@ type Trainer = {
   permanent_house_address: string;
   educational_qualification: string;
   skills: string;
-  photo: string;
-  signature: string;
-  branches_title_bn: string;
-  institutes_title_en : string;
-  training_centers_title_en : string;
   row_status: string;
   updated_at?: string;
   crated_at?: string;
-
 };
 
 type Batch = {

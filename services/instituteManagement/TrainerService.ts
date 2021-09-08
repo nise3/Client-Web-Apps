@@ -11,13 +11,10 @@ export const getAllTrainers = async (params = {}) => {
   } catch (error) {
     catchBlockHandler(error);
   }
-
 };
 export const getTrainer = async (trainerId: number) => {
   try {
-    let response: any = await apiGet(
-      API_INSTITUTE_SERVICES + '/' + trainerId,
-    );
+    let response: any = await apiGet(API_INSTITUTE_SERVICES + '/' + trainerId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -36,6 +33,7 @@ export const deleteTrainer = async (trainerId: number) => {
 export const createTrainer = async (data: Trainer) => {
   try {
     let response: any = await apiPost(API_INSTITUTE_SERVICES, data);
+    // console.log( "Response -- ",response.data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

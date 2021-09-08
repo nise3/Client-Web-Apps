@@ -9,7 +9,9 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {getTrainer} from '../../../services/instituteManagement/TrainerService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-
+import {genders} from '../../../@softbd/common/helpers';
+import {religions} from '../../../@softbd/common/helpers';
+import {maritial_status} from '../../../@softbd/common/helpers';
 type Props = {
   itemId: number | null;
   onClose: () => void;
@@ -82,7 +84,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.branches_title_en']}
+              label={messages['menu.branch']}
               value={itemData?.branches_title_bn}
               isLoading={isLoading}
             />
@@ -153,15 +155,8 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.freedom_fighter_status']}
-              value={itemData?.freedom_fighter_status}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.gender']}
-              value={itemData?.gender}
+              value={genders[itemData?.gender]?.label}
               isLoading={isLoading}
             />
           </Grid>
@@ -175,7 +170,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.marital_status']}
-              value={itemData?.marital_status}
+              value={maritial_status[itemData?.maritial_status]?.label}
               isLoading={isLoading}
             />
           </Grid>
@@ -209,20 +204,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.photo']}
-              value={itemData?.photo}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.physical_disabilities_status']}
-              value={itemData?.physical_disabilities_status}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.present_house_address']}
               value={itemData?.present_house_address}
               isLoading={isLoading}
@@ -231,17 +212,11 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.religion']}
-              value={itemData?.religion}
+              value={religions[itemData?.religion]?.label}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.signature']}
-              value={itemData?.signature}
-              isLoading={isLoading}
-            />
-          </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['menu.skill']}
