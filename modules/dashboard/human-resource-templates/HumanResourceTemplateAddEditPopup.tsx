@@ -115,7 +115,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               title_bn: item.title_bn,
               organization_id: item.organization_id,
               organization_unit_type_id: item.organization_unit_type_id,
-              parent_id: item.parent_id,
+              parent_id: item?.parent_id ? item.parent_id : '',
               rank_id: item?.rank_id,
               display_order: item?.display_order,
               is_designation: String(item.is_designation),
@@ -132,7 +132,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             initialValues.organization_id = item.organization_id;
             initialValues.organization_unit_type_id =
               item.organization_unit_type_id;
-            initialValues.parent_id = item.parent_id;
+            initialValues.parent_id = item?.parent_id ? item.parent_id : '';
             reset(initialValues);
           }
         }
@@ -163,6 +163,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
       data: HumanResourceTemplate,
     ) => {
+      data.parent_id = data.parent_id ? data.parent_id : null;
       if (isEdit && itemId) {
         let response = await updateHumanResourceTemplate(itemId, data);
         if (isResponseSuccess(response)) {
@@ -295,6 +296,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title_bn']}
               errorInstance={errors}
+              inputProps={{readOnly: !humanResourceTemplate?.parent_id}}
             />
           </Grid>
           <Grid item xs={6}>
