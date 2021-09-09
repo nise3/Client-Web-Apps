@@ -59,16 +59,18 @@ const OrgChart = () => {
   const [chartData, setChartData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const router = useRouter();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedItemParentId, setSelectedItemParentId] = useState<
+    number | null
+  >(null);
+  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
   const {organization_unit_type_id} = router.query;
 
   useEffect(() => {
     getHierarchyChartData(organization_unit_type_id, setChartData);
   }, [organization_unit_type_id]);
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -125,7 +127,7 @@ const OrgChart = () => {
             if (isResponseSuccess(response)) {
               successStack(
                 <IntlMessages
-                  id='common.subject_created_successfully'
+                  id='common.subject_updated_successfully'
                   values={{
                     subject: (
                       <IntlMessages id='human_resource_template.label' />
@@ -145,9 +147,10 @@ const OrgChart = () => {
     });
   }, []);
 
-  const handleClick = (event: any) => {
+  const handleNodeClick = (event: any) => {
     setAnchorEl(event.id);
     setSelectedItemId(event.id);
+    setSelectedItemParentId(event.parent_id);
   };
 
   const handleClose = () => {
@@ -181,7 +184,7 @@ const OrgChart = () => {
       <OrganizationChart
         datasource={chartData}
         draggable={true}
-        onClickNode={handleClick}
+        onClickNode={handleNodeClick}
       />
       {
         <Popover
@@ -205,13 +208,15 @@ const OrgChart = () => {
               <EditButton
                 onClick={() => openAddEditModal(selectedItemId, true)}
               />
-              <DeleteButton
-                deleteAction={() =>
-                  selectedItemId &&
-                  deleteHumanResourceFromTemplate(selectedItemId)
-                }
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              {selectedItemParentId && (
+                <DeleteButton
+                  deleteAction={() =>
+                    selectedItemId &&
+                    deleteHumanResourceFromTemplate(selectedItemId)
+                  }
+                  deleteTitle={messages['common.delete_confirm'] as string}
+                />
+              )}
             </DatatableButtonGroup>
           </Typography>
         </Popover>

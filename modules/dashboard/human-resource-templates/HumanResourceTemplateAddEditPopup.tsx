@@ -132,7 +132,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             initialValues.organization_id = item.organization_id;
             initialValues.organization_unit_type_id =
               item.organization_unit_type_id;
-            initialValues.parent_id = item?.parent_id ? item.parent_id : '';
+            initialValues.parent_id = item.id;
             reset(initialValues);
           }
         }
