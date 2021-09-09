@@ -66,11 +66,11 @@ const OrgChart = () => {
   >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
-  const {organization_unit_type_id} = router.query;
+  const {organizationUnitTypeId} = router.query;
 
   useEffect(() => {
-    getHierarchyChartData(organization_unit_type_id, setChartData);
-  }, [organization_unit_type_id]);
+    getHierarchyChartData(organizationUnitTypeId, setChartData);
+  }, [organizationUnitTypeId]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -161,8 +161,8 @@ const OrgChart = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const reloadData = useCallback(() => {
-    getHierarchyChartData(organization_unit_type_id, setChartData);
-  }, [organization_unit_type_id]);
+    getHierarchyChartData(organizationUnitTypeId, setChartData);
+  }, [organizationUnitTypeId]);
 
   const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
     let response = await deleteHumanResourceTemplate(humanResourceId);
