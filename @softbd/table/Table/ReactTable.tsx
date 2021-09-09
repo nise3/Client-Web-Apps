@@ -121,13 +121,57 @@ const filterTypes = {
   rowStatusFilter: rowStatusFilter,
 };
 
+interface TReactTableColumns {
+  Header: any;
+  accessor: string;
+  disableFilters: boolean;
+  disableSortBy: boolean;
+  filter: 'any';
+  Cell: 'any';
+}
+
+interface TReactTable {
+  columns: Array<TReactTableColumns>;
+  leftToolbarHtml?: string | React.ReactNode;
+  fetchData?: any;
+  pageCount?: number;
+  skipPageResetRef?: boolean;
+  skipDefaultFilter?: boolean;
+  loading?: boolean;
+  toggleResetTable: boolean;
+  pageSize?: number;
+  hideToolbar?: boolean;
+  pageSizeData?: number[];
+  totalCount?: number;
+  data?: any[];
+
+  [x: string]: any;
+}
+
+/**
+ * @param columns
+ * @param leftToolbarHtml
+ * @param fetchData
+ * @param controlledPageCount
+ * @param skipPageResetRef
+ * @param skipDefaultFilter
+ * @param loading
+ * @param toggleResetTable
+ * @param controlledPageSize
+ * @param hideToolbar
+ * @param pageSizeData
+ * @param data
+ * @param totalCount
+ * @param props
+ * @constructor
+ */
 export default function ReactTable<T extends object>({
   columns,
   leftToolbarHtml = '',
   fetchData,
   pageCount: controlledPageCount,
-  skipPageResetRef = false,
-  skipDefaultFilter = false,
+  skipPageResetRef = typeof fetchData !== 'undefined',
+  skipDefaultFilter = typeof fetchData === 'undefined',
   loading = false,
   toggleResetTable = false,
   pageSize: controlledPageSize,
@@ -136,7 +180,7 @@ export default function ReactTable<T extends object>({
   data,
   totalCount = data ? data.length : 0,
   ...props
-}: any): ReactElement {
+}: TReactTable | any): ReactElement {
   const {messages} = useIntl();
   const isServerSideTable = typeof fetchData !== 'undefined';
 
@@ -223,7 +267,7 @@ export default function ReactTable<T extends object>({
     setPageSize(parseInt(event.target.value, 10));
     gotoPage(0);
   };
-  
+
   return (
     <>
       <Grid container>

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -151,7 +151,6 @@ const ServicesPage = () => {
           columns={columns}
           data={services || []}
           loading={isLoading}
-          skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (
           <ServiceAddEditPopup

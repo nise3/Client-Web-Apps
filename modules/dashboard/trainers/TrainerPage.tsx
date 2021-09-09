@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -141,14 +141,12 @@ const TrainersPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          skipDefaultFilter={true}
           toggleResetTable={isToggleTable}
           data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          skipPageResetRef={false}
         />
         {isOpenAddEditModal && (
           <TrainerAddEditPopup
