@@ -1,6 +1,5 @@
 import moment from 'moment';
 
-
 export const genders = [
   {
     id: 0,
@@ -10,16 +9,20 @@ export const genders = [
     id: 1,
     label: 'Female',
   },
+  {
+    id: 2,
+    label: 'Others',
+  },
 ];
 
 export const maritial_status = [
   {
     id: 0,
-    label: 'Married',
+    label: 'Unmarried',
   },
   {
     id: 1,
-    label: 'Unmarried',
+    label: 'Married',
   },
 ];
 
@@ -42,7 +45,7 @@ export const religions = [
   },
   {
     id: 4,
-    label: 'Others'
+    label: 'Others',
   },
 ];
 export const catchBlockHandler = (error: any, message = '') => {
@@ -50,8 +53,6 @@ export const catchBlockHandler = (error: any, message = '') => {
   //console.log('catchBlockHandler', error);
   //errorStack(message || error.message);
 };
-
-
 
 export const getGenderText = (genderCode: string): string => {
   switch (genderCode) {
