@@ -541,7 +541,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id='passport_number'
-            label={messages['common.passport_number_bn']}
+            label={messages['common.passport_number']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

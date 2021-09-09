@@ -221,9 +221,16 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    loadBranchByInstitute(instituteId);
-    loadProgrammeByInstitute(instituteId);
-    loadCourseByInstitute(instituteId);
+    if (instituteId) {
+      loadBranchByInstitute(instituteId);
+      loadProgrammeByInstitute(instituteId);
+      loadCourseByInstitute(instituteId);
+    } else {
+      setBranches([]);
+      setProgrammes([]);
+      setCourses([]);
+      setTrainingCenters([]);
+    }
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
@@ -238,6 +245,10 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       });
       if (response) {
         setBranches(response.data);
+        setTrainingCenters([]);
+      } else {
+        setBranches([]);
+        setTrainingCenters([]);
       }
     })();
   };
@@ -250,18 +261,26 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       });
       if (response) {
         setProgrammes(response.data);
+      } else {
+        setProgrammes([]);
       }
     })();
   };
 
   const loadTrainingCenterByBranch = (branchId: number) => {
     (async () => {
-      let response = await getAllTrainingCenters({
-        row_status: RowStatus.ACTIVE,
-        branch_id: branchId,
-      });
-      if (response) {
-        setTrainingCenters(response.data);
+      if (branchId) {
+        let response = await getAllTrainingCenters({
+          row_status: RowStatus.ACTIVE,
+          branch_id: branchId,
+        });
+        if (response) {
+          setTrainingCenters(response.data);
+        } else {
+          setTrainingCenters([]);
+        }
+      } else {
+        setTrainingCenters([]);
       }
     })();
   };
@@ -274,6 +293,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       });
       if (response) {
         setCourses(response.data);
+      } else {
+        setCourses([]);
       }
     })();
   };

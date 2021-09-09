@@ -25,7 +25,7 @@ export const onJwtUserSignUp = (body: {
       cookies.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
       await loadJWTUser(dispatch);
-    } catch (err) {
+    } catch (err: any) {
       console.log('error!!!!', err.response.data.error);
       dispatch(fetchError(err.response.data.error));
     }
@@ -48,7 +48,7 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
       cookies.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
       await loadJWTUser(dispatch);
-    } catch (err) {
+    } catch (err: any) {
       console.log('error!!!!', err.response.data.error);
       dispatch(fetchError(err.response.data.error));
     }
@@ -76,7 +76,7 @@ export const loadJWTUser = async (dispatch: Dispatch<AppActions | any>) => {
       type: UPDATE_AUTH_USER,
       payload: getUserObject(res.data),
     });
-  } catch (err) {
+  } catch (err: any) {
     console.log('error!!!!', err.response.error);
     dispatch(fetchError(err.response.error));
   }

@@ -51,7 +51,6 @@ const TrainingCenterDetailsPopup = ({
             <IntlMessages id='training_center.label' />
           </>
         }
-        maxWidth={'sm'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

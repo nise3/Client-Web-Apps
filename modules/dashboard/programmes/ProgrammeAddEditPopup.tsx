@@ -47,7 +47,6 @@ const initialValues = {
   title_bn: '',
   institute_id: 0,
   code: '',
-  logo: '',
   description: '',
   row_status: '1',
 };
@@ -81,13 +80,12 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         if (response) {
           const {data: item} = response;
           reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            institute_id: item.institute_id,
-            code: item.programme_code,
-            logo: item?.programme_logo,
+            title_en: item?.title_en,
+            title_bn: item?.title_bn,
+            institute_id: item?.institute_id,
+            code: item?.code,
             description: item?.description,
-            row_status: String(item.row_status),
+            row_status: String(item?.row_status),
           });
         }
       } else {
@@ -194,15 +192,6 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           <CustomTextInput
             id='code'
             label={messages['programme.programme_code']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='logo'
-            label={messages['programme.programme_logo']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

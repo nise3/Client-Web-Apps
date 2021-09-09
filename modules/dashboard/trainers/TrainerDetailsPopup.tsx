@@ -190,7 +190,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.passport_number_bn']}
+              label={messages['common.passport_number']}
               value={itemData?.passport_number}
               isLoading={isLoading}
             />

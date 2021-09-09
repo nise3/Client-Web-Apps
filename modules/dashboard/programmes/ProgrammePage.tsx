@@ -91,12 +91,9 @@ const ProgrammePage = () => {
         accessor: 'institute_title_en',
       },
       {
-        Header: messages['programme.programme_code'],
-        accessor: 'programme_code',
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;

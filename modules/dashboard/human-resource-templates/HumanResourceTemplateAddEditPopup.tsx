@@ -68,6 +68,11 @@ const initialValues = {
 
 const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> =
   ({itemId, refreshDataTable, ...props}) => {
+    /**
+     * itemId = "m25" transform it 25 as integer
+     */
+    itemId = Number(itemId?.toString().substring(1));
+
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
     const isEdit = props.isEdit;

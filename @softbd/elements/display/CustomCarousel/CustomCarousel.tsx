@@ -11,6 +11,7 @@ const CustomCarousel = ({children}: Props) => {
     <Carousel
       additionalTransfrom={0}
       arrows
+      autoPlay={true}
       autoPlaySpeed={3000}
       centerMode={false}
       className=''

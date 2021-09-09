@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {DateRangeOutlined} from '@material-ui/icons';
+import {ArrowRightAlt, DateRangeOutlined} from '@material-ui/icons';
 import SectionTitle from './SectionTitle';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -141,7 +141,10 @@ const RecentActivities = () => {
           </Grid>
         </Grid>
         <Grid container justifyContent='flex-end'>
-          <Button variant='outlined' color='primary'>
+          <Button
+            variant='outlined'
+            color='primary'
+            endIcon={<ArrowRightAlt />}>
             আরো দেখুন
           </Button>
         </Grid>

@@ -10,9 +10,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import {Container} from '@material-ui/core';
-import logo from '/public/images/logo-with-name.png';
-import Image from 'next/image';
+import {Box, Button, Container} from '@material-ui/core';
+import Link from 'next/link';
+import {ExitToApp} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,6 +85,11 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('md')]: {
         display: 'none',
       },
+    },
+    signinButton: {
+      width: '160px',
+      color: '#fff',
+      background: '#682988',
     },
   }),
 );
@@ -170,7 +175,7 @@ export default function Header() {
   );
 
   return (
-    <div className={classes.grow}>
+    <Box className={classes.grow}>
       <Container maxWidth='md' disableGutters>
         <AppBar position='static' className={classes.appBar}>
           <Toolbar>
@@ -186,31 +191,40 @@ export default function Header() {
               src='/images/logo-with-name.png'
               alt='crema-logo'
             />
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <IconButton aria-label='show 4 new mails' color='inherit'>
-                <Badge badgeContent={4} color='secondary'>
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label='show 17 new notifications'
-                color='inherit'>
-                <Badge badgeContent={17} color='secondary'>
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                edge='end'
-                aria-label='account of current user'
-                aria-controls={menuId}
-                aria-haspopup='true'
-                onClick={handleProfileMenuOpen}
-                color='inherit'>
-                <AccountCircle />
-              </IconButton>
-            </div>
-            <div className={classes.sectionMobile}>
+            <Box className={classes.grow} />
+            <Box className={classes.sectionDesktop}>
+              <Link href='/signin'>
+                <Button
+                  variant='contained'
+                  className={classes.signinButton}
+                  endIcon={<ExitToApp />}>
+                  প্রবেশ করুন
+                </Button>
+              </Link>
+
+              {/*<IconButton aria-label='show 4 new mails' color='inherit'>*/}
+              {/*  <Badge badgeContent={4} color='secondary'>*/}
+              {/*    <MailIcon />*/}
+              {/*  </Badge>*/}
+              {/*</IconButton>*/}
+              {/*<IconButton*/}
+              {/*  aria-label='show 17 new notifications'*/}
+              {/*  color='inherit'>*/}
+              {/*  <Badge badgeContent={17} color='secondary'>*/}
+              {/*    <NotificationsIcon />*/}
+              {/*  </Badge>*/}
+              {/*</IconButton>*/}
+              {/*<IconButton*/}
+              {/*  edge='end'*/}
+              {/*  aria-label='account of current user'*/}
+              {/*  aria-controls={menuId}*/}
+              {/*  aria-haspopup='true'*/}
+              {/*  onClick={handleProfileMenuOpen}*/}
+              {/*  color='inherit'>*/}
+              {/*  <AccountCircle />*/}
+              {/*</IconButton>*/}
+            </Box>
+            <Box className={classes.sectionMobile}>
               <IconButton
                 aria-label='show more'
                 aria-controls={mobileMenuId}
@@ -219,12 +233,12 @@ export default function Header() {
                 color='inherit'>
                 <MoreIcon />
               </IconButton>
-            </div>
+            </Box>
           </Toolbar>
         </AppBar>
       </Container>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </Box>
   );
 }
