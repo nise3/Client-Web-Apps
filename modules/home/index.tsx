@@ -10,6 +10,8 @@ import Nise3WorkProcess from './Nise3WorkProcess';
 import RecentActivities from './RecentActivities';
 import PopularCourse from './PopularCourse';
 import SkillMatchingJobs from './SkillMatchingJobs';
+import Partners from './Partners';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +36,8 @@ const Home: React.FC<{}> = () => {
         <RecentActivities />
         <PopularCourse />
         <SkillMatchingJobs />
+        <Partners />
+        <Footer />
       </Grid>
     </div>
   );
