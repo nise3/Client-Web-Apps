@@ -162,7 +162,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='description'
             label={messages['common.description']}
