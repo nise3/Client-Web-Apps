@@ -14,7 +14,11 @@ import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../../@softbd/common/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {deleteHumanResourceTemplate} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
+import {
+  deleteHumanResourceTemplate,
+  getHumanResourceTemplate,
+  updateHumanResourceTemplate,
+} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
 import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
@@ -79,15 +83,65 @@ const OrgChart = () => {
     setIsOpenAddEditModal(true);
   };
 
+  function getElementId(
+    ele: any,
+    step: number,
+    maxStep: number,
+  ): number | boolean {
+    if (step > maxStep) return false;
+    if (ele.id) {
+      return ele.id;
+    }
+
+    return getElementId(ele.parentNode, step + 1, maxStep);
+  }
+
   useEffect(() => {
     const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
+    let draggedNodeId: number | null = null;
+    let droppedNodeId = null;
+
+    node.map((trigger) => {
+      trigger.addEventListener('dragstart', (e: any) => {
+        draggedNodeId = e.target?.id;
+      });
+    });
+
     node.map((trigger) => {
       trigger.addEventListener('drop', (e: any) => {
-        let target = e.target;
-        if (!target.id) {
-          console.log(target);
-        }
+        droppedNodeId = getElementId(e.target, 0, 3);
+        draggedNodeId = Number(draggedNodeId?.toString().substring(1));
+        droppedNodeId = Number(droppedNodeId.toString().substring(1));
+        let humanResourceTemplate;
+        (async () => {
+          let response = await getHumanResourceTemplate(draggedNodeId);
+          if (response) {
+            humanResourceTemplate = response.data;
+            humanResourceTemplate.parent_id = droppedNodeId;
+            response = await updateHumanResourceTemplate(
+              draggedNodeId,
+              humanResourceTemplate,
+            );
+            if (isResponseSuccess(response)) {
+              successStack(
+                <IntlMessages
+                  id='common.subject_created_successfully'
+                  values={{
+                    subject: (
+                      <IntlMessages id='human_resource_template.label' />
+                    ),
+                  }}
+                />,
+              );
+            }
+          }
+        })();
       });
+    });
+
+    node.map((trigger) => {
+      trigger.removeEventListener('drop', () => {});
+      trigger.removeEventListener('dragstart', () => {});
     });
   }, []);
 
@@ -102,7 +156,7 @@ const OrgChart = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  
+
   const reloadData = useCallback(() => {
     getHierarchyChartData(organization_unit_type_id, setChartData);
   }, [organization_unit_type_id]);
