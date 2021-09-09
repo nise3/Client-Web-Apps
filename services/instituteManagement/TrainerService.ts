@@ -33,7 +33,6 @@ export const deleteTrainer = async (trainerId: number) => {
 export const createTrainer = async (data: Trainer) => {
   try {
     let response: any = await apiPost(API_INSTITUTE_SERVICES, data);
-    // console.log( "Response -- ",response.data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

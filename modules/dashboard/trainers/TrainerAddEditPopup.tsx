@@ -10,7 +10,10 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_BANGLA,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -18,6 +21,7 @@ import {useIntl} from 'react-intl';
 import {
   getMomentDateFormat,
   isResponseSuccess,
+  isValidationError,
 } from '../../../@softbd/common/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -34,6 +38,7 @@ import {genders} from '../../../@softbd/common/helpers';
 import {religions} from '../../../@softbd/common/helpers';
 import {maritial_status} from '../../../@softbd/common/helpers';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -49,6 +54,12 @@ const validationSchema = yup.object().shape({
     .required()
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
     .label('Trainer Name(Bn)'),
+  mobile: yup
+    .string()
+    .trim()
+    .required()
+    .matches(MOBILE_NUMBER_REGEX, 'Enter valid Number')
+    .label('Mobile Number'),
   email: yup.string().required().email('Enter valid email').label('Email'),
   institute_id: yup.string().trim().required().label('Institutes'),
   nationality: yup.string().trim().required().label('nationality'),
@@ -113,6 +124,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     control,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -156,6 +168,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             skills: item?.skills,
             row_status: String(item?.row_status),
           });
+
         }
       } else {
         reset(initialValues);
@@ -212,6 +225,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     }
   };
 
+
   const onInstituteChange = useCallback((instituteId: number) => {
     loadBranchByInstitute(instituteId);
   }, []);
@@ -246,6 +260,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   };
   const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
     if (isEdit && itemId) {
+      console.log('data--', data);
       let response = await updateTrainer(itemId, data);
       if (isResponseSuccess(response)) {
         successStack(
@@ -268,6 +283,10 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         );
         props.onClose();
         props.refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(response.errors, setError);
+        }
       }
     }
   };
