@@ -23,6 +23,21 @@ import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
 
+const makeChartData = (item: any) => {
+  item.id = 'm' + item.id;
+  item.title = item.title_en;
+  item.name = item.title_en;
+
+  if (item.children && Array.isArray(item.children)) {
+    item.children.map((node: any) => {
+      makeChartData(node);
+    });
+  } else {
+    return item;
+  }
+  return item;
+};
+
 const getHierarchyChartData = async (
   organization_unit_type_id: any,
   setChartData: any,
@@ -33,20 +48,7 @@ const getHierarchyChartData = async (
   if (response) {
     const {data: item} = response;
     if (item) {
-      item.id = 'm' + item.id;
-      item.title = item.title_en;
-      item.name = item.title_en;
-      if (item.children && Array.isArray(item.children)) {
-        item.children.map((node: any) => {
-          node.id = 'm' + node.id;
-          node.title = node.title_en;
-          node.name = node.title_bn;
-        });
-      } else {
-        item.children.id = 'm' + item.children.id;
-        item.children.title = item.children.title_en;
-        item.children.name = item.children.title_en;
-      }
+      makeChartData(item);
       setChartData(item);
     }
   }
