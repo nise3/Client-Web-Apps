@@ -19,6 +19,35 @@ import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
 
+const getHierarchyChartData = async (
+  organization_unit_type_id: any,
+  setChartData: any,
+) => {
+  let response = await getOrganizationUnitTypeHierarchy(
+    organization_unit_type_id,
+  );
+  if (response) {
+    const {data: item} = response;
+    if (item) {
+      item.id = 'm' + item.id;
+      item.title = item.title_en;
+      item.name = item.title_en;
+      if (item.children && Array.isArray(item.children)) {
+        item.children.map((node: any) => {
+          node.id = 'm' + node.id;
+          node.title = node.title_en;
+          node.name = node.title_bn;
+        });
+      } else {
+        item.children.id = 'm' + item.children.id;
+        item.children.title = item.children.title_en;
+        item.children.name = item.children.title_en;
+      }
+      setChartData(item);
+    }
+  }
+};
+
 const OrgChart = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -30,34 +59,8 @@ const OrgChart = () => {
   const {organization_unit_type_id} = router.query;
 
   useEffect(() => {
-    getHierarchyChartData();
+    getHierarchyChartData(organization_unit_type_id, setChartData);
   }, [organization_unit_type_id]);
-
-  const getHierarchyChartData = async () => {
-    let response = await getOrganizationUnitTypeHierarchy(
-      organization_unit_type_id,
-    );
-    if (response) {
-      const {data: item} = response;
-      if (item) {
-        item.id = 'm' + item.id;
-        item.title = item.title_en;
-        item.name = item.title_en;
-        if (item.children && Array.isArray(item.children)) {
-          item.children.map((node: any) => {
-            node.id = 'm' + node.id;
-            node.title = node.title_en;
-            node.name = node.title_bn;
-          });
-        } else {
-          item.children.id = 'm' + item.children.id;
-          item.children.title = item.children.title_en;
-          item.children.name = item.children.title_en;
-        }
-        setChartData(item);
-      }
-    }
-  };
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -99,9 +102,10 @@ const OrgChart = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const reloadData = () => {
-    getHierarchyChartData();
-  };
+  
+  const reloadData = useCallback(() => {
+    getHierarchyChartData(organization_unit_type_id, setChartData);
+  }, [organization_unit_type_id]);
 
   const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
     let response = await deleteHumanResourceTemplate(humanResourceId);
