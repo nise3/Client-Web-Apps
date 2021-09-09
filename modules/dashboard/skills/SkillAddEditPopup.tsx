@@ -27,11 +27,12 @@ interface SkillAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
+  title_en: yup.string().trim().required().label('Title[En]'),
   title_bn: yup
     .string()
     .trim()
-    .required('Enter title (Bn)')
+    .required()
+    .label('Title[Bn]')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
   description: yup.string(),
   row_status: yup.string(),
@@ -168,6 +169,8 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12}>

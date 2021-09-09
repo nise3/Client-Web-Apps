@@ -195,6 +195,8 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12}>

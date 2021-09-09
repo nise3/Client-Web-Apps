@@ -18,6 +18,7 @@ import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUni
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import {Button} from '@material-ui/core';
+import Link from 'next/link';
 
 const OrganizationUnitTypePage = () => {
   const {successStack} = useNotiStack();
@@ -106,7 +107,7 @@ const OrganizationUnitTypePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          let HREF =
+          const URL =
             '/../../dashboard/organization-unit-types/org-chart/__'.replace(
               '__',
               String(data.id),
@@ -119,9 +120,12 @@ const OrganizationUnitTypePage = () => {
                 deleteAction={() => deleteOrganizationUnitTypeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              <Button href={HREF} variant='outlined'>
-                Hierarchy
-              </Button>
+
+              <Link href={URL} passHref>
+                <Button variant={'outlined'}>
+                  <a>Hierarchy</a>
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },
