@@ -17,10 +17,22 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import {Button} from '@material-ui/core';
+import {Button, makeStyles} from '@material-ui/core';
 import Link from 'next/link';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const OrganizationUnitTypePage = () => {
+  const classes = useStyles();
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
@@ -122,8 +134,11 @@ const OrganizationUnitTypePage = () => {
               />
 
               <Link href={URL} passHref>
-                <Button variant={'outlined'}>
-                  <a>Hierarchy</a>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  <a>{messages['common.hierarchy']}</a>
                 </Button>
               </Link>
             </DatatableButtonGroup>
