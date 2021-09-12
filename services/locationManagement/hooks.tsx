@@ -1,30 +1,9 @@
-import useSWR from 'swr';
-import {apiGet} from '../../@softbd/common/api';
 import {
   API_DISTRICTS,
   API_DIVISIONS,
   API_UPAZILAS,
 } from '../../@softbd/common/apiRoutes';
-
-function common({
-  data: {data: {data = undefined, ...metaData} = {}} = {},
-  error,
-  mutate,
-  isValidating,
-}: any) {
-  return {
-    data,
-    metaData,
-    isLoading: isValidating && !data && !error,
-    mutate,
-    error,
-    isValidating,
-  };
-}
-
-function useAxiosSWR(deps: any) {
-  return common(useSWR(deps, (url, params) => apiGet(url, {params})));
-}
+import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchDivisions(params: any) {
   return useAxiosSWR([API_DIVISIONS, params]);
