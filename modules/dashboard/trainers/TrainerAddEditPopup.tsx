@@ -168,7 +168,21 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             skills: item?.skills,
             row_status: String(item?.row_status),
           });
+          loadDistrictsByDivision(
+            item?.present_address_division_id,
+            true,
+            false,
+          );
+          loadDistrictsByDivision(
+            item?.permanent_address_division_id,
+            false,
+            false,
+          );
+          loadUpazilasByDistrict(item?.present_address_district_id, true);
+          loadUpazilasByDistrict(item?.permanent_address_district_id, false);
 
+          loadBranchByInstitute(item?.institute_id);
+          loadTrainingCenterByBranch(item?.branch_id);
         }
       } else {
         reset(initialValues);
@@ -198,33 +212,52 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const handleDivisionChange = async (
     divisionId: number,
     isPresent: boolean,
+    isChanged: boolean,
   ) => {
-    let response = await getAllDistricts({division_id: divisionId});
-    if (response) {
-      if (isPresent) {
-        setPresentDistricts(response.data);
-        setPresentUpazilas([]);
-      } else {
-        setPermanentDistricts(response.data);
-        setPermanentUpazilas([]);
+    loadDistrictsByDivision(divisionId, isPresent, isChanged);
+  };
+
+  const loadDistrictsByDivision = (
+    divisionId: number,
+    isPresent: boolean,
+    isChanged: boolean,
+  ) => {
+    (async () => {
+      let response = await getAllDistricts({division_id: divisionId});
+      if (response) {
+        if (isPresent) {
+          setPresentDistricts(response.data);
+          if (isChanged) {
+            setPresentUpazilas([]);
+          }
+        } else {
+          setPermanentDistricts(response.data);
+          if (isChanged) {
+            setPermanentUpazilas([]);
+          }
+        }
       }
-    }
+    })();
   };
 
   const handleDistrictChange = async (
     districtId: number,
     isPresent: boolean,
   ) => {
-    let response = await getAllUpazilas({district_id: districtId});
-    if (response) {
-      if (isPresent) {
-        setPresentUpazilas(response.data);
-      } else {
-        setPermanentUpazilas(response.data);
-      }
-    }
+    loadUpazilasByDistrict(districtId, isPresent);
   };
-
+  const loadUpazilasByDistrict = (districtId: number, isPresent: boolean) => {
+    (async () => {
+      let response = await getAllUpazilas({districtId: districtId});
+      if (response) {
+        if (isPresent) {
+          setPresentUpazilas(response.data);
+        } else {
+          setPermanentUpazilas(response.data);
+        }
+      }
+    })();
+  };
 
   const onInstituteChange = useCallback((instituteId: number) => {
     loadBranchByInstitute(instituteId);
@@ -394,7 +427,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='present_address_division_id'
-            label={messages['common.division_title_bn_present_address']}
+            label={messages['common.division_title_present_address']}
             isLoading={isLoading}
             control={control}
             options={divisions}
@@ -403,7 +436,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
             onChange={useCallback((divisionId: number) => {
               (async () => {
-                await handleDivisionChange(divisionId, true);
+                await handleDivisionChange(divisionId, true, true);
               })();
             }, [])}
           />
@@ -411,7 +444,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_division_id'
-            label={messages['common.division_title_bn_permanent_address']}
+            label={messages['common.division_title_permanent_address']}
             isLoading={isLoading}
             control={control}
             options={divisions}
@@ -420,7 +453,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
             onChange={useCallback((divisionId: number) => {
               (async () => {
-                await handleDivisionChange(divisionId, false);
+                await handleDivisionChange(divisionId, false, true);
               })();
             }, [])}
           />
@@ -428,16 +461,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='present_address_district_id'
-            label={messages['common.district_title_bn_present_address']}
+            label={messages['common.district_title_present_address']}
             isLoading={isLoading}
             control={control}
             options={presentDistricts}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((divisionId: number) => {
+            onChange={useCallback((present_address_district_id: number) => {
               (async () => {
-                await handleDistrictChange(divisionId, true);
+                await handleDistrictChange(present_address_district_id, true);
               })();
             }, [])}
           />
@@ -445,16 +478,19 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_district_id'
-            label={messages['common.district_title_bn_permanent_address']}
+            label={messages['common.district_title_permanent_address']}
             isLoading={isLoading}
             control={control}
             options={permanentDistricts}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((districtId: number) => {
+            onChange={useCallback((permanent_address_district_id: number) => {
               (async () => {
-                await handleDistrictChange(districtId, false);
+                await handleDistrictChange(
+                  permanent_address_district_id,
+                  false,
+                );
               })();
             }, [])}
           />
@@ -462,7 +498,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='present_address_upazila_id'
-            label={messages['common.upazila_title_bn_present_address']}
+            label={messages['common.upazila_title_present_address']}
             isLoading={isLoading}
             control={control}
             options={presentUpazilas}
@@ -474,7 +510,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_upazila_id'
-            label={messages['common.upazila_title_bn_permanent_address']}
+            label={messages['common.upazila_title_permanent_address']}
             isLoading={isLoading}
             control={control}
             options={permanentUpazilas}
@@ -533,7 +569,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id='educational_qualification'
-            label={messages['common.educational_qualification_bn']}
+            label={messages['common.educational_qualification']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

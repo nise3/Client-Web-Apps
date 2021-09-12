@@ -2,49 +2,49 @@ import moment from 'moment';
 
 export const genders = [
   {
-    id: 0,
+    id: 1,
     label: 'Male',
   },
   {
-    id: 1,
+    id: 2,
     label: 'Female',
   },
   {
-    id: 2,
+    id: 3,
     label: 'Others',
   },
 ];
 
 export const maritial_status = [
   {
-    id: 0,
+    id: 1,
     label: 'Unmarried',
   },
   {
-    id: 1,
+    id: 2,
     label: 'Married',
   },
 ];
 
 export const religions = [
   {
-    id: 0,
+    id: 1,
     label: 'Islam',
   },
   {
-    id: 1,
+    id: 2,
     label: 'Hindu',
   },
   {
-    id: 2,
+    id: 3,
     label: 'Buddha',
   },
   {
-    id: 3,
+    id: 4,
     label: 'Christian',
   },
   {
-    id: 4,
+    id: 5,
     label: 'Others',
   },
 ];
