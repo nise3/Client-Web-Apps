@@ -1,11 +1,11 @@
 import {
   Button,
+  createStyles,
   IconButton,
+  makeStyles,
   Theme,
   Toolbar,
   Tooltip,
-  createStyles,
-  makeStyles,
 } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ViewColumnsIcon from '@material-ui/icons/ViewColumn';

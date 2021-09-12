@@ -126,6 +126,7 @@ interface TReactTableColumns {
   accessor: string;
   disableFilters: boolean;
   disableSortBy: boolean;
+  isVisible: boolean;
   filter: 'any';
   Cell: 'any';
 }
@@ -190,7 +191,12 @@ export default function ReactTable<T extends object>({
     ...props,
     columns,
     data,
-    initialState: {pageSize: pageSizeData[0]},
+    initialState: {
+      pageSize: pageSizeData[0],
+      hiddenColumns: columns
+        .filter((item: any) => item?.isVisible === false)
+        .map((item: any) => item.accessor),
+    },
     filterTypes,
     defaultColumn,
   };

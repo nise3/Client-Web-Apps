@@ -88,6 +88,7 @@ const DivisionsPage = () => {
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
+        isVisible: false,
       },
       {
         Header: messages['common.title_bn'],
