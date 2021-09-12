@@ -52,7 +52,11 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const {data: itemData, isLoading} = useFetchDivision(itemId);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateDivision,
+  } = useFetchDivision(itemId);
 
   const {
     register,
@@ -89,6 +93,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='divisions.label' />}}
           />,
         );
+        mutateDivision();
         props.onClose();
         refreshDataTable();
       }

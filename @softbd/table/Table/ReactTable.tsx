@@ -171,7 +171,7 @@ export default function ReactTable<T extends object>({
   fetchData,
   pageCount: controlledPageCount,
   skipPageResetRef = typeof fetchData !== 'undefined',
-  skipDefaultFilter = typeof fetchData === 'undefined',
+  skipDefaultFilter = typeof fetchData !== 'undefined',
   loading = false,
   toggleResetTable = false,
   pageSize: controlledPageSize,

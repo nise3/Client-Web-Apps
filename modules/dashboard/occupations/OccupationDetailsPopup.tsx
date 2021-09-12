@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useIntl} from 'react-intl';
-import {getOccupation} from '../../../services/organaizationManagement/OccupationService';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@material-ui/core';
@@ -9,6 +8,7 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
+import {useFetchOccupation} from '../../../services/organaizationManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -18,23 +18,7 @@ type Props = {
 
 const OccupationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getOccupation(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchOccupation(itemId);
 
   return (
     <CustomDetailsViewMuiModal

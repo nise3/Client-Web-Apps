@@ -6,8 +6,6 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationTypeAddEditPopup from './OrganizationTypeAddEditPopup';
 import {deleteOrganizationType} from '../../../services/organaizationManagement/OrganizationTypeService';
@@ -20,17 +18,23 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
 
 const OrganizationTypePage = () => {
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
+  const [organizationTypeFilters] = useState({});
+  const {
+    data: organizationTypes,
+    isLoading,
+    mutate: mutateOrganizationTypes,
+  }: any = useFetchOrganizationTypes(organizationTypeFilters);
   const [organizationTypeId, setOrganizationTypeId] = useState<number | null>(
     null,
   );
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -66,8 +70,8 @@ const OrganizationTypePage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prevToggle) => !prevToggle);
-  }, [isToggleTable]);
+    mutateOrganizationTypes();
+  }, [mutateOrganizationTypes]);
 
   const columns = useMemo(
     () => [
@@ -143,12 +147,6 @@ const OrganizationTypePage = () => {
     [messages],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-types',
-      dataAccessor: 'data',
-    });
-
   return (
     <>
       <PageBlock
@@ -162,7 +160,7 @@ const OrganizationTypePage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -175,14 +173,8 @@ const OrganizationTypePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          totalCount={totalCount}
-          pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
-          toggleResetTable={isToggleTable}
+          data={organizationTypes || []}
+          loading={isLoading}
         />
         {isOpenAddEditModal && (
           <OrganizationTypeAddEditPopup

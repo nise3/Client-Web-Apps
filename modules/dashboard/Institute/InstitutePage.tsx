@@ -158,8 +158,6 @@ const InstitutePage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (

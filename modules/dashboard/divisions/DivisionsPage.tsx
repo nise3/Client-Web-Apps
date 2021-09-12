@@ -18,7 +18,7 @@ import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {
-  const [filters] = useState({name: 20});
+  const [filters] = useState({});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const {

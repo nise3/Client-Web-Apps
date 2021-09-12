@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_ORGANIZATION_UNITS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationUnitAddEditPopup from './OrganizationUnitAddEditPopup';
 import {deleteOrganizationUnit} from '../../../services/organaizationManagement/OrganizationUnitService';
@@ -128,7 +128,7 @@ const OrganizationUnitPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-units',
+      urlPath: API_ORGANIZATION_UNITS,
       dataAccessor: 'data',
     });
 
@@ -163,8 +163,6 @@ const OrganizationUnitPage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (

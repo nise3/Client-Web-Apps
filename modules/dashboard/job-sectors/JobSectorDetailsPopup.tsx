@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {getJobSector} from '../../../services/organaizationManagement/JobSectorService';
+import React from 'react';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -9,6 +8,7 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,24 +17,8 @@ type Props = {
 };
 
 const JobSectorDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {data: itemData, isLoading} = useFetchJobSector(itemId);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getJobSector(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
 
   return (
     <>

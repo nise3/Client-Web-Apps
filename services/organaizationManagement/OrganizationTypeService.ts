@@ -14,6 +14,9 @@ export const getAllOrganizationTypes = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ * */
 export const getOrganizationType = async (OrganizationTypeId: number) => {
   try {
     let response: any = await apiGet(

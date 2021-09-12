@@ -7,7 +7,6 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   createOccupation,
-  getOccupation,
   updateOccupation,
 } from '../../../services/organaizationManagement/OccupationService';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -17,10 +16,14 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {getAllJobSectors} from '../../../services/organaizationManagement/JobSectorService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {
+  useFetchJobSectors,
+  useFetchOccupation,
+} from '../../../services/organaizationManagement/hooks';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
@@ -48,13 +51,20 @@ const initialValues = {
 
 const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   itemId,
+  refreshDataTable,
   ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [jobSectors, setJobSectors] = useState<Array<JobSector>>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateOccupation,
+  } = useFetchOccupation(itemId);
+  const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: jobSectors, isLoading: isJobSectorsLoading} =
+    useFetchJobSectors(jobSectorFilters);
 
   const {
     control,
@@ -67,34 +77,17 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getOccupation(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            row_status: String(item?.row_status),
-            job_sector_id: item?.job_sector_id,
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllJobSectors();
-      if (response) setJobSectors(response.data);
-      setIsLoading(false);
-    })();
-  }, []);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        row_status: String(itemData?.row_status),
+        job_sector_id: itemData?.job_sector_id,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
     if (isEdit && itemId) {
@@ -106,8 +99,9 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='occupations.label' />}}
           />,
         );
+        mutateOccupation();
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
       let response = await createOccupation(data);
@@ -119,7 +113,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
           />,
         );
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     }
   };
@@ -175,7 +169,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
           <CustomFormSelect
             id='job_sector_id'
             label={messages['job_sectors.label']}
-            isLoading={isLoading}
+            isLoading={isJobSectorsLoading}
             control={control}
             options={jobSectors}
             optionValueProp={'id'}

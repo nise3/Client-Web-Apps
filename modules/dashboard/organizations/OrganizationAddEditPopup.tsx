@@ -16,12 +16,10 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganization,
-  getOrganization,
   updateOrganization,
 } from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {getAllOrganizationTypes} from '../../../services/organaizationManagement/OrganizationTypeService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
@@ -30,6 +28,10 @@ import {
   isValidationError,
 } from '../../../@softbd/common/helpers';
 import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+import {
+  useFetchOrganization,
+  useFetchOrganizationTypes,
+} from '../../../services/organaizationManagement/hooks';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -118,10 +120,16 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizationTypes, setOrganizationTypes] = useState<
-    Array<OrganizationType>
-  >([]);
+  const [organizationTypeFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateOrganization,
+  } = useFetchOrganization(itemId);
+  const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
+    useFetchOrganizationTypes(organizationTypeFilters);
 
   const {
     control,
@@ -135,46 +143,27 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (itemId) {
-        let response = await getOrganization(itemId);
-        let {data: item} = response;
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          domain: item.domain,
-          email: item.email,
-          mobile: item.mobile,
-          fax_no: item.fax_no,
-          contact_person_name: item.contact_person_name,
-          contact_person_mobile: item.contact_person_mobile,
-          contact_person_email: item.contact_person_email,
-          contact_person_designation: item.contact_person_designation,
-          organization_type_id: item.organization_type_id,
-          address: item.address,
-          description: item.description,
-          row_status: String(item.row_status),
-        });
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllOrganizationTypes({
-        row_status: RowStatus.ACTIVE,
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        domain: itemData?.domain,
+        email: itemData?.email,
+        mobile: itemData?.mobile,
+        fax_no: itemData?.fax_no,
+        contact_person_name: itemData?.contact_person_name,
+        contact_person_mobile: itemData?.contact_person_mobile,
+        contact_person_email: itemData?.contact_person_email,
+        contact_person_designation: itemData?.contact_person_designation,
+        organization_type_id: itemData?.organization_type_id,
+        address: itemData?.address,
+        description: itemData?.description,
+        row_status: String(itemData?.row_status),
       });
-      if (response) {
-        setOrganizationTypes(response.data);
-      }
-      setIsLoading(false);
-    })();
-  }, []);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
     if (itemId) {
@@ -186,6 +175,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='organization.label' />}}
           />,
         );
+        mutateOrganization();
         props.onClose();
         refreshDataTable();
       }
@@ -258,7 +248,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           <CustomFormSelect
             id='organization_type_id'
             label={messages['common.organization_type']}
-            isLoading={isLoading}
+            isLoading={isOrganizationTypeLoading}
             control={control}
             options={organizationTypes}
             optionValueProp='id'

@@ -2,12 +2,11 @@ import * as yup from 'yup';
 import Grid from '@material-ui/core/Grid';
 import {
   createJobSector,
-  getJobSector,
   updateJobSector,
 } from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -18,6 +17,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -49,7 +49,11 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
 }) => {
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateJobSector,
+  } = useFetchJobSector(itemId);
 
   const {
     register,
@@ -62,24 +66,16 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getJobSector(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            row_status: String(item?.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId, reset]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
     if (isEdit && itemId) {
@@ -91,6 +87,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='job_sectors.label' />}}
           />,
         );
+        mutateJobSector();
         props.onClose();
         refreshDataTable();
       }

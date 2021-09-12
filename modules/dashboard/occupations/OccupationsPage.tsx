@@ -11,7 +11,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {deleteOccupation} from '../../../services/organaizationManagement/OccupationService';
 import OccupationAddEditPopup from './OccupationAddEditPopup';
 import OccupationDetailsPopup from './OccupationDetailsPopup';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_OCCUPATIONS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -120,7 +120,7 @@ const OccupationsPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/occupations',
+      urlPath: API_OCCUPATIONS,
       dataAccessor: 'data',
     });
 
@@ -154,8 +154,6 @@ const OccupationsPage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (

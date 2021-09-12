@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_ORGANIZATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationAddEditPopup from './OrganizationAddEditPopup';
 import {deleteOrganization} from '../../../services/organaizationManagement/OrganizationService';
@@ -120,7 +120,7 @@ const OrganizationPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organizations',
+      urlPath: API_ORGANIZATIONS,
       dataAccessor: 'data',
     });
 
@@ -154,8 +154,6 @@ const OrganizationPage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
