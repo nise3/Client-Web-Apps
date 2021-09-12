@@ -99,6 +99,26 @@ const OrgChart = () => {
     setIsOpenAddEditModal(true);
   };
 
+  const colors = ['green', 'red', 'blue'];
+  const shuffleLists = (root: HTMLDivElement) => {
+    let elems = root.getElementsByTagName('ul');
+    console.log(elems);
+
+    // @ts-ignore
+    for (let item of elems) {
+      console.log(item[0]);
+    }
+  };
+  function treeColoring(root: any, step: number) {
+    let heading = root.getElementsByClassName('oc-heading')[0];
+    if (heading) {
+      heading.style.backgroundColor = colors[step];
+    } else {
+      return;
+    }
+    shuffleLists(root);
+  }
+
   function getElementId(
     ele: any,
     step: number,
@@ -114,6 +134,8 @@ const OrgChart = () => {
 
   useEffect(() => {
     const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
+    treeColoring(node[0], 0);
+
     let draggedNodeId: number | null = null;
     let droppedNodeId = null;
 
@@ -206,13 +228,6 @@ const OrgChart = () => {
         datasource={chartData}
         draggable={true}
         onClickNode={handleNodeClick}
-        dropCriteria={(draggedNode: any, dragZone: any, dropZone: any) => {
-          console.log('draggedNde;', draggedNode);
-          return false;
-          if (!draggedNode.parent) {
-            return false;
-          }
-        }}
       />
       {
         <Popover
