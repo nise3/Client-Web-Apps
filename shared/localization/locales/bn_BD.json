@@ -189,6 +189,7 @@
   "common.subject_updated_successfully": "{subject} সফলভাবে আপডেট হয়েছে",
   "common.subject_deleted_successfully": "{subject} সাফল্যের সাথে মুছে ফেলা হয়েছে",
   "common.delete_confirm": "আপনি কি নিশ্চিত?",
+  "common.hierarchy": "অনুক্রম",
   "human_resource_template.label": "হিউম্যান রিসউরস টেম্পলেট",
   "human_resource_template.parent": "ঊর্ধ্বতন",
   "human_resource_template.display_order": "প্রদর্শন ক্রম",

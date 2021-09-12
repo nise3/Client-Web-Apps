@@ -14,10 +14,29 @@ import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../../@softbd/common/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {deleteHumanResourceTemplate} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
+import {
+  deleteHumanResourceTemplate,
+  getHumanResourceTemplate,
+  updateHumanResourceTemplate,
+} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
 import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
+
+const makeChartData = (item: any) => {
+  item.id = 'm' + item.id;
+  item.title = item.title_en;
+  item.name = item.title_en;
+
+  if (item.children && Array.isArray(item.children)) {
+    item.children.map((node: any) => {
+      makeChartData(node);
+    });
+  } else {
+    return item;
+  }
+  return item;
+};
 
 const getHierarchyChartData = async (
   organization_unit_type_id: any,
@@ -29,20 +48,7 @@ const getHierarchyChartData = async (
   if (response) {
     const {data: item} = response;
     if (item) {
-      item.id = 'm' + item.id;
-      item.title = item.title_en;
-      item.name = item.title_en;
-      if (item.children && Array.isArray(item.children)) {
-        item.children.map((node: any) => {
-          node.id = 'm' + node.id;
-          node.title = node.title_en;
-          node.name = node.title_bn;
-        });
-      } else {
-        item.children.id = 'm' + item.children.id;
-        item.children.title = item.children.title_en;
-        item.children.name = item.children.title_en;
-      }
+      makeChartData(item);
       setChartData(item);
     }
   }
@@ -55,16 +61,18 @@ const OrgChart = () => {
   const [chartData, setChartData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const router = useRouter();
-
-  const {organization_unit_type_id} = router.query;
-
-  useEffect(() => {
-    getHierarchyChartData(organization_unit_type_id, setChartData);
-  }, [organization_unit_type_id]);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedItemParentId, setSelectedItemParentId] = useState<
+    number | null
+  >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+
+  const {organizationUnitTypeId} = router.query;
+
+  useEffect(() => {
+    getHierarchyChartData(organizationUnitTypeId, setChartData);
+  }, [organizationUnitTypeId]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -79,21 +87,72 @@ const OrgChart = () => {
     setIsOpenAddEditModal(true);
   };
 
+  function getElementId(
+    ele: any,
+    step: number,
+    maxStep: number,
+  ): number | boolean {
+    if (step > maxStep) return false;
+    if (ele.id) {
+      return ele.id;
+    }
+
+    return getElementId(ele.parentNode, step + 1, maxStep);
+  }
+
   useEffect(() => {
     const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
+    let draggedNodeId: number | null = null;
+    let droppedNodeId = null;
+
+    node.map((trigger) => {
+      trigger.addEventListener('dragstart', (e: any) => {
+        draggedNodeId = e.target?.id;
+      });
+    });
+
     node.map((trigger) => {
       trigger.addEventListener('drop', (e: any) => {
-        let target = e.target;
-        if (!target.id) {
-          console.log(target);
-        }
+        droppedNodeId = getElementId(e.target, 0, 3);
+        draggedNodeId = Number(draggedNodeId?.toString().substring(1));
+        droppedNodeId = Number(droppedNodeId.toString().substring(1));
+        let humanResourceTemplate;
+        (async () => {
+          let response = await getHumanResourceTemplate(draggedNodeId);
+          if (response) {
+            humanResourceTemplate = response.data;
+            humanResourceTemplate.parent_id = droppedNodeId;
+            response = await updateHumanResourceTemplate(
+              draggedNodeId,
+              humanResourceTemplate,
+            );
+            if (isResponseSuccess(response)) {
+              successStack(
+                <IntlMessages
+                  id='common.subject_updated_successfully'
+                  values={{
+                    subject: (
+                      <IntlMessages id='human_resource_template.label' />
+                    ),
+                  }}
+                />,
+              );
+            }
+          }
+        })();
       });
+    });
+
+    node.map((trigger) => {
+      trigger.removeEventListener('drop', () => {});
+      trigger.removeEventListener('dragstart', () => {});
     });
   }, []);
 
-  const handleClick = (event: any) => {
+  const handleNodeClick = (event: any) => {
     setAnchorEl(event.id);
     setSelectedItemId(event.id);
+    setSelectedItemParentId(event.parent_id);
   };
 
   const handleClose = () => {
@@ -102,10 +161,10 @@ const OrgChart = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  
+
   const reloadData = useCallback(() => {
-    getHierarchyChartData(organization_unit_type_id, setChartData);
-  }, [organization_unit_type_id]);
+    getHierarchyChartData(organizationUnitTypeId, setChartData);
+  }, [organizationUnitTypeId]);
 
   const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
     let response = await deleteHumanResourceTemplate(humanResourceId);
@@ -127,7 +186,7 @@ const OrgChart = () => {
       <OrganizationChart
         datasource={chartData}
         draggable={true}
-        onClickNode={handleClick}
+        onClickNode={handleNodeClick}
       />
       {
         <Popover
@@ -151,13 +210,15 @@ const OrgChart = () => {
               <EditButton
                 onClick={() => openAddEditModal(selectedItemId, true)}
               />
-              <DeleteButton
-                deleteAction={() =>
-                  selectedItemId &&
-                  deleteHumanResourceFromTemplate(selectedItemId)
-                }
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              {selectedItemParentId && (
+                <DeleteButton
+                  deleteAction={() =>
+                    selectedItemId &&
+                    deleteHumanResourceFromTemplate(selectedItemId)
+                  }
+                  deleteTitle={messages['common.delete_confirm'] as string}
+                />
+              )}
             </DatatableButtonGroup>
           </Typography>
         </Popover>
