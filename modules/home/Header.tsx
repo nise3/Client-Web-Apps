@@ -10,9 +10,18 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import {Box, Button, Container} from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Slide,
+  useScrollTrigger,
+} from '@material-ui/core';
 import Link from 'next/link';
 import {ExitToApp} from '@material-ui/icons';
+import Image from 'next/image';
+import logo from '../../public/images/logo-with-name.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#14496b',
       backgroundColor: '#fff !important',
       boxShadow: 'none',
+      padding: theme.spacing(0, 50),
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -93,6 +103,24 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+interface Props {
+  window?: () => Window;
+  children: React.ReactElement;
+}
+
+function HideOnScroll(props: Props) {
+  const {children, window} = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({target: window ? window() : undefined});
+  return (
+    <Slide appear={false} direction='down' in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 
 export default function Header() {
   const classes = useStyles();
@@ -177,65 +205,57 @@ export default function Header() {
   return (
     <Box className={classes.grow}>
       <Container maxWidth='md' disableGutters>
-        <AppBar position='static' className={classes.appBar}>
-          <Toolbar>
-            {/*<Image*/}
-            {/*  src={logo}*/}
-            {/*  alt='logo'*/}
-            {/*  width={100}*/}
-            {/*  className={classes.logo}*/}
-            {/*  quality={100}*/}
-            {/*/>*/}
-            <img
-              className={classes.logo}
-              src='/images/logo-with-name.png'
-              alt='crema-logo'
-            />
-            <Box className={classes.grow} />
-            <Box className={classes.sectionDesktop}>
-              <Link href='/signin'>
-                <Button
-                  variant='contained'
-                  className={classes.signinButton}
-                  endIcon={<ExitToApp />}>
-                  প্রবেশ করুন
-                </Button>
-              </Link>
+        <CssBaseline />
+        <HideOnScroll>
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <Image src={logo} width={90} height={50} alt='Logo' />
+              <Box className={classes.grow} />
+              <Box className={classes.sectionDesktop}>
+                <Link href='/signin'>
+                  <Button
+                    variant='contained'
+                    className={classes.signinButton}
+                    endIcon={<ExitToApp />}>
+                    প্রবেশ করুন
+                  </Button>
+                </Link>
 
-              {/*<IconButton aria-label='show 4 new mails' color='inherit'>*/}
-              {/*  <Badge badgeContent={4} color='secondary'>*/}
-              {/*    <MailIcon />*/}
-              {/*  </Badge>*/}
-              {/*</IconButton>*/}
-              {/*<IconButton*/}
-              {/*  aria-label='show 17 new notifications'*/}
-              {/*  color='inherit'>*/}
-              {/*  <Badge badgeContent={17} color='secondary'>*/}
-              {/*    <NotificationsIcon />*/}
-              {/*  </Badge>*/}
-              {/*</IconButton>*/}
-              {/*<IconButton*/}
-              {/*  edge='end'*/}
-              {/*  aria-label='account of current user'*/}
-              {/*  aria-controls={menuId}*/}
-              {/*  aria-haspopup='true'*/}
-              {/*  onClick={handleProfileMenuOpen}*/}
-              {/*  color='inherit'>*/}
-              {/*  <AccountCircle />*/}
-              {/*</IconButton>*/}
-            </Box>
-            <Box className={classes.sectionMobile}>
-              <IconButton
-                aria-label='show more'
-                aria-controls={mobileMenuId}
-                aria-haspopup='true'
-                onClick={handleMobileMenuOpen}
-                color='inherit'>
-                <MoreIcon />
-              </IconButton>
-            </Box>
-          </Toolbar>
-        </AppBar>
+                {/*<IconButton aria-label='show 4 new mails' color='inherit'>*/}
+                {/*  <Badge badgeContent={4} color='secondary'>*/}
+                {/*    <MailIcon />*/}
+                {/*  </Badge>*/}
+                {/*</IconButton>*/}
+                {/*<IconButton*/}
+                {/*  aria-label='show 17 new notifications'*/}
+                {/*  color='inherit'>*/}
+                {/*  <Badge badgeContent={17} color='secondary'>*/}
+                {/*    <NotificationsIcon />*/}
+                {/*  </Badge>*/}
+                {/*</IconButton>*/}
+                {/*<IconButton*/}
+                {/*  edge='end'*/}
+                {/*  aria-label='account of current user'*/}
+                {/*  aria-controls={menuId}*/}
+                {/*  aria-haspopup='true'*/}
+                {/*  onClick={handleProfileMenuOpen}*/}
+                {/*  color='inherit'>*/}
+                {/*  <AccountCircle />*/}
+                {/*</IconButton>*/}
+              </Box>
+              <Box className={classes.sectionMobile}>
+                <IconButton
+                  aria-label='show more'
+                  aria-controls={mobileMenuId}
+                  aria-haspopup='true'
+                  onClick={handleMobileMenuOpen}
+                  color='inherit'>
+                  <MoreIcon />
+                </IconButton>
+              </Box>
+            </Toolbar>
+          </AppBar>
+        </HideOnScroll>
       </Container>
       {renderMobileMenu}
       {renderMenu}

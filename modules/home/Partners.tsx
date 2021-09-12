@@ -1,4 +1,4 @@
-import {Box, Card, Container} from '@material-ui/core';
+import {Box, Card, Container, Grid} from '@material-ui/core';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import React from 'react';
@@ -54,14 +54,16 @@ const Partners = () => {
     );
   };
   return (
-    <Container maxWidth='md' disableGutters className={classes.root}>
-      <SectionTitle title='পার্টনার সমূহ' center={true}></SectionTitle>
-      <Box mb={2}>
-        <CustomCarousel>
-          {items.map((item: any) => cardItem(item))}
-        </CustomCarousel>
-      </Box>
-    </Container>
+    <Grid container xl={12} className={classes.root}>
+      <Container maxWidth='md' disableGutters>
+        <SectionTitle title='পার্টনার সমূহ' center={true}></SectionTitle>
+        <Box mb={2}>
+          <CustomCarousel>
+            {items.map((item: any) => cardItem(item))}
+          </CustomCarousel>
+        </Box>
+      </Container>
+    </Grid>
   );
 };
 

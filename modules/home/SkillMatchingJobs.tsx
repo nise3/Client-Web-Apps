@@ -89,19 +89,24 @@ const SkillMatchingJobs = () => {
     );
   };
   return (
-    <Container maxWidth='md' disableGutters className={classes.root}>
-      <SectionTitle title='স্কিল ম্যাচিং জব' center={true}></SectionTitle>
-      <Box mb={2}>
-        <CustomCarousel>
-          {items.map((item: any) => cardItem(item))}
-        </CustomCarousel>
-      </Box>
-      <Grid container justifyContent='center'>
-        <Button variant='outlined' color='primary' endIcon={<ArrowRightAlt />}>
-          আরো দেখুন
-        </Button>
-      </Grid>
-    </Container>
+    <Grid container xl={12} className={classes.root}>
+      <Container maxWidth='md' disableGutters>
+        <SectionTitle title='স্কিল ম্যাচিং জব' center={true}></SectionTitle>
+        <Box mb={2}>
+          <CustomCarousel>
+            {items.map((item: any) => cardItem(item))}
+          </CustomCarousel>
+        </Box>
+        <Grid container justifyContent='center'>
+          <Button
+            variant='outlined'
+            color='primary'
+            endIcon={<ArrowRightAlt />}>
+            আরো দেখুন
+          </Button>
+        </Grid>
+      </Container>
+    </Grid>
   );
 };
 

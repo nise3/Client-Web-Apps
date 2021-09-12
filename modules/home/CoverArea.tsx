@@ -13,12 +13,15 @@ import {
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import {Slide, Fade, Zoom} from 'react-awesome-reveal';
+import Image from 'next/image';
+import coverImg from '../../public/images/cover-area.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       color: '#fff',
-      height: '380px',
+      height: '440px',
       background:
         'linear-gradient(152deg, rgba(5, 99, 7, 1) 0%, rgb(108 95 9) 51%, rgb(100 89 15) 74%)',
     },
@@ -55,11 +58,14 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '5px',
     },
     coverImage: {
+      width: '550px',
       position: 'absolute',
-      width: '530px',
       right: 0,
-      bottom: 0,
+      bottom: '-150px',
       borderRadius: '5px',
+    },
+    animationFillMode: {
+      animationFillMode: 'backwards !important',
     },
   }),
 );
@@ -72,29 +78,37 @@ const CoverArea = () => {
         <Grid item xs={12} className={classes.root}>
           <Container maxWidth='md'>
             <Box pt={10}>
-              <Typography variant='h4' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>
-                  এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
-                  প্রশিক্ষণ
-                </Box>
-              </Typography>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box fontWeight={500} mt={5}>
-                  আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
-                  তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
-                  <br />
-                  অনুসারে চাকরি
-                </Box>
-              </Typography>
+              <Fade direction='up'>
+                <Typography variant='h4'>
+                  <Box fontWeight='fontWeightBold' mt={15}>
+                    এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
+                    প্রশিক্ষণ
+                  </Box>
+                </Typography>
+              </Fade>
+
+              <Fade direction='down'>
+                <Typography variant='subtitle2'>
+                  <Box fontWeight={500} mt={5}>
+                    আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
+                    তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
+                    <br />
+                    অনুসারে চাকরি
+                  </Box>
+                </Typography>
+              </Fade>
             </Box>
-            <Box mt={10} mb={1}>
-              <NativeSelect className={classes.select}>
-                <option>দক্ষতা</option>
-                <option>চাকরি</option>
-                <option>ব্যবসা</option>
-                <option>শিক্ষা</option>
-              </NativeSelect>
-            </Box>
+            <Slide direction='up' cascade>
+              <Box mt={10} mb={1}>
+                <NativeSelect className={classes.select}>
+                  <option>দক্ষতা</option>
+                  <option>চাকরি</option>
+                  <option>ব্যবসা</option>
+                  <option>শিক্ষা</option>
+                </NativeSelect>
+              </Box>
+            </Slide>
+
             <Grid container spacing={3} className={classes.searchBox}>
               <Grid item xl={8}>
                 <FormControl variant='outlined' style={{width: '550px'}}>
@@ -132,28 +146,43 @@ const CoverArea = () => {
                 ট্রেন্ড সার্চ
               </Typography>
             </Box>
-            <Grid container xl={8}>
-              <Grid item xl={3}>
-                <Box className={classes.trendSearchItem}>গ্রাফিক্স ডিজাইন</Box>
+            <Slide direction='down'>
+              <Grid container xl={8}>
+                <Grid item xl={3}>
+                  <Box className={classes.trendSearchItem}>
+                    গ্রাফিক্স ডিজাইন
+                  </Box>
+                </Grid>
+                <Grid item xl={3}>
+                  <Box className={classes.trendSearchItem}>ওয়েব ডিজাইন</Box>
+                </Grid>
+                <Grid item xl={3}>
+                  <Box className={classes.trendSearchItem}>ইউ-আই/এক্স</Box>
+                </Grid>
+                <Grid item xl={3}>
+                  <Box className={classes.trendSearchItem}>হেলথ কেয়ার জব</Box>
+                </Grid>
               </Grid>
-              <Grid item xl={3}>
-                <Box className={classes.trendSearchItem}>ওয়েব ডিজাইন</Box>
-              </Grid>
-              <Grid item xl={3}>
-                <Box className={classes.trendSearchItem}>ইউ-আই/এক্স</Box>
-              </Grid>
-              <Grid item xl={3}>
-                <Box className={classes.trendSearchItem}>হেলথ কেয়ার জব</Box>
-              </Grid>
-            </Grid>
+            </Slide>
           </Container>
-          <Grid item style={{position: 'relative'}}>
-            <img
-              src='/images/cover-area.png'
-              alt='crema-logo'
-              className={classes.coverImage}
-            />
-          </Grid>
+          <Zoom>
+            <Grid item style={{position: 'relative'}}>
+              {/*<Box className={classes.coverImage}>*/}
+              {/*  <Image*/}
+              {/*    src={coverImg}*/}
+              {/*    width={550}*/}
+              {/*    height={400}*/}
+              {/*    alt='cover-image'*/}
+              {/*  />*/}
+              {/*</Box>*/}
+
+              <img
+                src='/images/cover-area.png'
+                alt='crema-logo'
+                className={classes.coverImage}
+              />
+            </Grid>
+          </Zoom>
         </Grid>
       </Grid>
     </>
