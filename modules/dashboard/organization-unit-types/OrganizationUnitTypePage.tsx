@@ -138,7 +138,7 @@ const OrganizationUnitTypePage = () => {
                   className={clsx(classes.button)}
                   variant={'outlined'}
                   startIcon={<AccountTreeOutlined />}>
-                  <a>{messages['common.hierarchy']}</a>
+                  {messages['common.hierarchy']}
                 </Button>
               </Link>
             </DatatableButtonGroup>

@@ -26,7 +26,7 @@ import PageMeta from '../../../../@crema/core/PageMeta';
 const makeChartData = (item: any) => {
   item.id = 'm' + item.id;
   item.title = item.title_en;
-  item.name = item.title_en;
+  item.name = item.title_bn;
 
   if (item.children && Array.isArray(item.children)) {
     item.children.map((node: any) => {
@@ -71,7 +71,8 @@ const OrgChart = () => {
   const {organizationUnitTypeId} = router.query;
 
   useEffect(() => {
-    getHierarchyChartData(organizationUnitTypeId, setChartData);
+    organizationUnitTypeId &&
+      getHierarchyChartData(organizationUnitTypeId, setChartData);
   }, [organizationUnitTypeId]);
 
   const closeAddEditModal = useCallback(() => {
@@ -120,6 +121,13 @@ const OrgChart = () => {
         (async () => {
           let response = await getHumanResourceTemplate(draggedNodeId);
           if (response) {
+            if (!response.data.parent_id) {
+              successStack(
+                <IntlMessages id='common.root_cant_be_drag_and_drop' />,
+              );
+
+              return false;
+            }
             humanResourceTemplate = response.data;
             humanResourceTemplate.parent_id = droppedNodeId;
             response = await updateHumanResourceTemplate(
@@ -187,6 +195,13 @@ const OrgChart = () => {
         datasource={chartData}
         draggable={true}
         onClickNode={handleNodeClick}
+        dropCriteria={(draggedNode: any, dragZone: any, dropZone: any) => {
+          console.log('draggedNde;', draggedNode);
+          return false;
+          if (!draggedNode.parent) {
+            return false;
+          }
+        }}
       />
       {
         <Popover
