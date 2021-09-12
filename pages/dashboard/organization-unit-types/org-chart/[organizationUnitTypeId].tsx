@@ -41,7 +41,7 @@ const makeChartData = (item: any) => {
 const getHierarchyChartData = async (
   organization_unit_type_id: any,
   setChartData: any,
-) => {
+): Promise<boolean> => {
   let response = await getOrganizationUnitTypeHierarchy(
     organization_unit_type_id,
   );
@@ -50,8 +50,12 @@ const getHierarchyChartData = async (
     if (item) {
       makeChartData(item);
       setChartData(item);
+      return true;
+    } else {
+      return false;
     }
   }
+  return false;
 };
 
 const OrgChart = () => {
@@ -71,8 +75,15 @@ const OrgChart = () => {
   const {organizationUnitTypeId} = router.query;
 
   useEffect(() => {
-    organizationUnitTypeId &&
-      getHierarchyChartData(organizationUnitTypeId, setChartData);
+    if (organizationUnitTypeId) {
+      getHierarchyChartData(organizationUnitTypeId, setChartData).then(
+        (res: boolean) => {
+          if (!res) {
+            openAddEditModal(selectedItemId);
+          }
+        },
+      );
+    }
   }, [organizationUnitTypeId]);
 
   const closeAddEditModal = useCallback(() => {
@@ -244,6 +255,7 @@ const OrgChart = () => {
           onClose={closeAddEditModal}
           refreshDataTable={reloadData}
           isEdit={isEdit}
+          organizationUnitTypeId={Number(organizationUnitTypeId)}
         />
       )}
     </>
@@ -252,7 +264,7 @@ const OrgChart = () => {
 
 export default AppPage(() => (
   <>
-    <PageMeta title='Organization Chart' />
+    <PageMeta title='Organization Unit Types Chart' />
     <OrgChart />
   </>
 ));
