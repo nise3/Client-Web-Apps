@@ -9,4 +9,4 @@ const IconDistrict = () => {
   );
 };
 
-export default IconDistrict;
+export default React.memo(IconDistrict);

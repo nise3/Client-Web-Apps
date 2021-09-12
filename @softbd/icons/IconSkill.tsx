@@ -1,4 +1,5 @@
 import {BusinessCenter} from '@material-ui/icons';
+import React from 'react';
 
 const IconSkill = () => {
   return (
@@ -8,4 +9,4 @@ const IconSkill = () => {
   );
 };
 
-export default IconSkill;
+export default React.memo(IconSkill);

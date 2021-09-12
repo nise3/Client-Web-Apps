@@ -9,4 +9,4 @@ const IconBatch = () => {
   );
 };
 
-export default IconBatch;
+export default React.memo(IconBatch);

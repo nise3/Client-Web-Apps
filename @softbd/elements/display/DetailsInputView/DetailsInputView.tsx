@@ -49,4 +49,4 @@ const DetailsInputView = ({label, value, isLoading}: Props) => {
   );
 };
 
-export default DetailsInputView;
+export default React.memo(DetailsInputView);

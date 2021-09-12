@@ -8,4 +8,4 @@ const IconBranch = () => {
   );
 };
 
-export default IconBranch;
+export default React.memo(IconBranch);

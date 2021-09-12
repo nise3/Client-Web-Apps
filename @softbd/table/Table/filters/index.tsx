@@ -1,11 +1,8 @@
-// This is a custom aggregator that
-// takes in an array of values and
-// returns the rounded median
 import {FilterProps, FilterValue, IdType, Row} from 'react-table';
-import {PersonData} from '../utils';
 import React, {useEffect} from 'react';
 import {Button, InputLabel, MenuItem, TextField} from '@material-ui/core';
-import {rowStatusArray} from '../../utilities/RowStatus';
+import {matchSorter} from 'match-sorter';
+import {rowStatusArray} from '../../../utilities/RowStatus';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -30,15 +27,11 @@ export function filterGreaterThan(
   });
 }
 
-// This is an autoRemove method on the filter function that
-// when given the new filter value and returns true, the filter
-// will be automatically removed. Normally this is just an undefined
-// check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = (val: any) => typeof val !== 'number';
 
 export function SelectAutoColumnFilter({
   column: {filterValue, render, setFilter, preFilteredRows, id},
-}: FilterProps<PersonData>) {
+}: FilterProps<any>) {
   const options = React.useMemo(() => {
     const options: any = new Set();
     preFilteredRows.forEach((row: any) => {
@@ -68,7 +61,7 @@ export function SelectAutoColumnFilter({
 
 export function SelectBooleanMatchEnableDisableColumnFilter({
   column: {filterValue, render, setFilter, preFilteredRows, id},
-}: FilterProps<PersonData>) {
+}: FilterProps<any>) {
   const options = ['Disable', 'Enable'];
 
   return (
@@ -91,7 +84,7 @@ export function SelectBooleanMatchEnableDisableColumnFilter({
 
 export function SelectStringMatchEnableDisableColumnFilter({
   column: {filterValue, render, setFilter, preFilteredRows, id},
-}: FilterProps<PersonData>) {
+}: FilterProps<any>) {
   const options = ['Disable', 'Enable'];
 
   return (
@@ -112,7 +105,7 @@ export function SelectStringMatchEnableDisableColumnFilter({
   );
 }
 
-export const getMinMax = (rows: Row<PersonData>[], id: IdType<PersonData>) => {
+export const getMinMax = (rows: Row<any>[], id: IdType<any>) => {
   let min = rows.length ? rows[0].values[id] : 0;
   let max = rows.length ? rows[0].values[id] : 0;
   rows.forEach((row) => {
@@ -124,7 +117,7 @@ export const getMinMax = (rows: Row<PersonData>[], id: IdType<PersonData>) => {
 
 export function SliderColumnFilter({
   column: {render, filterValue, setFilter, preFilteredRows, id},
-}: FilterProps<PersonData>) {
+}: FilterProps<any>) {
   const [min, max] = React.useMemo(
     () => getMinMax(preFilteredRows, id),
     [id, preFilteredRows],
@@ -177,12 +170,9 @@ export const useActiveElement = () => {
   return active;
 };
 
-// This is a custom UI for our 'between' or number range
-// filter. It uses two number boxes and filters rows to
-// ones that have values between the two
 export function NumberRangeColumnFilter({
   column: {filterValue = [], render, preFilteredRows, setFilter, id},
-}: FilterProps<PersonData>) {
+}: FilterProps<any>) {
   const [min, max] = React.useMemo(
     () => getMinMax(preFilteredRows, id),
     [id, preFilteredRows],
@@ -242,6 +232,66 @@ export function NumberRangeColumnFilter({
     </>
   );
 }
+
+export function fuzzyTextFilter<T extends object>(
+  rows: Array<Row<T>>,
+  id: IdType<T>,
+  filterValue: FilterValue,
+) {
+  console.log(rows);
+  return matchSorter(rows, filterValue, {
+    keys: [(row: Row<T>) => row.values[id]],
+  });
+}
+
+// Let the table remove the filter if the string is empty
+fuzzyTextFilter.autoRemove = (val: any) => !val;
+
+const regex = /([=<>!]*)\s*((?:[0-9].?[0-9]*)+)/;
+
+function parseValue(filterValue: FilterValue) {
+  // eslint-disable-next-line eqeqeq
+  const defaultComparator = (val: any) => val == filterValue;
+  const tokens = regex.exec(filterValue);
+  if (!tokens) {
+    return defaultComparator;
+  }
+  switch (tokens[1]) {
+    case '>':
+      return (val: any) => parseFloat(val) > parseFloat(tokens[2]);
+    case '<':
+      return (val: any) => parseFloat(val) < parseFloat(tokens[2]);
+    case '<=':
+      return (val: any) => parseFloat(val) <= parseFloat(tokens[2]);
+    case '>=':
+      return (val: any) => parseFloat(val) >= parseFloat(tokens[2]);
+    case '=':
+      return (val: any) => parseFloat(val) === parseFloat(tokens[2]);
+    case '!':
+      return (val: any) => parseFloat(val) !== parseFloat(tokens[2]);
+  }
+  return defaultComparator;
+}
+
+export function numericTextFilter<T extends object>(
+  rows: Array<Row<T>>,
+  id: IdType<T>,
+  filterValue: FilterValue,
+) {
+  const comparator = parseValue(filterValue);
+  return rows.filter((row) => comparator(row.values[id[0]]));
+}
+
+export function rowStatusFilter<T extends object>(
+  rows: Array<Row<T>>,
+  id: IdType<T>,
+  filterValue: FilterValue,
+) {
+  return rows.filter((row) => filterValue == row.values[id[0]]);
+}
+
+// Let the table remove the filter if the string is empty
+numericTextFilter.autoRemove = (val: any) => !val;
 
 export function DefaultColumnFilter<T extends object>({
   column: {id, filterValue, setFilter, render, parent, filter},

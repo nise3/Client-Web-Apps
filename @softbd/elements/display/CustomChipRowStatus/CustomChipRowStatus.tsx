@@ -50,4 +50,4 @@ const CustomChipRowStatus = ({value, isLoading, label}: Props) => {
   );
 };
 
-export default CustomChipRowStatus;
+export default React.memo(CustomChipRowStatus);

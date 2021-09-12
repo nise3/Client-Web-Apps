@@ -9,4 +9,4 @@ const IconInstitute = () => {
   );
 };
 
-export default IconInstitute;
+export default React.memo(IconInstitute);

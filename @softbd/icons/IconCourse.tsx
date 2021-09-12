@@ -8,4 +8,4 @@ const IconCourse = () => {
   );
 };
 
-export default IconCourse;
+export default React.memo(IconCourse);

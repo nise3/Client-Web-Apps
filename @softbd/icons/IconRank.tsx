@@ -1,4 +1,5 @@
 import {BusinessCenter} from '@material-ui/icons';
+import React from 'react';
 
 const IconRank = () => {
   return (
@@ -8,4 +9,4 @@ const IconRank = () => {
   );
 };
 
-export default IconRank;
+export default React.memo(IconRank);

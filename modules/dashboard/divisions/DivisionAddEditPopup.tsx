@@ -1,5 +1,4 @@
 import React, {FC, useEffect} from 'react';
-import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -19,6 +18,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
+import yup from '../../../@softbd/common/yup';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;

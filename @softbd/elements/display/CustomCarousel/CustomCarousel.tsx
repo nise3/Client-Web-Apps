@@ -1,6 +1,6 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import {ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 
 type Props = {
   children?: ReactNode;
@@ -60,4 +60,4 @@ const CustomCarousel = ({children}: Props) => {
   );
 };
 
-export default CustomCarousel;
+export default React.memo(CustomCarousel);

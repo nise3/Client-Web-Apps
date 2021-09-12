@@ -1,5 +1,5 @@
 import React from 'react';
-import {BusinessCenter} from "@material-ui/icons";
+import {BusinessCenter} from '@material-ui/icons';
 
 const IconTrainer = () => {
   return (
@@ -9,4 +9,4 @@ const IconTrainer = () => {
   );
 };
 
-export default IconTrainer;
+export default React.memo(IconTrainer);

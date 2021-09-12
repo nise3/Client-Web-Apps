@@ -28,4 +28,4 @@ const CancelButton = ({onClick, className, label, isLoading}: Props) => {
   );
 };
 
-export default CancelButton;
+export default React.memo(CancelButton);

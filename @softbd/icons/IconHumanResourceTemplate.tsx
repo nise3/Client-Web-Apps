@@ -1,4 +1,5 @@
 import {BusinessCenter} from '@material-ui/icons';
+import React from 'react';
 
 const IconHumanResourceTemplate = () => {
   return (
@@ -8,4 +9,4 @@ const IconHumanResourceTemplate = () => {
   );
 };
 
-export default IconHumanResourceTemplate;
+export default React.memo(IconHumanResourceTemplate);

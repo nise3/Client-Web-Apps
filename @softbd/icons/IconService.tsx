@@ -1,12 +1,12 @@
 import React from 'react';
-import {BusinessCenter} from "@material-ui/icons";
+import {BusinessCenter} from '@material-ui/icons';
 
 const IconService = () => {
-    return (
-        <>
-            <BusinessCenter />
-        </>
-    );
+  return (
+    <>
+      <BusinessCenter />
+    </>
+  );
 };
 
-export default IconService;
+export default React.memo(IconService);

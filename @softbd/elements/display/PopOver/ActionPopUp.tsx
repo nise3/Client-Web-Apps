@@ -40,4 +40,4 @@ const ActionPopUp = ({id, open, ...props}: Props) => {
   );
 };
 
-export default ActionPopUp;
+export default React.memo(ActionPopUp);

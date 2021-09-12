@@ -140,7 +140,7 @@ const DivisionsPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={typeof data === 'undefined'}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}

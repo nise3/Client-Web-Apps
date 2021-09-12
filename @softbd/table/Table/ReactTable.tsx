@@ -24,17 +24,21 @@ import {
   useTable,
 } from 'react-table';
 
-import {camelToWords} from '../utils';
 import {FilterChipBar} from './FilterChipBar';
-import {fuzzyTextFilter, numericTextFilter, rowStatusFilter} from './filters';
+import {
+  DefaultColumnFilter,
+  fuzzyTextFilter,
+  numericTextFilter,
+  rowStatusFilter,
+} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSkeleton';
-import {DefaultColumnFilter} from '../Filters/filter';
 import AppTableContainer from '../../../@crema/core/AppTableContainer';
 import {useIntl} from 'react-intl';
 import {AiOutlineInbox} from 'react-icons/ai';
+import {camelToWords} from '../../common/helpers';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -281,7 +285,6 @@ export default function ReactTable<T extends object>({
           {!hideToolbar && (
             <TableToolbar
               instance={instance}
-              // loading={loading}
               leftToolbarHtml={leftToolbarHtml}
             />
           )}

@@ -46,4 +46,4 @@ const EditButton = ({
   );
 };
 
-export default EditButton;
+export default React.memo(EditButton);

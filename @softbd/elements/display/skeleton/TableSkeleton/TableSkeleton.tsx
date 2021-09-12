@@ -24,4 +24,4 @@ const TableSkeleton = ({columnNumbers, rowSize = 1}: Props) => {
   );
 };
 
-export default TableSkeleton;
+export default React.memo(TableSkeleton);

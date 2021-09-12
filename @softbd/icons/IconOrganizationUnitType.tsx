@@ -1,4 +1,5 @@
 import {Business} from '@material-ui/icons';
+import React from 'react';
 
 const IconOrganizationUnitType = () => {
   return (
@@ -8,4 +9,4 @@ const IconOrganizationUnitType = () => {
   );
 };
 
-export default IconOrganizationUnitType;
+export default React.memo(IconOrganizationUnitType);
