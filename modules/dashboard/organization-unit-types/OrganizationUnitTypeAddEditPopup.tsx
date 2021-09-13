@@ -12,16 +12,18 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganizationUnitType,
-  getOrganizationUnitType,
   updateOrganizationUnitType,
 } from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  useFetchOrganizations,
+  useFetchOrganizationUnitType,
+} from '../../../services/organaizationManagement/hooks';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
@@ -52,8 +54,14 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
     const isEdit = itemId != null;
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [organizations, setOrganizations] = useState<Array<Organization>>([]);
+    const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
+    const {
+      data: itemData,
+      isLoading,
+      mutate: mutateOrganizationUnitType,
+    } = useFetchOrganizationUnitType(itemId);
+    const {data: organizations, isLoading: isOrganizationLoading} =
+      useFetchOrganizations(organizationFilters);
 
     const {
       control,
@@ -66,36 +74,17 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     });
 
     useEffect(() => {
-      (async () => {
-        setIsLoading(true);
-        if (itemId) {
-          let response = await getOrganizationUnitType(itemId);
-          let {data: item} = response;
-          reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            organization_id: item.organization_id,
-            row_status: String(item.row_status),
-          });
-        } else {
-          reset(initialValues);
-        }
-        setIsLoading(false);
-      })();
-    }, [itemId]);
-
-    useEffect(() => {
-      (async () => {
-        setIsLoading(true);
-        let response = await getAllOrganizations({
-          row_status: RowStatus.ACTIVE,
+      if (itemData) {
+        reset({
+          title_en: itemData?.title_en,
+          title_bn: itemData?.title_bn,
+          organization_id: itemData?.organization_id,
+          row_status: String(itemData?.row_status),
         });
-        if (response) {
-          setOrganizations(response.data);
-        }
-        setIsLoading(false);
-      })();
-    }, []);
+      } else {
+        reset(initialValues);
+      }
+    }, [itemData]);
 
     const onSubmit: SubmitHandler<OrganizationUnitType> = async (
       data: OrganizationUnitType,
@@ -111,6 +100,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
               }}
             />,
           );
+          mutateOrganizationUnitType();
           props.onClose();
           refreshDataTable();
         }
@@ -186,7 +176,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
             <CustomFormSelect
               id='organization_id'
               label={messages['organization.label']}
-              isLoading={isLoading}
+              isLoading={isOrganizationLoading}
               control={control}
               options={organizations}
               optionValueProp='id'

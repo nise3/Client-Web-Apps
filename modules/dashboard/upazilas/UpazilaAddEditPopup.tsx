@@ -66,7 +66,11 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   const [districtsFilter, setDistrictsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: itemData, isLoading} = useFetchUpazila(itemId);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateUpazila,
+  } = useFetchUpazila(itemId);
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
@@ -95,7 +99,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
         loc_district_id: itemData?.loc_district_id,
       });
       setDistrictsFilter({
-        loc_division_id: itemData?.loc_division_id,
+        division_id: itemData?.loc_division_id,
         row_status: RowStatus.ACTIVE,
       });
     } else {
@@ -105,7 +109,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
 
   const changeDivisionAction = (value: number) => {
     setDistrictsFilter({
-      loc_division_id: value,
+      division_id: value,
       row_status: RowStatus.ACTIVE,
     });
   };
@@ -120,6 +124,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='upazilas.label' />}}
           />,
         );
+        mutateUpazila();
         props.onClose();
         refreshDataTable();
       }

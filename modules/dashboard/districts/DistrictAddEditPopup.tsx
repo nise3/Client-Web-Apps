@@ -59,7 +59,11 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const {data: itemData, isLoading} = useFetchDistrict(itemId);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateDistrict,
+  } = useFetchDistrict(itemId);
   const [divisionFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: divisions, isLoading: isDivisionsLoading} =
     useFetchDivisions(divisionFilters);
@@ -97,6 +101,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='districts.label' />}}
           />,
         );
+        mutateDistrict();
         props.onClose();
         refreshDataTable();
       }

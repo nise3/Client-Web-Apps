@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_ORGANIZATION_UNIT_TYPES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationUnitTypeAddEditPopup from './OrganizationUnitTypeAddEditPopup';
 import {deleteOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
@@ -152,7 +152,7 @@ const OrganizationUnitTypePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-unit-types',
+      urlPath: API_ORGANIZATION_UNIT_TYPES,
       dataAccessor: 'data',
     });
 
@@ -187,8 +187,6 @@ const OrganizationUnitTypePage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (

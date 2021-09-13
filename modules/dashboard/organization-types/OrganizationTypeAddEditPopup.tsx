@@ -12,7 +12,6 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganizationType,
-  getOrganizationType,
   updateOrganizationType,
 } from '../../../services/organaizationManagement/OrganizationTypeService';
 import {useIntl} from 'react-intl';
@@ -20,6 +19,7 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchOrganizationType} from '../../../services/organaizationManagement/hooks';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -52,7 +52,11 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateOrganizationType,
+  } = useFetchOrganizationType(itemId);
   const [checkedIsGovernment, setCheckedIsGovernment] =
     useState<boolean>(false);
 
@@ -67,23 +71,17 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (itemId) {
-        let response = await getOrganizationType(itemId);
-        let {data: item} = response;
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          row_status: String(item.row_status),
-        });
-        setCheckedIsGovernment(item.is_government);
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        row_status: String(itemData?.row_status),
+      });
+      setCheckedIsGovernment(itemData?.is_government);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<OrganizationType> = async (
     data: OrganizationType,
@@ -97,6 +95,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='organization_type.label' />}}
           />,
         );
+        mutateOrganizationType();
         props.onClose();
         refreshDataTable();
       }

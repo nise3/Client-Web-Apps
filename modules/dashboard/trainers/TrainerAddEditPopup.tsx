@@ -97,6 +97,7 @@ const initialValues = {
 
 const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   itemId,
+  refreshDataTable,
   ...props
 }) => {
   const {messages} = useIntl();
@@ -303,7 +304,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />,
         );
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
       let response = await createTrainer(data);
@@ -315,7 +316,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />,
         );
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       } else {
         if (isValidationError(response)) {
           setServerValidationErrors(response.errors, setError);

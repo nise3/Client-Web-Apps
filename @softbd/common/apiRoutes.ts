@@ -6,3 +6,16 @@ export const INSTITUTE_SERVICE_PATH = '/institute';
 export const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
+
+export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
+export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
+export const API_ORGANIZATION_TYPES =
+  ORGANIZATION_SERVICE_PATH + '/organization-types';
+export const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
+export const API_ORGANIZATION_UNIT_TYPES =
+  ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
+export const API_ORGANIZATION_UNITS =
+  ORGANIZATION_SERVICE_PATH + '/organization-units';
+
+export const API_ORGANIZATION_SERVICES =
+  ORGANIZATION_SERVICE_PATH + '/services';
