@@ -14,18 +14,20 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import {
-  createHumanResourceTemplate,
-  getAllHumanResourceTemplates,
-  getHumanResourceTemplate,
-  updateHumanResourceTemplate,
-} from '../../../services/organaizationManagement/HumanResourceTemplateService';
-import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
-import {getAllRanks} from '../../../services/organaizationManagement/RankService';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {getOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import {
+  useFetchHumanResource,
+  useFetchHumanResources,
+  useFetchOrganizationUnit,
+  useFetchRanks,
+} from '../../../services/organaizationManagement/hooks';
+import {
+  createHumanResource,
+  updateHumanResource,
+} from '../../../services/organaizationManagement/HumanResourceService';
+import IconHumanResource from '../../../@softbd/icons/IconHumanResource';
 
-interface HumanResourceTemplateAddEditPopupProps {
+interface HumanResourceAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -46,10 +48,7 @@ const validationSchema = yup.object().shape({
   rank_id: yup.string(),
   display_order: yup.string(),
   is_designation: yup.string().required().label('Designation'),
-  organization_unit_type_id: yup
-    .string()
-    .required()
-    .label('Organization Unit Type'),
+  organization_unit_id: yup.string().required().label('Organization Unit'),
   status: yup.string(),
   row_status: yup.string(),
 });
@@ -63,12 +62,12 @@ const initialValues = {
   rank_id: '',
   display_order: '',
   is_designation: '',
-  organization_unit_type_id: 0,
+  organization_unit_id: 0,
   status: '',
   row_status: '1',
 };
 
-const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
+const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -83,22 +82,12 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = props.isEdit;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [humanResourceTemplates, setHumanResourceTemplates] = useState<
-    Array<HumanResourceTemplate> | []
-  >([]);
-  const [humanResourceTemplate, setHumanResourceTemplate] =
-    useState<HumanResourceTemplate | null>(null);
 
-  const [ranks, setRanks] = useState<Array<Rank> | []>([]);
-  const [organizationId, setOrganizationId] = useState<number | null>(null);
   const [organization, setOrganization] = useState<any | {}>({});
-  const [organizationUnitType, setOrganizationUnitType] = useState<any | {}>(
-    {},
+  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
+  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
+    null,
   );
-  const [organizationUnitId, setOrganizationUnitTypeId] = useState<
-    number | null
-  >(null);
 
   const {
     control,
@@ -106,139 +95,115 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<HumanResourceTemplate>({
+  } = useForm<HumanResource>({
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
+  const {
+    data: humanResourceData,
+    isLoading: isHumanResourceLoading,
+    mutate: mutateHumanResource,
+  } = useFetchHumanResource(itemId);
 
-      if (isEdit && itemId) {
-        let response = await getHumanResourceTemplate(itemId);
-        setHumanResourceTemplate(response.data);
-        if (response) {
-          const {data: item} = response;
-          setOrganizationId(item.organization_id);
-          setOrganizationUnitTypeId(item.organization_unit_type_id);
-          setOrganization({
-            id: item.organization_id,
-            title_en: item.organization_title_en,
-            title_bn: item.organization_title_bn,
-          });
-          setOrganizationUnitType({
-            id: item.organization_unit_type_id,
-            title_en: item.organization_unit_type_title_en,
-            title_bn: item.organization_unit_type_title_bn,
-          });
 
-          reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            organization_id: item.organization_id,
-            organization_unit_type_id: item.organization_unit_type_id,
-            parent_id: item?.parent_id ? item.parent_id : '',
-            rank_id: item?.rank_id,
-            display_order: item?.display_order,
-            is_designation: String(item.is_designation),
-            row_status: String(item.row_status),
-          });
-        }
-      } else if (itemId) {
-        let response = await getHumanResourceTemplate(itemId);
-        setHumanResourceTemplate(response.data);
-        const {data: item} = response;
-
-        setOrganization({
-          id: item.organization_id,
-          title_en: item.organization_title_en,
-          title_bn: item.organization_title_bn,
-        });
-        setOrganizationUnitType({
-          id: item.organization_unit_type_id,
-          title_en: item.organization_unit_type_title_en,
-          title_bn: item.organization_unit_type_title_bn,
-        });
-        setOrganizationId(item.organization_id);
-        setOrganizationUnitTypeId(item.organization_unit_type_id);
-        initialValues.organization_id = item.organization_id;
-        initialValues.organization_unit_type_id =
-          item.organization_unit_type_id;
-        initialValues.parent_id = item.id;
-        reset(initialValues);
-      } else if (props.organizationUnitId) {
-        const response = await getOrganizationUnitType(
-          props.organizationUnitId,
-        );
-        const {data: item} = response;
-        setOrganizationId(item.organization_id);
-        setOrganizationUnitTypeId(organizationUnitId);
-        setOrganization({
-          id: item.organization_id,
-          title_en: item.organization_title_en,
-          title_bn: item.organization_title_bn,
-        });
-        setOrganizationUnitType({
-          id: item.id,
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-        });
-        initialValues.organization_id = item.organization_id;
-        initialValues.organization_unit_type_id = item.id;
-        initialValues.parent_id = '';
-        reset(initialValues);
-      }
-
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  const loadRanks = async () => {
-    let response = await getAllRanks({});
-    response && setRanks(response.data);
-  };
+  const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
+    useFetchOrganizationUnit(props.organizationUnitId);
+  const [rankFilter] = useState({});
+  const [humanResourceFilter] = useState({});
+  const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
+  const {data: humanResources, isLoading: isHumanResourcesLoading} =
+    useFetchHumanResources(humanResourceFilter);
 
   useEffect(() => {
-    setIsLoading(true);
-    loadHumanResourceTemplates();
-    loadRanks();
-    setIsLoading(false);
-  }, []);
+    if (isEdit && humanResourceData) {
+      setOrganizationUnitId(humanResourceData.organization_unit_type_id);
+      setOrganization({
+        id: humanResourceData.organization_id,
+        title_en: humanResourceData.organization_title_en,
+        title_bn: humanResourceData.organization_title_bn,
+      });
+      setOrganizationUnit({
+        id: humanResourceData.organization_unit_id,
+        title_en: humanResourceData.organization_unit_title_en,
+        title_bn: humanResourceData.organization_unit_title_bn,
+      });
 
-  const loadHumanResourceTemplates = async () => {
-    let response = await getAllHumanResourceTemplates({
-      organization_id: organizationId,
-      organization_unit_type_id: organizationUnitId,
-    });
-    response && setHumanResourceTemplates(response.data);
-  };
+      reset({
+        title_en: humanResourceData.title_en,
+        title_bn: humanResourceData.title_bn,
+        organization_id: humanResourceData.organization_id,
+        organization_unit_id: humanResourceData.organization_unit_id,
+        parent_id: humanResourceData?.parent_id
+          ? humanResourceData.parent_id
+          : '',
+        rank_id: humanResourceData?.rank_id,
+        display_order: humanResourceData?.display_order,
+        is_designation: String(humanResourceData.is_designation),
+        row_status: String(humanResourceData.row_status),
+      });
+    } else if (humanResourceData) {
+      setOrganization({
+        id: humanResourceData.organization_id,
+        title_en: humanResourceData.organization_title_en,
+        title_bn: humanResourceData.organization_title_bn,
+      });
+      setOrganizationUnit({
+        id: humanResourceData.organization_unit_type_id,
+        title_en: humanResourceData.organization_unit_type_title_en,
+        title_bn: humanResourceData.organization_unit_type_title_bn,
+      });
+      setOrganizationUnitId(humanResourceData.organization_unit_id);
+      initialValues.organization_id = humanResourceData.organization_id;
+      initialValues.organization_unit_id =
+        humanResourceData.organization_unit_type_id;
+      initialValues.parent_id = humanResourceData.id;
+      reset(initialValues);
+    } else if (props.organizationUnitId && organizationUnitData) {
+      setOrganizationUnitId(organizationUnitId);
+      setOrganization({
+        id: organizationUnitData.organization_id,
+        title_en: organizationUnitData.organization_title_en,
+        title_bn: organizationUnitData.organization_title_bn,
+      });
+      setOrganizationUnit({
+        id: organizationUnitData.id,
+        title_en: organizationUnitData.title_en,
+        title_bn: organizationUnitData.title_bn,
+      });
+      initialValues.organization_id = organizationUnitData.organization_id;
+      initialValues.organization_unit_id = organizationUnitData.id;
+      initialValues.parent_id = '';
+      reset(initialValues);
+    }
+  }, [organizationUnitData, humanResourceData]);
 
-  const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
-    data: HumanResourceTemplate,
+  const onSubmit: SubmitHandler<HumanResource> = async (
+    data: HumanResource,
   ) => {
     data.parent_id = data.parent_id ? data.parent_id : null;
     if (isEdit && itemId) {
-      let response = await updateHumanResourceTemplate(itemId, data);
+      let response = await updateHumanResource(itemId, data);
       if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_updated_successfully'
             values={{
-              subject: <IntlMessages id='human_resource_template.label' />,
+              subject: <IntlMessages id='human_resource.label' />,
             }}
           />,
         );
         props.onClose();
+        mutateHumanResource();
         refreshDataTable();
       }
     } else {
-      let response = await createHumanResourceTemplate(data);
+      let response = await createHumanResource(data);
       if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
             values={{
-              subject: <IntlMessages id='human_resource_template.label' />,
+              subject: <IntlMessages id='human_resource.label' />,
             }}
           />,
         );
@@ -254,19 +219,19 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconHumanResourceTemplate />
+          <IconHumanResource />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
               values={{
-                subject: <IntlMessages id='human_resource_template.label' />,
+                subject: <IntlMessages id='human_resource.label' />,
               }}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
               values={{
-                subject: <IntlMessages id='human_resource_template.label' />,
+                subject: <IntlMessages id='human_resource.label' />,
               }}
             />
           )}
@@ -276,8 +241,14 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={isLoading} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          <CancelButton
+            onClick={props.onClose}
+            isLoading={isOrganizationUnitLoading && isHumanResourceLoading}
+          />
+          <SubmitButton
+            isSubmitting={isSubmitting}
+            isLoading={isOrganizationUnitLoading}
+          />
         </>
       }>
       <Grid container spacing={5}>
@@ -287,7 +258,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
             label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
+            isLoading={isOrganizationUnitLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -296,14 +267,14 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
             label={messages['common.title_bn']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
+            isLoading={isOrganizationUnitLoading}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='organization_id'
             label={messages['organization.label']}
-            isLoading={isLoading}
+            isLoading={isOrganizationUnitLoading && isHumanResourceLoading}
             control={control}
             options={[
               {
@@ -320,15 +291,15 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
-            id='organization_unit_type_id'
-            label={messages['organization_unit_type.label']}
-            isLoading={isLoading}
+            id='organization_unit_id'
+            label={messages['organization_unit.label']}
+            isLoading={isOrganizationUnitLoading && isHumanResourceLoading}
             control={control}
             options={[
               {
-                id: organizationUnitType?.id,
-                title_en: organizationUnitType?.title_en,
-                title_bn: organizationUnitType?.title_bn,
+                id: organizationUnit?.id,
+                title_en: organizationUnit?.title_en,
+                title_bn: organizationUnit?.title_bn,
               },
             ]}
             optionValueProp={'id'}
@@ -341,20 +312,20 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
           <CustomFormSelect
             id='parent_id'
             label={messages['human_resource_template.parent']}
-            isLoading={isLoading}
+            isLoading={isHumanResourcesLoading}
             control={control}
-            options={humanResourceTemplates}
+            options={humanResources}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            inputProps={{readOnly: !humanResourceTemplate?.parent_id}}
+            inputProps={{readOnly: !humanResourceData?.parent_id}}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='rank_id'
             label={messages['rank.label']}
-            isLoading={isLoading}
+            isLoading={isRanksLoading}
             control={control}
             options={ranks}
             optionValueProp={'id'}
@@ -368,7 +339,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
             label={messages['human_resource_template.display_order']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
+            isLoading={isOrganizationUnitLoading && isHumanResourceLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -387,7 +358,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
             ]}
             control={control}
             defaultValue={initialValues.is_designation}
-            isLoading={isLoading}
+            isLoading={isOrganizationUnitLoading && isHumanResourceLoading}
           />
         </Grid>
         <Grid item xs={12}>
@@ -395,7 +366,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> = ({
             id='row_status'
             control={control}
             defaultValue={initialValues.row_status}
-            isLoading={isLoading}
+            isLoading={isOrganizationUnitLoading && isHumanResourceLoading}
           />
         </Grid>
       </Grid>

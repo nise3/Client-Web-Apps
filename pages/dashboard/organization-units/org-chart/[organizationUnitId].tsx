@@ -20,8 +20,8 @@ import {
 import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
-import {useOrganizationUnitHierarchy} from '../../../../services/locationManagement/hooks';
 import HumanResourceAddEditPopup from '../../../../modules/dashboard/human-resources/HumanResourceAddEditPopup';
+import {useOrganizationUnitHierarchy} from '../../../../services/organaizationManagement/hooks';
 
 const makeChartData = (item: any) => {
   item.id = 'm' + item.id;
@@ -55,7 +55,6 @@ const OrgChart = () => {
   const {organizationUnitId} = router.query;
   const {
     data,
-    isLoading,
     metaData,
     mutate: mutateChartData,
   } = useOrganizationUnitHierarchy(Number(organizationUnitId));
@@ -65,10 +64,7 @@ const OrgChart = () => {
       const chartData = makeChartData(data);
       setChartData(chartData);
     }
-    console.log('data:', data);
-    console.log('Metadata:', metaData);
-    console.log('id:', organizationUnitId);
-    console.log('condition:', !data && organizationUnitId);
+
     if (metaData._response_status && !data && organizationUnitId) {
       openAddEditModal(selectedItemId);
     }
