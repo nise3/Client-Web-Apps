@@ -13,7 +13,7 @@ export const countPaginatePage = (
 
 interface TUseFetchData {
   urlPath: string;
-  dataAccessor: string;
+  dataAccessor?: string;
   filters?: any;
   onError?: (e: any) => any;
   paramsValueModifier?: (params: any) => any;
@@ -89,9 +89,10 @@ const useReactTableFetchData = ({
 
   return <TReturnUseFetchData>{
     onFetchData,
-    data: tableData?.data.hasOwnProperty(dataAccessor)
-      ? tableData.data[dataAccessor]
-      : [],
+    data:
+      dataAccessor && tableData?.data.hasOwnProperty(dataAccessor)
+        ? tableData.data[dataAccessor]
+        : tableData?.data?.data || [],
     loading: !tableData && !error,
     pageCount,
     totalCount,

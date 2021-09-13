@@ -121,7 +121,6 @@ const OccupationsPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_OCCUPATIONS,
-      dataAccessor: 'data',
     });
 
   return (
