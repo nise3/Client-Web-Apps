@@ -19,3 +19,16 @@ export const API_ORGANIZATION_UNITS =
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
+
+export const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
+export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
+export const API_SKILLS = ORGANIZATION_SERVICE_PATH + '/skills';
+
+export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
+export const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
+export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programmes';
+export const API_TRAINING_CENTERS =
+  INSTITUTE_SERVICE_PATH + '/training-centers';
+export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
+export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
+export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';

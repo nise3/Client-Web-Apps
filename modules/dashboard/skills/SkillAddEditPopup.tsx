@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -15,10 +15,10 @@ import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createSkill,
-  getSkill,
   updateSkill,
 } from '../../../services/organaizationManagement/SkillService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
@@ -54,7 +54,11 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateSkill,
+  } = useFetchSkill(itemId);
 
   const {
     control,
@@ -67,25 +71,17 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getSkill(itemId);
-        if (response) {
-          const {data: item} = response;
-          reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            description: item.description,
-            row_status: String(item.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        description: itemData?.description,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Skill> = async (data: Skill) => {
     if (isEdit && itemId) {
@@ -97,6 +93,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='skill.label' />}}
           />,
         );
+        mutateSkill();
         props.onClose();
         refreshDataTable();
       }

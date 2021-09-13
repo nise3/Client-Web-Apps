@@ -2,7 +2,6 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {
   createInstitute,
-  getInstitute,
   updateInstitute,
 } from '../../../services/instituteManagement/InstituteService';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -29,10 +28,13 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getAllUpazilas} from '../../../services/locationManagement/UpazilaService';
-import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
+import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -112,15 +114,31 @@ const initialValues = {
 
 const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   itemId,
+  refreshDataTable,
   ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
-  const [districts, setDistricts] = useState<Array<District>>([]);
-  const [upazilas, setUpazilas] = useState<Array<Upazila>>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateInstitute,
+  } = useFetchInstitute(itemId);
+  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [districtsFilter, setDistrictsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const [upazilasFilter, setUpazilasFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
 
   const {
     register,
@@ -133,91 +151,50 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getInstitute(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            domain: item?.domain,
-            code: item?.code,
-            primary_phone: item?.primary_phone,
-            phone_numbers: getObjectArrayFromValueArray(item?.phone_numbers),
-            primary_mobile: item?.primary_mobile,
-            mobile_numbers: getObjectArrayFromValueArray(item?.mobile_numbers),
-            loc_division_id: item?.loc_division_id,
-            loc_district_id: item?.loc_district_id,
-            loc_upazila_id: item?.loc_upazila_id,
-            address: item?.address,
-            google_map_src: item?.google_map_src,
-            email: item?.email,
-            row_status: String(item?.row_status),
-          });
-          await loadDistrictsDataByDivision(item?.loc_division_id);
-          await loadUpazilasDataByDistrict(item?.loc_district_id);
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        domain: itemData?.domain,
+        code: itemData?.code,
+        primary_phone: itemData?.primary_phone,
+        phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
+        primary_mobile: itemData?.primary_mobile,
+        mobile_numbers: getObjectArrayFromValueArray(itemData?.mobile_numbers),
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
+        loc_upazila_id: itemData?.loc_upazila_id,
+        address: itemData?.address,
+        google_map_src: itemData?.google_map_src,
+        email: itemData?.email,
+        row_status: String(itemData?.row_status),
+      });
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
-      if (response) setDivisions(response.data);
-      setIsLoading(false);
-    })();
+      setDistrictsFilter({
+        division_id: itemData?.loc_division_id,
+        row_status: RowStatus.ACTIVE,
+      });
+      setUpazilasFilter({
+        district_id: itemData?.loc_district_id,
+        row_status: RowStatus.ACTIVE,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
+
+  const changeDivisionAction = useCallback((divisionId: number) => {
+    setDistrictsFilter({
+      division_id: divisionId,
+      row_status: RowStatus.ACTIVE,
+    });
   }, []);
 
-  const loadDistrictsDataByDivision = async (divisionId: number) => {
-    if (divisionId) {
-      let response = await getAllDistricts({
-        row_status: RowStatus.ACTIVE,
-        division_id: divisionId,
-      });
-      if (response) {
-        setDistricts(response.data);
-      } else {
-        setDistricts([]);
-      }
-    } else {
-      setDistricts([]);
-    }
-    setUpazilas([]);
-  };
-
-  const changeDivisionAction = useCallback((value: number) => {
-    (async () => {
-      await loadDistrictsDataByDivision(value);
-    })();
-  }, []);
-
-  const loadUpazilasDataByDistrict = async (districtId: number) => {
-    if (districtId) {
-      let response = await getAllUpazilas({
-        row_status: RowStatus.ACTIVE,
-        district_id: districtId,
-      });
-      if (response) {
-        setUpazilas(response.data);
-      } else {
-        setUpazilas([]);
-      }
-    } else {
-      setUpazilas([]);
-    }
-  };
-
-  const changeDistrictAction = useCallback((value: number) => {
-    (async () => {
-      await loadUpazilasDataByDistrict(value);
-    })();
+  const changeDistrictAction = useCallback((districtId: number) => {
+    setUpazilasFilter({
+      district_id: districtId,
+      row_status: RowStatus.ACTIVE,
+    });
   }, []);
 
   const onSubmit: SubmitHandler<Institute> = async (data: Institute) => {
@@ -232,8 +209,9 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='institute.label' />}}
           />,
         );
+        mutateInstitute();
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     } else {
       let response = await createInstitute(data);
@@ -245,7 +223,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           />,
         );
         props.onClose();
-        props.refreshDataTable();
+        refreshDataTable();
       }
     }
   };
@@ -330,7 +308,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               <CustomFormSelect
                 id='loc_division_id'
                 label={messages['divisions.label']}
-                isLoading={isLoading}
+                isLoading={isLoadingDivisions}
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
@@ -343,7 +321,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               <CustomFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
-                isLoading={isLoading}
+                isLoading={isLoadingUpazilas}
                 control={control}
                 options={upazilas}
                 optionValueProp={'id'}
@@ -406,7 +384,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               <CustomFormSelect
                 id='loc_district_id'
                 label={messages['districts.label']}
-                isLoading={isLoading}
+                isLoading={isLoadingDistricts}
                 control={control}
                 options={districts}
                 optionValueProp={'id'}

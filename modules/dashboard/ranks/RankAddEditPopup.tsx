@@ -8,20 +8,23 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {getAllRankTypes} from '../../../services/organaizationManagement/RankTypeService';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {
   createRank,
-  getRank,
   updateRank,
 } from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  useFetchOrganizations,
+  useFetchRank,
+  useFetchRankTypes,
+} from '../../../services/organaizationManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface RankAddEditPopupProps {
   itemId: number | null;
@@ -61,12 +64,18 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Array<Organization> | []>(
-    [],
-  );
-  const [rankTypes, setRankTypes] = useState<Array<RankType> | []>([]);
-  const [organizationId, setOrganizationId] = useState<number | null>(null);
+
+  const {data: itemData, isLoading, mutate: mutateRank} = useFetchRank(itemId);
+  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [rankTypeFilters, setRankTypeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+
+  const {data: organizations, isLoading: isLoadingOrganizations} =
+    useFetchOrganizations(organizationFilters);
+
+  const {data: rankTypes, isLoading: isLoadingRankTypes} =
+    useFetchRankTypes(rankTypeFilters);
 
   const {
     control,
@@ -79,55 +88,31 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getRank(itemId);
-        if (response) {
-          let {data: item} = response;
-          setOrganizationId(item.organization_id);
-          reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            organization_id: item.organization_id,
-            rank_type_id: item.rank_type_id,
-            grade: item.grade,
-            display_order: item.display_order,
-            row_status: String(item.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        organization_id: itemData?.organization_id,
+        rank_type_id: itemData?.rank_type_id,
+        grade: itemData?.grade,
+        display_order: itemData?.display_order,
+        row_status: String(itemData?.row_status),
+      });
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllOrganizations();
-      if (response) {
-        setOrganizations(response.data);
-      }
-      setIsLoading(false);
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (organizationId) {
-        let response = await getAllRankTypes({organization_id: organizationId});
-        response && setRankTypes(response.data);
-      } else {
-        let response = await getAllRankTypes();
-        response && setRankTypes(response.data);
-      }
-    })();
-  }, [organizationId]);
+      setRankTypeFilters({
+        organization_id: itemData?.organization_id,
+        row_status: RowStatus.ACTIVE,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const handleOrganizationChange = (organizationId: any) => {
-    setOrganizationId(organizationId);
+    setRankTypeFilters({
+      organization_id: organizationId,
+      row_status: RowStatus.ACTIVE,
+    });
   };
 
   const onSubmit: SubmitHandler<Rank> = async (data: Rank) => {
@@ -140,6 +125,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='ranks.label' />}}
           />,
         );
+        mutateRank();
         props.onClose();
         refreshDataTable();
       }
@@ -209,7 +195,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
           <CustomFormSelect
             id='organization_id'
             label={messages['organization.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingOrganizations}
             control={control}
             options={organizations}
             optionValueProp={'id'}
@@ -222,7 +208,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
           <CustomFormSelect
             id='rank_type_id'
             label={messages['rank_types.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingRankTypes}
             control={control}
             options={rankTypes}
             optionValueProp={'id'}

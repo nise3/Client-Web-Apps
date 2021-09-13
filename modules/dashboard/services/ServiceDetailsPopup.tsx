@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -6,9 +6,9 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getService} from '../../../services/organaizationManagement/OrganizationServiceService';
 import IconService from '../../../@softbd/icons/IconService';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,24 +17,8 @@ type Props = {
 };
 
 const ServiceDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getService(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchOrganizationService(itemId);
 
   return (
     <>

@@ -13,14 +13,17 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {
   createCourse,
-  getCourse,
   updateCourse,
 } from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconProgramme';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {
+  useFetchCourse,
+  useFetchInstitutes,
+} from '../../../services/instituteManagement/hooks';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -75,8 +78,14 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateCourse,
+  } = useFetchCourse(itemId);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
 
   const {
     control,
@@ -89,41 +98,27 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getCourse(itemId);
-        if (response) {
-          const {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            institute_id: item?.institute_id,
-            code: item?.code,
-            course_fee: item?.course_fee,
-            duration: item?.duration,
-            description: item?.description,
-            objectives: item?.objectives,
-            target_group: item?.target_group,
-            eligibility: item?.eligibility,
-            prerequisite: item?.prerequisite,
-            training_methodology: item?.training_methodology,
-            contents: item?.contents,
-            row_status: String(item?.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-      await loadInstitutes();
-    })();
-  }, [itemId]);
-
-  const loadInstitutes = async () => {
-    const response = await getAllInstitutes();
-    response && setInstitutes(response.data);
-  };
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        institute_id: itemData?.institute_id,
+        code: itemData?.code,
+        course_fee: itemData?.course_fee,
+        duration: itemData?.duration,
+        description: itemData?.description,
+        objectives: itemData?.objectives,
+        target_group: itemData?.target_group,
+        eligibility: itemData?.eligibility,
+        prerequisite: itemData?.prerequisite,
+        training_methodology: itemData?.training_methodology,
+        contents: itemData?.contents,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Course> = async (data: Course) => {
     if (isEdit && itemId) {
@@ -135,6 +130,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='course.label' />}}
           />,
         );
+        mutateCourse();
         props.onClose();
         refreshDataTable();
       }
@@ -204,7 +200,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}

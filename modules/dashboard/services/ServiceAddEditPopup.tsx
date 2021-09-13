@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -13,11 +13,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createService,
-  getService,
   updateService,
 } from '../../../services/organaizationManagement/OrganizationServiceService';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconService from '../../../@softbd/icons/IconService';
+import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;
@@ -48,7 +48,11 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateService,
+  } = useFetchOrganizationService(itemId);
 
   const {
     register,
@@ -61,26 +65,18 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getService(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            row_status: item?.row_status
-              ? String(item.row_status)
-              : initialValues.row_status,
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        row_status: itemData?.row_status
+          ? String(itemData.row_status)
+          : initialValues.row_status,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Service> = async (data: Service) => {
     if (isEdit && itemId) {
@@ -92,6 +88,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='services.label' />}}
           />,
         );
+        mutateService();
         props.onClose();
         refreshDataTable();
       }

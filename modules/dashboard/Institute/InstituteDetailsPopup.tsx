@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {getInstitute} from '../../../services/instituteManagement/InstituteService';
+import React from 'react';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -9,6 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -18,23 +18,7 @@ type Props = {
 
 const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getInstitute(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchInstitute(itemId);
 
   return (
     <>

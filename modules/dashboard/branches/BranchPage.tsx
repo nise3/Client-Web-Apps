@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_BRANCHES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import BranchAddEditPopup from './BranchAddEditPopup';
 import BranchDetailsPopup from './BranchDetailsPopup';
@@ -16,8 +16,8 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteBranch} from '../../../services/instituteManagement/BranchService';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import IconBranch from '../../../@softbd/icons/IconBranch';
 
 const BranchPage = () => {
   const {messages} = useIntl();
@@ -122,8 +122,7 @@ const BranchPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: INSTITUTE_SERVICE_PATH + '/branches',
-      dataAccessor: 'data',
+      urlPath: API_BRANCHES,
     });
 
   return (
@@ -131,7 +130,7 @@ const BranchPage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='branch.label' />
+            <IconBranch /> <IntlMessages id='branch.label' />
           </>
         }
         extra={[
@@ -156,8 +155,6 @@ const BranchPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (

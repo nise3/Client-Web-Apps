@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {getProgramme} from '../../../services/instituteManagement/ProgrammeService';
+import {useFetchProgramme} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,24 +17,8 @@ type Props = {
 };
 
 const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getProgramme(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchProgramme(itemId);
 
   return (
     <>
