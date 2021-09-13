@@ -23,12 +23,14 @@ import {
 import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
 import {getAllRanks} from '../../../services/organaizationManagement/RankService';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {getOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
   isEdit: boolean;
+  organizationUnitTypeId: number;
 }
 
 const validationSchema = yup.object().shape({
@@ -71,7 +73,9 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     /**
      * itemId = "m25" transform it 25 as integer
      */
-    itemId = Number(itemId?.toString().substring(1));
+    if (itemId) {
+      itemId = Number(itemId?.toString().substring(1));
+    }
 
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
@@ -85,6 +89,10 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
 
     const [ranks, setRanks] = useState<Array<Rank> | []>([]);
     const [organizationId, setOrganizationId] = useState<number | null>(null);
+    const [organization, setOrganization] = useState<any | {}>({});
+    const [organizationUnitType, setOrganizationUnitType] = useState<any | {}>(
+      {},
+    );
     const [organizationUnitTypeId, setOrganizationUnitTypeId] = useState<
       number | null
     >(null);
@@ -110,6 +118,17 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             const {data: item} = response;
             setOrganizationId(item.organization_id);
             setOrganizationUnitTypeId(item.organization_unit_type_id);
+            setOrganization({
+              id: item.organization_id,
+              title_en: item.organization_title_en,
+              title_bn: item.organization_title_bn,
+            });
+            setOrganizationUnitType({
+              id: item.organization_unit_type_id,
+              title_en: item.organization_unit_type_title_en,
+              title_bn: item.organization_unit_type_title_bn,
+            });
+
             reset({
               title_en: item.title_en,
               title_bn: item.title_bn,
@@ -122,20 +141,51 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               row_status: String(item.row_status),
             });
           }
-        } else {
-          if (itemId) {
-            let response = await getHumanResourceTemplate(itemId);
-            setHumanResourceTemplate(response.data);
-            const {data: item} = response;
-            setOrganizationId(item.organization_id);
-            setOrganizationUnitTypeId(item.organization_unit_type_id);
-            initialValues.organization_id = item.organization_id;
-            initialValues.organization_unit_type_id =
-              item.organization_unit_type_id;
-            initialValues.parent_id = item.id;
-            reset(initialValues);
-          }
+        } else if (itemId) {
+          let response = await getHumanResourceTemplate(itemId);
+          setHumanResourceTemplate(response.data);
+          const {data: item} = response;
+
+          setOrganization({
+            id: item.organization_id,
+            title_en: item.organization_title_en,
+            title_bn: item.organization_title_bn,
+          });
+          setOrganizationUnitType({
+            id: item.organization_unit_type_id,
+            title_en: item.organization_unit_type_title_en,
+            title_bn: item.organization_unit_type_title_bn,
+          });
+          setOrganizationId(item.organization_id);
+          setOrganizationUnitTypeId(item.organization_unit_type_id);
+          initialValues.organization_id = item.organization_id;
+          initialValues.organization_unit_type_id =
+            item.organization_unit_type_id;
+          initialValues.parent_id = item.id;
+          reset(initialValues);
+        } else if (props.organizationUnitTypeId) {
+          const response = await getOrganizationUnitType(
+            props.organizationUnitTypeId,
+          );
+          const {data: item} = response;
+          setOrganizationId(item.organization_id);
+          setOrganizationUnitTypeId(organizationUnitTypeId);
+          setOrganization({
+            id: item.organization_id,
+            title_en: item.organization_title_en,
+            title_bn: item.organization_title_bn,
+          });
+          setOrganizationUnitType({
+            id: item.id,
+            title_en: item.title_en,
+            title_bn: item.title_bn,
+          });
+          initialValues.organization_id = item.organization_id;
+          initialValues.organization_unit_type_id = item.id;
+          initialValues.parent_id = '';
+          reset(initialValues);
         }
+
         setIsLoading(false);
       })();
     }, [itemId]);
@@ -254,9 +304,9 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               control={control}
               options={[
                 {
-                  id: humanResourceTemplate?.organization_id,
-                  title_en: humanResourceTemplate?.organization_title_en,
-                  title_bn: humanResourceTemplate?.organization_title_bn,
+                  id: organization?.id,
+                  title_en: organization?.title_en,
+                  title_bn: organization?.title_bn,
                 },
               ]}
               optionValueProp={'id'}
@@ -273,11 +323,9 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               control={control}
               options={[
                 {
-                  id: humanResourceTemplate?.organization_unit_type_id,
-                  title_en:
-                    humanResourceTemplate?.organization_unit_type_title_en,
-                  title_bn:
-                    humanResourceTemplate?.organization_unit_type_title_bn,
+                  id: organizationUnitType?.id,
+                  title_en: organizationUnitType?.title_en,
+                  title_bn: organizationUnitType?.title_bn,
                 },
               ]}
               optionValueProp={'id'}

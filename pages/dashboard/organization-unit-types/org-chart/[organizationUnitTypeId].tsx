@@ -26,7 +26,7 @@ import PageMeta from '../../../../@crema/core/PageMeta';
 const makeChartData = (item: any) => {
   item.id = 'm' + item.id;
   item.title = item.title_en;
-  item.name = item.title_en;
+  item.name = item.title_bn;
 
   if (item.children && Array.isArray(item.children)) {
     item.children.map((node: any) => {
@@ -41,7 +41,7 @@ const makeChartData = (item: any) => {
 const getHierarchyChartData = async (
   organization_unit_type_id: any,
   setChartData: any,
-) => {
+): Promise<boolean> => {
   let response = await getOrganizationUnitTypeHierarchy(
     organization_unit_type_id,
   );
@@ -50,8 +50,12 @@ const getHierarchyChartData = async (
     if (item) {
       makeChartData(item);
       setChartData(item);
+      return true;
+    } else {
+      return false;
     }
   }
+  return false;
 };
 
 const OrgChart = () => {
@@ -71,7 +75,15 @@ const OrgChart = () => {
   const {organizationUnitTypeId} = router.query;
 
   useEffect(() => {
-    getHierarchyChartData(organizationUnitTypeId, setChartData);
+    if (organizationUnitTypeId) {
+      getHierarchyChartData(organizationUnitTypeId, setChartData).then(
+        (res: boolean) => {
+          if (!res) {
+            openAddEditModal(selectedItemId);
+          }
+        },
+      );
+    }
   }, [organizationUnitTypeId]);
 
   const closeAddEditModal = useCallback(() => {
@@ -86,6 +98,26 @@ const OrgChart = () => {
     setIsEdit(isEdit);
     setIsOpenAddEditModal(true);
   };
+
+  const colors = ['green', 'red', 'blue'];
+  const shuffleLists = (root: HTMLDivElement) => {
+    let elems = root.getElementsByTagName('ul');
+    console.log(elems);
+
+    // @ts-ignore
+    for (let item of elems) {
+      console.log(item[0]);
+    }
+  };
+  function treeColoring(root: any, step: number) {
+    let heading = root.getElementsByClassName('oc-heading')[0];
+    if (heading) {
+      heading.style.backgroundColor = colors[step];
+    } else {
+      return;
+    }
+    shuffleLists(root);
+  }
 
   function getElementId(
     ele: any,
@@ -102,6 +134,8 @@ const OrgChart = () => {
 
   useEffect(() => {
     const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
+    treeColoring(node[0], 0);
+
     let draggedNodeId: number | null = null;
     let droppedNodeId = null;
 
@@ -120,6 +154,13 @@ const OrgChart = () => {
         (async () => {
           let response = await getHumanResourceTemplate(draggedNodeId);
           if (response) {
+            if (!response.data.parent_id) {
+              successStack(
+                <IntlMessages id='common.root_cant_be_drag_and_drop' />,
+              );
+
+              return false;
+            }
             humanResourceTemplate = response.data;
             humanResourceTemplate.parent_id = droppedNodeId;
             response = await updateHumanResourceTemplate(
@@ -229,6 +270,7 @@ const OrgChart = () => {
           onClose={closeAddEditModal}
           refreshDataTable={reloadData}
           isEdit={isEdit}
+          organizationUnitTypeId={Number(organizationUnitTypeId)}
         />
       )}
     </>
@@ -237,7 +279,7 @@ const OrgChart = () => {
 
 export default AppPage(() => (
   <>
-    <PageMeta title='Organization Chart' />
+    <PageMeta title='Organization Unit Types Chart' />
     <OrgChart />
   </>
 ));
