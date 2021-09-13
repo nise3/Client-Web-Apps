@@ -257,5 +257,6 @@
   "common.gender": "লিঙ্গ",
   "common.nid": "জাতীয় পরিচয়পত্র নাম্বার",
   "common.permanent_house_address": "স্থায়ী আবাস্থল",
-  "common.physical_disabilities_status": "Physical disabilities status"
+  "physical_disabilities_status": "Physical disabilities status",
+  "required_field": "{path} field is required"
 }

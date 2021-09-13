@@ -8,11 +8,11 @@ import * as yup from 'yup';
 
 yup.setLocale({
   mixed: {
-    default: '${path} is invalid',
     required: ({path}: any) => ({key: 'required_field', values: {path}}),
+    default: '${path} is invalid',
     oneOf: '${path} must be one of the following values: ${values}',
     notOneOf: '${path} must not be one of the following values: ${values}',
-    notType: 'not_type',
+    notType: 'not_type', //TODO: see packages example for real implementation.
     defined: '${path} must be defined',
   },
   string: {

@@ -1,4 +1,8 @@
 import {createIntl, createIntlCache} from 'react-intl';
+
+/**
+ * TODO: if we can get the current locale from store, then use it.
+ */
 // @ts-ignore
 import bnMessages from '/shared/localization/locales/bn_BD.json';
 

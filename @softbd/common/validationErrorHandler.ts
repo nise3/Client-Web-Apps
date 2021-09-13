@@ -1,5 +1,3 @@
-import intl from './IntlMessage';
-
 const ERRORS: any = {
   61000: 'common.validation_exist_error',
   49000: 'common.validation_required_error',
@@ -9,16 +7,12 @@ const ERRORS: any = {
   22000: 'common.validation_email_error',
 };
 
-const getValidationMessage = (code: string) => {
-  return intl.formatMessage({id: ERRORS[code]});
-};
-
 export const setServerValidationErrors = (errors: any, setError: any) => {
   return Object.keys(errors).forEach((key) => {
     errors[key].forEach(({code}: any) =>
       setError(key, {
         type: code,
-        message: getValidationMessage(code),
+        message: {key: ERRORS[code], values: {path: key}},
       }),
     );
   });
