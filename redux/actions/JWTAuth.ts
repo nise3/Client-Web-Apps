@@ -24,7 +24,7 @@ export const onJwtUserSignUp = (body: {
       const cookies = new Cookies();
       cookies.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
-      await loadJWTUser(dispatch);
+      // await loadJWTUser(dispatch);
     } catch (err: any) {
       console.log('error!!!!', err.response.data.error);
       dispatch(fetchError(err.response.data.error));
@@ -47,7 +47,7 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
       const cookies = new Cookies();
       cookies.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
-      await loadJWTUser(dispatch);
+      // await loadJWTUser(dispatch);
     } catch (err: any) {
       console.log('error!!!!', err.response.data.error);
       dispatch(fetchError(err.response.data.error));
@@ -55,7 +55,35 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
   };
 };
 
-export const loadJWTUser = async (dispatch: Dispatch<AppActions | any>) => {
+type TOnSSOSignInCallback = {
+  access_token: string;
+  expires_in: string | number;
+  id_token: string;
+  session_state: string;
+};
+
+export const onSSOSignInCallback = ({
+  access_token,
+  expires_in,
+  id_token,
+  session_state,
+}: TOnSSOSignInCallback) => {
+  return async (dispatch: Dispatch<AppActions>) => {
+    try {
+      const cookies = new Cookies();
+      cookies.set('token', access_token, {path: '/'});
+      dispatch(setJWTToken(access_token));
+      await loadJWTUser(dispatch, id_token);
+    } catch (err: any) {
+      console.log('error!!!!', err.response.data.error);
+    }
+  };
+};
+
+export const loadJWTUser = async (
+  dispatch: Dispatch<AppActions | any>,
+  idToken: string,
+) => {
   dispatch(fetchStart());
   try {
     console.log('res.data loading');

@@ -1,11 +1,11 @@
 import React from 'react';
-import SigninJwtAuth from './SigninJwtAuth';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import SigninSSO from './SigninSSO';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   imgRoot: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingTop: 32,
     },
     '&:before': {
-      content: '\'\'',
+      content: "''",
       position: 'absolute',
       left: 0,
       right: 0,
@@ -70,10 +70,10 @@ const Signin: React.FC<{}> = () => {
               color='text.primary'
               fontWeight={Fonts.REGULAR}
               fontSize={{xs: 24, xl: 26}}>
-              <IntlMessages id='common.login'/>
+              <IntlMessages id='common.login' />
             </Box>
           </Box>
-          <SigninJwtAuth/>
+          <SigninSSO />
         </Card>
       </Box>
     </Box>
