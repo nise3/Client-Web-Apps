@@ -19,3 +19,9 @@ export const API_ORGANIZATION_UNITS =
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
+
+export const API_ORGANIZATION_UNITS_HIERARCHY = (
+  organizationUnitId: number,
+) => {
+  return API_ORGANIZATION_UNITS + '/' + organizationUnitId + '/get-hierarchy';
+};

@@ -2,14 +2,12 @@
 import OrganizationChart from 'nextjs-orgchart';
 import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
-import {getOrganizationUnitTypeHierarchy} from '../../../../services/organaizationManagement/OrganizationUnitTypeService';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Popover, Typography} from '@material-ui/core';
 import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useIntl} from 'react-intl';
-import HumanResourceTemplateAddEditPopup from '../../../../modules/dashboard/human-resource-templates/HumanResourceTemplateAddEditPopup';
 import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../../@softbd/common/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
@@ -22,6 +20,8 @@ import {
 import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
+import {useOrganizationUnitHierarchy} from '../../../../services/locationManagement/hooks';
+import HumanResourceAddEditPopup from '../../../../modules/dashboard/human-resources/HumanResourceAddEditPopup';
 
 const makeChartData = (item: any) => {
   item.id = 'm' + item.id;
@@ -38,26 +38,6 @@ const makeChartData = (item: any) => {
   return item;
 };
 
-const getHierarchyChartData = async (
-  organization_unit_type_id: any,
-  setChartData: any,
-): Promise<boolean> => {
-  let response = await getOrganizationUnitTypeHierarchy(
-    organization_unit_type_id,
-  );
-  if (response) {
-    const {data: item} = response;
-    if (item) {
-      makeChartData(item);
-      setChartData(item);
-      return true;
-    } else {
-      return false;
-    }
-  }
-  return false;
-};
-
 const OrgChart = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -72,19 +52,27 @@ const OrgChart = () => {
   >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
-  const {organizationUnitTypeId} = router.query;
+  const {organizationUnitId} = router.query;
+  const {
+    data,
+    isLoading,
+    metaData,
+    mutate: mutateChartData,
+  } = useOrganizationUnitHierarchy(Number(organizationUnitId));
 
   useEffect(() => {
-    if (organizationUnitTypeId) {
-      getHierarchyChartData(organizationUnitTypeId, setChartData).then(
-        (res: boolean) => {
-          if (!res) {
-            openAddEditModal(selectedItemId);
-          }
-        },
-      );
+    if (data) {
+      const chartData = makeChartData(data);
+      setChartData(chartData);
     }
-  }, [organizationUnitTypeId]);
+    console.log('data:', data);
+    console.log('Metadata:', metaData);
+    console.log('id:', organizationUnitId);
+    console.log('condition:', !data && organizationUnitId);
+    if (metaData._response_status && !data && organizationUnitId) {
+      openAddEditModal(selectedItemId);
+    }
+  }, [data, organizationUnitId]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -207,12 +195,7 @@ const OrgChart = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const reloadData = useCallback(() => {
-    getHierarchyChartData(organizationUnitTypeId, setChartData);
-  }, [organizationUnitTypeId]);
-
-  const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
-    humanResourceId = Number(humanResourceId.toString().substring(1));
+  const deleteHumanResource = async (humanResourceId: number) => {
     let response = await deleteHumanResourceTemplate(humanResourceId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -223,7 +206,7 @@ const OrgChart = () => {
           }}
         />,
       );
-      reloadData();
+      mutateChartData();
     }
   };
 
@@ -259,8 +242,7 @@ const OrgChart = () => {
               {selectedItemParentId && (
                 <DeleteButton
                   deleteAction={() =>
-                    selectedItemId &&
-                    deleteHumanResourceFromTemplate(selectedItemId)
+                    selectedItemId && deleteHumanResource(selectedItemId)
                   }
                   deleteTitle={messages['common.delete_confirm'] as string}
                 />
@@ -270,12 +252,12 @@ const OrgChart = () => {
         </Popover>
       }
       {isOpenAddEditModal && (
-        <HumanResourceTemplateAddEditPopup
+        <HumanResourceAddEditPopup
           itemId={selectedItemId}
           onClose={closeAddEditModal}
-          refreshDataTable={reloadData}
+          refreshDataTable={mutateChartData}
           isEdit={isEdit}
-          organizationUnitTypeId={Number(organizationUnitTypeId)}
+          organizationUnitId={Number(organizationUnitId)}
         />
       )}
     </>
@@ -284,7 +266,7 @@ const OrgChart = () => {
 
 export default AppPage(() => (
   <>
-    <PageMeta title='Organization Unit Types Chart' />
+    <PageMeta title='Organization Units Chart' />
     <OrgChart />
   </>
 ));

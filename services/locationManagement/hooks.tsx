@@ -1,6 +1,7 @@
 import {
   API_DISTRICTS,
   API_DIVISIONS,
+  API_ORGANIZATION_UNITS_HIERARCHY,
   API_UPAZILAS,
 } from '../../@softbd/common/apiRoutes';
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
@@ -37,5 +38,12 @@ export function useFetchHumanResourceTemplates(
     humanResourceTemplateId
       ? API_HUMAN_RESOURCE_TEMPLATES + '/' + humanResourceTemplateId
       : null,
+  );
+}
+
+export function useOrganizationUnitHierarchy(organizationId: number | null) {
+  console.log('organizationId', organizationId);
+  return useAxiosSWR(
+    organizationId ? API_ORGANIZATION_UNITS_HIERARCHY(organizationId) : null,
   );
 }
