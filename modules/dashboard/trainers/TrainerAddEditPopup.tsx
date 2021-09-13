@@ -2,7 +2,6 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {
   createTrainer,
-  getTrainer,
   updateTrainer,
 } from '../../../services/instituteManagement/TrainerService';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -26,19 +25,23 @@ import {
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {getAllUpazilas} from '../../../services/locationManagement/UpazilaService';
-import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
 import {genders} from '../../../@softbd/common/helpers';
 import {religions} from '../../../@softbd/common/helpers';
-import {maritial_status} from '../../../@softbd/common/helpers';
+import {marital_status} from '../../../@softbd/common/helpers';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+
+import {useFetchTrainer} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+} from '../../../services/locationManagement/hooks';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -104,7 +107,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
   const [presentDistricts, setPresentDistricts] = useState<Array<District>>([]);
   const [permanentDistricts, setPermanentDistricts] = useState<Array<District>>(
     [],
@@ -119,7 +121,10 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const [trainingCenters, setTrainingCenters] = useState<
     Array<TrainingCenter> | []
   >([]);
-
+  const [filters] = useState({});
+  const [districtsFilter, setDistrictsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
   const {
     register,
     control,
@@ -131,72 +136,74 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getTrainer(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            trainer_name_en: item?.trainer_name_en,
-            trainer_name_bn: item?.trainer_name_bn,
-            institute_id: item?.institute_id,
-            branch_id: item?.branch_id,
-            training_center_id: item?.training_center_id,
-            trainer_registration_number: item?.trainer_registration_number,
-            email: item?.email,
-            mobile: item?.mobile,
-            about_me: item?.about_me,
-            gender: item?.gender,
-            marital_status: item?.marital_status,
-            religion: item?.religion,
-            date_of_birth: item?.date_of_birth
-              ? getMomentDateFormat(item.date_of_birth, 'YYYY-MM-DD')
-              : '',
-            nationality: item?.nationality,
-            nid: item?.nid,
-            passport_number: item?.passport_number,
-            present_address_division_id: item?.present_address_division_id,
-            present_address_district_id: item?.present_address_district_id,
-            present_address_upazila_id: item?.present_address_upazila_id,
-            permanent_address_division_id: item?.permanent_address_division_id,
-            permanent_address_district_id: item?.permanent_address_district_id,
-            permanent_address_upazila_id: item?.permanent_address_upazila_id,
-            present_house_address: item?.present_house_address,
-            permanent_house_address: item?.permanent_house_address,
-            educational_qualification: item?.educational_qualification,
-            skills: item?.skills,
-            row_status: String(item?.row_status),
-          });
-          loadDistrictsByDivision(
-            item?.present_address_division_id,
-            true,
-            false,
-          );
-          loadDistrictsByDivision(
-            item?.permanent_address_division_id,
-            false,
-            false,
-          );
-          loadUpazilasByDistrict(item?.present_address_district_id, true);
-          loadUpazilasByDistrict(item?.permanent_address_district_id, false);
+  const {
+    data: itemData,
+    isLoading: trainerLoading,
+    mutate: mutateTrainer,
+  } = useFetchTrainer(itemId);
 
-          loadBranchByInstitute(item?.institute_id);
-          loadTrainingCenterByBranch(item?.branch_id);
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+  const {data: divisions, isLoading: divisionLoading}: any =
+    useFetchDivisions(filters);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+
+  useEffect(() => {
+    if (itemData) {
+      reset({
+        trainer_name_en: itemData?.trainer_name_en,
+        trainer_name_bn: itemData?.trainer_name_bn,
+        institute_id: itemData?.institute_id,
+        branch_id: itemData?.branch_id,
+        training_center_id: itemData?.training_center_id,
+        trainer_registration_number: itemData?.trainer_registration_number,
+        email: itemData?.email,
+        mobile: itemData?.mobile,
+        about_me: itemData?.about_me,
+        gender: itemData?.gender,
+        marital_status: itemData?.marital_status,
+        religion: itemData?.religion,
+        date_of_birth: itemData?.date_of_birth
+          ? getMomentDateFormat(itemData.date_of_birth, 'YYYY-MM-DD')
+          : '',
+        nationality: itemData?.nationality,
+        nid: itemData?.nid,
+        passport_number: itemData?.passport_number,
+        present_address_division_id: itemData?.present_address_division_id,
+        present_address_district_id: itemData?.present_address_district_id,
+        present_address_upazila_id: itemData?.present_address_upazila_id,
+        permanent_address_division_id: itemData?.permanent_address_division_id,
+        permanent_address_district_id: itemData?.permanent_address_district_id,
+        permanent_address_upazila_id: itemData?.permanent_address_upazila_id,
+        present_house_address: itemData?.present_house_address,
+        permanent_house_address: itemData?.permanent_house_address,
+        educational_qualification: itemData?.educational_qualification,
+        skills: itemData?.skills,
+        row_status: String(itemData?.row_status),
+      });
+      loadDistrictsByDivision(
+        itemData?.present_address_division_id,
+        true,
+        false,
+      );
+      loadDistrictsByDivision(
+        itemData?.permanent_address_division_id,
+        false,
+        false,
+      );
+      loadUpazilasByDistrict(itemData?.present_address_district_id, true);
+      loadUpazilasByDistrict(itemData?.permanent_address_district_id, false);
+
+      loadBranchByInstitute(itemData?.institute_id);
+      loadTrainingCenterByBranch(itemData?.branch_id);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       await loadInstitutes();
-      await loadDivisions();
       setIsLoading(false);
     })();
   }, []);
@@ -205,12 +212,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     const response = await getAllInstitutes();
     response && setInstitutes(response.data);
   };
-  const loadDivisions = async () => {
-    const response = await getAllDivisions();
-    response && setDivisions(response.data);
-  };
 
-  const handleDivisionChange = async (
+  const handleDivisionChange = (
     divisionId: number,
     isPresent: boolean,
     isChanged: boolean,
@@ -223,22 +226,23 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     isPresent: boolean,
     isChanged: boolean,
   ) => {
-    (async () => {
-      let response = await getAllDistricts({division_id: divisionId});
-      if (response) {
-        if (isPresent) {
-          setPresentDistricts(response.data);
-          if (isChanged) {
-            setPresentUpazilas([]);
-          }
-        } else {
-          setPermanentDistricts(response.data);
-          if (isChanged) {
-            setPermanentUpazilas([]);
-          }
+    setDistrictsFilter({
+      division_id: divisionId,
+      row_status: RowStatus.ACTIVE,
+    });
+    if (districts) {
+      if (isPresent) {
+        setPresentDistricts(districts);
+        if (isChanged) {
+          setPresentUpazilas([]);
+        }
+      } else {
+        setPermanentDistricts(districts);
+        if (isChanged) {
+          setPermanentUpazilas([]);
         }
       }
-    })();
+    }
   };
 
   const handleDistrictChange = async (
@@ -303,6 +307,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='trainers.label' />}}
           />,
         );
+        mutateTrainer();
         props.onClose();
         refreshDataTable();
       }
@@ -359,7 +364,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
+            isLoading={trainerLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -429,7 +434,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='present_address_division_id'
             label={messages['common.division_title_present_address']}
-            isLoading={isLoading}
+            isLoading={divisionLoading}
             control={control}
             options={divisions}
             optionValueProp={'id'}
@@ -446,7 +451,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='permanent_address_division_id'
             label={messages['common.division_title_permanent_address']}
-            isLoading={isLoading}
+            isLoading={divisionLoading}
             control={control}
             options={divisions}
             optionValueProp={'id'}
@@ -463,7 +468,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='present_address_district_id'
             label={messages['common.district_title_present_address']}
-            isLoading={isLoading}
+            isLoading={isLoadingDistricts}
             control={control}
             options={presentDistricts}
             optionValueProp={'id'}
@@ -480,7 +485,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='permanent_address_district_id'
             label={messages['common.district_title_permanent_address']}
-            isLoading={isLoading}
+            isLoading={isLoadingDistricts}
             control={control}
             options={permanentDistricts}
             optionValueProp={'id'}
@@ -551,7 +556,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             label={messages['common.marital_status']}
             isLoading={isLoading}
             control={control}
-            options={maritial_status}
+            options={marital_status}
             optionValueProp={'id'}
             optionTitleProp={['label']}
             errorInstance={errors}

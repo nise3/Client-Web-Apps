@@ -19,3 +19,5 @@ export const API_ORGANIZATION_UNITS =
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
+
+export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
