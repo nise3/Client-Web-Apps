@@ -131,6 +131,7 @@ interface TReactTableColumns {
   disableFilters: boolean;
   disableSortBy: boolean;
   isVisible: boolean;
+  toggleVisibilityFeature: boolean;
   filter: 'any';
   Cell: 'any';
 }
