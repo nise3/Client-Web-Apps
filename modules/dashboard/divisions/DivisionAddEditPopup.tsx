@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -16,26 +16,19 @@ import {
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/common/helpers';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/common/yup';
+import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  bbs_code: yup.string().trim().required().label('BBS code'),
-});
 
 const initialValues = {
   title_en: '',
@@ -58,11 +51,33 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     mutate: mutateDivision,
   } = useFetchDivision(itemId);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .matches(TEXT_REGEX_BANGLA)
+        .required()
+        .label(messages['common.title_bn'] as string),
+      bbs_code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.bbs_code'] as string),
+    });
+  }, [messages]);
+
   const {
     register,
     control,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -96,6 +111,10 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         mutateDivision();
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(response.errors, setError);
+        }
       }
     } else {
       let response = await createDivision(data);
@@ -108,6 +127,10 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         );
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(response.errors, setError);
+        }
       }
     }
   };

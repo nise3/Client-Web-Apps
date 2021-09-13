@@ -258,5 +258,20 @@
   "common.nid": "জাতীয় পরিচয়পত্র নাম্বার",
   "common.permanent_house_address": "স্থায়ী আবাস্থল",
   "physical_disabilities_status": "Physical disabilities status",
-  "required_field": "{path} field is required"
+  "yup_validation_required_field": "{path} অবশ্যই পূরণ করতে হবে",
+  "yup_validation_default": "{path} ভ্যালিড নয়",
+  "yup_validation_one_Of": "{path} must be one of the following values: {values}",
+  "yup_validation_not_one_of": "{path} must not be one of the following values: {values}",
+  "yup_validation_defined": "{path} must be defined",
+  "yup_validation_length": "{path} must be exactly {length} characters",
+  "yup_validation_min": "{path} must be at least {min} characters",
+  "yup_validation_max": "{path} must be at most {max} characters",
+  "yup_validation_matches": "{path} must match the following: {regex}",
+  "yup_validation_email": "{path} must be a valid email",
+  "yup_validation_url": "{path} must be a valid URL",
+  "yup_validation_uuid": "{path} must be a valid UUID",
+  "yup_validation_trim": "{path} must be a trimmed string",
+  "yup_validation_lowercase": "{path} must be a lowercase string",
+  "yup_validation_uppercase": "{path} must be a upper case string",
+  "yup_validation_unknown_error": "এররের বিস্তারিত জানা যায় নি!"
 }

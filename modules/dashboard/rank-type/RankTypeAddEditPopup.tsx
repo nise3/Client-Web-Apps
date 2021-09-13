@@ -20,7 +20,11 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/common/helpers';
+import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -29,12 +33,12 @@ interface RankTypeAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
+  title_en: yup.string().trim(), //.required('Enter title (En)'),
   title_bn: yup
     .string()
     .trim()
     .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
+    .matches(TEXT_REGEX_BANGLA),
   organization_id: yup.string(),
   description: yup.string(),
   row_status: yup.string(),
@@ -67,6 +71,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     register,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<RankType>({
     resolver: yupResolver(validationSchema),
@@ -113,6 +118,10 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         );
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(response.errors, setError);
+        }
       }
     } else {
       let response = await createRankType(data);
@@ -125,6 +134,10 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         );
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(response.errors, setError);
+        }
       }
     }
   };

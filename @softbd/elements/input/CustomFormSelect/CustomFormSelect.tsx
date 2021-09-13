@@ -9,6 +9,7 @@ import {
   Select,
 } from '@material-ui/core';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
   id: string;
@@ -108,7 +109,20 @@ const CustomFormSelect = ({
               })}
             </Select>
             {errorInstance?.[id] && (
-              <FormHelperText>{errorInstance[id].message}</FormHelperText>
+              <FormHelperText>
+                {errorInstance[id].message ? (
+                  errorInstance[id].message.hasOwnProperty('key') ? (
+                    <IntlMessages
+                      id={errorInstance[id].message.key}
+                      values={errorInstance[id].message?.values || {}}
+                    />
+                  ) : (
+                    errorInstance[id].message
+                  )
+                ) : (
+                  ''
+                )}
+              </FormHelperText>
             )}
           </>
         )}

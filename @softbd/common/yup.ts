@@ -8,24 +8,51 @@ import * as yup from 'yup';
 
 yup.setLocale({
   mixed: {
-    required: ({path}: any) => ({key: 'required_field', values: {path}}),
-    default: '${path} is invalid',
-    oneOf: '${path} must be one of the following values: ${values}',
-    notOneOf: '${path} must not be one of the following values: ${values}',
+    required: ({path}: any) => ({
+      key: 'yup_validation_required_field',
+      values: {path},
+    }),
+    default: ({path}: any) => ({key: 'yup_validation_default', values: {path}}),
+    oneOf: ({path, values}: any) => ({
+      key: 'yup_validation_one_Of',
+      values: {path, values},
+    }),
+    notOneOf: ({path, values}: any) => ({
+      key: 'yup_validation_not_one_of',
+      values: {path, values},
+    }),
     notType: 'not_type', //TODO: see packages example for real implementation.
-    defined: '${path} must be defined',
+    defined: ({path}: any) => ({key: 'yup_validation_defined', values: {path}}),
   },
   string: {
-    length: '${path} must be exactly ${length} characters',
-    min: '${path} must be at least ${min} characters',
-    max: '${path} must be at most ${max} characters',
-    matches: '${path} must match the following: "${regex}"',
-    email: '${path} must be a valid email',
-    url: '${path} must be a valid URL',
-    uuid: '${path} must be a valid UUID',
-    trim: '${path} must be a trimmed string',
-    lowercase: '${path} must be a lowercase string',
-    uppercase: '${path} must be a upper case string',
+    length: ({path, length}: any) => ({
+      key: 'yup_validation_length',
+      values: {path, length},
+    }),
+    min: ({path, min}: any) => ({
+      key: 'yup_validation_min',
+      values: {path, min},
+    }),
+    max: ({path, max}: any) => ({
+      key: 'yup_validation_max',
+      values: {path, max},
+    }),
+    matches: ({path, regex}: any) => ({
+      key: 'yup_validation_matches',
+      values: {path, regex},
+    }),
+    email: ({path}: any) => ({key: 'yup_validation_email', values: {path}}),
+    url: ({path}: any) => ({key: 'yup_validation_url', values: {path}}),
+    uuid: ({path}: any) => ({key: 'yup_validation_uuid', values: {path}}),
+    trim: ({path}: any) => ({key: 'yup_validation_trim', values: {path}}),
+    lowercase: ({path}: any) => ({
+      key: 'yup_validation_lowercase',
+      values: {path},
+    }),
+    uppercase: ({path}: any) => ({
+      key: 'yup_validation_uppercase',
+      values: {path},
+    }),
   },
   number: {
     min: '${path} must be greater than or equal to ${min}',
@@ -57,6 +84,6 @@ function defaultTitleValidation(this: any, local: 'en' | 'bn') {
   return this.string().trim().required();
 }
 
-yup.addMethod(yup.string, 'title', defaultTitleValidation);
+yup.addMethod<yup.StringSchema>(yup.string, 'title', defaultTitleValidation);
 
 export default yup;
