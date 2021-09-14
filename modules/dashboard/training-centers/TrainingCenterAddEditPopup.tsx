@@ -13,15 +13,18 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {
   createTrainingCenter,
-  getTrainingCenter,
   updateTrainingCenter,
 } from '../../../services/instituteManagement/TrainingCenterService';
-import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
+import {
+  useFetchBranches,
+  useFetchInstitutes,
+  useFetchTrainingCenter,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -62,9 +65,19 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
-  const [branches, setBranches] = useState<Array<Branch> | []>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateTrainingCenter,
+  } = useFetchTrainingCenter(itemId);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
+  const [branchFilters, setBranchFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
 
   const {
     control,
@@ -77,52 +90,31 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getTrainingCenter(itemId);
-        if (response) {
-          const {data: item} = response;
-          reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            institute_id: item.institute_id,
-            branch_id: item?.branch_id,
-            address: item?.address,
-            google_map_src: item?.google_map_src,
-            row_status: String(item?.row_status),
-          });
-          await loadBranchesByInstituteId(item?.institute_id);
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        institute_id: itemData?.institute_id,
+        branch_id: itemData?.branch_id,
+        address: itemData?.address,
+        google_map_src: itemData?.google_map_src,
+        row_status: String(itemData?.row_status),
+      });
 
-  useEffect(() => {
-    (async () => {
-      await loadInstitutes();
-    })();
-  }, []);
-
-  const loadBranchesByInstituteId = async (instituteId: number | null) => {
-    if (instituteId) {
-      let response = await getAllBranches({institute_id: instituteId});
-      if (response) setBranches(response.data);
+      setBranchFilters({
+        institute_id: itemData?.institute_id,
+        row_status: RowStatus.ACTIVE,
+      });
+    } else {
+      reset(initialValues);
     }
-  };
-
-  const loadInstitutes = async () => {
-    const response = await getAllInstitutes();
-    response && setInstitutes(response.data);
-  };
+  }, [itemData]);
 
   const handleInstituteChange = useCallback((instituteId: number) => {
-    (async () => {
-      await loadBranchesByInstituteId(instituteId);
-    })();
+    setBranchFilters({
+      institute_id: instituteId,
+      row_status: RowStatus.ACTIVE,
+    });
   }, []);
 
   const onSubmit: SubmitHandler<TrainingCenter> = async (
@@ -137,6 +129,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='training_center.label' />}}
           />,
         );
+        mutateTrainingCenter();
         props.onClose();
         refreshDataTable();
       }
@@ -205,7 +198,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}
@@ -218,7 +211,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingBranches}
             control={control}
             options={branches}
             optionValueProp={'id'}

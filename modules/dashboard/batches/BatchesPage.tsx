@@ -15,7 +15,7 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
 import {deleteBatch} from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
@@ -143,8 +143,7 @@ const BatchesPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: INSTITUTE_SERVICE_PATH + '/batches',
-      dataAccessor: 'data',
+      urlPath: API_BATCHES,
     });
 
   return (

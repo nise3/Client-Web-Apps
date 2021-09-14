@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_TRAINING_CENTERS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import TrainingCenterAddEditPopup from './TrainingCenterAddEditPopup';
 import TrainingCenterDetailsPopup from './TrainingCenterDetailsPopup';
@@ -124,8 +124,7 @@ const TrainingCenterPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: INSTITUTE_SERVICE_PATH + '/training-centers',
-      dataAccessor: 'data',
+      urlPath: API_TRAINING_CENTERS,
     });
 
   return (
@@ -158,8 +157,6 @@ const TrainingCenterPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -13,12 +13,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  deleteSkill,
-  getAllSkills,
-} from '../../../services/organaizationManagement/SkillService';
+import {deleteSkill} from '../../../services/organaizationManagement/SkillService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IconSkill from '../../../@softbd/icons/IconSkill';
+import {useFetchSkills} from '../../../services/organaizationManagement/hooks';
 
 const SkillPage = () => {
   const {messages} = useIntl();
@@ -27,21 +25,12 @@ const SkillPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [skills, setSkills] = useState<Array<Skill> | []>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadSkills();
-    })();
-  }, []);
-
-  const loadSkills = async () => {
-    setIsLoading(true);
-    let response = await getAllSkills();
-    response && setSkills(response.data);
-    setIsLoading(false);
-  };
+  const [skillFilters] = useState({});
+  const {
+    data: skills,
+    isLoading,
+    mutate: mutateSkills,
+  } = useFetchSkills(skillFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -80,10 +69,8 @@ const SkillPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadSkills();
-    })();
-  }, []);
+    mutateSkills();
+  }, [mutateSkills]);
 
   const columns = useMemo(
     () => [

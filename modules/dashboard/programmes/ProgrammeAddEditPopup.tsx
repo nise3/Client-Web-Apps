@@ -13,14 +13,17 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {
   createProgramme,
-  getProgramme,
   updateProgramme,
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  useFetchInstitutes,
+  useFetchProgramme,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -59,8 +62,14 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateProgramme,
+  } = useFetchProgramme(itemId);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
 
   const {
     control,
@@ -73,33 +82,19 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getProgramme(itemId);
-        if (response) {
-          const {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            institute_id: item?.institute_id,
-            code: item?.code,
-            description: item?.description,
-            row_status: String(item?.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-      loadInstitutes();
-    })();
-  }, [itemId]);
-
-  const loadInstitutes = async () => {
-    let response = await getAllInstitutes();
-    response && setInstitutes(response.data);
-  };
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        institute_id: itemData?.institute_id,
+        code: itemData?.code,
+        description: itemData?.description,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Programme> = async (data: Programme) => {
     if (isEdit && itemId) {
@@ -111,6 +106,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='programme.label' />}}
           />,
         );
+        mutateProgramme();
         props.onClose();
         refreshDataTable();
       }
@@ -180,7 +176,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}

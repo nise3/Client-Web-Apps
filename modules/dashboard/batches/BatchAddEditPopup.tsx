@@ -17,22 +17,24 @@ import * as yup from 'yup';
 import {
   assignTrainersToBatch,
   createBatch,
-  getBatch,
   updateBatch,
 } from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getAllBranches} from '../../../services/instituteManagement/BranchService';
-import {getAllProgrammes} from '../../../services/instituteManagement/ProgrammeService';
-import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
-import {getAllCourses} from '../../../services/instituteManagement/CourseService';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {FormControlLabel, Switch} from '@material-ui/core';
-import {getAllTrainers} from '../../../services/instituteManagement/TrainerService';
+import {
+  useFetchBatch,
+  useFetchBranches,
+  useFetchCourses,
+  useFetchInstitutes,
+  useFetchProgrammes,
+  useFetchTrainers,
+  useFetchTrainingCenters,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -83,18 +85,47 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute>>([]);
-  const [trainingCenters, setTrainingCenters] = useState<Array<TrainingCenter>>(
-    [],
-  );
-  const [programmes, setProgrammes] = useState<Array<Programme>>([]);
-  const [branches, setBranches] = useState<Array<Branch>>([]);
-  const [courses, setCourses] = useState<Array<Course>>([]);
+
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateBatch,
+  } = useFetchBatch(itemId);
+
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
+
+  const [branchFilters, setBranchFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const [programmeFilters, setProgrammeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: programmes, isLoading: isLoadingProgrammes} =
+    useFetchProgrammes(programmeFilters);
+
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
+    useFetchTrainingCenters(trainingCenterFilters);
+
+  const [coursesFilters, setCoursesFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: courses, isLoading: isLoadingCourses} =
+    useFetchCourses(coursesFilters);
+
+  const [trainersFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: trainers, isLoading: isLoadingTrainers} =
+    useFetchTrainers(trainersFilters);
+
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
-  const [trainers, setTrainers] = useState<Array<Trainer>>([]);
-
   const configItemList = useMemo(
     () => [
       {
@@ -148,156 +179,83 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getBatch(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            course_id: item?.course_id,
-            programme_id: item?.programme_id,
-            institute_id: item?.institute_id,
-            branch_id: item?.branch_id,
-            training_center_id: item?.training_center_id,
-            registration_start_date: item?.registration_start_date
-              ? getMomentDateFormat(item.registration_start_date, 'YYYY-MM-DD')
-              : '',
-            registration_end_date: item?.registration_end_date
-              ? getMomentDateFormat(item.registration_end_date, 'YYYY-MM-DD')
-              : '',
-            batch_start_date: item?.batch_start_date
-              ? getMomentDateFormat(item.batch_start_date, 'YYYY-MM-DD')
-              : '',
-            batch_end_date: item?.batch_end_date
-              ? getMomentDateFormat(item.batch_end_date, 'YYYY-MM-DD')
-              : '',
-            number_of_seats: item?.number_of_seats,
-            available_seats: item?.available_seats,
-            trainers: getTrainerIds(item?.trainers),
-            row_status: String(item?.row_status),
-          });
-          onInstituteChange(item?.institute_id);
-          onBranchChange(item?.branch_id);
-          setValuesOfConfigs(item?.dynamic_form_field);
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        course_id: itemData?.course_id,
+        programme_id: itemData?.programme_id,
+        institute_id: itemData?.institute_id,
+        branch_id: itemData?.branch_id,
+        training_center_id: itemData?.training_center_id,
+        registration_start_date: itemData?.registration_start_date
+          ? getMomentDateFormat(itemData.registration_start_date, 'YYYY-MM-DD')
+          : '',
+        registration_end_date: itemData?.registration_end_date
+          ? getMomentDateFormat(itemData.registration_end_date, 'YYYY-MM-DD')
+          : '',
+        batch_start_date: itemData?.batch_start_date
+          ? getMomentDateFormat(itemData.batch_start_date, 'YYYY-MM-DD')
+          : '',
+        batch_end_date: itemData?.batch_end_date
+          ? getMomentDateFormat(itemData.batch_end_date, 'YYYY-MM-DD')
+          : '',
+        number_of_seats: itemData?.number_of_seats,
+        available_seats: itemData?.available_seats,
+        trainers: getTrainerIds(itemData?.trainers),
+        row_status: String(itemData?.row_status),
+      });
 
-  useEffect(() => {
-    setIsLoading(true);
-    (async () => {
-      await loadInstituteData();
-      await loadTrainersData();
-    })();
-    setIsLoading(false);
-  }, []);
+      setBranchFilters({
+        row_status: RowStatus.ACTIVE,
+        institute_id: itemData?.institute_id,
+      });
+      setProgrammeFilters({
+        row_status: RowStatus.ACTIVE,
+        institute_id: itemData?.institute_id,
+      });
+
+      setCoursesFilters({
+        row_status: RowStatus.ACTIVE,
+        institute_id: itemData?.institute_id,
+      });
+
+      setTrainingCenterFilters({
+        row_status: RowStatus.ACTIVE,
+        branch_id: itemData?.branch_id,
+      });
+
+      setValuesOfConfigs(itemData?.dynamic_form_field);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const getTrainerIds = (trainers: Array<Trainer>) => {
     let ids = trainers.map((item: Trainer) => item.id);
     return ids;
   };
 
-  const loadTrainersData = async () => {
-    let response = await getAllTrainers({
-      row_status: RowStatus.ACTIVE,
-    });
-    if (response) {
-      setTrainers(response.data);
-    }
-  };
-
-  const loadInstituteData = async () => {
-    let response = await getAllInstitutes({
-      row_status: RowStatus.ACTIVE,
-    });
-    if (response) {
-      setInstitutes(response.data);
-    }
-  };
-
   const onInstituteChange = useCallback((instituteId: number) => {
-    if (instituteId) {
-      loadBranchByInstitute(instituteId);
-      loadProgrammeByInstitute(instituteId);
-      loadCourseByInstitute(instituteId);
-    } else {
-      setBranches([]);
-      setProgrammes([]);
-      setCourses([]);
-      setTrainingCenters([]);
-    }
+    setBranchFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
+    setProgrammeFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
+
+    setCoursesFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
-    loadTrainingCenterByBranch(branchId);
+    setTrainingCenterFilters({
+      row_status: RowStatus.ACTIVE,
+      branch_id: branchId,
+    });
   }, []);
-
-  const loadBranchByInstitute = (instituteId: number) => {
-    (async () => {
-      let response = await getAllBranches({
-        row_status: RowStatus.ACTIVE,
-        institute_id: instituteId,
-      });
-      if (response) {
-        setBranches(response.data);
-        setTrainingCenters([]);
-      } else {
-        setBranches([]);
-        setTrainingCenters([]);
-      }
-    })();
-  };
-
-  const loadProgrammeByInstitute = (instituteId: number) => {
-    (async () => {
-      let response = await getAllProgrammes({
-        row_status: RowStatus.ACTIVE,
-        institute_id: instituteId,
-      });
-      if (response) {
-        setProgrammes(response.data);
-      } else {
-        setProgrammes([]);
-      }
-    })();
-  };
-
-  const loadTrainingCenterByBranch = (branchId: number) => {
-    (async () => {
-      if (branchId) {
-        let response = await getAllTrainingCenters({
-          row_status: RowStatus.ACTIVE,
-          branch_id: branchId,
-        });
-        if (response) {
-          setTrainingCenters(response.data);
-        } else {
-          setTrainingCenters([]);
-        }
-      } else {
-        setTrainingCenters([]);
-      }
-    })();
-  };
-
-  const loadCourseByInstitute = (instituteId: number) => {
-    (async () => {
-      let response = await getAllCourses({
-        row_status: RowStatus.ACTIVE,
-        institute_id: instituteId,
-      });
-      if (response) {
-        setCourses(response.data);
-      } else {
-        setCourses([]);
-      }
-    })();
-  };
 
   const setValuesOfConfigs = (config: string | undefined | null) => {
     try {
@@ -347,6 +305,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='batches.label' />}}
           />,
         );
+        mutateBatch();
         props.onClose();
         refreshDataTable();
       }
@@ -401,7 +360,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp='id'
@@ -415,7 +374,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingBranches}
             control={control}
             options={branches}
             optionValueProp='id'
@@ -429,7 +388,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           <CustomFormSelect
             id='programme_id'
             label={messages['programme.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingProgrammes}
             control={control}
             options={programmes}
             optionValueProp='id'
@@ -442,7 +401,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           <CustomFormSelect
             id='training_center_id'
             label={messages['training_center.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingTrainingCenters}
             control={control}
             options={trainingCenters}
             optionValueProp='id'
@@ -455,7 +414,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           <CustomFormSelect
             id='course_id'
             label={messages['course.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingCourses}
             control={control}
             options={courses}
             optionValueProp='id'
@@ -523,7 +482,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           <CustomFormSelect
             id='trainers'
             label={messages['trainers.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingTrainers}
             control={control}
             options={trainers}
             optionValueProp='id'

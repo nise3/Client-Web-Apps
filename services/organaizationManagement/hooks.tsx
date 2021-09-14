@@ -1,12 +1,20 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_HUMAN_RESOURCE_TEMPLATES,
+  API_HUMAN_RESOURCES,
   API_JOB_SECTORS,
   API_OCCUPATIONS,
   API_ORGANIZATION_SERVICES,
   API_ORGANIZATION_TYPES,
   API_ORGANIZATION_UNIT_TYPES,
   API_ORGANIZATION_UNITS,
+  API_ORGANIZATION_UNIT_HIERARCHY,
   API_ORGANIZATIONS,
+  API_SKILLS,
+  API_RANK_TYPES,
+  API_RANKS,
+  API_PERMISSION_GROUPS,
+  API_PERMISSION_SUB_GROUPS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchOccupation(occupationId: number | null) {
@@ -73,4 +81,84 @@ export function useFetchOrganizationUnits(params: any) {
 
 export function useFetchOrganizationServices(params: any) {
   return useAxiosSWR([API_ORGANIZATION_SERVICES, params]);
+}
+
+export function useFetchOrganizationService(serviceId: number | null) {
+  return useAxiosSWR(
+    serviceId ? API_ORGANIZATION_SERVICES + '/' + serviceId : null,
+  );
+}
+
+export function useFetchSkill(skillId: number | null) {
+  return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
+}
+
+export function useFetchSkills(params: any) {
+  return useAxiosSWR([API_SKILLS, params]);
+}
+
+export function useFetchRankType(rankTypeId: number | null) {
+  return useAxiosSWR(rankTypeId ? API_RANK_TYPES + '/' + rankTypeId : null);
+}
+
+export function useFetchRankTypes(params: any) {
+  return useAxiosSWR([API_RANK_TYPES, params]);
+}
+
+export function useFetchRank(rankId: number | null) {
+  return useAxiosSWR(rankId ? API_RANKS + '/' + rankId : null);
+}
+
+export function useFetchRanks(params: any) {
+  return useAxiosSWR([API_RANKS, params]);
+}
+
+export function useOrganizationUnitHierarchy(organizationId: number | null) {
+  return useAxiosSWR(
+    organizationId ? API_ORGANIZATION_UNIT_HIERARCHY(organizationId) : null,
+  );
+}
+
+export function useFetchHumanResourceTemplate(
+  humanResourceTemplateId: number | null,
+) {
+  return useAxiosSWR(
+    humanResourceTemplateId
+      ? API_HUMAN_RESOURCE_TEMPLATES + '/' + humanResourceTemplateId
+      : null,
+  );
+}
+
+export function useFetchHumanResource(humanResourceId: number | null) {
+  return useAxiosSWR(
+    humanResourceId ? API_HUMAN_RESOURCES + '/' + humanResourceId : null,
+  );
+}
+
+export function useFetchHumanResources(params: any) {
+  return useAxiosSWR([API_HUMAN_RESOURCES, params]);
+}
+
+export function useFetchPermissionGroups(params: any) {
+  return useAxiosSWR([API_PERMISSION_GROUPS, params]);
+}
+
+export function useFetchPermissionGroup(permissionGroupId: number | null) {
+  return useAxiosSWR(
+    permissionGroupId ? API_PERMISSION_GROUPS + '/' + permissionGroupId : null,
+  );
+}
+
+export function useFetchPermissionSubGroup(
+  permissionSubGroupId: number | null,
+) {
+  return useAxiosSWR(
+    permissionSubGroupId
+      ? API_PERMISSION_SUB_GROUPS + '/' + permissionSubGroupId
+      : null,
+  );
+}
+
+export function useFetchPermissionSubGroups(params: any) {
+  return useAxiosSWR([API_PERMISSION_SUB_GROUPS, params]);
 }

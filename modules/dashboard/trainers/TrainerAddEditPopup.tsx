@@ -2,7 +2,6 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {
   createTrainer,
-  getTrainer,
   updateTrainer,
 } from '../../../services/instituteManagement/TrainerService';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -26,20 +25,29 @@ import {
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getAllUpazilas} from '../../../services/locationManagement/UpazilaService';
-import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import {getAllBranches} from '../../../services/instituteManagement/BranchService';
-import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
 import {genders} from '../../../@softbd/common/helpers';
 import {religions} from '../../../@softbd/common/helpers';
-import {maritial_status} from '../../../@softbd/common/helpers';
+import {marital_status} from '../../../@softbd/common/helpers';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
+import {
+  useFetchBranches,
+  useFetchInstitutes,
+  useFetchTrainer,
+  useFetchTrainingCenters,
+} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {
+  filterUpazilasByDistrictId,
+  filterDistrictsByDivisionId,
+} from '../../../services/locationManagement/locationUtils';
 interface TrainerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -103,22 +111,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
-  const [presentDistricts, setPresentDistricts] = useState<Array<District>>([]);
-  const [permanentDistricts, setPermanentDistricts] = useState<Array<District>>(
-    [],
-  );
-  const [presentUpazilas, setPresentUpazilas] = useState<Array<Upazila>>([]);
-  const [permanentUpazilas, setPermanentUpazilas] = useState<Array<Upazila>>(
-    [],
-  );
-
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
-  const [branches, setBranches] = useState<Array<Branch> | []>([]);
-  const [trainingCenters, setTrainingCenters] = useState<
-    Array<TrainingCenter> | []
-  >([]);
 
   const {
     register,
@@ -131,167 +123,167 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getTrainer(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            trainer_name_en: item?.trainer_name_en,
-            trainer_name_bn: item?.trainer_name_bn,
-            institute_id: item?.institute_id,
-            branch_id: item?.branch_id,
-            training_center_id: item?.training_center_id,
-            trainer_registration_number: item?.trainer_registration_number,
-            email: item?.email,
-            mobile: item?.mobile,
-            about_me: item?.about_me,
-            gender: item?.gender,
-            marital_status: item?.marital_status,
-            religion: item?.religion,
-            date_of_birth: item?.date_of_birth
-              ? getMomentDateFormat(item.date_of_birth, 'YYYY-MM-DD')
-              : '',
-            nationality: item?.nationality,
-            nid: item?.nid,
-            passport_number: item?.passport_number,
-            present_address_division_id: item?.present_address_division_id,
-            present_address_district_id: item?.present_address_district_id,
-            present_address_upazila_id: item?.present_address_upazila_id,
-            permanent_address_division_id: item?.permanent_address_division_id,
-            permanent_address_district_id: item?.permanent_address_district_id,
-            permanent_address_upazila_id: item?.permanent_address_upazila_id,
-            present_house_address: item?.present_house_address,
-            permanent_house_address: item?.permanent_house_address,
-            educational_qualification: item?.educational_qualification,
-            skills: item?.skills,
-            row_status: String(item?.row_status),
-          });
-          loadDistrictsByDivision(
-            item?.present_address_division_id,
-            true,
-            false,
-          );
-          loadDistrictsByDivision(
-            item?.permanent_address_division_id,
-            false,
-            false,
-          );
-          loadUpazilasByDistrict(item?.present_address_district_id, true);
-          loadUpazilasByDistrict(item?.permanent_address_district_id, false);
+  const {
+    data: itemData,
+    isLoading: isLoading,
+    mutate: mutateTrainer,
+  } = useFetchTrainer(itemId);
 
-          loadBranchByInstitute(item?.institute_id);
-          loadTrainingCenterByBranch(item?.branch_id);
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+  const [filters] = useState({});
+  const {data: divisions, isLoading: isLoadingDivisions}: any =
+    useFetchDivisions(filters);
+
+  const [districtsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: districts} = useFetchDistricts(districtsFilter);
+
+  const [upazilasFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+
+  const [presentDistricts, setPresentDistricts] = useState<
+    Array<District> | []
+  >([]);
+  const [permanentDistricts, setPermanentDistricts] = useState<
+    Array<District> | []
+  >([]);
+  const [presentUpazilas, setPresentUpazilas] = useState<Array<Upazila> | []>(
+    [],
+  );
+  const [permanentUpazilas, setPermanentUpazilas] = useState<
+    Array<Upazila> | []
+  >([]);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
+
+  const [branchFilters, setBranchFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
+    useFetchTrainingCenters(trainingCenterFilters);
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      await loadInstitutes();
-      await loadDivisions();
-      setIsLoading(false);
-    })();
-  }, []);
+    if (itemData) {
+      reset({
+        trainer_name_en: itemData?.trainer_name_en,
+        trainer_name_bn: itemData?.trainer_name_bn,
+        institute_id: itemData?.institute_id,
+        branch_id: itemData?.branch_id,
+        training_center_id: itemData?.training_center_id,
+        trainer_registration_number: itemData?.trainer_registration_number,
+        email: itemData?.email,
+        mobile: itemData?.mobile,
+        about_me: itemData?.about_me,
+        gender: itemData?.gender,
+        marital_status: itemData?.marital_status,
+        religion: itemData?.religion,
+        date_of_birth: itemData?.date_of_birth
+          ? getMomentDateFormat(itemData.date_of_birth, 'YYYY-MM-DD')
+          : '',
+        nationality: itemData?.nationality,
+        nid: itemData?.nid,
+        passport_number: itemData?.passport_number,
+        present_address_division_id: itemData?.present_address_division_id,
+        present_address_district_id: itemData?.present_address_district_id,
+        present_address_upazila_id: itemData?.present_address_upazila_id,
+        permanent_address_division_id: itemData?.permanent_address_division_id,
+        permanent_address_district_id: itemData?.permanent_address_district_id,
+        permanent_address_upazila_id: itemData?.permanent_address_upazila_id,
+        present_house_address: itemData?.present_house_address,
+        permanent_house_address: itemData?.permanent_house_address,
+        educational_qualification: itemData?.educational_qualification,
+        skills: itemData?.skills,
+        row_status: String(itemData?.row_status),
+      });
 
-  const loadInstitutes = async () => {
-    const response = await getAllInstitutes();
-    response && setInstitutes(response.data);
-  };
-  const loadDivisions = async () => {
-    const response = await getAllDivisions();
-    response && setDivisions(response.data);
-  };
+      let presentDistrict = filterDistrictsByDivisionId(
+        districts,
+        itemData?.present_address_division_id,
+      );
 
-  const handleDivisionChange = async (
-    divisionId: number,
-    isPresent: boolean,
-    isChanged: boolean,
-  ) => {
-    loadDistrictsByDivision(divisionId, isPresent, isChanged);
-  };
+      setPresentDistricts(presentDistrict);
 
-  const loadDistrictsByDivision = (
-    divisionId: number,
-    isPresent: boolean,
-    isChanged: boolean,
-  ) => {
-    (async () => {
-      let response = await getAllDistricts({division_id: divisionId});
-      if (response) {
-        if (isPresent) {
-          setPresentDistricts(response.data);
-          if (isChanged) {
-            setPresentUpazilas([]);
-          }
-        } else {
-          setPermanentDistricts(response.data);
-          if (isChanged) {
-            setPermanentUpazilas([]);
-          }
-        }
-      }
-    })();
-  };
+      let permanentDistrict = filterDistrictsByDivisionId(
+        districts,
+        itemData?.permanent_address_division_id,
+      );
+      setPermanentDistricts(permanentDistrict);
 
-  const handleDistrictChange = async (
-    districtId: number,
-    isPresent: boolean,
-  ) => {
-    loadUpazilasByDistrict(districtId, isPresent);
-  };
-  const loadUpazilasByDistrict = (districtId: number, isPresent: boolean) => {
-    (async () => {
-      let response = await getAllUpazilas({districtId: districtId});
-      if (response) {
-        if (isPresent) {
-          setPresentUpazilas(response.data);
-        } else {
-          setPermanentUpazilas(response.data);
-        }
-      }
-    })();
-  };
+      let presentUpazila = filterUpazilasByDistrictId(
+        upazilas,
+        itemData?.present_address_district_id,
+      );
+      setPresentUpazilas(presentUpazila);
+
+      let permanentUpazila = filterUpazilasByDistrictId(
+        upazilas,
+        itemData?.permanent_address_district_id,
+      );
+      setPermanentUpazilas(permanentUpazila);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData, districts, upazilas]);
+
+  const onPresentDivisionChange = useCallback(
+    (divisionId: number) => {
+      let presentDistrict = filterDistrictsByDivisionId(districts, divisionId);
+      setPresentDistricts(presentDistrict);
+    },
+    [districts],
+  );
+
+  const onPermanentDivisionChange = useCallback(
+    (divisionId: number) => {
+      let permanentDistrict = filterDistrictsByDivisionId(
+        districts,
+        divisionId,
+      );
+      setPermanentDistricts(permanentDistrict);
+    },
+    [districts],
+  );
+
+  const onPresentDistrictChange = useCallback(
+    (districtId: number) => {
+      console.log('upazilas', upazilas);
+      let presentUpazila = filterUpazilasByDistrictId(upazilas, districtId);
+      setPresentUpazilas(presentUpazila);
+    },
+    [upazilas],
+  );
+
+  const onPermanentDistrictChange = useCallback(
+    (districtId: number) => {
+      let permanentUpazila = filterUpazilasByDistrictId(upazilas, districtId);
+      setPermanentUpazilas(permanentUpazila);
+    },
+    [upazilas],
+  );
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    loadBranchByInstitute(instituteId);
+    setBranchFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
   }, []);
 
-  const onBranchChange = useCallback((BranchId: number) => {
-    loadTrainingCenterByBranch(BranchId);
+  const onBranchChange = useCallback((branchId: number) => {
+    setTrainingCenterFilters({
+      row_status: RowStatus.ACTIVE,
+      branch_id: branchId,
+    });
   }, []);
 
-  const loadBranchByInstitute = (instituteId: number) => {
-    (async () => {
-      let response = await getAllBranches({
-        row_status: RowStatus.ACTIVE,
-        institute_id: instituteId,
-      });
-      if (response) {
-        setBranches(response.data);
-        setTrainingCenters([]);
-      }
-    })();
-  };
-
-  const loadTrainingCenterByBranch = (branchId: number) => {
-    (async () => {
-      let response = await getAllTrainingCenters({
-        row_status: RowStatus.ACTIVE,
-        branch_id: branchId,
-      });
-      if (response) {
-        setTrainingCenters(response.data);
-      }
-    })();
-  };
   const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
     if (isEdit && itemId) {
       console.log('data--', data);
@@ -303,6 +295,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='trainers.label' />}}
           />,
         );
+        mutateTrainer();
         props.onClose();
         refreshDataTable();
       }
@@ -429,34 +422,26 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='present_address_division_id'
             label={messages['common.division_title_present_address']}
-            isLoading={isLoading}
+            isLoading={isLoadingDivisions}
             control={control}
             options={divisions}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((divisionId: number) => {
-              (async () => {
-                await handleDivisionChange(divisionId, true, true);
-              })();
-            }, [])}
+            onChange={onPresentDivisionChange}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_division_id'
             label={messages['common.division_title_permanent_address']}
-            isLoading={isLoading}
+            isLoading={isLoadingDivisions}
             control={control}
             options={divisions}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((divisionId: number) => {
-              (async () => {
-                await handleDivisionChange(divisionId, false, true);
-              })();
-            }, [])}
+            onChange={onPermanentDivisionChange}
           />
         </Grid>
         <Grid item xs={6}>
@@ -469,31 +454,20 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((present_address_district_id: number) => {
-              (async () => {
-                await handleDistrictChange(present_address_district_id, true);
-              })();
-            }, [])}
+            onChange={onPresentDistrictChange}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_district_id'
             label={messages['common.district_title_permanent_address']}
-            isLoading={isLoading}
             control={control}
             options={permanentDistricts}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((permanent_address_district_id: number) => {
-              (async () => {
-                await handleDistrictChange(
-                  permanent_address_district_id,
-                  false,
-                );
-              })();
-            }, [])}
+            isLoading={isLoading}
+            onChange={onPermanentDistrictChange}
           />
         </Grid>
         <Grid item xs={6}>
@@ -551,7 +525,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             label={messages['common.marital_status']}
             isLoading={isLoading}
             control={control}
-            options={maritial_status}
+            options={marital_status}
             optionValueProp={'id'}
             optionTitleProp={['label']}
             errorInstance={errors}
@@ -608,7 +582,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}
@@ -621,7 +595,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingBranches}
             control={control}
             options={branches}
             optionValueProp={'id'}
@@ -634,7 +608,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='training_center_id'
             label={messages['menu.training_center']}
-            isLoading={isLoading}
+            isLoading={isLoadingTrainingCenters}
             control={control}
             options={trainingCenters}
             optionValueProp={'id'}

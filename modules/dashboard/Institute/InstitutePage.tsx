@@ -8,7 +8,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
 import InstituteAddEditPopup from './InstituteAddEditPopup';
@@ -124,8 +124,7 @@ const InstitutePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
-      dataAccessor: 'data',
+      urlPath: API_INSTITUTES,
     });
 
   return (

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -7,9 +7,9 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
-import {getBatch} from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import {getMomentDateFormat} from '../../../@softbd/common/helpers';
+import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -19,23 +19,7 @@ type Props = {
 
 const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getBatch(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchBatch(itemId);
 
   const getTrainersName = useCallback((trainers: any = []) => {
     let namesArray = trainers.map((item: Trainer) => item.trainer_name_en);

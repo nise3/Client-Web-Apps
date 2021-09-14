@@ -102,11 +102,10 @@ const OrgChart = () => {
   const colors = ['green', 'red', 'blue'];
   const shuffleLists = (root: HTMLDivElement) => {
     let elems = root.getElementsByTagName('ul');
-    console.log(elems);
 
     // @ts-ignore
     for (let item of elems) {
-      console.log(item[0]);
+      console.log('item', item);
     }
   };
   function treeColoring(root: any, step: number) {
@@ -116,6 +115,7 @@ const OrgChart = () => {
     } else {
       return;
     }
+
     shuffleLists(root);
   }
 
@@ -150,6 +150,10 @@ const OrgChart = () => {
         droppedNodeId = getElementId(e.target, 0, 3);
         draggedNodeId = Number(draggedNodeId?.toString().substring(1));
         droppedNodeId = Number(droppedNodeId.toString().substring(1));
+
+        if (draggedNodeId == droppedNodeId) {
+          return false;
+        }
         let humanResourceTemplate;
         (async () => {
           let response = await getHumanResourceTemplate(draggedNodeId);
@@ -208,6 +212,7 @@ const OrgChart = () => {
   }, [organizationUnitTypeId]);
 
   const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
+    humanResourceId = Number(humanResourceId.toString().substring(1));
     let response = await deleteHumanResourceTemplate(humanResourceId);
     if (isResponseSuccess(response)) {
       successStack(

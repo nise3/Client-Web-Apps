@@ -1,14 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteRankType,
-  getAllRankTypes,
-} from '../../../services/organaizationManagement/RankTypeService';
+import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -18,6 +15,7 @@ import IconRankType from '../../../@softbd/icons/IconRankType';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {useFetchRankTypes} from '../../../services/organaizationManagement/hooks';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -26,21 +24,12 @@ const RankTypePage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [rankTypes, setRankTypes] = useState<Array<RankType>>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadRankTypesData();
-    })();
-  }, []);
-
-  const loadRankTypesData = async () => {
-    setIsLoading(true);
-    let response = await getAllRankTypes();
-    response && setRankTypes(response.data);
-    setIsLoading(false);
-  };
+  const [rankFilters] = useState({});
+  const {
+    data: rankTypes,
+    isLoading,
+    mutate: mutateRankTypes,
+  } = useFetchRankTypes(rankFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -79,10 +68,8 @@ const RankTypePage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadRankTypesData();
-    })();
-  }, []);
+    mutateRankTypes();
+  }, [mutateRankTypes]);
 
   const columns = useMemo(
     () => [

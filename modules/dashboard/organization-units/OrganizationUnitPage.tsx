@@ -17,8 +17,22 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import Link from 'next/link';
+import {Button, makeStyles} from '@material-ui/core';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const OrganizationUnitPage = () => {
+  const classes = useStyles();
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
@@ -109,6 +123,11 @@ const OrganizationUnitPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL =
+            '/../../dashboard/organization-units/org-chart/__'.replace(
+              '__',
+              String(data.id),
+            );
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -117,6 +136,14 @@ const OrganizationUnitPage = () => {
                 deleteAction={() => deleteOrganizationUnitItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={URL} passHref>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  {messages['common.hierarchy']}
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },

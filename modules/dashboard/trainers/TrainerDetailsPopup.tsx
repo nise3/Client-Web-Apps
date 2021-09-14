@@ -11,7 +11,7 @@ import {getTrainer} from '../../../services/instituteManagement/TrainerService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import {genders} from '../../../@softbd/common/helpers';
 import {religions} from '../../../@softbd/common/helpers';
-import {maritial_status} from '../../../@softbd/common/helpers';
+import {marital_status} from '../../../@softbd/common/helpers';
 type Props = {
   itemId: number;
   onClose: () => void;
@@ -156,7 +156,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.gender']}
-              value={genders[itemData?.gender]?.label}
+              value={genders[itemData?.gender - 1]?.label}
               isLoading={isLoading}
             />
           </Grid>
@@ -170,7 +170,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.marital_status']}
-              value={maritial_status[itemData?.maritial_status]?.label}
+              value={marital_status[itemData?.marital_status - 1]?.label}
               isLoading={isLoading}
             />
           </Grid>

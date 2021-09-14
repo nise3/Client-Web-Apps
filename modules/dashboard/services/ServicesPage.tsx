@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -7,10 +7,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteService,
-  getAllServices,
-} from '../../../services/organaizationManagement/OrganizationServiceService';
+import {deleteService} from '../../../services/organaizationManagement/OrganizationServiceService';
 import ServiceAddEditPopup from './ServiceAddEditPopup';
 import ServiceDetailsPopup from './ServiceDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -18,6 +15,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IconService from '../../../@softbd/icons/IconService';
+import {useFetchOrganizationServices} from '../../../services/organaizationManagement/hooks';
 
 const ServicesPage = () => {
   const {messages} = useIntl();
@@ -25,21 +23,12 @@ const ServicesPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [services, setServices] = useState<Array<Service>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      await loadServicesData();
-    })();
-  }, []);
-
-  const loadServicesData = async () => {
-    setIsLoading(true);
-    let response = await getAllServices();
-    if (response) setServices(response.data);
-    setIsLoading(false);
-  };
+  const [serviceFilters] = useState({});
+  const {
+    data: services,
+    isLoading,
+    mutate: mutateServices,
+  } = useFetchOrganizationServices(serviceFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -74,10 +63,8 @@ const ServicesPage = () => {
     }
   };
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadServicesData();
-    })();
-  }, []);
+    mutateServices();
+  }, [mutateServices]);
 
   const columns = useMemo(
     () => [

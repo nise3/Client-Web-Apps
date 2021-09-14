@@ -15,12 +15,15 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createBranch,
-  getBranch,
   updateBranch,
 } from '../../../services/instituteManagement/BranchService';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {
+  useFetchBranch,
+  useFetchInstitutes,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -59,8 +62,14 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateBranch,
+  } = useFetchBranch(itemId);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
 
   const {
     control,
@@ -73,33 +82,19 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getBranch(itemId);
-        if (response) {
-          const {data: item} = response;
-          reset({
-            title_en: item.title_en,
-            title_bn: item.title_bn,
-            institute_id: item.institute_id,
-            address: item.address,
-            google_map_src: item.google_map_src,
-            row_status: String(item.row_status),
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-      loadInstitutes();
-    })();
-  }, [itemId]);
-
-  const loadInstitutes = async () => {
-    const response = await getAllInstitutes();
-    response && setInstitutes(response.data);
-  };
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        institute_id: itemData?.institute_id,
+        address: itemData?.address,
+        google_map_src: itemData?.google_map_src,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
     if (isEdit && itemId) {
@@ -111,6 +106,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             values={{subject: <IntlMessages id='branch.label' />}}
           />,
         );
+        mutateBranch();
         props.onClose();
         refreshDataTable();
       }
@@ -180,7 +176,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}
