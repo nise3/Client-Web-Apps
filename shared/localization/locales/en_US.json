@@ -279,5 +279,9 @@
   "yup_validation_trim": "{path} must be a trimmed string",
   "yup_validation_lowercase": "{path} must be a lowercase string",
   "yup_validation_uppercase": "{path} must be a upper case string",
+  "yup_validation_exist": "{path} already exist",
+  "yup_validation_number": "{path} must be number",
+  "yup_validation_password": "{path} is not valid password",
+  "yup_validation_regex": "{path} is not valid format",
   "yup_validation_unknown_error": "Unknown Error!"
 }

@@ -1,9 +1,9 @@
 const ERRORS: any = {
-  61000: 'common.validation_exist_error',
+  61000: 'yup_validation_exist',
   49000: 'yup_validation_required_field',
-  45000: 'common.validation_number_error',
-  46000: 'common.validation_password_error',
-  48000: 'common.validation_regex_error',
+  45000: 'yup_validation_number',
+  46000: 'yup_validation_password',
+  48000: 'yup_validation_regex',
   22000: 'yup_validation_email',
 };
 

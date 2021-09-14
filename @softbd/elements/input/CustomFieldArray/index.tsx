@@ -4,6 +4,7 @@ import {Button, ButtonGroup, Grid, TextField} from '@material-ui/core';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {AddCircleOutline, RemoveCircleOutline} from '@material-ui/icons';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
   id: string;
@@ -51,7 +52,18 @@ const CustomFieldArray = ({
               }
               error={errors[id]?.[index] && Boolean(errors[id]?.[index])}
               helperText={
-                errors[id]?.[index] && errors[id]?.[index]?.value?.message
+                errors[id]?.[index] && errors[id]?.[index]?.value?.message ? (
+                  errors[id]?.[index].value.message.hasOwnProperty('key') ? (
+                    <IntlMessages
+                      id={errors[id]?.[index].value.message.key}
+                      values={errors[id]?.[index].value.message?.values || {}}
+                    />
+                  ) : (
+                    errors[id]?.[index].value.message
+                  )
+                ) : (
+                  ''
+                )
               }
               {...register(itemId)}
             />

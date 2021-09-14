@@ -59,12 +59,12 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       title_en: yup
         .string()
         .trim()
-        //.required()
+        .required()
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
         .trim()
-        //.required()
+        .required()
         .label(messages['common.title_bn'] as string)
         .matches(TEXT_REGEX_BANGLA),
       organization_id: yup.string(),
@@ -72,8 +72,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       row_status: yup.string(),
     });
   }, [messages]);
-
-  console.log('validationSchema', validationSchema);
 
   const {
     control,
