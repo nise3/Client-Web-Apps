@@ -66,7 +66,11 @@ const SigninSSO: React.FC<UserSigninProps> = (props) => {
   }, []);
 
   return (
-    <Box mb={6} display='flex' alignItems={{sm: 'center'}}>
+    <Box
+      mb={6}
+      display='flex'
+      alignItems={{sm: 'center'}}
+      justifyContent={{sm: 'center'}}>
       <Button
         onClick={redirectToSSO}
         variant='contained'
