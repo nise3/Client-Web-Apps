@@ -19,6 +19,17 @@ export const API_ORGANIZATION_UNITS =
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
+export const API_HUMAN_RESOURCES =
+  ORGANIZATION_SERVICE_PATH + '/human-resources';
+
+export const API_HUMAN_RESOURCE_TEMPLATES =
+  ORGANIZATION_SERVICE_PATH + '/human-resource-templates';
+
+export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
+
+export const API_ORGANIZATION_UNIT_HIERARCHY = (organizationUnitId: number) => {
+  return API_ORGANIZATION_UNITS + '/' + organizationUnitId + '/get-hierarchy';
+};
 
 export const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
 export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';

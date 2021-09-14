@@ -1,15 +1,15 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_HUMAN_RESOURCE_TEMPLATES,
+  API_HUMAN_RESOURCES,
   API_JOB_SECTORS,
   API_OCCUPATIONS,
   API_ORGANIZATION_SERVICES,
   API_ORGANIZATION_TYPES,
   API_ORGANIZATION_UNIT_TYPES,
   API_ORGANIZATION_UNITS,
+  API_ORGANIZATION_UNIT_HIERARCHY,
   API_ORGANIZATIONS,
-  API_RANK_TYPES,
-  API_RANKS,
-  API_SKILLS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchOccupation(occupationId: number | null) {
@@ -106,4 +106,34 @@ export function useFetchRank(rankId: number | null) {
 
 export function useFetchRanks(params: any) {
   return useAxiosSWR([API_RANKS, params]);
+}
+
+export function useOrganizationUnitHierarchy(organizationId: number | null) {
+  return useAxiosSWR(
+    organizationId ? API_ORGANIZATION_UNIT_HIERARCHY(organizationId) : null,
+  );
+}
+
+export function useFetchHumanResourceTemplate(
+  humanResourceTemplateId: number | null,
+) {
+  return useAxiosSWR(
+    humanResourceTemplateId
+      ? API_HUMAN_RESOURCE_TEMPLATES + '/' + humanResourceTemplateId
+      : null,
+  );
+}
+
+export function useFetchHumanResource(humanResourceId: number | null) {
+  return useAxiosSWR(
+    humanResourceId ? API_HUMAN_RESOURCES + '/' + humanResourceId : null,
+  );
+}
+
+export function useFetchRanks(params: any) {
+  return useAxiosSWR([API_RANKS, params]);
+}
+
+export function useFetchHumanResources(params: any) {
+  return useAxiosSWR([API_HUMAN_RESOURCES, params]);
 }
