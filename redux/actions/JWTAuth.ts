@@ -11,6 +11,7 @@ import {
   UPDATE_AUTH_USER,
 } from '../../types/actions/Auth.actions';
 import {Cookies} from 'react-cookie';
+import {Base64} from 'js-base64';
 
 export const onJwtUserSignUp = (body: {
   email: string;
@@ -88,14 +89,19 @@ export const loadJWTUser = async (
   try {
     console.log('res.data loading');
     // const res = await jwtAxios.get('/auth');
+    const data = JSON.parse(Base64.decode(idToken.split('.')[1]));
+    console.log(data);
     const res = {
       data: {
-        id: 4,
-        name: 'Demo User',
-        email: 'demo@ample.com',
-        email_verified_at: null,
-        created_at: '2020-09-03T04:25:55.000000Z',
-        updated_at: '2020-09-03T04:25:55.000000Z',
+        ...{
+          id: 4,
+          name: data?.given_name || 'Demo User',
+          email: 'demo@ample.com',
+          email_verified_at: null,
+          created_at: '2020-09-03T04:25:55.000000Z',
+          updated_at: '2020-09-03T04:25:55.000000Z',
+        },
+        ...data,
       },
     };
     dispatch(fetchSuccess());
