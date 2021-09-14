@@ -35,6 +35,7 @@ type PermissionGroup = {
   title_en: string;
   title_bn: string;
   key: string;
+  row_status: string;
 };
 
 type PermissionSubGroup = {
@@ -43,4 +44,6 @@ type PermissionSubGroup = {
   title_bn: string;
   key: string;
   permission_group_id: number;
+  row_status: string;
 };
+
