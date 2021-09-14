@@ -1,5 +1,5 @@
-import React from 'react';
-import {alpha, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import React, {useCallback} from 'react';
+import {alpha, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,10 +18,10 @@ import {
   Slide,
   useScrollTrigger,
 } from '@material-ui/core';
-import Link from 'next/link';
 import {ExitToApp} from '@material-ui/icons';
 import Image from 'next/image';
 import logo from '../../public/images/logo-with-name.png';
+import {SSO_LOGIN_URL} from '../../@softbd/common/SSOConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -131,6 +131,10 @@ export default function Header() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const redirectToSSO = useCallback(() => {
+    window.location.href = SSO_LOGIN_URL;
+  }, []);
+
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -212,14 +216,13 @@ export default function Header() {
               <Image src={logo} width={90} height={50} alt='Logo' />
               <Box className={classes.grow} />
               <Box className={classes.sectionDesktop}>
-                <Link href='/signin'>
-                  <Button
-                    variant='contained'
-                    className={classes.signinButton}
-                    endIcon={<ExitToApp />}>
-                    প্রবেশ করুন
-                  </Button>
-                </Link>
+                <Button
+                  variant='contained'
+                  onClick={redirectToSSO}
+                  className={classes.signinButton}
+                  endIcon={<ExitToApp />}>
+                  প্রবেশ করুন
+                </Button>
 
                 {/*<IconButton aria-label='show 4 new mails' color='inherit'>*/}
                 {/*  <Badge badgeContent={4} color='secondary'>*/}
