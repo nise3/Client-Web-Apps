@@ -40,7 +40,7 @@ const validationSchema = yup.object().shape({
     .required('Enter title (Bn)')
     .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
   organization_id: yup.string().trim().required(),
-  rank_type_id: yup.string().trim().required(),
+  rank_type_id: yup.string().trim().required().label('select rank type'),
   display_order: yup.string(),
   row_status: yup.string(),
 });
@@ -50,7 +50,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   organization_id: 0,
-  rank_type_id: 0,
+  rank_type_id: '',
   display_order: '',
   grade: '',
   row_status: '1',

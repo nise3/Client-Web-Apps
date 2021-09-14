@@ -27,7 +27,9 @@ type Role = {
 type Permission = {
   id: number;
   name: string;
-  key: string;
+  uri: string;
+  method: string;
+  method_name: ?string;
 };
 
 type PermissionGroup = {
@@ -46,4 +48,3 @@ type PermissionSubGroup = {
   permission_group_id: number;
   row_status: string;
 };
-

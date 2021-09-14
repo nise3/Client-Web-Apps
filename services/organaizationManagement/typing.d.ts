@@ -16,7 +16,7 @@ type Rank = {
   title_bn?: string;
   organization_id?: number;
   organization_title_en: string;
-  rank_type_id?: number;
+  rank_type_id: string;
   rank_type_title_en: string;
   grade?: string;
   display_order?: string;
