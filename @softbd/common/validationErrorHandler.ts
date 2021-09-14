@@ -7,19 +7,18 @@ const ERRORS: any = {
   22000: 'yup_validation_email',
 };
 
-export const setServerValidationErrors = (errors: any, setError: any) => {
+export const setServerValidationErrors = (
+  errors: any,
+  setError: any,
+  validationSchema?: any,
+) => {
   return Object.keys(errors).forEach((key) => {
     errors[key].forEach(({code}: any) => {
-      console.log(
-        'ERRORS[code]',
-        ERRORS[code]
-          ? {key: ERRORS[code], values: {path: key}}
-          : {key: 'yup_validation_unknown_error'},
-      );
+      let label = validationSchema.fields[key].spec.label;
       setError(key, {
         type: code,
         message: ERRORS[code]
-          ? {key: ERRORS[code], values: {path: key}}
+          ? {key: ERRORS[code], values: {path: label ? label : key}}
           : {key: 'yup_validation_unknown_error'},
       });
     });

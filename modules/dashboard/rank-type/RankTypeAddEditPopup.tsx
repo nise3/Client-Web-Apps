@@ -1,8 +1,7 @@
-import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -25,24 +24,13 @@ import {
   isValidationError,
 } from '../../../@softbd/common/helpers';
 import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+import yup from '../../../@softbd/common/yup';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim(), //.required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA),
-  organization_id: yup.string(),
-  description: yup.string(),
-  row_status: yup.string(),
-});
 
 const initialValues = {
   id: 0,
@@ -65,6 +53,27 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   const [organizations, setOrganizations] = useState<Array<Organization> | []>(
     [],
   );
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        //.required()
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        //.required()
+        .label(messages['common.title_bn'] as string)
+        .matches(TEXT_REGEX_BANGLA),
+      organization_id: yup.string(),
+      description: yup.string(),
+      row_status: yup.string(),
+    });
+  }, [messages]);
+
+  console.log('validationSchema', validationSchema);
 
   const {
     control,
@@ -120,7 +129,11 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         refreshDataTable();
       } else {
         if (isValidationError(response)) {
-          setServerValidationErrors(response.errors, setError);
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
         }
       }
     } else {
@@ -136,11 +149,18 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         refreshDataTable();
       } else {
         if (isValidationError(response)) {
-          setServerValidationErrors(response.errors, setError);
+          console.log('response', response);
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
         }
       }
     }
   };
+
+  console.log('errors', errors);
 
   return (
     <HookFormMuiModal

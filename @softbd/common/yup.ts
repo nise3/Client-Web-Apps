@@ -37,9 +37,9 @@ yup.setLocale({
       key: 'yup_validation_max',
       values: {path, max},
     }),
-    matches: ({path, regex}: any) => ({
+    matches: ({path}: any) => ({
       key: 'yup_validation_matches',
-      values: {path, regex},
+      values: {path},
     }),
     email: ({path}: any) => ({key: 'yup_validation_email', values: {path}}),
     url: ({path}: any) => ({key: 'yup_validation_url', values: {path}}),

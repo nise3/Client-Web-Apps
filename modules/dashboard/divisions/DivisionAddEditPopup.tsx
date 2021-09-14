@@ -61,7 +61,6 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
       title_bn: yup
         .string()
         .trim()
-        .matches(TEXT_REGEX_BANGLA)
         .required()
         .label(messages['common.title_bn'] as string),
       bbs_code: yup
