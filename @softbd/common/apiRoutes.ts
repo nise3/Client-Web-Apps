@@ -7,6 +7,9 @@ export const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
 
+export const API_ROLES = CORE_SERVICE_PATH + '/roles';
+export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
+
 export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 export const API_ORGANIZATION_TYPES =

@@ -259,7 +259,6 @@
   "common.division_title_permanent_address": "Permanent division",
   "common.division_title_present_address": "Present division",
   "common.upazila_title_permanent_address": "Permanent upazila",
-  "common.educational_qualification": "Educational qualification",
   "common.passport_number": "Passport number",
   "common.signature": "Signature",
   "common.religion": "Religion",
@@ -268,5 +267,8 @@
   "common.nationality": "Nationality",
   "common.marital_status": "Marital status",
   "common.gender": "Gender",
-  "common.permanent_house_address": "Permanent house address"
+  "common.permanent_house_address": "Permanent house address",
+  "permission_group.label": "Permission group",
+  "role.label": "Role",
+  "role.unique_value": "Unique value"
 }
