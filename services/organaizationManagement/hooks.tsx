@@ -10,6 +10,9 @@ import {
   API_ORGANIZATION_UNITS,
   API_ORGANIZATION_UNIT_HIERARCHY,
   API_ORGANIZATIONS,
+  API_SKILLS,
+  API_RANK_TYPES,
+  API_RANKS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchOccupation(occupationId: number | null) {
@@ -128,10 +131,6 @@ export function useFetchHumanResource(humanResourceId: number | null) {
   return useAxiosSWR(
     humanResourceId ? API_HUMAN_RESOURCES + '/' + humanResourceId : null,
   );
-}
-
-export function useFetchRanks(params: any) {
-  return useAxiosSWR([API_RANKS, params]);
 }
 
 export function useFetchHumanResources(params: any) {
