@@ -143,7 +143,7 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='title_en'
             label={messages['common.title_en']}
@@ -152,7 +152,7 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='title_bn'
             label={messages['common.title_bn']}
@@ -161,7 +161,7 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='key'
             label={messages['permission_group.key']}

@@ -3,7 +3,10 @@ import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
+import {
+  useFetchOrganizations,
+  useFetchPermissionGroups,
+} from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -64,6 +67,11 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   const isEdit = itemId != null;
 
   const {data: itemData, isLoading, mutate: mutateRole} = useFetchRole(itemId);
+
+  const [permissionGroupFilters] = useState({row_status: RowStatus.ACTIVE});
+
+  const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
+    useFetchPermissionGroups(permissionGroupFilters);
 
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
@@ -190,9 +198,9 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
           <CustomFormSelect
             id='permission_group_id'
             label={messages['permission_group.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingPermissionGroups}
             control={control}
-            options={[]}
+            options={permissionGroups}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}

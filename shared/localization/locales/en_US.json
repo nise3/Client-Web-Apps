@@ -271,7 +271,6 @@
   "common.marital_status": "Marital status",
   "common.gender": "Gender",
   "common.permanent_house_address": "Permanent house address",
-  "permission_group.label": "Permission group",
   "role.label": "Role",
   "role.unique_value": "Unique value"
 }
