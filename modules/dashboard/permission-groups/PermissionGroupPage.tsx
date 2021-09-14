@@ -91,7 +91,7 @@ const PermissionGroupPage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['permission_group.unique_value'],
+        Header: messages['permission_group.key'],
         accessor: 'key',
       },
       {
