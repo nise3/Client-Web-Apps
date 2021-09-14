@@ -6,6 +6,9 @@ export const INSTITUTE_SERVICE_PATH = '/institute';
 export const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
+export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
+export const API_PERMISSION_SUB_GROUPS =
+  CORE_SERVICE_PATH + '/permission-sub-groups';
 
 export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
