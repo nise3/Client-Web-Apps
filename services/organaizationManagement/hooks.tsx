@@ -1,5 +1,6 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_HUMAN_RESOURCE_TEMPLATES,
   API_HUMAN_RESOURCES,
   API_JOB_SECTORS,
   API_OCCUPATIONS,
@@ -7,11 +8,10 @@ import {
   API_ORGANIZATION_TYPES,
   API_ORGANIZATION_UNIT_TYPES,
   API_ORGANIZATION_UNITS,
-  API_ORGANIZATION_UNITS_HIERARCHY,
+  API_ORGANIZATION_UNIT_HIERARCHY,
   API_ORGANIZATIONS,
   API_RANKS,
 } from '../../@softbd/common/apiRoutes';
-import {API_HUMAN_RESOURCE_TEMPLATES} from './HumanResourceTemplateService';
 
 export function useFetchOccupation(occupationId: number | null) {
   return useAxiosSWR(
@@ -81,7 +81,7 @@ export function useFetchOrganizationServices(params: any) {
 
 export function useOrganizationUnitHierarchy(organizationId: number | null) {
   return useAxiosSWR(
-    organizationId ? API_ORGANIZATION_UNITS_HIERARCHY(organizationId) : null,
+    organizationId ? API_ORGANIZATION_UNIT_HIERARCHY(organizationId) : null,
   );
 }
 
@@ -96,7 +96,6 @@ export function useFetchHumanResourceTemplate(
 }
 
 export function useFetchHumanResource(humanResourceId: number | null) {
-  console.log('humanResourceId', humanResourceId);
   return useAxiosSWR(
     humanResourceId ? API_HUMAN_RESOURCES + '/' + humanResourceId : null,
   );

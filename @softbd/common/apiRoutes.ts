@@ -22,10 +22,11 @@ export const API_ORGANIZATION_SERVICES =
 export const API_HUMAN_RESOURCES =
   ORGANIZATION_SERVICE_PATH + '/human-resources';
 
+export const API_HUMAN_RESOURCE_TEMPLATES =
+  ORGANIZATION_SERVICE_PATH + '/human-resource-templates';
+
 export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
 
-export const API_ORGANIZATION_UNITS_HIERARCHY = (
-  organizationUnitId: number,
-) => {
+export const API_ORGANIZATION_UNIT_HIERARCHY = (organizationUnitId: number) => {
   return API_ORGANIZATION_UNITS + '/' + organizationUnitId + '/get-hierarchy';
 };
