@@ -147,7 +147,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         refreshDataTable();
       } else {
         if (isValidationError(response)) {
-          console.log('response', response);
           setServerValidationErrors(
             response.errors,
             setError,
@@ -157,8 +156,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       }
     }
   };
-
-  console.log('errors', errors);
 
   return (
     <HookFormMuiModal
