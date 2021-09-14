@@ -2,6 +2,7 @@ import React from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import {TextField} from '@material-ui/core';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
   id: string;
@@ -45,7 +46,20 @@ const CustomDateTimeField = ({
         shrink: true,
       }}
       error={errorInstance[id] && Boolean(errorInstance[id])}
-      helperText={errorInstance[id] && errorInstance[id].message}
+      helperText={
+        errorInstance[id] && errorInstance[id].message ? (
+          errorInstance[id].message.hasOwnProperty('key') ? (
+            <IntlMessages
+              id={errorInstance[id].message.key}
+              values={errorInstance[id].message?.values || {}}
+            />
+          ) : (
+            errorInstance[id].message
+          )
+        ) : (
+          ''
+        )
+      }
       {...register(id)}
     />
   );
