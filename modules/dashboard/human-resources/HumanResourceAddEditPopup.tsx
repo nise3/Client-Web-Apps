@@ -105,7 +105,6 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     mutate: mutateHumanResource,
   } = useFetchHumanResource(itemId);
 
-
   const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
     useFetchOrganizationUnit(props.organizationUnitId);
   const [rankFilter] = useState({});

@@ -12,16 +12,16 @@ import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../../@softbd/common/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {
-  deleteHumanResourceTemplate,
-  getHumanResourceTemplate,
-  updateHumanResourceTemplate,
-} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
 import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
 import HumanResourceAddEditPopup from '../../../../modules/dashboard/human-resources/HumanResourceAddEditPopup';
 import {useOrganizationUnitHierarchy} from '../../../../services/organaizationManagement/hooks';
+import {
+  deleteHumanResource,
+  getHumanResource,
+  updateHumanResource,
+} from '../../../../services/organaizationManagement/HumanResourceService';
 
 const makeChartData = (item: any) => {
   item.id = 'm' + item.id;
@@ -138,9 +138,9 @@ const OrgChart = () => {
         if (draggedNodeId == droppedNodeId) {
           return false;
         }
-        let humanResourceTemplate;
+        let humanResource;
         (async () => {
-          let response = await getHumanResourceTemplate(draggedNodeId);
+          let response = await getHumanResource(draggedNodeId);
           if (response) {
             if (!response.data.parent_id) {
               successStack(
@@ -149,12 +149,9 @@ const OrgChart = () => {
 
               return false;
             }
-            humanResourceTemplate = response.data;
-            humanResourceTemplate.parent_id = droppedNodeId;
-            response = await updateHumanResourceTemplate(
-              draggedNodeId,
-              humanResourceTemplate,
-            );
+            humanResource = response.data;
+            humanResource.parent_id = droppedNodeId;
+            response = await updateHumanResource(draggedNodeId, humanResource);
             if (isResponseSuccess(response)) {
               successStack(
                 <IntlMessages
@@ -167,6 +164,8 @@ const OrgChart = () => {
                 />,
               );
             }
+          } else {
+            return false;
           }
         })();
       });
@@ -191,14 +190,14 @@ const OrgChart = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const deleteHumanResource = async (humanResourceId: number) => {
-    let response = await deleteHumanResourceTemplate(humanResourceId);
+  const deleteHumanResourceItem = async (humanResourceId: number) => {
+    let response = await deleteHumanResource(humanResourceId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
           values={{
-            subject: <IntlMessages id='human_resource_template.label' />,
+            subject: <IntlMessages id='human_resource.label' />,
           }}
         />,
       );
@@ -238,7 +237,7 @@ const OrgChart = () => {
               {selectedItemParentId && (
                 <DeleteButton
                   deleteAction={() =>
-                    selectedItemId && deleteHumanResource(selectedItemId)
+                    selectedItemId && deleteHumanResourceItem(selectedItemId)
                   }
                   deleteTitle={messages['common.delete_confirm'] as string}
                 />
