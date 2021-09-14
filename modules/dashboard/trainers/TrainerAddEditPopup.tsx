@@ -26,23 +26,28 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getAllUpazilas} from '../../../services/locationManagement/UpazilaService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import {getAllBranches} from '../../../services/instituteManagement/BranchService';
-import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
 import {genders} from '../../../@softbd/common/helpers';
 import {religions} from '../../../@softbd/common/helpers';
 import {marital_status} from '../../../@softbd/common/helpers';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
-import {useFetchTrainer} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchBranches,
+  useFetchInstitutes,
+  useFetchTrainer,
+  useFetchTrainingCenters,
+} from '../../../services/instituteManagement/hooks';
 import {
   useFetchDistricts,
   useFetchDivisions,
+  useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
-
+import {
+  filterUpazilasByDistrictId,
+  filterDistrictsByDivisionId,
+} from '../../../services/locationManagement/locationUtils';
 interface TrainerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -106,25 +111,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [presentDistricts, setPresentDistricts] = useState<Array<District>>([]);
-  const [permanentDistricts, setPermanentDistricts] = useState<Array<District>>(
-    [],
-  );
-  const [presentUpazilas, setPresentUpazilas] = useState<Array<Upazila>>([]);
-  const [permanentUpazilas, setPermanentUpazilas] = useState<Array<Upazila>>(
-    [],
-  );
 
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
-  const [branches, setBranches] = useState<Array<Branch> | []>([]);
-  const [trainingCenters, setTrainingCenters] = useState<
-    Array<TrainingCenter> | []
-  >([]);
-  const [filters] = useState({});
-  const [districtsFilter, setDistrictsFilter] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
   const {
     register,
     control,
@@ -138,14 +125,51 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
   const {
     data: itemData,
-    isLoading: trainerLoading,
+    isLoading: isLoading,
     mutate: mutateTrainer,
   } = useFetchTrainer(itemId);
 
-  const {data: divisions, isLoading: divisionLoading}: any =
+  const [filters] = useState({});
+  const {data: divisions, isLoading: isLoadingDivisions}: any =
     useFetchDivisions(filters);
-  const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+
+  const [districtsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: districts} = useFetchDistricts(districtsFilter);
+
+  const [upazilasFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+
+  const [presentDistricts, setPresentDistricts] = useState<
+    Array<District> | []
+  >([]);
+  const [permanentDistricts, setPermanentDistricts] = useState<
+    Array<District> | []
+  >([]);
+  const [presentUpazilas, setPresentUpazilas] = useState<Array<Upazila> | []>(
+    [],
+  );
+  const [permanentUpazilas, setPermanentUpazilas] = useState<
+    Array<Upazila> | []
+  >([]);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
+
+  const [branchFilters, setBranchFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
+    useFetchTrainingCenters(trainingCenterFilters);
 
   useEffect(() => {
     if (itemData) {
@@ -180,122 +204,86 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         skills: itemData?.skills,
         row_status: String(itemData?.row_status),
       });
-      loadDistrictsByDivision(
-        itemData?.present_address_division_id,
-        true,
-        false,
-      );
-      loadDistrictsByDivision(
-        itemData?.permanent_address_division_id,
-        false,
-        false,
-      );
-      loadUpazilasByDistrict(itemData?.present_address_district_id, true);
-      loadUpazilasByDistrict(itemData?.permanent_address_district_id, false);
 
-      loadBranchByInstitute(itemData?.institute_id);
-      loadTrainingCenterByBranch(itemData?.branch_id);
+      let presentDistrict = filterDistrictsByDivisionId(
+        districts,
+        itemData?.present_address_division_id,
+      );
+
+      setPresentDistricts(presentDistrict);
+
+      let permanentDistrict = filterDistrictsByDivisionId(
+        districts,
+        itemData?.permanent_address_division_id,
+      );
+      setPermanentDistricts(permanentDistrict);
+
+      let presentUpazila = filterUpazilasByDistrictId(
+        upazilas,
+        itemData?.present_address_district_id,
+      );
+      setPresentUpazilas(presentUpazila);
+
+      let permanentUpazila = filterUpazilasByDistrictId(
+        upazilas,
+        itemData?.permanent_address_district_id,
+      );
+      setPermanentUpazilas(permanentUpazila);
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      await loadInstitutes();
-      setIsLoading(false);
-    })();
-  }, []);
+  const onPresentDivisionChange = useCallback(
+    (divisionId: number) => {
+      let presentDistrict = filterDistrictsByDivisionId(districts, divisionId);
+      setPresentDistricts(presentDistrict);
+    },
+    [districts],
+  );
 
-  const loadInstitutes = async () => {
-    const response = await getAllInstitutes();
-    response && setInstitutes(response.data);
-  };
+  const onPermanentDivisionChange = useCallback(
+    (divisionId: number) => {
+      let permanentDistrict = filterDistrictsByDivisionId(
+        districts,
+        divisionId,
+      );
+      setPermanentDistricts(permanentDistrict);
+    },
+    [districts],
+  );
 
-  const handleDivisionChange = (
-    divisionId: number,
-    isPresent: boolean,
-    isChanged: boolean,
-  ) => {
-    loadDistrictsByDivision(divisionId, isPresent, isChanged);
-  };
+  const onPresentDistrictChange = useCallback(
+    (districtId: number) => {
+      console.log('upazilas', upazilas);
+      let presentUpazila = filterUpazilasByDistrictId(upazilas, districtId);
+      setPresentUpazilas(presentUpazila);
+    },
+    [upazilas],
+  );
 
-  const loadDistrictsByDivision = (
-    divisionId: number,
-    isPresent: boolean,
-    isChanged: boolean,
-  ) => {
-    setDistrictsFilter({
-      division_id: divisionId,
-      row_status: RowStatus.ACTIVE,
-    });
-    if (districts) {
-      if (isPresent) {
-        setPresentDistricts(districts);
-        if (isChanged) {
-          setPresentUpazilas([]);
-        }
-      } else {
-        setPermanentDistricts(districts);
-        if (isChanged) {
-          setPermanentUpazilas([]);
-        }
-      }
-    }
-  };
-
-  const handleDistrictChange = async (
-    districtId: number,
-    isPresent: boolean,
-  ) => {
-    loadUpazilasByDistrict(districtId, isPresent);
-  };
-  const loadUpazilasByDistrict = (districtId: number, isPresent: boolean) => {
-    (async () => {
-      let response = await getAllUpazilas({districtId: districtId});
-      if (response) {
-        if (isPresent) {
-          setPresentUpazilas(response.data);
-        } else {
-          setPermanentUpazilas(response.data);
-        }
-      }
-    })();
-  };
+  const onPermanentDistrictChange = useCallback(
+    (districtId: number) => {
+      let permanentUpazila = filterUpazilasByDistrictId(upazilas, districtId);
+      setPermanentUpazilas(permanentUpazila);
+    },
+    [upazilas],
+  );
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    loadBranchByInstitute(instituteId);
+    setBranchFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
   }, []);
 
-  const onBranchChange = useCallback((BranchId: number) => {
-    loadTrainingCenterByBranch(BranchId);
+  const onBranchChange = useCallback((branchId: number) => {
+    setTrainingCenterFilters({
+      row_status: RowStatus.ACTIVE,
+      branch_id: branchId,
+    });
   }, []);
 
-  const loadBranchByInstitute = (instituteId: number) => {
-    (async () => {
-      let response = await getAllBranches({
-        row_status: RowStatus.ACTIVE,
-        institute_id: instituteId,
-      });
-      if (response) {
-        setBranches(response.data);
-        setTrainingCenters([]);
-      }
-    })();
-  };
-
-  const loadTrainingCenterByBranch = (branchId: number) => {
-    (async () => {
-      let response = await getAllTrainingCenters({
-        row_status: RowStatus.ACTIVE,
-        branch_id: branchId,
-      });
-      if (response) {
-        setTrainingCenters(response.data);
-      }
-    })();
-  };
   const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
     if (isEdit && itemId) {
       console.log('data--', data);
@@ -364,7 +352,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
-            isLoading={trainerLoading}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -434,71 +422,52 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='present_address_division_id'
             label={messages['common.division_title_present_address']}
-            isLoading={divisionLoading}
+            isLoading={isLoadingDivisions}
             control={control}
             options={divisions}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((divisionId: number) => {
-              (async () => {
-                await handleDivisionChange(divisionId, true, true);
-              })();
-            }, [])}
+            onChange={onPresentDivisionChange}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_division_id'
             label={messages['common.division_title_permanent_address']}
-            isLoading={divisionLoading}
+            isLoading={isLoadingDivisions}
             control={control}
             options={divisions}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((divisionId: number) => {
-              (async () => {
-                await handleDivisionChange(divisionId, false, true);
-              })();
-            }, [])}
+            onChange={onPermanentDivisionChange}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='present_address_district_id'
             label={messages['common.district_title_present_address']}
-            isLoading={isLoadingDistricts}
+            isLoading={isLoading}
             control={control}
             options={presentDistricts}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((present_address_district_id: number) => {
-              (async () => {
-                await handleDistrictChange(present_address_district_id, true);
-              })();
-            }, [])}
+            onChange={onPresentDistrictChange}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='permanent_address_district_id'
             label={messages['common.district_title_permanent_address']}
-            isLoading={isLoadingDistricts}
             control={control}
             options={permanentDistricts}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
-            onChange={useCallback((permanent_address_district_id: number) => {
-              (async () => {
-                await handleDistrictChange(
-                  permanent_address_district_id,
-                  false,
-                );
-              })();
-            }, [])}
+            isLoading={isLoading}
+            onChange={onPermanentDistrictChange}
           />
         </Grid>
         <Grid item xs={6}>
@@ -613,7 +582,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}
@@ -626,7 +595,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingBranches}
             control={control}
             options={branches}
             optionValueProp={'id'}
@@ -639,7 +608,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomFormSelect
             id='training_center_id'
             label={messages['menu.training_center']}
-            isLoading={isLoading}
+            isLoading={isLoadingTrainingCenters}
             control={control}
             options={trainingCenters}
             optionValueProp={'id'}
