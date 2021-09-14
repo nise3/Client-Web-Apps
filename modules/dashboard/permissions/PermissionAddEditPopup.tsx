@@ -25,9 +25,9 @@ interface PermissionGroupAddEditPopupProps {
 }
 
 const validationSchema = yup.object().shape({
-  name: yup.string().trim().required('Enter Name'),
-  uri: yup.string(),
-  method: yup.string(),
+  name: yup.string().trim().required().label('Name'),
+  uri: yup.string().required().label('URI'),
+  method: yup.string().required().label('Method'),
 });
 
 const initialValues = {
