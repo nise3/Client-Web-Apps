@@ -37,6 +37,47 @@ const routesConfig: NavItemProps[] = [
     type: 'group',
     children: [
       {
+        id: 'user_management',
+        title: 'User Management',
+        messageId: 'menu.user_management',
+        type: 'collapse',
+        icon: 'people',
+        children: [
+          {
+            id: 'permission_group',
+            title: 'Permission Group',
+            messageId: 'menu.permission_group',
+            type: 'item',
+            icon: 'person',
+            url: '/dashboard/permission-groups',
+          },
+          {
+            id: 'permission',
+            title: 'Permission',
+            messageId: 'menu.permission',
+            type: 'item',
+            icon: 'person',
+            url: '/dashboard/permissions',
+          },
+          {
+            id: 'permission_sub_group',
+            title: 'Permission Group',
+            messageId: 'menu.permission_sub_group',
+            type: 'item',
+            icon: 'person',
+            url: '/dashboard/permission-sub-groups',
+          },
+          {
+            id: 'roles',
+            title: 'Role',
+            messageId: 'menu.role',
+            type: 'item',
+            icon: 'person',
+            url: '/dashboard/roles',
+          },
+        ],
+      },
+      {
         id: 'organization_management',
         title: 'Organization Management',
         messageId: 'menu.organization_management',
