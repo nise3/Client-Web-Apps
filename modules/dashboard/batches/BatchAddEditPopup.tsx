@@ -497,60 +497,58 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           {configItemList.map((item: any, index: any) => {
             let states = [...configItemsState];
             return (
-              <>
-                <Grid container xs={6} style={{minHeight: 40}}>
-                  <Grid item xs={5} style={{marginTop: 5}}>
-                    <CustomCheckbox
-                      id={`dynamic_form_field[${item.key}]`}
-                      label={item.label}
-                      checked={states.includes(item.key)}
-                      isLoading={isLoading}
-                      register={register}
-                      errorInstance={errors}
-                      onChange={() => {
-                        let itemStates = [...configItemsState];
-                        if (itemStates.includes(item.key)) {
-                          itemStates = itemStates.filter(
-                            (key: any) => key != item.key,
-                          );
-                        } else {
-                          itemStates.push(item.key);
-                        }
-                        setConfigItemsState(itemStates);
-                      }}
+              <Grid item container xs={6} style={{minHeight: 40}} key={index}>
+                <Grid item xs={5} style={{marginTop: 5}}>
+                  <CustomCheckbox
+                    id={`dynamic_form_field[${item.key}]`}
+                    label={item.label}
+                    checked={states.includes(item.key)}
+                    isLoading={isLoading}
+                    register={register}
+                    errorInstance={errors}
+                    onChange={() => {
+                      let itemStates = [...configItemsState];
+                      if (itemStates.includes(item.key)) {
+                        itemStates = itemStates.filter(
+                          (key: any) => key != item.key,
+                        );
+                      } else {
+                        itemStates.push(item.key);
+                      }
+                      setConfigItemsState(itemStates);
+                    }}
+                  />
+                </Grid>
+
+                {states.includes(item.key) && (
+                  <Grid item xs={4}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={configRequiredItems.includes(item.key)}
+                          onChange={() => {
+                            let requiredStates = [...configRequiredItems];
+                            if (requiredStates.includes(item.key)) {
+                              requiredStates = requiredStates.filter(
+                                (key: any) => key != item.key,
+                              );
+                            } else {
+                              requiredStates.push(item.key);
+                            }
+                            setConfigRequiredItems(requiredStates);
+                          }}
+                          color='primary'
+                        />
+                      }
+                      label={
+                        configRequiredItems.includes(item.key)
+                          ? messages['common.required']
+                          : messages['common.not_required']
+                      }
                     />
                   </Grid>
-
-                  {states.includes(item.key) && (
-                    <Grid item xs={4}>
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={configRequiredItems.includes(item.key)}
-                            onChange={() => {
-                              let requiredStates = [...configRequiredItems];
-                              if (requiredStates.includes(item.key)) {
-                                requiredStates = requiredStates.filter(
-                                  (key: any) => key != item.key,
-                                );
-                              } else {
-                                requiredStates.push(item.key);
-                              }
-                              setConfigRequiredItems(requiredStates);
-                            }}
-                            color='primary'
-                          />
-                        }
-                        label={
-                          configRequiredItems.includes(item.key)
-                            ? messages['common.required']
-                            : messages['common.not_required']
-                        }
-                      />
-                    </Grid>
-                  )}
-                </Grid>
-              </>
+                )}
+              </Grid>
             );
           })}
         </Grid>

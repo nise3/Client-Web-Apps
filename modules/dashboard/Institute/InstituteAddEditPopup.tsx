@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {
   createInstitute,
@@ -6,7 +5,7 @@ import {
 } from '../../../services/instituteManagement/InstituteService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
@@ -22,6 +21,7 @@ import {
   getObjectArrayFromValueArray,
   getValuesFromObjectArray,
   isResponseSuccess,
+  isValidationError,
 } from '../../../@softbd/common/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
@@ -35,64 +35,18 @@ import {
   useFetchDivisions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
+import yup from '../../../@softbd/common/yup';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
+import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const nonRequiredValidationSchema = yup.object().shape(
-  {
-    value: yup
-      .string()
-      .nullable()
-      .notRequired()
-      .when('value', {
-        is: (value: any) => value && value.length > 0,
-        then: (rule: any) =>
-          rule.matches(MOBILE_NUMBER_REGEX, 'Number is not valid'),
-      }),
-  },
-  [['value', 'value']],
-);
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  domain: yup
-    .string()
-    .trim()
-    .required()
-    .matches(DOMAIN_REGEX, 'Domain is not valid')
-    .label('Domain'),
-  code: yup.string().required().label('Code'),
-  primary_phone: yup
-    .string()
-    .trim()
-    .required()
-    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
-    .label('Phone Number'),
-  phone_numbers: yup.array().of(nonRequiredValidationSchema),
-  primary_mobile: yup
-    .string()
-    .trim()
-    .required()
-    .matches(MOBILE_NUMBER_REGEX, 'Number is not valid')
-    .label('Mobile Number'),
-  mobile_numbers: yup.array().of(nonRequiredValidationSchema),
-  address: yup.string().trim().required().label('Address'),
-  google_map_src: yup.string(),
-  email: yup.string().required().email('Enter valid email').label('Email'),
-  loc_division_id: yup.string().trim().required().label('Division'),
-  loc_district_id: yup.string().trim().required().label('District'),
-  loc_upazila_id: yup.string().trim().required().label('Upazila'),
-});
 
 const initialValues = {
   title_en: '',
@@ -126,10 +80,10 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     mutate: mutateInstitute,
   } = useFetchInstitute(itemId);
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
-  const [districtsFilter, setDistrictsFilter] = useState<any>({
+  const [districtsFilter] = useState({
     row_status: RowStatus.ACTIVE,
   });
-  const [upazilasFilter, setUpazilasFilter] = useState<any>({
+  const [upazilasFilter] = useState({
     row_status: RowStatus.ACTIVE,
   });
 
@@ -139,11 +93,99 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
+  const nonRequiredValidationSchema = useMemo(() => {
+    return yup.object().shape(
+      {
+        value: yup
+          .string()
+          .nullable()
+          .notRequired()
+          .when('value', {
+            is: (value: any) => value && value.length > 0,
+            then: (rule: any) =>
+              rule
+                .matches(MOBILE_NUMBER_REGEX)
+                .label(messages['common.phone'] as string),
+          }),
+      },
+      [['value', 'value']],
+    );
+  }, [messages]);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .matches(TEXT_REGEX_BANGLA)
+        .label(messages['common.title_en'] as string),
+      domain: yup
+        .string()
+        .trim()
+        .required()
+        .matches(DOMAIN_REGEX)
+        .label(messages['common.domain'] as string),
+      code: yup
+        .string()
+        .required()
+        .label(messages['common.code'] as string),
+      primary_phone: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.phone'] as string),
+      phone_numbers: yup.array().of(nonRequiredValidationSchema),
+      primary_mobile: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
+      mobile_numbers: yup.array().of(nonRequiredValidationSchema),
+      address: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.address'] as string),
+      google_map_src: yup.string(),
+      email: yup
+        .string()
+        .required()
+        .email()
+        .label(messages['common.email'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
+      loc_upazila_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['upazilas.label'] as string),
+    });
+  }, [messages]);
 
   const {
     register,
     control,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -170,32 +212,31 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         row_status: String(itemData?.row_status),
       });
 
-      setDistrictsFilter({
-        division_id: itemData?.loc_division_id,
-        row_status: RowStatus.ACTIVE,
-      });
-      setUpazilasFilter({
-        district_id: itemData?.loc_district_id,
-        row_status: RowStatus.ACTIVE,
-      });
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
+      );
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
-  const changeDivisionAction = useCallback((divisionId: number) => {
-    setDistrictsFilter({
-      division_id: divisionId,
-      row_status: RowStatus.ACTIVE,
-    });
-  }, []);
+  const changeDivisionAction = useCallback(
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
+    },
+    [districts],
+  );
 
-  const changeDistrictAction = useCallback((districtId: number) => {
-    setUpazilasFilter({
-      district_id: districtId,
-      row_status: RowStatus.ACTIVE,
-    });
-  }, []);
+  const changeDistrictAction = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
 
   const onSubmit: SubmitHandler<Institute> = async (data: Institute) => {
     data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
@@ -212,6 +253,14 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         mutateInstitute();
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
+        }
       }
     } else {
       let response = await createInstitute(data);
@@ -224,6 +273,14 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         );
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
+        }
       }
     }
   };
@@ -323,7 +380,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 label={messages['upazilas.label']}
                 isLoading={isLoadingUpazilas}
                 control={control}
-                options={upazilas}
+                options={upazilasList}
                 optionValueProp={'id'}
                 optionTitleProp={['title_en', 'title_bn']}
                 errorInstance={errors}
@@ -386,7 +443,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}
                 control={control}
-                options={districts}
+                options={districtsList}
                 optionValueProp={'id'}
                 optionTitleProp={['title_en', 'title_bn']}
                 errorInstance={errors}

@@ -39,7 +39,7 @@ const CustomFieldArray = ({
       {fields.map((item: any, index: any) => {
         let itemId = `${id}.${index}.value`;
         return (
-          <Grid item xs={12} style={{paddingBottom: 20}}>
+          <Grid item xs={12} style={{paddingBottom: 20}} key={index}>
             <TextField
               fullWidth
               variant={variant ? variant : 'outlined'}
@@ -70,7 +70,7 @@ const CustomFieldArray = ({
           </Grid>
         );
       })}
-      <Grid xs={12} container justifyContent='flex-end'>
+      <Grid container justifyContent='flex-end'>
         <ButtonGroup color='primary' aria-label='outlined primary button group'>
           <Button
             onClick={() => {

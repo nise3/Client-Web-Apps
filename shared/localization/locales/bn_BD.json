@@ -288,6 +288,7 @@
   "yup_validation_password": "{path} is not valid password",
   "yup_validation_regex": "{path} is not valid format",
   "yup_validation_unknown_error": "এররের বিস্তারিত জানা যায় নি!",
+  "yup_validation_text_length": "{path} value length exceeded",
   "required_field": "{path} field is required",
   "role.label": "রোল",
   "role.unique_value": "ইউনিক ভ্যালু"

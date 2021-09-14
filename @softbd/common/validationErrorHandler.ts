@@ -5,6 +5,7 @@ const ERRORS: any = {
   46000: 'yup_validation_password',
   48000: 'yup_validation_regex',
   22000: 'yup_validation_email',
+  39003: 'yup_validation_text_length',
 };
 
 export const setServerValidationErrors = (
