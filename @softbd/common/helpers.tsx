@@ -15,7 +15,7 @@ export const genders = [
   },
 ];
 
-export const maritial_status = [
+export const marital_status = [
   {
     id: 1,
     label: 'Unmarried',
