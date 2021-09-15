@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/common/yup';
 import {Grid} from '@material-ui/core';
 import {
   createTrainer,
@@ -6,7 +6,7 @@ import {
 } from '../../../services/instituteManagement/TrainerService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
@@ -48,30 +48,12 @@ import {
   filterUpazilasByDistrictId,
   filterDistrictsByDivisionId,
 } from '../../../services/locationManagement/locationUtils';
+
 interface TrainerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  trainer_name_en: yup.string().trim().required().label('Trainer Name(En)'),
-  trainer_name_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Trainer Name(Bn)'),
-  mobile: yup
-    .string()
-    .trim()
-    .required()
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid Number')
-    .label('Mobile Number'),
-  email: yup.string().required().email('Enter valid email').label('Email'),
-  institute_id: yup.string().trim().required().label('Institutes'),
-  nationality: yup.string().trim().required().label('nationality'),
-});
 
 const initialValues = {
   trainer_name_en: '',
@@ -111,6 +93,43 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      trainer_name_en: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_en'] as string),
+      trainer_name_bn: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_bn'] as string)
+        .matches(TEXT_REGEX_BANGLA),
+      mobile: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
+      email: yup
+        .string()
+        .required()
+        .email()
+        .label(messages['common.email'] as string),
+      institute_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.label'] as string),
+      nationality: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.nationality'] as string),
+    });
+  }, [messages]);
 
   const {
     register,
@@ -298,6 +317,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         mutateTrainer();
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
+        }
       }
     } else {
       let response = await createTrainer(data);
@@ -312,7 +339,11 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         refreshDataTable();
       } else {
         if (isValidationError(response)) {
-          setServerValidationErrors(response.errors, setError);
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
         }
       }
     }

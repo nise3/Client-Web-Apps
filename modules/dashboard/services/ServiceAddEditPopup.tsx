@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -18,21 +18,17 @@ import {
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconService from '../../../@softbd/icons/IconService';
 import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/common/helpers';
+import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-});
 
 const initialValues = {
   title_en: '',
@@ -54,13 +50,29 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
     mutate: mutateService,
   } = useFetchOrganizationService(itemId);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_bn'] as string)
+        .matches(TEXT_REGEX_BANGLA),
+    });
+  }, [messages]);
   const {
     register,
+    control,
     reset,
     handleSubmit,
-    control,
+    setError,
     formState: {errors, isSubmitting},
-  } = useForm<Service>({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -81,20 +93,28 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Service> = async (data: Service) => {
     if (isEdit && itemId) {
       let response = await updateService(itemId, data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
-            id='common.subject_updated_successfully'
+            id='common.subject_created_successfully'
             values={{subject: <IntlMessages id='services.label' />}}
           />,
         );
         mutateService();
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
+        }
       }
     } else {
       let response = await createService(data);
-      if (response) {
+      if (isResponseSuccess(response)) {
         successStack(
           <IntlMessages
             id='common.subject_created_successfully'
@@ -103,6 +123,14 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
         );
         props.onClose();
         refreshDataTable();
+      } else {
+        if (isValidationError(response)) {
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
+        }
       }
     }
   };
