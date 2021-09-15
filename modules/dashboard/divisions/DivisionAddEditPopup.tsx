@@ -1,5 +1,4 @@
 import React, {FC, useEffect, useMemo} from 'react';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -55,14 +54,11 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
+        .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
-        .matches(TEXT_REGEX_BANGLA)
+        .title('bn')
         .label(messages['common.title_bn'] as string),
       bbs_code: yup
         .string()

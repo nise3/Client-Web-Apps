@@ -1,10 +1,12 @@
 import * as yup from 'yup';
+import {TEXT_REGEX_BANGLA_ONLY, TEXT_REGEX_ENGLISH_ONLY} from './patternRegex';
+import {AnyObject, Maybe} from 'yup/lib/types';
 
-// declare module 'yup' {
-//   interface StringSchema<TIn, TContext, TOut> {
-//     title(local: 'en' | 'bn'): any;
-//   }
-// }
+declare module 'yup' {
+  interface mixed {
+    title(local: 'en' | 'bn'): any;
+  }
+}
 
 yup.setLocale({
   mixed: {
@@ -81,9 +83,21 @@ yup.setLocale({
 });
 
 function defaultTitleValidation(this: any, local: 'en' | 'bn') {
-  return this.string().trim().required();
+  return this.trim()
+    .required()
+    .matches(local ? TEXT_REGEX_BANGLA_ONLY : TEXT_REGEX_ENGLISH_ONLY);
 }
 
 yup.addMethod<yup.StringSchema>(yup.string, 'title', defaultTitleValidation);
+
+declare module 'yup' {
+  interface StringSchema<
+    TType extends Maybe<string> = string | undefined,
+    TContext extends AnyObject = AnyObject,
+    TOut extends TType = TType,
+  > extends yup.BaseSchema<TType, TContext, TOut> {
+    defaultTitleValidation(local: 'en' | 'bn'): StringSchema<TType, TContext>;
+  }
+}
 
 export default yup;
