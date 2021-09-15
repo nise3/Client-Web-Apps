@@ -14,7 +14,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import {useFetchPermissionSubGroups} from '../../../services/organaizationManagement/hooks';
+import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
 import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGroup';
 import {deletePermissionSubGroup} from '../../../services/userManagement/PermissionSubGroupService';
 
