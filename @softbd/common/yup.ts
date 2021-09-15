@@ -85,7 +85,7 @@ yup.setLocale({
 function defaultTitleValidation(this: any, local: 'en' | 'bn') {
   return this.trim()
     .required()
-    .matches(local ? TEXT_REGEX_BANGLA_ONLY : TEXT_REGEX_ENGLISH_ONLY);
+    .matches(local === 'bn' ? TEXT_REGEX_BANGLA_ONLY : TEXT_REGEX_ENGLISH_ONLY);
 }
 
 yup.addMethod<yup.StringSchema>(yup.string, 'title', defaultTitleValidation);
