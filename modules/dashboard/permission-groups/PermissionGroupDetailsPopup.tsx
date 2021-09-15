@@ -7,7 +7,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchPermissionGroup} from '../../../services/organaizationManagement/hooks';
+import {useFetchPermissionGroup} from '../../../services/userManagement/hooks';
 import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
 
 type Props = {

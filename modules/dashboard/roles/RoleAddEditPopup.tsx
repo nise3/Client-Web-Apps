@@ -3,10 +3,7 @@ import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  useFetchOrganizations,
-  useFetchPermissionGroups,
-} from '../../../services/organaizationManagement/hooks';
+import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -20,7 +17,10 @@ import {Grid} from '@material-ui/core';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import {useFetchRole} from '../../../services/userManagement/hooks';
+import {
+  useFetchPermissionGroups,
+  useFetchRole,
+} from '../../../services/userManagement/hooks';
 import {
   createRole,
   updateRole,

@@ -16,7 +16,7 @@ import {isResponseSuccess} from '../../../@softbd/common/helpers';
 import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroup,
-} from '../../../services/organaizationManagement/hooks';
+} from '../../../services/userManagement/hooks';
 import {
   createPermissionSubGroup,
   updatePermissionSubGroup,

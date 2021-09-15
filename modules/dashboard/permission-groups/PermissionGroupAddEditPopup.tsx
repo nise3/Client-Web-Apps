@@ -14,7 +14,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {isResponseSuccess} from '../../../@softbd/common/helpers';
-import {useFetchPermissionGroup} from '../../../services/organaizationManagement/hooks';
+import {useFetchPermissionGroup} from '../../../services/userManagement/hooks';
 import {
   createPermissionGroup,
   updatePermissionGroup,
