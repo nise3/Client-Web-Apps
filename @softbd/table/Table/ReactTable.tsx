@@ -225,7 +225,12 @@ export default function ReactTable<T extends object>({
     manualSortBy: true,
     manualRowSelectedKey: true,
     pageCount: controlledPageCount,
-    initialState: {pageSize: pageSizeData[0]},
+    initialState: {
+      pageSize: pageSizeData[0],
+      hiddenColumns: columns
+        .filter((item: any) => item?.isVisible === false)
+        .map((item: any) => item.accessor),
+    },
     filterTypes,
     defaultColumn,
     // stateReducer: (newState, action, prevState) => {

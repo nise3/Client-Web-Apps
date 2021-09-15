@@ -80,7 +80,6 @@ const TrainersPage = () => {
       {
         Header: messages['common.title_bn'],
         accessor: 'trainer_name_bn',
-        isVisible: false,
       },
       {
         Header: messages['common.email'],
@@ -157,12 +156,12 @@ const TrainersPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          toggleResetTable={isToggleTable}
           data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <TrainerAddEditPopup

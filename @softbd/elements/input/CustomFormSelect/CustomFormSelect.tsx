@@ -68,7 +68,7 @@ const CustomFormSelect = ({
     <FormControl
       variant='outlined'
       fullWidth={true}
-      error={errorInstance?.[id]}
+      error={!!errorInstance?.[id]}
       size={size ? size : 'small'}>
       <InputLabel id='select-outlined-label'>{label}</InputLabel>
       <Controller
