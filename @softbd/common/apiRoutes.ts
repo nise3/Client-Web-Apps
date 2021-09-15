@@ -12,6 +12,7 @@ export const API_PERMISSION_SUB_GROUPS =
 
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
+export const API_USERS = CORE_SERVICE_PATH + '/users';
 
 export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';

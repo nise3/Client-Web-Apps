@@ -45,7 +45,7 @@ const FormRadioButtons = ({
             onChange={(e) => {
               onChange(e.target.value);
               if (onChangeCallback && typeof onChangeCallback === 'function') {
-                onChangeCallback(e);
+                onChangeCallback(e.target.value);
               }
             }}>
             {radios.map((status) => (

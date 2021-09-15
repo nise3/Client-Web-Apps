@@ -4,6 +4,7 @@ import {
   API_PERMISSION_SUB_GROUPS,
   API_PERMISSIONS,
   API_ROLES,
+  API_USERS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRoles(params: any) {
@@ -46,4 +47,8 @@ export function useFetchPermissionSubGroup(
 
 export function useFetchPermissionSubGroups(params: any) {
   return useAxiosSWR([API_PERMISSION_SUB_GROUPS, params]);
+}
+
+export function useFetchUser(userId: number | null) {
+  return useAxiosSWR(userId ? API_USERS + '/' + userId : null);
 }

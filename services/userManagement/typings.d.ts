@@ -1,16 +1,20 @@
 type User = {
   id: number;
-  role_id: number;
+  role_id: string;
   name_en: string;
   name_bn: string;
+  username: string;
+  user_type: string;
   email: string;
-  organization_id?: number;
-  institute_id?: number;
+  mobile: string;
+  organization_id?: string;
+  institute_id?: string;
   loc_district_id?: number;
   loc_division_id?: number;
   loc_upazila_id?: number;
   profile_pic?: string;
   password?: string;
+  row_status?: string;
 };
 
 type Role = {
@@ -29,7 +33,7 @@ type Permission = {
   name: string;
   uri: string;
   method: string;
-  method_name: ?string;
+  method_name?: string;
 };
 
 type PermissionGroup = {

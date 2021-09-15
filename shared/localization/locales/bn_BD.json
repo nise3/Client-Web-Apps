@@ -65,6 +65,8 @@
   "common.writeComment": "একটি মন্তব্য লিখুন...",
   "common.title_en": "টাইটেল (ইংরেজি)",
   "common.title_bn": "টাইটেল (বাংলা)",
+  "common.name_en": "নাম (ইংরেজি)",
+  "common.name_bn": "নাম (বাংলা)",
   "common.actions": "পদক্ষেপ",
   "common.active": "সক্রিয়",
   "common.inactive": "নিষ্ক্রিয়",
@@ -136,6 +138,7 @@
   "menu.permission": "পারমিশন",
   "menu.permission_sub_group": "পারমিশন সাব গ্রুপ",
   "menu.role": "রোল",
+  "menu.user": "ইউজার",
   "permission_group.label": "পারমিশন গ্রুপ",
   "permission_group.unique_value": "ইউনিক ভ্যালু",
   "permission_group.key": "কী",
@@ -271,7 +274,7 @@
   "physical_disabilities_status": "Physical disabilities status",
   "yup_validation_required_field": "{path} অবশ্যই পূরণ করতে হবে",
   "yup_validation_default": "{path} ভ্যালিড নয়",
-  "yup_validation_one_Of": "{path} must be one of the following values: {values}",
+  "yup_validation_one_Of": "{path} অবশ্যই মিল থাকতে হবে",
   "yup_validation_not_one_of": "{path} must not be one of the following values: {values}",
   "yup_validation_defined": "{path} must be defined",
   "yup_validation_length": "{path} must be exactly {length} characters",
@@ -294,5 +297,11 @@
   "role.label": "রোল",
   "role.unique_value": "ইউনিক ভ্যালু",
   "permission.uri": "ইউ.আর.আই",
-  "permission.method": "মেথড"
+  "permission.method": "মেথড",
+  "user.label": "ইউজার",
+  "user.username": "ব্যবহারকারীর নাম",
+  "user.user_type": "ব্যবহারকারীর ধরন",
+  "user.type.system": "সিস্টেম",
+  "user.type.institute": "প্রাতিষ্ঠানিক",
+  "user.type.organization": "সাংগঠনিক"
 }

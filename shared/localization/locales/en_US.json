@@ -8,6 +8,8 @@
   "common.writeComment": "Write a comment...",
   "common.title_en": "Title (En)",
   "common.title_bn": "Title (Bn)",
+  "common.name_en": "Name (En)",
+  "common.name_bn": "Name (Bn)",
   "common.actions": "Actions",
   "common.read_btn": "Read",
   "common.edit_btn": "Edit",
@@ -61,6 +63,7 @@
   "permission_sub_group.label": "Permission sub group",
   "permission.label": "Permission",
   "menu.role": "Role",
+  "menu.user": "User",
   "permission_group.label": "Permission group",
   "permission_group.unique_value": "Unique value",
   "customizer.modern": "Modern",
@@ -273,7 +276,7 @@
   "common.gender": "Gender",
   "yup_validation_required_field": "{path} field is required",
   "yup_validation_default": "{path} is invalid",
-  "yup_validation_one_Of": "{path} must be one of the following values: {values}",
+  "yup_validation_one_Of": "{path} must be matched",
   "yup_validation_not_one_of": "{path} must not be one of the following values: {values}",
   "yup_validation_defined": "{path} must be defined",
   "yup_validation_length": "{path} must be exactly {length} characters",
@@ -294,5 +297,11 @@
   "yup_validation_text_length": "{path} value length exceeded",
   "common.permanent_house_address": "Permanent house address",
   "role.label": "Role",
-  "role.unique_value": "Unique value"
+  "role.unique_value": "Unique value",
+  "user.label": "User",
+  "user.username": "User name",
+  "user.user_type": "User type",
+  "user.type.system": "System",
+  "user.type.institute": "Institute",
+  "user.type.organization": "Organization"
 }
