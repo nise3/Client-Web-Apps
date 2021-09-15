@@ -59,7 +59,7 @@ const StatisticsCardSection = () => {
       <Container maxWidth='md' disableGutters>
         <Fade direction='down'>
           <Grid container spacing={5}>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor1}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ২৫ </Box>
@@ -69,7 +69,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor2}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> 32 </Box>
@@ -79,7 +79,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor3}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ১০,০০০ </Box>
@@ -89,7 +89,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor4}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ২৫ </Box>
@@ -99,7 +99,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor4}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ৩৫,০০০০০</Box>
@@ -109,7 +109,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor3}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ২৫</Box>
@@ -119,7 +119,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor5}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ৩২</Box>
@@ -129,7 +129,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3}>
               <Card className={classes.cardColor6}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> ৩২</Box>

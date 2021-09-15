@@ -31,6 +31,8 @@ const Home = () => {
       {/*<CoverArea />*/}
       <InfoCardSection />
       <SelfAssessment />
+      <StatisticsCardSection />
+      <Nise3WorkProcess />
       <Footer />
     </Container>
   );

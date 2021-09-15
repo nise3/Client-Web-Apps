@@ -3,6 +3,7 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
 import {Fade, Zoom} from 'react-awesome-reveal';
 import Image from 'next/image';
+import selfAssessmentImage from '../../public/images/self-assessment.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,7 +51,9 @@ const SelfAssessment = () => {
             </Button>
           </Grid>
           <Grid xs={4}>
-            <Image src={}></Image>
+            <Zoom>
+              <Image src={selfAssessmentImage} alt={'self assessment image'} />
+            </Zoom>
           </Grid>
         </Grid>
       </Container>
