@@ -72,7 +72,7 @@ export const useAuthUser = () => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {
-    return {id: 1, ...user};
+    return {...user};
   }
   return null;
 };
