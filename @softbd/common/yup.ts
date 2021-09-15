@@ -2,12 +2,6 @@ import * as yup from 'yup';
 import {TEXT_REGEX_BANGLA_ONLY, TEXT_REGEX_ENGLISH_ONLY} from './patternRegex';
 import {AnyObject, Maybe} from 'yup/lib/types';
 
-declare module 'yup' {
-  interface mixed {
-    title(local: 'en' | 'bn'): any;
-  }
-}
-
 yup.setLocale({
   mixed: {
     required: ({path}: any) => ({
