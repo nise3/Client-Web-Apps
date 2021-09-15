@@ -13,7 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
 import InstituteAddEditPopup from './InstituteAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';

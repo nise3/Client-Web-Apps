@@ -21,8 +21,8 @@ import {useFetchOrganizationService} from '../../../services/organaizationManage
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/common/helpers';
-import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+} from '../../../@softbd/utilities/helpers';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;

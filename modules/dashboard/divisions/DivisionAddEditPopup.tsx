@@ -18,10 +18,10 @@ import IconDivision from '../../../@softbd/icons/IconDivision';
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/common/helpers';
+} from '../../../@softbd/utilities/helpers';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
-import yup from '../../../@softbd/common/yup';
-import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+import yup from '../../../@softbd/libs/yup';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;

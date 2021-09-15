@@ -19,7 +19,7 @@ import {
 } from '../../../services/locationManagement/UpazilaService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {
   useFetchDistricts,
   useFetchDivisions,

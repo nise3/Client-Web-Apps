@@ -1,6 +1,6 @@
 import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 

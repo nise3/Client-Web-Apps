@@ -16,7 +16,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteCourse} from '../../../services/instituteManagement/CourseService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
 const CoursePage = () => {

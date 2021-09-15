@@ -14,7 +14,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {

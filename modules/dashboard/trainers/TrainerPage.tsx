@@ -13,7 +13,7 @@ import TrainerDetailsPopup from './TrainerDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';

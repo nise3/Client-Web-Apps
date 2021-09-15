@@ -1,5 +1,5 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';

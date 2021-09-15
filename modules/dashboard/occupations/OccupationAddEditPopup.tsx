@@ -18,7 +18,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchJobSectors,

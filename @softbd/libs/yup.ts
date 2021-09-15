@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import {TEXT_REGEX_BANGLA_ONLY, TEXT_REGEX_ENGLISH_ONLY} from './patternRegex';
+import {TEXT_REGEX_BANGLA_ONLY, TEXT_REGEX_ENGLISH_ONLY} from '../common/patternRegex';
 import {AnyObject, Maybe} from 'yup/lib/types';
 
 yup.setLocale({

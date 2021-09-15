@@ -1,6 +1,6 @@
 import {AxiosResponse} from 'axios';
-import axiosMockInstance from './axiosMockInstance';
-import {isDefined} from "./helpers";
+import axiosMockInstance from '../libs/axiosMockInstance';
+import {isDefined} from "../utilities/helpers";
 
 /** Axios catch block handler */
 const errorHandler = (error: { response: any; request?: any; message?: any }) => {

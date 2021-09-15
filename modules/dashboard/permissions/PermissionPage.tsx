@@ -11,7 +11,7 @@ import PermissionAddEditPopup from './PermissionAddEditPopup';
 import PermissionDetailsPopup from './PermissionDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deletePermissionGroup} from '../../../services/userManagement/PermissionGroupService';
 import {useFetchPermissions} from '../../../services/userManagement/hooks';
 import IconPermission from '../../../@softbd/icons/IconPermission';

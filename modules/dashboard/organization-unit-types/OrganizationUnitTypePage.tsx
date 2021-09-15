@@ -16,7 +16,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {Button, makeStyles} from '@material-ui/core';
 import Link from 'next/link';
 import clsx from 'clsx';

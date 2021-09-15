@@ -18,7 +18,7 @@ import {
   updateProgramme,
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {
   useFetchInstitutes,
   useFetchProgramme,

@@ -19,7 +19,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {
   useFetchOrganizations,
   useFetchOrganizationUnitType,

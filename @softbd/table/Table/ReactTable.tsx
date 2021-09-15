@@ -38,7 +38,7 @@ import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSk
 import AppTableContainer from '../../../@crema/core/AppTableContainer';
 import {useIntl} from 'react-intl';
 import {AiOutlineInbox} from 'react-icons/ai';
-import {camelToWords} from '../../common/helpers';
+import {camelToWords} from '../../utilities/helpers';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {

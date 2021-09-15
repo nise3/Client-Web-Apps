@@ -18,7 +18,7 @@ import {
   updateCourse,
 } from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconProgramme';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,

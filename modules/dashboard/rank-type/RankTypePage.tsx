@@ -14,7 +14,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRankTypes} from '../../../services/organaizationManagement/hooks';
 
 const RankTypePage = () => {

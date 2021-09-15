@@ -15,7 +15,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteRank} from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRanks} from '../../../services/organaizationManagement/hooks';
 
 const RankPage = () => {

@@ -8,7 +8,7 @@ import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconBatch from '../../../@softbd/icons/IconBatch';
-import {getMomentDateFormat} from '../../../@softbd/common/helpers';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 
 type Props = {

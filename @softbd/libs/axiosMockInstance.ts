@@ -4,7 +4,7 @@ import {
   CORE_SERVICE_PATH,
   INSTITUTE_SERVICE_PATH,
   ORGANIZATION_SERVICE_PATH,
-} from './apiRoutes';
+} from '../common/apiRoutes';
 import MockAdapter from 'axios-mock-adapter';
 
 const axiosMockInstance = axios.create({

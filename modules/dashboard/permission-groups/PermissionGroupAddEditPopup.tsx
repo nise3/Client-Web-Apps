@@ -13,7 +13,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionGroup} from '../../../services/userManagement/hooks';
 import {
   createPermissionGroup,

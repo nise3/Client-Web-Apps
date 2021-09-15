@@ -9,7 +9,7 @@ import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/Delet
 import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useIntl} from 'react-intl';
 import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
-import {isResponseSuccess} from '../../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';

@@ -17,7 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 
 const ProgrammePage = () => {
   const {messages} = useIntl();

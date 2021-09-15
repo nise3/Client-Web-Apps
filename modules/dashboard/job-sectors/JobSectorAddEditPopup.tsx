@@ -16,7 +16,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@material-ui/icons';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
 
 interface JobSectorAddEditPopupProps {

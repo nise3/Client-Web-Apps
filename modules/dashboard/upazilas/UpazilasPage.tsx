@@ -14,7 +14,7 @@ import UpazilaAddEditPopup from './UpazilaAddEditPopup';
 import UpazilaDetailsPopup from './UpazilaDetailsPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
 const UpazilasPage = () => {

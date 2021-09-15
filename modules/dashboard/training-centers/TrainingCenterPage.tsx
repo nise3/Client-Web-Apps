@@ -16,7 +16,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {deleteTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 
 const TrainingCenterPage = () => {
   const {messages} = useIntl();

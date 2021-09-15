@@ -13,7 +13,7 @@ import ServiceDetailsPopup from './ServiceDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconService from '../../../@softbd/icons/IconService';
 import {useFetchOrganizationServices} from '../../../services/organaizationManagement/hooks';
 

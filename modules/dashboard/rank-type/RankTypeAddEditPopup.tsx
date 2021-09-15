@@ -25,9 +25,9 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/common/helpers';
-import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
-import yup from '../../../@softbd/common/yup';
+} from '../../../@softbd/utilities/helpers';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import yup from '../../../@softbd/libs/yup';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;

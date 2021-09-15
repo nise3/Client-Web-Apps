@@ -22,7 +22,7 @@ import {
   getValuesFromObjectArray,
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/common/helpers';
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -35,12 +35,12 @@ import {
   useFetchDivisions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
-import yup from '../../../@softbd/common/yup';
+import yup from '../../../@softbd/libs/yup';
 import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
-import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;

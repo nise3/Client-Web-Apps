@@ -1,7 +1,7 @@
 import {Skeleton} from '@material-ui/lab';
 import React from 'react';
 import {TableBody, TableCell, TableRow} from '@material-ui/core';
-import {range} from '../../../../common/helpers';
+import {range} from '../../../../utilities/helpers';
 
 type Props = {
   columnNumbers: number;

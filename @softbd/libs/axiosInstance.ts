@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {API_BASE_URL} from './apiRoutes';
-import token from './appToken';
+import {API_BASE_URL} from '../common/apiRoutes';
+import token from '../common/appToken';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,

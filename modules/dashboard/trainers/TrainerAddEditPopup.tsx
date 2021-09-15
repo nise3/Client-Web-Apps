@@ -1,4 +1,4 @@
-import yup from '../../../@softbd/common/yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {
   createTrainer,
@@ -21,17 +21,17 @@ import {
   getMomentDateFormat,
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/common/helpers';
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-import {genders} from '../../../@softbd/common/helpers';
-import {religions} from '../../../@softbd/common/helpers';
-import {marital_status} from '../../../@softbd/common/helpers';
+import {genders} from '../../../@softbd/utilities/helpers';
+import {religions} from '../../../@softbd/utilities/helpers';
+import {marital_status} from '../../../@softbd/utilities/helpers';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 import {
   useFetchBranches,

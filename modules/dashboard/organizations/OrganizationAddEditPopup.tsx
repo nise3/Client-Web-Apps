@@ -26,8 +26,8 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/common/helpers';
-import {setServerValidationErrors} from '../../../@softbd/common/validationErrorHandler';
+} from '../../../@softbd/utilities/helpers';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchOrganization,
   useFetchOrganizationTypes,

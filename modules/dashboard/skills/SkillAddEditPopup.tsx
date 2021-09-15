@@ -17,7 +17,7 @@ import {
   createSkill,
   updateSkill,
 } from '../../../services/organaizationManagement/SkillService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
 
 interface SkillAddEditPopupProps {

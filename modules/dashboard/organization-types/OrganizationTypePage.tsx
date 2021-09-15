@@ -17,7 +17,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
 
 const OrganizationTypePage = () => {

@@ -17,7 +17,7 @@ import {
   createTrainingCenter,
   updateTrainingCenter,
 } from '../../../services/instituteManagement/TrainingCenterService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {
   useFetchBranches,

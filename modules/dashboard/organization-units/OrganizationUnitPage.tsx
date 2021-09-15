@@ -16,7 +16,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import Link from 'next/link';
 import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';

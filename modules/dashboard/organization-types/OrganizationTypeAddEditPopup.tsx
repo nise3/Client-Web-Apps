@@ -18,7 +18,7 @@ import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchOrganizationType} from '../../../services/organaizationManagement/hooks';
 
 interface OrganizationTypeAddEditPopupProps {

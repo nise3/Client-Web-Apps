@@ -1,5 +1,5 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';

@@ -14,7 +14,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
 
 const JobSectorPage = () => {

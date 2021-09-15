@@ -7,7 +7,7 @@ import {useFetchOrganizations} from '../../../services/organaizationManagement/h
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import IconRank from '../../../@softbd/icons/IconRank';

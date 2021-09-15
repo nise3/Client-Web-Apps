@@ -23,7 +23,7 @@ import {
   createOrganizationUnit,
   updateOrganizationUnit,
 } from '../../../services/organaizationManagement/OrganizationUnitService';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {
   useFetchOrganizations,
   useFetchOrganizationServices,

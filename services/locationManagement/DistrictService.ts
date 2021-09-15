@@ -1,6 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 

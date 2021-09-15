@@ -18,7 +18,7 @@ import {
 } from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {
   useFetchOrganizations,
   useFetchRank,

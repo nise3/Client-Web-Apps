@@ -9,9 +9,9 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {getTrainer} from '../../../services/instituteManagement/TrainerService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-import {genders} from '../../../@softbd/common/helpers';
-import {religions} from '../../../@softbd/common/helpers';
-import {marital_status} from '../../../@softbd/common/helpers';
+import {genders} from '../../../@softbd/utilities/helpers';
+import {religions} from '../../../@softbd/utilities/helpers';
+import {marital_status} from '../../../@softbd/utilities/helpers';
 type Props = {
   itemId: number;
   onClose: () => void;
