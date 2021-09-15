@@ -230,8 +230,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   }, [itemData]);
 
   const getTrainerIds = (trainers: Array<Trainer>) => {
-    let ids = trainers.map((item: Trainer) => item.id);
-    return ids;
+    return trainers.map((item: Trainer) => item.id);
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {

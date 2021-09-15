@@ -80,54 +80,44 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (itemId) {
-      if (itemData) {
-        reset({
-          title_en: itemData?.title_en,
-          title_bn: itemData?.title_bn,
-          bbs_code: itemData?.bbs_code,
-          row_status: String(itemData?.row_status),
-        });
-      }
+    if (itemId && itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        bbs_code: itemData?.bbs_code,
+        row_status: String(itemData?.row_status),
+      });
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Division> = async (data: Division) => {
-    if (isEdit && itemId) {
-      let response = await updateDivision(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='divisions.label' />}}
-          />,
-        );
-        mutateDivision();
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(response.errors, setError);
-        }
-      }
-    } else {
-      let response = await createDivision(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='divisions.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(response.errors, setError);
-        }
-      }
+    const response = itemId
+      ? await updateDivision(itemId, data)
+      : await createDivision(data);
+
+    if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='divisions.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='divisions.label' />}}
+        />,
+      );
+      mutateDivision();
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError);
     }
   };
 
