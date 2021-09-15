@@ -208,7 +208,7 @@ export default function Header() {
 
   return (
     <Box className={classes.grow}>
-      <Container maxWidth='md' disableGutters>
+      <Container maxWidth='xl' disableGutters>
         <CssBaseline />
         <HideOnScroll>
           <AppBar className={classes.appBar}>

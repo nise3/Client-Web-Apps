@@ -14,8 +14,6 @@ import {
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {Slide, Fade, Zoom} from 'react-awesome-reveal';
-import Image from 'next/image';
-import coverImg from '../../public/images/cover-area.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,9 +72,9 @@ const CoverArea = () => {
   const classes = useStyles();
   return (
     <>
-      <Grid container>
-        <Grid item xs={12} className={classes.root}>
-          <Container maxWidth='md'>
+      <Grid container xl={12}>
+        <Grid item sm={12} className={classes.root}>
+          <Container maxWidth='sm'>
             <Box pt={10}>
               <Fade direction='up'>
                 <Typography variant='h4'>

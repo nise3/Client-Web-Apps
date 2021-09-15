@@ -41,7 +41,7 @@ const InfoCardSection = () => {
       <Container maxWidth='md' disableGutters>
         <Fade direction='up'>
           <Grid container spacing={5}>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Card className={classes.youthBoxItem}>
                 <Assignment className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
@@ -52,7 +52,7 @@ const InfoCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Card className={classes.skillBoxItem}>
                 <Assignment className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
@@ -63,7 +63,7 @@ const InfoCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Card className={classes.industryBoxItem}>
                 <Assignment className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>

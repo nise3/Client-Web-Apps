@@ -2,6 +2,7 @@ import React from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
 import {Fade, Zoom} from 'react-awesome-reveal';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,12 +23,8 @@ const SelfAssessment = () => {
   const classes = useStyles();
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
-        <Grid
-          container
-          spacing={4}
-          justifyContent='flex-start'
-          alignItems='center'>
+      <Container maxWidth={'md'} disableGutters>
+        <Grid container spacing={4}>
           <Grid item xs={8}>
             <Fade direction='left'>
               <Typography variant='h4' gutterBottom={true}>
@@ -52,15 +49,8 @@ const SelfAssessment = () => {
               শুরু করা যাক
             </Button>
           </Grid>
-
-          <Grid item xs={3}>
-            <Zoom>
-              <img
-                src='/images/self-assessment.png'
-                alt='crema-logo'
-                className={classes.assessmentImage}
-              />
-            </Zoom>
+          <Grid xs={4}>
+            <Image src={}></Image>
           </Grid>
         </Grid>
       </Container>
