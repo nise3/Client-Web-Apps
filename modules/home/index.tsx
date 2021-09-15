@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
-import {Container, Grid} from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import Header from './Header';
 import CoverArea from './CoverArea';
 import InfoCardSection from './InfoCardSection';
@@ -28,11 +28,15 @@ const Home = () => {
   return (
     <Container maxWidth={'xl'} className={classes.root}>
       <Header />
-      {/*<CoverArea />*/}
+      <CoverArea />
       <InfoCardSection />
       <SelfAssessment />
       <StatisticsCardSection />
       <Nise3WorkProcess />
+      <RecentActivities />
+      <PopularCourse />
+      <SkillMatchingJobs />
+      <Partners />
       <Footer />
     </Container>
   );
