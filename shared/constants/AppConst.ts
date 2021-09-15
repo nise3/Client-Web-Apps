@@ -1,11 +1,17 @@
 import {AuthUser} from '../../types/models/AuthUser';
 import {AuthType} from './AppEnums';
 
+/**
+ * @deprecated
+ */
 export const authRole = {
   admin: ['admin'],
   user: ['user', 'admin'],
 };
 
+/**
+ * @deprecated
+ */
 export const defaultUser: AuthUser = {
   uid: 'RFedvhji876rfhjuecvh7',
   displayName: 'John Alex',
@@ -15,4 +21,5 @@ export const defaultUser: AuthUser = {
   authType: AuthType.AUTH0,
   photoURL: 'https://via.placeholder.com/150',
 };
-export const initialUrl = '/dashboard'; // this url will open after login
+export const initialUrl = '/'; // this url will open after login.
+export const COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA = 'auth_access_token_data';

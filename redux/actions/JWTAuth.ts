@@ -1,11 +1,12 @@
 import jwtAxios from '../../@crema/services/auth/jwt-auth/jwt-api';
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
-import {defaultUser} from '../../shared/constants/AppConst';
+import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, defaultUser} from '../../shared/constants/AppConst';
 import {AuthUser} from '../../types/models/AuthUser';
 import {AppActions} from '../../types';
 import {Dispatch} from 'redux';
 import {
+  SET_AUTH_ACCESS_TOKEN_DATA,
   SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
@@ -13,6 +14,10 @@ import {
 import {Cookies} from 'react-cookie';
 import {Base64} from 'js-base64';
 
+/**
+ * @deprecated
+ * @param body
+ */
 export const onJwtUserSignUp = (body: {
   email: string;
   password: string;
@@ -33,6 +38,10 @@ export const onJwtUserSignUp = (body: {
   };
 };
 
+/**
+ * @deprecated
+ * @param body
+ */
 export const onJwtSignIn = (body: {email: string; password: string}) => {
   return async (dispatch: Dispatch<AppActions>) => {
     dispatch(fetchStart());
@@ -57,49 +66,44 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
 };
 
 type TOnSSOSignInCallback = {
-  access_token: string;
-  expires_in: string | number;
-  id_token: string;
-  session_state: string;
+  access_token: string; // Inorder to consume api, use access token to authorize.
+  expires_in: string | number; // token lifetime in second
+  id_token: string; // {Header, payload, signature}
+  session_state: string; // I don't know.
 };
 
-export const onSSOSignInCallback = ({
-  access_token,
-  expires_in,
-  id_token,
-  session_state,
-}: TOnSSOSignInCallback) => {
+export const onSSOSignInCallback = (tokenData: TOnSSOSignInCallback) => {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
       const cookies = new Cookies();
-      cookies.set('token', access_token, {path: '/'});
-      dispatch(setJWTToken(access_token));
-      await loadJWTUser(dispatch, id_token);
+      cookies.set(
+        COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+        JSON.stringify(tokenData),
+        {
+          path: '/',
+          maxAge: Number(tokenData.expires_in),
+        },
+      );
+      dispatch(setAuthAccessTokenData(tokenData));
+      await loadAuthUser(dispatch, tokenData);
     } catch (err: any) {
       console.log('error!!!!', err.response.data.error);
     }
   };
 };
 
-export const loadJWTUser = async (
+export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
-  idToken: string,
+  tokenData: TOnSSOSignInCallback,
 ) => {
   dispatch(fetchStart());
   try {
-    console.log('res.data loading');
-    // const res = await jwtAxios.get('/auth');
-    const data = JSON.parse(Base64.decode(idToken.split('.')[1]));
-    console.log(data);
+    const data = JSON.parse(Base64.decode(tokenData.id_token.split('.')[1]));
     const res = {
       data: {
         ...{
           id: 4,
           name: data?.given_name || 'Demo User',
-          email: 'demo@ample.com',
-          email_verified_at: null,
-          created_at: '2020-09-03T04:25:55.000000Z',
-          updated_at: '2020-09-03T04:25:55.000000Z',
         },
         ...data,
       },
@@ -116,14 +120,25 @@ export const loadJWTUser = async (
   }
 };
 
+/**
+ * @deprecated
+ * @param token
+ */
 export const setJWTToken = (token: string | null): AppActions | any => ({
   type: SET_AUTH_TOKEN,
   payload: token,
 });
 
-const getUserObject = (authUser: any): AuthUser => {
+export const setAuthAccessTokenData = (
+  data: TOnSSOSignInCallback,
+): AppActions | any => ({
+  type: SET_AUTH_ACCESS_TOKEN_DATA,
+  payload: data,
+});
+
+export const getUserObject = (authUser: any): AuthUser => {
   return {
-    authType: AuthType.JWT_AUTH,
+    authType: AuthType.AUTH2,
     displayName: authUser.name,
     email: authUser.email,
     role: defaultUser.role,
@@ -133,6 +148,9 @@ const getUserObject = (authUser: any): AuthUser => {
   };
 };
 
+/**
+ * @deprecated
+ */
 export const onJWTAuthSignout = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchSuccess());

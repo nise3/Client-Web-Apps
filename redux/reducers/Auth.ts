@@ -1,11 +1,23 @@
 import {AppActions} from '../../types';
-import {SET_AUTH_TOKEN, SIGNOUT_AUTH_SUCCESS, UPDATE_AUTH_USER, USER_LOADED} from '../../types/actions/Auth.actions';
+import {
+  SET_AUTH_ACCESS_TOKEN_DATA,
+  SET_AUTH_TOKEN,
+  SIGNOUT_AUTH_SUCCESS,
+  UPDATE_AUTH_USER,
+  USER_LOADED,
+} from '../../types/actions/Auth.actions';
 import {AuthUser} from '../../types/models/AuthUser';
 
-const INIT_STATE: {user: AuthUser | null; token: string | null; loading: boolean} = {
+const INIT_STATE: {
+  user: AuthUser | null;
+  token: string | null;
+  authAccessTokenData: string | null;
+  loading: boolean;
+} = {
   loading: true,
   user: null,
   token: null,
+  authAccessTokenData: null,
 };
 
 const Auth = (state = INIT_STATE, action: AppActions) => {
@@ -32,6 +44,12 @@ const Auth = (state = INIT_STATE, action: AppActions) => {
       return {
         ...state,
         token: action.payload,
+      };
+    }
+    case SET_AUTH_ACCESS_TOKEN_DATA: {
+      return {
+        ...state,
+        authAccessTokenData: action.payload,
       };
     }
     default:

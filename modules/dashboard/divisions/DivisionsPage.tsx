@@ -16,8 +16,13 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
+import {AuthUser} from '../../../types/models/AuthUser';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const DivisionsPage = () => {
+  const user: AuthUser | null = useAuthUser();
+  console.table(user);
+
   const [filters] = useState({});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
