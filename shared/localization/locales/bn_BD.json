@@ -140,6 +140,7 @@
   "permission_group.unique_value": "ইউনিক ভ্যালু",
   "permission_group.key": "কী",
   "permission_sub_group.label": "পারমিশন সাব গ্রুপ",
+  "permission.label": "পারমিশন",
   "customizer.modern": "আধুনিক",
   "customizer.standard": "মান",
   "customizer.extension": "সম্প্রসারণ",
@@ -290,5 +291,7 @@
   "yup_validation_unknown_error": "এররের বিস্তারিত জানা যায় নি!",
   "required_field": "{path} field is required",
   "role.label": "রোল",
-  "role.unique_value": "ইউনিক ভ্যালু"
+  "role.unique_value": "ইউনিক ভ্যালু",
+  "permission.uri": "ইউ.আর.আই",
+  "permission.method": "মেথড"
 }

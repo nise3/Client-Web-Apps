@@ -59,6 +59,7 @@
   "menu.permission": "Permission",
   "menu.permission_sub_group": "Permission sub group",
   "permission_sub_group.label": "Permission sub group",
+  "permission.label": "Permission",
   "menu.role": "Role",
   "permission_group.label": "Permission group",
   "permission_group.unique_value": "Unique value",
