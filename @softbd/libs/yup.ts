@@ -4,7 +4,6 @@ import {
   TEXT_REGEX_ENGLISH_ONLY,
 } from '../common/patternRegex';
 import {AnyObject, Maybe} from 'yup/lib/types';
-import {appIntl} from '../../@crema/utility/Utils';
 
 yup.setLocale({
   mixed: {
@@ -81,7 +80,7 @@ yup.setLocale({
 });
 
 function defaultTitleValidation(this: any, local: 'en' | 'bn') {
-  console.log(appIntl());
+  // console.log(appIntl());
   return this.trim()
     .required()
     .matches(local === 'bn' ? TEXT_REGEX_BANGLA_ONLY : TEXT_REGEX_ENGLISH_ONLY);
