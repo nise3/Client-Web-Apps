@@ -31,6 +31,10 @@ import {
   useFetchOrganization,
   useFetchOrganizationTypes,
 } from '../../../services/organaizationManagement/hooks';
+import {
+  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
+} from '../../../services/userManagement/hooks';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -50,6 +54,7 @@ const initialValues = {
   contact_person_email: '',
   contact_person_designation: '',
   organization_type_id: '',
+  permission_sub_group_id: '',
   address: '',
   description: '',
   row_status: '1',
@@ -66,6 +71,15 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const [organizationTypeFilters] = useState({
     row_status: RowStatus.ACTIVE,
   });
+  const [permissionGroupFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+    key: 'organization',
+  });
+
+  const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
+    useState<any>({
+      row_status: RowStatus.ACTIVE,
+    });
   const {
     data: itemData,
     isLoading,
@@ -73,6 +87,12 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   } = useFetchOrganization(itemId);
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
     useFetchOrganizationTypes(organizationTypeFilters);
+
+  const {data: permissionGroups} = useFetchPermissionGroups(
+    permissionGroupFilters,
+  );
+  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
+    useFetchPermissionSubGroups(permissionSubGroupFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -128,6 +148,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.organization_type'] as string),
+      permission_sub_group_id: yup
+        .string()
+        .required()
+        .label(messages['permission_sub_group.label'] as string),
       address: yup
         .string()
         .trim()
@@ -151,6 +175,15 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (permissionGroups && permissionGroups.length > 0) {
+      setPermissionSubGroupFilters({
+        permission_group_id: permissionGroups[0]?.id,
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [permissionGroups]);
 
   useEffect(() => {
     if (itemData) {
@@ -252,6 +285,18 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
+            id='permission_sub_group_id'
+            label={messages['permission_sub_group.label']}
+            isLoading={isLoadingPermissionSubGroups}
+            control={control}
+            options={permissionSubGroups}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
             id='organization_type_id'
             label={messages['common.organization_type']}
             isLoading={isOrganizationTypeLoading}
@@ -325,7 +370,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='contact_person_designation'
             label={messages['common.contact_person_designation']}

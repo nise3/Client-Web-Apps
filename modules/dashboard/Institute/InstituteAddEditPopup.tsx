@@ -40,6 +40,10 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {
+  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
+} from '../../../services/userManagement/hooks';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -57,6 +61,7 @@ const initialValues = {
   phone_numbers: [{value: ''}],
   primary_mobile: '',
   mobile_numbers: [{value: ''}],
+  permission_sub_group_id: '',
   loc_division_id: '',
   loc_district_id: '',
   loc_upazila_id: '',
@@ -78,6 +83,16 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     isLoading,
     mutate: mutateInstitute,
   } = useFetchInstitute(itemId);
+  const [permissionGroupFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+    key: 'institute',
+  });
+
+  const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
+    useState<any>({
+      row_status: RowStatus.ACTIVE,
+    });
+
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({
     row_status: RowStatus.ACTIVE,
@@ -94,6 +109,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     useFetchUpazilas(upazilasFilter);
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+  const {data: permissionGroups} = useFetchPermissionGroups(
+    permissionGroupFilters,
+  );
+  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
+    useFetchPermissionSubGroups(permissionSubGroupFilters);
 
   const nonRequiredValidationSchema = useMemo(() => {
     return yup.object().shape(
@@ -159,6 +179,10 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .required()
         .email()
         .label(messages['common.email'] as string),
+      permission_sub_group_id: yup
+        .string()
+        .required()
+        .label(messages['permission_sub_group.label'] as string),
       loc_division_id: yup
         .string()
         .trim()
@@ -187,6 +211,15 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (permissionGroups && permissionGroups.length > 0) {
+      setPermissionSubGroupFilters({
+        permission_group_id: permissionGroups[0]?.id,
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [permissionGroups]);
 
   useEffect(() => {
     if (itemData) {
@@ -315,6 +348,18 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
+              <CustomFormSelect
+                id='permission_sub_group_id'
+                label={messages['permission_sub_group.label']}
+                isLoading={isLoadingPermissionSubGroups}
+                control={control}
+                options={permissionSubGroups}
+                optionValueProp='id'
+                optionTitleProp={['title_en', 'title_bn']}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <CustomTextInput
                 id='primary_phone'
                 label={messages['common.phone']}
@@ -392,6 +437,15 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                id='domain'
+                label={messages['common.domain']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
                 id='primary_mobile'
                 label={messages['common.mobile']}
                 register={register}
@@ -407,15 +461,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 register={register}
                 errors={errors}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='domain'
-                label={messages['common.domain']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12}>
