@@ -22,6 +22,9 @@ import {CastForEducation, ExitToApp, Home} from '@material-ui/icons';
 import WorkIcon from '@material-ui/icons/Work';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import {SSO_LOGIN_URL} from '../../@softbd/common/SSOConfig';
+import Image from 'next/image';
+import logo from '../../public/images/logo-with-name.png';
+import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -145,7 +148,7 @@ export default function Header() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const redirectToSSO = useCallback(() => {
-    window.location.href = SSO_LOGIN_URL;
+    window.location.href = getSSOLoginUrl();
   }, []);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

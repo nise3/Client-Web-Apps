@@ -11,7 +11,6 @@ import AppGrid from '../../@crema/core/AppGrid';
 import AppLinearProgress from '../../@crema/core/AppLinearProgress';
 import AppList from '../../@crema/core/AppList';
 import AppMenu from '../../@crema/core/AppMenu';
-import AppNavLink from '../../@crema/core/AppNavLink';
 import AppSelect from '../../@crema/core/AppSelect';
 import AppsSideBarFolderItem from '../../@crema/core/AppsSideBarFolderItem';
 import AppsStarredIcon from '../../@crema/core/AppsStarredIcon';
@@ -98,11 +97,11 @@ export default AppPage(() => {
           </AppCard>
         </Grid>
 
-        <Grid item md={12}>
-          <AppCard title={'AppNavLink not working.'}>
-            <AppNavLink to={'/dashboard'}>dashboard</AppNavLink>
-          </AppCard>
-        </Grid>
+        {/*<Grid item md={12}>*/}
+        {/*  <AppCard title={'AppNavLink not working.'}>*/}
+        {/*    <AppNavLink to={'/dashboard'}>dashboard</AppNavLink>*/}
+        {/*  </AppCard>*/}
+        {/*</Grid>*/}
 
         <Grid item md={12}>
           <AppCard title={'AppSelect'}>

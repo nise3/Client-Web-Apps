@@ -61,8 +61,21 @@ export enum Fonts {
 }
 
 export enum AuthType {
+  /**
+   * @deprecated
+   */
   FIREBASE = 'firebase',
+  /**
+   * @deprecated
+   */
   AWS_COGNITO = 'aws_cognito',
+  /**
+   * @deprecated
+   */
   AUTH0 = 'auth0',
+  /**
+   * @deprecated
+   */
   JWT_AUTH = 'jwt_auth',
+  AUTH2 = 'auth2.0',
 }

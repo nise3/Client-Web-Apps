@@ -18,6 +18,11 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {
+  // const user: AuthUser | null = useAuthUser();
+  //
+  // const hasPermission = useMemo(() => readDivision(user), [user]);
+  // console.log('hasPermission', hasPermission);
+
   const [filters] = useState({});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
