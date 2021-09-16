@@ -1,8 +1,8 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {
   MOBILE_NUMBER_REGEX,
   TEXT_REGEX_BANGLA,
@@ -23,7 +23,10 @@ import {
   createOrganizationUnit,
   updateOrganizationUnit,
 } from '../../../services/organaizationManagement/OrganizationUnitService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import {
   useFetchOrganizations,
   useFetchOrganizationServices,
@@ -35,62 +38,13 @@ import {
   useFetchDivisions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title(En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .label('Title(Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  organization_id: yup.string().required().label('Organization'),
-  organization_unit_type_id: yup
-    .string()
-    .required()
-    .label('Organization Unit Type'),
-  email: yup
-    .string()
-    .email('Enter valid email')
-    .trim()
-    .required()
-    .label('Email'),
-  mobile: yup
-    .string()
-    .trim()
-    .required()
-    .label('Mobile Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
-  contact_person_name: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person name'),
-  contact_person_mobile: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person mobile')
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
-  contact_person_email: yup
-    .string()
-    .email()
-    .trim()
-    .required()
-    .label('Contact person email'),
-  contact_person_designation: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person designation'),
-  employee_size: yup.string().trim().required().label('Employee Size'),
-});
 
 const initialValues = {
   title_en: '',
@@ -156,10 +110,76 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const {data: services, isLoading: isLoadingServices} =
     useFetchOrganizationServices(serviceFilters);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .title('bn')
+        .label(messages['common.title_bn'] as string)
+        .matches(TEXT_REGEX_BANGLA),
+      organization_id: yup
+        .string()
+        .required()
+        .label(messages['organization.label'] as string),
+      organization_unit_type_id: yup
+        .string()
+        .required()
+        .label(messages['organization_unit_type.label'] as string),
+      email: yup
+        .string()
+        .email()
+        .trim()
+        .required()
+        .label(messages['common.email'] as string),
+      mobile: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.mobile'] as string)
+        .matches(MOBILE_NUMBER_REGEX),
+      contact_person_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_name'] as string),
+      contact_person_mobile: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_mobile'] as string)
+        .matches(MOBILE_NUMBER_REGEX),
+      contact_person_email: yup
+        .string()
+        .email()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_email'] as string),
+      contact_person_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_designation'] as string),
+      employee_size: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['organization_unit.employee_size'] as string),
+    });
+  }, [messages]);
+
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
@@ -242,39 +262,47 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<OrganizationUnit> = async (
     data: OrganizationUnit,
   ) => {
-    if (itemId) {
-      let response = await updateOrganizationUnit(itemId, data);
-      let assignServicesResponse = await assignServiceToOrganizationUnit(
+    const response = itemId
+      ? await updateOrganizationUnit(itemId, data)
+      : await createOrganizationUnit(data);
+    let assignServicesResponse;
+    if (itemId && isEdit) {
+      assignServicesResponse = await assignServiceToOrganizationUnit(
         itemId,
         data.services,
       );
-      if (isResponseSuccess(response) && assignServicesResponse) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='organization_unit.label' />}}
-          />,
-        );
-        mutateOrganizationUnit();
-        props.onClose();
-        refreshDataTable();
-      }
     } else {
-      let response = await createOrganizationUnit(data);
-      let assignServicesResponse = await assignServiceToOrganizationUnit(
+      assignServicesResponse = await assignServiceToOrganizationUnit(
         response.data.id,
         data.services,
       );
-      if (isResponseSuccess(response) && assignServicesResponse) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='organization_unit.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    }
+
+    if (isResponseSuccess(response) && assignServicesResponse && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='organization_unit.label' />}}
+        />,
+      );
+      mutateOrganizationUnit();
+      props.onClose();
+      refreshDataTable();
+    } else if (
+      isResponseSuccess(response) &&
+      assignServicesResponse &&
+      !isEdit
+    ) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='organization_unit.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

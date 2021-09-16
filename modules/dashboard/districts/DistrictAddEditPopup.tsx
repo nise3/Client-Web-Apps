@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -9,7 +9,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@material-ui/core/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {
   createDistrict,
@@ -18,30 +18,22 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import {
   useFetchDistrict,
   useFetchDivisions,
 } from '../../../services/locationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  bbs_code: yup.string().trim().required().label('BBS code'),
-  loc_division_id: yup.string().trim().required().label('Division'),
-});
 
 const initialValues = {
   title_en: '',
@@ -68,10 +60,39 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   const {data: divisions, isLoading: isDivisionsLoading} =
     useFetchDivisions(divisionFilters);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .matches(TEXT_REGEX_BANGLA)
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      bbs_code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.bbs_code'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+    });
+  }, [messages]);
+
   const {
     register,
     control,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -92,31 +113,31 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
     }
   }, [itemData]);
   const onSubmit: SubmitHandler<District> = async (data: District) => {
-    if (isEdit && itemId) {
-      let response = await updateDistrict(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='districts.label' />}}
-          />,
-        );
-        mutateDistrict();
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createDistrict(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='districts.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateDistrict(itemId, data)
+      : await createDistrict(data);
+
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='districts.label' />}}
+        />,
+      );
+      mutateDistrict();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='districts.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

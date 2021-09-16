@@ -1,5 +1,5 @@
-import React, {FC, useEffect, useState} from 'react';
-import * as yup from 'yup';
+import React, {FC, useEffect, useMemo, useState} from 'react';
+import yup from '../../../@softbd/libs/yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -18,29 +18,22 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchJobSectors,
   useFetchOccupation,
 } from '../../../services/organaizationManagement/hooks';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  job_sector_id: yup.string().trim().required().label('Job sector'),
-});
 
 const initialValues = {
   title_en: '',
@@ -66,10 +59,34 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   const {data: jobSectors, isLoading: isJobSectorsLoading} =
     useFetchJobSectors(jobSectorFilters);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .matches(TEXT_REGEX_BANGLA)
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      job_sector_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['job_sectors.label'] as string),
+    });
+  }, [messages]);
+
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
@@ -90,31 +107,30 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
-    if (isEdit && itemId) {
-      let response = await updateOccupation(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='occupations.label' />}}
-          />,
-        );
-        mutateOccupation();
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createOccupation(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='occupations.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateOccupation(itemId, data)
+      : await createOccupation(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='occupations.label' />}}
+        />,
+      );
+      mutateOccupation();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='occupations.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

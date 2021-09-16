@@ -6,6 +6,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {
   getMomentDateFormat,
   isResponseSuccess,
+  isValidationError,
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
@@ -13,7 +14,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@material-ui/core/Grid';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {
   assignTrainersToBatch,
   createBatch,
@@ -35,30 +36,13 @@ import {
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  course_id: yup.string().trim().required().label('Course'),
-  training_center_id: yup.string().trim().required().label('Training Center'),
-  number_of_seats: yup.string().trim().required().label('Training Center'),
-  registration_start_date: yup
-    .string()
-    .trim()
-    .required()
-    .label('Registration start date'),
-  registration_end_date: yup
-    .string()
-    .trim()
-    .required()
-    .label('Registration end date'),
-  batch_start_date: yup.string().trim().required().label('Batch start date'),
-  batch_end_date: yup.string().trim().required().label('Batch end date'),
-});
 
 const initialValues = {
   course_id: '',
@@ -167,11 +151,50 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     ],
     [messages],
   );
-
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      course_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['course.label'] as string),
+      training_center_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['training_center.label'] as string),
+      number_of_seats: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['batches.total_seat'] as string),
+      registration_start_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['batches.registration_start_date'] as string),
+      registration_end_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['batches.registration_end_date'] as string),
+      batch_start_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['batches.start_date'] as string),
+      batch_end_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['batches.end_date'] as string),
+    });
+  }, [messages]);
   const {
     register,
     control,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -290,40 +313,47 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<Batch> = async (data: Batch) => {
     data.dynamic_form_field = getConfigInfoData(data.dynamic_form_field);
+    const response = itemId
+      ? await updateBatch(itemId, data)
+      : await createBatch(data);
 
-    if (isEdit && itemId) {
-      let response = await updateBatch(itemId, data);
-      let assignTrainersResponse = await assignTrainersToBatch(
+    let assignTrainersResponse;
+    if (itemId && isEdit) {
+      assignTrainersResponse = await assignTrainersToBatch(
         itemId,
         data.trainers,
       );
-      if (isResponseSuccess(response) && assignTrainersResponse) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='batches.label' />}}
-          />,
-        );
-        mutateBatch();
-        props.onClose();
-        refreshDataTable();
-      }
     } else {
-      let response = await createBatch(data);
-      let assignTrainersResponse = await assignTrainersToBatch(
+      assignTrainersResponse = await assignTrainersToBatch(
         response.data.id,
         data.trainers,
       );
-      if (isResponseSuccess(response) && assignTrainersResponse) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='batches.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    }
+    if (isResponseSuccess(response) && !isEdit && assignTrainersResponse) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='batches.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (
+      isResponseSuccess(response) &&
+      isEdit &&
+      assignTrainersResponse
+    ) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='batches.label' />}}
+        />,
+      );
+      mutateBatch();
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

@@ -121,12 +121,14 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
+        .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
         .trim()
         .required()
         .matches(TEXT_REGEX_BANGLA)
+        .title('bn')
         .label(messages['common.title_en'] as string),
       domain: yup
         .string()
@@ -241,47 +243,32 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<Institute> = async (data: Institute) => {
     data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
     data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-    if (isEdit && itemId) {
-      let response = await updateInstitute(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='institute.label' />}}
-          />,
-        );
-        mutateInstitute();
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
-      }
-    } else {
-      let response = await createInstitute(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='institute.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
-      }
+
+    const response = itemId
+      ? await updateInstitute(itemId, data)
+      : await createInstitute(data);
+
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='institute.label' />}}
+        />,
+      );
+      mutateInstitute();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='institute.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

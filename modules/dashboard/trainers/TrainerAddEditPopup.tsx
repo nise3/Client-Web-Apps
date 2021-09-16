@@ -100,11 +100,13 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
+        .title('en')
         .label(messages['common.title_en'] as string),
       trainer_name_bn: yup
         .string()
         .trim()
         .required()
+        .title('bn')
         .label(messages['common.title_bn'] as string)
         .matches(TEXT_REGEX_BANGLA),
       mobile: yup
@@ -304,48 +306,30 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
-    if (isEdit && itemId) {
-      console.log('data--', data);
-      let response = await updateTrainer(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='trainers.label' />}}
-          />,
-        );
-        mutateTrainer();
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
-      }
-    } else {
-      let response = await createTrainer(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='trainers.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
-      }
+    const response = itemId
+      ? await updateTrainer(itemId, data)
+      : await createTrainer(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='trainers.label' />}}
+        />,
+      );
+      mutateTrainer();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='trainers.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

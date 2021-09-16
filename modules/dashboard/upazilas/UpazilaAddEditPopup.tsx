@@ -1,5 +1,5 @@
-import React, {FC, useEffect, useState} from 'react';
-import * as yup from 'yup';
+import React, {FC, useEffect, useMemo, useState} from 'react';
+import yup from '../../../@softbd/libs/yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -19,25 +19,16 @@ import {
 } from '../../../services/locationManagement/UpazilaService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import {
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazila,
 } from '../../../services/locationManagement/hooks';
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  bbs_code: yup.string().trim().required().label('BBS code'),
-  loc_division_id: yup.string().trim().required().label('Division'),
-  loc_district_id: yup.string().trim().required().label('District'),
-});
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const initialValues = {
   title_en: '',
@@ -76,10 +67,44 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   const {data: districts, isLoading: isLoadingDistricts} =
     useFetchDistricts(districtsFilter);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .matches(TEXT_REGEX_BANGLA)
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      bbs_code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.bbs_code'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
+    });
+  }, [messages]);
+
   const {
     register,
     control,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -115,31 +140,30 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<Upazila> = async (data: Upazila) => {
-    if (isEdit && itemId) {
-      let response = await updateUpazila(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='upazilas.label' />}}
-          />,
-        );
-        mutateUpazila();
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createUpazila(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='upazilas.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateUpazila(itemId, data)
+      : await createUpazila(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='upazilas.label' />}}
+        />,
+      );
+      mutateUpazila();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='upazilas.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
