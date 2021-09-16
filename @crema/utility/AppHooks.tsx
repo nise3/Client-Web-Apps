@@ -10,6 +10,7 @@ import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst
 import {Cookies} from 'react-cookie';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../types/actions/Auth.actions';
+import {AuthUser} from '../../types/models/AuthUser';
 
 export const useAuthToken = () => {
   const dispatch = useDispatch();
@@ -51,11 +52,12 @@ export const useAuthToken = () => {
   return [loading, user];
 };
 
-export const useAuthUser = () => {
+export const useAuthUser = (): AuthUser | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {
     return Object.assign({}, user);
   }
+
   return null;
 };
