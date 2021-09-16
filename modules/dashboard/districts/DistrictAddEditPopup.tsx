@@ -10,7 +10,6 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import Grid from '@material-ui/core/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {
   createDistrict,
   updateDistrict,
@@ -64,15 +63,10 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
-        .matches(TEXT_REGEX_BANGLA)
         .title('bn')
         .label(messages['common.title_bn'] as string),
       bbs_code: yup

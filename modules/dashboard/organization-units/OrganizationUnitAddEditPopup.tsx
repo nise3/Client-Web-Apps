@@ -3,10 +3,7 @@ import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA,
-} from '../../../@softbd/common/patternRegex';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -114,17 +111,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
         .title('bn')
-        .label(messages['common.title_bn'] as string)
-        .matches(TEXT_REGEX_BANGLA),
+        .label(messages['common.title_bn'] as string),
       organization_id: yup
         .string()
         .required()

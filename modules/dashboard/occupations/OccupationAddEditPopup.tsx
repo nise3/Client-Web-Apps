@@ -1,6 +1,5 @@
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import yup from '../../../@softbd/libs/yup';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -63,15 +62,10 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
-        .matches(TEXT_REGEX_BANGLA)
         .title('bn')
         .label(messages['common.title_bn'] as string),
       job_sector_id: yup

@@ -9,10 +9,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA,
-} from '../../../@softbd/common/patternRegex';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -98,17 +95,12 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     return yup.object().shape({
       trainer_name_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       trainer_name_bn: yup
         .string()
-        .trim()
-        .required()
         .title('bn')
-        .label(messages['common.title_bn'] as string)
-        .matches(TEXT_REGEX_BANGLA),
+        .label(messages['common.title_bn'] as string),
       mobile: yup
         .string()
         .trim()
