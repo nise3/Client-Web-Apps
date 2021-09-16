@@ -14,6 +14,8 @@ import {
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {Slide, Fade, Zoom} from 'react-awesome-reveal';
+import Image from 'next/image';
+import coverImage from '../../public/images/cover-area.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -103,6 +105,44 @@ const CoverArea = () => {
         </Container>
       </Grid>
 
+      <Slide direction='up' cascade>
+        <Box mt={10} mb={1}>
+          <NativeSelect className={classes.select}>
+            <option>দক্ষতা</option>
+            <option>চাকরি</option>
+            <option>ব্যবসা</option>
+            <option>শিক্ষা</option>
+          </NativeSelect>
+        </Box>
+      </Slide>
+
+      <Grid container spacing={3} className={classes.searchBox}>
+        <Grid item xs={8} xl={8}>
+          <FormControl variant='outlined' style={{width: '100%'}}>
+            <InputLabel htmlFor='outlined-adornment-amount'>Search</InputLabel>
+            <OutlinedInput
+              id='outlined-adornment-amount'
+              startAdornment={
+                <InputAdornment position='start'>
+                  <SearchIcon />
+                </InputAdornment>
+              }
+              labelWidth={60}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={2} xl={2}>
+          <NativeSelect>
+            <option>লোকেশন</option>
+          </NativeSelect>
+        </Grid>
+        <Grid item xs={2} xl={2}>
+          <Button variant='contained' className={classes.searchButton}>
+            অনুসন্ধান
+          </Button>
+        </Grid>
+      </Grid>
+
       <Grid container className={classes.trendWrapper}>
         <Container maxWidth='md'>
           <Box pt={10}>
@@ -138,10 +178,10 @@ const CoverArea = () => {
             {/*  />*/}
             {/*</Box>*/}
 
-            <img
-              src='/images/cover-area.png'
-              alt='crema-logo'
+            <Image
+              src={coverImage}
               className={classes.coverImage}
+              alt={'cover image'}
             />
           </Grid>
         </Zoom>
