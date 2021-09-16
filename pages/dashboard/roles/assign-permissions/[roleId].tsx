@@ -7,9 +7,10 @@ import {
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
 } from 'lodash';
-import {Checkbox, Divider, Grid} from '@material-ui/core';
-import CustomAccordion from '../../../../@softbd/elements/accordion/CustomAccordion';
+import {Box, Checkbox, createStyles, Divider, Grid} from '@material-ui/core';
 import PageBlock from '../../../../@softbd/utilities/PageBlock';
+import {makeStyles} from '@material-ui/styles';
+import {Theme} from '@material-ui/core/styles';
 
 const data = [
   {
@@ -86,7 +87,17 @@ const data = [
   },
 ];
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    permissionGroup: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  }),
+);
+
 const AssignPermissionToRole = () => {
+  const classes = useStyles();
   const router = useRouter();
   const {roleId} = router.query;
 
@@ -178,10 +189,10 @@ const AssignPermissionToRole = () => {
 
   return (
     <PageBlock title={'Assign Permission'}>
-      <Grid container spacing={3}>
+      <Grid container spacing={8}>
         {Object.keys(permissions || {}).map((module) => (
-          <Grid item xs={4} key={module}>
-            <CustomAccordion title={module} height={'100%'}>
+          <Grid item xs={4} key={module} className={classes.permissionGroup}>
+            <Box style={{boxShadow: '0px 0px 5px 1px #e9e9e9'}}>
               <label>
                 <Checkbox
                   checked={checkedModules.has(module)}
@@ -189,7 +200,7 @@ const AssignPermissionToRole = () => {
                     handleCheckAllPermissions(e.target.checked, module)
                   }
                 />
-                All
+                {module}
               </label>
               <Divider />
               {permissions[module].map((permission: any) => {
@@ -206,7 +217,7 @@ const AssignPermissionToRole = () => {
                   </label>
                 );
               })}
-            </CustomAccordion>
+            </Box>
           </Grid>
         ))}
       </Grid>
