@@ -14,6 +14,7 @@ import {
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {Slide, Fade, Zoom} from 'react-awesome-reveal';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
         'linear-gradient(152deg, rgba(5, 99, 7, 1) 0%, rgb(108 95 9) 51%, rgb(100 89 15) 74%)',
     },
     select: {
-      width: '110px',
+      width: '15vh',
       border: '1px solid #5e6b0f',
       background: ' #5e6b0f',
       textAlign: 'center',
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '5px',
     },
     searchBox: {
-      padding: '12px 0px 5px 15px',
+      padding: '12px 25px 5px 15px',
       background: '#fff',
       position: 'absolute',
       zIndex: 1,
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#fff',
     },
     trendWrapper: {
-      height: '15rem',
+      height: '40vh',
       background: '#ddd',
     },
     trendSearchItem: {
@@ -72,14 +73,16 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     coverImage: {
-      width: '550px',
+      width: '45vw',
+      height: '500px',
       position: 'absolute',
       right: 0,
-      bottom: '-150px',
+      bottom: '30vh',
       borderRadius: '5px',
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
+        right: '6vw',
       },
     },
     animationFillMode: {
@@ -128,8 +131,8 @@ const CoverArea = () => {
             </Slide>
 
             <Grid container spacing={3} className={classes.searchBox}>
-              <Grid item xl={8}>
-                <FormControl variant='outlined' style={{width: '20rem'}}>
+              <Grid item xl={7}>
+                <FormControl variant='outlined'>
                   <InputLabel htmlFor='outlined-adornment-amount'>
                     Search
                   </InputLabel>
@@ -144,8 +147,9 @@ const CoverArea = () => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xl={2}>
+              <Grid item xl={3}>
                 <NativeSelect>
+                  <LocationOnIcon />
                   <option>লোকেশন</option>
                 </NativeSelect>
               </Grid>
@@ -166,19 +170,19 @@ const CoverArea = () => {
             </Box>
 
             <Slide direction='down'>
-              <Grid container xl={12}>
-                <Grid item xl={3}>
+              <Grid container xs={12} md={6}>
+                <Grid item xs={4} md={2}>
                   <Box className={classes.trendSearchItem}>
                     গ্রাফিক্স ডিজাইন
                   </Box>
                 </Grid>
-                <Grid item xl={3}>
+                <Grid item xs={4} md={2}>
                   <Box className={classes.trendSearchItem}>ওয়েব ডিজাইন</Box>
                 </Grid>
-                <Grid item xl={3}>
+                <Grid item xs={4} md={2}>
                   <Box className={classes.trendSearchItem}>ইউ-আই/এক্স</Box>
                 </Grid>
-                <Grid item xl={3}>
+                <Grid item xs={4} md={2}>
                   <Box className={classes.trendSearchItem}>হেলথ কেয়ার জব</Box>
                 </Grid>
               </Grid>
