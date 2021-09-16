@@ -5,7 +5,6 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -60,15 +59,10 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
       return yup.object().shape({
         title_en: yup
           .string()
-          .trim()
-          .required()
           .title('en')
           .label(messages['common.title_en'] as string),
         title_bn: yup
           .string()
-          .trim()
-          .required()
-          .matches(TEXT_REGEX_BANGLA)
           .title('bn')
           .label(messages['common.title_bn'] as string),
         organization_id: yup

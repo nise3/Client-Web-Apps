@@ -5,7 +5,6 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
@@ -56,17 +55,12 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
         .title('bn')
-        .label(messages['common.title_bn'] as string)
-        .matches(TEXT_REGEX_BANGLA),
+        .label(messages['common.title_bn'] as string),
       description: yup.string(),
       row_status: yup.string(),
     });

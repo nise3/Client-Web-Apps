@@ -80,12 +80,10 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     return yup.object().shape({
       name_en: yup
         .string()
-        .trim()
         .title('en')
         .label(messages['common.name_en'] as string),
       name_bn: yup
         .string()
-        .trim()
         .title('bn')
         .label(messages['common.name_bn'] as string),
       username: yup

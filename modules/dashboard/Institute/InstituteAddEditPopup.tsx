@@ -11,7 +11,6 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -119,15 +118,10 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
-        .matches(TEXT_REGEX_BANGLA)
         .title('bn')
         .label(messages['common.title_en'] as string),
       domain: yup

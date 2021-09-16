@@ -8,7 +8,6 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -79,17 +78,12 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     return yup.object().shape({
       title_en: yup
         .string()
-        .trim()
-        .required()
         .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
-        .trim()
-        .required()
         .title('bn')
-        .label(messages['common.title_bn'] as string)
-        .matches(TEXT_REGEX_BANGLA),
+        .label(messages['common.title_bn'] as string),
       domain: yup
         .string()
         .trim()
