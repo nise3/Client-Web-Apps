@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Button from '@material-ui/core/Button';
-import {SSO_LOGIN_URL} from '../../../@softbd/common/SSOConfig';
+import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   formRoot: {
@@ -62,7 +62,7 @@ const SigninSSO: React.FC<UserSigninProps> = (props) => {
   const classes = useStyles(props);
 
   const redirectToSSO = useCallback(() => {
-    window.location.href = SSO_LOGIN_URL;
+    window.location.href = getSSOLoginUrl();
   }, []);
 
   return (
