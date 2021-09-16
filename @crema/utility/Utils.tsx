@@ -141,6 +141,12 @@ export function IntlGlobalProvider({children}: any) {
 export const appIntl = () => {
   return intl;
 };
+
+/**
+ * @deprecated
+ * @param routeAuth
+ * @param userRole
+ */
 export const checkPermission = (
   routeAuth: any | null | undefined,
   userRole: any | null | undefined,

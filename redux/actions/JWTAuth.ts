@@ -81,13 +81,12 @@ export const onSSOSignInCallback = (tokenData: TOnSSOSignInCallback) => {
         JSON.stringify(tokenData),
         {
           path: '/',
-          maxAge: Number(tokenData.expires_in),
         },
       );
       dispatch(setAuthAccessTokenData(tokenData));
       await loadAuthUser(dispatch, tokenData);
     } catch (err: any) {
-      console.log('error!!!!', err.response.data.error);
+      console.log('onSSOSignInCallback - error!!!!', err);
     }
   };
 };
@@ -96,18 +95,14 @@ export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
   tokenData: TOnSSOSignInCallback,
 ) => {
+  console.log('loadAuthUser() - tokenData - ', tokenData);
   dispatch(fetchStart());
   try {
-    const data = JSON.parse(Base64.decode(tokenData.id_token.split('.')[1]));
-    const res = {
-      data: {
-        ...{
-          id: 4,
-          name: data?.given_name || 'Demo User',
-        },
-        ...data,
-      },
-    };
+    const data = JSON.parse(
+      Base64.decode((tokenData.id_token || '..').split('.')[1]),
+    );
+    console.log('idTokenData', data);
+    const res = {data};
     dispatch(fetchSuccess());
     console.log('res.data', res.data);
     dispatch({
@@ -115,8 +110,8 @@ export const loadAuthUser = async (
       payload: getUserObject(res.data),
     });
   } catch (err: any) {
-    console.log('error!!!!', err.response.error);
-    dispatch(fetchError(err.response.error));
+    console.log('error!!!!', err);
+    dispatch(fetchError(err));
   }
 };
 
@@ -136,15 +131,29 @@ export const setAuthAccessTokenData = (
   payload: data,
 });
 
-export const getUserObject = (authUser: any): AuthUser => {
+type TAuthUserSSOResponse = {
+  email?: string;
+  sub: string;
+  upn: string;
+  given_name: string;
+  family_name: string;
+};
+export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
   return {
     authType: AuthType.AUTH2,
-    displayName: authUser.name,
-    email: authUser.email,
+    displayName: authUser.given_name + ' ' + authUser.family_name,
+    email: authUser?.email,
     role: defaultUser.role,
-    token: authUser._id,
-    uid: authUser._id,
-    photoURL: authUser.avatar,
+    uid: authUser.sub,
+    username: authUser.upn,
+    permissions: [
+      'create_institute',
+      'update_institute',
+      'delete_institute',
+      'view_single_institute',
+      'view_any_institute',
+      'view_single_division',
+    ],
   };
 };
 

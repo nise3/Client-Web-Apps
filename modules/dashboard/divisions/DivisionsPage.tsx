@@ -18,10 +18,13 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 import {AuthUser} from '../../../types/models/AuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {readDivision} from '../../../services/instituteManagement/policies';
 
 const DivisionsPage = () => {
   const user: AuthUser | null = useAuthUser();
-  console.table(user);
+
+  const hasPermission = useMemo(() => readDivision(user), [user]);
+  console.log('hasPermission', hasPermission);
 
   const [filters] = useState({});
   const {messages} = useIntl();

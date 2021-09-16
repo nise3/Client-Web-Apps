@@ -5,7 +5,8 @@ export interface AuthUser {
   displayName?: string;
   email?: string;
   photoURL?: string;
-  token?: string;
   authType: AuthType;
   role: string[];
+  username: string;
+  permissions: string[];
 }
