@@ -29,10 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
       background: ' #5e6b0f',
       textAlign: 'center',
       color: '#000',
-      padding: '5px',
+      padding: '5px 5px 5px 10px',
     },
     searchBox: {
-      padding: '12px 25px 5px 15px',
+      padding: '12px 86px 5px 15px',
       background: '#fff',
       position: 'absolute',
       zIndex: 1,
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#fff',
     },
     trendWrapper: {
-      height: '40vh',
+      height: '200px',
       background: '#ddd',
     },
     trendSearchItem: {
@@ -73,15 +73,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     coverImage: {
       width: '45vw',
-      height: '500px',
+      height: '430px',
       position: 'absolute',
       right: 0,
-      bottom: '30vh',
       borderRadius: '5px',
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
-        right: '6vw',
+        bottom: '-135px',
+        // right: '6vw',
       },
     },
     animationFillMode: {
@@ -133,8 +133,8 @@ const CoverArea = () => {
               </Grid>
             </Slide>
 
-            <Grid container spacing={3} className={classes.searchBox}>
-              <Grid item xl={7}>
+            <Grid container spacing={4} className={classes.searchBox}>
+              <Grid item xl={8}>
                 <FormControl variant='outlined'>
                   <InputLabel htmlFor='outlined-adornment-amount'>
                     Search
@@ -150,7 +150,7 @@ const CoverArea = () => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xl={3}>
+              <Grid item xl={2}>
                 <NativeSelect>
                   <LocationOnIcon />
                   <option>লোকেশন</option>
@@ -165,7 +165,7 @@ const CoverArea = () => {
           </Container>
         </Grid>
         <Grid container className={classes.trendWrapper}>
-          <Container maxWidth='xl'>
+          <Container maxWidth='md'>
             <Box pt={10}>
               <Typography variant='h6' gutterBottom={true}>
                 ট্রেন্ড সার্চ
