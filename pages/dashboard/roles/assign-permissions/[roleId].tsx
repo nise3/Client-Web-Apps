@@ -3,11 +3,11 @@ import {useRouter} from 'next/router';
 import AppPage from '../../../../@crema/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
 import {
-  reduce as lodashReduce,
   map as lodashMap,
   forEach as lodashForEach,
+  groupBy as lodashGroupBy,
 } from 'lodash';
-import {Box, Checkbox, Divider, Grid} from '@material-ui/core';
+import {Checkbox, Divider, Grid} from '@material-ui/core';
 import CustomAccordion from '../../../../@softbd/elements/accordion/CustomAccordion';
 import PageBlock from '../../../../@softbd/utilities/PageBlock';
 
@@ -91,52 +91,40 @@ const AssignPermissionToRole = () => {
   const {roleId} = router.query;
 
   const [permissions, setPermissions] = useState<any>({});
-  const [checkedPermissions, setCheckedPermissions] = useState<number[]>([
-    1, 2, 3, 4,
-  ]);
-  const [checkedModules, setCheckedModules] = useState<string[]>([]);
+  const [checkedPermissions, setCheckedPermissions] = useState<any>(
+    new Set([1, 2, 3, 4, 5]),
+  );
+  const [checkedModules, setCheckedModules] = useState<any>(new Set());
 
   useEffect(() => {
-    let hashPermissions = lodashReduce(
-      data,
-      function (result: any, value: any, key: any) {
-        (result[value['module']] || (result[value['module']] = [])).push(value);
-        return result;
-      },
-      {},
-    );
-    console.log('permissions', hashPermissions);
-    setPermissions(hashPermissions);
+    if (roleId) {
+      let hashPermissions = lodashGroupBy(data, 'module');
+      setPermissions(hashPermissions);
 
-    lodashForEach(Object.keys(hashPermissions), (module) => {
-      //console.log('keyyy', hashPermissions[module]);
-      console.log(
-        'opopo',
-        isAllCheckUnderModule(module, checkedPermissions, hashPermissions),
-      );
-      if (isAllCheckUnderModule(module, checkedPermissions, hashPermissions)) {
-        if (!checkedModules.includes(module)) {
-          console.log('add module', [...checkedModules, module]);
-          setCheckedModules([...checkedModules, module]);
+      lodashForEach(Object.keys(hashPermissions), (module) => {
+        if (
+          isAllCheckUnderModule(module, checkedPermissions, hashPermissions)
+        ) {
+          setCheckedModules((checkedModules: any) =>
+            checkedModules.add(module),
+          );
         }
-      }
-    });
+      });
+    }
   }, [roleId]);
 
   const handlePermissionCheck = useCallback(
     (permission, module) => {
-      const newPermissions = checkedPermissions?.includes(permission)
-        ? checkedPermissions?.filter((id: any) => id !== permission)
-        : [...checkedPermissions, permission];
-
-      console.log('checkedPermissions', newPermissions);
+      const newPermissions = new Set([...checkedPermissions]);
+      newPermissions.has(permission)
+        ? newPermissions.delete(permission)
+        : newPermissions.add(permission);
       setCheckedPermissions(newPermissions);
 
       if (isAllCheckUnderModule(module, newPermissions, permissions)) {
-        if (!checkedModules.includes(module)) {
-          console.log('add module', [...checkedModules, module]);
-          setCheckedModules([...checkedModules, module]);
-        }
+        setCheckedModules(
+          (oldCheckModules: any) => new Set([...oldCheckModules, module]),
+        );
       } else {
         uncheckModule(module);
       }
@@ -147,21 +135,17 @@ const AssignPermissionToRole = () => {
   const handleCheckAllPermissions = useCallback(
     (isChecked: any, module) => {
       const permissionsIds = lodashMap(permissions[module], 'id');
-      let newPermissions: number[] = [];
       if (isChecked) {
-        for (let i = 0; i < permissionsIds.length; i++) {
-          if (!checkedPermissions.includes(permissionsIds[i])) {
-            newPermissions.push(permissionsIds[i]);
-          }
-        }
-        setCheckedPermissions([...checkedPermissions, ...newPermissions]);
-        setCheckedModules([...checkedModules, module]);
+        setCheckedPermissions(
+          new Set([...checkedPermissions, ...permissionsIds]),
+        );
+        setCheckedModules(new Set([...checkedModules, module]));
       } else {
-        newPermissions = checkedPermissions.filter((id) => {
-          return !permissionsIds.includes(id);
+        let newPermissions = new Set([...checkedPermissions]);
+        permissionsIds.forEach((item) => {
+          newPermissions.delete(item);
         });
         setCheckedPermissions(newPermissions);
-
         uncheckModule(module);
       }
     },
@@ -171,10 +155,9 @@ const AssignPermissionToRole = () => {
   const isAllCheckUnderModule = useCallback(
     (module, checkedPermissions, hashPermissions) => {
       const permissionsIds = lodashMap(hashPermissions[module], 'id');
-      console.log('permissionsIds', permissionsIds);
       let allCheckedUnderModule = true;
       for (let i = 0; i < permissionsIds.length; i++) {
-        if (!checkedPermissions.includes(permissionsIds[i])) {
+        if (!checkedPermissions.has(permissionsIds[i])) {
           allCheckedUnderModule = false;
           break;
         }
@@ -186,10 +169,8 @@ const AssignPermissionToRole = () => {
 
   const uncheckModule = useCallback(
     (module) => {
-      let modules = checkedModules.filter((item) => {
-        return item !== module;
-      });
-      console.log('remove module', modules);
+      const modules = new Set([...checkedModules]);
+      modules.delete(module);
       setCheckedModules(modules);
     },
     [checkedModules],
@@ -199,11 +180,11 @@ const AssignPermissionToRole = () => {
     <PageBlock title={'Assign Permission'}>
       <Grid container spacing={3}>
         {Object.keys(permissions || {}).map((module) => (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={module}>
             <CustomAccordion title={module} height={'100%'}>
               <label>
                 <Checkbox
-                  checked={checkedModules.includes(module)}
+                  checked={checkedModules.has(module)}
                   onChange={(e) =>
                     handleCheckAllPermissions(e.target.checked, module)
                   }
@@ -213,10 +194,10 @@ const AssignPermissionToRole = () => {
               <Divider />
               {permissions[module].map((permission: any) => {
                 return (
-                  <label>
+                  <label key={permission.id}>
                     <Checkbox
                       value={permission.id}
-                      checked={checkedPermissions.includes(permission.id)}
+                      checked={checkedPermissions.has(permission.id)}
                       onChange={() =>
                         handlePermissionCheck(permission.id, module)
                       }
