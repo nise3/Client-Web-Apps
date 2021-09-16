@@ -1,5 +1,5 @@
-import React, {FC, useEffect, useState} from 'react';
-import * as yup from 'yup';
+import React, {FC, useEffect, useMemo, useState} from 'react';
+import yup from '../../../@softbd/libs/yup';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -7,7 +7,10 @@ import {useFetchOrganizations} from '../../../services/organaizationManagement/h
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import IconRank from '../../../@softbd/icons/IconRank';
@@ -26,26 +29,13 @@ import {
   updateRole,
 } from '../../../services/userManagement/RoleService';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface RoleAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  key: yup.string().trim().required(),
-  permission_group_id: yup.string().nullable(),
-  institute_id: yup.string().nullable(),
-  organization_id: yup.string().nullable(),
-  row_status: yup.string(),
-});
 
 const initialValues = {
   title_en: '',
@@ -83,10 +73,37 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   const {data: organizations, isLoading: isLoadingOrganizations} =
     useFetchOrganizations(organizationFilters);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .title('bn')
+        .label(messages['common.title_bn'] as string)
+        .matches(TEXT_REGEX_BANGLA),
+      key: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.key'] as string),
+      permission_group_id: yup.string().nullable(),
+      institute_id: yup.string().nullable(),
+      organization_id: yup.string().nullable(),
+      row_status: yup.string(),
+    });
+  }, [messages]);
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<Role>({
@@ -110,31 +127,30 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Role> = async (data: Role) => {
-    if (isEdit && itemId) {
-      let response = await updateRole(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='role.label' />}}
-          />,
-        );
-        mutateRole();
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createRole(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='role.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateRole(itemId, data)
+      : await createRole(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='role.label' />}}
+        />,
+      );
+      mutateRole();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='role.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

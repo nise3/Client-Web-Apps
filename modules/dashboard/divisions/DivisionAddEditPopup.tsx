@@ -117,7 +117,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
       props.onClose();
       refreshDataTable();
     } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError);
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

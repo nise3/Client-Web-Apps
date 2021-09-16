@@ -1,8 +1,8 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Button, Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -18,39 +18,22 @@ import {
   updateCourse,
 } from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconProgramme';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
   useFetchInstitutes,
 } from '../../../services/instituteManagement/hooks';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  institute_id: yup.string().trim().required(),
-  code: yup.string().trim().required('Enter code'),
-  course_fee: yup.string().required('Enter course fee'),
-  duration: yup.string(),
-  description: yup.string(),
-  target_group: yup.string(),
-  objectives: yup.string(),
-  training_methodology: yup.string(),
-  evaluation_system: yup.string(),
-  prerequisite: yup.string(),
-  eligibility: yup.string(),
-  cover_image: yup.string(),
-});
 
 const initialValues = {
   id: 0,
@@ -87,10 +70,51 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {data: institutes, isLoading: isLoadingInstitutes} =
     useFetchInstitutes(instituteFilters);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .trim()
+        .required()
+        .title('bn')
+        .label(messages['common.title_bn'] as string)
+        .matches(TEXT_REGEX_BANGLA),
+      institute_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.label'] as string),
+      code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.code'] as string),
+      course_fee: yup
+        .string()
+        .required()
+        .label(messages['course.fee'] as string),
+      duration: yup.string(),
+      description: yup.string(),
+      target_group: yup.string(),
+      objectives: yup.string(),
+      training_methodology: yup.string(),
+      evaluation_system: yup.string(),
+      prerequisite: yup.string(),
+      eligibility: yup.string(),
+      cover_image: yup.string(),
+    });
+  }, [messages]);
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<Course>({
@@ -121,31 +145,31 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Course> = async (data: Course) => {
-    if (isEdit && itemId) {
-      let response = await updateCourse(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='course.label' />}}
-          />,
-        );
-        mutateCourse();
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createCourse(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='course.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateCourse(itemId, data)
+      : await createCourse(data);
+
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='course.label' />}}
+        />,
+      );
+      mutateCourse();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='course.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

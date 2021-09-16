@@ -1,8 +1,8 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -19,28 +19,21 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import {
   useFetchOrganizations,
   useFetchOrganizationUnitType,
 } from '../../../services/organaizationManagement/hooks';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title(En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title(Bn)'),
-  organization_id: yup.string().required().label('Organization'),
-});
 
 const initialValues = {
   title_en: '',
@@ -63,10 +56,33 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     const {data: organizations, isLoading: isOrganizationLoading} =
       useFetchOrganizations(organizationFilters);
 
+    const validationSchema = useMemo(() => {
+      return yup.object().shape({
+        title_en: yup
+          .string()
+          .trim()
+          .required()
+          .title('en')
+          .label(messages['common.title_en'] as string),
+        title_bn: yup
+          .string()
+          .trim()
+          .required()
+          .matches(TEXT_REGEX_BANGLA)
+          .title('bn')
+          .label(messages['common.title_bn'] as string),
+        organization_id: yup
+          .string()
+          .required()
+          .label(messages['organization.label'] as string),
+      });
+    }, []);
+
     const {
       control,
       register,
       reset,
+      setError,
       handleSubmit,
       formState: {errors, isSubmitting},
     } = useForm({
@@ -89,35 +105,34 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     const onSubmit: SubmitHandler<OrganizationUnitType> = async (
       data: OrganizationUnitType,
     ) => {
-      if (itemId) {
-        let response = await updateOrganizationUnitType(itemId, data);
-        if (isResponseSuccess(response)) {
-          successStack(
-            <IntlMessages
-              id='common.subject_updated_successfully'
-              values={{
-                subject: <IntlMessages id='organization_unit_type.label' />,
-              }}
-            />,
-          );
-          mutateOrganizationUnitType();
-          props.onClose();
-          refreshDataTable();
-        }
-      } else {
-        let response = await createOrganizationUnitType(data);
-        if (isResponseSuccess(response)) {
-          successStack(
-            <IntlMessages
-              id='common.subject_created_successfully'
-              values={{
-                subject: <IntlMessages id='organization_unit_type.label' />,
-              }}
-            />,
-          );
-          props.onClose();
-          refreshDataTable();
-        }
+      const response = itemId
+        ? await updateOrganizationUnitType(itemId, data)
+        : await createOrganizationUnitType(data);
+      if (isResponseSuccess(response) && isEdit) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{
+              subject: <IntlMessages id='organization_unit_type.label' />,
+            }}
+          />,
+        );
+        mutateOrganizationUnitType();
+        props.onClose();
+        refreshDataTable();
+      } else if (isResponseSuccess(response) && !isEdit) {
+        successStack(
+          <IntlMessages
+            id='common.subject_created_successfully'
+            values={{
+              subject: <IntlMessages id='organization_unit_type.label' />,
+            }}
+          />,
+        );
+        props.onClose();
+        refreshDataTable();
+      } else if (isValidationError(response)) {
+        setServerValidationErrors(response.errors, setError, validationSchema);
       }
     };
 

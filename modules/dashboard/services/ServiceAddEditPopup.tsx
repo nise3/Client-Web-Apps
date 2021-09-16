@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -56,11 +56,13 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
+        .title('en')
         .label(messages['common.title_en'] as string),
       title_bn: yup
         .string()
         .trim()
         .required()
+        .title('bn')
         .label(messages['common.title_bn'] as string)
         .matches(TEXT_REGEX_BANGLA),
     });
@@ -91,47 +93,30 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Service> = async (data: Service) => {
-    if (isEdit && itemId) {
-      let response = await updateService(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='services.label' />}}
-          />,
-        );
-        mutateService();
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
-      }
-    } else {
-      let response = await createService(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='services.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      } else {
-        if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
-      }
+    const response = itemId
+      ? await updateService(itemId, data)
+      : await createService(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='services.label' />}}
+        />,
+      );
+      mutateService();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='services.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

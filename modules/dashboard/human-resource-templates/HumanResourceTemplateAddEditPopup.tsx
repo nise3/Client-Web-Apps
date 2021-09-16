@@ -1,8 +1,8 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
@@ -13,7 +13,10 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
 import {
   createHumanResourceTemplate,
   getAllHumanResourceTemplates,
@@ -24,6 +27,7 @@ import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceT
 import {getAllRanks} from '../../../services/organaizationManagement/RankService';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {getOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
@@ -32,27 +36,6 @@ interface HumanResourceTemplateAddEditPopupProps {
   isEdit: boolean;
   organizationUnitTypeId: number;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title[En]'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .label('Title[Bn]')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  organization_id: yup.string().trim().required().label('Organization'),
-  parent_id: yup.string(),
-  rank_id: yup.string(),
-  display_order: yup.string(),
-  is_designation: yup.string().required().label('Designation'),
-  organization_unit_type_id: yup
-    .string()
-    .required()
-    .label('Organization Unit Type'),
-  status: yup.string(),
-  row_status: yup.string(),
-});
 
 const initialValues = {
   id: 0,
@@ -97,10 +80,46 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       number | null
     >(null);
 
+    const validationSchema = useMemo(() => {
+      return yup.object().shape({
+        title_en: yup
+          .string()
+          .trim()
+          .required()
+          .title('en')
+          .label(messages['common.title_en'] as string),
+        title_bn: yup
+          .string()
+          .trim()
+          .required()
+          .title('bn')
+          .label(messages['common.title_bn'] as string)
+          .matches(TEXT_REGEX_BANGLA),
+        organization_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['organization.label'] as string),
+        parent_id: yup.string(),
+        rank_id: yup.string(),
+        display_order: yup.string(),
+        is_designation: yup
+          .string()
+          .required()
+          .label(messages['human_resource_template.is_designation'] as string),
+        organization_unit_type_id: yup
+          .string()
+          .required()
+          .label(messages['organization_unit_type.label'] as string),
+        status: yup.string(),
+        row_status: yup.string(),
+      });
+    }, [messages]);
     const {
       control,
       register,
       reset,
+      setError,
       handleSubmit,
       formState: {errors, isSubmitting},
     } = useForm<HumanResourceTemplate>({
@@ -214,22 +233,23 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       data: HumanResourceTemplate,
     ) => {
       data.parent_id = data.parent_id ? data.parent_id : null;
-      if (isEdit && itemId) {
-        let response = await updateHumanResourceTemplate(itemId, data);
-        if (isResponseSuccess(response)) {
-          successStack(
-            <IntlMessages
-              id='common.subject_updated_successfully'
-              values={{
-                subject: <IntlMessages id='human_resource_template.label' />,
-              }}
-            />,
-          );
-          props.onClose();
-          refreshDataTable();
-        }
-      } else {
-        let response = await createHumanResourceTemplate(data);
+
+      const response = itemId
+        ? await updateHumanResourceTemplate(itemId, data)
+        : await createHumanResourceTemplate(data);
+
+      if (isResponseSuccess(response) && isEdit) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{
+              subject: <IntlMessages id='human_resource_template.label' />,
+            }}
+          />,
+        );
+        props.onClose();
+        refreshDataTable();
+      } else if (isResponseSuccess(response) && !isEdit) {
         if (isResponseSuccess(response)) {
           successStack(
             <IntlMessages
@@ -241,6 +261,12 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           );
           props.onClose();
           refreshDataTable();
+        } else if (isValidationError(response)) {
+          setServerValidationErrors(
+            response.errors,
+            setError,
+            validationSchema,
+          );
         }
       }
     };
