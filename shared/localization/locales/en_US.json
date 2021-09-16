@@ -303,5 +303,15 @@
   "user.user_type": "User type",
   "user.type.system": "System",
   "user.type.institute": "Institute",
-  "user.type.organization": "Organization"
+  "user.type.organization": "Organization",
+  "common.registration_number": "Registration number",
+  "permission_group.key": "Unique Key",
+  "common.root_cant_be_drag_and_drop": "Sorry! Drag and drop is not allowed",
+  "common.hierarchy": "Hierarchy",
+  "human_resource.label": "Human resource",
+  "common.upazila_title_present_address": "Present upazila",
+  "physical_disabilities_status": "Physical disabilities status",
+  "required_field": "{path} field is required",
+  "permission.uri": "URI",
+  "permission.method": "Method"
 }

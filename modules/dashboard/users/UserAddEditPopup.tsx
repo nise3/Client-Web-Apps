@@ -105,11 +105,17 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .required()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
-      password: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.password'] as string),
+      password:
+        isEdit && itemId
+          ? yup
+              .string()
+              .trim()
+              .label(messages['common.password'] as string)
+          : yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.password'] as string),
       retype_password: yup
         .string()
         .oneOf([yup.ref('password')])
@@ -134,7 +140,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               .label(messages['institute.label'] as string)
           : yup.string().label(messages['institute.label'] as string),
     });
-  }, [messages, userType]);
+  }, [itemId, messages, userType]);
 
   const {
     register,
@@ -337,26 +343,30 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='password'
-            label={messages['common.password']}
-            type={'password'}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='retype_password'
-            label={messages['common.retypePassword']}
-            type={'password'}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {!(isEdit && itemId) && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id='password'
+                label={messages['common.password']}
+                type={'password'}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id='retype_password'
+                label={messages['common.retypePassword']}
+                type={'password'}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'
