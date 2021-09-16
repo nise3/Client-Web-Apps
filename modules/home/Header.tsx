@@ -7,7 +7,6 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
@@ -30,8 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     logo: {
-      width: '100px',
-      height: '100px',
+      width: '70px',
+      height: '50px',
       marginTop: '-12px',
     },
     appBar: {
@@ -195,11 +194,33 @@ export default function Header() {
       onClose={handleMobileMenuClose}>
       <MenuItem>
         <IconButton aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={4} color='secondary'>
-            <MailIcon />
-          </Badge>
+          <Home />
         </IconButton>
-        <p>Messages</p>
+        <p>হোম</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <CastForEducation />
+        </IconButton>
+        <p>প্রশিক্ষণ</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <WorkIcon />
+        </IconButton>
+        <p>চাকরি</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <ListAltIcon />
+        </IconButton>
+        <p>নোটিশ</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <LocalActivityIcon />
+        </IconButton>
+        <p>সাম্প্রতিক কার্যক্রম</p>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label='show 11 new notifications' color='inherit'>
