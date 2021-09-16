@@ -14,8 +14,6 @@ import {
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {Slide, Fade, Zoom} from 'react-awesome-reveal';
-import Image from 'next/image';
-import coverImg from '../../public/images/cover-area.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid #5e6b0f',
       background: ' #5e6b0f',
       textAlign: 'center',
-      color: '#fff',
+      color: '#000',
       padding: '5px',
     },
     searchBox: {
@@ -41,12 +39,16 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 'auto',
       borderRadius: '2px',
     },
+    skillSlide: {
+      zIndex: 2,
+      position: 'absolute',
+    },
     searchButton: {
       background: '#682988',
       color: '#fff',
     },
     trendWrapper: {
-      height: '150px',
+      height: '15rem',
       background: '#ddd',
     },
     trendSearchItem: {
@@ -54,8 +56,20 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       padding: '10px',
       borderRadius: '6px',
-      width: '145px',
       margin: '5px',
+    },
+
+    mobileCoverImage: {
+      width: '100%',
+      // position: 'absolute',
+      right: 0,
+      borderRadius: '5px',
+      display: 'flex',
+      top: '10rem',
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+        marginBottom: '100px',
+      },
     },
     coverImage: {
       width: '550px',
@@ -63,6 +77,10 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 0,
       bottom: '-150px',
       borderRadius: '5px',
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
     },
     animationFillMode: {
       animationFillMode: 'backwards !important',
@@ -98,8 +116,8 @@ const CoverArea = () => {
                 </Typography>
               </Fade>
             </Box>
-            <Slide direction='up' cascade>
-              <Box mt={10} mb={1}>
+            <Slide direction='up'>
+              <Box mt={10} mb={1} zIndex={'tooltip'}>
                 <NativeSelect className={classes.select}>
                   <option>দক্ষতা</option>
                   <option>চাকরি</option>
@@ -111,7 +129,7 @@ const CoverArea = () => {
 
             <Grid container spacing={3} className={classes.searchBox}>
               <Grid item xl={8}>
-                <FormControl variant='outlined' style={{width: '550px'}}>
+                <FormControl variant='outlined' style={{width: '20rem'}}>
                   <InputLabel htmlFor='outlined-adornment-amount'>
                     Search
                   </InputLabel>
@@ -140,14 +158,15 @@ const CoverArea = () => {
           </Container>
         </Grid>
         <Grid container className={classes.trendWrapper}>
-          <Container maxWidth='md'>
+          <Container maxWidth='xl'>
             <Box pt={10}>
               <Typography variant='h6' gutterBottom={true}>
                 ট্রেন্ড সার্চ
               </Typography>
             </Box>
+
             <Slide direction='down'>
-              <Grid container xl={8}>
+              <Grid container xl={12}>
                 <Grid item xl={3}>
                   <Box className={classes.trendSearchItem}>
                     গ্রাফিক্স ডিজাইন
@@ -166,20 +185,25 @@ const CoverArea = () => {
             </Slide>
           </Container>
           <Zoom>
-            <Grid item style={{position: 'relative'}}>
-              {/*<Box className={classes.coverImage}>*/}
-              {/*  <Image*/}
-              {/*    src={coverImg}*/}
-              {/*    width={550}*/}
-              {/*    height={400}*/}
-              {/*    alt='cover-image'*/}
-              {/*  />*/}
-              {/*</Box>*/}
+            {/*<Box className={classes.coverImage}>*/}
+            {/*  <Image*/}
+            {/*    src={coverImg}*/}
+            {/*    width={550}*/}
+            {/*    height={400}*/}
+            {/*    alt='cover-image'*/}
+            {/*  />*/}
+            {/*</Box>*/}
 
+            <Grid container>
               <img
                 src='/images/cover-area.png'
                 alt='crema-logo'
                 className={classes.coverImage}
+              />
+              <img
+                src='/images/cover-area.png'
+                alt='crema-logo'
+                className={classes.mobileCoverImage}
               />
             </Grid>
           </Zoom>

@@ -27,8 +27,16 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       fontSize: '60px',
     },
+
+    rootMobileView: {
+      [theme.breakpoints.down('md')]: {
+        marginTop: '235px',
+      },
+    },
     root: {
-      marginTop: '50px',
+      [theme.breakpoints.up('md')]: {
+        marginTop: '50px',
+      },
     },
   }),
 );
@@ -38,10 +46,13 @@ const InfoCardSection = () => {
 
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
+      <Container
+        maxWidth='md'
+        className={classes.rootMobileView}
+        disableGutters>
         <Fade direction='up'>
           <Grid container spacing={5}>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Card className={classes.youthBoxItem}>
                 <Assignment className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
@@ -52,7 +63,7 @@ const InfoCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Card className={classes.skillBoxItem}>
                 <Assignment className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
@@ -63,7 +74,7 @@ const InfoCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Card className={classes.industryBoxItem}>
                 <Assignment className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>

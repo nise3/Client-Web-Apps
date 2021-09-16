@@ -4,6 +4,10 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {ArrowRightAlt, DateRangeOutlined} from '@material-ui/icons';
 import SectionTitle from './SectionTitle';
 import {Fade} from 'react-awesome-reveal';
+import Image from 'next/image';
+import recentActivitiesOne from '../../public/images/recent-activities1.png';
+import recentActivitiesTwo from '../../public/images/recent-activities2.png';
+import recentActivitiesThree from '../../public/images/recent-activities3.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image1: {
       width: '100%',
-      height: '430px',
+      height: '100%',
       borderRadius: '5px',
     },
     image2: {
@@ -57,13 +61,12 @@ const RecentActivities = () => {
         <SectionTitle title='সাম্প্রতিক কার্যক্রম'></SectionTitle>
         <Fade cascade duration={4000}>
           <Grid container spacing={5}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box className={classes.imgWrapper}>
-                <img
-                  src='/images/recent-activities1.png'
-                  alt='crema-logo'
-                  className={classes.image1}
-                />
+                <Image
+                  src={recentActivitiesOne}
+                  alt={'activities one'}
+                  className={classes.image1}></Image>
                 <Box className={classes.imgInfo}>
                   <Box className={classes.dateInfo}>
                     <DateRangeOutlined />
@@ -78,13 +81,12 @@ const RecentActivities = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid container xs={6} spacing={2}>
+            <Grid item xs={12} md={6}>
               <Box className={classes.imgWrapper}>
-                <img
-                  src='/images/recent-activities2.png'
-                  alt='crema-logo'
-                  className={classes.image2}
-                />
+                <Image
+                  src={recentActivitiesTwo}
+                  alt={'activities two'}
+                  className={classes.image2}></Image>
                 <Box className={classes.imgInfo}>
                   <Box className={classes.dateInfo}>
                     <DateRangeOutlined />
@@ -98,48 +100,46 @@ const RecentActivities = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Grid item xs={6}>
-                <Box className={classes.imgWrapper}>
-                  <img
-                    src='/images/recent-activities3.png'
-                    alt='crema-logo'
-                    className={classes.image3}
-                  />
-                  <Box className={classes.imgInfo}>
-                    <Box className={classes.dateInfo}>
-                      <DateRangeOutlined />
-                      <Typography>12 Jan 2021</Typography>
-                    </Box>
-                    <Typography variant='subtitle2'>
-                      <Box fontWeight='fontWeightBold' m={1}>
-                        চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
-                        ফ্রি হেলথ ইনস্যুরেন্স
-                      </Box>
-                    </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box className={classes.imgWrapper}>
+                <Image
+                  src={recentActivitiesThree}
+                  alt={'activities Three'}
+                  className={classes.image3}></Image>
+                <Box className={classes.imgInfo}>
+                  <Box className={classes.dateInfo}>
+                    <DateRangeOutlined />
+                    <Typography>12 Jan 2021</Typography>
                   </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={6}>
-                <Box className={classes.imgWrapper}>
-                  <img
-                    src='/images/recent-activities3.png'
-                    alt='crema-logo'
-                    className={classes.image3}
-                  />
-                  <Box className={classes.imgInfo}>
-                    <Box className={classes.dateInfo}>
-                      <DateRangeOutlined />
-                      <Typography>12 Jan 2021</Typography>
+                  <Typography variant='subtitle2'>
+                    <Box fontWeight='fontWeightBold' m={1}>
+                      চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
+                      ফ্রি হেলথ ইনস্যুরেন্স
                     </Box>
-                    <Typography variant='subtitle2'>
-                      <Box fontWeight='fontWeightBold' m={1}>
-                        চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
-                        ফ্রি হেলথ ইনস্যুরেন্স
-                      </Box>
-                    </Typography>
-                  </Box>
+                  </Typography>
                 </Box>
-              </Grid>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box className={classes.imgWrapper}>
+                <Image
+                  src={recentActivitiesThree}
+                  alt={'activities Three'}
+                  className={classes.image3}></Image>
+                <Box className={classes.imgInfo}>
+                  <Box className={classes.dateInfo}>
+                    <DateRangeOutlined />
+                    <Typography>12 Jan 2021</Typography>
+                  </Box>
+                  <Typography variant='subtitle2'>
+                    <Box fontWeight='fontWeightBold' m={1}>
+                      চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
+                      ফ্রি হেলথ ইনস্যুরেন্স
+                    </Box>
+                  </Typography>
+                </Box>
+              </Box>
             </Grid>
           </Grid>
         </Fade>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
-import {Grid} from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import Header from './Header';
 import CoverArea from './CoverArea';
 import InfoCardSection from './InfoCardSection';
@@ -17,29 +17,28 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      padding: 0,
     },
   }),
 );
 
-const Home: React.FC<{}> = () => {
+const Home = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Grid container>
-        <Header />
-        <CoverArea />
-        <InfoCardSection />
-        <SelfAssessment />
-        <StatisticsCardSection />
-        <Nise3WorkProcess />
-        <RecentActivities />
-        <PopularCourse />
-        <SkillMatchingJobs />
-        <Partners />
-        <Footer />
-      </Grid>
-    </div>
+    <Container maxWidth={'xl'} className={classes.root}>
+      <Header />
+      <CoverArea />
+      <InfoCardSection />
+      <SelfAssessment />
+      <StatisticsCardSection />
+      <Nise3WorkProcess />
+      <RecentActivities />
+      <PopularCourse />
+      <SkillMatchingJobs />
+      <Partners />
+      <Footer />
+    </Container>
   );
 };
 

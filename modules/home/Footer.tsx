@@ -23,7 +23,7 @@ const Footer = () => {
   return (
     <>
       <Grid container className={classes.root}>
-        <Container maxWidth='lg'>
+        <Container maxWidth='xl'>
           <Grid container spacing={10}>
             <Grid item lg={2}>
               <Typography variant='subtitle2' gutterBottom={true}>

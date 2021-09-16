@@ -7,9 +7,9 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import {
   Box,
   Button,
@@ -18,9 +18,9 @@ import {
   Slide,
   useScrollTrigger,
 } from '@material-ui/core';
-import {ExitToApp} from '@material-ui/icons';
-import Image from 'next/image';
-import logo from '../../public/images/logo-with-name.png';
+import {CastForEducation, ExitToApp, Home} from '@material-ui/icons';
+import WorkIcon from '@material-ui/icons/Work';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import {SSO_LOGIN_URL} from '../../@softbd/common/SSOConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,14 +29,15 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     logo: {
-      width: '100px',
+      width: '70px',
+      height: '50px',
       marginTop: '-12px',
     },
     appBar: {
       color: '#14496b',
       backgroundColor: '#fff !important',
       boxShadow: 'none',
-      padding: theme.spacing(0, 50),
+      padding: theme.spacing(0, 20),
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -101,6 +102,18 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#fff',
       background: '#682988',
     },
+    menuItem: {
+      color: '#000',
+    },
+    desktopMenu: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+    },
+    menuIcons: {
+      height: '0.6em',
+    },
   }),
 );
 
@@ -162,7 +175,9 @@ export default function Header() {
       transformOrigin={{vertical: 'top', horizontal: 'right'}}
       open={isMenuOpen}
       onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
+        Profile
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -179,11 +194,33 @@ export default function Header() {
       onClose={handleMobileMenuClose}>
       <MenuItem>
         <IconButton aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={4} color='secondary'>
-            <MailIcon />
-          </Badge>
+          <Home />
         </IconButton>
-        <p>Messages</p>
+        <p>হোম</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <CastForEducation />
+        </IconButton>
+        <p>প্রশিক্ষণ</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <WorkIcon />
+        </IconButton>
+        <p>চাকরি</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <ListAltIcon />
+        </IconButton>
+        <p>নোটিশ</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label='show 4 new mails' color='inherit'>
+          <LocalActivityIcon />
+        </IconButton>
+        <p>সাম্প্রতিক কার্যক্রম</p>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label='show 11 new notifications' color='inherit'>
@@ -208,12 +245,35 @@ export default function Header() {
 
   return (
     <Box className={classes.grow}>
-      <Container maxWidth='md' disableGutters>
+      <Container maxWidth='xl'>
         <CssBaseline />
         <HideOnScroll>
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <Image src={logo} width={90} height={50} alt='Logo' />
+              <img
+                src='/images/logo-with-name.png'
+                className={classes.logo}
+                alt='logo'
+              />
+
+              <Box component='span' m={1} p={1} className={classes.desktopMenu}>
+                <Home className={classes.menuIcons} /> হোম
+              </Box>
+              <Box component='span' m={1} p={1} className={classes.desktopMenu}>
+                <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+              </Box>
+              <Box component='span' m={1} p={1} className={classes.desktopMenu}>
+                <WorkIcon className={classes.menuIcons} />
+                চাকরি
+              </Box>
+              <Box component='span' m={1} p={1} className={classes.desktopMenu}>
+                <ListAltIcon className={classes.menuIcons} />
+                নোটিশ
+              </Box>
+              <Box component='span' m={1} p={1} className={classes.desktopMenu}>
+                <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
+                কার্যক্রম
+              </Box>
               <Box className={classes.grow} />
               <Box className={classes.sectionDesktop}>
                 <Button

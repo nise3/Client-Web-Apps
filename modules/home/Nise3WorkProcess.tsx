@@ -19,11 +19,25 @@ const useStyles = makeStyles((theme: Theme) =>
     assessmentImage: {
       height: '340px',
     },
-    youtubePlayer: {
+    youtubePlayerMobileView: {
       height: '300px',
       borderRadius: '15px',
       bottom: '80px',
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    youtubePlayer: {
       position: 'absolute',
+      height: '300px',
+      borderRadius: '15px',
+      bottom: '120px',
+      width: '20rem',
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
     },
   }),
 );
@@ -36,9 +50,9 @@ const Nise3WorkProcess = () => {
         <Grid
           container
           spacing={4}
-          justifyContent='flex-start'
+          justifyContent='space-around'
           alignItems='center'>
-          <Grid item xs={8}>
+          <Grid item xs={12} md={4}>
             <Fade direction='down'>
               <Typography variant='h4' gutterBottom={true}>
                 <Box fontWeight='fontWeightBold' mb={6}>
@@ -63,12 +77,14 @@ const Nise3WorkProcess = () => {
               </Button>
             </Fade>
           </Grid>
-          <Grid item xs={4}>
-            {/*<Slide direction='right'>*/}
+          <Grid item xs={12} md={4}>
+            <iframe
+              className={classes.youtubePlayerMobileView}
+              src='https://www.youtube.com/embed/PWkOvVkI09k'></iframe>
+
             <iframe
               className={classes.youtubePlayer}
-              src='https://www.youtube.com/embed/tgbNymZ7vqY'></iframe>
-            {/*</Slide>*/}
+              src='https://www.youtube.com/embed/PWkOvVkI09k'></iframe>
           </Grid>
         </Grid>
       </Container>
