@@ -125,6 +125,16 @@ const filterTypes = {
   rowStatusFilter: rowStatusFilter,
 };
 
+/**
+ * @property {any} header - is the title of column
+ * @property {string} accessor - is the key of data that needs to show in column
+ * @property {boolean} disableFilters - is to disable filter option for column
+ * @property {boolean} disableSortBy - is to disable sort option for column
+ * @property {boolean} [isVisible] - is to change column's visibility in table (default value is true)
+ * @property {boolean} [toggleVisibilityFeature] - is to change visibility feature of a column (default value is false)
+ * @property {any} filter - is the name of filter type depends on filter value
+ * @property {any} Cell - is to customize data representation of the column
+ */
 interface TReactTableColumns {
   Header: any;
   accessor: string;

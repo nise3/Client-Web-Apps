@@ -12,9 +12,9 @@ import PermissionDetailsPopup from './PermissionDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {deletePermissionGroup} from '../../../services/userManagement/PermissionGroupService';
 import {useFetchPermissions} from '../../../services/userManagement/hooks';
 import IconPermission from '../../../@softbd/icons/IconPermission';
+import {deletePermission} from '../../../services/userManagement/PermissionService';
 
 const PermissionPage = () => {
   const {messages} = useIntl();
@@ -54,7 +54,7 @@ const PermissionPage = () => {
   }, []);
 
   const deletePermissionItem = async (permissionId: number) => {
-    let response = await deletePermissionGroup(permissionId);
+    let response = await deletePermission(permissionId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages

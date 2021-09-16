@@ -13,7 +13,6 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {Grid} from '@material-ui/core';
@@ -30,6 +29,7 @@ import {
 } from '../../../services/userManagement/RoleService';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import IconRole from '../../../@softbd/icons/IconRole';
 
 interface RoleAddEditPopupProps {
   itemId: number | null;
@@ -160,7 +160,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconRole />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

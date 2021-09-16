@@ -75,6 +75,14 @@ const routesConfig: NavItemProps[] = [
             icon: 'person',
             url: '/dashboard/roles',
           },
+          {
+            id: 'users',
+            title: 'User',
+            messageId: 'menu.user',
+            type: 'item',
+            icon: 'person',
+            url: '/dashboard/users',
+          },
         ],
       },
       {
