@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
     const cookies = new Cookies();
     const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
     const accessToken = authAccessTokenData?.access_token;
-
+    console.log(accessToken);
     let apiToken = '';
     /**
      * For development purpose. It should be commented in production mode
@@ -32,16 +32,16 @@ axiosInstance.interceptors.request.use(
     }
 
     config.headers = {
-      Token: `Bearer ${apiToken}`,
+      Token: `Bearer ${accessToken || apiToken}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
 
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-    } else {
-      delete config.headers['Authorization'];
-    }
+    // if (accessToken) {
+    //   config.headers['Authorization'] = `Bearer ${accessToken}`;
+    // } else {
+    //   delete config.headers['Authorization'];
+    // }
 
     return config;
   },
