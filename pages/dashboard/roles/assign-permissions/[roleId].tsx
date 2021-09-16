@@ -92,8 +92,9 @@ const AssignPermissionToRole = () => {
 
   const [permissions, setPermissions] = useState<any>({});
   const [checkedPermissions, setCheckedPermissions] = useState<number[]>([
-    1, 2,
+    1, 2, 3, 4,
   ]);
+  const [checkedModules, setCheckedModules] = useState<string[]>([]);
 
   useEffect(() => {
     let hashPermissions = lodashReduce(
@@ -106,56 +107,119 @@ const AssignPermissionToRole = () => {
     );
     console.log('permissions', hashPermissions);
     setPermissions(hashPermissions);
+
+    lodashForEach(Object.keys(hashPermissions), (module) => {
+      //console.log('keyyy', hashPermissions[module]);
+      console.log(
+        'opopo',
+        isAllCheckUnderModule(module, checkedPermissions, hashPermissions),
+      );
+      if (isAllCheckUnderModule(module, checkedPermissions, hashPermissions)) {
+        if (!checkedModules.includes(module)) {
+          console.log('add module', [...checkedModules, module]);
+          setCheckedModules([...checkedModules, module]);
+        }
+      }
+    });
   }, [roleId]);
 
   const handlePermissionCheck = useCallback(
-    (permission) => {
+    (permission, module) => {
       const newPermissions = checkedPermissions?.includes(permission)
         ? checkedPermissions?.filter((id: any) => id !== permission)
         : [...checkedPermissions, permission];
 
       console.log('checkedPermissions', newPermissions);
       setCheckedPermissions(newPermissions);
+
+      if (isAllCheckUnderModule(module, newPermissions, permissions)) {
+        if (!checkedModules.includes(module)) {
+          console.log('add module', [...checkedModules, module]);
+          setCheckedModules([...checkedModules, module]);
+        }
+      } else {
+        uncheckModule(module);
+      }
     },
-    [checkedPermissions],
+    [permissions, checkedPermissions],
   );
 
   const handleCheckAllPermissions = useCallback(
-    (module) => {
-      // const permissionsIds = lodashMap(permissions[module], 'id');
-      // let newPermissions = [];
-      // lodashForEach(permissionsIds, function (permission) {
-      //   if (!checkedPermissions.includes(permission)) {
-      //     newPermissions = [...checkedPermissions, permission];
-      //   }
-      // });
-      // console.log('asdasdasd', permissionsIds);
+    (isChecked: any, module) => {
+      const permissionsIds = lodashMap(permissions[module], 'id');
+      let newPermissions: number[] = [];
+      if (isChecked) {
+        for (let i = 0; i < permissionsIds.length; i++) {
+          if (!checkedPermissions.includes(permissionsIds[i])) {
+            newPermissions.push(permissionsIds[i]);
+          }
+        }
+        setCheckedPermissions([...checkedPermissions, ...newPermissions]);
+        setCheckedModules([...checkedModules, module]);
+      } else {
+        newPermissions = checkedPermissions.filter((id) => {
+          return !permissionsIds.includes(id);
+        });
+        setCheckedPermissions(newPermissions);
+
+        uncheckModule(module);
+      }
+    },
+    [permissions, checkedPermissions],
+  );
+
+  const isAllCheckUnderModule = useCallback(
+    (module, checkedPermissions, hashPermissions) => {
+      const permissionsIds = lodashMap(hashPermissions[module], 'id');
+      console.log('permissionsIds', permissionsIds);
+      let allCheckedUnderModule = true;
+      for (let i = 0; i < permissionsIds.length; i++) {
+        if (!checkedPermissions.includes(permissionsIds[i])) {
+          allCheckedUnderModule = false;
+          break;
+        }
+      }
+      return allCheckedUnderModule;
     },
     [permissions],
+  );
+
+  const uncheckModule = useCallback(
+    (module) => {
+      let modules = checkedModules.filter((item) => {
+        return item !== module;
+      });
+      console.log('remove module', modules);
+      setCheckedModules(modules);
+    },
+    [checkedModules],
   );
 
   return (
     <PageBlock title={'Assign Permission'}>
       <Grid container spacing={3}>
-        {Object.keys(permissions || {}).map((item) => (
+        {Object.keys(permissions || {}).map((module) => (
           <Grid item xs={4}>
-            <CustomAccordion title={item} height={'100%'}>
+            <CustomAccordion title={module} height={'100%'}>
               <label>
                 <Checkbox
-                  //value={permission.id}
-                  //checked={checkedPermissions.includes(permission.id)}
-                  onChange={() => handleCheckAllPermissions(item)}
+                  checked={checkedModules.includes(module)}
+                  onChange={(e) =>
+                    handleCheckAllPermissions(e.target.checked, module)
+                  }
                 />
-                Check All
+                All
               </label>
               <Divider />
-              {permissions[item].map((permission: any) => {
+              {permissions[module].map((permission: any) => {
                 return (
                   <label>
                     <Checkbox
                       value={permission.id}
                       checked={checkedPermissions.includes(permission.id)}
-                      onChange={() => handlePermissionCheck(permission.id)}
+                      onChange={() =>
+                        handlePermissionCheck(permission.id, module)
+                      }
                     />
                     {permission.name}
                   </label>
