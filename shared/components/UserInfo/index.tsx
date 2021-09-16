@@ -62,19 +62,19 @@ const useStyles = makeStyles((theme) => {
 
 const UserInfo: React.FC<{}> = () => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const dispatch = useDispatch();
   const user: AuthUser | null = useAuthUser();
 
   const openDetailsModal = useCallback(() => {
+    setAnchorEl(null);
     setIsOpenDetailsModal(true);
   }, []);
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
