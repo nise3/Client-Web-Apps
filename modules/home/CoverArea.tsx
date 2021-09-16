@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
         'linear-gradient(152deg, rgba(5, 99, 7, 1) 0%, rgb(108 95 9) 51%, rgb(100 89 15) 74%)',
     },
     select: {
-      width: '15vh',
       border: '1px solid #5e6b0f',
       background: ' #5e6b0f',
       textAlign: 'center',
@@ -120,14 +119,18 @@ const CoverArea = () => {
               </Fade>
             </Box>
             <Slide direction='up'>
-              <Box mt={10} mb={1} zIndex={'tooltip'}>
-                <NativeSelect className={classes.select}>
-                  <option>দক্ষতা</option>
-                  <option>চাকরি</option>
-                  <option>ব্যবসা</option>
-                  <option>শিক্ষা</option>
-                </NativeSelect>
-              </Box>
+              <Grid container>
+                <Grid item xs={3} xl={2}>
+                  <Box mt={10} mb={1} zIndex={'tooltip'}>
+                    <NativeSelect className={classes.select}>
+                      <option>দক্ষতা</option>
+                      <option>চাকরি</option>
+                      <option>ব্যবসা</option>
+                      <option>শিক্ষা</option>
+                    </NativeSelect>
+                  </Box>
+                </Grid>
+              </Grid>
             </Slide>
 
             <Grid container spacing={3} className={classes.searchBox}>
