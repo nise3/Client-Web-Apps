@@ -6,7 +6,7 @@ import {Fade} from 'react-awesome-reveal';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // position: 'relative',
+      position: 'relative',
       marginTop: '170px',
       padding: '50px',
       background: '#682988',
@@ -19,12 +19,25 @@ const useStyles = makeStyles((theme: Theme) =>
     assessmentImage: {
       height: '340px',
     },
-    youtubePlayer: {
-      // position: 'absolute',
+    youtubePlayerMobileView: {
       height: '300px',
       borderRadius: '15px',
       bottom: '80px',
       width: '100%',
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    youtubePlayer: {
+      position: 'absolute',
+      height: '300px',
+      borderRadius: '15px',
+      bottom: '120px',
+      width: '20rem',
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
     },
   }),
 );
@@ -66,8 +79,12 @@ const Nise3WorkProcess = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             <iframe
+              className={classes.youtubePlayerMobileView}
+              src='https://www.youtube.com/embed/PWkOvVkI09k'></iframe>
+
+            <iframe
               className={classes.youtubePlayer}
-              src='https://www.youtube.com/embed/tgbNymZ7vqY'></iframe>
+              src='https://www.youtube.com/embed/PWkOvVkI09k'></iframe>
           </Grid>
         </Grid>
       </Container>

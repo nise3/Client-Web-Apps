@@ -27,8 +27,16 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       fontSize: '60px',
     },
+
+    rootMobileView: {
+      [theme.breakpoints.down('md')]: {
+        marginTop: '235px',
+      },
+    },
     root: {
-      marginTop: '50px',
+      [theme.breakpoints.up('md')]: {
+        marginTop: '50px',
+      },
     },
   }),
 );
@@ -38,7 +46,10 @@ const InfoCardSection = () => {
 
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
+      <Container
+        maxWidth='md'
+        className={classes.rootMobileView}
+        disableGutters>
         <Fade direction='up'>
           <Grid container spacing={5}>
             <Grid item xs={12} md={4}>
