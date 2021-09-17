@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: ' #5e6b0f',
       textAlign: 'center',
       color: '#000',
-      padding: '5px 5px 5px 10px',
+      padding: '0 7px 2px 12px',
     },
     searchBox: {
       padding: '12px 86px 5px 15px',
@@ -37,15 +37,18 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       zIndex: 1,
       width: 'auto',
-      borderRadius: '2px',
+      // borderRadius: '2px',
+      border: 'none',
     },
     skillSlide: {
       zIndex: 2,
       position: 'absolute',
     },
     searchButton: {
+      marginLeft: '50px',
       background: '#682988',
       color: '#fff',
+      borderRadius: '0px',
     },
     trendWrapper: {
       height: '200px',
@@ -56,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       padding: '10px',
       borderRadius: '6px',
-      margin: '5px',
+      marginTop: '42px',
     },
 
     mobileCoverImage: {
@@ -86,6 +89,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     animationFillMode: {
       animationFillMode: 'backwards !important',
+    },
+    trendSearchKey: {
+      background: '#fff',
+      textAlign: 'center',
+      borderRadius: '6px',
+      padding: '1px',
+    },
+    trendSearchText: {
+      marginTop: '5px',
+    },
+    noBorder: {
+      border: 'none',
     },
   }),
 );
@@ -118,10 +133,11 @@ const CoverArea = () => {
                 </Typography>
               </Fade>
             </Box>
+
             <Slide direction='up'>
               <Grid container>
                 <Grid item xs={3} xl={2}>
-                  <Box mt={10} mb={1} zIndex={'tooltip'}>
+                  <Box mt={10} zIndex={'tooltip'}>
                     <NativeSelect className={classes.select}>
                       <option>দক্ষতা</option>
                       <option>চাকরি</option>
@@ -133,30 +149,31 @@ const CoverArea = () => {
               </Grid>
             </Slide>
 
-            <Grid container spacing={4} className={classes.searchBox}>
-              <Grid item xl={8}>
+            <Grid container spacing={2} className={classes.searchBox}>
+              <Grid item xs={7}>
                 <FormControl variant='outlined'>
                   <InputLabel htmlFor='outlined-adornment-amount'>
                     Search
                   </InputLabel>
                   <OutlinedInput
+                    className={classes.noBorder}
                     id='outlined-adornment-amount'
                     startAdornment={
                       <InputAdornment position='start'>
-                        <SearchIcon />
+                        <SearchIcon /> অনুসন্ধান করুণ
                       </InputAdornment>
                     }
                     labelWidth={60}
                   />
                 </FormControl>
               </Grid>
-              <Grid item xl={2}>
+              <Grid item xs={3}>
                 <NativeSelect>
                   <LocationOnIcon />
                   <option>লোকেশন</option>
                 </NativeSelect>
               </Grid>
-              <Grid item xl={2}>
+              <Grid item xs={2}>
                 <Button variant='contained' className={classes.searchButton}>
                   অনুসন্ধান
                 </Button>
@@ -166,27 +183,35 @@ const CoverArea = () => {
         </Grid>
         <Grid container className={classes.trendWrapper}>
           <Container maxWidth='md'>
-            <Box pt={10}>
-              <Typography variant='h6' gutterBottom={true}>
-                ট্রেন্ড সার্চ
-              </Typography>
-            </Box>
-
             <Slide direction='down'>
-              <Grid container xs={12} md={6}>
-                <Grid item xs={4} md={2}>
-                  <Box className={classes.trendSearchItem}>
-                    গ্রাফিক্স ডিজাইন
+              <Grid container xs={12} md={6} spacing={2}>
+                <Grid item xs={3}>
+                  <Box mt={10}>
+                    <Typography variant='h6' gutterBottom={true}>
+                      ট্রেন্ড সার্চ
+                    </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={4} md={2}>
-                  <Box className={classes.trendSearchItem}>ওয়েব ডিজাইন</Box>
+                <Grid item xs={3} md={3}>
+                  <Box mt={10} className={classes.trendSearchKey}>
+                    <p>গ্রাফিক্স ডিজাইন</p>
+                  </Box>
                 </Grid>
-                <Grid item xs={4} md={2}>
-                  <Box className={classes.trendSearchItem}>ইউ-আই/এক্স</Box>
+                <Grid item xs={3} md={3}>
+                  <Box mt={10} className={classes.trendSearchKey}>
+                    <p>ওয়েব ডিজাইন</p>
+                  </Box>
                 </Grid>
-                <Grid item xs={4} md={2}>
-                  <Box className={classes.trendSearchItem}>হেলথ কেয়ার জব</Box>
+                <Grid item xs={3} md={3}>
+                  <Box mt={10} className={classes.trendSearchKey}>
+                    <p>ইউ-আই/এক্স</p>
+                  </Box>
+                </Grid>
+                <Grid item xs={3}></Grid>
+                <Grid item xs={3} md={3}>
+                  <Box className={classes.trendSearchKey}>
+                    <p> হেলথ কেয়ার জব</p>
+                  </Box>
                 </Grid>
               </Grid>
             </Slide>
