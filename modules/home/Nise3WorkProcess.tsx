@@ -52,7 +52,7 @@ const Nise3WorkProcess = () => {
           spacing={4}
           justifyContent='space-around'
           alignItems='center'>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={6}>
             <Fade direction='down'>
               <Typography variant='h4' gutterBottom={true}>
                 <Box fontWeight='fontWeightBold' mb={6}>
@@ -63,7 +63,7 @@ const Nise3WorkProcess = () => {
 
             <Fade direction='up'>
               <Typography variant='subtitle1' gutterBottom={true}>
-                <Grid item xs={8}>
+                <Grid item xs={12}>
                   <Box mb={8}>
                     যুবকদের স্কিলিং এবং চাকরির সুযোগ করার জন্য আমাদের সম্মিলিত
                     প্রয়াসে নাইস-থ্রি পোর্টাল যথেষ্ট গুরুত্ব দেয়।
