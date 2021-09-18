@@ -315,5 +315,8 @@
   "physical_disabilities_status": "Physical disabilities status",
   "required_field": "{path} field is required",
   "permission.uri": "URI",
-  "permission.method": "Method"
+  "permission.method": "Method",
+  "permissions.sync_permission" : "Sync Permission",
+  "common.assign_permission" : "Assign Permission"
+
 }

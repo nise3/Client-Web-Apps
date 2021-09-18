@@ -48,3 +48,18 @@ export const updateRole = async (roleId: number, data: Role) => {
     catchBlockHandler(error);
   }
 };
+
+export const assignPermissions = async (
+  roleId: number,
+  permissions: number[],
+) => {
+  try {
+    let response: any = await apiPost(
+      `${API_ROLES}/${roleId}/assign-permissions`,
+      {permissions: permissions},
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};

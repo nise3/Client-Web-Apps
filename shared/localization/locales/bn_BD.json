@@ -304,5 +304,7 @@
   "user.user_type": "ব্যবহারকারীর ধরন",
   "user.type.system": "সিস্টেম",
   "user.type.institute": "প্রাতিষ্ঠানিক",
-  "user.type.organization": "সাংগঠনিক"
+  "user.type.organization": "সাংগঠনিক",
+  "permissions.sync_permission" : "Sync Permission",
+  "common.assign_permission" : "Assign Permission"
 }

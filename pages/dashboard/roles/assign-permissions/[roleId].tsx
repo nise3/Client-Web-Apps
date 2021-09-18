@@ -11,85 +11,25 @@ import {Box, Checkbox, createStyles, Divider, Grid} from '@material-ui/core';
 import PageBlock from '../../../../@softbd/utilities/PageBlock';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from '@material-ui/core/styles';
-
-const data = [
-  {
-    id: 1,
-    key: 'add_user',
-    name: 'Add User',
-    module: 'User',
-  },
-  {
-    id: 2,
-    key: 'edit_user',
-    name: 'Edit User',
-    module: 'User',
-  },
-  {
-    id: 3,
-    key: 'delete_user',
-    name: 'Delete User',
-    module: 'User',
-  },
-  {
-    id: 4,
-    key: 'add_org',
-    name: 'Add Org',
-    module: 'Organization',
-  },
-  {
-    id: 5,
-    key: 'edit_org',
-    name: 'Edit Org',
-    module: 'Organization',
-  },
-  {
-    id: 6,
-    key: 'add_ins',
-    name: 'Add Inst',
-    module: 'Institute',
-  },
-  {
-    id: 7,
-    key: 'edit_ins',
-    name: 'Edit Inst',
-    module: 'Institute',
-  },
-  {
-    id: 8,
-    key: 'edit_sample',
-    name: 'Edit Sample',
-    module: 'Sample',
-  },
-  {
-    id: 9,
-    key: 'add_sample',
-    name: 'Add Sample',
-    module: 'Sample',
-  },
-  {
-    id: 10,
-    key: 'asd_sample1',
-    name: 'Add Sample',
-    module: 'Sample1',
-  },
-  {
-    id: 11,
-    key: 'edit_sample1',
-    name: 'Edit Sample',
-    module: 'Sample1',
-  },
-  {
-    id: 12,
-    key: 'edits_sample1',
-    name: 'Edits Sample',
-    module: 'Sample1',
-  },
-];
+import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {useIntl} from 'react-intl';
+import {assignPermissions} from '../../../../services/userManagement/RoleService';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {
+  useFetchPermissions,
+  useFetchRole,
+} from '../../../../services/userManagement/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     permissionGroup: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    checkboxGroupWrapper: {
+      boxShadow: '0px 0px 5px 1px #e9e9e9',
       display: 'flex',
       flexDirection: 'column',
     },
@@ -99,22 +39,36 @@ const useStyles = makeStyles((theme: Theme) =>
 const AssignPermissionToRole = () => {
   const classes = useStyles();
   const router = useRouter();
+  const {messages} = useIntl();
+  const {successStack} = useNotiStack();
   const {roleId} = router.query;
 
   const [permissions, setPermissions] = useState<any>({});
   const [checkedPermissions, setCheckedPermissions] = useState<any>(
-    new Set([1, 2, 3, 4, 5]),
+    new Set([]),
   );
   const [checkedModules, setCheckedModules] = useState<any>(new Set());
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [permissionFilters] = useState({});
+
+  const {data: itemData} = useFetchRole(Number(roleId));
+
+  const {data: allPermissions, isLoading} =
+    useFetchPermissions(permissionFilters);
 
   useEffect(() => {
-    if (roleId) {
-      let hashPermissions = lodashGroupBy(data, 'module');
+    if (itemData && allPermissions) {
+      let selectedPermissions = new Set(
+        lodashMap(itemData.permissions || [], 'id'),
+      );
+      setCheckedPermissions(selectedPermissions);
+
+      let hashPermissions = lodashGroupBy(allPermissions, 'module');
       setPermissions(hashPermissions);
 
       lodashForEach(Object.keys(hashPermissions), (module) => {
         if (
-          isAllCheckUnderModule(module, checkedPermissions, hashPermissions)
+          isAllCheckUnderModule(module, selectedPermissions, hashPermissions)
         ) {
           setCheckedModules((checkedModules: any) =>
             checkedModules.add(module),
@@ -122,7 +76,7 @@ const AssignPermissionToRole = () => {
         }
       });
     }
-  }, [roleId]);
+  }, [itemData, allPermissions]);
 
   const handlePermissionCheck = useCallback(
     (permission, module) => {
@@ -186,13 +140,39 @@ const AssignPermissionToRole = () => {
     },
     [checkedModules],
   );
+  const syncPermissionAction = useCallback(async () => {
+    setIsSubmitting(true);
+    const response = await assignPermissions(
+      Number(roleId),
+      Array.from(checkedPermissions),
+    );
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='permission.label' />}}
+        />,
+      );
+    }
+    setIsSubmitting(false);
+  }, [roleId, checkedPermissions]);
 
   return (
-    <PageBlock title={'Assign Permission'}>
+    <PageBlock
+      title={'Assign Permission'}
+      extra={[
+        <SubmitButton
+          key={1}
+          onClick={syncPermissionAction}
+          isLoading={isLoading}
+          isSubmitting={isSubmitting}
+          label={messages['permissions.sync_permission'] as string}
+        />,
+      ]}>
       <Grid container spacing={8}>
         {Object.keys(permissions || {}).map((module) => (
           <Grid item xs={4} key={module} className={classes.permissionGroup}>
-            <Box style={{boxShadow: '0px 0px 5px 1px #e9e9e9'}}>
+            <Box className={classes.checkboxGroupWrapper}>
               <label>
                 <Checkbox
                   checked={checkedModules.has(module)}
@@ -225,9 +205,12 @@ const AssignPermissionToRole = () => {
   );
 };
 
-export default AppPage(() => (
-  <>
-    <PageMeta title='Assign Permission' />
-    <AssignPermissionToRole />
-  </>
-));
+export default AppPage(() => {
+  const {messages} = useIntl();
+  return (
+    <>
+      <PageMeta title={messages['common.assign_permission']} />
+      <AssignPermissionToRole />
+    </>
+  );
+});
