@@ -12,6 +12,7 @@ import PopularCourse from './PopularCourse';
 import SkillMatchingJobs from './SkillMatchingJobs';
 import Partners from './Partners';
 import Footer from './Footer';
+import BdMap from './BdMap';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +35,7 @@ const Home = () => {
       <StatisticsCardSection />
       <Nise3WorkProcess />
       <RecentActivities />
+      <BdMap />
       <PopularCourse />
       <SkillMatchingJobs />
       <Partners />

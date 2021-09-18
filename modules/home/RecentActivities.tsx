@@ -58,7 +58,7 @@ const RecentActivities = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
-        <SectionTitle title='সাম্প্রতিক কার্যক্রম'></SectionTitle>
+        <SectionTitle title='সাম্প্রতিক কার্যক্রম' center={true}></SectionTitle>
         <Fade cascade duration={4000}>
           <Grid container spacing={5}>
             <Grid item xs={12} md={6}>

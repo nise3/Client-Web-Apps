@@ -15,7 +15,7 @@ import {Fonts, ThemeMode} from '../../constants/AppEnums';
 import AppContextPropsType from '../../../types/AppContextPropsType';
 import {AuthUser} from '../../../types/models/AuthUser';
 import UserInfoDetailsPopup from './UserInfoDetailsPopup';
-
+import UserInfoEditPopup from './UserInfoEditPopup';
 const useStyles = makeStyles((theme) => {
   return {
     crUserInfo: {
@@ -64,9 +64,23 @@ const UserInfo: React.FC<{}> = () => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const dispatch = useDispatch();
   const user: AuthUser | null = useAuthUser();
 
+
+  const closeEditModal = useCallback(() => {
+    setIsOpenEditModal(false);
+
+  }, []);
+
+  const openEditModal = useCallback(
+    () => {
+      setIsOpenDetailsModal(false);
+      setIsOpenEditModal(true);
+    },
+    [],
+  );
   const openDetailsModal = useCallback(() => {
     setAnchorEl(null);
     setIsOpenDetailsModal(true);
@@ -75,6 +89,8 @@ const UserInfo: React.FC<{}> = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
+
+
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -135,7 +151,17 @@ const UserInfo: React.FC<{}> = () => {
         </Box>
       </Box>
       {isOpenDetailsModal && (
-        <UserInfoDetailsPopup key={1} onClose={closeDetailsModal} />
+        <UserInfoDetailsPopup
+          key={1}
+          onClose={closeDetailsModal}
+          openEditModal={openEditModal}
+         />
+      )}
+      {isOpenEditModal && (
+        <UserInfoEditPopup
+          key={1}
+          onClose={closeEditModal}
+        />
       )}
     </Box>
   );

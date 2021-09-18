@@ -25,9 +25,9 @@ const PermissionPage = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [permissionFilters] = useState({});
   const {
-    data: permissionGroups,
+    data: permissions,
     isLoading,
-    mutate: mutatePermissionGroups,
+    mutate: mutatePermissions,
   } = useFetchPermissions(permissionFilters);
 
   const closeAddEditModal = useCallback(() => {
@@ -67,7 +67,7 @@ const PermissionPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    mutatePermissionGroups();
+    mutatePermissions();
   }, []);
 
   const columns = useMemo(
@@ -138,7 +138,7 @@ const PermissionPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={permissionGroups || []}
+          data={permissions || []}
           loading={isLoading}
           skipDefaultFilter={true}
         />

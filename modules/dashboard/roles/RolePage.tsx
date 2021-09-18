@@ -16,8 +16,22 @@ import {useFetchRoles} from '../../../services/userManagement/hooks';
 import RoleAddEditPopup from './RoleAddEditPopup';
 import RoleDetailsPopup from './RoleDetailsPopup';
 import IconRole from '../../../@softbd/icons/IconRole';
+import {Button, makeStyles} from '@material-ui/core';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@material-ui/icons';
+import Link from 'next/link';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const RolePage = () => {
+  const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -111,6 +125,7 @@ const RolePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = `/dashboard/roles/assign-permissions/${data.id}`;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -119,6 +134,14 @@ const RolePage = () => {
                 deleteAction={() => deleteRoleItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={URL} passHref>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  {messages['permission.label']}
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },

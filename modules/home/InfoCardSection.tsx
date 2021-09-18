@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     rootMobileView: {
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('sm')]: {
         marginTop: '235px',
       },
     },
