@@ -21,6 +21,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/pickers": "^3.3.10",
+    "@mui/icons-material": "^5.0.0",
     "@popperjs/core": "^2.9.3",
     "@types/react-table": "^7.7.2",
     "axios": "^0.21.1",
