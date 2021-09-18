@@ -320,6 +320,7 @@
   "permission.uri": "URI",
   "permission.method": "Method",
   "permissions.sync_permission" : "Sync Permission",
-  "common.assign_permission" : "Assign Permission"
+  "common.assign_permission" : "Assign Permission",
+  "permission.module" : "Module Name"
 
 }
