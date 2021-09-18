@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
 import token from '../common/appToken';
+import {Cookies} from 'react-cookie';
+import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -10,8 +12,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // const accessToken = ''; //getAccessToken();
-
+    const cookies = new Cookies();
+    const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    const accessToken = authAccessTokenData?.access_token;
+    console.log(accessToken);
     let apiToken = '';
     /**
      * For development purpose. It should be commented in production mode
@@ -28,61 +32,21 @@ axiosInstance.interceptors.request.use(
     }
 
     config.headers = {
-      Token: `Bearer ${apiToken}`,
-      // Authorization: `Bearer ${accessToken}`,
+      Token: `Bearer ${accessToken || apiToken}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
+
+    // if (accessToken) {
+    //   config.headers['Authorization'] = `Bearer ${accessToken}`;
+    // } else {
+    //   delete config.headers['Authorization'];
+    // }
 
     return config;
   },
   (error) => {
     Promise.reject(error);
-  },
-);
-
-// Response interceptor for API calls
-axiosInstance.interceptors.response.use(
-  (response) => {
-    //console.log('axios interceptors response', response);
-    return response;
-  },
-  async function (error) {
-    // const originalRequest = error.config;
-    // let responseStatus = error.response.status;
-
-    // if (
-    //   originalRequest.url === API_AUTH_REFRESH_TOKEN &&
-    //   (responseStatus === 500 || responseStatus === 401)
-    // ) {
-    //   removeLocalStorageAuthData();
-    //   store.dispatch(authInitLogout(() => {}));
-    //
-    //   // return (dispatch: any, getState: any) => {
-    //   //   console.log('dispatch', dispatch);
-    //   //   dispatch(authInitLogout(() => {}));
-    //   // };
-    // }
-    // if (
-    //   error.response.status === 401 &&
-    //   !originalRequest._retry &&
-    //   originalRequest.url != API_AUTH_REFRESH_TOKEN
-    // ) {
-    //   originalRequest._retry = true;
-    //   const response = await refreshAccessToken();
-    //
-    //   await setLocalStorageAuthData(
-    //     response.data.authToken,
-    //     response.data.refreshToken,
-    //     response.data.user.id
-    //   );
-    //
-    //   axiosInstance.defaults.headers.common['Authorization'] =
-    //     'Bearer ' + response.data.access_token;
-    //   return axiosInstance(originalRequest);
-    // }
-
-    return Promise.reject(error);
   },
 );
 
