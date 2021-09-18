@@ -58,3 +58,33 @@ export const deletePermissionGroup = async (permissionGroupId: number) => {
     catchBlockHandler(error);
   }
 };
+
+export const assignPermissions = async (
+  permissionGroupId: number,
+  permissions: number[],
+) => {
+  try {
+    let response: any = await apiPost(
+      `${API_PERMISSION_GROUPS}/${permissionGroupId}/assign-permissions`,
+      {permissions: permissions},
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const getPermissionGroupWithPermissions = async (
+  permissionGroupId: number,
+  params = {},
+) => {
+  try {
+    let response: any = await apiGet(
+      API_PERMISSION_GROUPS + '/' + permissionGroupId,
+      {params},
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
