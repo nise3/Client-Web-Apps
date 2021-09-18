@@ -81,7 +81,7 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['user.user_type']}
-              value={getUserTypeName(itemData?.user_Type)}
+              value={getUserTypeName(itemData?.user_type)}
               isLoading={isLoading}
             />
           </Grid>
