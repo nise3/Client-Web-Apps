@@ -15,7 +15,7 @@ export const setServerValidationErrors = (
 ) => {
   return Object.keys(errors).forEach((key) => {
     errors[key].forEach(({code}: any) => {
-      let label = validationSchema.fields[key].spec.label;
+      let label = validationSchema?.fields[key]?.spec?.label;
       setError(key, {
         type: code,
         message: ERRORS[code]

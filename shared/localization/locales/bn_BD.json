@@ -179,6 +179,7 @@
   "message.contactCreated": "যোগাযোগ সফলভাবে তৈরি হয়েছে!",
   "message.contactUpdated": "যোগাযোগ সফলভাবে আপডেট হয়েছে!",
   "message.labelUpdatedTo": "লেবেল সফলভাবে আপডেট হয়েছে!",
+  "my_account.label": "My Account",
   "organization_type.is_government": "সরকারী?",
   "occupations.label": "পেশা",
   "job_sectors.label": "চাকরির খাত",
@@ -272,6 +273,9 @@
   "common.gender": "লিঙ্গ",
   "common.nid": "জাতীয় পরিচয়পত্র নাম্বার",
   "common.permanent_house_address": "স্থায়ী আবাস্থল",
+  "common.profile_name": "প্রফাইলের নাম",
+  "common.user_name": "ব্যবহারকারীর নাম",
+
   "physical_disabilities_status": "Physical disabilities status",
   "yup_validation_required_field": "{path} অবশ্যই পূরণ করতে হবে",
   "yup_validation_default": "{path} ভ্যালিড নয়",
@@ -304,5 +308,7 @@
   "user.user_type": "ব্যবহারকারীর ধরন",
   "user.type.system": "সিস্টেম",
   "user.type.institute": "প্রাতিষ্ঠানিক",
-  "user.type.organization": "সাংগঠনিক"
+  "user.type.organization": "সাংগঠনিক",
+  "permissions.sync_permission" : "Sync Permission",
+  "common.assign_permission" : "Assign Permission"
 }

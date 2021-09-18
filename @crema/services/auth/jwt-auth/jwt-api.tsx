@@ -16,6 +16,11 @@ jwtAxios.interceptors.response.use(
     return Promise.reject(err);
   },
 );
+
+/**
+ * @deprecated
+ * @param token
+ */
 export const setAuthToken = (token: string | null) => {
   if (token) {
     jwtAxios.defaults.headers.common['x-auth-token'] = token;
