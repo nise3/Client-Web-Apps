@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, Card, Container, Grid, Typography} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {Fade} from 'react-awesome-reveal';
+import InfoCard from './infoCard';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,12 +42,25 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(5),
       color: '#fff',
     },
+    cardColor7: {
+      background: '#22BB33',
+      textAlign: 'center',
+      padding: theme.spacing(5),
+      color: '#fff',
+    },
 
     icon: {
       fontSize: '60px',
     },
     root: {
       marginTop: '50px',
+    },
+    triangleDown: {
+      width: '0',
+      height: '0',
+      borderLeft: '12px solid transparent',
+      borderRight: '12px solid transparent',
+      borderTop: '18px solid',
     },
   }),
 );
@@ -138,6 +152,51 @@ const StatisticsCardSection = () => {
                   শিল্প প্রতিষ্ঠান
                 </Typography>
               </Card>
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <Card className={classes.cardColor1}>
+                <Typography variant='subtitle1' gutterBottom={true}>
+                  জব প্রোভাইডার
+                </Typography>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#661687'}}></Box>
+              <InfoCard />
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <Card className={classes.cardColor2}>
+                <Typography variant='subtitle1' gutterBottom={true}>
+                  দক্ষতা উন্নয়ণ কেন্দ্র
+                </Typography>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#0069BC'}}></Box>
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <Card className={classes.cardColor3}>
+                <Typography variant='subtitle1' gutterBottom={true}>
+                  জনপ্রিয় কোর্স
+                </Typography>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#305DF7'}}></Box>
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <Card className={classes.cardColor7}>
+                <Typography variant='subtitle1' gutterBottom={true}>
+                  জনপ্রিয় জব
+                </Typography>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#22BB33'}}></Box>
             </Grid>
           </Grid>
         </Fade>

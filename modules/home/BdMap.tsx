@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '2px',
       marginTop: '40px',
     },
-    points: {
-      flexDirection: 'row',
-    },
+
     mapSidePoints: {
       borderRadius: '50%',
       height: '5px',
