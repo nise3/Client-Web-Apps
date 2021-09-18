@@ -13,6 +13,7 @@ import {
 } from '../../types/actions/Auth.actions';
 import {Cookies} from 'react-cookie';
 import {Base64} from 'js-base64';
+import {apiGet} from '../../@softbd/common/api';
 
 /**
  * @deprecated
@@ -102,6 +103,9 @@ export const loadAuthUser = async (
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
     console.log('idTokenData', data);
+
+    const coreResponse = await apiGet(`/core/users/${data.sub}/permissions`);
+    console.log('coreResponse', coreResponse);
     const res = {data};
     dispatch(fetchSuccess());
     console.log('res.data', res.data);
@@ -137,13 +141,19 @@ type TAuthUserSSOResponse = {
   upn: string;
   given_name: string;
   family_name: string;
+  role?: string[];
 };
 export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
   return {
+    isInstituteUser: true,
+    isOrganizationUser: false,
+    isSystemUser: false,
+    userType: 'institute',
+    institute: defaultUser.institute,
     authType: AuthType.AUTH2,
     displayName: authUser.given_name + ' ' + authUser.family_name,
     email: authUser?.email,
-    role: defaultUser.role,
+    role: authUser?.role || defaultUser.role,
     uid: authUser.sub,
     username: authUser.upn,
     permissions: [
