@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '13px',
     },
     searchBox: {
-      padding: '12px 86px 5px 15px',
+      padding: '12px 5px 5px 15px',
       background: '#fff',
       position: 'absolute',
       zIndex: 1,
@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme: Theme) =>
     trendWrapper: {
       height: '200px',
       background: '#ddd',
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: '10px',
+      },
     },
     trendSearchItem: {
       background: '#fff',
@@ -69,7 +72,8 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 0,
       borderRadius: '5px',
       display: 'flex',
-      top: '10rem',
+      marginTop: '13px',
+      marginBottom: '10px',
       [theme.breakpoints.up('md')]: {
         display: 'none',
         marginBottom: '100px',
@@ -151,7 +155,7 @@ const CoverArea = () => {
             </Slide>
 
             <Grid container spacing={2} className={classes.searchBox}>
-              <Grid item xs={7}>
+              <Grid item xs={12} sm={7}>
                 <FormControl variant='outlined'>
                   <InputLabel htmlFor='outlined-adornment-amount'>
                     Search
@@ -168,13 +172,13 @@ const CoverArea = () => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={6} sm={3}>
                 <NativeSelect>
                   <LocationOnIcon />
                   <option>লোকেশন</option>
                 </NativeSelect>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={6} sm={2}>
                 <Button variant='contained' className={classes.searchButton}>
                   অনুসন্ধান
                 </Button>
