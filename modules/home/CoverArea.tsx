@@ -90,8 +90,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
-        width: '30vw',
-        // right: '6vw',
       },
       [theme.breakpoints.up('xl')]: {
         width: '30vw',
