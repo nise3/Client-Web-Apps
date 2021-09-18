@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: '#000',
       padding: '0 7px 2px 12px',
+      marginTop: '13px',
     },
     searchBox: {
       padding: '12px 86px 5px 15px',
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
     },
     searchButton: {
-      marginLeft: '50px',
+      // marginLeft: '50px',
       background: '#682988',
       color: '#fff',
       borderRadius: '0px',
