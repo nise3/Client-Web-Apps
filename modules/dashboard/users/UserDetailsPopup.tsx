@@ -73,6 +73,13 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['user.username']}
+              value={itemData?.username}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.email']}
               value={itemData?.email}
               isLoading={isLoading}

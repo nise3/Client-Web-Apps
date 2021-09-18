@@ -160,12 +160,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         password: '',
         email: itemData?.email,
         mobile: itemData?.mobile,
-        user_type: itemData?.mobile,
+        user_type: String(itemData?.user_type),
         role_id: itemData?.role_id,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
         row_status: String(itemData?.row_status),
       });
+      setUserType(Number(itemData?.user_type));
     } else {
       reset(initialValues);
     }
@@ -203,6 +204,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
+  console.log('rr', errors);
 
   return (
     <HookFormMuiModal
