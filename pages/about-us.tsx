@@ -10,13 +10,12 @@ interface ContactUsProps {
   todo: any;
 }
 
-
 const ContactUs: React.FC<ContactUsProps> = ({todo}) => {
   console.log('todo data: ', todo);
   return (
     <div className={styles.container}>
 
-      <PageMeta title="About Crema React"/>
+      <PageMeta title="About Crema React" />
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Crema Next.js!</a>
@@ -65,7 +64,7 @@ export async function getServerSideProps() {
   // Fetch data from external API
   const res = await fetch(`https://jsonplaceholder.typicode.com/todos/1`);
   const todo = await res.json();
-   
+
   // Pass data to the page via props
   return {props: {todo}};
 }
