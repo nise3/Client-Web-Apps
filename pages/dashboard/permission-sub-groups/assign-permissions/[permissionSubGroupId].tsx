@@ -16,11 +16,9 @@ import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {
-  useFetchPermissions,
-  useFetchPermissionSubGroup,
-} from '../../../../services/userManagement/hooks';
+import {useFetchPermissionSubGroup} from '../../../../services/userManagement/hooks';
 import {assignPermissions} from '../../../../services/userManagement/PermissionSubGroupService';
+import {getPermissionGroupWithPermissions} from '../../../../services/userManagement/PermissionGroupService';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,13 +47,27 @@ const AssignPermissionToPermissionSubGroup = () => {
   );
   const [checkedModules, setCheckedModules] = useState<any>(new Set());
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [permissionFilters] = useState({});
-
-  const {data: allPermissions, isLoading} =
-    useFetchPermissions(permissionFilters);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allPermissions, setAllPermissions] = useState<any>(null);
   const {data: itemData} = useFetchPermissionSubGroup(
     Number(permissionSubGroupId),
   );
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      if (itemData && itemData.permission_group_id) {
+        const response = await getPermissionGroupWithPermissions(
+          Number(itemData.permission_group_id),
+          {permission: 1},
+        );
+        if (response.data) {
+          setAllPermissions(response.data.permissions);
+        }
+      }
+      setIsLoading(false);
+    })();
+  }, [itemData]);
 
   useEffect(() => {
     if (itemData && allPermissions) {

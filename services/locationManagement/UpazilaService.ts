@@ -4,6 +4,10 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
 
+/**
+ * @deprecated
+ * @param params
+ */
 export const getAllUpazilas = async (params = {}) => {
   try {
     let response: any = await apiGet(API_UPAZILAS, {params});
@@ -13,6 +17,10 @@ export const getAllUpazilas = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ * @param upazilaId
+ */
 export const getUpazila = async (upazilaId: number) => {
   try {
     let response: any = await apiGet(API_UPAZILAS + '/' + upazilaId);

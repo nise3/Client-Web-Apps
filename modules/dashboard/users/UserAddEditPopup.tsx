@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
@@ -6,12 +6,13 @@ import {
   useFetchUser,
 } from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
-import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
+/*import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
+import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';*/
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
+  getUserType,
   isResponseSuccess,
   isValidationError,
 } from '../../../@softbd/utilities/helpers';
@@ -29,8 +30,9 @@ import {
 } from '../../../services/userManagement/UserService';
 import IconUser from '../../../@softbd/icons/IconUser';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+/*import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';*/
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -45,10 +47,10 @@ const initialValues = {
   password: '',
   email: '',
   mobile: '',
-  user_type: '1',
   role_id: '',
+  /*user_type: '1',
   organization_id: '',
-  institute_id: '',
+  institute_id: '',*/
   row_status: '1',
 };
 
@@ -61,11 +63,15 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
-  const [roleFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [roleFilters, setRoleFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
 
   const {data: roles, isLoading: isLoadingRoles} = useFetchRoles(roleFilters);
 
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const authUser = useAuthUser();
+
+  /*const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: institutes, isLoading: isLoadingInstitute} =
     useFetchInstitutes(instituteFilters);
@@ -74,7 +80,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
   const {data: organizations, isLoading: isLoadingOrganizations} =
     useFetchOrganizations(organizationFilters);
-  const [userType, setUserType] = useState<number>(1);
+  const [userType, setUserType] = useState<number>(1);*/
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -118,7 +124,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .string()
         .oneOf([yup.ref('password')])
         .label(messages['common.password'] as string),
-      user_type: yup
+      /*user_type: yup
         .string()
         .trim()
         .required()
@@ -136,9 +142,9 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               .string()
               .required()
               .label(messages['institute.label'] as string)
-          : yup.string().label(messages['institute.label'] as string),
+          : yup.string().label(messages['institute.label'] as string),*/
     });
-  }, [itemId, messages, userType]);
+  }, [itemId, messages /*userType*/]);
 
   const {
     register,
@@ -152,6 +158,22 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (authUser) {
+      if (authUser.institute_id) {
+        setRoleFilters({
+          institute_id: authUser.institute_id,
+          row_status: RowStatus.ACTIVE,
+        });
+      } else if (authUser.organization_id) {
+        setRoleFilters({
+          organization_id: authUser.organization_id,
+          row_status: RowStatus.ACTIVE,
+        });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         name_en: itemData?.name_en,
@@ -160,23 +182,33 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         password: '',
         email: itemData?.email,
         mobile: itemData?.mobile,
-        user_type: String(itemData?.user_type),
         role_id: itemData?.role_id,
+        /*user_type: String(itemData?.user_type),
         organization_id: itemData?.organization_id,
-        institute_id: itemData?.institute_id,
+        institute_id: itemData?.institute_id,*/
         row_status: String(itemData?.row_status),
       });
-      setUserType(Number(itemData?.user_type));
+      //setUserType(Number(itemData?.user_type));
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
-  const onUserTypeChange = useCallback((userTypeId: number) => {
+  /*  const onUserTypeChange = useCallback((userTypeId: number) => {
     setUserType(userTypeId);
-  }, []);
+  }, []);*/
 
   const onSubmit: SubmitHandler<User> = async (data: User) => {
+    data.user_type = String(getUserType(authUser));
+
+    if (authUser?.isInstituteUser) {
+      data.institute_id = authUser?.institute_id;
+    }
+
+    if (authUser?.isOrganizationUser) {
+      data.organization_id = authUser?.organization_id;
+    }
+
     const response =
       isEdit && itemId
         ? await updateUser(itemId, data)
@@ -204,7 +236,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
-  console.log('rr', errors);
 
   return (
     <HookFormMuiModal
@@ -234,7 +265,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12}>
+        {/*<Grid item xs={12}>
           <FormRadioButtons
             id='user_type'
             label={'user.user_type'}
@@ -257,7 +288,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             isLoading={isLoading}
             onChange={onUserTypeChange}
           />
-        </Grid>
+        </Grid>*/}
         <Grid item xs={6}>
           <CustomTextInput
             id='name_en'
@@ -315,7 +346,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        {userType && userType == 2 && (
+        {/*{userType && userType == 2 && (
           <Grid item xs={6}>
             <CustomFormSelect
               id='organization_id'
@@ -342,7 +373,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               errorInstance={errors}
             />
           </Grid>
-        )}
+        )}*/}
         {!(isEdit && itemId) && (
           <>
             <Grid item xs={6}>

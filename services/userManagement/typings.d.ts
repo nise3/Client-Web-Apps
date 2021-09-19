@@ -7,8 +7,8 @@ type User = {
   user_type: string;
   email: string;
   mobile: string;
-  organization_id?: string;
-  institute_id?: string;
+  organization_id?: string | number | null;
+  institute_id?: string | number | null;
   loc_district_id?: number;
   loc_division_id?: number;
   loc_upazila_id?: number;
@@ -22,7 +22,7 @@ type Role = {
   title_en: string;
   title_bn: string;
   key: string;
-  permission_group_id: string;
+  permission_sub_group_id: string;
   organization_id: string;
   institute_id: string;
   row_status?: string;

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {AuthUser} from '../../types/models/AuthUser';
 
 export const genders = [
   {
@@ -300,3 +301,10 @@ export function toCamelCase(object: any, exceptions: string[] = []) {
     return p;
   }, {});
 }
+
+export const getUserType = (user: AuthUser | null) => {
+  if (user?.isSystemUser) return 1;
+  else if (user?.isOrganizationUser) return 2;
+  else if (user?.isInstituteUser) return 3;
+  else return 1;
+};

@@ -40,7 +40,7 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   key: '',
-  permission_group_id: '',
+  permission_sub_group_id: '',
   organization_id: '',
   institute_id: '',
   row_status: '1',
@@ -87,7 +87,11 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.key'] as string),
-      permission_group_id: yup.string().nullable(),
+      permission_sub_group_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['permission_sub_group.label'] as string),
       institute_id: yup.string().nullable(),
       organization_id: yup.string().nullable(),
       row_status: yup.string(),

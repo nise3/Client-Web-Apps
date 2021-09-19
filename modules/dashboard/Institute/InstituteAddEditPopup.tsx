@@ -44,6 +44,7 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
+import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -85,7 +86,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   } = useFetchInstitute(itemId);
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: 'institute',
+    key: PERMISSION_GROUP_INSTITUTE_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
