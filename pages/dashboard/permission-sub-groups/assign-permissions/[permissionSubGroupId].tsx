@@ -16,11 +16,11 @@ import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {useFetchPermissions} from '../../../../services/userManagement/hooks';
 import {
-  assignPermissions,
-  getPermissionGroupWithPermissions,
-} from '../../../../services/userManagement/PermissionGroupService';
+  useFetchPermissions,
+  useFetchPermissionSubGroup,
+} from '../../../../services/userManagement/hooks';
+import {assignPermissions} from '../../../../services/userManagement/PermissionSubGroupService';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,12 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const AssignPermissionToPermissionGroup = () => {
+const AssignPermissionToPermissionSubGroup = () => {
   const classes = useStyles();
   const router = useRouter();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {permissionGroupId} = router.query;
+  const {permissionSubGroupId} = router.query;
 
   const [permissions, setPermissions] = useState<any>({});
   const [checkedPermissions, setCheckedPermissions] = useState<any>(
@@ -53,22 +53,9 @@ const AssignPermissionToPermissionGroup = () => {
 
   const {data: allPermissions, isLoading} =
     useFetchPermissions(permissionFilters);
-  const [itemData, setItemData] = useState<any>(null);
-
-  useEffect(() => {
-    (async () => {
-      if (permissionGroupId) {
-        const response = await getPermissionGroupWithPermissions(
-          Number(permissionGroupId),
-          {permission: 1},
-        );
-        if (response) {
-          console.log('ppp', response.data);
-          setItemData(response.data);
-        }
-      }
-    })();
-  }, [permissionGroupId]);
+  const {data: itemData} = useFetchPermissionSubGroup(
+    Number(permissionSubGroupId),
+  );
 
   useEffect(() => {
     if (itemData && allPermissions) {
@@ -157,7 +144,7 @@ const AssignPermissionToPermissionGroup = () => {
   const syncPermissionAction = useCallback(async () => {
     setIsSubmitting(true);
     const response = await assignPermissions(
-      Number(permissionGroupId),
+      Number(permissionSubGroupId),
       Array.from(checkedPermissions),
     );
     if (isResponseSuccess(response)) {
@@ -169,7 +156,7 @@ const AssignPermissionToPermissionGroup = () => {
       );
     }
     setIsSubmitting(false);
-  }, [permissionGroupId, checkedPermissions]);
+  }, [permissionSubGroupId, checkedPermissions]);
 
   return (
     <PageBlock
@@ -224,7 +211,7 @@ export default AppPage(() => {
   return (
     <>
       <PageMeta title={messages['common.assign_permission']} />
-      <AssignPermissionToPermissionGroup />
+      <AssignPermissionToPermissionSubGroup />
     </>
   );
 });

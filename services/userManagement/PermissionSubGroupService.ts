@@ -60,3 +60,18 @@ export const deletePermissionSubGroup = async (
     catchBlockHandler(error);
   }
 };
+
+export const assignPermissions = async (
+  permissionSubGroupId: number,
+  permissions: number[],
+) => {
+  try {
+    let response: any = await apiPost(
+      `${API_PERMISSION_SUB_GROUPS}/${permissionSubGroupId}/assign-permissions`,
+      {permissions: permissions},
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
