@@ -6,6 +6,14 @@ import {Fade} from 'react-awesome-reveal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      [theme.breakpoints.up('sm')]: {
+        marginTop: '50px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '80px',
+      },
+    },
     youthBoxItem: {
       background: '#1B69BC',
       textAlign: 'center',
@@ -31,11 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
     rootMobileView: {
       [theme.breakpoints.down('sm')]: {
         marginTop: '235px',
-      },
-    },
-    root: {
-      [theme.breakpoints.up('md')]: {
-        marginTop: '50px',
       },
     },
   }),
