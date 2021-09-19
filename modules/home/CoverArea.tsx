@@ -32,6 +32,15 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#000',
       padding: '0 7px 2px 12px',
       marginTop: '13px',
+      marginLeft: '-5px',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        marginLeft: '-12px',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 'auto',
+        marginLeft: '-12px',
+      },
     },
     searchBox: {
       padding: '12px 5px 5px 15px',
@@ -41,6 +50,19 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 'auto',
       // borderRadius: '2px',
       border: 'none',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginLeft: '-8px',
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '100%',
+        marginLeft: '-12px',
+        paddingBottom: '14px',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 'auto',
+        padding: '12px 5px 5px 15px',
+      },
     },
     skillSlide: {
       zIndex: 2,
@@ -68,19 +90,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '42px',
     },
 
-    mobileCoverImage: {
-      width: '100%',
-      // position: 'absolute',
-      right: 0,
-      borderRadius: '5px',
-      display: 'flex',
-      marginTop: '13px',
-      marginBottom: '10px',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-        marginBottom: '100px',
-      },
-    },
     coverImage: {
       height: '430px',
       right: 0,
@@ -230,14 +239,6 @@ const CoverArea = () => {
               </Grid>
             </Slide>
           </Container>
-          {/*<Box className={classes.coverImage}>*/}
-          {/*  <Image*/}
-          {/*    src={coverImg}*/}
-          {/*    width={550}*/}
-          {/*    height={400}*/}
-          {/*    alt='cover-image'*/}
-          {/*  />*/}
-          {/*</Box>*/}
 
           <Grid container>
             <Zoom>
@@ -247,11 +248,6 @@ const CoverArea = () => {
                   alt='crema-logo'
                   className={classes.coverImage}
                 />
-                {/*<img*/}
-                {/*  src='/images/cover-area.png'*/}
-                {/*  alt='crema-logo'*/}
-                {/*  className={classes.mobileCoverImage}*/}
-                {/*/>*/}
               </>
             </Zoom>
           </Grid>

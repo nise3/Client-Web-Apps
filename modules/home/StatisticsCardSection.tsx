@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         paddingBottom: '120px',
       },
+      [theme.breakpoints.up('md')]: {
+        paddingBottom: '50px',
+      },
       [theme.breakpoints.up('lg')]: {
         paddingBottom: '170px',
       },

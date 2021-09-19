@@ -55,11 +55,12 @@ const BdMap = () => {
             container
             spacing={2}
             xs={12}
+            sm={6}
             md={5}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
-            <Grid item xs={3}>
+            <Grid item xs={3} md={2}>
               <Button variant='contained' className={classes.skillButton}>
                 দক্ষতা
               </Button>
