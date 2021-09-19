@@ -19,7 +19,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
-  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
   useFetchRole,
 } from '../../../services/userManagement/hooks';
 import {
@@ -57,10 +57,10 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
 
   const {data: itemData, isLoading, mutate: mutateRole} = useFetchRole(itemId);
 
-  const [permissionGroupFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [permissionSubGroupFilters] = useState({row_status: RowStatus.ACTIVE});
 
-  const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
-    useFetchPermissionGroups(permissionGroupFilters);
+  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
+    useFetchPermissionSubGroups(permissionSubGroupFilters);
 
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
@@ -206,11 +206,11 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
-            id='permission_group_id'
-            label={messages['permission_group.label']}
-            isLoading={isLoadingPermissionGroups}
+            id='permission_sub_group_id'
+            label={messages['permission_sub_group.label']}
+            isLoading={isLoadingPermissionSubGroups}
             control={control}
-            options={permissionGroups}
+            options={permissionSubGroups}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
