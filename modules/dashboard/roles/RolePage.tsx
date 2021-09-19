@@ -109,8 +109,8 @@ const RolePage = () => {
         isVisible: false,
       },
       {
-        Header: messages['permission_group.label'],
-        accessor: 'permission_group_title_en',
+        Header: messages['permission_sub_group.label'],
+        accessor: 'permission_sub_group_title_en',
       },
       {
         Header: messages['common.status'],

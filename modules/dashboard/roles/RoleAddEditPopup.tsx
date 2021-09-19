@@ -110,7 +110,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title_bn: itemData?.title_bn,
         key: itemData?.key,
-        permission_group_id: itemData?.permission_group_id,
+        permission_sub_group_id: itemData?.permission_sub_group_id,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
         row_status: String(itemData?.row_status),

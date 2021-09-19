@@ -7,12 +7,9 @@ import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import useStyles from './VerticalItem.style';
 import AppContext from '../../../utility/AppContext';
-import {useSelector} from 'react-redux';
 import Link from 'next/link';
 import {NavItemProps} from '../../../../modules/routesConfig';
-import {AppState} from '../../../../redux/store';
-import {AuthUser} from '../../../../types/models/AuthUser';
-import {map as lodashMap} from 'lodash';
+import {useAuthUser} from '../../../utility/AppHooks';
 
 interface VerticalItemProps {
   item: NavItemProps;
@@ -22,10 +19,7 @@ interface VerticalItemProps {
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
-  const {user}: {user: AuthUser | null} = useSelector<
-    AppState,
-    AppState['auth']
-  >(({auth}) => auth);
+  const user = useAuthUser();
   const router = useRouter();
   const {pathname} = router;
   //console.log('user', user);
@@ -33,9 +27,9 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   //   () => checkPermission(item.auth, user!.role),
   //   [item.auth, user!.role],
   // );
-  let hasPermission = lodashMap(user?.permissions || [], 'name').includes(
-    item.permissionKey,
-  );
+  let hasPermission = item.permissionKey
+    ? (user?.permissions || []).includes(item && item.permissionKey)
+    : false;
   if (!hasPermission) {
     return null;
   }
