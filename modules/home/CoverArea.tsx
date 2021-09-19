@@ -82,15 +82,20 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     coverImage: {
-      width: '45vw',
       height: '430px',
-      position: 'absolute',
       right: 0,
       bottom: 0,
       borderRadius: '5px',
-      display: 'none',
+      display: 'flex',
       [theme.breakpoints.up('md')]: {
-        display: 'flex',
+        position: 'absolute',
+        width: '45vw',
+      },
+
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '13px',
+        marginBottom: '10px',
+        width: '100%',
       },
       [theme.breakpoints.up('xl')]: {
         width: '47vw',
@@ -242,11 +247,11 @@ const CoverArea = () => {
                   alt='crema-logo'
                   className={classes.coverImage}
                 />
-                <img
-                  src='/images/cover-area.png'
-                  alt='crema-logo'
-                  className={classes.mobileCoverImage}
-                />
+                {/*<img*/}
+                {/*  src='/images/cover-area.png'*/}
+                {/*  alt='crema-logo'*/}
+                {/*  className={classes.mobileCoverImage}*/}
+                {/*/>*/}
               </>
             </Zoom>
           </Grid>

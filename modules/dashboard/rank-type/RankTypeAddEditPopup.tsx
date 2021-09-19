@@ -27,6 +27,7 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../@softbd/libs/yup';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -48,6 +49,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
+  const authUser = useAuthUser();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -102,6 +104,9 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
+    if (authUser?.isOrganizationUser && authUser.organization?.id) {
+      data.organization_id = authUser.organization.id;
+    }
     const response = itemId
       ? await updateRankType(itemId, data)
       : await createRankType(data);
@@ -176,18 +181,21 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organization_id'
-            label={messages['organization.label']}
-            isLoading={isLoadingOrganizations}
-            control={control}
-            options={organizations}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {!authUser?.isOrganizationUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganizations}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+
         <Grid item xs={6}>
           <CustomTextInput
             id='description'

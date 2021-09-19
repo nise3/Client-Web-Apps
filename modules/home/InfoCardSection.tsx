@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: '50px',
       },
       [theme.breakpoints.down('sm')]: {
-        marginTop: '80px',
+        marginTop: '200px',
       },
     },
     youthBoxItem: {
