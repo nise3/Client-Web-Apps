@@ -10,7 +10,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '50px',
       backgroundColor: '#eee',
       paddingTop: '20px',
-      paddingBottom: '20px',
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom: '120px',
+      },
+      [theme.breakpoints.up('lg')]: {
+        paddingBottom: '120px',
+      },
     },
     cardColor1: {
       background: '#661687',
@@ -65,6 +70,13 @@ const useStyles = makeStyles((theme: Theme) =>
       borderLeft: '12px solid transparent',
       borderRight: '12px solid transparent',
       borderTop: '18px solid',
+      position: 'relative',
+      zIndex: 1,
+    },
+    infoCardWrapper: {
+      [theme.breakpoints.down('md')]: {
+        marginBottom: '120px',
+      },
     },
   }),
 );
@@ -157,7 +169,7 @@ const StatisticsCardSection = () => {
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
               <Card className={classes.cardColor1}>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   জব প্রোভাইডার
@@ -177,7 +189,7 @@ const StatisticsCardSection = () => {
                 ]}
               />
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
               <Card className={classes.cardColor2}>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   দক্ষতা উন্নয়ণ কেন্দ্র
@@ -197,7 +209,7 @@ const StatisticsCardSection = () => {
                 ]}
               />
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
               <Card className={classes.cardColor3}>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   জনপ্রিয় কোর্স

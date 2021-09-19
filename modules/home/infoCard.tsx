@@ -5,7 +5,14 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // marginLeft: '20px',
+      position: 'absolute',
+      marginTop: '-18px',
+      zIndex: 0,
+      width: '225px',
+      height: '100px',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
     infoItem: {
       backgroundColor: '#fff',

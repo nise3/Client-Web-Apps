@@ -10,6 +10,7 @@ import {
   NativeSelect,
   OutlinedInput,
   Typography,
+  Zoom,
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -92,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'flex',
       },
       [theme.breakpoints.up('xl')]: {
-        width: '30vw',
+        width: '47vw',
       },
     },
     animationFillMode: {
@@ -234,16 +235,20 @@ const CoverArea = () => {
           {/*</Box>*/}
 
           <Grid container>
-            <img
-              src='/images/cover-area.png'
-              alt='crema-logo'
-              className={classes.coverImage}
-            />
-            <img
-              src='/images/cover-area.png'
-              alt='crema-logo'
-              className={classes.mobileCoverImage}
-            />
+            <Zoom>
+              <>
+                <img
+                  src='/images/cover-area.png'
+                  alt='crema-logo'
+                  className={classes.coverImage}
+                />
+                <img
+                  src='/images/cover-area.png'
+                  alt='crema-logo'
+                  className={classes.mobileCoverImage}
+                />
+              </>
+            </Zoom>
           </Grid>
         </Grid>
       </Grid>

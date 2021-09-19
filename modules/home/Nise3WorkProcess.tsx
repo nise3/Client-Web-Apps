@@ -10,8 +10,11 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '50px',
       background: '#682988',
       color: '#fff',
-      [theme.breakpoints.up('md')]: {
-        marginTop: '170px',
+      [theme.breakpoints.up('sm')]: {
+        marginTop: '200px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '30px',
       },
     },
     detailsButton: {
