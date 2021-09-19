@@ -33,6 +33,7 @@ type Permission = {
   name: string;
   uri: string;
   method: string;
+  module: string;
   method_name?: string;
 };
 
