@@ -1,26 +1,33 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {getAllRankTypes} from '../../../services/instituteManagement/RankTypeService';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {
   createRank,
-  getRank,
   updateRank,
 } from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import {
+  useFetchOrganizations,
+  useFetchRank,
+  useFetchRankTypes,
+} from '../../../services/organaizationManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface RankAddEditPopupProps {
   itemId: number | null;
@@ -28,25 +35,12 @@ interface RankAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  organization_id: yup.string().trim().required(),
-  rank_type_id: yup.string().trim().required(),
-  display_order: yup.string(),
-  row_status: yup.string(),
-});
-
 const initialValues = {
   id: 0,
   title_en: '',
   title_bn: '',
   organization_id: 0,
-  rank_type_id: 0,
+  rank_type_id: '',
   display_order: '',
   grade: '',
   row_status: '1',
@@ -60,17 +54,48 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Array<Organization> | []>(
-    [],
-  );
-  const [rankTypes, setRankTypes] = useState<Array<RankType> | []>([]);
-  const [organizationId, setOrganizationId] = useState<number | null>(null);
 
+  const {data: itemData, isLoading, mutate: mutateRank} = useFetchRank(itemId);
+  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [rankTypeFilters, setRankTypeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+
+  const {data: organizations, isLoading: isLoadingOrganizations} =
+    useFetchOrganizations(organizationFilters);
+
+  const {data: rankTypes, isLoading: isLoadingRankTypes} =
+    useFetchRankTypes(rankTypeFilters);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      organization_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['organization.label'] as string),
+      rank_type_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['rank_types.label'] as string),
+      display_order: yup.string(),
+      row_status: yup.string(),
+    });
+  }, [messages]);
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<Rank>({
@@ -78,81 +103,58 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let item = await getRank(itemId);
-        setOrganizationId(item.organization_id);
-        organizationId &&
-          setRankTypes(
-            await getAllRankTypes({organization_id: organizationId}),
-          );
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          organization_id: item.organization_id,
-          rank_type_id: item.rank_type_id,
-          grade: item.grade,
-          display_order: item.display_order,
-          row_status: String(item.row_status),
-        });
-      } else {
-        setRankTypes(await getAllRankTypes());
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        organization_id: itemData?.organization_id,
+        rank_type_id: itemData?.rank_type_id,
+        grade: itemData?.grade,
+        display_order: itemData?.display_order,
+        row_status: String(itemData?.row_status),
+      });
 
-  useEffect(() => {
-    loadAllOrganizations();
-  }, []);
-
-  useEffect(() => {
-    loadAllRankTypes();
-  }, [organizationId]);
-
-  const loadAllRankTypes = async () => {
-    if (organizationId) {
-      setRankTypes(await getAllRankTypes({organization_id: organizationId}));
+      setRankTypeFilters({
+        organization_id: itemData?.organization_id,
+        row_status: RowStatus.ACTIVE,
+      });
     } else {
-      setRankTypes(await getAllRankTypes());
+      reset(initialValues);
     }
-  };
-
-  const loadAllOrganizations = async () => {
-    setOrganizations(await getAllOrganizations());
-  };
+  }, [itemData]);
 
   const handleOrganizationChange = (organizationId: any) => {
-    setOrganizationId(organizationId);
+    setRankTypeFilters({
+      organization_id: organizationId,
+      row_status: RowStatus.ACTIVE,
+    });
   };
 
   const onSubmit: SubmitHandler<Rank> = async (data: Rank) => {
-    if (isEdit && itemId) {
-      let response = await updateRank(itemId, data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='ranks.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createRank(data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='ranks.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateRank(itemId, data)
+      : await createRank(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='ranks.label' />}}
+        />,
+      );
+      mutateRank();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='ranks.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
@@ -207,7 +209,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
           <CustomFormSelect
             id='organization_id'
             label={messages['organization.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingOrganizations}
             control={control}
             options={organizations}
             optionValueProp={'id'}
@@ -220,7 +222,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
           <CustomFormSelect
             id='rank_type_id'
             label={messages['rank_types.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingRankTypes}
             control={control}
             options={rankTypes}
             optionValueProp={'id'}

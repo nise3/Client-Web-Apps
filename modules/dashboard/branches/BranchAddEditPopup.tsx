@@ -1,44 +1,38 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createBranch,
-  getBranch,
   updateBranch,
 } from '../../../services/instituteManagement/BranchService';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import {
+  useFetchBranch,
+  useFetchInstitutes,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  institute_id: yup.string().trim().required(),
-  address: yup.string(),
-  google_map_src: yup.string(),
-  row_status: yup.string(),
-});
 
 const initialValues = {
   id: 0,
@@ -58,13 +52,36 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateBranch,
+  } = useFetchBranch(itemId);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      institute_id: yup.string().trim().required(),
+      address: yup.string(),
+      google_map_src: yup.string(),
+      row_status: yup.string(),
+    });
+  }, [messages]);
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<Branch>({
@@ -72,55 +89,46 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let item = await getBranch(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          institute_id: item.institute_id,
-          address: item.address,
-          google_map_src: item.google_map_src,
-          row_status: String(item.row_status),
-        });
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-      loadInstitutes();
-    })();
-  }, [itemId]);
-
-  const loadInstitutes = async () => {
-    setInstitutes(await getAllInstitutes());
-  };
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        institute_id: itemData?.institute_id,
+        address: itemData?.address,
+        google_map_src: itemData?.google_map_src,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
-    if (isEdit && itemId) {
-      let response = await updateBranch(itemId, data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='branch.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createBranch(data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='branch.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateBranch(itemId, data)
+      : await createBranch(data);
+
+    if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='branch.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='branch.label' />}}
+        />,
+      );
+      mutateBranch();
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
@@ -130,7 +138,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconBranch />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -175,7 +183,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}

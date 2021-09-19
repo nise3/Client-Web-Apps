@@ -1,11 +1,11 @@
 import {
   Button,
+  createStyles,
   IconButton,
+  makeStyles,
   Theme,
   Toolbar,
   Tooltip,
-  createStyles,
-  makeStyles,
 } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ViewColumnsIcon from '@material-ui/icons/ViewColumn';
@@ -18,8 +18,6 @@ import React, {
   useState,
 } from 'react';
 import {TableInstance} from 'react-table';
-
-import {TableMouseEventHandler} from '../types/react-table-config';
 import {ColumnHidePage} from './ColumnHidePage';
 import {FilterPage} from './FilterPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -51,41 +49,12 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-type InstanceActionButton<T extends object> = {
-  instance: TableInstance<T>;
-  icon?: JSX.Element;
-  onClick: TableMouseEventHandler;
-  enabled?: (instance: TableInstance<T>) => boolean;
-  label: string;
-  variant?: 'right' | 'left';
-};
-
 type ActionButton<T extends object> = {
   icon?: JSX.Element;
   onClick: MouseEventHandler;
   enabled?: boolean;
   label: string;
   variant?: 'right' | 'left';
-};
-
-export const InstanceLabeledActionButton = <T extends object>({
-  instance,
-  icon,
-  onClick,
-  label,
-  enabled = () => true,
-}: InstanceActionButton<T>): ReactElement => {
-  return (
-    <Button
-      variant='contained'
-      color='primary'
-      onClick={onClick(instance)}
-      disabled={!enabled(instance)}>
-      {icon}
-      {label}
-    </Button>
-  );
 };
 
 export const LabeledActionButton = <T extends object>({
@@ -103,32 +72,6 @@ export const LabeledActionButton = <T extends object>({
       {icon}
       {label}
     </Button>
-  );
-};
-
-export const InstanceSmallIconActionButton = <T extends object>({
-  instance,
-  icon,
-  onClick,
-  label,
-  enabled = () => true,
-  variant,
-}: InstanceActionButton<T>) => {
-  const classes = useStyles({});
-  return (
-    <Tooltip title={label} aria-label={label}>
-      <span>
-        <IconButton
-          className={clsx({
-            [classes.rightIcons]: variant === 'right',
-            [classes.leftIcons]: variant === 'left',
-          })}
-          onClick={onClick(instance)}
-          disabled={!enabled(instance)}>
-          {icon}
-        </IconButton>
-      </span>
-    </Tooltip>
   );
 };
 

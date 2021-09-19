@@ -9,4 +9,4 @@ const IconOccupation = () => {
   );
 };
 
-export default IconOccupation;
+export default React.memo(IconOccupation);

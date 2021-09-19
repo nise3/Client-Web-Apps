@@ -20,7 +20,8 @@ const defaultConfig: any = {
       type: ThemeMode.LIGHT,
       background: {
         paper: '#FFFFFF',
-        default: '#F4F7FE',
+        //default: '#F4F7FE',
+        default: '#FFF',
       },
       primary: {
         main: '#0A8FDC',

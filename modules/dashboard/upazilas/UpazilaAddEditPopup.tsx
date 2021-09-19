@@ -1,12 +1,9 @@
-import React, {FC, useEffect, useState} from 'react';
-import * as yup from 'yup';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
+import React, {FC, useEffect, useMemo, useState} from 'react';
+import yup from '../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {getAllDistricts} from '../../../services/locationManagement/DistrictService';
-import {getAllDivisions} from '../../../services/locationManagement/DivisionService';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -17,30 +14,20 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
   createUpazila,
-  getUpazila,
   updateUpazila,
 } from '../../../services/locationManagement/UpazilaService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
-
-interface UpazilaAddEditPopupProps {
-  itemId: number | null;
-  onClose: () => void;
-  refreshDataTable: () => void;
-}
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  bbs_code: yup.string().trim().required().label('BBS code'),
-  loc_division_id: yup.string().trim().required().label('Division'),
-  loc_district_id: yup.string().trim().required().label('District'),
-});
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazila,
+} from '../../../services/locationManagement/hooks';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const initialValues = {
   title_en: '',
@@ -51,6 +38,12 @@ const initialValues = {
   loc_district_id: '',
 };
 
+interface UpazilaAddEditPopupProps {
+  itemId: number | null;
+  onClose: () => void;
+  refreshDataTable: () => void;
+}
+
 const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
@@ -59,14 +52,53 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
-  const [districts, setDistricts] = useState<Array<District>>([]);
+  const [divisionsFilter] = useState<any>({row_status: RowStatus.ACTIVE});
+  const [districtsFilter, setDistrictsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateUpazila,
+  } = useFetchUpazila(itemId);
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      bbs_code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.bbs_code'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
+    });
+  }, [messages]);
 
   const {
     register,
     control,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -74,87 +106,58 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getUpazila(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            bbs_code: item?.bbs_code,
-            row_status: item?.row_status
-              ? String(item.row_status)
-              : initialValues.row_status,
-            loc_division_id: item?.loc_division_id,
-            loc_district_id: item?.loc_district_id,
-          });
-          loadDistrictsDataByDivision(item?.loc_division_id);
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllDivisions({row_status: RowStatus.ACTIVE});
-      if (response) setDivisions(response.data);
-      setIsLoading(false);
-    })();
-  }, []);
-
-  const loadDistrictsDataByDivision = async (divisionId: number) => {
-    setIsLoading(true);
-    if (divisionId) {
-      let response = await getAllDistricts({
-        row_status: RowStatus.ACTIVE,
-        division_id: divisionId,
+    console.log('itemData', itemData);
+    console.log('divisions', divisions);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        bbs_code: itemData?.bbs_code,
+        row_status: String(itemData?.row_status),
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
       });
-      if (response) {
-        setDistricts(response.data);
-      } else {
-        setDistricts([]);
-      }
+      setDistrictsFilter({
+        division_id: itemData?.loc_division_id,
+        row_status: RowStatus.ACTIVE,
+      });
     } else {
-      setDistricts([]);
+      reset(initialValues);
     }
-    setIsLoading(false);
-  };
+  }, [itemData]);
 
   const changeDivisionAction = (value: number) => {
-    loadDistrictsDataByDivision(value);
+    setDistrictsFilter({
+      division_id: value,
+      row_status: RowStatus.ACTIVE,
+    });
   };
 
   const onSubmit: SubmitHandler<Upazila> = async (data: Upazila) => {
-    if (isEdit && itemId) {
-      let response = await updateUpazila(itemId, data);
-      if (response && response._response_status.success) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='upazilas.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createUpazila(data);
-      if (response && response._response_status.success) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='upazilas.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateUpazila(itemId, data)
+      : await createUpazila(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='upazilas.label' />}}
+        />,
+      );
+      mutateUpazila();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='upazilas.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
@@ -191,7 +194,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
           <CustomFormSelect
             id='loc_division_id'
             label={messages['divisions.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingDivisions}
             control={control}
             options={divisions}
             optionValueProp={'id'}
@@ -204,7 +207,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
           <CustomFormSelect
             id='loc_district_id'
             label={messages['districts.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingDistricts}
             control={control}
             options={districts}
             optionValueProp={'id'}

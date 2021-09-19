@@ -1,11 +1,10 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -13,34 +12,28 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
   createTrainingCenter,
-  getTrainingCenter,
   updateTrainingCenter,
 } from '../../../services/instituteManagement/TrainingCenterService';
-import {getAllBranches} from '../../../services/instituteManagement/BranchService';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
+import {
+  useFetchBranches,
+  useFetchInstitutes,
+  useFetchTrainingCenter,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  institute_id: yup.string().trim().required(),
-  branch_id: yup.string(),
-  address: yup.string(),
-  google_map_src: yup.string(),
-  row_status: yup.string(),
-});
 
 const initialValues = {
   id: 0,
@@ -61,14 +54,47 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [institutes, setInstitutes] = useState<Array<Institute> | []>([]);
-  const [branches, setBranches] = useState<Array<Branch> | []>([]);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateTrainingCenter,
+  } = useFetchTrainingCenter(itemId);
+  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitutes(instituteFilters);
+  const [branchFilters, setBranchFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      institute_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.label'] as string),
+      branch_id: yup.string(),
+      address: yup.string(),
+      google_map_src: yup.string(),
+      row_status: yup.string(),
+    });
+  }, [messages]);
 
   const {
     control,
     register,
     reset,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<TrainingCenter>({
@@ -76,63 +102,61 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let item = await getTrainingCenter(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          institute_id: item.institute_id,
-          branch_id: item?.branch_id,
-          address: item?.address,
-          google_map_src: item?.google_map_src,
-          row_status: String(item?.row_status),
-        });
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-      await loadInstitutes();
-      await loadBranches();
-    })();
-  }, [itemId]);
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        institute_id: itemData?.institute_id,
+        branch_id: itemData?.branch_id,
+        address: itemData?.address,
+        google_map_src: itemData?.google_map_src,
+        row_status: String(itemData?.row_status),
+      });
 
-  const loadInstitutes = async () => {
-    setInstitutes(await getAllInstitutes());
-  };
+      setBranchFilters({
+        institute_id: itemData?.institute_id,
+        row_status: RowStatus.ACTIVE,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
-  const loadBranches = async () => {
-    setBranches(await getAllBranches());
-  };
+  const handleInstituteChange = useCallback((instituteId: number) => {
+    setBranchFilters({
+      institute_id: instituteId,
+      row_status: RowStatus.ACTIVE,
+    });
+  }, []);
 
   const onSubmit: SubmitHandler<TrainingCenter> = async (
     data: TrainingCenter,
   ) => {
-    if (isEdit && itemId) {
-      let response = await updateTrainingCenter(itemId, data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='training_center.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createTrainingCenter(data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='training_center.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateTrainingCenter(itemId, data)
+      : await createTrainingCenter(data);
+
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='training_center.label' />}}
+        />,
+      );
+      mutateTrainingCenter();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='training_center.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
@@ -142,7 +166,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconProgramme />
+          <IconTrainingCenter />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -156,7 +180,6 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -187,19 +210,20 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
+            onChange={handleInstituteChange}
           />
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingBranches}
             control={control}
             options={branches}
             optionValueProp={'id'}

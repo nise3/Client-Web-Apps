@@ -36,4 +36,4 @@ const ReadButton = ({onClick, className, isLoading, ...extra}: Props) => {
   );
 };
 
-export default ReadButton;
+export default React.memo(ReadButton);

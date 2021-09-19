@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -7,11 +7,11 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {getTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
+import {useFetchTrainingCenter} from '../../../services/instituteManagement/hooks';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
@@ -21,24 +21,8 @@ const TrainingCenterDetailsPopup = ({
   openEditModal,
   ...props
 }: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let trainingCenter = await getTrainingCenter(itemId);
-    if (trainingCenter) {
-      setItemData(trainingCenter);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchTrainingCenter(itemId);
 
   return (
     <>
@@ -47,11 +31,10 @@ const TrainingCenterDetailsPopup = ({
         {...props}
         title={
           <>
-            <IconProgramme />
-            <IntlMessages id='programme.label' />
+            <IconTrainingCenter />
+            <IntlMessages id='training_center.label' />
           </>
         }
-        maxWidth={'sm'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

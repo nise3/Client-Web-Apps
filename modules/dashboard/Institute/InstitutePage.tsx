@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
@@ -8,112 +8,146 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
 import InstituteAddEditPopup from './InstituteAddEditPopup';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import IconInstitute from '../../../@softbd/icons/IconInstitute';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
-  const [instituteId, setInstituteId] = useState<number | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = () => {
+  const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setInstituteId(null);
-  };
+    setSelectedItemId(null);
+  }, []);
 
-  const openAddEditModal = (instituteId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setInstituteId(instituteId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const openDetailsModal = (instituteId: number) => {
+  const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
-    setInstituteId(instituteId);
-  };
+    setSelectedItemId(itemId);
+  }, []);
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  };
+  }, []);
 
-  const deleteInstituteItem = async (instituteId: number) => {
-    let data = await deleteInstitute(instituteId);
-    if (data) {
+  const deleteInstituteItem = async (itemId: number) => {
+    let response = await deleteInstitute(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='institute.label' />}}
+        />,
+      );
+
       refreshDataTable();
     }
   };
 
-  const refreshDataTable = () => {
-    setIsToggleTable(!isToggleTable);
-  };
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
 
-  const columns = [
-    {
-      Header: messages['common.id'],
-      accessor: 'id',
-      disableFilters: true,
-      disableSortBy: true,
-    },
-    {
-      Header: messages['common.title_en'],
-      accessor: 'title_en',
-    },
-    {
-      Header: messages['common.title_bn'],
-      accessor: 'title_bn',
-    },
-    {
-      Header: messages['common.domain'],
-      accessor: 'domain',
-    },
-    {
-      Header: messages['common.code'],
-      accessor: 'code',
-    },
-    {
-      Header: messages['common.actions'],
-      Cell: (props: any) => {
-        let data = props.row.original;
-        return (
-          <DatatableButtonGroup>
-            <ReadButton onClick={() => openDetailsModal(data.id)} />
-            <EditButton onClick={() => openAddEditModal(data.id)} />
-            <DeleteButton
-              deleteAction={() => deleteInstituteItem(data.id)}
-              deleteTitle='Are you sure?'
-            />
-          </DatatableButtonGroup>
-        );
+  const columns = useMemo(
+    () => [
+      {
+        Header: '#',
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
+        disableFilters: true,
+        disableSortBy: true,
       },
-      sortable: false,
-    },
-  ];
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+      },
+      {
+        Header: messages['common.title_bn'],
+        accessor: 'title_bn',
+      },
+      {
+        Header: messages['common.domain'],
+        accessor: 'domain',
+      },
+      {
+        Header: messages['common.code'],
+        accessor: 'code',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteInstituteItem(data.id)}
+                deleteTitle='Are you sure?'
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [messages],
+  );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/institutes',
-    dataAccessor: 'data',
-    filters: {
-      title_en: 'title_en',
-      title_bn: 'title_bn',
-      domain: 'domain',
-      code: 'code',
-    },
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_INSTITUTES,
+    });
 
   return (
     <>
       <PageBlock
-        title={messages['institute.institute_type_title']}
+        title={
+          <>
+            <IconInstitute /> <IntlMessages id='institute.label' />
+          </>
+        }
         extra={[
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
             isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['institute.label'],
+                }}
+              />
+            }
           />,
         ]}>
         <ReactTable
@@ -122,27 +156,22 @@ const InstitutePage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
+          totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <InstituteAddEditPopup
             key={1}
-            title={instituteId ? 'Edit Institute' : 'Add Institute'}
-            open={isOpenAddEditModal}
             onClose={closeAddEditModal}
-            itemId={instituteId}
+            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <InstituteDetailsPopup
             key={1}
-            title={'View institute'}
-            itemId={instituteId}
-            open={isOpenDetailsModal}
+            itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

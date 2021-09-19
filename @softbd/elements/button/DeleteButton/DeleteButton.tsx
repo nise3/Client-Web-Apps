@@ -63,4 +63,4 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   );
 };
 
-export default DeleteButton;
+export default React.memo(DeleteButton);

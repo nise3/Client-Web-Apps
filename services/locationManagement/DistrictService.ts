@@ -1,9 +1,13 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
 
+/**
+ * @deprecated
+ * @param params
+ */
 export const getAllDistricts = async (params = {}) => {
   try {
     let response: any = await apiGet(API_DISTRICTS, {params});
@@ -13,6 +17,10 @@ export const getAllDistricts = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ * @param districtId
+ */
 export const getDistrict = async (districtId: number) => {
   try {
     let response: any = await apiGet(API_DISTRICTS + '/' + districtId);

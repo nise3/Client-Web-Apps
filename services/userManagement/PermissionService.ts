@@ -1,5 +1,5 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
@@ -7,7 +7,7 @@ const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const getAllPermissions = async () => {
   try {
     let response: any = await apiGet(API_PERMISSIONS);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -16,7 +16,7 @@ export const getAllPermissions = async () => {
 export const getPermission = async (permissionId: number) => {
   try {
     let response: any = await apiGet(API_PERMISSIONS + '/' + permissionId);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -25,7 +25,7 @@ export const getPermission = async (permissionId: number) => {
 export const deletePermission = async (permissionId: number) => {
   try {
     let response: any = await apiDelete(API_PERMISSIONS + '/' + permissionId);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -34,7 +34,7 @@ export const deletePermission = async (permissionId: number) => {
 export const createPermission = async (data: Permission) => {
   try {
     let response: any = await apiPost(API_PERMISSIONS, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -49,7 +49,7 @@ export const updatePermission = async (
       API_PERMISSIONS + '/' + permissionId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

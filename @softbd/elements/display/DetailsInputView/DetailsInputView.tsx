@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextInputSkeleton from '../skeleton/TextInputSkeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
+import React from 'react';
 
 const useStyles = makeStyles(() => {
   return {
@@ -17,6 +18,8 @@ const useStyles = makeStyles(() => {
       boxShadow: '0px 0px 3px #ddd',
       borderRadius: '0.25rem',
       marginTop: '8px',
+      maxHeight: '150px',
+      overflow: 'auto',
     },
 
     label: {
@@ -46,4 +49,4 @@ const DetailsInputView = ({label, value, isLoading}: Props) => {
   );
 };
 
-export default DetailsInputView;
+export default React.memo(DetailsInputView);

@@ -30,4 +30,4 @@ const CustomChip = ({color, label, icon, variant = 'outlined'}: Props) => {
   );
 };
 
-export default CustomChip;
+export default React.memo(CustomChip);

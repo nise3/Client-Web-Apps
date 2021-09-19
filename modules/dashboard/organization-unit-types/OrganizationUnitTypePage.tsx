@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_ORGANIZATION_UNIT_TYPES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationUnitTypeAddEditPopup from './OrganizationUnitTypeAddEditPopup';
 import {deleteOrganizationUnitType} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
@@ -16,9 +16,23 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {Button, makeStyles} from '@material-ui/core';
+import Link from 'next/link';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const OrganizationUnitTypePage = () => {
+  const classes = useStyles();
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
@@ -105,6 +119,11 @@ const OrganizationUnitTypePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL =
+            '/../../dashboard/organization-unit-types/org-chart/__'.replace(
+              '__',
+              String(data.id),
+            );
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -113,18 +132,27 @@ const OrganizationUnitTypePage = () => {
                 deleteAction={() => deleteOrganizationUnitTypeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+
+              <Link href={URL} passHref>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  {messages['common.hierarchy']}
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-unit-types',
+      urlPath: API_ORGANIZATION_UNIT_TYPES,
       dataAccessor: 'data',
     });
 
@@ -159,8 +187,6 @@ const OrganizationUnitTypePage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
@@ -172,7 +198,7 @@ const OrganizationUnitTypePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && organizationUnitTypeId && (
           <OrganizationUnitTypeDetailsPopup
             key={1}
             itemId={organizationUnitTypeId}

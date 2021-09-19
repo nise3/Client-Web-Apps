@@ -1,10 +1,7 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {
-  deleteJobSector,
-  getAllJobSectors,
-} from '../../../services/organaizationManagement/JobSectorService';
+import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -17,33 +14,28 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
 
 const JobSectorPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
+  const [jobSectorFilters] = useState({});
+  const {
+    data: jobSectors,
+    isLoading,
+    mutate: mutateJobSectors,
+  }: any = useFetchJobSectors(jobSectorFilters);
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [jobSectors, setJobSectors] = useState<Array<JobSector>>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadJobSectorsData();
-    })();
-  }, []);
-
-  const loadJobSectorsData = async () => {
-    setIsLoading(true);
-    let jobSectors = await getAllJobSectors();
-    if (jobSectors) setJobSectors(jobSectors);
-    setIsLoading(false);
-  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    mutateJobSectors();
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
@@ -66,7 +58,7 @@ const JobSectorPage = () => {
 
   const deleteJobSectorItem = async (itemId: number) => {
     let response = await deleteJobSector(itemId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -79,10 +71,8 @@ const JobSectorPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadJobSectorsData();
-    })();
-  }, []);
+    mutateJobSectors();
+  }, [mutateJobSectors]);
 
   const columns = useMemo(
     () => [
@@ -129,7 +119,7 @@ const JobSectorPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -159,7 +149,6 @@ const JobSectorPage = () => {
           columns={columns}
           data={jobSectors || []}
           loading={isLoading}
-          skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (
           <JobSectorAddEditPopup
@@ -170,7 +159,7 @@ const JobSectorPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <JobSectorDetailsPopup
             key={1}
             itemId={selectedItemId}

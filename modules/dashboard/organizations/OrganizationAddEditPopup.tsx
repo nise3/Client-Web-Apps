@@ -1,14 +1,13 @@
-import * as yup from 'yup';
+import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -16,78 +15,32 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createOrganization,
-  getOrganization,
   updateOrganization,
 } from '../../../services/organaizationManagement/OrganizationService';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {getAllOrganizationTypes} from '../../../services/organaizationManagement/OrganizationTypeService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {
+  useFetchOrganization,
+  useFetchOrganizationTypes,
+} from '../../../services/organaizationManagement/hooks';
+import {
+  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
+} from '../../../services/userManagement/hooks';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title(En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .label('Title(Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  domain: yup
-    .string()
-    .trim()
-    .required()
-    .matches(DOMAIN_REGEX, 'Enter valid domain')
-    .label('Domain'),
-  email: yup
-    .string()
-    .email('Enter valid email')
-    .trim()
-    .required()
-    .label('Email'),
-  mobile: yup
-    .string()
-    .trim()
-    .required()
-    .label('Mobile Number')
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
-  contact_person_name: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person name'),
-  contact_person_mobile: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person mobile')
-    .matches(MOBILE_NUMBER_REGEX, 'Enter valid mobile number'),
-  contact_person_email: yup
-    .string()
-    .email()
-    .trim()
-    .required()
-    .label('Contact person email'),
-  contact_person_designation: yup
-    .string()
-    .trim()
-    .required()
-    .label('Contact person designation'),
-  organization_type_id: yup
-    .string()
-    .required()
-    .label('Organization type designation'),
-  address: yup.string().trim().required().label('Address'),
-  row_status: yup.string().trim().required(),
-});
 
 const initialValues = {
   title_en: '',
@@ -101,6 +54,7 @@ const initialValues = {
   contact_person_email: '',
   contact_person_designation: '',
   organization_type_id: '',
+  permission_sub_group_id: '',
   address: '',
   description: '',
   row_status: '1',
@@ -114,88 +68,172 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizationTypes, setOrganizationTypes] = useState<
-    Array<OrganizationType>
-  >([]);
+  const [organizationTypeFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+  const [permissionGroupFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+    key: 'organization',
+  });
+
+  const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
+    useState<any>({
+      row_status: RowStatus.ACTIVE,
+    });
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateOrganization,
+  } = useFetchOrganization(itemId);
+  const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
+    useFetchOrganizationTypes(organizationTypeFilters);
+
+  const {data: permissionGroups} = useFetchPermissionGroups(
+    permissionGroupFilters,
+  );
+  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
+    useFetchPermissionSubGroups(permissionSubGroupFilters);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      domain: yup
+        .string()
+        .trim()
+        .required()
+        .matches(DOMAIN_REGEX)
+        .label(messages['common.domain'] as string),
+      email: yup
+        .string()
+        .email()
+        .trim()
+        .required()
+        .label(messages['common.email'] as string),
+      mobile: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.mobile'] as string)
+        .matches(MOBILE_NUMBER_REGEX),
+      contact_person_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_name'] as string),
+      contact_person_mobile: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_mobile'] as string)
+        .matches(MOBILE_NUMBER_REGEX),
+      contact_person_email: yup
+        .string()
+        .email()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_email'] as string),
+      contact_person_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_designation'] as string),
+      organization_type_id: yup
+        .string()
+        .required()
+        .label(messages['common.organization_type'] as string),
+      permission_sub_group_id: yup
+        .string()
+        .required()
+        .label(messages['permission_sub_group.label'] as string),
+      address: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.address'] as string),
+      row_status: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.row_status'] as string),
+    });
+  }, [messages]);
 
   const {
     control,
     register,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (itemId) {
-        let response = await getOrganization(itemId);
-        let {data: item} = response;
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          domain: item.domain,
-          email: item.email,
-          mobile: item.mobile,
-          fax_no: item.fax_no,
-          contact_person_name: item.contact_person_name,
-          contact_person_mobile: item.contact_person_mobile,
-          contact_person_email: item.contact_person_email,
-          contact_person_designation: item.contact_person_designation,
-          organization_type_id: item.organization_type_id,
-          address: item.address,
-          description: item.description,
-          row_status: String(item.row_status),
-        });
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let response = await getAllOrganizationTypes({
+    if (permissionGroups && permissionGroups.length > 0) {
+      setPermissionSubGroupFilters({
+        permission_group_id: permissionGroups[0]?.id,
         row_status: RowStatus.ACTIVE,
       });
-      if (response) {
-        setOrganizationTypes(response.data);
-      }
-      setIsLoading(false);
-    })();
-  }, []);
+    }
+  }, [permissionGroups]);
+
+  useEffect(() => {
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        domain: itemData?.domain,
+        email: itemData?.email,
+        mobile: itemData?.mobile,
+        fax_no: itemData?.fax_no,
+        contact_person_name: itemData?.contact_person_name,
+        contact_person_mobile: itemData?.contact_person_mobile,
+        contact_person_email: itemData?.contact_person_email,
+        contact_person_designation: itemData?.contact_person_designation,
+        organization_type_id: itemData?.organization_type_id,
+        address: itemData?.address,
+        description: itemData?.description,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
-    if (itemId) {
-      let response = await updateOrganization(itemId, data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='organization.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createOrganization(data);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='organization.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateOrganization(itemId, data)
+      : await createOrganization(data);
+
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='organization.label' />}}
+        />,
+      );
+      mutateOrganization();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='organization.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
@@ -247,9 +285,21 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
+            id='permission_sub_group_id'
+            label={messages['permission_sub_group.label']}
+            isLoading={isLoadingPermissionSubGroups}
+            control={control}
+            options={permissionSubGroups}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title_bn']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
             id='organization_type_id'
             label={messages['common.organization_type']}
-            isLoading={isLoading}
+            isLoading={isOrganizationTypeLoading}
             control={control}
             options={organizationTypes}
             optionValueProp='id'
@@ -320,7 +370,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='contact_person_designation'
             label={messages['common.contact_person_designation']}
@@ -329,7 +379,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='description'
             label={messages['common.description']}
@@ -340,7 +390,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             rows={4}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='address'
             label={messages['common.address']}

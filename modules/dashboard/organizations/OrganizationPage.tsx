@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_ORGANIZATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationAddEditPopup from './OrganizationAddEditPopup';
 import {deleteOrganization} from '../../../services/organaizationManagement/OrganizationService';
@@ -16,7 +16,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 
 const OrganizationPage = () => {
   const {successStack} = useNotiStack();
@@ -62,7 +62,7 @@ const OrganizationPage = () => {
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle) => !prevToggle);
-  }, [isToggleTable]);
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -87,18 +87,6 @@ const OrganizationPage = () => {
         accessor: 'organization_type_title_en',
         disableFilters: true,
         disableSortBy: true,
-      },
-      {
-        Header: messages['common.domain'],
-        accessor: 'domain',
-      },
-      {
-        Header: messages['common.email'],
-        accessor: 'email',
-      },
-      {
-        Header: messages['common.mobile'],
-        accessor: 'mobile',
       },
       {
         Header: messages['common.status'],
@@ -127,12 +115,12 @@ const OrganizationPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organizations',
+      urlPath: API_ORGANIZATIONS,
       dataAccessor: 'data',
     });
 
@@ -166,8 +154,6 @@ const OrganizationPage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
@@ -179,7 +165,7 @@ const OrganizationPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && organizationId && (
           <OrganizationDetailsPopup
             key={1}
             itemId={organizationId}

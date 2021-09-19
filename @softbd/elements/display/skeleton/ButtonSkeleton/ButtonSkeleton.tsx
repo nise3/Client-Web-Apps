@@ -17,4 +17,4 @@ const ButtonSkeleton = ({isCircle}: Props) => {
   );
 };
 
-export default ButtonSkeleton;
+export default React.memo(ButtonSkeleton);

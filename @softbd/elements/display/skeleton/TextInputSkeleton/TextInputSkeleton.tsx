@@ -4,9 +4,9 @@ import React from 'react';
 const TextInputSkeleton = () => {
   return (
     <>
-      <Skeleton variant="text" height={50}/>
+      <Skeleton variant='text' height={50} />
     </>
   );
 };
 
-export default TextInputSkeleton;
+export default React.memo(TextInputSkeleton);

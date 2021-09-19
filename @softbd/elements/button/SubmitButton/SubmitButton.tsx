@@ -37,4 +37,4 @@ const SubmitButton = ({
   );
 };
 
-export default SubmitButton;
+export default React.memo(SubmitButton);

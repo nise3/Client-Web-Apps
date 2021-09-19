@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import {useDispatch} from 'react-redux';
 import {onJWTAuthSignout} from '../../../redux/actions';
@@ -14,8 +14,9 @@ import {orange} from '@material-ui/core/colors';
 import {Fonts, ThemeMode} from '../../constants/AppEnums';
 import AppContextPropsType from '../../../types/AppContextPropsType';
 import {AuthUser} from '../../../types/models/AuthUser';
-
-const useStyles = makeStyles(theme => {
+import UserInfoDetailsPopup from './UserInfoDetailsPopup';
+import UserInfoEditPopup from './UserInfoEditPopup';
+const useStyles = makeStyles((theme) => {
   return {
     crUserInfo: {
       backgroundColor: 'rgba(0,0,0,.08)',
@@ -61,10 +62,35 @@ const useStyles = makeStyles(theme => {
 
 const UserInfo: React.FC<{}> = () => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const dispatch = useDispatch();
   const user: AuthUser | null = useAuthUser();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const closeEditModal = useCallback(() => {
+    setIsOpenEditModal(false);
+
+  }, []);
+
+  const openEditModal = useCallback(
+    () => {
+      setIsOpenDetailsModal(false);
+      setIsOpenEditModal(true);
+    },
+    [],
+  );
+  const openDetailsModal = useCallback(() => {
+    setAnchorEl(null);
+    setIsOpenDetailsModal(true);
+  }, []);
+
+  const closeDetailsModal = useCallback(() => {
+    setIsOpenDetailsModal(false);
+  }, []);
+
+
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -91,7 +117,7 @@ const UserInfo: React.FC<{}> = () => {
       className={clsx(classes.crUserInfo, 'cr-user-info')}>
       <Box display='flex' alignItems='center'>
         {user && user.photoURL ? (
-          <Avatar className={classes.profilePic} src={user.photoURL}/>
+          <Avatar className={classes.profilePic} src={user.photoURL} />
         ) : (
           <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>
         )}
@@ -107,16 +133,15 @@ const UserInfo: React.FC<{}> = () => {
               ml={3}
               className={classes.pointer}
               color={themeMode === 'light' ? '#313541' : 'white'}>
-              <ExpandMoreIcon onClick={handleClick}/>
+              <ExpandMoreIcon onClick={handleClick} />
               <Menu
                 id='simple-menu'
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
-                <MenuItem>My account</MenuItem>
-                <MenuItem
-                  onClick={() => dispatch(onJWTAuthSignout())}>
+                <MenuItem onClick={openDetailsModal}>My account</MenuItem>
+                <MenuItem onClick={() => dispatch(onJWTAuthSignout())}>
                   Logout
                 </MenuItem>
               </Menu>
@@ -125,6 +150,19 @@ const UserInfo: React.FC<{}> = () => {
           <Box className={classes.designation}>System Manager</Box>
         </Box>
       </Box>
+      {isOpenDetailsModal && (
+        <UserInfoDetailsPopup
+          key={1}
+          onClose={closeDetailsModal}
+          openEditModal={openEditModal}
+         />
+      )}
+      {isOpenEditModal && (
+        <UserInfoEditPopup
+          key={1}
+          onClose={closeEditModal}
+        />
+      )}
     </Box>
   );
 };

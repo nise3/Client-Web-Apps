@@ -92,7 +92,11 @@ const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
       maxWidth={maxWidth}
       fullWidth
       scroll={'body'}
-      onClose={onClose}>
+      onClose={(event, reason) => {
+        if (reason !== 'backdropClick') {
+          onClose();
+        }
+      }}>
       {children}
     </Dialog>
   );

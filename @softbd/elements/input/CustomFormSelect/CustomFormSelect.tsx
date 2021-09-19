@@ -9,6 +9,7 @@ import {
   Select,
 } from '@material-ui/core';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
   id: string;
@@ -24,6 +25,7 @@ type Props = {
   maxHeight?: number;
   onChange?: (e: any) => any;
   multiple?: boolean;
+  inputProps?: any;
 };
 
 const CustomFormSelect = ({
@@ -40,6 +42,7 @@ const CustomFormSelect = ({
   maxHeight,
   multiple,
   onChange: onChangeCallback,
+  inputProps,
 }: Props) => {
   maxHeight = maxHeight ? maxHeight : 400;
 
@@ -65,7 +68,7 @@ const CustomFormSelect = ({
     <FormControl
       variant='outlined'
       fullWidth={true}
-      error={errorInstance?.[id]}
+      error={!!errorInstance?.[id]}
       size={size ? size : 'small'}>
       <InputLabel id='select-outlined-label'>{label}</InputLabel>
       <Controller
@@ -90,11 +93,11 @@ const CustomFormSelect = ({
                 ) {
                   onChangeCallback(e.target.value);
                 }
-              }}>
+              }}
+              inputProps={inputProps}>
               <MenuItem value=''>
                 <em>None</em>
               </MenuItem>
-
               {(options || []).map((option: any, index: number) => {
                 let value = option[optionValueProp] && option[optionValueProp];
                 let title = getTitle(option, optionTitleProp);
@@ -106,7 +109,20 @@ const CustomFormSelect = ({
               })}
             </Select>
             {errorInstance?.[id] && (
-              <FormHelperText>{errorInstance[id].message}</FormHelperText>
+              <FormHelperText>
+                {errorInstance[id].message ? (
+                  errorInstance[id].message.hasOwnProperty('key') ? (
+                    <IntlMessages
+                      id={errorInstance[id].message.key}
+                      values={errorInstance[id].message?.values || {}}
+                    />
+                  ) : (
+                    errorInstance[id].message
+                  )
+                ) : (
+                  ''
+                )}
+              </FormHelperText>
             )}
           </>
         )}

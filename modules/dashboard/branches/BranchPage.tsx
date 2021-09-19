@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_BRANCHES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import BranchAddEditPopup from './BranchAddEditPopup';
 import BranchDetailsPopup from './BranchDetailsPopup';
@@ -16,7 +16,8 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteBranch} from '../../../services/instituteManagement/BranchService';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IconBranch from '../../../@softbd/icons/IconBranch';
 
 const BranchPage = () => {
   const {messages} = useIntl();
@@ -52,7 +53,7 @@ const BranchPage = () => {
 
   const deleteBranchItem = async (branchId: number) => {
     let response = await deleteBranch(branchId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -63,9 +64,9 @@ const BranchPage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
-  };
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -90,12 +91,9 @@ const BranchPage = () => {
         accessor: 'institute_title_en',
       },
       {
-        Header: messages['common.address'],
-        accessor: 'address',
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -111,7 +109,7 @@ const BranchPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteBranchItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -119,20 +117,20 @@ const BranchPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/branches',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_BRANCHES,
+    });
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='branch.label' />
+            <IconBranch /> <IntlMessages id='branch.label' />
           </>
         }
         extra={[
@@ -156,8 +154,7 @@ const BranchPage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
+          totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
@@ -169,7 +166,7 @@ const BranchPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <BranchDetailsPopup
             key={1}
             itemId={selectedItemId}

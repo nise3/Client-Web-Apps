@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -13,11 +13,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconRank from '../../../@softbd/icons/IconRank';
-import {
-  deleteSkill,
-  getAllSkills,
-} from '../../../services/organaizationManagement/SkillService';
+import {deleteSkill} from '../../../services/organaizationManagement/SkillService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IconSkill from '../../../@softbd/icons/IconSkill';
+import {useFetchSkills} from '../../../services/organaizationManagement/hooks';
 
 const SkillPage = () => {
   const {messages} = useIntl();
@@ -26,21 +25,12 @@ const SkillPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [skills, setSkills] = useState<Array<Skill> | []>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadSkills();
-    })();
-  }, []);
-
-  const loadSkills = async () => {
-    setIsLoading(true);
-    let skills = await getAllSkills();
-    skills && setSkills(skills);
-    setIsLoading(false);
-  };
+  const [skillFilters] = useState({});
+  const {
+    data: skills,
+    isLoading,
+    mutate: mutateSkills,
+  } = useFetchSkills(skillFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -67,7 +57,7 @@ const SkillPage = () => {
 
   const deleteRankItem = async (skillId: number) => {
     let response = await deleteSkill(skillId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -79,10 +69,8 @@ const SkillPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadSkills();
-    })();
-  }, []);
+    mutateSkills();
+  }, [mutateSkills]);
 
   const columns = useMemo(
     () => [
@@ -120,7 +108,7 @@ const SkillPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteRankItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -128,7 +116,7 @@ const SkillPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -136,7 +124,7 @@ const SkillPage = () => {
       <PageBlock
         title={
           <>
-            <IconRank /> <IntlMessages id='skill.label' />
+            <IconSkill /> <IntlMessages id='skill.label' />
           </>
         }
         extra={[
@@ -169,7 +157,7 @@ const SkillPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <SkillDetailsPopup
             key={1}
             itemId={selectedItemId}

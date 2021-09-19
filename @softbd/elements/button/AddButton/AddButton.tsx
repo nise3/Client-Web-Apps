@@ -28,4 +28,4 @@ const AddButton = ({onClick, className, tooltip, isLoading}: Props) => {
   );
 };
 
-export default AddButton;
+export default React.memo(AddButton);

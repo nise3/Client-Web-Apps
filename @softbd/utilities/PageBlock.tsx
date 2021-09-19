@@ -55,4 +55,4 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
   );
 };
 
-export default PageBlock;
+export default React.memo(PageBlock);

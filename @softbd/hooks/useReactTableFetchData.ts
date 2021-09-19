@@ -1,8 +1,8 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import __ from 'lodash';
 import {useAsyncDebounce} from 'react-table';
 import {apiGet} from '../common/api';
-import {catchBlockHandler} from '../common/helpers';
+import useSWR from 'swr';
 
 export const countPaginatePage = (
   totalData: number,
@@ -13,8 +13,7 @@ export const countPaginatePage = (
 
 interface TUseFetchData {
   urlPath: string;
-  dataAccessor: string;
-  dataModifier?: (items: Array<any> | any) => Array<any> | any;
+  dataAccessor?: string;
   filters?: any;
   onError?: (e: any) => any;
   paramsValueModifier?: (params: any) => any;
@@ -31,20 +30,23 @@ interface TReturnUseFetchData {
 const useReactTableFetchData = ({
   urlPath,
   dataAccessor,
-  dataModifier,
   filters: mappedFilters,
   onError,
   paramsValueModifier,
 }: TUseFetchData): TReturnUseFetchData => {
-  const [data, setData] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
   const [pageCount, setPageCount] = React.useState(0);
   const [totalCount, setTotalCount] = useState<any>(0);
+  const [params, setParams] = useState<any>({});
+  const {data: tableData, error} = useSWR(
+    params?.page && params?.page_size ? [urlPath, params] : null,
+    (urlPath, params) => {
+      return apiGet(urlPath, {params});
+    },
+  );
 
   const fetchDataFunction = useCallback(
     ({pageIndex, pageSize, sortBy, filters}: any) => {
-      setLoading(true);
-      let params: any = {
+      let _params: any = {
         page: pageIndex + 1,
         page_size: pageSize,
       };
@@ -57,55 +59,41 @@ const useReactTableFetchData = ({
       ) {
         Object.keys(keyedFilters).forEach((item) => {
           if (mappedFilters?.hasOwnProperty(item) && keyedFilters[item].value) {
-            params[mappedFilters[item]] = keyedFilters[item].value;
+            _params[mappedFilters[item]] = keyedFilters[item].value;
           } else if (keyedFilters[item].value) {
-            params[item] = keyedFilters[item].value;
+            _params[item] = keyedFilters[item].value;
           }
         });
       }
 
       if (typeof paramsValueModifier === 'function') {
-        let tempParams = {...params};
-        let callbackResponse = paramsValueModifier(tempParams);
+        let callbackResponse = paramsValueModifier({..._params});
         if (callbackResponse) {
-          params = callbackResponse;
+          _params = callbackResponse;
         }
       }
 
-      apiGet(urlPath, {
-        params,
-      })
-        .then((response: any) => {
-          let responseData = response.data.hasOwnProperty(dataAccessor)
-            ? response.data[dataAccessor] || []
-            : [];
-
-          if (dataModifier && typeof dataModifier === 'function') {
-            responseData = dataModifier(responseData);
-          }
-          setData(responseData);
-          setTotalCount(response.data?.total);
-          setPageCount(countPaginatePage(response.data?.total, pageSize));
-        })
-        .catch(
-          typeof onError === 'function'
-            ? onError
-            : (e: any) => {
-                catchBlockHandler(e);
-                console.log(e.message);
-              },
-        )
-        .finally(() => setLoading(false));
+      setParams(_params);
     },
     [],
   );
+
+  useEffect(() => {
+    if (tableData) {
+      setTotalCount(tableData.data?.total);
+      setPageCount(countPaginatePage(tableData.data?.total, params?.page_size));
+    }
+  }, [tableData]);
 
   const onFetchData = useAsyncDebounce(fetchDataFunction);
 
   return <TReturnUseFetchData>{
     onFetchData,
-    data,
-    loading,
+    data:
+      dataAccessor && tableData?.data.hasOwnProperty(dataAccessor)
+        ? tableData.data[dataAccessor]
+        : tableData?.data?.data || [],
+    loading: !tableData && !error,
     pageCount,
     totalCount,
   };

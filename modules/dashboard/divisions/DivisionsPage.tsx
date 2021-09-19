@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -7,43 +7,38 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteDivision,
-  getAllDivisions,
-} from '../../../services/locationManagement/DivisionService';
+import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 
 const DivisionsPage = () => {
+  // const user: AuthUser | null = useAuthUser();
+  //
+  // const hasPermission = useMemo(() => readDivision(user), [user]);
+  // console.log('hasPermission', hasPermission);
+
+  const [filters] = useState({});
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-
+  const {
+    data,
+    isLoading,
+    mutate: mutateDivisions,
+  }: any = useFetchDivisions(filters);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [divisions, setDivisions] = useState<Array<Division>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      await loadDivisionsData();
-    })();
-  }, []);
-
-  const loadDivisionsData = async () => {
-    setIsLoading(true);
-    let response = await getAllDivisions();
-    if (response) setDivisions(response.data);
-    setIsLoading(false);
-  };
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    mutateDivisions();
   }, []);
 
   const openAddEditModal = useCallback(
@@ -69,7 +64,7 @@ const DivisionsPage = () => {
 
   const deleteDivisionItem = async (selectedItemId: number) => {
     let response = await deleteDivision(selectedItemId);
-    if (response && response._response_status.success) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -77,27 +72,28 @@ const DivisionsPage = () => {
         />,
       );
 
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadDivisionsData();
-    })();
-  }, []);
+    mutateDivisions();
+  }, [mutateDivisions]);
 
   const columns = useMemo(
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return props.row.index + 1;
+        },
         disableFilters: true,
         disableSortBy: true,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
+        isVisible: false,
       },
       {
         Header: messages['common.title_bn'],
@@ -134,7 +130,7 @@ const DivisionsPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -160,12 +156,7 @@ const DivisionsPage = () => {
             }
           />,
         ]}>
-        <ReactTable
-          columns={columns}
-          data={divisions || []}
-          loading={isLoading}
-          skipDefaultFilter={true}
-        />
+        <ReactTable columns={columns} data={data || []} loading={isLoading} />
         {isOpenAddEditModal && (
           <DivisionAddEditPopup
             key={1}
@@ -175,7 +166,7 @@ const DivisionsPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <DivisionDetailsPopup
             key={1}
             itemId={selectedItemId}

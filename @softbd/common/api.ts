@@ -1,6 +1,6 @@
-import {AxiosResponse} from 'axios';
-import axiosInstance from './axiosInstance';
-import {isDefined} from './helpers';
+import {AxiosRequestConfig, AxiosResponse} from 'axios';
+import axiosInstance from '../libs/axiosInstance';
+import {isDefined} from '../utilities/helpers';
 
 /** Axios catch block handler */
 const errorHandler = (error: {response: any; request?: any; message?: any}) => {
@@ -24,9 +24,9 @@ const errorHandler = (error: {response: any; request?: any; message?: any}) => {
   throw new Error('Opps! There was a problem. Please try again later.');
 };
 
-function apiGet(apiPath: string, params = {}) {
+function apiGet(apiPath: string, config: AxiosRequestConfig = {}) {
   return axiosInstance
-    .get(apiPath, params)
+    .get(apiPath, config)
     .then((response: AxiosResponse<any>) => response)
     .catch(errorHandler);
 }

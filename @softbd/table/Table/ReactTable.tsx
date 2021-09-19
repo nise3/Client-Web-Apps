@@ -24,17 +24,21 @@ import {
   useTable,
 } from 'react-table';
 
-import {camelToWords} from '../utils';
 import {FilterChipBar} from './FilterChipBar';
-import {fuzzyTextFilter, numericTextFilter, rowStatusFilter} from './filters';
+import {
+  DefaultColumnFilter,
+  fuzzyTextFilter,
+  numericTextFilter,
+  rowStatusFilter,
+} from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 import TableSkeleton from '../../elements/display/skeleton/TableSkeleton/TableSkeleton';
-import {DefaultColumnFilter} from '../Filters/filter';
 import AppTableContainer from '../../../@crema/core/AppTableContainer';
 import {useIntl} from 'react-intl';
 import {AiOutlineInbox} from 'react-icons/ai';
+import {camelToWords} from '../../utilities/helpers';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   tableRoot: {
@@ -121,13 +125,69 @@ const filterTypes = {
   rowStatusFilter: rowStatusFilter,
 };
 
+/**
+ * @property {any} header - is the title of column
+ * @property {string} accessor - is the key of data that needs to show in column
+ * @property {boolean} disableFilters - is to disable filter option for column
+ * @property {boolean} disableSortBy - is to disable sort option for column
+ * @property {boolean} [isVisible] - is to change column's visibility in table (default value is true)
+ * @property {boolean} [toggleVisibilityFeature] - is to change visibility feature of a column (default value is false)
+ * @property {any} filter - is the name of filter type depends on filter value
+ * @property {any} Cell - is to customize data representation of the column
+ */
+interface TReactTableColumns {
+  Header: any;
+  accessor: string;
+  disableFilters: boolean;
+  disableSortBy: boolean;
+  isVisible: boolean;
+  toggleVisibilityFeature: boolean;
+  filter: 'any';
+  Cell: 'any';
+}
+
+interface TReactTable {
+  columns: Array<TReactTableColumns>;
+  leftToolbarHtml?: string | React.ReactNode;
+  fetchData?: any;
+  pageCount?: number;
+  skipPageResetRef?: boolean;
+  skipDefaultFilter?: boolean;
+  loading?: boolean;
+  toggleResetTable: boolean;
+  pageSize?: number;
+  hideToolbar?: boolean;
+  pageSizeData?: number[];
+  totalCount?: number;
+  data?: any[];
+
+  [x: string]: any;
+}
+
+/**
+ * @param columns
+ * @param leftToolbarHtml
+ * @param fetchData
+ * @param controlledPageCount
+ * @param skipPageResetRef
+ * @param skipDefaultFilter
+ * @param loading
+ * @param toggleResetTable
+ * @param controlledPageSize
+ * @param hideToolbar
+ * @param pageSizeData
+ * @param data
+ * @param totalCount
+ * @param props
+ * @constructor
+ */
 export default function ReactTable<T extends object>({
   columns,
   leftToolbarHtml = '',
   fetchData,
   pageCount: controlledPageCount,
-  skipPageResetRef = false,
-  skipDefaultFilter = false,
+  skipPageResetRef = typeof fetchData !== 'undefined',
+  skipDefaultFilter = typeof fetchData !== 'undefined',
   loading = false,
   toggleResetTable = false,
   pageSize: controlledPageSize,
@@ -136,7 +196,7 @@ export default function ReactTable<T extends object>({
   data,
   totalCount = data ? data.length : 0,
   ...props
-}: any): ReactElement {
+}: TReactTable | any): ReactElement {
   const {messages} = useIntl();
   const isServerSideTable = typeof fetchData !== 'undefined';
 
@@ -146,7 +206,12 @@ export default function ReactTable<T extends object>({
     ...props,
     columns,
     data,
-    initialState: {pageSize: pageSizeData[0]},
+    initialState: {
+      pageSize: pageSizeData[0],
+      hiddenColumns: columns
+        .filter((item: any) => item?.isVisible === false)
+        .map((item: any) => item.accessor),
+    },
     filterTypes,
     defaultColumn,
   };
@@ -170,7 +235,12 @@ export default function ReactTable<T extends object>({
     manualSortBy: true,
     manualRowSelectedKey: true,
     pageCount: controlledPageCount,
-    initialState: {pageSize: pageSizeData[0]},
+    initialState: {
+      pageSize: pageSizeData[0],
+      hiddenColumns: columns
+        .filter((item: any) => item?.isVisible === false)
+        .map((item: any) => item.accessor),
+    },
     filterTypes,
     defaultColumn,
     // stateReducer: (newState, action, prevState) => {
@@ -231,7 +301,6 @@ export default function ReactTable<T extends object>({
           {!hideToolbar && (
             <TableToolbar
               instance={instance}
-              // loading={loading}
               leftToolbarHtml={leftToolbarHtml}
             />
           )}
@@ -263,7 +332,10 @@ export default function ReactTable<T extends object>({
                 ))}
               </TableHead>
               {loading ? (
-                <TableSkeleton columnNumbers={headerGroups[0].headers.length} />
+                <TableSkeleton
+                  rowSize={pageSize}
+                  columnNumbers={headerGroups[0].headers.length}
+                />
               ) : (
                 <TableBody {...(getTableBodyProps() as any)}>
                   {page.map((row) => {

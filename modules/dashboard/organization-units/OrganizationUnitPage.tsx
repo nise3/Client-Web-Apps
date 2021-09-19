@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {ORGANIZATION_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_ORGANIZATION_UNITS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationUnitAddEditPopup from './OrganizationUnitAddEditPopup';
 import {deleteOrganizationUnit} from '../../../services/organaizationManagement/OrganizationUnitService';
@@ -16,9 +16,23 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
-import {isResponseSuccess} from '../../../@softbd/common/helpers';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import Link from 'next/link';
+import {Button, makeStyles} from '@material-ui/core';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const OrganizationUnitPage = () => {
+  const classes = useStyles();
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
 
@@ -85,14 +99,6 @@ const OrganizationUnitPage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['common.email'],
-        accessor: 'email',
-      },
-      {
-        Header: messages['common.mobile'],
-        accessor: 'mobile',
-      },
-      {
         Header: messages['organization.label'],
         accessor: 'organization_title_en',
         disableFilters: true,
@@ -117,6 +123,11 @@ const OrganizationUnitPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL =
+            '/../../dashboard/organization-units/org-chart/__'.replace(
+              '__',
+              String(data.id),
+            );
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -125,18 +136,26 @@ const OrganizationUnitPage = () => {
                 deleteAction={() => deleteOrganizationUnitItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={URL} passHref>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  {messages['common.hierarchy']}
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: ORGANIZATION_SERVICE_PATH + '/organization-units',
+      urlPath: API_ORGANIZATION_UNITS,
       dataAccessor: 'data',
     });
 
@@ -171,8 +190,6 @@ const OrganizationUnitPage = () => {
           loading={loading}
           totalCount={totalCount}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
@@ -184,7 +201,7 @@ const OrganizationUnitPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && organizationUnitId && (
           <OrganizationUnitDetailsPopup
             key={1}
             itemId={organizationUnitId}

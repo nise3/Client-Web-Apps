@@ -7,16 +7,16 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_TRAINING_CENTERS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import TrainingCenterAddEditPopup from './TrainingCenterAddEditPopup';
 import TrainingCenterDetailsPopup from './TrainingCenterDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
+import {deleteTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 
 const TrainingCenterPage = () => {
   const {messages} = useIntl();
@@ -51,12 +51,12 @@ const TrainingCenterPage = () => {
   }, []);
 
   const deleteTrainingCenterItem = async (trainingCenterId: number) => {
-    let response = await deleteProgramme(trainingCenterId);
-    if (response) {
+    let response = await deleteTrainingCenter(trainingCenterId);
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='programme.label' />}}
+          values={{subject: <IntlMessages id='training_center.label' />}}
         />,
       );
       await refreshDataTable();
@@ -94,14 +94,6 @@ const TrainingCenterPage = () => {
         accessor: 'branch_title_en',
       },
       {
-        Header: messages['common.address'],
-        accessor: 'address',
-      },
-      {
-        Header: messages['common.google_map_src'],
-        accessor: 'google_map_src',
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
         Cell: (props: any) => {
@@ -119,7 +111,7 @@ const TrainingCenterPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteTrainingCenterItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -127,13 +119,13 @@ const TrainingCenterPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/training-centers',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_TRAINING_CENTERS,
+    });
 
   return (
     <>
@@ -164,8 +156,7 @@ const TrainingCenterPage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
+          totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
@@ -177,7 +168,7 @@ const TrainingCenterPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <TrainingCenterDetailsPopup
             key={1}
             itemId={selectedItemId}

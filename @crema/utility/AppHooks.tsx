@@ -1,11 +1,16 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
-import {fetchStart, fetchSuccess, setJWTToken} from '../../redux/actions';
-import {AuthType} from '../../shared/constants/AppEnums';
-import {defaultUser} from '../../shared/constants/AppConst';
+import {
+  fetchStart,
+  fetchSuccess,
+  loadAuthUser,
+  setAuthAccessTokenData,
+} from '../../redux/actions';
+import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {Cookies} from 'react-cookie';
 import {AppState} from '../../redux/store';
-import {UPDATE_AUTH_USER, USER_LOADED} from '../../types/actions/Auth.actions';
+import {USER_LOADED} from '../../types/actions/Auth.actions';
+import {AuthUser} from '../../types/models/AuthUser';
 
 export const useAuthToken = () => {
   const dispatch = useDispatch();
@@ -16,39 +21,18 @@ export const useAuthToken = () => {
     const validateAuth = async () => {
       dispatch(fetchStart());
       const cookies = new Cookies();
-      const token = cookies.get('token');
-      if (!token) {
+      const authAccessTokenData = cookies.get(
+        COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+      );
+      if (!authAccessTokenData) {
         dispatch(fetchSuccess());
         dispatch({type: USER_LOADED});
         return;
       }
-      dispatch(setJWTToken(token));
+      dispatch(setAuthAccessTokenData(authAccessTokenData));
       try {
-        // const res = await jwtAxios.get('/auth');
-        const res = {
-          data: {
-            id: 4,
-            name: 'Demo User',
-            email: 'demo@ample.com',
-            email_verified_at: null,
-            created_at: '2020-09-03T04:25:55.000000Z',
-            updated_at: '2020-09-03T04:25:55.000000Z',
-            _id: 4,
-            avatar: '',
-          },
-        };
+        await loadAuthUser(dispatch, authAccessTokenData);
         dispatch(fetchSuccess());
-        dispatch({
-          type: UPDATE_AUTH_USER,
-          payload: {
-            authType: AuthType.JWT_AUTH,
-            displayName: res.data.name,
-            email: res.data.email,
-            role: defaultUser.role,
-            token: res.data._id,
-            photoURL: res.data.avatar,
-          },
-        });
         return;
       } catch (err) {
         dispatch(fetchSuccess());
@@ -68,11 +52,12 @@ export const useAuthToken = () => {
   return [loading, user];
 };
 
-export const useAuthUser = () => {
+export const useAuthUser = (): AuthUser | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {
-    return {id: 1, ...user};
+    return Object.assign({}, user);
   }
+
   return null;
 };

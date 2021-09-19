@@ -1,7 +1,8 @@
 import Head from 'next/head';
+import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 
 interface PageMetaProps {
-  title?: string;
+  title?: string | MessageFormatElement[];
   desc?: string;
   canonical?: any;
   css?: any;
@@ -19,11 +20,11 @@ const PageMeta: React.FC<PageMetaProps> = ({
     <title>{title ? 'NISE3 | ' + title : 'NISE3'}</title>
     <meta name='description' content={desc} />
     <meta property='og:type' content='website' />
-    <meta name='og:title' property='og:title' content={title} />
+    <meta name='og:title' property='og:title' content={title as string} />
     <meta name='og:description' property='og:description' content={desc} />
     <meta property='og:site_name' content='Proper Noun' />
     <meta name='twitter:card' content='summary' />
-    <meta name='twitter:title' content={title} />
+    <meta name='twitter:title' content={title as string} />
     <meta name='twitter:description' content={desc} />
     <meta name='twitter:site' content='@propernounco' />
     <meta name='twitter:creator' content='@propernounco' />

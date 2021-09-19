@@ -9,4 +9,4 @@ const IconDivision = () => {
   );
 };
 
-export default IconDivision;
+export default React.memo(IconDivision);

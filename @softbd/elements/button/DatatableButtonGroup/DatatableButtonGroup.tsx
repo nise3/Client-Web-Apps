@@ -16,4 +16,4 @@ const DatatableButtonGroup = ({children}: Props) => {
   );
 };
 
-export default DatatableButtonGroup;
+export default React.memo(DatatableButtonGroup);

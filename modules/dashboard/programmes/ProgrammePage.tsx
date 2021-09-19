@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_PROGRAMMES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import ProgrammeAddEditPopup from './ProgrammeAddEditPopup';
 import ProgrammeDetailsPopup from './ProgrammeDetailsPopup';
@@ -17,6 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 
 const ProgrammePage = () => {
   const {messages} = useIntl();
@@ -52,7 +53,7 @@ const ProgrammePage = () => {
 
   const deleteProgrammeItem = async (programmeId: number) => {
     let response = await deleteProgramme(programmeId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -63,9 +64,9 @@ const ProgrammePage = () => {
     }
   };
 
-  const refreshDataTable = () => {
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
-  };
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -90,12 +91,9 @@ const ProgrammePage = () => {
         accessor: 'institute_title_en',
       },
       {
-        Header: messages['programme.programme_code'],
-        accessor: 'programme_code',
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -111,7 +109,7 @@ const ProgrammePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteProgrammeItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -119,13 +117,13 @@ const ProgrammePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
-  const {onFetchData, data, loading, pageCount} = useReactTableFetchData({
-    urlPath: INSTITUTE_SERVICE_PATH + '/programmes',
-    dataAccessor: 'data',
-  });
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_PROGRAMMES,
+    });
 
   return (
     <>
@@ -156,8 +154,7 @@ const ProgrammePage = () => {
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
-          skipDefaultFilter={true}
-          skipPageResetRef={false}
+          totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
@@ -169,7 +166,7 @@ const ProgrammePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <ProgrammeDetailsPopup
             key={1}
             itemId={selectedItemId}

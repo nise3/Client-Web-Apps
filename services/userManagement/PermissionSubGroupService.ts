@@ -1,5 +1,5 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {catchBlockHandler} from '../../@softbd/common/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_PERMISSION_SUB_GROUPS = CORE_SERVICE_PATH + '/permission-sub-groups';
@@ -7,7 +7,7 @@ const API_PERMISSION_SUB_GROUPS = CORE_SERVICE_PATH + '/permission-sub-groups';
 export const getAllPermissionSubGroups = async () => {
   try {
     let response: any = await apiGet(API_PERMISSION_SUB_GROUPS);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -18,7 +18,7 @@ export const getPermissionSubGroup = async (permissionSubGroupId: number) => {
     let response: any = await apiGet(
       API_PERMISSION_SUB_GROUPS + '/' + permissionSubGroupId,
     );
-    return response.data.data;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -27,7 +27,7 @@ export const getPermissionSubGroup = async (permissionSubGroupId: number) => {
 export const createPermissionSubGroup = async (data: PermissionSubGroup) => {
   try {
     let response: any = await apiPost(API_PERMISSION_SUB_GROUPS, data);
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -42,7 +42,7 @@ export const updatePermissionSubGroup = async (
       API_PERMISSION_SUB_GROUPS + '/' + permissionSubGroupId,
       data,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -55,7 +55,7 @@ export const deletePermissionSubGroup = async (
     let response: any = await apiDelete(
       API_PERMISSION_SUB_GROUPS + '/' + permissionSubGroupId,
     );
-    return response.data._response_status.success;
+    return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }

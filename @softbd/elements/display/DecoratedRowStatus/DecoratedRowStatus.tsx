@@ -27,4 +27,4 @@ const DecoratedRowStatus = ({rowStatus}: Props) => {
   );
 };
 
-export default DecoratedRowStatus;
+export default React.memo(DecoratedRowStatus);

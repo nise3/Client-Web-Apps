@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Grid} from '@material-ui/core';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -8,33 +8,17 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {getProgramme} from '../../../services/instituteManagement/ProgrammeService';
+import {useFetchProgramme} from '../../../services/instituteManagement/hooks';
 
 type Props = {
-  itemId: number | null;
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
 const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let programme = await getProgramme(itemId);
-    if (programme) {
-      setItemData(programme);
-    }
-    setIsLoading(false);
-  };
+  const {data: itemData, isLoading} = useFetchProgramme(itemId);
 
   return (
     <>
@@ -61,49 +45,42 @@ const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_en']}
               value={itemData?.title_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.title_bn']}
               value={itemData?.title_bn}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['institute.label']}
               value={itemData?.institute_title_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['programme.programme_code']}
-              value={itemData?.programme_code}
+              value={itemData?.code}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['programme.programme_logo']}
-              value={itemData?.programme_logo}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.description']}
               value={itemData?.description}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomChipRowStatus
               label={messages['common.active_status']}
               value={itemData?.row_status}

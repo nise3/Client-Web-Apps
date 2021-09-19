@@ -12,7 +12,7 @@ export default AppPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['occupations.label'] as string} />
+      <PageMeta title={messages['occupations.label']} />
       <OccupationsPage />
     </>
   );

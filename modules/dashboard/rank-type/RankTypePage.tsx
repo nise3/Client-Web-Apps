@@ -1,14 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  deleteRankType,
-  getAllRankTypes,
-} from '../../../services/instituteManagement/RankTypeService';
+import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import RankTypeAddEditPopup from './RankTypeAddEditPopup';
 import RankTypeDetailsPopup from './RankTypeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -17,6 +14,8 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {useFetchRankTypes} from '../../../services/organaizationManagement/hooks';
 
 const RankTypePage = () => {
   const {messages} = useIntl();
@@ -25,21 +24,12 @@ const RankTypePage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [rankTypes, setRankTypes] = useState<Array<RankType>>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadRankTypesData();
-    })();
-  }, []);
-
-  const loadRankTypesData = async () => {
-    setIsLoading(true);
-    let rankTypes = await getAllRankTypes();
-    rankTypes && setRankTypes(rankTypes);
-    setIsLoading(false);
-  };
+  const [rankFilters] = useState({});
+  const {
+    data: rankTypes,
+    isLoading,
+    mutate: mutateRankTypes,
+  } = useFetchRankTypes(rankFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -66,7 +56,7 @@ const RankTypePage = () => {
 
   const deleteRankTypeItem = async (rankTypeId: number) => {
     let response = await deleteRankType(rankTypeId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -78,10 +68,8 @@ const RankTypePage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadRankTypesData();
-    })();
-  }, []);
+    mutateRankTypes();
+  }, [mutateRankTypes]);
 
   const columns = useMemo(
     () => [
@@ -102,16 +90,13 @@ const RankTypePage = () => {
         accessor: 'title_bn',
       },
       {
-        Header: messages['common.description'],
-        accessor: 'description',
-      },
-      {
         Header: messages['organization.label'],
         accessor: 'organization_title_en',
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -127,7 +112,7 @@ const RankTypePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteRankTypeItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -135,7 +120,7 @@ const RankTypePage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -176,7 +161,7 @@ const RankTypePage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <RankTypeDetailsPopup
             key={1}
             itemId={selectedItemId}

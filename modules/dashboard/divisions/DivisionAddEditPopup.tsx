@@ -1,6 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
-import * as yup from 'yup';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
+import React, {FC, useEffect, useMemo} from 'react';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -12,29 +10,24 @@ import Grid from '@material-ui/core/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   createDivision,
-  getDivision,
   updateDivision,
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import {useFetchDivision} from '../../../services/locationManagement/hooks';
+import yup from '../../../@softbd/libs/yup';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required().label('Title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required()
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text')
-    .label('Title (Bn)'),
-  bbs_code: yup.string().trim().required().label('BBS code'),
-});
 
 const initialValues = {
   title_en: '',
@@ -51,66 +44,80 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateDivision,
+  } = useFetchDivision(itemId);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      bbs_code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.bbs_code'] as string),
+    });
+  }, [messages]);
 
   const {
     register,
     control,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let response = await getDivision(itemId);
-        if (response) {
-          let {data: item} = response;
-          reset({
-            title_en: item?.title_en,
-            title_bn: item?.title_bn,
-            bbs_code: item?.bbs_code,
-            row_status: item?.row_status
-              ? String(item.row_status)
-              : initialValues.row_status,
-          });
-        }
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
+    if (itemId && itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        bbs_code: itemData?.bbs_code,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<Division> = async (data: Division) => {
-    if (isEdit && itemId) {
-      let response = await updateDivision(itemId, data);
-      if (response && response._response_status.success) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='divisions.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createDivision(data);
-      if (response && response._response_status.success) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='divisions.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateDivision(itemId, data)
+      : await createDivision(data);
+
+    if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='divisions.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='divisions.label' />}}
+        />,
+      );
+      mutateDivision();
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 

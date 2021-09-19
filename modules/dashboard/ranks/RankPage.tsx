@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -13,11 +13,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  deleteRank,
-  getAllRanks,
-} from '../../../services/organaizationManagement/RankService';
+import {deleteRank} from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {useFetchRanks} from '../../../services/organaizationManagement/hooks';
 
 const RankPage = () => {
   const {messages} = useIntl();
@@ -26,21 +25,12 @@ const RankPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [ranks, setRanks] = useState<Array<Rank> | []>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadRanks();
-    })();
-  }, []);
-
-  const loadRanks = async () => {
-    setIsLoading(true);
-    let ranks = await getAllRanks();
-    ranks && setRanks(ranks);
-    setIsLoading(false);
-  };
+  const [rankFilters] = useState({});
+  const {
+    data: ranks,
+    isLoading,
+    mutate: mutateRanks,
+  } = useFetchRanks(rankFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -67,7 +57,7 @@ const RankPage = () => {
 
   const deleteRankItem = async (rankId: number) => {
     let response = await deleteRank(rankId);
-    if (response) {
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -79,10 +69,8 @@ const RankPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    (async () => {
-      await loadRanks();
-    })();
-  }, []);
+    mutateRanks();
+  }, [mutateRanks]);
 
   const columns = useMemo(
     () => [
@@ -109,18 +97,22 @@ const RankPage = () => {
       {
         Header: messages['organization.label'],
         accessor: 'organization_title_en',
+        isVisible: false,
       },
       {
         Header: messages['ranks.display_order'],
         accessor: 'display_order',
+        isVisible: false,
       },
       {
         Header: messages['ranks.grade'],
         accessor: 'grade',
+        isVisible: false,
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -136,7 +128,7 @@ const RankPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteRankItem(data.id)}
-                deleteTitle={'Are you sure?'}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -144,7 +136,7 @@ const RankPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages],
   );
 
   return (
@@ -185,7 +177,7 @@ const RankPage = () => {
           />
         )}
 
-        {isOpenDetailsModal && (
+        {isOpenDetailsModal && selectedItemId && (
           <RankDetailsPopup
             key={1}
             itemId={selectedItemId}

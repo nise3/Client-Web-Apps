@@ -9,4 +9,4 @@ const IconUpazila = () => {
   );
 };
 
-export default IconUpazila;
+export default React.memo(IconUpazila);

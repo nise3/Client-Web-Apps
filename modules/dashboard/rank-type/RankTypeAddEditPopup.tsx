@@ -1,43 +1,38 @@
-import * as yup from 'yup';
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {TEXT_REGEX_BANGLA} from '../../../@softbd/common/patternRegex';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {getRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {
   createRankType,
   updateRankType,
-} from '../../../services/instituteManagement/RankTypeService';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+} from '../../../services/organaizationManagement/RankTypeService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {
+  useFetchOrganizations,
+  useFetchRankType,
+} from '../../../services/organaizationManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../@softbd/utilities/helpers';
+import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import yup from '../../../@softbd/libs/yup';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const validationSchema = yup.object().shape({
-  title_en: yup.string().trim().required('Enter title (En)'),
-  title_bn: yup
-    .string()
-    .trim()
-    .required('Enter title (Bn)')
-    .matches(TEXT_REGEX_BANGLA, 'Enter valid text'),
-  organization_id: yup.string(),
-  description: yup.string(),
-  row_status: yup.string(),
-});
 
 const initialValues = {
   id: 0,
@@ -56,73 +51,81 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Array<Organization> | []>(
-    [],
-  );
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateRankType,
+  } = useFetchRankType(itemId);
+  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: organizations, isLoading: isLoadingOrganizations} =
+    useFetchOrganizations(organizationFilters);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      title_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      organization_id: yup.string(),
+      description: yup.string(),
+      row_status: yup.string(),
+    });
+  }, [messages]);
 
   const {
     control,
     register,
     reset,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<RankType>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      if (isEdit && itemId) {
-        let item = await getRankType(itemId);
-        reset({
-          title_en: item.title_en,
-          title_bn: item.title_bn,
-          organization_id: item.organization_id,
-          description: item.description,
-          row_status: String(item.row_status),
-        });
-      } else {
-        reset(initialValues);
-      }
-      setIsLoading(false);
-    })();
-  }, [itemId]);
-
-  useEffect(() => {
-    setOrganizationState();
-  }, []);
-
-  const setOrganizationState = async () => {
-    setOrganizations(await getAllOrganizations());
-  };
+    if (itemData) {
+      reset({
+        title_en: itemData?.title_en,
+        title_bn: itemData?.title_bn,
+        organization_id: itemData?.organization_id,
+        description: itemData?.description,
+        row_status: String(itemData?.row_status),
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
-    if (isEdit && itemId) {
-      let response = await updateRankType(itemId, data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{subject: <IntlMessages id='rank_types.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
-    } else {
-      let response = await createRankType(data);
-      if (response) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='rank_types.label' />}}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      }
+    const response = itemId
+      ? await updateRankType(itemId, data)
+      : await createRankType(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+      mutateRankType();
+      props.onClose();
+      refreshDataTable();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+      props.onClose();
+      refreshDataTable();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
@@ -177,7 +180,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           <CustomFormSelect
             id='organization_id'
             label={messages['organization.label']}
-            isLoading={isLoading}
+            isLoading={isLoadingOrganizations}
             control={control}
             options={organizations}
             optionValueProp={'id'}
@@ -192,6 +195,8 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12}>

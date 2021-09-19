@@ -27,5 +27,5 @@ export default function Nprogress() {
     }, [router])
 
 
-    return (<></>);
+    return null;
 }
