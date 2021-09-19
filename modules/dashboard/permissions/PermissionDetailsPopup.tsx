@@ -53,6 +53,13 @@ const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
+              label={messages['permission.module']}
+              value={itemData?.module}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
               label={messages['permission.uri']}
               value={itemData?.uri}
               isLoading={isLoading}

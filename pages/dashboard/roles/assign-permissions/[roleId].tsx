@@ -169,7 +169,7 @@ const AssignPermissionToRole = () => {
           label={messages['permissions.sync_permission'] as string}
         />,
       ]}>
-      <Grid container spacing={8}>
+      <Grid container spacing={5}>
         {Object.keys(permissions || {}).map((module) => (
           <Grid item xs={4} key={module} className={classes.permissionGroup}>
             <Box className={classes.checkboxGroupWrapper}>

@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {useContext} from 'react';
 import {Icon, ListItem, ListItemText} from '@material-ui/core';
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
@@ -7,30 +7,35 @@ import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import useStyles from './VerticalItem.style';
 import AppContext from '../../../utility/AppContext';
-import {checkPermission} from '../../../utility/Utils';
 import {useSelector} from 'react-redux';
 import Link from 'next/link';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {AppState} from '../../../../redux/store';
 import {AuthUser} from '../../../../types/models/AuthUser';
-
+import {map as lodashMap} from 'lodash';
 
 interface VerticalItemProps {
   item: NavItemProps;
-  level: number
+  level: number;
 }
-
 
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
-  const {user}: {user: AuthUser | null} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
+  const {user}: {user: AuthUser | null} = useSelector<
+    AppState,
+    AppState['auth']
+  >(({auth}) => auth);
   const router = useRouter();
   const {pathname} = router;
-  const hasPermission = useMemo(() => checkPermission(item.auth, user!.role), [
-    item.auth,
-    user!.role,
-  ]);
+  //console.log('user', user);
+  // const hasPermission = useMemo(
+  //   () => checkPermission(item.auth, user!.role),
+  //   [item.auth, user!.role],
+  // );
+  let hasPermission = lodashMap(user?.permissions || [], 'name').includes(
+    item.permissionKey,
+  );
   if (!hasPermission) {
     return null;
   }
@@ -52,12 +57,12 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
           </Box>
         )}
         <ListItemText
-          primary={<IntlMessages id={item.messageId}/>}
+          primary={<IntlMessages id={item.messageId} />}
           classes={{primary: 'nav-item-text'}}
         />
         {item.count && (
           <Box mr={1} clone>
-            <Badge count={item.count} color={item.color}/>
+            <Badge count={item.count} color={item.color} />
           </Box>
         )}
       </ListItem>

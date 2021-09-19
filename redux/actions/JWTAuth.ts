@@ -1,7 +1,7 @@
 import jwtAxios from '../../@crema/services/auth/jwt-auth/jwt-api';
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, defaultUser} from '../../shared/constants/AppConst';
+import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {AuthUser} from '../../types/models/AuthUser';
 import {AppActions} from '../../types';
 import {Dispatch} from 'redux';
@@ -99,19 +99,19 @@ export const loadAuthUser = async (
   console.log('loadAuthUser() - tokenData - ', tokenData);
   dispatch(fetchStart());
   try {
-    const data = JSON.parse(
+    const token = JSON.parse(
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
-    console.log('idTokenData', data);
+    console.log('idTokenData', token);
 
-    const coreResponse = await apiGet(`/core/users/${data.sub}/permissions`);
+    const coreResponse = await apiGet(`/core/users/${token.sub}/permissions`);
     console.log('coreResponse', coreResponse);
-    const res = {data};
+    const {data} = coreResponse.data;
     dispatch(fetchSuccess());
-    console.log('res.data', res.data);
+    console.log('res.data', data);
     dispatch({
       type: UPDATE_AUTH_USER,
-      payload: getUserObject(res.data),
+      payload: getUserObject(data),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
@@ -136,34 +136,41 @@ export const setAuthAccessTokenData = (
 });
 
 type TAuthUserSSOResponse = {
-  email?: string;
   sub: string;
   upn: string;
   given_name: string;
   family_name: string;
-  role?: string[];
+  userType: 'system' | 'institute' | 'organization';
+  isSystemUser: boolean;
+  isInstituteUser: boolean;
+  isOrganizationUser: boolean;
+  institute_id?: string | number;
+  organization_id?: string | number;
+  institute?: Institute;
+  organization?: Organization;
+  role: Role;
+  displayName?: string;
+  email?: string;
+  username: string;
+  permissions: string[];
+  photoURL?: string;
 };
 export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
   return {
-    isInstituteUser: true,
-    isOrganizationUser: false,
-    isSystemUser: false,
-    userType: 'institute',
-    institute: defaultUser.institute,
+    isInstituteUser: authUser?.isInstituteUser,
+    isOrganizationUser: authUser?.isOrganizationUser,
+    isSystemUser: authUser?.isSystemUser,
+    userType: authUser?.userType,
+    institute: authUser.institute,
+    organization: authUser?.organization,
     authType: AuthType.AUTH2,
-    displayName: authUser.given_name + ' ' + authUser.family_name,
+    displayName: authUser?.displayName,
     email: authUser?.email,
-    role: authUser?.role || defaultUser.role,
+    role: authUser?.role,
     uid: authUser.sub,
-    username: authUser.upn,
-    permissions: [
-      'create_institute',
-      'update_institute',
-      'delete_institute',
-      'view_single_institute',
-      'view_any_institute',
-      'view_single_division',
-    ],
+    username: authUser.username,
+    permissions: authUser.permissions,
+    photoURL: authUser?.photoURL,
   };
 };
 
