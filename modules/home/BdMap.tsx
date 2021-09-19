@@ -85,7 +85,7 @@ const BdMap = () => {
               </Grid>
             </Grid>
 
-            {/*side topics showing*/}
+            {/*right side chit show*/}
             <Box
               sx={{
                 position: 'absolute',

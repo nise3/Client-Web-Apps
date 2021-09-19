@@ -7,10 +7,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       position: 'relative',
-      marginTop: '170px',
       padding: '50px',
       background: '#682988',
       color: '#fff',
+      [theme.breakpoints.up('md')]: {
+        marginTop: '170px',
+      },
     },
     detailsButton: {
       background: '#fff',

@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import {Slide, Fade, Zoom} from 'react-awesome-reveal';
+import {Slide, Fade} from 'react-awesome-reveal';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '0px',
     },
     trendWrapper: {
+      position: 'relative',
       height: '200px',
       background: '#ddd',
       [theme.breakpoints.down('sm')]: {
@@ -84,12 +85,14 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '430px',
       position: 'absolute',
       right: 0,
+      bottom: 0,
       borderRadius: '5px',
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
-        bottom: '-135px',
-        // right: '6vw',
+      },
+      [theme.breakpoints.up('xl')]: {
+        width: '30vw',
       },
     },
     animationFillMode: {
@@ -221,29 +224,27 @@ const CoverArea = () => {
               </Grid>
             </Slide>
           </Container>
-          <Zoom>
-            {/*<Box className={classes.coverImage}>*/}
-            {/*  <Image*/}
-            {/*    src={coverImg}*/}
-            {/*    width={550}*/}
-            {/*    height={400}*/}
-            {/*    alt='cover-image'*/}
-            {/*  />*/}
-            {/*</Box>*/}
+          {/*<Box className={classes.coverImage}>*/}
+          {/*  <Image*/}
+          {/*    src={coverImg}*/}
+          {/*    width={550}*/}
+          {/*    height={400}*/}
+          {/*    alt='cover-image'*/}
+          {/*  />*/}
+          {/*</Box>*/}
 
-            <Grid container>
-              <img
-                src='/images/cover-area.png'
-                alt='crema-logo'
-                className={classes.coverImage}
-              />
-              <img
-                src='/images/cover-area.png'
-                alt='crema-logo'
-                className={classes.mobileCoverImage}
-              />
-            </Grid>
-          </Zoom>
+          <Grid container>
+            <img
+              src='/images/cover-area.png'
+              alt='crema-logo'
+              className={classes.coverImage}
+            />
+            <img
+              src='/images/cover-area.png'
+              alt='crema-logo'
+              className={classes.mobileCoverImage}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </>
