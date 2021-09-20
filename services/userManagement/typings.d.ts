@@ -22,9 +22,9 @@ type Role = {
   title_en: string;
   title_bn: string;
   key: string;
-  permission_sub_group_id: string;
-  organization_id: string;
-  institute_id: string;
+  permission_sub_group_id: string | number | null;
+  organization_id?: string | number | null;
+  institute_id?: string | number | null;
   row_status?: string;
 };
 
