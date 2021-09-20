@@ -210,7 +210,7 @@ const CoverArea = () => {
             <Slide direction='down'>
               <Grid container xs={12} md={8} spacing={2}>
                 <Grid item xs={3} md={2}>
-                  <Box mt={2}>
+                  <Box mt={{xs: 10, md: 2}}>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>
