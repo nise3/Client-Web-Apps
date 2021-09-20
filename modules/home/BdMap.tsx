@@ -52,14 +52,16 @@ const BdMap = () => {
             alignItems: 'center',
           }}>
           <Grid
+            item
             container
             spacing={2}
             xs={12}
+            sm={6}
             md={5}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
-            <Grid item xs={3}>
+            <Grid item xs={3} md={2}>
               <Button variant='contained' className={classes.skillButton}>
                 দক্ষতা
               </Button>
@@ -76,6 +78,7 @@ const BdMap = () => {
           </Grid>
           <Container maxWidth={'sm'} className={classes.map}>
             <Grid
+              item
               container
               xs={12}
               justifyContent={'center'}
@@ -96,9 +99,9 @@ const BdMap = () => {
                 border: '1px solid #eee',
                 borderRadius: '5px',
               }}>
-              <Grid container xs={12}>
+              <Grid item container xs={12}>
                 <Grid item xs={6}>
-                  <Grid container>
+                  <Grid item container>
                     <Grid item xs={4}>
                       <Box
                         className={classes.mapSidePoints}
@@ -113,9 +116,9 @@ const BdMap = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container xs={12}>
+              <Grid item container xs={12}>
                 <Grid item xs={6}>
-                  <Grid container>
+                  <Grid item container>
                     <Grid item xs={4}>
                       <Box
                         className={classes.mapSidePoints}
@@ -130,9 +133,9 @@ const BdMap = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container xs={12}>
+              <Grid item container xs={12}>
                 <Grid item xs={6}>
-                  <Grid container>
+                  <Grid item container>
                     <Grid item xs={4}>
                       <Box
                         className={classes.mapSidePoints}
@@ -147,9 +150,9 @@ const BdMap = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container xs={12}>
+              <Grid item container xs={12}>
                 <Grid item xs={6}>
-                  <Grid container>
+                  <Grid item container>
                     <Grid item xs={4}>
                       <Box
                         className={classes.mapSidePoints}

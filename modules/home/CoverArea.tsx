@@ -32,6 +32,15 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#000',
       padding: '0 7px 2px 12px',
       marginTop: '13px',
+      marginLeft: '-5px',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        marginLeft: '-12px',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 'auto',
+        marginLeft: '-12px',
+      },
     },
     searchBox: {
       padding: '12px 5px 5px 15px',
@@ -41,21 +50,35 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 'auto',
       // borderRadius: '2px',
       border: 'none',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginLeft: '-8px',
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '100%',
+        marginLeft: '-12px',
+        paddingBottom: '14px',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 'auto',
+        padding: '12px 5px 5px 15px',
+      },
     },
     skillSlide: {
       zIndex: 2,
       position: 'absolute',
     },
     searchButton: {
-      // marginLeft: '50px',
       background: '#682988',
       color: '#fff',
       borderRadius: '0px',
     },
     trendWrapper: {
       position: 'relative',
-      height: '200px',
+      // height: '200px',
+      padding: '18px',
       background: '#ddd',
+      paddingBottom: 'auto',
       [theme.breakpoints.down('sm')]: {
         marginBottom: '10px',
       },
@@ -68,29 +91,21 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '42px',
     },
 
-    mobileCoverImage: {
-      width: '100%',
-      // position: 'absolute',
-      right: 0,
-      borderRadius: '5px',
-      display: 'flex',
-      marginTop: '13px',
-      marginBottom: '10px',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-        marginBottom: '100px',
-      },
-    },
     coverImage: {
-      width: '45vw',
       height: '430px',
-      position: 'absolute',
       right: 0,
       bottom: 0,
       borderRadius: '5px',
-      display: 'none',
+      display: 'flex',
       [theme.breakpoints.up('md')]: {
-        display: 'flex',
+        position: 'absolute',
+        width: '45vw',
+      },
+
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '13px',
+        marginBottom: '10px',
+        width: '100%',
       },
       [theme.breakpoints.up('xl')]: {
         width: '47vw',
@@ -113,6 +128,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+function CustomSvgIcon(props: any) {
+  return <LocationOnIcon {...props}></LocationOnIcon>;
+}
 
 const CoverArea = () => {
   const classes = useStyles();
@@ -169,7 +188,7 @@ const CoverArea = () => {
                     id='outlined-adornment-amount'
                     startAdornment={
                       <InputAdornment position='start'>
-                        <SearchIcon /> অনুসন্ধান করুণ
+                        <SearchIcon /> অনুসন্ধান করুন
                       </InputAdornment>
                     }
                     labelWidth={60}
@@ -177,8 +196,7 @@ const CoverArea = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={6} sm={3}>
-                <NativeSelect>
-                  <LocationOnIcon />
+                <NativeSelect IconComponent={CustomSvgIcon}>
                   <option>লোকেশন</option>
                 </NativeSelect>
               </Grid>
@@ -193,46 +211,39 @@ const CoverArea = () => {
         <Grid container className={classes.trendWrapper}>
           <Container maxWidth='md'>
             <Slide direction='down'>
-              <Grid container xs={12} md={6} spacing={2}>
-                <Grid item xs={3}>
-                  <Box mt={10}>
+              <Grid item container xs={12} md={8} spacing={2}>
+                <Grid item xs={3} md={2}>
+                  <Box mt={{xs: 10, md: 2}}>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={3} md={3}>
-                  <Box mt={10} className={classes.trendSearchKey}>
-                    <p>গ্রাফিক্স ডিজাইন</p>
-                  </Box>
-                </Grid>
-                <Grid item xs={3} md={3}>
-                  <Box mt={10} className={classes.trendSearchKey}>
-                    <p>ওয়েব ডিজাইন</p>
-                  </Box>
-                </Grid>
-                <Grid item xs={3} md={3}>
-                  <Box mt={10} className={classes.trendSearchKey}>
-                    <p>ইউ-আই/এক্স</p>
-                  </Box>
-                </Grid>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={3} md={3}>
-                  <Box className={classes.trendSearchKey}>
-                    <p> হেলথ কেয়ার জব</p>
-                  </Box>
+                <Grid item container spacing={3} xs={12} md={8}>
+                  <Grid item xs={6} md={4}>
+                    <Box className={classes.trendSearchKey}>
+                      <p>গ্রাফিক্স ডিজাইন</p>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} md={4}>
+                    <Box className={classes.trendSearchKey}>
+                      <p>ওয়েব ডিজাইন</p>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} md={4}>
+                    <Box className={classes.trendSearchKey}>
+                      <p>ইউ-আই/এক্স</p>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} md={4}>
+                    <Box className={classes.trendSearchKey}>
+                      <p> হেলথ কেয়ার জব</p>
+                    </Box>
+                  </Grid>
                 </Grid>
               </Grid>
             </Slide>
           </Container>
-          {/*<Box className={classes.coverImage}>*/}
-          {/*  <Image*/}
-          {/*    src={coverImg}*/}
-          {/*    width={550}*/}
-          {/*    height={400}*/}
-          {/*    alt='cover-image'*/}
-          {/*  />*/}
-          {/*</Box>*/}
 
           <Grid container>
             <Zoom>
@@ -241,11 +252,6 @@ const CoverArea = () => {
                   src='/images/cover-area.png'
                   alt='crema-logo'
                   className={classes.coverImage}
-                />
-                <img
-                  src='/images/cover-area.png'
-                  alt='crema-logo'
-                  className={classes.mobileCoverImage}
                 />
               </>
             </Zoom>

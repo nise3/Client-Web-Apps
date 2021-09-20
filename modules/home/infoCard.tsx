@@ -16,10 +16,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     infoItem: {
       backgroundColor: '#fff',
+      paddingTop: '10px',
     },
     logo: {
       height: '5vh',
       width: '2vw',
+      [theme.breakpoints.down('sm')]: {
+        height: '5vh',
+        width: '5vw',
+      },
     },
   }),
 );
@@ -32,16 +37,22 @@ const InfoCard = ({color, infos}: Props) => {
   const classes = useStyles();
 
   return (
-    <Grid container xl={12} xs={12} className={classes.root}>
+    <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
-        <Grid container md={12} xs={12} className={classes.infoItem}>
+        <Grid item container md={12} xs={12} className={classes.infoItem}>
           {infos &&
-            infos.map((infoItem) => {
+            infos.map((infoItem, key) => {
               return (
                 <>
-                  <Grid item md={10} xs={10}>
-                    <img className={classes.logo} src='/images/logo1.png' />
-                    {infoItem.name}
+                  <Grid item md={10} xs={10} key={key}>
+                    <Grid item container>
+                      <Grid item md={2} xs={2}>
+                        <img className={classes.logo} src='/images/logo1.png' />
+                      </Grid>
+                      <Grid item md={10} xs={10}>
+                        {infoItem.name}
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item md={2} xs={2}>
                     <Box sx={{color: color}}>{infoItem.count}</Box>

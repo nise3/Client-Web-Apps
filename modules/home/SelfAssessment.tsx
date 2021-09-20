@@ -41,7 +41,7 @@ const SelfAssessment = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth={'md'} disableGutters>
-        <Grid container spacing={4}>
+        <Grid item container spacing={4}>
           <Grid item xs={12} md={8}>
             <Typography variant='h4' gutterBottom={true}>
               <Box
@@ -64,7 +64,7 @@ const SelfAssessment = () => {
                 </Box>
               </Grid>
             </Typography>
-            <Grid className={classes.db} container spacing={0}>
+            <Grid item container spacing={0} className={classes.db}>
               <Grid item xs={6}>
                 <Button variant='contained' className={classes.detailsButton}>
                   শুরু করা যাক
@@ -72,7 +72,7 @@ const SelfAssessment = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid xs={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Zoom>
               <Image src={selfAssessmentImage} alt={'self assessment image'} />
             </Zoom>
