@@ -62,24 +62,32 @@ let items = [
 
 const SkillMatchingJobs = () => {
   const classes = useStyles();
-  const cardItem = (item: any) => {
+  const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={6}>
+      <Box mr={6} key={key}>
         <Card className={classes.courseItem}>
           <Box>
             <img className={classes.image} src={item.img} alt='crema-logo' />
           </Box>
           <Box p={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
-              <Box fontWeight='fontWeightBold'>{item.title}</Box>
+              <Box component={'span'} fontWeight='fontWeightBold'>
+                {item.title}
+              </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box fontWeight='fontWeightBold' className={classes.timeDetails}>
+              <Box
+                component={'span'}
+                fontWeight='fontWeightBold'
+                className={classes.timeDetails}>
                 <AccessTime /> {item.experience}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box fontWeight='fontWeightBold' className={classes.timeDetails}>
+              <Box
+                component={'span'}
+                fontWeight='fontWeightBold'
+                className={classes.timeDetails}>
                 <Info /> {item.location}
               </Box>
             </Typography>
@@ -94,10 +102,10 @@ const SkillMatchingJobs = () => {
         <SectionTitle title='স্কিল ম্যাচিং জব' center={true}></SectionTitle>
         <Box mb={2}>
           <CustomCarousel>
-            {items.map((item: any) => cardItem(item))}
+            {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
-        <Grid container justifyContent='center'>
+        <Grid item container justifyContent='center'>
           <Button
             variant='outlined'
             color='primary'

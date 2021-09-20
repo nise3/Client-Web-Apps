@@ -129,6 +129,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+function CustomSvgIcon(props: any) {
+  return <LocationOnIcon {...props}></LocationOnIcon>;
+}
+
 const CoverArea = () => {
   const classes = useStyles();
   return (
@@ -184,7 +188,7 @@ const CoverArea = () => {
                     id='outlined-adornment-amount'
                     startAdornment={
                       <InputAdornment position='start'>
-                        <SearchIcon /> অনুসন্ধান করুণ
+                        <SearchIcon /> অনুসন্ধান করুন
                       </InputAdornment>
                     }
                     labelWidth={60}
@@ -192,8 +196,7 @@ const CoverArea = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={6} sm={3}>
-                <NativeSelect>
-                  <LocationOnIcon />
+                <NativeSelect IconComponent={CustomSvgIcon}>
                   <option>লোকেশন</option>
                 </NativeSelect>
               </Grid>
@@ -208,7 +211,7 @@ const CoverArea = () => {
         <Grid container className={classes.trendWrapper}>
           <Container maxWidth='md'>
             <Slide direction='down'>
-              <Grid container xs={12} md={8} spacing={2}>
+              <Grid item container xs={12} md={8} spacing={2}>
                 <Grid item xs={3} md={2}>
                   <Box mt={{xs: 10, md: 2}}>
                     <Typography variant='h6' gutterBottom={true}>
@@ -216,7 +219,7 @@ const CoverArea = () => {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid container spacing={3} xs={12} md={8}>
+                <Grid item container spacing={3} xs={12} md={8}>
                   <Grid item xs={6} md={4}>
                     <Box className={classes.trendSearchKey}>
                       <p>গ্রাফিক্স ডিজাইন</p>

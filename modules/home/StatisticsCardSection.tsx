@@ -77,8 +77,8 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: 1,
     },
     infoCardWrapper: {
-      [theme.breakpoints.down('md')]: {
-        marginBottom: '120px',
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: '170px',
       },
     },
   }),
@@ -95,7 +95,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor1}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ২৫ </Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ২৫
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   মন্ত্রণালয়
@@ -105,7 +107,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor2}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> 32 </Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    32
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   বিভাগ
@@ -115,7 +119,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor3}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ১০,০০০ </Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ১০,০০০
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   প্রজেক্ট
@@ -125,7 +131,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor4}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ২৫ </Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ২৫
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   আর টি ও
@@ -135,7 +143,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor4}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ৩৫,০০০০০</Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ৩৫,০০০০০
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   যুব
@@ -145,7 +155,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor3}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ২৫</Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ২৫
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   সমিতি
@@ -155,7 +167,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor5}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ৩২</Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ৩২
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   শিল্প প্রতিষ্ঠান
@@ -165,7 +179,9 @@ const StatisticsCardSection = () => {
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor6}>
                 <Typography variant='h5' gutterBottom={true}>
-                  <Box fontWeight='fontWeightBold'> ৩২</Box>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    ৩২
+                  </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
                   শিল্প প্রতিষ্ঠান

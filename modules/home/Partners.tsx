@@ -43,9 +43,9 @@ let items = [
 
 const Partners = () => {
   const classes = useStyles();
-  const cardItem = (item: any) => {
+  const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={10}>
+      <Box mr={10} key={key}>
         <Card className={classes.courseItem}>
           <Box>
             <img className={classes.image} src={item.img} alt='crema-logo' />
@@ -60,10 +60,10 @@ const Partners = () => {
         <SectionTitle title='পার্টনার সমূহ' center={true}></SectionTitle>
         <Box mb={2}>
           <CustomCarousel>
-            {items.map((item: any) => cardItem(item))}
+            {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
-        <Grid container justifyContent='center'>
+        <Grid item container justifyContent='center'>
           <Button
             variant='outlined'
             color='primary'
