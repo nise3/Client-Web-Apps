@@ -99,7 +99,7 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {itemData?.organization_id && (
+          {/*{itemData?.organization_id && (
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['organization.label']}
@@ -116,7 +116,7 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 isLoading={isLoading}
               />
             </Grid>
-          )}
+          )}*/}
           <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}
