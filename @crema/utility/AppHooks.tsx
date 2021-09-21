@@ -56,7 +56,7 @@ export const useAuthUser = (): AuthUser | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {
-    return Object.assign({}, user);
+    return user;
   }
 
   return null;

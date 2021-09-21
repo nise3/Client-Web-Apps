@@ -10,6 +10,7 @@ import AppContext from '../../../utility/AppContext';
 import Link from 'next/link';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {useAuthUser} from '../../../utility/AppHooks';
+import {checkPermission} from '../../../utility/authorizations';
 
 interface VerticalItemProps {
   item: NavItemProps;
@@ -19,18 +20,16 @@ interface VerticalItemProps {
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
-  const user = useAuthUser();
+  const authUser = useAuthUser();
   const router = useRouter();
   const {pathname} = router;
-  //console.log('user', user);
+  //console.log('authUser', authUser);
   // const hasPermission = useMemo(
-  //   () => checkPermission(item.auth, user!.role),
-  //   [item.auth, user!.role],
+  //   () => checkPermission(item.auth, authUser!.role),
+  //   [item.auth, authUser!.role],
   // );
-  let hasPermission = item.permissionKey
-    ? (user?.permissions || []).includes(item && item.permissionKey)
-    : false;
-  if (!hasPermission) {
+
+  if (checkPermission(authUser, [item.permissionKey])) {
     return null;
   }
 

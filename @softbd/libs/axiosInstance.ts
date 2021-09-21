@@ -1,8 +1,6 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
 import token from '../common/appToken';
-import {Cookies} from 'react-cookie';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -12,10 +10,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const cookies = new Cookies();
-    const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-    const accessToken = authAccessTokenData?.access_token;
-    console.log('accessToken', accessToken);
+    // const cookies = new Cookies();
+    // const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    // const accessToken = authAccessTokenData?.access_token;
+    // console.log('accessToken', accessToken);
     let apiToken = '';
     /**
      * For development purpose. It should be commented in production mode

@@ -20,17 +20,7 @@ const routesConfig: NavItemProps[] = [
     title: 'Application',
     messageId: 'menu.application',
     type: 'group',
-    children: [
-      {
-        id: 'dashboards',
-        title: 'Dashboards',
-        messageId: 'menu.dashboard',
-        permissionKey: 'menu_dashboard',
-        icon: 'businessCenter',
-        type: 'item',
-        url: '/dashboard',
-      },
-    ],
+    children: [],
   },
   {
     id: 'pages',
