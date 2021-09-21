@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
-import {Container} from '@material-ui/core';
+import {Container, createTheme} from '@material-ui/core';
 import Header from './Header';
 import CoverArea from './CoverArea';
 import InfoCardSection from './InfoCardSection';
@@ -13,6 +13,16 @@ import SkillMatchingJobs from './SkillMatchingJobs';
 import Partners from './Partners';
 import Footer from './Footer';
 import BdMap from './BdMap';
+import {ThemeProvider} from '@material-ui/styles';
+
+const customTheme = createTheme({
+  typography: {
+    fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
+    h6: {
+      fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
+    },
+  },
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,20 +37,22 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth={'xl'} className={classes.root}>
-      <Header />
-      <CoverArea />
-      <InfoCardSection />
-      <SelfAssessment />
-      <StatisticsCardSection />
-      <Nise3WorkProcess />
-      <RecentActivities />
-      <BdMap />
-      <PopularCourse />
-      <SkillMatchingJobs />
-      <Partners />
-      <Footer />
-    </Container>
+    <ThemeProvider theme={customTheme}>
+      <Container maxWidth={'xl'} className={classes.root}>
+        <Header />
+        <CoverArea />
+        <InfoCardSection />
+        <SelfAssessment />
+        <StatisticsCardSection />
+        <Nise3WorkProcess />
+        <RecentActivities />
+        <BdMap />
+        <PopularCourse />
+        <SkillMatchingJobs />
+        <Partners />
+        <Footer />
+      </Container>
+    </ThemeProvider>
   );
 };
 

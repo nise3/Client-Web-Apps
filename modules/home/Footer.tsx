@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Container, Grid, Typography} from '@material-ui/core';
+import {Box, Container, Grid, Link, Typography} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '280px',
     },
     softbdImage: {
-      width: '150px',
+      width: '147px',
     },
   }),
 );
@@ -25,7 +25,7 @@ const Footer = () => {
       <Grid container className={classes.root}>
         <Container maxWidth='xl'>
           <Grid item container spacing={10}>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
                   আমাদের সম্পর্কে
@@ -62,7 +62,7 @@ const Footer = () => {
                 </Box>
               </Typography>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
                   চাকরি প্রার্থীদের জন্য
@@ -94,7 +94,7 @@ const Footer = () => {
                 </Box>
               </Typography>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
                   চাকরিদাতা
@@ -111,7 +111,7 @@ const Footer = () => {
                 </Box>
               </Typography>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item md={4}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
                   বাস্তবায়নে
@@ -125,19 +125,21 @@ const Footer = () => {
                 />
               </Box>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
                   কারিগরি সহায়তায়
                 </Box>
               </Typography>
-              <Box component={'span'}>
-                <img
-                  src='/images/softbd.png'
-                  alt='crema-logo'
-                  className={classes.softbdImage}
-                />
-              </Box>
+              <Link href={'https://softbdltd.com/'}>
+                <Box component={'span'}>
+                  <img
+                    src='/images/softbd.png'
+                    alt='crema-logo'
+                    className={classes.softbdImage}
+                  />
+                </Box>
+              </Link>
             </Grid>
           </Grid>
         </Container>

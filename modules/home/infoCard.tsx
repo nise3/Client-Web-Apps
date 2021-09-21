@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       marginTop: '-18px',
       zIndex: 0,
-      width: '225px',
+      width: '228px',
       height: '100px',
       [theme.breakpoints.down('sm')]: {
         width: '100%',
@@ -41,7 +41,7 @@ const InfoCard = ({color, infos}: Props) => {
       <Container maxWidth='md' disableGutters>
         <Grid item container md={12} xs={12} className={classes.infoItem}>
           {infos &&
-            infos.map((infoItem, key) => {
+            infos.map((infoItem, key: number) => {
               return (
                 <>
                   <Grid item md={10} xs={10} key={key}>

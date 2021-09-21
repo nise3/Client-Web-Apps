@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         paddingBottom: '120px',
       },
-      [theme.breakpoints.up('md')]: {
-        paddingBottom: '50px',
+      [theme.breakpoints.up('sm')]: {
+        paddingBottom: '120px',
       },
-      [theme.breakpoints.up('lg')]: {
+      [theme.breakpoints.up('md')]: {
         paddingBottom: '170px',
       },
     },
@@ -91,7 +91,7 @@ const StatisticsCardSection = () => {
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
         <Fade direction='down'>
-          <Grid container spacing={5}>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor1}>
                 <Typography variant='h5' gutterBottom={true}>

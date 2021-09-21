@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#000',
       padding: '0 7px 2px 12px',
       marginTop: '13px',
-      marginLeft: '-5px',
+      marginLeft: '-8px',
       [theme.breakpoints.down('md')]: {
         width: '100%',
-        marginLeft: '-12px',
+        marginLeft: '-14px',
       },
       [theme.breakpoints.up('md')]: {
         width: 'auto',
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       border: 'none',
       [theme.breakpoints.down('sm')]: {
         width: '100%',
-        marginLeft: '-8px',
+        marginLeft: '-16px',
       },
       [theme.breakpoints.up('sm')]: {
         width: '100%',
@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: 'auto',
       [theme.breakpoints.down('sm')]: {
         marginBottom: '10px',
+        marginTop: '140px',
       },
     },
     trendSearchItem: {
@@ -140,10 +141,10 @@ const CoverArea = () => {
       <Grid container>
         <Grid item xs={12} className={classes.root}>
           <Container maxWidth='md'>
-            <Box pt={10}>
+            <Box pt={6}>
               <Fade direction='up'>
                 <Typography variant='h4'>
-                  <Box fontWeight='fontWeightBold' mt={15}>
+                  <Box fontWeight='fontWeightBold' mt={4}>
                     এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
                     প্রশিক্ষণ
                   </Box>
@@ -152,7 +153,7 @@ const CoverArea = () => {
 
               <Fade direction='down'>
                 <Typography variant='subtitle2'>
-                  <Box fontWeight={500} mt={5}>
+                  <Box fontWeight={500} mt={5.3}>
                     আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
                     তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
                     <br />
@@ -165,7 +166,7 @@ const CoverArea = () => {
             <Slide direction='up'>
               <Grid container>
                 <Grid item xs={3} xl={2}>
-                  <Box mt={10} zIndex={'tooltip'}>
+                  <Box mt={5} zIndex={'tooltip'}>
                     <NativeSelect className={classes.select}>
                       <option>দক্ষতা</option>
                       <option>চাকরি</option>
@@ -178,7 +179,7 @@ const CoverArea = () => {
             </Slide>
 
             <Grid container spacing={2} className={classes.searchBox}>
-              <Grid item xs={12} sm={7}>
+              <Grid item xs={12} md={7}>
                 <FormControl variant='outlined'>
                   <InputLabel htmlFor='outlined-adornment-amount'>
                     Search
@@ -195,12 +196,12 @@ const CoverArea = () => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid item xs={6} md={3}>
                 <NativeSelect IconComponent={CustomSvgIcon}>
                   <option>লোকেশন</option>
                 </NativeSelect>
               </Grid>
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={6} md={2}>
                 <Button variant='contained' className={classes.searchButton}>
                   অনুসন্ধান
                 </Button>
@@ -212,8 +213,8 @@ const CoverArea = () => {
           <Container maxWidth='md'>
             <Slide direction='down'>
               <Grid item container xs={12} md={8} spacing={2}>
-                <Grid item xs={3} md={2}>
-                  <Box mt={{xs: 10, md: 2}}>
+                <Grid item xs={12} md={2}>
+                  <Box mt={{xs: 0, md: 2}}>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>
