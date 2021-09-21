@@ -1,8 +1,8 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import React, {FC} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@material-ui/core/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -13,17 +13,23 @@ interface UserInfoEditPopupProps {
   onClose: () => void;
 }
 
-const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
+const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({
+                                                         ...props
+                                                       }) => {
   const {messages} = useIntl();
 
   const {
     register,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>();
+  } = useForm<any>({
+    resolver: yupResolver(),
+  });
 
   const isLoading = false;
-  const onSubmit: SubmitHandler<any> = async (data: []) => {};
+  const onSubmit: SubmitHandler<any> = async (data: []) => {
+
+  };
 
   return (
     <HookFormMuiModal
@@ -31,7 +37,7 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
       open={true}
       title={
         <>
-          <IconUser />
+          <IconUser/>
           <IntlMessages
             id='common.edit'
             values={{subject: <IntlMessages id='user.label' />}}
@@ -42,12 +48,11 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <SubmitButton isSubmitting={isSubmitting}  />
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='title_en'
             label={messages['common.title_en']}
@@ -56,10 +61,46 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             id='title_bn'
             label={messages['common.title_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='username'
+            label={messages['user.username']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='email'
+            label={messages['common.email']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='mobile'
+            label={messages['common.mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='role'
+            label={messages['role.label']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
