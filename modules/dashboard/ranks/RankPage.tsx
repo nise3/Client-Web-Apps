@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -17,20 +17,36 @@ import {deleteRank} from '../../../services/organaizationManagement/RankService'
 import IconRank from '../../../@softbd/icons/IconRank';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRanks} from '../../../services/organaizationManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const RankPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [rankFilters] = useState({});
+  const [rankFilters, setRankFilters] = useState({});
   const {
     data: ranks,
     isLoading,
     mutate: mutateRanks,
   } = useFetchRanks(rankFilters);
+
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.institute_id) {
+        setRankFilters({
+          institute_id: authUser.institute_id,
+        });
+      } else if (authUser.organization_id) {
+        setRankFilters({
+          organization_id: authUser.organization_id,
+        });
+      }
+    }
+  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
