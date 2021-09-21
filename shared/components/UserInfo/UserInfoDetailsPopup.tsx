@@ -1,6 +1,5 @@
 import IconRole from '../../../@softbd/icons/IconRole';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {Grid} from '@material-ui/core';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
@@ -40,7 +39,6 @@ export default function UserInfoDetailsPopup({ onClose,openEditModal, ...props}:
       maxWidth={'md'}
       actions={
         <>
-          <CancelButton onClick={onClose} />
           <EditButton
             onClick={() => openEditModal()}
           />
