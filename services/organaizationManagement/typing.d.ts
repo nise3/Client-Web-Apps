@@ -14,7 +14,7 @@ type Rank = {
   id: number;
   title_en?: string;
   title_bn?: string;
-  organization_id?: number;
+  organization_id?: number | string;
   organization_title_en: string;
   rank_type_id: string;
   rank_type_title_en: string;

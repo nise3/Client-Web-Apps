@@ -17,10 +17,12 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import {API_USERS} from '../../../@softbd/common/apiRoutes';
 import UserAddEditPopup from './UserAddEditPopup';
 import UserDetailsPopup from './UserDetailsPopup';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const UsersPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -126,6 +128,13 @@ const UsersPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_USERS,
+      paramsValueModifier: (params: any) => {
+        if (authUser?.isInstituteUser)
+          params['institute_id'] = authUser?.institute_id;
+        else if (authUser?.isOrganizationUser)
+          params['organization_id'] = authUser?.organization_id;
+        return params;
+      },
     });
 
   return (
