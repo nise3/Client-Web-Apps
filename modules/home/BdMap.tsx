@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid #eee',
       borderRadius: '2px',
       marginTop: '40px',
+      backgroundColor: '#fff',
     },
 
     mapSidePoints: {

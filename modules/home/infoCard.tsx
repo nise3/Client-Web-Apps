@@ -41,7 +41,7 @@ const InfoCard = ({color, infos}: Props) => {
       <Container maxWidth='md' disableGutters>
         <Grid item container md={12} xs={12} className={classes.infoItem}>
           {infos &&
-            infos.map((infoItem, key) => {
+            infos.map((infoItem, key: number) => {
               return (
                 <>
                   <Grid item md={10} xs={10} key={key}>
