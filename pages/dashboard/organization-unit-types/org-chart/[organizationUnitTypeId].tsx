@@ -59,20 +59,19 @@ const getHierarchyChartData = async (
 };
 
 const OrgChart = () => {
+  const router = useRouter();
+  const {organizationUnitTypeId} = router.query;
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
   const [chartData, setChartData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedItemParentId, setSelectedItemParentId] = useState<
     number | null
   >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-
-  const {organizationUnitTypeId} = router.query;
 
   useEffect(() => {
     if (organizationUnitTypeId) {
@@ -108,6 +107,7 @@ const OrgChart = () => {
       console.log('item', item);
     }
   };
+
   function treeColoring(root: any, step: number) {
     let heading = root.getElementsByClassName('oc-heading')[0];
     if (heading) {
