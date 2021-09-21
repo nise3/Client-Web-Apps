@@ -7,7 +7,5 @@ export const checkPermission = (
   if (authUser === null || authUser === undefined) {
     return false;
   }
-  return (authUser.permissions || []).some(
-    (v) => v && permissionKeys.includes(v),
-  );
+  return (authUser.permissions || []).some((v) => permissionKeys.includes(v));
 };

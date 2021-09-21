@@ -13,6 +13,7 @@ import {
 } from '../../types/actions/Auth.actions';
 import {Cookies} from 'react-cookie';
 import {Base64} from 'js-base64';
+import {apiGet} from '../../@softbd/common/api';
 
 /**
  * @deprecated
@@ -98,14 +99,13 @@ export const loadAuthUser = async (
   console.log('loadAuthUser() - tokenData - ', tokenData);
   dispatch(fetchStart());
   try {
-    const data = JSON.parse(
+    const ssoTokenData = JSON.parse(
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
-    console.log('idTokenData', data);
-
-    // const coreResponse = await apiGet(`/core/users/${token.sub}/permissions`);
-    // console.log('coreResponse', coreResponse);
-    // const {data} = coreResponse.data;
+    const coreResponse = await apiGet(
+      `/core/users/${ssoTokenData.sub}/permissions`,
+    );
+    const {data} = coreResponse.data;
     dispatch(fetchSuccess());
     console.log('res.data', data);
     dispatch({

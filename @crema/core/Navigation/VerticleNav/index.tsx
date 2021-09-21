@@ -16,6 +16,7 @@ const Navigation: React.FC<NavigationProps> = () => {
 
   useEffect(() => {
     const routes: NavItemProps[] = [];
+
     routesConfig.forEach((item1: any, i1: number) => {
       if (
         !item1.hasOwnProperty('permissionKey') ||
@@ -46,6 +47,10 @@ const Navigation: React.FC<NavigationProps> = () => {
                 !item3.hasOwnProperty('permissionKey') ||
                 checkPermission(authUser, [item3.permissionKey])
               ) {
+                // console.log(
+                //   'checkPermission(authUser, [item3.permissionKey])',
+                //   checkPermission(authUser, [item3.permissionKey]),
+                // );
                 // @ts-ignore
                 routes[i1]['children'][i2]['children'].push(item3);
 
@@ -59,7 +64,6 @@ const Navigation: React.FC<NavigationProps> = () => {
                     // @ts-ignore
                     routes[i1]['children'][i2]['children'][i3]['children'] = [];
                   }
-
                   if (
                     !item4.hasOwnProperty('permissionKey') ||
                     checkPermission(authUser, [item4.permissionKey])
