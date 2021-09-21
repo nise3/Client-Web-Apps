@@ -18,7 +18,7 @@ import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {
-  useFetchPermissions,
+  useFetchPermissionSubGroup,
   useFetchRole,
 } from '../../../../services/userManagement/hooks';
 
@@ -49,12 +49,18 @@ const AssignPermissionToRole = () => {
   );
   const [checkedModules, setCheckedModules] = useState<any>(new Set());
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [permissionFilters] = useState({});
+  const [allPermissions, setAllPermissions] = useState<any>(null);
 
   const {data: itemData} = useFetchRole(Number(roleId));
+  const {data: permissionGroup, isLoading} = useFetchPermissionSubGroup(
+    itemData?.permission_sub_group_id,
+  );
 
-  const {data: allPermissions, isLoading} =
-    useFetchPermissions(permissionFilters);
+  useEffect(() => {
+    if (permissionGroup) {
+      setAllPermissions(permissionGroup.permissions);
+    }
+  }, [permissionGroup]);
 
   useEffect(() => {
     if (itemData && allPermissions) {

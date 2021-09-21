@@ -4,6 +4,9 @@ import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_PERMISSION_SUB_GROUPS = CORE_SERVICE_PATH + '/permission-sub-groups';
 
+/**
+ * @deprecated
+ */
 export const getAllPermissionSubGroups = async () => {
   try {
     let response: any = await apiGet(API_PERMISSION_SUB_GROUPS);
@@ -13,6 +16,10 @@ export const getAllPermissionSubGroups = async () => {
   }
 };
 
+/**
+ * @deprecated
+ * @param permissionSubGroupId
+ */
 export const getPermissionSubGroup = async (permissionSubGroupId: number) => {
   try {
     let response: any = await apiGet(

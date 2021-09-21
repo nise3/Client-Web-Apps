@@ -35,6 +35,7 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
+import {PERMISSION_GROUP_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -73,7 +74,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   });
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: 'organization',
+    key: PERMISSION_GROUP_ORGANIZATION_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
