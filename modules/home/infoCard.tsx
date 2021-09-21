@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       marginTop: '-18px',
       zIndex: 0,
-      width: '225px',
+      width: '228px',
       height: '100px',
       [theme.breakpoints.down('sm')]: {
         width: '100%',

@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#000',
       padding: '0 7px 2px 12px',
       marginTop: '13px',
-      marginLeft: '-5px',
+      marginLeft: '-8px',
       [theme.breakpoints.down('md')]: {
         width: '100%',
-        marginLeft: '-12px',
+        marginLeft: '-14px',
       },
       [theme.breakpoints.up('md')]: {
         width: 'auto',
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       border: 'none',
       [theme.breakpoints.down('sm')]: {
         width: '100%',
-        marginLeft: '-8px',
+        marginLeft: '-16px',
       },
       [theme.breakpoints.up('sm')]: {
         width: '100%',
@@ -214,7 +214,7 @@ const CoverArea = () => {
             <Slide direction='down'>
               <Grid item container xs={12} md={8} spacing={2}>
                 <Grid item xs={12} md={2}>
-                  <Box mt={{xs: 10, md: 2}}>
+                  <Box mt={{xs: 0, md: 2}}>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>
