@@ -17,8 +17,22 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
 import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGroup';
 import {deletePermissionSubGroup} from '../../../services/userManagement/PermissionSubGroupService';
+import {Button, makeStyles} from '@material-ui/core';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@material-ui/icons';
+import Link from 'next/link';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const PermissionSubGroupPage = () => {
+  const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -111,6 +125,7 @@ const PermissionSubGroupPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = `/dashboard/permission-sub-groups/assign-permissions/${data.id}`;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -119,6 +134,14 @@ const PermissionSubGroupPage = () => {
                 deleteAction={() => deletePermissionSubGroupItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={URL} passHref>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  {messages['permission.label']}
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },

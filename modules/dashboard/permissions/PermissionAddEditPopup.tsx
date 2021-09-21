@@ -33,6 +33,7 @@ const initialValues = {
   name: '',
   uri: '',
   method: '',
+  module: '',
 };
 
 const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
@@ -65,6 +66,10 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['permission.method'] as string),
+      module: yup
+        .string()
+        .required()
+        .label(messages['permission.module'] as string),
     });
   }, [messages]);
   const {
@@ -83,6 +88,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         name: itemData?.name,
         uri: itemData?.uri,
         method: itemData?.method,
+        module: itemData?.module,
       });
     } else {
       reset(initialValues);
@@ -151,6 +157,15 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
           <CustomTextInput
             id='name'
             label={messages['common.name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='module'
+            label={messages['permission.module']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

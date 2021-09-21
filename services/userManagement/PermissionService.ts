@@ -4,6 +4,9 @@ import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 
+/**
+ * @deprecated
+ */
 export const getAllPermissions = async () => {
   try {
     let response: any = await apiGet(API_PERMISSIONS);
@@ -13,6 +16,10 @@ export const getAllPermissions = async () => {
   }
 };
 
+/**
+ * @deprecated
+ * @param permissionId
+ */
 export const getPermission = async (permissionId: number) => {
   try {
     let response: any = await apiGet(API_PERMISSIONS + '/' + permissionId);

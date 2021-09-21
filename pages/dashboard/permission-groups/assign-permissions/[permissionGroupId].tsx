@@ -13,14 +13,14 @@ import {makeStyles} from '@material-ui/styles';
 import {Theme} from '@material-ui/core/styles';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
-import {assignPermissions} from '../../../../services/userManagement/RoleService';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {useFetchPermissions} from '../../../../services/userManagement/hooks';
 import {
-  useFetchPermissionSubGroup,
-  useFetchRole,
-} from '../../../../services/userManagement/hooks';
+  assignPermissions,
+  getPermissionGroupWithPermissions,
+} from '../../../../services/userManagement/PermissionGroupService';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,12 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const AssignPermissionToRole = () => {
+const AssignPermissionToPermissionGroup = () => {
   const classes = useStyles();
   const router = useRouter();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {roleId} = router.query;
+  const {permissionGroupId} = router.query;
 
   const [permissions, setPermissions] = useState<any>({});
   const [checkedPermissions, setCheckedPermissions] = useState<any>(
@@ -49,18 +49,26 @@ const AssignPermissionToRole = () => {
   );
   const [checkedModules, setCheckedModules] = useState<any>(new Set());
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [allPermissions, setAllPermissions] = useState<any>(null);
+  const [permissionFilters] = useState({});
 
-  const {data: itemData} = useFetchRole(Number(roleId));
-  const {data: permissionGroup, isLoading} = useFetchPermissionSubGroup(
-    itemData?.permission_sub_group_id,
-  );
+  const {data: allPermissions, isLoading} =
+    useFetchPermissions(permissionFilters);
+  const [itemData, setItemData] = useState<any>(null);
 
   useEffect(() => {
-    if (permissionGroup) {
-      setAllPermissions(permissionGroup.permissions);
-    }
-  }, [permissionGroup]);
+    (async () => {
+      if (permissionGroupId) {
+        const response = await getPermissionGroupWithPermissions(
+          Number(permissionGroupId),
+          {permission: 1},
+        );
+        if (response) {
+          console.log('ppp', response.data);
+          setItemData(response.data);
+        }
+      }
+    })();
+  }, [permissionGroupId]);
 
   useEffect(() => {
     if (itemData && allPermissions) {
@@ -149,7 +157,7 @@ const AssignPermissionToRole = () => {
   const syncPermissionAction = useCallback(async () => {
     setIsSubmitting(true);
     const response = await assignPermissions(
-      Number(roleId),
+      Number(permissionGroupId),
       Array.from(checkedPermissions),
     );
     if (isResponseSuccess(response)) {
@@ -161,7 +169,7 @@ const AssignPermissionToRole = () => {
       );
     }
     setIsSubmitting(false);
-  }, [roleId, checkedPermissions]);
+  }, [permissionGroupId, checkedPermissions]);
 
   return (
     <PageBlock
@@ -216,7 +224,7 @@ export default AppPage(() => {
   return (
     <>
       <PageMeta title={messages['common.assign_permission']} />
-      <AssignPermissionToRole />
+      <AssignPermissionToPermissionGroup />
     </>
   );
 });

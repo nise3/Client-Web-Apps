@@ -8,17 +8,9 @@ export interface AuthUser {
   isOrganizationUser: boolean;
   institute_id?: string | number;
   organization_id?: string | number;
-  institute?: {
-    id: string | number;
-    title_en: string;
-    title_bn: string;
-  };
-  organization?: {
-    id: string | number;
-    title_en: string;
-    title_bn: string;
-  };
-  role: string[];
+  institute?: Institute;
+  organization?: Organization;
+  role: Role;
   displayName?: string;
   email?: string;
   username: string;

@@ -2,7 +2,7 @@ import React, {FC, useEffect, useMemo, useState} from 'react';
 import yup from '../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
+/*import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';*/
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -19,16 +19,17 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
-  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
   useFetchRole,
 } from '../../../services/userManagement/hooks';
 import {
   createRole,
   updateRole,
 } from '../../../services/userManagement/RoleService';
-import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
+/*import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';*/
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import IconRole from '../../../@softbd/icons/IconRole';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface RoleAddEditPopupProps {
   itemId: number | null;
@@ -40,9 +41,9 @@ const initialValues = {
   title_en: '',
   title_bn: '',
   key: '',
-  permission_group_id: '',
-  organization_id: '',
-  institute_id: '',
+  permission_sub_group_id: '',
+  /*organization_id: '',
+  institute_id: '',*/
   row_status: '1',
 };
 
@@ -54,15 +55,16 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
+  const authUser = useAuthUser();
 
   const {data: itemData, isLoading, mutate: mutateRole} = useFetchRole(itemId);
 
-  const [permissionGroupFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [permissionSubGroupFilters] = useState({row_status: RowStatus.ACTIVE});
 
-  const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
-    useFetchPermissionGroups(permissionGroupFilters);
+  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
+    useFetchPermissionSubGroups(permissionSubGroupFilters);
 
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  /*const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: institutes, isLoading: isLoadingInstitute} =
     useFetchInstitutes(instituteFilters);
@@ -70,7 +72,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilters);
+    useFetchOrganizations(organizationFilters);*/
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -87,9 +89,14 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.key'] as string),
-      permission_group_id: yup.string().nullable(),
-      institute_id: yup.string().nullable(),
-      organization_id: yup.string().nullable(),
+      permission_sub_group_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .required()
+            .label(messages['permission_sub_group.label'] as string)
+        : yup.string().label(messages['permission_sub_group.label'] as string),
+      /*institute_id: yup.string().nullable(),
+      organization_id: yup.string().nullable(),*/
       row_status: yup.string(),
     });
   }, [messages]);
@@ -110,7 +117,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title_bn: itemData?.title_bn,
         key: itemData?.key,
-        permission_group_id: itemData?.permission_group_id,
+        permission_sub_group_id: itemData?.permission_sub_group_id,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
         row_status: String(itemData?.row_status),
@@ -121,6 +128,16 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Role> = async (data: Role) => {
+    if (authUser?.isInstituteUser) {
+      data.institute_id = authUser?.institute_id;
+      data.permission_sub_group_id = authUser?.role?.permission_sub_group_id;
+    }
+
+    if (authUser?.isOrganizationUser) {
+      data.organization_id = authUser?.organization_id;
+      data.permission_sub_group_id = authUser?.role?.permission_sub_group_id;
+    }
+
     const response = itemId
       ? await updateRole(itemId, data)
       : await createRole(data);
@@ -204,19 +221,21 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='permission_group_id'
-            label={messages['permission_group.label']}
-            isLoading={isLoadingPermissionGroups}
-            control={control}
-            options={permissionGroups}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
+        {authUser?.isSystemUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='permission_sub_group_id'
+              label={messages['permission_sub_group.label']}
+              isLoading={isLoadingPermissionSubGroups}
+              control={control}
+              options={permissionSubGroups}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+        {/*<Grid item xs={6}>
           <CustomFormSelect
             id='organization_id'
             label={messages['organization.label']}
@@ -239,7 +258,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
             optionTitleProp={['title_en', 'title_bn']}
             errorInstance={errors}
           />
-        </Grid>
+        </Grid>*/}
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

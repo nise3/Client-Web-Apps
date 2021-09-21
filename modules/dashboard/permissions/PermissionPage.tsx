@@ -85,6 +85,10 @@ const PermissionPage = () => {
         accessor: 'name',
       },
       {
+        Header: messages['permission.module'],
+        accessor: 'module',
+      },
+      {
         Header: messages['permission.uri'],
         accessor: 'uri',
       },

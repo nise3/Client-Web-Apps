@@ -1,8 +1,9 @@
-import {Box, Card, Container, Grid} from '@material-ui/core';
+import {Box, Button, Card, Container, Grid} from '@material-ui/core';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
+import {ArrowRightAlt} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,9 +43,9 @@ let items = [
 
 const Partners = () => {
   const classes = useStyles();
-  const cardItem = (item: any) => {
+  const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={10}>
+      <Box mr={10} key={key}>
         <Card className={classes.courseItem}>
           <Box>
             <img className={classes.image} src={item.img} alt='crema-logo' />
@@ -59,9 +60,17 @@ const Partners = () => {
         <SectionTitle title='পার্টনার সমূহ' center={true}></SectionTitle>
         <Box mb={2}>
           <CustomCarousel>
-            {items.map((item: any) => cardItem(item))}
+            {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
+        <Grid item container justifyContent='center'>
+          <Button
+            variant='outlined'
+            color='primary'
+            endIcon={<ArrowRightAlt />}>
+            আরো দেখুন
+          </Button>
+        </Grid>
       </Container>
     </Grid>
   );
