@@ -9,8 +9,6 @@ import useStyles from './VerticalItem.style';
 import AppContext from '../../../utility/AppContext';
 import Link from 'next/link';
 import {NavItemProps} from '../../../../modules/routesConfig';
-import {useAuthUser} from '../../../utility/AppHooks';
-import {checkPermission} from '../../../utility/authorizations';
 
 interface VerticalItemProps {
   item: NavItemProps;
@@ -20,19 +18,8 @@ interface VerticalItemProps {
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
-  const authUser = useAuthUser();
   const router = useRouter();
   const {pathname} = router;
-  //console.log('authUser', authUser);
-  // const hasPermission = useMemo(
-  //   () => checkPermission(item.auth, authUser!.role),
-  //   [item.auth, authUser!.role],
-  // );
-
-  if (checkPermission(authUser, [item.permissionKey])) {
-    return null;
-  }
-
   return (
     <Link href={item.url!} as={item.as}>
       <ListItem
