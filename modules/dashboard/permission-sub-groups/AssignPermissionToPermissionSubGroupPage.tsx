@@ -1,24 +1,22 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import AppPage from '../../../../@crema/hoc/AppPage';
-import PageMeta from '../../../../@crema/core/PageMeta';
 import {
   map as lodashMap,
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
 } from 'lodash';
 import {Box, Checkbox, createStyles, Divider, Grid} from '@material-ui/core';
-import PageBlock from '../../../../@softbd/utilities/PageBlock';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from '@material-ui/core/styles';
-import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
-import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {useFetchPermissionSubGroup} from '../../../../services/userManagement/hooks';
-import {assignPermissions} from '../../../../services/userManagement/PermissionSubGroupService';
-import {getPermissionGroupWithPermissions} from '../../../../services/userManagement/PermissionGroupService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useFetchPermissionSubGroup} from '../../../services/userManagement/hooks';
+import {assignPermissions} from '../../../services/userManagement/PermissionSubGroupService';
+import {getPermissionGroupWithPermissions} from '../../../services/userManagement/PermissionGroupService';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const AssignPermissionToPermissionSubGroup = () => {
+const AssignPermissionToPermissionSubGroupPage = () => {
   const classes = useStyles();
   const router = useRouter();
   const {messages} = useIntl();
@@ -218,12 +216,4 @@ const AssignPermissionToPermissionSubGroup = () => {
   );
 };
 
-export default AppPage(() => {
-  const {messages} = useIntl();
-  return (
-    <>
-      <PageMeta title={messages['common.assign_permission']} />
-      <AssignPermissionToPermissionSubGroup />
-    </>
-  );
-});
+export default AssignPermissionToPermissionSubGroupPage;

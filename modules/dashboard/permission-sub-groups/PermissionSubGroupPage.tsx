@@ -21,6 +21,7 @@ import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
 import {AccountTreeOutlined} from '@material-ui/icons';
 import Link from 'next/link';
+import {LINK_PERMISSION_SUB_GROUP} from '../../../@softbd/common/appLinks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -125,7 +126,7 @@ const PermissionSubGroupPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = `/dashboard/permission-sub-groups/assign-permissions/${data.id}`;
+          const URL = LINK_PERMISSION_SUB_GROUP + `/${data.id}`;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
