@@ -56,7 +56,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
      * itemId = "m25" transform it 25 as integer
      */
     if (itemId) {
-      itemId = Number(itemId?.toString().substring(1));
+      itemId = Number(itemId?.toString().replace('m', ''));
     }
 
     const {messages} = useIntl();
