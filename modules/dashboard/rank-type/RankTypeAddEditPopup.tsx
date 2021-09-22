@@ -72,7 +72,14 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         .string()
         .title('bn')
         .label(messages['common.title_bn'] as string),
-      organization_id: yup.string(),
+      organization_id:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['organization.label'] as string)
+          : yup.string().label(messages['organization.label'] as string),
       description: yup.string(),
       row_status: yup.string(),
     });
