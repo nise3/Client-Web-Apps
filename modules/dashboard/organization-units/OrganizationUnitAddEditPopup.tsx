@@ -222,6 +222,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       if (authUser && authUser.isOrganizationUser) {
         setOrganizationUnitTypeFilters({
           organization_id: authUser?.organization?.id,
+          row_status: RowStatus.ACTIVE,
         });
       }
       reset(initialValues);
