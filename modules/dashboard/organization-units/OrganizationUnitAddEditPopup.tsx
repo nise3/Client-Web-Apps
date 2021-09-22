@@ -219,6 +219,11 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         row_status: RowStatus.ACTIVE,
       });
     } else {
+      if (authUser && authUser.isOrganizationUser) {
+        setOrganizationUnitTypeFilters({
+          organization_id: authUser?.organization?.id,
+        });
+      }
       reset(initialValues);
     }
   }, [itemData]);
