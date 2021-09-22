@@ -22,6 +22,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
+  isNeedToSelectOrganization,
   isResponseSuccess,
   isValidationError,
 } from '../../../@softbd/utilities/helpers';
@@ -188,7 +189,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isOrganizationUser && (
+        {authUser && isNeedToSelectOrganization(authUser) && (
           <Grid item xs={6}>
             <CustomFormSelect
               id='organization_id'

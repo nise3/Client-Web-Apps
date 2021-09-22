@@ -136,62 +136,69 @@ const OrganizationUnitTypeHierarchy = () => {
     let draggedNodeId: number | null = null;
     let droppedNodeId = null;
 
-    node.map((trigger) => {
-      trigger.addEventListener('dragstart', (e: any) => {
-        draggedNodeId = e.target?.id;
-      });
+    const handleDragStart = (event: any) => {
+      draggedNodeId = event.target?.id;
+    };
+
+    node.map((trigger: Element) => {
+      trigger.addEventListener('dragstart', handleDragStart);
+      // trigger.addEventListener('dragstart', (e: any) => {
+      //   draggedNodeId = e.target?.id;
+      // });
     });
 
-    node.map((trigger) => {
-      trigger.addEventListener('drop', (e: any) => {
-        droppedNodeId = getElementId(e.target, 0, 3);
-        draggedNodeId = Number(draggedNodeId?.toString().replace('m', ''));
-        droppedNodeId = Number(droppedNodeId.toString().replace('m', ''));
+    const handleDrop = (e: any) => {
+      droppedNodeId = getElementId(e.target, 0, 3);
+      draggedNodeId = Number(draggedNodeId?.toString().replace('m', ''));
+      droppedNodeId = Number(droppedNodeId.toString().replace('m', ''));
 
-        //drag node and drop node is same, no need to further approach
-        if (draggedNodeId == droppedNodeId) {
-          return false;
-        }
-        let humanResourceTemplate;
-        (async () => {
-          let response = await getHumanResourceTemplate(draggedNodeId);
-          if (response) {
-            //if dragged node is a parent node , then prevent drag and drop
-            if (!response.data.parent_id) {
-              successStack(
-                <IntlMessages id='common.root_cant_be_drag_and_drop' />,
-              );
-
-              return false;
-            }
-            humanResourceTemplate = response.data;
-            humanResourceTemplate.parent_id = droppedNodeId;
-            response = await updateHumanResourceTemplate(
-              draggedNodeId,
-              humanResourceTemplate,
+      //drag node and drop node is same, no need to further approach
+      if (draggedNodeId == droppedNodeId) {
+        return false;
+      }
+      let humanResourceTemplate;
+      (async () => {
+        let response = await getHumanResourceTemplate(draggedNodeId);
+        if (response) {
+          //if dragged node is a parent node , then prevent drag and drop
+          if (!response.data.parent_id) {
+            successStack(
+              <IntlMessages id='common.root_cant_be_drag_and_drop' />,
             );
-            if (isResponseSuccess(response)) {
-              successStack(
-                <IntlMessages
-                  id='common.subject_updated_successfully'
-                  values={{
-                    subject: (
-                      <IntlMessages id='human_resource_template.label' />
-                    ),
-                  }}
-                />,
-              );
-            }
+
+            return false;
           }
-        })();
-      });
+          humanResourceTemplate = response.data;
+          humanResourceTemplate.parent_id = droppedNodeId;
+          response = await updateHumanResourceTemplate(
+            draggedNodeId,
+            humanResourceTemplate,
+          );
+          if (isResponseSuccess(response)) {
+            successStack(
+              <IntlMessages
+                id='common.subject_updated_successfully'
+                values={{
+                  subject: <IntlMessages id='human_resource_template.label' />,
+                }}
+              />,
+            );
+          }
+        }
+      })();
+    };
+
+    node.map((trigger) => {
+      trigger.addEventListener('drop', handleDrop);
     });
 
-    //attaching drag&drop event listener to every hierarchy node.
-    node.map((trigger) => {
-      trigger.removeEventListener('drop', () => {});
-      trigger.removeEventListener('dragstart', () => {});
-    });
+    //detaching drag&drop event listener to every hierarchy node.
+    return () => {
+      node.map((trigger) => {
+        trigger.removeEventListener('drop', handleDrop);
+        trigger.removeEventListener('dragstart', handleDragStart);
+      });
+    };
   }, []);
 
   const handleNodeClick = (event: any) => {
