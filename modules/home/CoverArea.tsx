@@ -72,6 +72,10 @@ const useStyles = makeStyles((theme: Theme) =>
       background: '#682988',
       color: '#fff',
       borderRadius: '0px',
+      marginTop: '10px',
+    },
+    location: {
+      marginTop: '10px',
     },
     trendWrapper: {
       position: 'relative',
@@ -196,7 +200,7 @@ const CoverArea = () => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid item xs={6} md={3} className={classes.location}>
                 <NativeSelect IconComponent={CustomSvgIcon}>
                   <option>লোকেশন</option>
                 </NativeSelect>
