@@ -4,22 +4,22 @@ import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Popover, Typography} from '@material-ui/core';
+import {useIntl} from 'react-intl';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
+import {useOrganizationUnitHierarchy} from '../../../services/organaizationManagement/hooks';
 import {
-  deleteHumanResourceTemplate,
-  getHumanResourceTemplate,
-  updateHumanResourceTemplate,
-} from '../../../services/organaizationManagement/HumanResourceTemplateService';
+  deleteHumanResource,
+  getHumanResource,
+  updateHumanResource,
+} from '../../../services/organaizationManagement/HumanResourceService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import HumanResourceTemplateAddEditPopup from '../human-resource-templates/HumanResourceTemplateAddEditPopup';
-import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {getOrganizationUnitTypeHierarchy} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import HumanResourceAddEditPopup from '../human-resources/HumanResourceAddEditPopup';
 
 const makeHierarchyData = (item: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
@@ -37,33 +37,13 @@ const makeHierarchyData = (item: any) => {
   return item;
 };
 
-const getHierarchyHierarchyData = async (
-  organization_unit_type_id: number,
-  setHierarchyData: any,
-): Promise<boolean> => {
-  let response = await getOrganizationUnitTypeHierarchy(
-    organization_unit_type_id,
-  );
-  if (response) {
-    const {data: item} = response;
-    if (item) {
-      makeHierarchyData(item);
-      setHierarchyData(item);
-      return true;
-    } else {
-      return false;
-    }
-  }
-  return false;
-};
-
-const OrganizationUnitTypeHierarchy = () => {
+const OrganizationUnitHierarchyPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const router = useRouter();
 
   const [HierarchyData, setHierarchyData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedItemParentId, setSelectedItemParentId] = useState<
@@ -71,20 +51,23 @@ const OrganizationUnitTypeHierarchy = () => {
   >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
-  const {organizationUnitTypeId} = router.query;
+  const {organizationUnitId} = router.query;
+  const {
+    data,
+    metaData,
+    mutate: mutateHierarchyData,
+  } = useOrganizationUnitHierarchy(Number(organizationUnitId));
 
   useEffect(() => {
-    if (organizationUnitTypeId) {
-      getHierarchyHierarchyData(
-        Number(organizationUnitTypeId),
-        setHierarchyData,
-      ).then((res: boolean) => {
-        if (!res) {
-          openAddEditModal();
-        }
-      });
+    if (data) {
+      const HierarchyData = makeHierarchyData(data);
+      setHierarchyData(HierarchyData);
     }
-  }, [organizationUnitTypeId]);
+
+    if (metaData._response_status && !data && organizationUnitId) {
+      openAddEditModal();
+    }
+  }, [data, organizationUnitId]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -95,7 +78,7 @@ const OrganizationUnitTypeHierarchy = () => {
     setIsOpenAddEditModal(true);
   };
 
-  // Tree coloring portion is not completed
+  //Tree coloring portion is not completed
   const colors = ['green', 'red', 'blue'];
   const shuffleLists = (root: HTMLDivElement) => {
     let elems = root.getElementsByTagName('ul');
@@ -116,6 +99,7 @@ const OrganizationUnitTypeHierarchy = () => {
     shuffleLists(root);
   }
 
+  //search for dragged element.
   function getElementId(
     ele: any,
     step: number,
@@ -145,18 +129,18 @@ const OrganizationUnitTypeHierarchy = () => {
     node.map((trigger) => {
       trigger.addEventListener('drop', (e: any) => {
         droppedNodeId = getElementId(e.target, 0, 3);
-        draggedNodeId = Number(draggedNodeId?.toString().replace('m', ''));
-        droppedNodeId = Number(droppedNodeId.toString().replace('m', ''));
+        draggedNodeId = Number(draggedNodeId?.toString().substring(1));
+        droppedNodeId = Number(droppedNodeId.toString().substring(1));
 
-        //drag node and drop node is same, no need to further approach
+        //prevent api call if drag & drop node is same.
         if (draggedNodeId == droppedNodeId) {
           return false;
         }
-        let humanResourceTemplate;
+        let humanResource;
         (async () => {
-          let response = await getHumanResourceTemplate(draggedNodeId);
+          let response = await getHumanResource(draggedNodeId);
           if (response) {
-            //if dragged node is a parent node , then prevent drag and drop
+            //prevent drag&drop if node is root element. only root element have no parent.
             if (!response.data.parent_id) {
               successStack(
                 <IntlMessages id='common.root_cant_be_drag_and_drop' />,
@@ -164,30 +148,26 @@ const OrganizationUnitTypeHierarchy = () => {
 
               return false;
             }
-            humanResourceTemplate = response.data;
-            humanResourceTemplate.parent_id = droppedNodeId;
-            response = await updateHumanResourceTemplate(
-              draggedNodeId,
-              humanResourceTemplate,
-            );
+            humanResource = response.data;
+            humanResource.parent_id = droppedNodeId;
+            response = await updateHumanResource(draggedNodeId, humanResource);
             if (isResponseSuccess(response)) {
               successStack(
                 <IntlMessages
                   id='common.subject_updated_successfully'
                   values={{
-                    subject: (
-                      <IntlMessages id='human_resource_template.label' />
-                    ),
+                    subject: <IntlMessages id='human_resource.label' />,
                   }}
                 />,
               );
             }
+          } else {
+            return false;
           }
         })();
       });
     });
 
-    //attaching drag&drop event listener to every hierarchy node.
     node.map((trigger) => {
       trigger.removeEventListener('drop', () => {});
       trigger.removeEventListener('dragstart', () => {});
@@ -200,28 +180,28 @@ const OrganizationUnitTypeHierarchy = () => {
     setSelectedItemParentId(event.parent_id);
   };
 
-  const handlePopOverClose = () => {
+  const handleActionPopOverClose = () => {
     setAnchorEl(null);
   };
 
-  const reloadHierarchyData = useCallback(() => {
-    getHierarchyHierarchyData(Number(organizationUnitTypeId), setHierarchyData);
-  }, [organizationUnitTypeId]);
-
-  const deleteHumanResourceFromTemplate = useCallback(async () => {
-    const humanResourceId = Number(selectedItemId?.toString().replace('m', ''));
-    let response = await deleteHumanResourceTemplate(humanResourceId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{
-            subject: <IntlMessages id='human_resource_template.label' />,
-          }}
-        />,
+  const deleteHumanResourceItem = useCallback(() => {
+    (async () => {
+      const humanResourceId = Number(
+        selectedItemId?.toString().replace('m', ''),
       );
-      reloadHierarchyData();
-    }
+      let response = await deleteHumanResource(humanResourceId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{
+              subject: <IntlMessages id='human_resource.label' />,
+            }}
+          />,
+        );
+        mutateHierarchyData();
+      }
+    })();
   }, [selectedItemId]);
 
   return (
@@ -233,10 +213,10 @@ const OrganizationUnitTypeHierarchy = () => {
       />
       {
         <Popover
-          id={anchorEl ? 'simple-popover' : undefined}
+          id={Boolean(anchorEl) ? 'simple-popover' : undefined}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
-          onClose={handlePopOverClose}
+          onClose={handleActionPopOverClose}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',
@@ -251,7 +231,7 @@ const OrganizationUnitTypeHierarchy = () => {
               <EditButton onClick={() => openAddEditModal(true)} />
               {selectedItemParentId && selectedItemId && (
                 <DeleteButton
-                  deleteAction={() => deleteHumanResourceFromTemplate()}
+                  deleteAction={() => deleteHumanResourceItem()}
                   deleteTitle={messages['common.delete_confirm'] as string}
                 />
               )}
@@ -260,16 +240,16 @@ const OrganizationUnitTypeHierarchy = () => {
         </Popover>
       }
       {isOpenAddEditModal && (
-        <HumanResourceTemplateAddEditPopup
+        <HumanResourceAddEditPopup
           itemId={selectedItemId}
           onClose={closeAddEditModal}
-          refreshDataTable={reloadHierarchyData}
+          refreshDataTable={mutateHierarchyData}
           isEdit={isEdit}
-          organizationUnitTypeId={Number(organizationUnitTypeId)}
+          organizationUnitId={Number(organizationUnitId)}
         />
       )}
     </>
   );
 };
 
-export default OrganizationUnitTypeHierarchy;
+export default OrganizationUnitHierarchyPage;
