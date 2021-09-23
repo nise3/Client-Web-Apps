@@ -21,6 +21,7 @@ import clsx from 'clsx';
 import {AccountTreeOutlined} from '@material-ui/icons';
 import Link from 'next/link';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {LINK_ROLE} from '../../../@softbd/common/appLinks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -159,7 +160,7 @@ const RolePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = `/dashboard/roles/assign-permissions/${data.id}`;
+          const URL = LINK_ROLE + `/${data.id}`;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />

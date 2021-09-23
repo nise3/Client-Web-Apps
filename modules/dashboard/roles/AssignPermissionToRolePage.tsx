@@ -1,26 +1,24 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import AppPage from '../../../../@crema/hoc/AppPage';
-import PageMeta from '../../../../@crema/core/PageMeta';
 import {
   map as lodashMap,
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
 } from 'lodash';
 import {Box, Checkbox, createStyles, Divider, Grid} from '@material-ui/core';
-import PageBlock from '../../../../@softbd/utilities/PageBlock';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from '@material-ui/core/styles';
-import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
-import {assignPermissions} from '../../../../services/userManagement/RoleService';
-import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {assignPermissions} from '../../../services/userManagement/RoleService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   useFetchPermissionSubGroup,
   useFetchRole,
-} from '../../../../services/userManagement/hooks';
+} from '../../../services/userManagement/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const AssignPermissionToRole = () => {
+const AssignPermissionToRolePage = () => {
   const classes = useStyles();
   const router = useRouter();
   const {messages} = useIntl();
@@ -211,12 +209,4 @@ const AssignPermissionToRole = () => {
   );
 };
 
-export default AppPage(() => {
-  const {messages} = useIntl();
-  return (
-    <>
-      <PageMeta title={messages['common.assign_permission']} />
-      <AssignPermissionToRole />
-    </>
-  );
-});
+export default AssignPermissionToRolePage;
