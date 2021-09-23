@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
         paddingBottom: '120px',
       },
       [theme.breakpoints.up('md')]: {
-        paddingBottom: '170px',
+        paddingBottom: '180px',
       },
     },
     cardColor1: {

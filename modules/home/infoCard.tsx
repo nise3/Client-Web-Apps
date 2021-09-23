@@ -19,12 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: '10px',
     },
     logo: {
-      height: '5vh',
-      width: '2vw',
-      [theme.breakpoints.down('sm')]: {
-        height: '5vh',
-        width: '5vw',
-      },
+      height: '20px',
+      width: '20px',
+      marginTop: '5px',
     },
   }),
 );
@@ -50,12 +47,14 @@ const InfoCard = ({color, infos}: Props) => {
                         <img className={classes.logo} src='/images/logo1.png' />
                       </Grid>
                       <Grid item md={10} xs={10}>
-                        {infoItem.name}
+                        <Box mt={1}> {infoItem.name}</Box>
                       </Grid>
                     </Grid>
                   </Grid>
                   <Grid item md={2} xs={2}>
-                    <Box sx={{color: color}}>{infoItem.count}</Box>
+                    <Box mt={1} sx={{color: color}}>
+                      {infoItem.count}
+                    </Box>
                   </Grid>
                 </>
               );
