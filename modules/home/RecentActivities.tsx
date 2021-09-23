@@ -71,7 +71,7 @@ const RecentActivities = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
-        <SectionTitle title='সাম্প্রতিক কার্যক্রম'></SectionTitle>
+        <SectionTitle title='সাম্প্রতিক কার্যক্রম' />
         <Fade cascade duration={4000}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6}>
@@ -80,7 +80,8 @@ const RecentActivities = () => {
                   src={recentActivitiesOne}
                   alt={'activities one'}
                   className={classes.image1}
-                  height={1530}></Image>
+                  height={1530}
+                />
                 <Box className={classes.imgInfo}>
                   <Box className={classes.dateInfo}>
                     <DateRangeOutlined />
@@ -104,7 +105,8 @@ const RecentActivities = () => {
                     <Image
                       src={recentActivitiesTwo}
                       alt={'activities two'}
-                      className={classes.image2}></Image>
+                      className={classes.image2}
+                    />
 
                     <Box className={classes.dateInfo2}>
                       <DateRangeOutlined />
@@ -125,7 +127,8 @@ const RecentActivities = () => {
                     <Image
                       src={recentActivitiesThree}
                       alt={'activities Three'}
-                      className={classes.image3}></Image>
+                      className={classes.image3}
+                    />
                     <Box className={classes.imgInfo}>
                       <Box className={classes.dateInfo}>
                         <DateRangeOutlined />
@@ -145,7 +148,8 @@ const RecentActivities = () => {
                     <Image
                       src={recentActivitiesThree}
                       alt={'activities Three'}
-                      className={classes.image3}></Image>
+                      className={classes.image3}
+                    />
                     <Box className={classes.imgInfo}>
                       <Box className={classes.dateInfo}>
                         <DateRangeOutlined />
