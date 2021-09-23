@@ -22,6 +22,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
+  isNeedToSelectOrganization,
   isResponseSuccess,
   isValidationError,
 } from '../../../@softbd/utilities/helpers';
@@ -72,7 +73,14 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         .string()
         .title('bn')
         .label(messages['common.title_bn'] as string),
-      organization_id: yup.string(),
+      organization_id:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['organization.label'] as string)
+          : yup.string().label(messages['organization.label'] as string),
       description: yup.string(),
       row_status: yup.string(),
     });
@@ -181,7 +189,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isOrganizationUser && (
+        {authUser && isNeedToSelectOrganization(authUser) && (
           <Grid item xs={6}>
             <CustomFormSelect
               id='organization_id'

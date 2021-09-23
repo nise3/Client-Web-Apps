@@ -6,7 +6,6 @@ import {
   FormControl,
   Grid,
   InputAdornment,
-  InputLabel,
   NativeSelect,
   OutlinedInput,
   Typography,
@@ -61,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up('md')]: {
         width: 'auto',
-        padding: '12px 5px 5px 15px',
+        padding: '12px 15px 5px 15px',
       },
     },
     skillSlide: {
@@ -72,6 +71,10 @@ const useStyles = makeStyles((theme: Theme) =>
       background: '#682988',
       color: '#fff',
       borderRadius: '0px',
+      marginTop: '10px',
+    },
+    location: {
+      marginTop: '10px',
     },
     trendWrapper: {
       position: 'relative',
@@ -181,9 +184,6 @@ const CoverArea = () => {
             <Grid container spacing={2} className={classes.searchBox}>
               <Grid item xs={12} md={7}>
                 <FormControl variant='outlined'>
-                  <InputLabel htmlFor='outlined-adornment-amount'>
-                    Search
-                  </InputLabel>
                   <OutlinedInput
                     className={classes.noBorder}
                     id='outlined-adornment-amount'
@@ -192,11 +192,10 @@ const CoverArea = () => {
                         <SearchIcon /> অনুসন্ধান করুন
                       </InputAdornment>
                     }
-                    labelWidth={60}
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid item xs={6} md={3} className={classes.location}>
                 <NativeSelect IconComponent={CustomSvgIcon}>
                   <option>লোকেশন</option>
                 </NativeSelect>
@@ -214,7 +213,7 @@ const CoverArea = () => {
             <Slide direction='down'>
               <Grid item container xs={12} md={8} spacing={2}>
                 <Grid item xs={12} md={2}>
-                  <Box mt={{xs: 0, md: 2}}>
+                  <Box>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>

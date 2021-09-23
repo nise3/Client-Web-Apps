@@ -2,35 +2,34 @@
 import OrganizationChart from 'nextjs-orgchart';
 import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
-import {getOrganizationUnitTypeHierarchy} from '../../../../services/organaizationManagement/OrganizationUnitTypeService';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Popover, Typography} from '@material-ui/core';
-import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useIntl} from 'react-intl';
-import HumanResourceTemplateAddEditPopup from '../../../../modules/dashboard/human-resource-templates/HumanResourceTemplateAddEditPopup';
-import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
-import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {
-  deleteHumanResourceTemplate,
-  getHumanResourceTemplate,
-  updateHumanResourceTemplate,
-} from '../../../../services/organaizationManagement/HumanResourceTemplateService';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
-import AppPage from '../../../../@crema/hoc/AppPage';
-import PageMeta from '../../../../@crema/core/PageMeta';
+import {useOrganizationUnitHierarchy} from '../../../services/organaizationManagement/hooks';
+import {
+  deleteHumanResource,
+  getHumanResource,
+  updateHumanResource,
+} from '../../../services/organaizationManagement/HumanResourceService';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import HumanResourceAddEditPopup from '../human-resources/HumanResourceAddEditPopup';
 
-const makeChartData = (item: any) => {
+const makeHierarchyData = (item: any) => {
+  // next-js organization chart dont take id as number to render chart, so prepending a 'm'
   item.id = 'm' + item.id;
   item.title = item.title_en;
   item.name = item.title_bn;
 
   if (item.children && Array.isArray(item.children)) {
     item.children.map((node: any) => {
-      makeChartData(node);
+      makeHierarchyData(node);
     });
   } else {
     return item;
@@ -38,34 +37,13 @@ const makeChartData = (item: any) => {
   return item;
 };
 
-const getHierarchyChartData = async (
-  organization_unit_type_id: any,
-  setChartData: any,
-): Promise<boolean> => {
-  let response = await getOrganizationUnitTypeHierarchy(
-    organization_unit_type_id,
-  );
-  if (response) {
-    const {data: item} = response;
-    if (item) {
-      makeChartData(item);
-      setChartData(item);
-      return true;
-    } else {
-      return false;
-    }
-  }
-  return false;
-};
-
-const OrgChart = () => {
-  const router = useRouter();
-  const {organizationUnitTypeId} = router.query;
+const OrganizationUnitHierarchyPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [chartData, setChartData] = useState<object>({});
+  const [HierarchyData, setHierarchyData] = useState<object>({});
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedItemParentId, setSelectedItemParentId] = useState<
@@ -73,31 +51,34 @@ const OrgChart = () => {
   >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
+  const {organizationUnitId} = router.query;
+  const {
+    data,
+    metaData,
+    mutate: mutateHierarchyData,
+  } = useOrganizationUnitHierarchy(Number(organizationUnitId));
+
   useEffect(() => {
-    if (organizationUnitTypeId) {
-      getHierarchyChartData(organizationUnitTypeId, setChartData).then(
-        (res: boolean) => {
-          if (!res) {
-            openAddEditModal(selectedItemId);
-          }
-        },
-      );
+    if (data) {
+      const HierarchyData = makeHierarchyData(data);
+      setHierarchyData(HierarchyData);
     }
-  }, [organizationUnitTypeId]);
+
+    if (metaData._response_status && !data && organizationUnitId) {
+      openAddEditModal();
+    }
+  }, [data, organizationUnitId]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
   }, []);
 
-  const openAddEditModal = (
-    itemId: number | null = null,
-    isEdit: boolean = false,
-  ) => {
-    setSelectedItemId(itemId);
+  const openAddEditModal = (isEdit: boolean = false) => {
     setIsEdit(isEdit);
     setIsOpenAddEditModal(true);
   };
 
+  //Tree coloring portion is not completed
   const colors = ['green', 'red', 'blue'];
   const shuffleLists = (root: HTMLDivElement) => {
     let elems = root.getElementsByTagName('ul');
@@ -107,7 +88,6 @@ const OrgChart = () => {
       console.log('item', item);
     }
   };
-
   function treeColoring(root: any, step: number) {
     let heading = root.getElementsByClassName('oc-heading')[0];
     if (heading) {
@@ -119,6 +99,7 @@ const OrgChart = () => {
     shuffleLists(root);
   }
 
+  //search for dragged element.
   function getElementId(
     ele: any,
     step: number,
@@ -151,13 +132,15 @@ const OrgChart = () => {
         draggedNodeId = Number(draggedNodeId?.toString().substring(1));
         droppedNodeId = Number(droppedNodeId.toString().substring(1));
 
+        //prevent api call if drag & drop node is same.
         if (draggedNodeId == droppedNodeId) {
           return false;
         }
-        let humanResourceTemplate;
+        let humanResource;
         (async () => {
-          let response = await getHumanResourceTemplate(draggedNodeId);
+          let response = await getHumanResource(draggedNodeId);
           if (response) {
+            //prevent drag&drop if node is root element. only root element have no parent.
             if (!response.data.parent_id) {
               successStack(
                 <IntlMessages id='common.root_cant_be_drag_and_drop' />,
@@ -165,24 +148,21 @@ const OrgChart = () => {
 
               return false;
             }
-            humanResourceTemplate = response.data;
-            humanResourceTemplate.parent_id = droppedNodeId;
-            response = await updateHumanResourceTemplate(
-              draggedNodeId,
-              humanResourceTemplate,
-            );
+            humanResource = response.data;
+            humanResource.parent_id = droppedNodeId;
+            response = await updateHumanResource(draggedNodeId, humanResource);
             if (isResponseSuccess(response)) {
               successStack(
                 <IntlMessages
                   id='common.subject_updated_successfully'
                   values={{
-                    subject: (
-                      <IntlMessages id='human_resource_template.label' />
-                    ),
+                    subject: <IntlMessages id='human_resource.label' />,
                   }}
                 />,
               );
             }
+          } else {
+            return false;
           }
         })();
       });
@@ -200,46 +180,43 @@ const OrgChart = () => {
     setSelectedItemParentId(event.parent_id);
   };
 
-  const handleClose = () => {
+  const handleActionPopOverClose = () => {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const reloadData = useCallback(() => {
-    getHierarchyChartData(organizationUnitTypeId, setChartData);
-  }, [organizationUnitTypeId]);
-
-  const deleteHumanResourceFromTemplate = async (humanResourceId: number) => {
-    humanResourceId = Number(humanResourceId.toString().substring(1));
-    let response = await deleteHumanResourceTemplate(humanResourceId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{
-            subject: <IntlMessages id='human_resource_template.label' />,
-          }}
-        />,
+  const deleteHumanResourceItem = useCallback(() => {
+    (async () => {
+      const humanResourceId = Number(
+        selectedItemId?.toString().replace('m', ''),
       );
-      reloadData();
-    }
-  };
+      let response = await deleteHumanResource(humanResourceId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{
+              subject: <IntlMessages id='human_resource.label' />,
+            }}
+          />,
+        );
+        mutateHierarchyData();
+      }
+    })();
+  }, [selectedItemId]);
 
   return (
     <>
       <OrganizationChart
-        datasource={chartData}
+        datasource={HierarchyData}
         draggable={true}
         onClickNode={handleNodeClick}
       />
       {
         <Popover
-          id={id}
-          open={open}
+          id={Boolean(anchorEl) ? 'simple-popover' : undefined}
+          open={Boolean(anchorEl)}
           anchorEl={anchorEl}
-          onClose={handleClose}
+          onClose={handleActionPopOverClose}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',
@@ -250,18 +227,11 @@ const OrgChart = () => {
           }}>
           <Typography>
             <DatatableButtonGroup>
-              <AddButton
-                onClick={() => openAddEditModal(selectedItemId, false)}
-              />
-              <EditButton
-                onClick={() => openAddEditModal(selectedItemId, true)}
-              />
-              {selectedItemParentId && (
+              <AddButton onClick={() => openAddEditModal(false)} />
+              <EditButton onClick={() => openAddEditModal(true)} />
+              {selectedItemParentId && selectedItemId && (
                 <DeleteButton
-                  deleteAction={() =>
-                    selectedItemId &&
-                    deleteHumanResourceFromTemplate(selectedItemId)
-                  }
+                  deleteAction={() => deleteHumanResourceItem()}
                   deleteTitle={messages['common.delete_confirm'] as string}
                 />
               )}
@@ -270,21 +240,16 @@ const OrgChart = () => {
         </Popover>
       }
       {isOpenAddEditModal && (
-        <HumanResourceTemplateAddEditPopup
+        <HumanResourceAddEditPopup
           itemId={selectedItemId}
           onClose={closeAddEditModal}
-          refreshDataTable={reloadData}
+          refreshDataTable={mutateHierarchyData}
           isEdit={isEdit}
-          organizationUnitTypeId={Number(organizationUnitTypeId)}
+          organizationUnitId={Number(organizationUnitId)}
         />
       )}
     </>
   );
 };
 
-export default AppPage(() => (
-  <>
-    <PageMeta title='Organization Unit Types Chart' />
-    <OrgChart />
-  </>
-));
+export default OrganizationUnitHierarchyPage;

@@ -17,11 +17,16 @@
 }
 
 @font-face {
-    font-family: 'Nikosh';
-    src: local('Nikosh'),
+    font-family: 'NikoshBAN';
+    src: local('NikoshBAN'),
     url(./fonts/NikoshBAN.ttf) format('truetype');
     font-weight: 300;
     font-style: normal;
+}
+@font-face {
+    font-family: 'Nikosh';
+    src: local('Nikosh'),
+    url(./fonts/Nikosh.ttf) format('truetype');
 }
 
 /*@font-face {*/

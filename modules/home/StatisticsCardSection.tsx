@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
         paddingBottom: '120px',
       },
       [theme.breakpoints.up('md')]: {
-        paddingBottom: '170px',
+        paddingBottom: '130px',
       },
     },
     cardColor1: {
@@ -108,7 +108,7 @@ const StatisticsCardSection = () => {
               <Card className={classes.cardColor2}>
                 <Typography variant='h5' gutterBottom={true}>
                   <Box component={'span'} fontWeight='fontWeightBold'>
-                    32
+                    ৮
                   </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
@@ -201,10 +201,10 @@ const StatisticsCardSection = () => {
               <InfoCard
                 color={'#661687'}
                 infos={[
-                  {name: 'সফ্ট বিডি', count: '৪৫'},
-                  {name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                  {name: 'পাঠাও', count: '২৫'},
-                  {name: 'ইভ্যালি', count: '৭০'},
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
                 ]}
               />
             </Grid>
@@ -221,10 +221,10 @@ const StatisticsCardSection = () => {
               <InfoCard
                 color={'#0069BC'}
                 infos={[
-                  {name: 'সফ্ট বিডি', count: '৪৫'},
-                  {name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                  {name: 'পাঠাও', count: '২৫'},
-                  {name: 'ইভ্যালি', count: '৭০'},
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
                 ]}
               />
             </Grid>
@@ -241,10 +241,10 @@ const StatisticsCardSection = () => {
               <InfoCard
                 color={'#305DF7'}
                 infos={[
-                  {name: 'সফ্ট বিডি', count: '৪৫'},
-                  {name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                  {name: 'পাঠাও', count: '২৫'},
-                  {name: 'ইভ্যালি', count: '৭০'},
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
                 ]}
               />
             </Grid>
@@ -261,10 +261,10 @@ const StatisticsCardSection = () => {
               <InfoCard
                 color={'#22BB33'}
                 infos={[
-                  {name: 'সফ্ট বিডি', count: '৪৫'},
-                  {name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                  {name: 'পাঠাও', count: '২৫'},
-                  {name: 'ইভ্যালি', count: '৭০'},
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
                 ]}
               />
             </Grid>

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -21,6 +21,7 @@ import Link from 'next/link';
 import {Button, makeStyles} from '@material-ui/core';
 import clsx from 'clsx';
 import {AccountTreeOutlined} from '@material-ui/icons';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const OrganizationUnitPage = () => {
+  const authUser = useAuthUser();
   const classes = useStyles();
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
@@ -42,6 +44,15 @@ const OrganizationUnitPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [organizationUnitFilters, setOrganizationUnitFilters] = useState({});
+
+  useEffect(() => {
+    if (authUser?.isOrganizationUser) {
+      setOrganizationUnitFilters({
+        organization_id: authUser.organization?.id,
+      });
+    }
+  }, []);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -124,7 +135,7 @@ const OrganizationUnitPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           const URL =
-            '/../../dashboard/organization-units/org-chart/__'.replace(
+            '/../../dashboard/organization-units/organization-unit-hr-hierarchy/__'.replace(
               '__',
               String(data.id),
             );
@@ -157,6 +168,7 @@ const OrganizationUnitPage = () => {
     useReactTableFetchData({
       urlPath: API_ORGANIZATION_UNITS,
       dataAccessor: 'data',
+      filters: organizationUnitFilters,
     });
 
   return (

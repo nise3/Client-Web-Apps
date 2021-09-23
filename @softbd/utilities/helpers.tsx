@@ -308,3 +308,11 @@ export const getUserType = (user: AuthUser | null) => {
   else if (user?.isInstituteUser) return 3;
   else return 1;
 };
+
+export const isNeedToSelectOrganization = (user: AuthUser | null): boolean => {
+  // if user is organization user no need to select organization
+  if (user?.isOrganizationUser) {
+    return false;
+  }
+  return true;
+};

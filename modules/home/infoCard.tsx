@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Box, Container, Grid} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 
@@ -19,12 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: '10px',
     },
     logo: {
-      height: '5vh',
-      width: '2vw',
-      [theme.breakpoints.down('sm')]: {
-        height: '5vh',
-        width: '5vw',
-      },
+      height: '20px',
+      width: '20px',
+      marginTop: '5px',
     },
   }),
 );
@@ -43,21 +40,23 @@ const InfoCard = ({color, infos}: Props) => {
           {infos &&
             infos.map((infoItem, key: number) => {
               return (
-                <>
-                  <Grid item md={10} xs={10} key={key}>
+                <Fragment key={infoItem.id.toString()}>
+                  <Grid item md={10} xs={10}>
                     <Grid item container>
                       <Grid item md={2} xs={2}>
                         <img className={classes.logo} src='/images/logo1.png' />
                       </Grid>
                       <Grid item md={10} xs={10}>
-                        {infoItem.name}
+                        <Box mt={1}> {infoItem.name}</Box>
                       </Grid>
                     </Grid>
                   </Grid>
                   <Grid item md={2} xs={2}>
-                    <Box sx={{color: color}}>{infoItem.count}</Box>
+                    <Box mt={1} sx={{color: color}}>
+                      {infoItem.count}
+                    </Box>
                   </Grid>
-                </>
+                </Fragment>
               );
             })}
         </Grid>
