@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Box, Container, Grid} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 
@@ -40,8 +40,8 @@ const InfoCard = ({color, infos}: Props) => {
           {infos &&
             infos.map((infoItem, key: number) => {
               return (
-                <>
-                  <Grid item md={10} xs={10} key={key}>
+                <Fragment key={infoItem.id.toString()}>
+                  <Grid item md={10} xs={10}>
                     <Grid item container>
                       <Grid item md={2} xs={2}>
                         <img className={classes.logo} src='/images/logo1.png' />
@@ -56,7 +56,7 @@ const InfoCard = ({color, infos}: Props) => {
                       {infoItem.count}
                     </Box>
                   </Grid>
-                </>
+                </Fragment>
               );
             })}
         </Grid>

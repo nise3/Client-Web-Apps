@@ -176,9 +176,9 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}>
       <MenuItem onClick={handleMenuClose} className={classes.menuItem}>
-        Profile
+        প্রোফাইল
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>অ্যাকাউন্ট</MenuItem>
     </Menu>
   );
 
@@ -228,7 +228,7 @@ export default function Header() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>নোটিফিকেশান</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -238,7 +238,7 @@ export default function Header() {
           color='inherit'>
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>প্রোফাইল</p>
       </MenuItem>
     </Menu>
   );

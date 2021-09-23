@@ -6,7 +6,6 @@ import {
   FormControl,
   Grid,
   InputAdornment,
-  InputLabel,
   NativeSelect,
   OutlinedInput,
   Typography,
@@ -61,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up('md')]: {
         width: 'auto',
-        padding: '12px 5px 5px 15px',
+        padding: '12px 15px 5px 15px',
       },
     },
     skillSlide: {
@@ -185,9 +184,6 @@ const CoverArea = () => {
             <Grid container spacing={2} className={classes.searchBox}>
               <Grid item xs={12} md={7}>
                 <FormControl variant='outlined'>
-                  <InputLabel htmlFor='outlined-adornment-amount'>
-                    Search
-                  </InputLabel>
                   <OutlinedInput
                     className={classes.noBorder}
                     id='outlined-adornment-amount'
@@ -196,7 +192,6 @@ const CoverArea = () => {
                         <SearchIcon /> অনুসন্ধান করুন
                       </InputAdornment>
                     }
-                    labelWidth={60}
                   />
                 </FormControl>
               </Grid>
@@ -218,7 +213,7 @@ const CoverArea = () => {
             <Slide direction='down'>
               <Grid item container xs={12} md={8} spacing={2}>
                 <Grid item xs={12} md={2}>
-                  <Box mt={{xs: 0, md: 2}}>
+                  <Box>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>

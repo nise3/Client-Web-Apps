@@ -84,7 +84,7 @@ const RecentActivities = () => {
                 <Box className={classes.imgInfo}>
                   <Box className={classes.dateInfo}>
                     <DateRangeOutlined />
-                    <Typography>12 Jan 2021</Typography>
+                    <Typography>১২ জুন ২০২১</Typography>
                   </Box>
                   <Typography variant='subtitle2'>
                     <Box fontWeight='fontWeightBold' m={1}>
@@ -108,7 +108,7 @@ const RecentActivities = () => {
 
                     <Box className={classes.dateInfo2}>
                       <DateRangeOutlined />
-                      <Typography>12 Jan 2021</Typography>
+                      <Typography>১২ জুন ২০২১</Typography>
                     </Box>
                     <Box className={classes.imgInfo}>
                       <Typography variant='subtitle2'>
@@ -129,7 +129,7 @@ const RecentActivities = () => {
                     <Box className={classes.imgInfo}>
                       <Box className={classes.dateInfo}>
                         <DateRangeOutlined />
-                        <Typography>12 Jan 2021</Typography>
+                        <Typography>১২ জুন ২০২১</Typography>
                       </Box>
                       <Typography variant='subtitle2'>
                         <Box fontWeight='fontWeightBold' m={1}>
@@ -149,7 +149,7 @@ const RecentActivities = () => {
                     <Box className={classes.imgInfo}>
                       <Box className={classes.dateInfo}>
                         <DateRangeOutlined />
-                        <Typography>12 Jan 2021</Typography>
+                        <Typography>১২ জুন ২০২১</Typography>
                       </Box>
                       <Typography variant='subtitle2'>
                         <Box fontWeight='fontWeightBold' m={1}>
