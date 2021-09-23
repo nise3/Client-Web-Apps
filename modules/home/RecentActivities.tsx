@@ -73,7 +73,7 @@ const RecentActivities = () => {
       <Container maxWidth='md' disableGutters>
         <SectionTitle title='সাম্প্রতিক কার্যক্রম'></SectionTitle>
         <Fade cascade duration={4000}>
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             <Grid item xs={12} md={6}>
               <Box className={classes.imgWrapper}>
                 <Image
