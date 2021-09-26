@@ -1,11 +1,12 @@
 import React from 'react';
 import {
   Box,
+  Card,
+  CardMedia,
   Container,
   Grid,
   NativeSelect,
   Typography,
-  Zoom,
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {Slide, Fade} from 'react-awesome-reveal';
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       [theme.breakpoints.up('md')]: {
         position: 'absolute',
-        // width: '40%',
+        width: '40%',
       },
 
       [theme.breakpoints.down('sm')]: {
@@ -170,17 +171,25 @@ const CoverArea = () => {
             </Slide>
           </Container>
 
-          <Grid container>
-            <Zoom>
-              <>
-                <img
-                  src='/images/cover-area.png'
-                  alt='crema-logo'
-                  className={classes.coverImage}
-                />
-              </>
-            </Zoom>
-          </Grid>
+          <Card>
+            <CardMedia
+              component='img'
+              alt='green iguana'
+              height='140'
+              image='/images/cover-area.png'
+              className={classes.coverImage}
+            />
+          </Card>
+
+          {/*<Grid item container md={4} sm={12}>*/}
+          {/*  /!*<Zoom>*!/*/}
+          {/*  <img*/}
+          {/*    src='/images/cover-area.png'*/}
+          {/*    alt='crema-logo'*/}
+          {/*    // className={classes.coverImage}*/}
+          {/*  />*/}
+          {/*  /!*</Zoom>*!/*/}
+          {/*</Grid>*/}
         </Grid>
       </Grid>
     </>

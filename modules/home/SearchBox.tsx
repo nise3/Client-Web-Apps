@@ -14,28 +14,29 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     searchBox: {
-      // padding: '12px 5px 5px 15px',
+      padding: '12px 5px 5px 15px',
       background: '#fff',
       position: 'absolute',
       zIndex: 1,
-      width: '45%',
       // borderRadius: '2px',
       border: 'none',
-      // [theme.breakpoints.down('sm')]: {
-      //   width: '100%',
-      //   marginLeft: '-16px',
-      // },
-      // [theme.breakpoints.up('sm')]: {
-      //   width: '100%',
-      //   marginLeft: '-12px',
-      //   paddingBottom: '14px',
-      // },
-      // [theme.breakpoints.up('md')]: {
-      //   width: 'auto',
-      //   padding: '12px 15px 5px 15px',
-      // },
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginLeft: '-16px',
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '100%',
+        marginLeft: '-12px',
+        paddingBottom: '14px',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: '60%',
+        padding: '12px 15px 5px 15px',
+      },
     },
-    noBorder: {},
+    noBorder: {
+      border: 'none',
+    },
     location: {
       marginTop: '10px',
     },
@@ -56,7 +57,7 @@ const SearchBox = () => {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={2} className={classes.searchBox}>
+    <Grid container xl={12} spacing={2} className={classes.searchBox}>
       <Grid item xs={12} md={7}>
         <FormControl variant='outlined'>
           <OutlinedInput
@@ -70,15 +71,23 @@ const SearchBox = () => {
           />
         </FormControl>
       </Grid>
-      <Grid item xs={6} md={3} className={classes.location}>
-        <NativeSelect IconComponent={CustomSvgIcon}>
-          <option>লোকেশন</option>
-        </NativeSelect>
-      </Grid>
-      <Grid item xs={6} md={2}>
-        <Button variant='contained' className={classes.searchButton}>
-          অনুসন্ধান
-        </Button>
+      <Grid
+        item
+        container
+        xs={12}
+        md={5}
+        spacing={6}
+        justifyContent={'space-around'}>
+        <Grid item xs={6} md={6} className={classes.location}>
+          <NativeSelect IconComponent={CustomSvgIcon}>
+            <option>লোকেশন</option>
+          </NativeSelect>
+        </Grid>
+        <Grid item xs={6} md={6}>
+          <Button variant='contained' className={classes.searchButton}>
+            অনুসন্ধান
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

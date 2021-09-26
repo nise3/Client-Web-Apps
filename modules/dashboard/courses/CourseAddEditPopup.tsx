@@ -35,10 +35,10 @@ interface CourseAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
+  id: '',
   title_en: '',
   title_bn: '',
-  institute_id: 0,
+  institute_id: '',
   code: '',
   course_fee: '',
   duration: '',
