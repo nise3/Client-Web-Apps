@@ -3,7 +3,7 @@ import OrganizationChart from 'nextjs-orgchart';
 import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Popover, Typography} from '@material-ui/core';
+import {Popover} from '@material-ui/core';
 import {useRouter} from 'next/router';
 import {
   deleteHumanResourceTemplate,
@@ -20,10 +20,11 @@ import HumanResourceTemplateAddEditPopup from '../human-resource-templates/Human
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getOrganizationUnitTypeHierarchy} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
+import {HIERARCHY_NODE_ID_PREFIX_STRING} from '../../../@softbd/common/constants';
 
 const makeHierarchyData = (item: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
-  item.id = 'm' + item.id;
+  item.id = HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
   item.title = item.title_en;
   item.name = item.title_bn;
 
@@ -203,7 +204,10 @@ const OrganizationUnitTypeHierarchy = () => {
 
   const handleNodeClick = (event: any) => {
     setAnchorEl(event.id);
-    setSelectedItemId(event.id);
+    const itemId = event.id
+      .toString()
+      .replace(HIERARCHY_NODE_ID_PREFIX_STRING, '');
+    setSelectedItemId(itemId);
     setSelectedItemParentId(event.parent_id);
   };
 
@@ -252,18 +256,16 @@ const OrganizationUnitTypeHierarchy = () => {
             vertical: 'top',
             horizontal: 'center',
           }}>
-          <Typography>
-            <DatatableButtonGroup>
-              <AddButton onClick={() => openAddEditModal(false)} />
-              <EditButton onClick={() => openAddEditModal(true)} />
-              {selectedItemParentId && selectedItemId && (
-                <DeleteButton
-                  deleteAction={() => deleteHumanResourceFromTemplate()}
-                  deleteTitle={messages['common.delete_confirm'] as string}
-                />
-              )}
-            </DatatableButtonGroup>
-          </Typography>
+          <DatatableButtonGroup>
+            <AddButton onClick={() => openAddEditModal(false)} />
+            <EditButton onClick={() => openAddEditModal(true)} />
+            {selectedItemParentId && selectedItemId && (
+              <DeleteButton
+                deleteAction={() => deleteHumanResourceFromTemplate()}
+                deleteTitle={messages['common.delete_confirm'] as string}
+              />
+            )}
+          </DatatableButtonGroup>
         </Popover>
       }
       {isOpenAddEditModal && (

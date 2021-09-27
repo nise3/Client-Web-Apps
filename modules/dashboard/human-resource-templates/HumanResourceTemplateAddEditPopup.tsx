@@ -43,7 +43,7 @@ const initialValues = {
   parent_id: '',
   rank_id: '',
   display_order: '',
-  is_designation: '',
+  is_designation: '2',
   organization_unit_type_id: '',
   status: '',
   row_status: '1',
@@ -51,13 +51,6 @@ const initialValues = {
 
 const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> =
   ({itemId, refreshDataTable, ...props}) => {
-    /**
-     * itemId = "m25" transform it 25 as integer
-     */
-    if (itemId) {
-      itemId = Number(itemId?.toString().replace('m', ''));
-    }
-
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
     const isEdit = props.isEdit;

@@ -45,7 +45,7 @@ const initialValues = {
   parent_id: '',
   rank_id: '',
   display_order: '',
-  is_designation: '',
+  is_designation: '2',
   organization_unit_id: '',
   status: '',
   row_status: '1',
@@ -56,22 +56,10 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  /**
-   * itemId = "m25" transform it 25 as integer
-   */
-  if (itemId) {
-    itemId = Number(itemId?.toString().replace('m', ''));
-  }
-
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = props.isEdit;
 
-  const [organization, setOrganization] = useState<any | {}>({});
-  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
-  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
-    null,
-  );
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title_en: yup
@@ -113,13 +101,16 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  const [organization, setOrganization] = useState<any | {}>({});
+  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
+  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
+    null,
+  );
   const {
     data: humanResourceData,
     isLoading: isHumanResourceLoading,
     mutate: mutateHumanResource,
   } = useFetchHumanResource(itemId);
-
-  console.log('HR', humanResourceData);
 
   const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
     useFetchOrganizationUnit(props.organizationUnitId);
@@ -131,6 +122,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
 
   useEffect(() => {
     if (isEdit && humanResourceData) {
+      //edit action setup
       setOrganizationUnitId(humanResourceData.organization_unit_type_id);
       setOrganization({
         id: humanResourceData.organization_id,
@@ -157,23 +149,25 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         row_status: String(humanResourceData.row_status),
       });
     } else if (humanResourceData) {
+      // add action setup
       setOrganization({
         id: humanResourceData.organization_id,
         title_en: humanResourceData.organization_title_en,
         title_bn: humanResourceData.organization_title_bn,
       });
       setOrganizationUnit({
-        id: humanResourceData.organization_unit_type_id,
-        title_en: humanResourceData.organization_unit_type_title_en,
-        title_bn: humanResourceData.organization_unit_type_title_bn,
+        id: humanResourceData.organization_unit_id,
+        title_en: humanResourceData.organization_unit_title_en,
+        title_bn: humanResourceData.organization_unit_title_bn,
       });
       setOrganizationUnitId(humanResourceData.organization_unit_id);
       initialValues.organization_id = humanResourceData.organization_id;
       initialValues.organization_unit_id =
-        humanResourceData.organization_unit_type_id;
+        humanResourceData.organization_unit_id;
       initialValues.parent_id = humanResourceData.id;
       reset(initialValues);
     } else if (props.organizationUnitId && organizationUnitData) {
+      // when hierarchy tree is empty
       setOrganizationUnitId(organizationUnitId);
       setOrganization({
         id: organizationUnitData.organization_id,
@@ -190,7 +184,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       initialValues.parent_id = '';
       reset(initialValues);
     }
-  }, [organizationUnitData, humanResourceData]);
+  }, [itemId]);
 
   const onSubmit: SubmitHandler<HumanResource> = async (
     data: HumanResource,

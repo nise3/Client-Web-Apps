@@ -3,7 +3,7 @@ import OrganizationChart from 'nextjs-orgchart';
 import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Popover, Typography} from '@material-ui/core';
+import {Popover} from '@material-ui/core';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
@@ -20,10 +20,15 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import HumanResourceAddEditPopup from '../human-resources/HumanResourceAddEditPopup';
+import {HIERARCHY_NODE_ID_PREFIX_STRING} from '../../../@softbd/common/constants';
+
+const getIdFromNodeId = (nodeId: string) => {
+  return Number(nodeId.toString().replace(HIERARCHY_NODE_ID_PREFIX_STRING, ''));
+};
 
 const makeHierarchyData = (item: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
-  item.id = 'm' + item.id;
+  item.id = HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
   item.title = item.title_en;
   item.name = item.title_bn;
 
@@ -104,7 +109,7 @@ const OrganizationUnitHierarchyPage = () => {
     ele: any,
     step: number,
     maxStep: number,
-  ): number | boolean {
+  ): string | boolean {
     if (step > maxStep) return false;
     if (ele.id) {
       return ele.id;
@@ -124,10 +129,19 @@ const OrganizationUnitHierarchyPage = () => {
       draggedNodeId = e.target?.id;
     };
 
+    node.map((trigger) => {
+      trigger.addEventListener('dragstart', handleDragStart);
+    });
+
     const handleDrop = (e: any) => {
       droppedNodeId = getElementId(e.target, 0, 3);
-      draggedNodeId = Number(draggedNodeId?.toString().substring(1));
-      droppedNodeId = Number(droppedNodeId.toString().substring(1));
+
+      if (droppedNodeId) {
+        draggedNodeId = getIdFromNodeId(String(draggedNodeId));
+        droppedNodeId = getIdFromNodeId(String(droppedNodeId));
+      } else {
+        return false;
+      }
 
       //prevent api call if drag & drop node is same.
       if (draggedNodeId == droppedNodeId) {
@@ -165,22 +179,24 @@ const OrganizationUnitHierarchyPage = () => {
     };
 
     node.map((trigger) => {
-      trigger.addEventListener('dragstart', handleDragStart);
-    });
-
-    node.map((trigger) => {
       trigger.addEventListener('drop', handleDrop);
     });
 
-    node.map((trigger) => {
-      trigger.removeEventListener('drop', handleDrop);
-      trigger.removeEventListener('dragstart', handleDragStart);
-    });
+    //detaching drag&drop event listener to every hierarchy node.
+    return () => {
+      node.map((trigger) => {
+        trigger.removeEventListener('drop', handleDrop);
+        trigger.removeEventListener('dragstart', handleDragStart);
+      });
+    };
   }, []);
 
   const handleNodeClick = (event: any) => {
     setAnchorEl(event.id);
-    setSelectedItemId(event.id);
+    const itemId = event.id
+      .toString()
+      .replace(HIERARCHY_NODE_ID_PREFIX_STRING, '');
+    setSelectedItemId(itemId);
     setSelectedItemParentId(event.parent_id);
   };
 
@@ -189,23 +205,21 @@ const OrganizationUnitHierarchyPage = () => {
   };
 
   const deleteHumanResourceItem = useCallback(() => {
-    (async () => {
-      const humanResourceId = Number(
-        selectedItemId?.toString().replace('m', ''),
-      );
-      let response = await deleteHumanResource(humanResourceId);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_deleted_successfully'
-            values={{
-              subject: <IntlMessages id='human_resource.label' />,
-            }}
-          />,
-        );
-        mutateHierarchyData();
-      }
-    })();
+    selectedItemId &&
+      (async () => {
+        let response = await deleteHumanResource(selectedItemId);
+        if (isResponseSuccess(response)) {
+          successStack(
+            <IntlMessages
+              id='common.subject_deleted_successfully'
+              values={{
+                subject: <IntlMessages id='human_resource.label' />,
+              }}
+            />,
+          );
+          mutateHierarchyData();
+        }
+      })();
   }, [selectedItemId]);
 
   return (
@@ -218,6 +232,7 @@ const OrganizationUnitHierarchyPage = () => {
       {
         <Popover
           id={Boolean(anchorEl) ? 'simple-popover' : undefined}
+          title={'Hierarchy Action Buttons'}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           onClose={handleActionPopOverClose}
@@ -229,18 +244,16 @@ const OrganizationUnitHierarchyPage = () => {
             vertical: 'top',
             horizontal: 'center',
           }}>
-          <Typography>
-            <DatatableButtonGroup>
-              <AddButton onClick={() => openAddEditModal(false)} />
-              <EditButton onClick={() => openAddEditModal(true)} />
-              {selectedItemParentId && selectedItemId && (
-                <DeleteButton
-                  deleteAction={() => deleteHumanResourceItem()}
-                  deleteTitle={messages['common.delete_confirm'] as string}
-                />
-              )}
-            </DatatableButtonGroup>
-          </Typography>
+          <DatatableButtonGroup>
+            <AddButton onClick={() => openAddEditModal(false)} />
+            <EditButton onClick={() => openAddEditModal(true)} />
+            {selectedItemParentId && selectedItemId && (
+              <DeleteButton
+                deleteAction={() => deleteHumanResourceItem()}
+                deleteTitle={messages['common.delete_confirm'] as string}
+              />
+            )}
+          </DatatableButtonGroup>
         </Popover>
       }
       {isOpenAddEditModal && (
