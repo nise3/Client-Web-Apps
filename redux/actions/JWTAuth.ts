@@ -102,8 +102,12 @@ export const loadAuthUser = async (
     const ssoTokenData = JSON.parse(
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
-    const coreResponse = await apiGet(
+    /*const coreResponse = await apiGet(
       `/core/users/${ssoTokenData.sub}/permissions`,
+    );*/
+    //use for test purpose
+    const coreResponse = await apiGet(
+      `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
     );
     const {data} = coreResponse.data;
     dispatch(fetchSuccess());
