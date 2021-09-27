@@ -37,7 +37,6 @@ interface RankAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
   organization_id: '',

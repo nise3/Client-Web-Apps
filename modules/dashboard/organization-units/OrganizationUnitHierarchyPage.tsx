@@ -120,57 +120,61 @@ const OrganizationUnitHierarchyPage = () => {
     let draggedNodeId: number | null = null;
     let droppedNodeId = null;
 
-    node.map((trigger) => {
-      trigger.addEventListener('dragstart', (e: any) => {
-        draggedNodeId = e.target?.id;
-      });
-    });
+    const handleDragStart = (e: any) => {
+      draggedNodeId = e.target?.id;
+    };
 
-    node.map((trigger) => {
-      trigger.addEventListener('drop', (e: any) => {
-        droppedNodeId = getElementId(e.target, 0, 3);
-        draggedNodeId = Number(draggedNodeId?.toString().substring(1));
-        droppedNodeId = Number(droppedNodeId.toString().substring(1));
+    const handleDrop = (e: any) => {
+      droppedNodeId = getElementId(e.target, 0, 3);
+      draggedNodeId = Number(draggedNodeId?.toString().substring(1));
+      droppedNodeId = Number(droppedNodeId.toString().substring(1));
 
-        //prevent api call if drag & drop node is same.
-        if (draggedNodeId == droppedNodeId) {
-          return false;
-        }
-        let humanResource;
-        (async () => {
-          let response = await getHumanResource(draggedNodeId);
-          if (response) {
-            //prevent drag&drop if node is root element. only root element have no parent.
-            if (!response.data.parent_id) {
-              successStack(
-                <IntlMessages id='common.root_cant_be_drag_and_drop' />,
-              );
+      //prevent api call if drag & drop node is same.
+      if (draggedNodeId == droppedNodeId) {
+        return false;
+      }
+      let humanResource;
+      (async () => {
+        let response = await getHumanResource(draggedNodeId);
+        if (response) {
+          //prevent drag&drop if node is root element. only root element have no parent.
+          if (!response.data.parent_id) {
+            successStack(
+              <IntlMessages id='common.root_cant_be_drag_and_drop' />,
+            );
 
-              return false;
-            }
-            humanResource = response.data;
-            humanResource.parent_id = droppedNodeId;
-            response = await updateHumanResource(draggedNodeId, humanResource);
-            if (isResponseSuccess(response)) {
-              successStack(
-                <IntlMessages
-                  id='common.subject_updated_successfully'
-                  values={{
-                    subject: <IntlMessages id='human_resource.label' />,
-                  }}
-                />,
-              );
-            }
-          } else {
             return false;
           }
-        })();
-      });
+          humanResource = response.data;
+          humanResource.parent_id = droppedNodeId;
+          response = await updateHumanResource(draggedNodeId, humanResource);
+          if (isResponseSuccess(response)) {
+            successStack(
+              <IntlMessages
+                id='common.subject_updated_successfully'
+                values={{
+                  subject: <IntlMessages id='human_resource.label' />,
+                }}
+              />,
+            );
+          }
+        } else {
+          return false;
+        }
+      })();
+    };
+
+    node.map((trigger) => {
+      trigger.addEventListener('dragstart', handleDragStart);
     });
 
     node.map((trigger) => {
-      trigger.removeEventListener('drop', () => {});
-      trigger.removeEventListener('dragstart', () => {});
+      trigger.addEventListener('drop', handleDrop);
+    });
+
+    node.map((trigger) => {
+      trigger.removeEventListener('drop', handleDrop);
+      trigger.removeEventListener('dragstart', handleDragStart);
     });
   }, []);
 

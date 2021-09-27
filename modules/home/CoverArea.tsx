@@ -1,20 +1,17 @@
 import React from 'react';
 import {
   Box,
-  Button,
+  Card,
+  CardMedia,
   Container,
-  FormControl,
   Grid,
-  InputAdornment,
   NativeSelect,
-  OutlinedInput,
   Typography,
-  Zoom,
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import {Slide, Fade} from 'react-awesome-reveal';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import SearchBox from './SearchBox';
+import TrendSearchItemList from './TrendSearchItemList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,44 +35,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up('md')]: {
         width: 'auto',
-        marginLeft: '-12px',
       },
     },
-    searchBox: {
-      padding: '12px 5px 5px 15px',
-      background: '#fff',
-      position: 'absolute',
-      zIndex: 1,
-      width: 'auto',
-      // borderRadius: '2px',
-      border: 'none',
-      [theme.breakpoints.down('sm')]: {
-        width: '100%',
-        marginLeft: '-16px',
-      },
-      [theme.breakpoints.up('sm')]: {
-        width: '100%',
-        marginLeft: '-12px',
-        paddingBottom: '14px',
-      },
-      [theme.breakpoints.up('md')]: {
-        width: 'auto',
-        padding: '12px 15px 5px 15px',
-      },
-    },
+
     skillSlide: {
       zIndex: 2,
       position: 'absolute',
     },
-    searchButton: {
-      background: '#682988',
-      color: '#fff',
-      borderRadius: '0px',
-      marginTop: '10px',
-    },
-    location: {
-      marginTop: '10px',
-    },
+
     trendWrapper: {
       position: 'relative',
       // height: '200px',
@@ -103,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       [theme.breakpoints.up('md')]: {
         position: 'absolute',
-        width: '45vw',
+        width: '40%',
       },
 
       [theme.breakpoints.down('sm')]: {
@@ -112,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '100%',
       },
       [theme.breakpoints.up('xl')]: {
-        width: '47vw',
+        width: '40%',
       },
     },
     animationFillMode: {
@@ -133,10 +100,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function CustomSvgIcon(props: any) {
-  return <LocationOnIcon {...props}></LocationOnIcon>;
-}
-
 const CoverArea = () => {
   const classes = useStyles();
   return (
@@ -155,19 +118,19 @@ const CoverArea = () => {
               </Fade>
 
               <Fade direction='down'>
-                <Typography variant='subtitle2'>
-                  <Box fontWeight={500} mt={5.3}>
+                <Box mt={2}>
+                  <Typography variant={'h6'}>
                     আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
                     তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
                     <br />
-                    অনুসারে চাকরি
-                  </Box>
-                </Typography>
+                    অনুসারে চাকরি।
+                  </Typography>
+                </Box>
               </Fade>
             </Box>
 
             <Slide direction='up'>
-              <Grid container>
+              <Grid item container>
                 <Grid item xs={3} xl={2}>
                   <Box mt={5} zIndex={'tooltip'}>
                     <NativeSelect className={classes.select}>
@@ -181,33 +144,10 @@ const CoverArea = () => {
               </Grid>
             </Slide>
 
-            <Grid container spacing={2} className={classes.searchBox}>
-              <Grid item xs={12} md={7}>
-                <FormControl variant='outlined'>
-                  <OutlinedInput
-                    className={classes.noBorder}
-                    id='outlined-adornment-amount'
-                    startAdornment={
-                      <InputAdornment position='start'>
-                        <SearchIcon /> অনুসন্ধান করুন
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={6} md={3} className={classes.location}>
-                <NativeSelect IconComponent={CustomSvgIcon}>
-                  <option>লোকেশন</option>
-                </NativeSelect>
-              </Grid>
-              <Grid item xs={6} md={2}>
-                <Button variant='contained' className={classes.searchButton}>
-                  অনুসন্ধান
-                </Button>
-              </Grid>
-            </Grid>
+            <SearchBox />
           </Container>
         </Grid>
+
         <Grid container className={classes.trendWrapper}>
           <Container maxWidth='md'>
             <Slide direction='down'>
@@ -219,43 +159,37 @@ const CoverArea = () => {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item container spacing={3} xs={12} md={8}>
-                  <Grid item xs={6} md={4}>
-                    <Box className={classes.trendSearchKey}>
-                      <p>গ্রাফিক্স ডিজাইন</p>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <Box className={classes.trendSearchKey}>
-                      <p>ওয়েব ডিজাইন</p>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <Box className={classes.trendSearchKey}>
-                      <p>ইউ-আই/এক্স</p>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <Box className={classes.trendSearchKey}>
-                      <p> হেলথ কেয়ার জব</p>
-                    </Box>
-                  </Grid>
-                </Grid>
+                <TrendSearchItemList
+                  searchItems={[
+                    'গ্রাফিক্স ডিজাইন',
+                    'ওয়েব ডিজাইন',
+                    'ইউ-আই/এক্স',
+                    'হেলথ কেয়ার জব',
+                  ]}
+                />
               </Grid>
             </Slide>
           </Container>
 
-          <Grid container>
-            <Zoom>
-              <>
-                <img
-                  src='/images/cover-area.png'
-                  alt='crema-logo'
-                  className={classes.coverImage}
-                />
-              </>
-            </Zoom>
-          </Grid>
+          <Card>
+            <CardMedia
+              component='img'
+              alt='green iguana'
+              height='140'
+              image='/images/cover-area.png'
+              className={classes.coverImage}
+            />
+          </Card>
+
+          {/*<Grid item container md={4} sm={12}>*/}
+          {/*  /!*<Zoom>*!/*/}
+          {/*  <img*/}
+          {/*    src='/images/cover-area.png'*/}
+          {/*    alt='crema-logo'*/}
+          {/*    // className={classes.coverImage}*/}
+          {/*  />*/}
+          {/*  /!*</Zoom>*!/*/}
+          {/*</Grid>*/}
         </Grid>
       </Grid>
     </>

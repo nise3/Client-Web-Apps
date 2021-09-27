@@ -132,7 +132,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm<Trainer>({
     resolver: yupResolver(validationSchema),
   });
 

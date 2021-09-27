@@ -39,15 +39,14 @@ interface HumanResourceAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
-  organization_id: 0,
+  organization_id: '',
   parent_id: '',
   rank_id: '',
   display_order: '',
   is_designation: '',
-  organization_unit_id: 0,
+  organization_unit_id: '',
   status: '',
   row_status: '1',
 };
@@ -119,6 +118,8 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     isLoading: isHumanResourceLoading,
     mutate: mutateHumanResource,
   } = useFetchHumanResource(itemId);
+
+  console.log('HR', humanResourceData);
 
   const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
     useFetchOrganizationUnit(props.organizationUnitId);
@@ -195,9 +196,10 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     data: HumanResource,
   ) => {
     data.parent_id = data.parent_id ? data.parent_id : null;
-    const response = itemId
-      ? await updateHumanResource(itemId, data)
-      : await createHumanResource(data);
+    const response =
+      isEdit && itemId
+        ? await updateHumanResource(itemId, data)
+        : await createHumanResource(data);
 
     if (isResponseSuccess(response) && isEdit) {
       successStack(

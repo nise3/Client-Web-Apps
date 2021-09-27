@@ -35,10 +35,9 @@ interface ProgrammeAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
-  institute_id: 0,
+  institute_id: '',
   code: '',
   description: '',
   row_status: '1',

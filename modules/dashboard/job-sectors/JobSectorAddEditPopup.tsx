@@ -68,7 +68,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm<JobSector>({
     resolver: yupResolver(validationSchema),
   });
 

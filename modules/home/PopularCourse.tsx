@@ -11,11 +11,13 @@ import {AccessTime, ArrowRightAlt, Info} from '@material-ui/icons';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       marginTop: '50px',
+      backgroundColor: '#fff',
     },
     courseItem: {
       position: 'relative',
@@ -89,7 +91,15 @@ const PopularCourse = () => {
             </Box>
           </Typography>
           <Box>
-            <img className={classes.image} src={item.img} alt='crema-logo' />
+            <Image
+              className={classes.image}
+              src={item.img}
+              alt='crema-logo'
+              height={50}
+              width={'100%'}
+              layout={'responsive'}
+            />
+            {/*<img className={classes.image} src={item.img} alt='crema-logo' />*/}
           </Box>
           <Box p={2}>
             <Typography variant='subtitle2' gutterBottom={true}>

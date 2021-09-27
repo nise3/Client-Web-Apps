@@ -29,7 +29,6 @@ interface PermissionGroupAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   name: '',
   uri: '',
   method: '',

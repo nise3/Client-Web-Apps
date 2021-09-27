@@ -35,7 +35,6 @@ interface PermissionGroupAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
   key: '',

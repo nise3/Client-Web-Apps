@@ -43,8 +43,13 @@ const InfoCard = ({color, infos}: Props) => {
                 <Fragment key={infoItem.id.toString()}>
                   <Grid item md={10} xs={10}>
                     <Grid item container>
-                      <Grid item md={2} xs={2}>
-                        <img className={classes.logo} src='/images/logo1.png' />
+                      <Grid item md={2}>
+                        <Box ml={2}>
+                          <img
+                            className={classes.logo}
+                            src='/images/logo1.png'
+                          />
+                        </Box>
                       </Grid>
                       <Grid item md={10} xs={10}>
                         <Box mt={1}> {infoItem.name}</Box>

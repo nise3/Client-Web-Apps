@@ -197,7 +197,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm<Batch>({
     resolver: yupResolver(validationSchema),
   });
 

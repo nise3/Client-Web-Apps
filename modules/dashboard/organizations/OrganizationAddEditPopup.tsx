@@ -173,7 +173,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<Organization>({
     resolver: yupResolver(validationSchema),
   });
 

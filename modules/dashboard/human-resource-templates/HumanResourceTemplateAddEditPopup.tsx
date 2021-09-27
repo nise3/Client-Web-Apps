@@ -37,15 +37,14 @@ interface HumanResourceTemplateAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
-  organization_id: 0,
+  organization_id: '',
   parent_id: '',
   rank_id: '',
   display_order: '',
   is_designation: '',
-  organization_unit_type_id: 0,
+  organization_unit_type_id: '',
   status: '',
   row_status: '1',
 };
@@ -228,9 +227,10 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     ) => {
       data.parent_id = data.parent_id ? data.parent_id : null;
 
-      const response = itemId
-        ? await updateHumanResourceTemplate(itemId, data)
-        : await createHumanResourceTemplate(data);
+      const response =
+        isEdit && itemId
+          ? await updateHumanResourceTemplate(itemId, data)
+          : await createHumanResourceTemplate(data);
 
       if (isResponseSuccess(response) && isEdit) {
         successStack(
