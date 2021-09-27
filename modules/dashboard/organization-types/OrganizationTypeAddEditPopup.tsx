@@ -83,7 +83,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         title_bn: itemData?.title_bn,
         row_status: String(itemData?.row_status),
       });
-      setCheckedIsGovernment(itemData?.is_government);
+      setCheckedIsGovernment(itemData?.is_government == 1);
     } else {
       reset(initialValues);
     }

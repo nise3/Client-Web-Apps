@@ -16,7 +16,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {INSTITUTE_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
+import {API_TRAINERS} from '../../../@softbd/common/apiRoutes';
 
 const TrainersPage = () => {
   const {messages} = useIntl();
@@ -55,7 +55,7 @@ const TrainersPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
+          values={{subject: <IntlMessages id='trainers.label' />}}
         />,
       );
       await refreshDataTable();
@@ -128,8 +128,7 @@ const TrainersPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: INSTITUTE_SERVICE_PATH + '/trainers',
-      dataAccessor: 'data',
+      urlPath: API_TRAINERS,
     });
   return (
     <>

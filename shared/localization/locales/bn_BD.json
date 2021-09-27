@@ -275,7 +275,6 @@
   "common.permanent_house_address": "স্থায়ী আবাস্থল",
   "common.profile_name": "প্রফাইলের নাম",
   "common.user_name": "ব্যবহারকারীর নাম",
-
   "physical_disabilities_status": "Physical disabilities status",
   "yup_validation_required_field": "{path} অবশ্যই পূরণ করতে হবে",
   "yup_validation_default": "{path} ভ্যালিড নয়",
@@ -309,7 +308,8 @@
   "user.type.system": "সিস্টেম",
   "user.type.institute": "প্রাতিষ্ঠানিক",
   "user.type.organization": "সাংগঠনিক",
-  "permissions.sync_permission" : "Sync Permission",
-  "common.assign_permission" : "Assign Permission",
-  "permission.module" : "মডিউলের নাম"
+  "permissions.sync_permission": "Sync Permission",
+  "common.assign_permission": "Assign Permission",
+  "permission.module": "মডিউলের নাম",
+  "common.row_status": "অবস্থা"
 }
