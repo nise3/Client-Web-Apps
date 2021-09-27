@@ -15,7 +15,7 @@ const AddButton = ({onClick, className, tooltip, isLoading}: Props) => {
   return isLoading ? (
     <ButtonSkeleton isCircle={true} />
   ) : (
-    <Tooltip title={tooltip as any}>
+    <Tooltip title={false}>
       <Fab
         size='small'
         color='primary'

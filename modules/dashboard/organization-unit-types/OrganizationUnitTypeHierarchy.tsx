@@ -22,6 +22,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getOrganizationUnitTypeHierarchy} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {HIERARCHY_NODE_ID_PREFIX_STRING} from '../../../@softbd/common/constants';
 
+const getIdFromNodeId = (nodeId: string) => {
+  return Number(nodeId.toString().replace(HIERARCHY_NODE_ID_PREFIX_STRING, ''));
+};
+
 const makeHierarchyData = (item: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
   item.id = HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
@@ -134,8 +138,8 @@ const OrganizationUnitTypeHierarchy = () => {
     const node = Array.from(document.querySelectorAll('.oc-hierarchy'));
     treeColoring(node[0], 0);
 
-    let draggedNodeId: number | null = null;
-    let droppedNodeId = null;
+    let draggedNodeId: string | number | null = null;
+    let droppedNodeId: string | number | null | boolean = null;
 
     const handleDragStart = (event: any) => {
       draggedNodeId = event.target?.id;
@@ -150,8 +154,8 @@ const OrganizationUnitTypeHierarchy = () => {
 
     const handleDrop = (e: any) => {
       droppedNodeId = getElementId(e.target, 0, 3);
-      draggedNodeId = Number(draggedNodeId?.toString().replace('m', ''));
-      droppedNodeId = Number(droppedNodeId.toString().replace('m', ''));
+      draggedNodeId = getIdFromNodeId(String(draggedNodeId));
+      droppedNodeId = getIdFromNodeId(String(droppedNodeId));
 
       //drag node and drop node is same, no need to further approach
       if (draggedNodeId == droppedNodeId) {
@@ -219,20 +223,22 @@ const OrganizationUnitTypeHierarchy = () => {
     getHierarchyHierarchyData(Number(organizationUnitTypeId), setHierarchyData);
   }, [organizationUnitTypeId]);
 
-  const deleteHumanResourceFromTemplate = useCallback(async () => {
-    const humanResourceId = Number(selectedItemId?.toString().replace('m', ''));
-    let response = await deleteHumanResourceTemplate(humanResourceId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{
-            subject: <IntlMessages id='human_resource_template.label' />,
-          }}
-        />,
-      );
-      reloadHierarchyData();
-    }
+  const deleteHumanResourceFromTemplate = useCallback(() => {
+    selectedItemId &&
+      (async () => {
+        let response = await deleteHumanResourceTemplate(selectedItemId);
+        if (isResponseSuccess(response)) {
+          successStack(
+            <IntlMessages
+              id='common.subject_deleted_successfully'
+              values={{
+                subject: <IntlMessages id='human_resource_template.label' />,
+              }}
+            />,
+          );
+          reloadHierarchyData();
+        }
+      })();
   }, [selectedItemId]);
 
   return (
@@ -245,9 +251,10 @@ const OrganizationUnitTypeHierarchy = () => {
       {
         <Popover
           id={anchorEl ? 'simple-popover' : undefined}
+          title={'Organization Unit type Hierarchy Action Buttons'}
           open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
           onClose={handlePopOverClose}
+          anchorEl={anchorEl}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',
