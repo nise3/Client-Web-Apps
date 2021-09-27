@@ -95,7 +95,7 @@ const PopularCourse = () => {
               className={classes.image}
               src={item.img}
               alt='crema-logo'
-              height={200}
+              height={50}
               width={'100%'}
               layout={'responsive'}
             />
