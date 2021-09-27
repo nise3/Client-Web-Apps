@@ -30,7 +30,7 @@ axiosInstance.interceptors.request.use(
     }
 
     config.headers = {
-      Token: `Bearer ${apiToken}`,
+      /*Token: `Bearer ${apiToken}`,*/
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
