@@ -1,13 +1,14 @@
 import React from 'react';
-import Layouts from '../../core/AppLayout/Layouts';
-import {NavStyle} from '../../../shared/constants/AppEnums';
+import FrontEndDefaultLayout from '../../core/AppLayout/FrontEndLayout/FrontEndDefaultLayout';
+import useStyles from '../../../shared/jss/common/common.style';
 
 const withLayout = (ComposedComponent: any) => (props: any) => {
-  const AppLayout = Layouts[NavStyle.HOR_DARK_LAYOUT];
+  useStyles();
+  
   return (
-    <AppLayout>
+    <FrontEndDefaultLayout>
       <ComposedComponent {...props} />
-    </AppLayout>
+    </FrontEndDefaultLayout>
   );
 };
 export default withLayout;
