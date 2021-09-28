@@ -311,5 +311,6 @@
   "permissions.sync_permission": "Sync Permission",
   "common.assign_permission": "Assign Permission",
   "permission.module": "মডিউলের নাম",
-  "common.row_status": "অবস্থা"
+  "common.row_status": "অবস্থা",
+  "youth_profile.label": "ইয়ুথ প্রোফাইল"
 }
