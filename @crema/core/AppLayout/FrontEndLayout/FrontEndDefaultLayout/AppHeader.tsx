@@ -9,10 +9,10 @@ import clsx from 'clsx';
 import LanguageSwitcher from '../../../LanguageSwitcher';
 import Box from '@material-ui/core/Box';
 import useStyles from './AppHeader.style';
-import HeaderMessages from '../../../HeaderMessages';
 import Notifications from '../../../Notifications';
 import HorUserInfo from '../../HorUserInfo';
 import AppLogo from '../../../../../shared/components/AppLogo';
+import {ListItem} from '@material-ui/core';
 
 interface AppHeaderProps {}
 
@@ -40,9 +40,6 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
       <MenuItem className={classes.menuItemRoot}>
-        <HeaderMessages />
-      </MenuItem>
-      <MenuItem className={classes.menuItemRoot}>
         <Notifications />
       </MenuItem>
       <LanguageSwitcher />
@@ -61,6 +58,11 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <AppLogo />
               <Box className={classes.grow} />
               <Box className={clsx(classes.sectionDesktop)}>
+                <ListItem>Hello</ListItem>
+                <ListItem>Hello</ListItem>
+                <ListItem>Hello</ListItem>
+                <ListItem>Hello</ListItem>
+                <ListItem>Hello</ListItem>
                 <Notifications />
                 <LanguageSwitcher />
               </Box>
