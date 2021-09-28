@@ -17,7 +17,7 @@ import SearchBar from '../../../SearchBar';
 import HeaderMessages from '../../../HeaderMessages';
 import Notifications from '../../../Notifications';
 import HorUserInfo from '../../HorUserInfo';
-import AppLogoWhite from '../../../../../shared/components/AppLogoWhite';
+import AppLogo from '../../../../../shared/components/AppLogo';
 
 interface AppHeaderProps {}
 
@@ -57,7 +57,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <AppBar position='relative'>
+      <AppBar position='relative' color={'inherit'}>
         <Toolbar className={classes.headerMain}>
           <Box className={classes.headerContainer}>
             <Box className={classes.headerMainFlex}>
@@ -71,7 +71,8 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <MenuIcon className={classes.menuIconRoot} />
                 </IconButton>
               </Hidden>
-              <AppLogoWhite />
+
+              <AppLogo />
               <Box className={classes.grow} />
               <SearchBar />
               <Box className={clsx(classes.sectionDesktop)}>
@@ -79,6 +80,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 <HeaderMessages />
                 <Notifications />
               </Box>
+
               <HorUserInfo />
               <Box ml={1} className={classes.sectionMobile}>
                 <IconButton

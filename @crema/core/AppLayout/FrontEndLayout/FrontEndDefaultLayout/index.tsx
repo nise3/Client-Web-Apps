@@ -1,35 +1,22 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import AppHeader from './AppHeader';
 import {ContentView} from '../../../../index';
 import Box from '@material-ui/core/Box';
 import useStyles from './index.style';
 import clsx from 'clsx';
-import AppContext from '../../../../utility/AppContext';
-import {LayoutType} from '../../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../../types/AppContextPropsType';
+import AppSidebar from './AppSidebar';
 
-interface FrontEndDefaultLayoutProps {
+interface HorLightNavProps {
   props?: any;
 }
 
-const FrontEndDefaultLayout: React.FC<FrontEndDefaultLayoutProps> = (props) => {
+const HorLightNav: React.FC<HorLightNavProps> = (props) => {
   const classes = useStyles(props);
-  const {footer, layoutType, footerType} =
-    useContext<AppContextPropsType>(AppContext);
-
   return (
-    <Box
-      className={clsx(
-        classes.appMain,
-        'appMainHor',
-        layoutType === LayoutType.BOXED ? classes.boxedLayout : '',
-        {
-          appMainFooter: footer && footerType === 'fluid',
-          appMainFixedFooter: footer && footerType === 'fixed',
-        },
-      )}>
+    <Box className={clsx(classes.appMain, 'appMainHor')}>
       <AppHeader />
       <Box className={classes.mainContent}>
+        <AppSidebar />
         <Box className={classes.mainContainer}>
           <ContentView>{props.children}</ContentView>
         </Box>
@@ -38,4 +25,4 @@ const FrontEndDefaultLayout: React.FC<FrontEndDefaultLayoutProps> = (props) => {
   );
 };
 
-export default FrontEndDefaultLayout;
+export default HorLightNav;
