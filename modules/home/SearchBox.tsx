@@ -1,15 +1,14 @@
 import React from 'react';
 import {
   Button,
-  FormControl,
   Grid,
   InputAdornment,
   NativeSelect,
-  OutlinedInput,
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import TextField from '@material-ui/core/TextField';
+// import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,11 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up('sm')]: {
         width: '100%',
-        marginLeft: '-12px',
+        marginLeft: '-24px',
         paddingBottom: '14px',
       },
       [theme.breakpoints.up('md')]: {
-        width: '60%',
+        width: '50%',
+        height : '85px',
         padding: '12px 15px 5px 15px',
       },
     },
@@ -39,19 +39,25 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     location: {
       marginTop: '10px',
+      width: '70px'
+    },
+    locationIcon:{
+
     },
     searchButton: {
       background: '#682988',
       color: '#fff',
       borderRadius: '0px',
-      marginTop: '10px',
+      height: '63px',
+      width: '162px',
+      margin: '-8px'
     },
   }),
 );
 
-function CustomSvgIcon(props: any) {
-  return <LocationOnIcon {...props} />;
-}
+// function CustomSvgIcon(props: any) {
+//   return <LocationOnIcon {...props} />;
+// }
 
 const SearchBox = () => {
   const classes = useStyles();
@@ -59,27 +65,33 @@ const SearchBox = () => {
   return (
     <Grid container xl={12} spacing={2} className={classes.searchBox}>
       <Grid item xs={12} md={7}>
-        <FormControl variant='outlined'>
-          <OutlinedInput
-            className={classes.noBorder}
-            id='outlined-adornment-amount'
-            startAdornment={
-              <InputAdornment position='start'>
-                <SearchIcon /> অনুসন্ধান করুন
+        <TextField
+          variant="outlined"
+          name="searchBox"
+          autoFocus
+          placeholder="অনুসন্ধান করুন"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
               </InputAdornment>
-            }
-          />
-        </FormControl>
+            ),
+            classes:{notchedOutline:classes.noBorder}
+          }}
+        />
       </Grid>
       <Grid
         item
         container
         xs={12}
         md={5}
-        spacing={6}
+        spacing={4}
         justifyContent={'space-around'}>
+        {/*<Grid xs={1} md={1} className={classes.locationIcon}>*/}
+        {/*  <LocationOnIcon/>*/}
+        {/*</Grid>*/}
         <Grid item xs={6} md={6} className={classes.location}>
-          <NativeSelect IconComponent={CustomSvgIcon}>
+          <NativeSelect disableUnderline>
             <option>লোকেশন</option>
           </NativeSelect>
         </Grid>

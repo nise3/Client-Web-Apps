@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: '-14px',
       },
       [theme.breakpoints.up('md')]: {
-        width: 'auto',
+        width: '90px',
+        marginLeft: '-24px'
       },
     },
 
@@ -97,6 +98,11 @@ const useStyles = makeStyles((theme: Theme) =>
     noBorder: {
       border: 'none',
     },
+    dropdownStyle: {
+      border: "1px solid black",
+      borderRadius: "5%",
+      backgroundColor:'lightgrey',
+    },
   }),
 );
 
@@ -133,7 +139,8 @@ const CoverArea = () => {
               <Grid item container>
                 <Grid item xs={3} xl={2}>
                   <Box mt={5} zIndex={'tooltip'}>
-                    <NativeSelect className={classes.select}>
+                    <NativeSelect
+                      disableUnderline className={classes.select}>
                       <option>দক্ষতা</option>
                       <option>চাকরি</option>
                       <option>ব্যবসা</option>
