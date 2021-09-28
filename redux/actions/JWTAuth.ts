@@ -12,8 +12,22 @@ import {
   UPDATE_AUTH_USER,
 } from '../../types/actions/Auth.actions';
 import {Cookies} from 'react-cookie';
-import {Base64} from 'js-base64';
-import {apiGet} from '../../@softbd/common/api';
+
+const authUserMockData: TAuthUserSSOResponse = {
+  role: undefined,
+  family_name: 'System',
+  given_name: 'Admin',
+  sub: '4679687976547984545',
+  upn: '5496846497949654989',
+  isInstituteUser: false,
+  isOrganizationUser: false,
+  isSystemUser: true,
+  permissions: [],
+  userType: 'system',
+  username: 'system_admin',
+  email: 'admin@gmail.com',
+  displayName: 'System Admin',
+};
 
 /**
  * @deprecated
@@ -99,22 +113,22 @@ export const loadAuthUser = async (
   console.log('loadAuthUser() - tokenData - ', tokenData);
   dispatch(fetchStart());
   try {
-    const ssoTokenData = JSON.parse(
-      Base64.decode((tokenData.id_token || '..').split('.')[1]),
-    );
+    // const ssoTokenData = JSON.parse(
+    //   Base64.decode((tokenData.id_token || '..').split('.')[1]),
+    // );
     /*const coreResponse = await apiGet(
       `/core/users/${ssoTokenData.sub}/permissions`,
     );*/
     //use for test purpose
-    const coreResponse = await apiGet(
-      `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
-    );
-    const {data} = coreResponse.data;
+    // const coreResponse = await apiGet(
+    //   `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
+    // );
+    // const {data} = coreResponse.data;
     dispatch(fetchSuccess());
-    console.log('res.data', data);
+    // console.log('res.data', data);
     dispatch({
       type: UPDATE_AUTH_USER,
-      payload: getUserObject(data),
+      payload: getUserObject(authUserMockData),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
@@ -151,7 +165,8 @@ type TAuthUserSSOResponse = {
   organization_id?: string | number;
   institute?: Institute;
   organization?: Organization;
-  role: Role;
+  // role: Role;
+  role?: Role;
   displayName?: string;
   email?: string;
   username: string;
