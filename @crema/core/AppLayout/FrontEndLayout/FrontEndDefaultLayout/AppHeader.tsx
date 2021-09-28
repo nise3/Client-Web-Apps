@@ -2,18 +2,13 @@ import React, {useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import clsx from 'clsx';
 import LanguageSwitcher from '../../../LanguageSwitcher';
-import {toggleNavCollapsed} from '../../../../../redux/actions';
-import {useDispatch} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
 import Box from '@material-ui/core/Box';
 import useStyles from './AppHeader.style';
-import SearchBar from '../../../SearchBar';
 import HeaderMessages from '../../../HeaderMessages';
 import Notifications from '../../../Notifications';
 import HorUserInfo from '../../HorUserInfo';
@@ -23,7 +18,6 @@ interface AppHeaderProps {}
 
 const AppHeader: React.FC<AppHeaderProps> = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
 
@@ -57,28 +51,18 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <AppBar position='relative' color={'inherit'}>
+      <AppBar
+        position='relative'
+        color={'inherit'}
+        className={clsx(classes.appBar, 'app-bar')}>
         <Toolbar className={classes.headerMain}>
           <Box className={classes.headerContainer}>
             <Box className={classes.headerMainFlex}>
-              <Hidden lgUp>
-                <IconButton
-                  edge='start'
-                  className={classes.menuButton}
-                  color='inherit'
-                  aria-label='open drawer'
-                  onClick={() => dispatch(toggleNavCollapsed())}>
-                  <MenuIcon className={classes.menuIconRoot} />
-                </IconButton>
-              </Hidden>
-
               <AppLogo />
               <Box className={classes.grow} />
-              <SearchBar />
               <Box className={clsx(classes.sectionDesktop)}>
-                <LanguageSwitcher />
-                <HeaderMessages />
                 <Notifications />
+                <LanguageSwitcher />
               </Box>
 
               <HorUserInfo />

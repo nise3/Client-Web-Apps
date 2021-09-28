@@ -2,6 +2,9 @@ import {makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
+  appBar: {
+    boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+  },
   headerMain: {
     minHeight: 56,
     paddingRight: 0,
