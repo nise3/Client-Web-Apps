@@ -143,7 +143,7 @@ const defaultConfig: any = {
   locale: {
     languageId: 'bangla',
     locale: 'bn',
-    name: 'Bangla',
+    name: 'BN',
     icon: 'bd',
   },
   rtlLocale: ['ar'],

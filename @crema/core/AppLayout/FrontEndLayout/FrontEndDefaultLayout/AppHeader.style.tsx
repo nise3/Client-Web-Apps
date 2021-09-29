@@ -2,55 +2,15 @@ import {makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
+  appBar: {
+    boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+  },
   headerMain: {
     minHeight: 56,
     paddingRight: 0,
     paddingLeft: 0,
-    borderBottom: 'solid 1px',
-    borderBottomColor: 'rgba(255, 255, 255, 0.2)',
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
     [theme.breakpoints.up('sm')]: {
       minHeight: 70,
-    },
-    '& .crAppsSearch': {
-      backgroundColor: theme.palette.primary.contrastText,
-      borderRadius: 4,
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'transparent',
-      },
-    },
-    '& .crAppsSearchIcon': {
-      color: theme.palette.primary.contrastText,
-    },
-    '& .langBtn': {
-      borderLeft: '0 none',
-      color: theme.palette.primary.contrastText,
-      '&:hover, &:focus': {
-        color: theme.palette.secondary.main,
-        backgroundColor: 'transparent',
-      },
-    },
-    '& .smsIcon, & .notiIcon': {
-      color: theme.palette.primary.contrastText,
-      '&:hover, &:focus': {
-        color: theme.palette.secondary.main,
-        backgroundColor: 'transparent',
-      },
-    },
-    '& .notiBtn': {
-      color: theme.palette.grey[800],
-      borderLeft: '0 none',
-      '&:hover, &:focus': {
-        color: theme.palette.text.primary,
-        backgroundColor: 'transparent',
-      },
-      [theme.breakpoints.up('md')]: {
-        color: theme.palette.primary.contrastText,
-        '&:hover, &:focus': {
-          color: theme.palette.secondary.main,
-        },
-      },
     },
   },
   headerMainFlex: {
@@ -92,8 +52,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
   },
   headerNav: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.contrastText,
+    color: theme.palette.grey[800],
     '& .navbarNav': {
       display: 'flex',
       padding: 0,
@@ -112,7 +72,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
         paddingRight: 20,
       },
       '&.active': {
-        color: '#000',
+        color: theme.palette.secondary.main,
         '& .navLinkIcon': {
           color: theme.palette.secondary.main,
         },
@@ -120,7 +80,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
     '& .navLinkIcon': {
       marginRight: 10,
-      color: theme.palette.primary.contrastText,
+      color: theme.palette.grey[800],
       fontSize: 20,
     },
   },
