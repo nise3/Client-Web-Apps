@@ -193,6 +193,7 @@
   "common.row_status" : "Status",
   "common.profile_name": "Profile Name",
   "common.user_name": "Username",
+  "common.settings": "Settings",
   "menu.organization_management": "Organization management",
   "menu.institute_management": "Institute management",
   "menu.course": "Course",
@@ -311,6 +312,14 @@
   "permission.method": "Method",
   "permissions.sync_permission" : "Sync Permission",
   "common.assign_permission" : "Assign Permission",
-  "permission.module" : "Module Name"
+  "permission.module" : "Module Name",
+  "youth.edit_education": "Edit Education",
+  "common.change_userId": "Change user Id",
+  "common.new_email": "New email or id",
+  "common.old_email": "Old email or id",
+  "common.change_password": "Change password",
+  "common.deactivate": "Deactivate"
+
+
 
 }
