@@ -1,40 +1,7 @@
 @import "./nprogress.css";
-@font-face {
-    font-family: 'Kalpurush';
-    src:url('https://fonts.maateen.me/kalpurush/font.css');
-}
-
-@font-face {
-    font-family: 'GaladaBengali';
-    src: local('GaladaBengali'),
-    url(./fonts/Galada-Regular.ttf) format('truetype');
-}
 
 @font-face {
     font-family: 'NotoSerifBangla';
     src: local('NotoSerifBangla'),
     url(./fonts/NotoSerifBengali.ttf) format('truetype');
 }
-
-@font-face {
-    font-family: 'NikoshBAN';
-    src: local('NikoshBAN'),
-    url(./fonts/NikoshBAN.ttf) format('truetype');
-    font-weight: 300;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Nikosh';
-    src: local('Nikosh'),
-    url(./fonts/Nikosh.ttf) format('truetype');
-}
-
-/*@font-face {*/
-/*    font-family: 'MyWebFont';*/
-/*    src: url('https://fonts.maateen.me/kalpurush/font.css'); !* IE9 Compat Modes *!*/
-/*    src: url('https://fonts.maateen.me/kalpurush/font.css?#iefix') format('embedded-opentype'), !* IE6-IE8 *!*/
-/*    url('webfont.woff2') format('woff2'), !* Super Modern Browsers *!*/
-/*    url('webfont.woff') format('woff'), !* Pretty Modern Browsers *!*/
-/*    url('webfont.ttf')  format('truetype'), !* Safari, Android, iOS *!*/
-/*    url('webfont.svg#svgFontName') format('svg'); !* Legacy iOS *!*/
-/*}*/

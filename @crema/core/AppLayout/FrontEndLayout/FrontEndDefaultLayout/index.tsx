@@ -4,7 +4,6 @@ import {ContentView} from '../../../../index';
 import Box from '@material-ui/core/Box';
 import useStyles from './index.style';
 import clsx from 'clsx';
-import AppSidebar from './AppSidebar';
 
 interface HorLightNavProps {
   props?: any;
@@ -16,7 +15,6 @@ const HorLightNav: React.FC<HorLightNavProps> = (props) => {
     <Box className={clsx(classes.appMain, 'appMainHor')}>
       <AppHeader />
       <Box className={classes.mainContent}>
-        <AppSidebar />
         <Box className={classes.mainContainer}>
           <ContentView>{props.children}</ContentView>
         </Box>

@@ -60,19 +60,9 @@ const useStyles = makeStyles((theme: CremaTheme) => {
       width: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
-      [theme.breakpoints.up('lg')]: {
-        maxWidth: 1140,
-      },
-      [theme.breakpoints.up('xl')]: {
-        maxWidth: 1720,
-      },
       '& > .scrollbar-container': {
-        padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        [theme.breakpoints.up('md')]: {
-          padding: '30px 20px',
-        },
         '& > div': {
           marginBottom: 0,
         },

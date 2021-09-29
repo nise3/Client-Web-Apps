@@ -12,7 +12,10 @@ import useStyles from './AppHeader.style';
 import Notifications from '../../../Notifications';
 import HorUserInfo from '../../HorUserInfo';
 import AppLogo from '../../../../../shared/components/AppLogo';
-import {ListItem} from '@material-ui/core';
+import {CastForEducation, Home} from '@material-ui/icons';
+import WorkIcon from '@material-ui/icons/Work';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 
 interface AppHeaderProps {}
 
@@ -58,11 +61,24 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <AppLogo />
               <Box className={classes.grow} />
               <Box className={clsx(classes.sectionDesktop)}>
-                <ListItem>Hello</ListItem>
-                <ListItem>Hello</ListItem>
-                <ListItem>Hello</ListItem>
-                <ListItem>Hello</ListItem>
-                <ListItem>Hello</ListItem>
+                <Box component='span'>
+                  <Home className={classes.menuIcons} /> হোম
+                </Box>
+                <Box component='span'>
+                  <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+                </Box>
+                <Box component='span'>
+                  <WorkIcon className={classes.menuIcons} />
+                  চাকরি
+                </Box>
+                <Box component='span'>
+                  <ListAltIcon className={classes.menuIcons} />
+                  নোটিশ
+                </Box>
+                <Box component='span'>
+                  <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
+                  কার্যক্রম
+                </Box>
                 <Notifications />
                 <LanguageSwitcher />
               </Box>

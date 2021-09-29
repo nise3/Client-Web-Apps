@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
+      alignItems: 'center',
     },
   },
   sectionMobile: {
@@ -49,6 +50,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
     [theme.breakpoints.up('md')]: {
       display: 'none',
+    },
+  },
+  menuIcons: {
+    height: '0.6em',
+  },
+  desktopMenu: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
   headerNav: {
