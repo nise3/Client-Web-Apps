@@ -5,24 +5,25 @@ import {
   InputAdornment,
   makeStyles,
   NativeSelect,
-  Theme,
 } from '@material-ui/core';
 import Tile from './component/Tile';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import {LocationOnOutlined} from '@material-ui/icons';
+import {CremaTheme} from '../../types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: CremaTheme): any => ({
   searchBox: {
-    padding: 10,
+    padding: '10px 5px 5px',
     borderRadius: 4,
     background: '#fff',
     alignItems: 'center',
+    marginTop: 15,
   },
   searchButton: {
-    background: '#048340',
     color: '#fff',
     padding: '8px 14px',
+    width: '95%',
   },
   searchInputBorderHide: {
     '& fieldset': {
@@ -40,56 +41,61 @@ const useStyles = makeStyles((theme: Theme): any => ({
 
 const OverviewSection = () => {
   const classes: any = useStyles();
+
+  const overviewItems = [
+    {
+      amount: 5,
+      text: 'Course Enrolled',
+      color: '#c865e7',
+    },
+    {
+      amount: 50,
+      text: 'Skill Matching Courses',
+      color: '#5477f0',
+    },
+    {
+      amount: 550,
+      text: 'Total Courses',
+      color: '#20d5c9',
+    },
+    {
+      amount: 320,
+      text: 'Jobs Apply',
+      color: '#32be7e',
+    },
+    {
+      amount: 2500,
+      text: 'Total Jobs',
+      color: '#e52d84',
+    },
+    {
+      amount: 100,
+      text: 'Skill Matching Jobs',
+      color: '#fd9157',
+    },
+  ];
+
   return (
     <>
-      <Grid container spacing={4}>
-        <Grid item container spacing={2} xs={12}>
-          <Grid item xs={6} sm={6} md={4}>
-            <Tile
-              amount={5}
-              label={'Course Enrolled'}
-              backgroundColor='#74b8ff'
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4}>
-            <Tile
-              amount={50}
-              label={'Skill Matching Courses'}
-              backgroundColor={'#0984e2'}
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4}>
-            <Tile
-              amount={550}
-              label={'Total Courses'}
-              backgroundColor={'#8f8dfc'}
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4}>
-            <Tile
-              amount={320}
-              label={'Jobs Apply'}
-              backgroundColor={'#00b894'}
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4}>
-            <Tile
-              amount={2500}
-              label={'Total Jobs'}
-              backgroundColor={'#00cfc9'}
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4}>
-            <Tile
-              amount={100}
-              label={'Skill Matching Jobs'}
-              backgroundColor={'#44e3b8'}
-            />
+      <Grid container>
+        <Grid item xs={12} md={12}>
+          <Grid container spacing={3}>
+            {overviewItems.map((overview: any, index) => {
+              return (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Tile
+                    amount={overview.amount}
+                    label={overview.text}
+                    backgroundColor={overview.color}
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
         </Grid>
 
-        <Grid item container spacing={2} xs={12}>
-          <Grid item container xs={12} className={classes.searchBox}>
+        <Grid item xs={12} className={classes.searchBox}>
+          <Grid container>
             <Grid item xs={12} sm={12} md={7}>
               <TextField
                 variant='outlined'
@@ -107,13 +113,20 @@ const OverviewSection = () => {
               />
             </Grid>
             <Grid item xs={6} sm={6} md={3} className={classes.location}>
-              <LocationOnOutlined />
-              <NativeSelect disableUnderline>
+              <LocationOnOutlined color={'primary'} />
+              <NativeSelect
+                disableUnderline
+                className='selectColor'
+                style={{width: 'calc(100% - 40px)'}}
+                color={'primary'}>
                 <option>লোকেশন</option>
               </NativeSelect>
             </Grid>
             <Grid item xs={6} sm={6} md={2}>
-              <Button variant='contained' className={classes.searchButton}>
+              <Button
+                variant='contained'
+                color={'primary'}
+                className={classes.searchButton}>
                 Search
               </Button>
             </Grid>

@@ -2,12 +2,9 @@ import React from 'react';
 import {Box, Grid} from '@material-ui/core';
 import FeatureJobComponent from './component/FeatureJobComponent';
 import {makeStyles} from '@material-ui/styles';
-import {Theme} from '@material-ui/core/styles';
+import {CremaTheme} from '../../types/AppContextPropsType';
 
-const useStyle = makeStyles((theme: Theme) => ({
-  featureSectionRoot: {
-    marginTop: 15,
-  },
+const useStyle = makeStyles((theme: CremaTheme) => ({
   featureSectionTitle: {
     fontSize: 17,
     fontWeight: 'bold',
@@ -44,7 +41,7 @@ const FeatureJobSection = () => {
 
   return (
     <>
-      <Grid container spacing={3} className={classes.featureSectionRoot}>
+      <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
           <Box className={classes.featureSectionTitle}>Featured</Box>
         </Grid>

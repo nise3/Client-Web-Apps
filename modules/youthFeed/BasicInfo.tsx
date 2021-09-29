@@ -5,11 +5,11 @@ import {
   CardMedia,
   LinearProgress,
   makeStyles,
-  Theme,
 } from '@material-ui/core';
 import {AddCircle, CheckCircle} from '@material-ui/icons';
+import {CremaTheme} from '../../types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: CremaTheme): any => ({
   root: {
     background: '#fff',
     borderRadius: 4,
@@ -44,8 +44,7 @@ const useStyles = makeStyles((theme: Theme): any => ({
       fill: '#1c98f7',
       float: 'right',
     },
-    '& .itemIconGreen': {
-      fill: '#048340',
+    '& .itemIconAdd': {
       float: 'right',
     },
   },
@@ -53,8 +52,6 @@ const useStyles = makeStyles((theme: Theme): any => ({
     display: 'inline-block',
   },
   completeProfile: {
-    color: '#048340',
-    borderColor: '#048340',
     marginTop: 20,
     textTransform: 'capitalize',
   },
@@ -96,11 +93,14 @@ const BasicInfo = () => {
           </Box>
           <Box className={classes.profileItem}>
             <Box className={classes.displayInline}>BID</Box>
-            <AddCircle className='itemIconGreen' />
+            <AddCircle className='itemIconAdd' color={'primary'} />
           </Box>
 
           <Box style={{textAlign: 'center'}}>
-            <Button variant='outlined' className={classes.completeProfile}>
+            <Button
+              variant='outlined'
+              color={'primary'}
+              className={classes.completeProfile}>
               Complete Your Profile
             </Button>
           </Box>

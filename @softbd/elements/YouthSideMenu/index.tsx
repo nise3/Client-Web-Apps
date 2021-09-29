@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, makeStyles, Theme} from '@material-ui/core';
+import {Box, makeStyles} from '@material-ui/core';
 import {
   Business,
   CalendarToday,
@@ -9,8 +9,9 @@ import {
   Score,
   Settings,
 } from '@material-ui/icons';
+import {CremaTheme} from '../../../types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: CremaTheme): any => ({
   root: {
     background: '#fff',
     borderRadius: 4,

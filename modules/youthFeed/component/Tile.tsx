@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
-import {Box, makeStyles, Theme, Typography} from '@material-ui/core';
+import {Box, makeStyles, Typography} from '@material-ui/core';
+import {CremaTheme} from '../../../types/AppContextPropsType';
 
 interface TileProps {
   amount: number | string;
@@ -7,7 +8,7 @@ interface TileProps {
   backgroundColor?: string;
 }
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: CremaTheme): any => ({
   tile: {
     color: '#FFF',
     padding: '10px 0px',

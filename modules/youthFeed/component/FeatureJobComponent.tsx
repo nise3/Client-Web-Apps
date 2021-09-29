@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import {Box, CardMedia, Chip, Grid} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
-import {Theme} from '@material-ui/core/styles';
+import {CremaTheme} from '../../../types/AppContextPropsType';
 
-const useStyle = makeStyles((theme: Theme) => ({
+const useStyle = makeStyles((theme: CremaTheme) => ({
   featureJobRoot: {
     background: '#fff',
     borderRadius: 4,
@@ -31,7 +31,7 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
   },
   jobTitle: {
-    color: '#29955c',
+    color: theme.palette.primary.main,
     fontSize: 12,
     fontWeight: 500,
   },

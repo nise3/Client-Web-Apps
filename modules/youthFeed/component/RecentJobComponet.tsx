@@ -1,34 +1,31 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia, Grid} from '@material-ui/core';
+import {Box, Button, CardMedia} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
-import {Theme} from '@material-ui/core/styles';
+import {CremaTheme} from '../../../types/AppContextPropsType';
 
-const useStyle = makeStyles((theme: Theme) => ({
-  nearbyJobRoot: {
-    background: '#fff',
-    borderRadius: 4,
-    position: 'relative',
+const useStyle = makeStyles((theme: CremaTheme) => ({
+  recentJobCompRoot: {
+    padding: '5px 10px 0px 20px',
   },
   jobProviderImage: {
     borderRadius: '50%',
     height: 45,
     width: 45,
-    marginLeft: 10,
     border: '1px solid #c4c4c4',
     boxShadow: '0px 1px 4px 2px #e9e9e9',
   },
   jobTitle: {
-    color: '#29955c',
-    fontSize: 12,
-    fontWeight: 500,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
   jobProviderName: {
-    fontSize: 12,
-    fontWeight: 500,
+    fontSize: 14,
+    color: '#8c8888',
+    marginBottom: 10,
   },
 }));
 
-interface NearByJobProps {
+interface RecentJobProps {
   data: {
     imageUrl: string;
     jobTitle: string;
@@ -37,40 +34,38 @@ interface NearByJobProps {
   };
 }
 
-const RecentJobComponent: FC<NearByJobProps> = ({data}) => {
+const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   const classes = useStyle();
 
   return (
     <>
-      <Box className={classes.nearbyJobRoot}>
-        <Grid container spacing={3} alignItems={'flex-start'}>
-          <Grid item>
-            <CardMedia
-              component='img'
-              alt='provider image'
-              image={data.imageUrl}
-              className={classes.jobProviderImage}
-            />
-          </Grid>
-          <Grid item>
-            <Box className={classes.jobTitle}>{data.jobTitle}</Box>
-            <Box className={classes.jobProviderName}>
-              {data.jobProviderName}.{data.location}
-            </Box>
-            <Box>
-              <Button variant='contained' color='primary' size={'small'}>
-                Apply
-              </Button>
-              <Button
-                variant='contained'
-                color='default'
-                size={'small'}
-                style={{marginLeft: 10}}>
-                Details
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
+      <Box display={'flex'} className={classes.recentJobCompRoot}>
+        <Box>
+          <CardMedia
+            component='img'
+            alt='provider image'
+            image={data.imageUrl}
+            className={classes.jobProviderImage}
+          />
+        </Box>
+        <Box marginLeft={'10px'}>
+          <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+          <Box className={classes.jobProviderName}>
+            {data.jobProviderName} &#8226; {data.location}
+          </Box>
+          <Box>
+            <Button variant='contained' color='primary' size={'small'}>
+              Apply
+            </Button>
+            <Button
+              variant='contained'
+              color='default'
+              size={'small'}
+              style={{marginLeft: 10}}>
+              Details
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </>
   );
