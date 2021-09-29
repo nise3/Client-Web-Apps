@@ -8,7 +8,8 @@ const useStyles = makeStyles((theme: CremaTheme) => {
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
-      backgroundColor: theme.palette.background.default,
+      // backgroundColor: theme.palette.background.default,
+      backgroundColor: '#f7fafc',
       '&.appMainHor': {
         '& .customizerOption': {
           position: 'fixed',
