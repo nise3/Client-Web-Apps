@@ -147,11 +147,11 @@ const SkillInfo = ({icon, text1, text2, vBar}: SkillInfoProps) => {
   const classes = useStyles();
 
   return (
-    <Grid container xs={12} md={4} className={classes.overallInfo}>
-      <Grid item xs={2}>
+    <Grid container className={classes.overallInfo}>
+      <Grid item xs={2} md={2}>
         {icon}
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={6} md={6}>
         <Typography variant={'subtitle2'}>{text1}</Typography>
         <Typography>{text2}</Typography>
       </Grid>
@@ -344,13 +344,11 @@ const Skill = ({
       <HorizontalLine />
 
       <Grid
-        item
         container
-        sm={12}
         justifyContent={'space-between'}
         className={classes.skillCard}>
         <Grid item sm={6}>
-          <Grid container sm={12}>
+          <Grid container>
             {skillCourseLogo && <Grid item>{skillCourseLogo}</Grid>}
             <Grid item sm={6}>
               <Box ml={1} mb={2}>
@@ -364,14 +362,16 @@ const Skill = ({
             </Grid>
           </Grid>
         </Grid>
-        <Grid item container sm={6} justifyContent={'flex-end'}>
-          <Box>
-            <CustomParabolaButton
-              buttonVariant={'outlined'}
-              title={'Edit'}
-              icon={<BorderColor />}
-            />
-          </Box>
+        <Grid item sm={6}>
+          <Grid container justifyContent={'flex-end'}>
+            <Box>
+              <CustomParabolaButton
+                buttonVariant={'outlined'}
+                title={'Edit'}
+                icon={<BorderColor />}
+              />
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
       <Grid item container>
@@ -498,24 +498,35 @@ const YouthProfile = () => {
 
               <HorizontalLine />
 
-              <Grid item container xs={12} md={10}>
-                <SkillInfo
-                  icon={<BusinessCenter htmlColor={'green'} />}
-                  text1={'Complete'}
-                  text2={'Profile'}
-                  vBar={true}
-                />
-                <SkillInfo
-                  icon={<BusinessCenter htmlColor={'green'} />}
-                  text1={'5+ year jobs'}
-                  text2={'Experience'}
-                  vBar={true}
-                />
-                <SkillInfo
-                  icon={<BusinessCenter htmlColor={'green'} />}
-                  text1={'5 Certificates'}
-                  text2={'Achieved'}
-                />
+              <Grid item xs={12} md={10}>
+                <Grid container>
+                  <Grid item md={4} xs={12}>
+                    <SkillInfo
+                      icon={<BusinessCenter htmlColor={'green'} />}
+                      text1={'Complete'}
+                      text2={'Profile'}
+                      vBar={true}
+                    />
+                  </Grid>
+
+                  <Grid item md={4} xs={12}>
+                    <SkillInfo
+                      icon={<BusinessCenter htmlColor={'green'} />}
+                      text1={'Complete'}
+                      text2={'Profile'}
+                      vBar={true}
+                    />
+                  </Grid>
+
+                  <Grid item md={4} xs={12}>
+                    <SkillInfo
+                      icon={<BusinessCenter htmlColor={'green'} />}
+                      text1={'5+ year jobs'}
+                      text2={'Experience'}
+                      vBar={true}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </CardContent>
           </Card>
@@ -687,7 +698,7 @@ const YouthProfile = () => {
                     </label>
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container xs={12}>
+                    <Grid container>
                       <Grid item xs={8}>
                         <Image src={youthCV} />
                       </Grid>
@@ -696,7 +707,7 @@ const YouthProfile = () => {
 
                   <Box mt={2} width={'100%'}>
                     <Grid item xs={12}>
-                      <Grid container spacing={3} xs={12}>
+                      <Grid container spacing={3}>
                         <Grid item xs={6}>
                           <Button
                             variant={'contained'}
