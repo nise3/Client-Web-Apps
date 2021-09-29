@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {Slide, Fade} from 'react-awesome-reveal';
+import {Fade, Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up('md')]: {
         width: '90px',
-        marginLeft: '-24px'
+        marginLeft: '-24px',
       },
     },
 
@@ -99,9 +99,9 @@ const useStyles = makeStyles((theme: Theme) =>
       border: 'none',
     },
     dropdownStyle: {
-      border: "1px solid black",
-      borderRadius: "5%",
-      backgroundColor:'lightgrey',
+      border: '1px solid black',
+      borderRadius: '5%',
+      backgroundColor: 'lightgrey',
     },
   }),
 );
@@ -139,8 +139,7 @@ const CoverArea = () => {
               <Grid item container>
                 <Grid item xs={3} xl={2}>
                   <Box mt={5} zIndex={'tooltip'}>
-                    <NativeSelect
-                      disableUnderline className={classes.select}>
+                    <NativeSelect disableUnderline className={classes.select}>
                       <option>দক্ষতা</option>
                       <option>চাকরি</option>
                       <option>ব্যবসা</option>
@@ -150,11 +149,9 @@ const CoverArea = () => {
                 </Grid>
               </Grid>
             </Slide>
-
             <SearchBox />
           </Container>
         </Grid>
-
         <Grid container className={classes.trendWrapper}>
           <Container maxWidth='md'>
             <Slide direction='down'>
