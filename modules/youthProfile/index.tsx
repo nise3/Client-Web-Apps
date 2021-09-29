@@ -24,6 +24,7 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import AddIcon from '@material-ui/icons/Add';
 import youthCV from '../../public/images/youth/youth-cv.jpg';
+import Footer from '../home/Footer';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -272,7 +273,12 @@ const JobExperience = ({
   return (
     <>
       <HorizontalLine />
-      <Grid item container sm={12} justifyContent={'space-between'}>
+      <Grid
+        item
+        container
+        sm={12}
+        // className={classes.youthJobExperienceCompanyInfo}
+        justifyContent={'space-between'}>
         <Grid item container sm={6}>
           {companyLogo && <Grid item>{companyLogo}</Grid>}
 
@@ -716,6 +722,7 @@ const YouthProfile = () => {
           </Box>
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 };
