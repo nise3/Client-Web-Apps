@@ -9,13 +9,13 @@ const languageData: LanguageProps[] = [
   {
     languageId: 'bangla',
     locale: 'bn',
-    name: 'Bangla',
+    name: 'BN',
     icon: 'bd',
   },
   {
     languageId: 'english',
     locale: 'en',
-    name: 'English',
+    name: 'EN',
     icon: 'us',
   },
   // {

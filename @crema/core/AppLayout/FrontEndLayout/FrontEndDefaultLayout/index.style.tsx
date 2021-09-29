@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
-      backgroundColor: '#f7fafc',
+      backgroundColor: theme.palette.background.default,
       '&.appMainHor': {
         '& .customizerOption': {
           position: 'fixed',
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         maxWidth: 1720,
       },
       '& > .scrollbar-container': {
-        padding: '20px 20px 0',
+        padding: '20px',
         display: 'flex',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {

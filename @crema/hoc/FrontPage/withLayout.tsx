@@ -4,7 +4,7 @@ import useStyles from '../../../shared/jss/common/common.style';
 
 const withLayout = (ComposedComponent: any) => (props: any) => {
   useStyles();
-  
+
   return (
     <FrontEndDefaultLayout>
       <ComposedComponent {...props} />
