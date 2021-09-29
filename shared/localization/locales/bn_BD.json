@@ -312,5 +312,6 @@
   "common.assign_permission": "Assign Permission",
   "permission.module": "মডিউলের নাম",
   "common.row_status": "অবস্থা",
-  "youth_profile.label": "ইয়ুথ প্রোফাইল"
+  "youth_profile.label": "ইয়ুথ প্রোফাইল",
+  "youth_profile.edit_profile": "প্রোফাইল সম্পাদনা"
 }

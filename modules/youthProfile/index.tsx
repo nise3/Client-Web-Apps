@@ -25,6 +25,7 @@ import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/Custom
 import AddIcon from '@material-ui/icons/Add';
 import youthCV from '../../public/images/youth/youth-cv.jpg';
 import Footer from '../home/Footer';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -443,6 +444,7 @@ const cardItem = (item: any, key: number) => {
 
 const YouthProfile = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Container className={classes.container}>
@@ -482,7 +484,7 @@ const YouthProfile = () => {
                   className={classes.editButton}>
                   <Grid item>
                     <CustomParabolaButton
-                      title={'Edit Profile'}
+                      title={messages['youth_profile.edit_profile'] as string}
                       icon={<BusinessCenter />}
                     />
                   </Grid>
