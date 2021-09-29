@@ -251,7 +251,6 @@ const HorizontalLine = () => {
 };
 
 type JobExperienceProp = {
-  jobTitle?: string;
   postTitle?: string;
   companyName?: string;
   companyLogo?: any;
@@ -260,7 +259,6 @@ type JobExperienceProp = {
   jobDescription?: string;
 };
 const JobExperience = ({
-  jobTitle,
   postTitle,
   companyName,
   companyLogo,
@@ -273,12 +271,7 @@ const JobExperience = ({
   return (
     <>
       <HorizontalLine />
-      <Grid
-        item
-        container
-        sm={12}
-        // className={classes.youthJobExperienceCompanyInfo}
-        justifyContent={'space-between'}>
+      <Grid item container sm={12} justifyContent={'space-between'}>
         <Grid item container sm={6}>
           {companyLogo && <Grid item>{companyLogo}</Grid>}
 
