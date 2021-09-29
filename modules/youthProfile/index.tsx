@@ -505,17 +505,16 @@ const YouthProfile = () => {
                   <Grid item md={4} xs={12}>
                     <SkillInfo
                       icon={<BusinessCenter htmlColor={'green'} />}
-                      text1={'Complete'}
-                      text2={'Profile'}
-                      vBar={true}
+                      text1={'5+ year jobs'}
+                      text2={'Experience'}
+                      vBar={false}
                     />
                   </Grid>
-
                   <Grid item md={4} xs={12}>
                     <SkillInfo
                       icon={<BusinessCenter htmlColor={'green'} />}
-                      text1={'5+ year jobs'}
-                      text2={'Experience'}
+                      text1={'5 Certificates'}
+                      text2={'Achived'}
                       vBar={true}
                     />
                   </Grid>
