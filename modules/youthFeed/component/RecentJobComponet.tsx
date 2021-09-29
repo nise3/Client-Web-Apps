@@ -11,8 +11,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     borderRadius: '50%',
     height: 45,
     width: 45,
-    border: '1px solid #c4c4c4',
-    boxShadow: '0px 1px 4px 2px #e9e9e9',
+    border: '1px solid ' + theme.palette.grey['300'],
   },
   jobTitle: {
     fontSize: 15,

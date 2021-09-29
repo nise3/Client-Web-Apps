@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Box,
   Button,
+  Card,
   CardMedia,
   LinearProgress,
   makeStyles,
@@ -10,10 +11,6 @@ import {AddCircle, CheckCircle} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
-  root: {
-    background: '#fff',
-    borderRadius: 4,
-  },
   container: {
     padding: 20,
     position: 'relative',
@@ -53,7 +50,6 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
   },
   completeProfile: {
     marginTop: 20,
-    textTransform: 'capitalize',
   },
 }));
 
@@ -62,7 +58,7 @@ const BasicInfo = () => {
 
   return (
     <>
-      <Box className={classes.root}>
+      <Card className={classes.root}>
         <Box className={classes.topCover} />
         <Box className={classes.container}>
           <CardMedia
@@ -105,7 +101,7 @@ const BasicInfo = () => {
             </Button>
           </Box>
         </Box>
-      </Box>
+      </Card>
     </>
   );
 };

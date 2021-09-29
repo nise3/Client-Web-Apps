@@ -9,6 +9,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     background: '#fff',
     borderRadius: 4,
     position: 'relative',
+    padding: '10px 5px',
   },
   jobProviderImage: {
     borderRadius: '50%',
