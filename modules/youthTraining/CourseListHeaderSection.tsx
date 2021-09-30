@@ -18,7 +18,7 @@ const CourseListHeaderSection = () => {
 
   return (
     <Box className={classes.pageRootHeader}>
-      <Container>
+      <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={7}>
             <Box fontSize={'16px'}>Search Courses and Training</Box>

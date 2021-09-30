@@ -1,7 +1,13 @@
 import React from 'react';
+import {Box} from '@mui/material';
+import CourseDetailsHeaderSection from './CourseDetailsHeaderSection';
 
 const CourseDetails = () => {
-  return <div>hiii</div>;
+  return (
+    <Box>
+      <CourseDetailsHeaderSection />
+    </Box>
+  );
 };
 
 export default CourseDetails;
