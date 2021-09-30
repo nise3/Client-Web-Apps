@@ -1,6 +1,4 @@
 import React, {FC} from 'react';
-import { Grid} from '@material-ui/core';
-
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -8,15 +6,13 @@ import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/Custom
 import HookFormMuiModal from '../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import {Grid} from '@mui/material';
 
 interface ConfirmPasswordPopupProps {
   onClose: () => void;
 }
-const ConfirmPasswordPopup: FC<ConfirmPasswordPopupProps> = ({
-                                                                   ...props
-                                                                 }) => {
-
+const ConfirmPasswordPopup: FC<ConfirmPasswordPopupProps> = ({...props}) => {
   const {messages} = useIntl();
 
   const {
@@ -27,9 +23,7 @@ const ConfirmPasswordPopup: FC<ConfirmPasswordPopupProps> = ({
 
   const isLoading = false;
 
-  const onSubmit: SubmitHandler<any> = async (data: []) => {
-
-  };
+  const onSubmit: SubmitHandler<any> = async (data: []) => {};
   return (
     <>
       <HookFormMuiModal
@@ -37,7 +31,7 @@ const ConfirmPasswordPopup: FC<ConfirmPasswordPopupProps> = ({
         open={true}
         title={
           <>
-            <VpnKeyIcon  />
+            <VpnKeyIcon />
             <IntlMessages
               id='common.change_password'
               values={{subject: <IntlMessages id='common.change_password' />}}
@@ -71,11 +65,8 @@ const ConfirmPasswordPopup: FC<ConfirmPasswordPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-
-
         </Grid>
       </HookFormMuiModal>
-
     </>
   );
 };

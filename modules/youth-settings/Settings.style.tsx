@@ -1,6 +1,5 @@
-import {makeStyles} from '@material-ui/core';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {createStyles} from '@material-ui/core/styles';
+import {createStyles, makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
