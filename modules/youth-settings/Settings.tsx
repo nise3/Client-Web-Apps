@@ -4,7 +4,6 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from './Settings.style';
-import {IconButton} from '@material-ui/core';
 import ChangeYouthUserIDPopup from './ChangeYouthUserIDPopup';
 import ConfirmPasswordPopup from './ConfirmPasswordPopup';
 import DeactivateAccountPopup from './DeactivateAccountPopup';
@@ -90,13 +89,11 @@ const Settings = () => {
                     className={classes.settingBox}
                     onClick={() => openDeactivateModal()}>
                     <Box className={classes.boxItem + ' ' + classes.deleteItem}>
-                      <IconButton aria-label=''>
-                        <DeleteIcon
-                          fontSize={'large'}
-                          className='icon'
-                          style={{color: 'red'}}
-                        />
-                      </IconButton>
+                      <DeleteIcon
+                        fontSize={'large'}
+                        className='icon'
+                        style={{color: 'red'}}
+                      />
                     </Box>
                     <Typography className='textDelete'>
                       Deactivate Account
