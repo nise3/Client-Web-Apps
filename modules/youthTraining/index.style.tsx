@@ -1,6 +1,12 @@
 import {makeStyles} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  trainingViewRoot: {
+    margin: '0px auto 20px',
+  },
+  mainContent: {
+    marginTop: 20,
+  },
   pageRootHeader: {
     background: '#776bff',
     color: '#fff',
@@ -26,9 +32,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   selectStyle: {
+    background: '#fff',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
+  },
+  courseCardRoot: {
+    maxWidth: 345,
+  },
+  courseCardImage: {
+    height: 140,
   },
 }));
 

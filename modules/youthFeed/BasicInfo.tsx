@@ -7,8 +7,8 @@ import {
   LinearProgress,
   makeStyles,
 } from '@material-ui/core';
-import {AddCircle, CheckCircle} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import BasicInfoItemBox from '../../@softbd/elements/YouthBasicInfoItemBox';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
@@ -33,21 +33,6 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
     fontWeight: 'bold',
   },
   designation: {fontSize: 14, fontWeight: 'normal'},
-  profileItem: {
-    borderBottom: '1px solid #e9e9e9',
-    paddingBottom: 10,
-    paddingTop: 5,
-    '& .itemIcon': {
-      fill: '#1c98f7',
-      float: 'right',
-    },
-    '& .itemIconAdd': {
-      float: 'right',
-    },
-  },
-  displayInline: {
-    display: 'inline-block',
-  },
   completeProfile: {
     marginTop: 20,
   },
@@ -75,22 +60,8 @@ const BasicInfo = () => {
             <LinearProgress variant='determinate' value={55} />
             <Box>Profile complete 55%</Box>
           </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>Phone Number</Box>
-            <CheckCircle className='itemIcon' />
-          </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>Email Address</Box>
-            <CheckCircle className='itemIcon' />
-          </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>NID</Box>
-            <CheckCircle className='itemIcon' />
-          </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>BID</Box>
-            <AddCircle className='itemIconAdd' color={'primary'} />
-          </Box>
+
+          <BasicInfoItemBox />
 
           <Box style={{textAlign: 'center'}}>
             <Button

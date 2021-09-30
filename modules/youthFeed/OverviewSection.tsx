@@ -7,7 +7,7 @@ import {
   makeStyles,
   NativeSelect,
 } from '@material-ui/core';
-import Tile from './component/Tile';
+import Tile from './components/Tile';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import {LocationOnOutlined} from '@material-ui/icons';

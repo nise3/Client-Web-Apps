@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
-import RecentJobComponent from './component/RecentJobComponet';
+import RecentJobComponent from './components/RecentJobComponet';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {ChevronRight} from '@material-ui/icons';
 import clsx from 'clsx';

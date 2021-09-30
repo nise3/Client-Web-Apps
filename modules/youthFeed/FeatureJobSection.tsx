@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Grid} from '@material-ui/core';
-import FeatureJobComponent from './component/FeatureJobComponent';
+import FeatureJobComponent from './components/FeatureJobComponent';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 

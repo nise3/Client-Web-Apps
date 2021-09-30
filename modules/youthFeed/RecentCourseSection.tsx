@@ -3,7 +3,7 @@ import {Button, Card, Divider, Grid, MenuItem, Select} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {ChevronRight} from '@material-ui/icons';
-import RecentCourseComponent from './component/RecentCourseComponent';
+import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
