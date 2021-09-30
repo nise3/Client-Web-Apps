@@ -1,15 +1,17 @@
 import React, {useCallback} from 'react';
-import {alpha, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import LocalActivityIcon from '@material-ui/icons/LocalActivity';
+import { alpha, Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import {
   Box,
   Button,
@@ -17,10 +19,10 @@ import {
   CssBaseline,
   Slide,
   useScrollTrigger,
-} from '@material-ui/core';
-import {CastForEducation, ExitToApp, Home} from '@material-ui/icons';
-import WorkIcon from '@material-ui/icons/Work';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+} from '@mui/material';
+import {CastForEducation, ExitToApp, Home} from '@mui/icons-material';
+import WorkIcon from '@mui/icons-material/Work';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -78,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
@@ -193,37 +195,37 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}>
       <MenuItem>
-        <IconButton aria-label='show 4 new mails' color='inherit'>
+        <IconButton aria-label='show 4 new mails' color='inherit' size="large">
           <Home />
         </IconButton>
         <p>হোম</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label='show 4 new mails' color='inherit'>
+        <IconButton aria-label='show 4 new mails' color='inherit' size="large">
           <CastForEducation />
         </IconButton>
         <p>প্রশিক্ষণ</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label='show 4 new mails' color='inherit'>
+        <IconButton aria-label='show 4 new mails' color='inherit' size="large">
           <WorkIcon />
         </IconButton>
         <p>চাকরি</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label='show 4 new mails' color='inherit'>
+        <IconButton aria-label='show 4 new mails' color='inherit' size="large">
           <ListAltIcon />
         </IconButton>
         <p>নোটিশ</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label='show 4 new mails' color='inherit'>
+        <IconButton aria-label='show 4 new mails' color='inherit' size="large">
           <LocalActivityIcon />
         </IconButton>
         <p>সাম্প্রতিক কার্যক্রম</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label='show 11 new notifications' color='inherit'>
+        <IconButton aria-label='show 11 new notifications' color='inherit' size="large">
           <Badge badgeContent={11} color='secondary'>
             <NotificationsIcon />
           </Badge>
@@ -235,7 +237,8 @@ export default function Header() {
           aria-label='account of current user'
           aria-controls='primary-search-account-menu'
           aria-haspopup='true'
-          color='inherit'>
+          color='inherit'
+          size="large">
           <AccountCircle />
         </IconButton>
         <p>প্রোফাইল</p>
@@ -312,7 +315,8 @@ export default function Header() {
                   aria-controls={mobileMenuId}
                   aria-haspopup='true'
                   onClick={handleMobileMenuOpen}
-                  color='inherit'>
+                  color='inherit'
+                  size="large">
                   <MoreIcon />
                 </IconButton>
               </Box>

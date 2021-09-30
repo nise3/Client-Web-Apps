@@ -1,6 +1,7 @@
 import React from 'react';
-import {Box, makeStyles} from '@material-ui/core';
-import {grey} from '@material-ui/core/colors/index';
+import {Box} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import {grey} from '@mui/material/colors';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

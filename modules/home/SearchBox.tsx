@@ -4,11 +4,13 @@ import {
   Grid,
   InputAdornment,
   NativeSelect,
-} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import TextField from '@material-ui/core/TextField';
-// import LocationOnIcon from '@material-ui/icons/LocationOn';
+} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+// import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: 1,
       // borderRadius: '2px',
       border: 'none',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         width: '100%',
         marginLeft: '-16px',
       },

@@ -1,7 +1,7 @@
 import React from 'react';
 import AppHeader from './AppHeader';
 import {ContentView} from '../../../../index';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import clsx from 'clsx';
 

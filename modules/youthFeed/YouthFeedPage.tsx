@@ -1,10 +1,11 @@
 import React from 'react';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
 import PostSection from './PostSection';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import RecentJobSection from './RecentJobSection';
 import RecentCourseSection from './RecentCourseSection';
 import SideMenu from '../../@softbd/elements/YouthSideMenu';
@@ -13,7 +14,7 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
     root: {
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('xl')]: {
         alignItems: 'center',
         flexDirection: 'column',
       },

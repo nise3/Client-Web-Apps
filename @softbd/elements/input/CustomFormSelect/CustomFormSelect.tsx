@@ -7,7 +7,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 

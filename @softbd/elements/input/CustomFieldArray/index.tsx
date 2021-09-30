@@ -1,9 +1,9 @@
 import React from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import {Button, ButtonGroup, Grid, TextField} from '@material-ui/core';
+import {Button, ButtonGroup, Grid, TextField} from '@mui/material';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
-import {AddCircleOutline, RemoveCircleOutline} from '@material-ui/icons';
+import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {

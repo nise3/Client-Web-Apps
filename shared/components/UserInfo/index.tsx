@@ -1,21 +1,22 @@
 import React, {useCallback, useContext, useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 import {useDispatch} from 'react-redux';
 import {onJWTAuthSignout} from '../../../redux/actions';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AppContext from '../../../@crema/utility/AppContext';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box';
-import {orange} from '@material-ui/core/colors';
+import makeStyles from '@mui/styles/makeStyles';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Box from '@mui/material/Box';
+import {orange} from '@mui/material/colors';
 import {Fonts, ThemeMode} from '../../constants/AppEnums';
 import AppContextPropsType from '../../../types/AppContextPropsType';
 import {AuthUser} from '../../../types/models/AuthUser';
 import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
+
 const useStyles = makeStyles((theme) => {
   return {
     crUserInfo: {
@@ -68,19 +69,14 @@ const UserInfo: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const user: AuthUser | null = useAuthUser();
 
-
   const closeEditModal = useCallback(() => {
     setIsOpenEditModal(false);
-
   }, []);
 
-  const openEditModal = useCallback(
-    () => {
-      setIsOpenDetailsModal(false);
-      setIsOpenEditModal(true);
-    },
-    [],
-  );
+  const openEditModal = useCallback(() => {
+    setIsOpenDetailsModal(false);
+    setIsOpenEditModal(true);
+  }, []);
   const openDetailsModal = useCallback(() => {
     setAnchorEl(null);
     setIsOpenDetailsModal(true);
@@ -89,8 +85,6 @@ const UserInfo: React.FC<{}> = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -155,13 +149,10 @@ const UserInfo: React.FC<{}> = () => {
           key={1}
           onClose={closeDetailsModal}
           openEditModal={openEditModal}
-         />
+        />
       )}
       {isOpenEditModal && (
-        <UserInfoEditPopup
-          key={1}
-          onClose={closeEditModal}
-        />
+        <UserInfoEditPopup key={1} onClose={closeEditModal} />
       )}
     </Box>
   );

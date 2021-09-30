@@ -1,6 +1,6 @@
 import React from 'react';
-import {Box, CircularProgress} from '@material-ui/core';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import {Box, CircularProgress} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 

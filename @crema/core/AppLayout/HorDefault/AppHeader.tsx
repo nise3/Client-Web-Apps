@@ -1,23 +1,23 @@
 import React, {useState} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import LanguageSwitcher from '../../LanguageSwitcher';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import HorizontalNav from '../../Navigation/HorizontalNav';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import useStyles from './AppHeader.style';
 import SearchBar from '../../SearchBar';
 import NotificationBar from './NotificationBar';
 import clsx from 'clsx';
 import HeaderMessages from '../../HeaderMessages';
 import Notifications from '../../Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import MoreIcon from '@mui/icons-material/MoreVert';
 import HorUserInfo from '../HorUserInfo';
 import AppLogo from '../../../../shared/components/AppLogo';
 
@@ -59,57 +59,57 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
     </Menu>
   );
 
-  return (
-    <>
-      <AppBar position='relative'>
-        <NotificationBar />
-        <Toolbar className={classes.headerMain}>
+  return <>
+    <AppBar position='relative'>
+      <NotificationBar />
+      <Toolbar className={classes.headerMain}>
+        <Box className={classes.headerContainer}>
+          <Box className={classes.headerMainFlex}>
+            <Hidden lgUp>
+              <IconButton
+                edge='start'
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='open drawer'
+                onClick={() => dispatch(toggleNavCollapsed())}
+                size="large">
+                <MenuIcon className={classes.menuIconRoot} />
+              </IconButton>
+            </Hidden>
+
+            <AppLogo />
+            <Box className={classes.grow} />
+            <SearchBar />
+            <Box className={clsx(classes.sectionDesktop)}>
+              <LanguageSwitcher />
+              <HeaderMessages />
+              <Notifications />
+            </Box>
+
+            <HorUserInfo bgType='white' />
+            <Box ml={1} className={classes.sectionMobile}>
+              <IconButton
+                aria-label='show more'
+                aria-controls={mobileMenuId}
+                aria-haspopup='true'
+                onClick={handleMobileMenuOpen}
+                color='inherit'
+                size="large">
+                <MoreIcon />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
+      </Toolbar>
+      <Hidden xlDown>
+        <Box className={classes.headerNav}>
           <Box className={classes.headerContainer}>
-            <Box className={classes.headerMainFlex}>
-              <Hidden lgUp>
-                <IconButton
-                  edge='start'
-                  className={classes.menuButton}
-                  color='inherit'
-                  aria-label='open drawer'
-                  onClick={() => dispatch(toggleNavCollapsed())}>
-                  <MenuIcon className={classes.menuIconRoot} />
-                </IconButton>
-              </Hidden>
-
-              <AppLogo />
-              <Box className={classes.grow} />
-              <SearchBar />
-              <Box className={clsx(classes.sectionDesktop)}>
-                <LanguageSwitcher />
-                <HeaderMessages />
-                <Notifications />
-              </Box>
-
-              <HorUserInfo bgType='white' />
-              <Box ml={1} className={classes.sectionMobile}>
-                <IconButton
-                  aria-label='show more'
-                  aria-controls={mobileMenuId}
-                  aria-haspopup='true'
-                  onClick={handleMobileMenuOpen}
-                  color='inherit'>
-                  <MoreIcon />
-                </IconButton>
-              </Box>
-            </Box>
+            <HorizontalNav />
           </Box>
-        </Toolbar>
-        <Hidden mdDown>
-          <Box className={classes.headerNav}>
-            <Box className={classes.headerContainer}>
-              <HorizontalNav />
-            </Box>
-          </Box>
-        </Hidden>
-      </AppBar>
-      {renderMobileMenu}
-    </>
-  );
+        </Box>
+      </Hidden>
+    </AppBar>
+    {renderMobileMenu}
+  </>;
 };
 export default AppHeader;

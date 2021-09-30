@@ -1,9 +1,11 @@
-import {Box, Button, Card, Container, Grid} from '@material-ui/core';
+import {Box, Button, Card, Container, Grid} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
-import {ArrowRightAlt} from '@material-ui/icons';
+import {ArrowRightAlt} from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

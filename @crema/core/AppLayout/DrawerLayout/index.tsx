@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {ContentView, ThemeSetting} from '../../../index';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import AppFixedFooter from './AppFixedFooter';
 import clsx from 'clsx';

@@ -1,6 +1,8 @@
 import React from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -13,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         marginTop: '200px',
       },
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         marginTop: '30px',
       },
     },

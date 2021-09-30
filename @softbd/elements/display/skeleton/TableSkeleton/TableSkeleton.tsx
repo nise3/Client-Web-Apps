@@ -1,6 +1,6 @@
-import {Skeleton} from '@material-ui/lab';
+import { Skeleton } from '@mui/material';
 import React from 'react';
-import {TableBody, TableCell, TableRow} from '@material-ui/core';
+import {TableBody, TableCell, TableRow} from '@mui/material';
 import {range} from '../../../../utilities/helpers';
 
 type Props = {

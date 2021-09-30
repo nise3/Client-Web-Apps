@@ -1,6 +1,8 @@
 import React from 'react';
-import {Box, Card, Container, Grid, Typography} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {Box, Card, Container, Grid, Typography} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
 import InfoCard from './infoCard';
 
@@ -10,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '50px',
       backgroundColor: '#eee',
       paddingTop: '20px',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         paddingBottom: '120px',
       },
       [theme.breakpoints.up('sm')]: {
@@ -77,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: 1,
     },
     infoCardWrapper: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         marginBottom: '170px',
       },
     },

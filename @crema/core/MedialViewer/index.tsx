@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import useStyles from './index.style';
-import Zoom from '@material-ui/core/Zoom';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {TransitionProps} from '@material-ui/core/transitions';
+import Zoom from '@mui/material/Zoom';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import {TransitionProps} from '@mui/material/transitions';
 
 const settings: {
   dots: boolean;
@@ -81,7 +81,7 @@ const MediaViewer: React.FC<MediaViewerProps> = ({index, medias, onClose}) => {
       className={classes.dialogRoot}
       TransitionComponent={Transition}>
       <Box className={classes.mediaViewerRoot}>
-        <IconButton className={classes.cancelBtn} onClick={onClose}>
+        <IconButton className={classes.cancelBtn} onClick={onClose} size="large">
           <HighlightOffIcon />
         </IconButton>
         {index >= 0 ? (

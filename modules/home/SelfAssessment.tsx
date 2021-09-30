@@ -1,6 +1,8 @@
 import React from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import {Zoom} from 'react-awesome-reveal';
 import Image from 'next/image';
 import selfAssessmentImage from '../../public/images/self-assessment.png';
@@ -20,14 +22,14 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '340px',
     },
     db: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         flexDirection: 'column',
         alignItems: 'center',
         justify: 'center',
       },
     },
     centeringClass: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex',

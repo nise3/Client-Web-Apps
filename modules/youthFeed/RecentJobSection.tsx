@@ -6,11 +6,11 @@ import {
   Grid,
   MenuItem,
   Select,
-} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import RecentJobComponent from './component/RecentJobComponet';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {ChevronRight} from '@material-ui/icons';
+import {ChevronRight} from '@mui/icons-material';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentSectionRoot: {

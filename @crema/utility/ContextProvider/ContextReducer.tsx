@@ -47,7 +47,7 @@ export function contextReducer(state: any, action: any) {
     case ThemeSetting.UPDATE_THEME_MODE: {
       let theme = state.theme;
       if (action.payload === ThemeMode.DARK) {
-        theme.palette.type = ThemeMode.DARK;
+        theme.palette.mode = ThemeMode.DARK;
         theme.palette.background = {
           paper: '#313541',
           default: '#393D4B',
@@ -59,7 +59,7 @@ export function contextReducer(state: any, action: any) {
           hint: 'rgba(255, 255, 255, 0.38)',
         };
       } else {
-        theme.palette.type = ThemeMode.LIGHT;
+        theme.palette.mode = ThemeMode.LIGHT;
         theme.palette.background = {
           paper: '#FFFFFF',
           default: '#f3f4f6',

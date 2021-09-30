@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  CardMedia,
-  LinearProgress,
-  makeStyles,
-} from '@material-ui/core';
-import {AddCircle, CheckCircle} from '@material-ui/icons';
+import { Box, Button, CardMedia, LinearProgress } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import {AddCircle, CheckCircle} from '@mui/icons-material';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({

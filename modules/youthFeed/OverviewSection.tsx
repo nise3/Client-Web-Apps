@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  Button,
-  Grid,
-  InputAdornment,
-  makeStyles,
-  NativeSelect,
-} from '@material-ui/core';
+import { Button, Grid, InputAdornment, NativeSelect } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Tile from './component/Tile';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
-import {LocationOnOutlined} from '@material-ui/icons';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import {LocationOnOutlined} from '@mui/icons-material';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({

@@ -1,5 +1,5 @@
 import React, {ErrorInfo} from 'react';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 class AppErrorBoundary extends React.Component<{}, {hasError: boolean}> {
   constructor(props: any) {

@@ -1,9 +1,9 @@
 import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import {Box} from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItem from '@mui/material/MenuItem';
+import {Box} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const options = ['View More', 'Update Data', 'Clear Data'];
 
@@ -26,7 +26,8 @@ const AppMenu: React.FC<AppMenuProps> = () => {
       <IconButton
         style={{height: 30, width: 30}}
         aria-label='more'
-        onClick={handleClick}>
+        onClick={handleClick}
+        size="large">
         <MoreVertIcon />
       </IconButton>
       <Menu

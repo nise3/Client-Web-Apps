@@ -1,8 +1,8 @@
 import React, {ReactNode, useContext, useState} from 'react';
 import AppSidebar from './AppSidebar';
 import {AppContext, ContentView, ThemeSetting} from '../../../index';
-import Hidden from '@material-ui/core/Hidden';
-import Box from '@material-ui/core/Box';
+import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 import AppHeader from './AppHeader';
 import clsx from 'clsx';
 import useStyles from './index.style';
@@ -31,7 +31,7 @@ const BitBucket: React.FC<BitBucketProps> = ({children}) => {
       </Hidden>
       <AppSidebar isCollapsed={isCollapsed} setCollapsed={setCollapsed}/>
       <Box className={classes.mainContent}>
-        <Hidden mdDown>
+        <Hidden xlDown>
           <Box className={classes.mainContainer}>
             <ContentView>{children}</ContentView>
           </Box>

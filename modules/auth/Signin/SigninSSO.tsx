@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {makeStyles} from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

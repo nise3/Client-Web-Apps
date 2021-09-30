@@ -1,15 +1,15 @@
 import React, {FC} from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 import {useDispatch} from 'react-redux';
 import {onJWTAuthSignout} from '../../../redux/actions';
 import {useAuthUser} from '../../utility/AppHooks';
-import {makeStyles} from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Box from '@material-ui/core/Box';
-import {orange} from '@material-ui/core/colors';
+import makeStyles from '@mui/styles/makeStyles';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Box from '@mui/material/Box';
+import {orange} from '@mui/material/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -78,7 +78,7 @@ const HorUserInfo: FC<HorUserInfoProps> = ({bgType = 'colored'}) => {
         ) : (
           <Avatar className={classes.avatar}>{getUserAvatar()}</Avatar>
         )}
-        <Hidden mdDown>
+        <Hidden xlDown>
           <Box ml={3} className={classes.userName}>
             {user && (user.displayName ? user.displayName : user.email)}
             <Box fontSize={13} fontWeight={Fonts.LIGHT}>

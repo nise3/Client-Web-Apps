@@ -5,7 +5,7 @@ import IconRole from '../../../@softbd/icons/IconRole';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchUser} from '../../../services/userManagement/hooks';

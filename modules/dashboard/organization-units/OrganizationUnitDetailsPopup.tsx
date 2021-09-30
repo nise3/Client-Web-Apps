@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';

@@ -1,6 +1,6 @@
 import React from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import {TextField} from '@material-ui/core';
+import {TextField} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 

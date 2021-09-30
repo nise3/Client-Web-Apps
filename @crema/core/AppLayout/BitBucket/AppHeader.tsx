@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
-import Box from '@material-ui/core/Box';
+import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 import SearchBar from '../../SearchBar';
 import useStyles from './AppHeader.style';
 import AppLogo from '../../../../shared/components/AppLogo';
@@ -28,7 +28,8 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           className={classes.menuButton}
           color='inherit'
           aria-label='open drawer'
-          onClick={() => dispatch(toggleNavCollapsed())}>
+          onClick={() => dispatch(toggleNavCollapsed())}
+          size="large">
           <MenuIcon className={classes.menuIcon} />
         </IconButton>
         <AppLogo />

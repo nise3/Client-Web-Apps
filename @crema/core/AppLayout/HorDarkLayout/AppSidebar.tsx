@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../Navigation/VerticleNav';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import useStyles from './AppSidebar.style';
 import {AppState} from '../../../../redux/store';
 import AppContextPropsType from '../../../../types/AppContextPropsType';

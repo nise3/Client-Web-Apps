@@ -1,6 +1,5 @@
 import {
   Grid,
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -8,7 +7,8 @@ import {
   TablePagination,
   TableRow,
   Theme,
-} from '@material-ui/core';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import React, {ReactElement} from 'react';
 import {
   HeaderProps,
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme): any => ({
   },
   tableRow: {
     boxShadow:
-      theme.palette.type === ThemeMode.DARK
+      theme.palette.mode === ThemeMode.DARK
         ? '0px 0px 10px 1px #222'
         : '0px 0px 10px 1px #e9e9e9',
   },
@@ -61,11 +61,11 @@ const useStyles = makeStyles((theme: Theme): any => ({
     justifyContent: 'center',
   },
   noDataIcon: {
-    color: theme.palette.type === ThemeMode.DARK ? '#6c6c6c' : '#ddd',
+    color: theme.palette.mode === ThemeMode.DARK ? '#6c6c6c' : '#ddd',
   },
   noDataText: {
     display: 'block',
-    color: theme.palette.type === ThemeMode.DARK ? '#7d7d7d' : '#a0a0a0',
+    color: theme.palette.mode === ThemeMode.DARK ? '#7d7d7d' : '#a0a0a0',
   },
 }));
 

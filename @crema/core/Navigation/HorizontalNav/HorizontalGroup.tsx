@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Grow, Icon, IconButton, ListItem, ListItemText, Paper} from '@material-ui/core';
+import {Grow, Icon, IconButton, ListItem, ListItemText, Paper} from '@mui/material';
 import clsx from 'clsx';
 import {Manager, Popper, Reference} from 'react-popper';
 import HorizontalCollapse from './HorizontalCollapse';
@@ -71,7 +71,7 @@ const HorizontalGroup: React.FC<HorizontalGroupProps> = ({item, nestedLevel = 0}
               classes={{primary: clsx(classes.fontBold, 'uppercase')}}
             />
             {nestedLevel > 0 && (
-              <IconButton disableRipple className={classes.ml2}>
+              <IconButton disableRipple className={classes.ml2} size="large">
                 <Icon className={clsx(classes.textLg, 'arrow-icon')}>
                   keyboard_arrow_right
                 </Icon>

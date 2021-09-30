@@ -1,14 +1,8 @@
-import {
-  Button,
-  createStyles,
-  IconButton,
-  makeStyles,
-  Theme,
-  Toolbar,
-  Tooltip,
-} from '@material-ui/core';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import ViewColumnsIcon from '@material-ui/icons/ViewColumn';
+import { Button, IconButton, Theme, Toolbar, Tooltip } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import ViewColumnsIcon from '@mui/icons-material/ViewColumn';
 import React, {
   MouseEvent,
   MouseEventHandler,
@@ -20,7 +14,7 @@ import React, {
 import {TableInstance} from 'react-table';
 import {ColumnHidePage} from './ColumnHidePage';
 import {FilterPage} from './FilterPage';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import clsx from 'clsx';
 
 export const useStyles = makeStyles((theme: Theme) =>
@@ -92,7 +86,8 @@ export const SmallIconActionButton = <T extends object>({
             [classes.leftIcons]: variant === 'left',
           })}
           onClick={onClick}
-          disabled={!enabled}>
+          disabled={!enabled}
+          size="large">
           {icon}
         </IconButton>
       </span>

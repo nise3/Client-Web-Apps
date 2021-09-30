@@ -5,10 +5,12 @@ import {
   Container,
   Grid,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {AccessTime, ArrowRightAlt, Info} from '@material-ui/icons';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
 import Image from 'next/image';

@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 
 import VerticalCollapse from './VerticalCollapse';
 import VerticalItem from './VerticalItem';

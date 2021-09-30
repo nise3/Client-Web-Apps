@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Box, Button, CardMedia} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
@@ -37,38 +37,32 @@ interface RecentJobProps {
 const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   const classes = useStyle();
 
-  return (
-    <>
-      <Box display={'flex'} className={classes.recentJobCompRoot}>
-        <Box>
-          <CardMedia
-            component='img'
-            alt='provider image'
-            image={data.imageUrl}
-            className={classes.jobProviderImage}
-          />
+  return <>
+    <Box display={'flex'} className={classes.recentJobCompRoot}>
+      <Box>
+        <CardMedia
+          component='img'
+          alt='provider image'
+          image={data.imageUrl}
+          className={classes.jobProviderImage}
+        />
+      </Box>
+      <Box marginLeft={'10px'}>
+        <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+        <Box className={classes.jobProviderName}>
+          {data.jobProviderName} &#8226; {data.location}
         </Box>
-        <Box marginLeft={'10px'}>
-          <Box className={classes.jobTitle}>{data.jobTitle}</Box>
-          <Box className={classes.jobProviderName}>
-            {data.jobProviderName} &#8226; {data.location}
-          </Box>
-          <Box>
-            <Button variant='contained' color='primary' size={'small'}>
-              Apply
-            </Button>
-            <Button
-              variant='contained'
-              color='default'
-              size={'small'}
-              style={{marginLeft: 10}}>
-              Details
-            </Button>
-          </Box>
+        <Box>
+          <Button variant='contained' color='primary' size={'small'}>
+            Apply
+          </Button>
+          <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
+            Details
+          </Button>
         </Box>
       </Box>
-    </>
-  );
+    </Box>
+  </>;
 };
 
 export default RecentJobComponent;

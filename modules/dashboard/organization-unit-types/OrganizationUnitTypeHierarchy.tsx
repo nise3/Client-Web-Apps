@@ -3,7 +3,7 @@ import OrganizationChart from 'nextjs-orgchart';
 import 'nextjs-orgchart/dist/ChartContainer.css';
 import 'nextjs-orgchart/dist/ChartNode.css';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Popover} from '@material-ui/core';
+import {Popover} from '@mui/material';
 import {useRouter} from 'next/router';
 import {
   deleteHumanResourceTemplate,

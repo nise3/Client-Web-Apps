@@ -1,8 +1,8 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Box';
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {makeStyles} from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import SignupJwtAuth from './SignupJwtAuth';
 

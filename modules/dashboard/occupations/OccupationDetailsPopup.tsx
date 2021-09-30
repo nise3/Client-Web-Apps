@@ -2,7 +2,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';

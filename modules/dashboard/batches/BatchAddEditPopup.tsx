@@ -12,7 +12,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import yup from '../../../@softbd/libs/yup';
 import {
@@ -25,7 +25,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import {FormControlLabel, Switch} from '@material-ui/core';
+import {FormControlLabel, Switch} from '@mui/material';
 import {
   useFetchBatch,
   useFetchBranches,

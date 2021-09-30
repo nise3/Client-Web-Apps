@@ -1,7 +1,9 @@
 import React from 'react';
-import {Box, Button, Container, Grid, Typography} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {ArrowRightAlt, DateRangeOutlined} from '@material-ui/icons';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import {ArrowRightAlt, DateRangeOutlined} from '@mui/icons-material';
 import SectionTitle from './SectionTitle';
 import {Fade} from 'react-awesome-reveal';
 import Image from 'next/image';

@@ -1,15 +1,15 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import {useDispatch} from 'react-redux';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {showMessage} from '../../../redux/actions';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import {grey} from '@material-ui/core/colors';
-import {makeStyles} from '@material-ui/core';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import {grey} from '@mui/material/colors';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 

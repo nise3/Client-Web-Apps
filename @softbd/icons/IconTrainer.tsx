@@ -1,5 +1,5 @@
 import React from 'react';
-import {BusinessCenter} from '@material-ui/icons';
+import {BusinessCenter} from '@mui/icons-material';
 
 const IconTrainer = () => {
   return (

@@ -1,16 +1,16 @@
 import React, {useContext, useState} from 'react';
 import AppContext from '../../utility/AppContext';
 import {SketchPicker} from 'react-color';
-import {makeStyles} from '@material-ui/core/index';
-import Box from '@material-ui/core/Box';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
 import {CremaTheme} from '../../../types/AppContextPropsType';
-import {grey} from '@material-ui/core/colors';
+import {grey} from '@mui/material/colors';
 
 interface PrimaryColorPickerProps {
   props?: any;
 }
 
-const PrimaryColorPicker: React.FC<PrimaryColorPickerProps> = props => {
+const PrimaryColorPicker: React.FC<PrimaryColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
   const {primary, theme, updateTheme} = useContext(AppContext);
 
@@ -60,7 +60,7 @@ const PrimaryColorPicker: React.FC<PrimaryColorPickerProps> = props => {
           onClick={() => setVisibility(!visible)}>
           <SketchPicker
             color={primary}
-            onChangeComplete={color => {
+            onChangeComplete={(color) => {
               theme.palette.primary.main = color.hex;
               updateTheme!(theme);
             }}

@@ -6,7 +6,7 @@ import {useStore} from '../redux/store';
 import ContextProvider from '../@crema/utility/ContextProvider';
 import CremaThemeProvider from '../@crema/utility/CremaThemeProvider';
 import CremaStyleProvider from '../@crema/utility/CremaStyleProvider';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';

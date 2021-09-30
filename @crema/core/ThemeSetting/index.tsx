@@ -1,24 +1,24 @@
 import React, {useContext, useState} from 'react';
 import AppContext from '../../utility/AppContext';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import PrimaryColorPicker from './PrimaryColorPicker';
 import SecondaryColorPicker from './SecondaryColorPicker';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Drawer from '@mui/material/Drawer';
 import SidebarColorPicker from './SidebarColorPicker';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Switch from '@material-ui/core/Switch';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Switch from '@mui/material/Switch';
 import {layoutTypes, navStyles} from '../../services/db/navigationStyle';
 import clsx from 'clsx';
 import {Scrollbar} from '../../index';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../utility/IntlMessages';
 import useStyles from './index.style';
-import CheckIcon from '@material-ui/icons/Check';
+import CheckIcon from '@mui/icons-material/Check';
 import themeColorSets from '../../../shared/constants/ColorSets';
 import CustomColorCell from './CustomColorCell';
 import {
@@ -97,7 +97,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
   return (
     <Box className={clsx(classes.customizerOption, 'customizerOption')}>
       <Box className={classes.customizerButton}>
-        <IconButton onClick={() => setCustomizerStatus(!open)}>
+        <IconButton onClick={() => setCustomizerStatus(!open)} size='large'>
           <i
             className={clsx(
               classes.textWhite,
@@ -164,7 +164,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                   className={clsx(classes.toggleBtn, {
                     active:
                       themeMode === ThemeMode.LIGHT &&
-                      theme.palette.type === ThemeMode.LIGHT,
+                      theme.palette.mode === ThemeMode.LIGHT,
                   })}
                   aria-label='left aligned'>
                   <IntlMessages id='customizer.light' />
@@ -174,7 +174,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                   className={clsx(classes.toggleBtn, {
                     active:
                       themeMode === ThemeMode.SEMI_DARK &&
-                      theme.palette.type === ThemeMode.LIGHT,
+                      theme.palette.mode === ThemeMode.LIGHT,
                   })}
                   aria-label='centered'>
                   <IntlMessages id='customizer.semiDark' />
@@ -184,7 +184,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                   className={clsx(classes.toggleBtn, {
                     active:
                       themeMode === ThemeMode.DARK ||
-                      theme.palette.type === ThemeMode.DARK,
+                      theme.palette.mode === ThemeMode.DARK,
                   })}
                   aria-label='right aligned'>
                   <IntlMessages id='customizer.dark' />
@@ -313,7 +313,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                 <Select
                   className={classes.selectBox}
                   value={footerType}
-                  labelWidth={100}
+                  autoWidth={true}
                   onChange={(e) =>
                     setFooterType?.(e.target.value as FooterType)
                   }
@@ -338,7 +338,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                 <Select
                   className={classes.selectBox}
                   value={rtAnim}
-                  labelWidth={100}
+                  autoWidth={true}
                   onChange={(e) =>
                     changeRTAnim?.(e.target.value as RouteTransition)
                   }

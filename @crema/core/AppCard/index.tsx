@@ -1,11 +1,12 @@
 import React, {ReactNode} from 'react';
-import Card from '@material-ui/core/Card';
-import {Box, CardHeader, makeStyles} from '@material-ui/core';
+import Card from '@mui/material/Card';
+import { Box, CardHeader } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
-import Link from '@material-ui/core/Link';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import Link from '@mui/material/Link';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   link: {

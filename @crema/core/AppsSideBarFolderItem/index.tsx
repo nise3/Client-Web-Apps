@@ -1,12 +1,12 @@
 import React from 'react';
 import {NavLink} from '../../index';
-import Box from '@material-ui/core/Box';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import {makeStyles} from '@material-ui/core/styles';
+import Box from '@mui/material/Box';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Icon from '@material-ui/core/Icon';
+import Icon from '@mui/material/Icon';
 
 const useStyle = makeStyles(theme => ({
   listItem: {
@@ -16,7 +16,7 @@ const useStyle = makeStyles(theme => ({
     paddingBottom: '5px',
 
     '& .MuiListItemText-root': {
-      [theme.breakpoints.down('lg')]: {
+      [theme.breakpoints.down('xl')]: {
         marginTop: 0,
         marginBottom: 0,
       },

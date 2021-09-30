@@ -17,9 +17,10 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionGroups} from '../../../services/userManagement/hooks';
 import {deletePermissionGroup} from '../../../services/userManagement/PermissionGroupService';
 import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
-import {Button, makeStyles} from '@material-ui/core';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-import {AccountTreeOutlined} from '@material-ui/icons';
+import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {LINK_PERMISSION_GROUP} from '../../../@softbd/common/appLinks';
 

@@ -7,19 +7,22 @@ import {
   ThemeStyle,
 } from '../shared/constants/AppEnums';
 import {LanguageProps} from '../@crema/core/LanguageSwitcher/data';
-import {PaletteType, Theme, Transitions} from '@material-ui/core';
-import {Direction} from '@material-ui/core/styles/createTheme';
-import {ZIndex} from '@material-ui/core/styles/zIndex';
-import {Spacing} from '@material-ui/core/styles/createSpacing';
-import {Mixins} from '@material-ui/core/styles/createMixins';
-import {Shape} from '@material-ui/core/styles/shape';
-import {Breakpoints} from '@material-ui/core/styles/createBreakpoints';
-import {ComponentsProps} from '@material-ui/core/styles/props';
-import {Shadows} from '@material-ui/core/styles/shadows';
-import {Palette} from '@material-ui/core/styles/createPalette';
+import {
+  Breakpoints,
+  ComponentsProps,
+  Direction,
+  Palette,
+  PaletteMode,
+  Theme,
+  Transitions,
+} from '@mui/material';
+import {Shape, Spacing} from '@mui/system';
+import {Mixins} from '@mui/material/styles/createMixins';
+import {Shadows} from '@mui/material/styles/shadows';
+import {ZIndex} from '@mui/material/styles/zIndex';
 
 interface CremaPalette extends Palette {
-  type: PaletteType;
+  type: PaletteMode;
   background: {
     paper: string;
     default: string;

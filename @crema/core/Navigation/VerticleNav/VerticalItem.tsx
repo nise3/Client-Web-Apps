@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import {Icon, ListItem, ListItemText} from '@material-ui/core';
+import {Icon, ListItem, ListItemText} from '@mui/material';
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
 import {Badge} from '../../../index';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import useStyles from './VerticalItem.style';
 import AppContext from '../../../utility/AppContext';

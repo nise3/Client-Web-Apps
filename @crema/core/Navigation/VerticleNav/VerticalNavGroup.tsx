@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {ListItem} from '@material-ui/core';
+import {ListItem} from '@mui/material';
 import clsx from 'clsx';
 import VerticalCollapse from './VerticalCollapse';
 import VerticalItem from './VerticalItem';

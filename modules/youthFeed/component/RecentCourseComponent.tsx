@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Box, Button, CardMedia} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
@@ -36,35 +36,29 @@ interface RecentCourseProps {
 const RecentCourseComponent: FC<RecentCourseProps> = ({data}) => {
   const classes = useStyle();
 
-  return (
-    <>
-      <Box display={'flex'} className={classes.recentCourseCompRoot}>
-        <Box>
-          <CardMedia
-            component='img'
-            alt='provider image'
-            image={data.logoUrl}
-            className={classes.courseProviderImage}
-          />
+  return <>
+    <Box display={'flex'} className={classes.recentCourseCompRoot}>
+      <Box>
+        <CardMedia
+          component='img'
+          alt='provider image'
+          image={data.logoUrl}
+          className={classes.courseProviderImage}
+        />
+      </Box>
+      <Box marginLeft={'10px'}>
+        <Box className={classes.courseTitle}>{data.courseTitle}</Box>
+        <Box className={classes.courseProviderName}>
+          {data.courseProvider}
         </Box>
-        <Box marginLeft={'10px'}>
-          <Box className={classes.courseTitle}>{data.courseTitle}</Box>
-          <Box className={classes.courseProviderName}>
-            {data.courseProvider}
-          </Box>
-          <Box>
-            <Button
-              variant='contained'
-              color='default'
-              size={'small'}
-              style={{marginLeft: 10}}>
-              Details
-            </Button>
-          </Box>
+        <Box>
+          <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
+            Details
+          </Button>
         </Box>
       </Box>
-    </>
-  );
+    </Box>
+  </>;
 };
 
 export default RecentCourseComponent;

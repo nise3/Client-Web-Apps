@@ -101,11 +101,9 @@ export const enterPressSubmit = (ev: any, callback: any): void => {
 };
 
 export const checkValidImageFormat = (file: any) => {
-  return (
-    file == undefined ||
-    file.name.match(/\.(jpg|jpeg|png|svg|JPG|JPEG|PNG|SVG)$/) ||
-    'Invalid file format ! Please upload .Jpg, .Png, or .Svg format file'
-  );
+  return file == undefined ||
+  file.name.match(/\.(jpg|jpeg|png|svg|JPG|JPEG|PNG|SVG)$/) ||
+  'Invalid file format ! Please upload .Jpg, .Png, or .Svg format file';
 };
 
 export const checkValidImageFormatAndSize = async (file: any) => {

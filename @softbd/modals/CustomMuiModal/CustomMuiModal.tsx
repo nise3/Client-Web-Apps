@@ -4,16 +4,14 @@ import {
   DialogTitle as MuiDialogTitle,
   IconButton,
   Typography,
-} from '@material-ui/core';
-import {
-  createStyles,
-  Theme,
-  WithStyles,
-  withStyles,
-} from '@material-ui/core/styles';
-import {Close as CloseIcon} from '@material-ui/icons';
-import {TransitionProps} from '@material-ui/core/transitions';
-import Slide from '@material-ui/core/Slide';
+} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { WithStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import withStyles from '@mui/styles/withStyles';
+import {Close as CloseIcon} from '@mui/icons-material';
+import {TransitionProps} from '@mui/material/transitions';
+import Slide from '@mui/material/Slide';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -53,7 +51,8 @@ export const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
         <IconButton
           aria-label='close'
           className={classes.closeButton}
-          onClick={onClose}>
+          onClick={onClose}
+          size="large">
           <CloseIcon />
         </IconButton>
       ) : null}

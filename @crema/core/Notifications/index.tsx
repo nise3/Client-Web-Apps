@@ -1,17 +1,18 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
 import notification, {
   NotificationData,
 } from '../../services/db/notifications/notification';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import {makeStyles, Popover} from '@material-ui/core';
-import List from '@material-ui/core/List';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { Popover } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Scrollbar from '../Scrollbar';
 import IntlMessages from '../../utility/IntlMessages';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import NotificationItem from './NotificationItem';
 import {Fonts} from '../../../shared/constants/AppEnums';
@@ -107,77 +108,76 @@ const Notifications: React.FC<NotificationsProps> = () => {
 
   const classes = useStyles();
 
-  return (
-    <>
-      <IconButton
-        className={clsx(classes.notiBtn, 'notiBtn')}
-        aria-label='show 17 new notifications'
-        color='inherit'
-        onClick={onClickNotificationButton}>
-        <Badge
-          className={classes.badge}
-          badgeContent={notification.length}
-          color='secondary'>
-          <NotificationsActiveIcon
-            className={clsx(classes.notiIcon, 'notiIcon')}
-          />
-        </Badge>
-        <Hidden mdUp>
-          <Box
-            ml={4}
-            fontSize={16}
-            fontFamily='Poppins'
-            fontWeight={Fonts.REGULAR}
-            component='span'>
-            <IntlMessages id='common.notifications' />
-          </Box>
-        </Hidden>
-      </IconButton>
+  return <>
+    <IconButton
+      className={clsx(classes.notiBtn, 'notiBtn')}
+      aria-label='show 17 new notifications'
+      color='inherit'
+      onClick={onClickNotificationButton}
+      size="large">
+      <Badge
+        className={classes.badge}
+        badgeContent={notification.length}
+        color='secondary'>
+        <NotificationsActiveIcon
+          className={clsx(classes.notiIcon, 'notiIcon')}
+        />
+      </Badge>
+      <Hidden mdUp>
+        <Box
+          ml={4}
+          fontSize={16}
+          fontFamily='Poppins'
+          fontWeight={Fonts.REGULAR}
+          component='span'>
+          <IntlMessages id='common.notifications' />
+        </Box>
+      </Hidden>
+    </IconButton>
 
-      <Popover
-        anchorEl={anchorNotification}
-        id='language-switcher'
-        className={classes.crPopover}
-        keepMounted
-        open={Boolean(anchorNotification)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        onClose={() => setAnchorNotification(null)}>
-        <Box>
-          <Box px={5} py={3}>
-            <Box component='h5' fontFamily='Poppins' fontSize={16}>
-              <IntlMessages id='common.notifications' />({notification.length})
-            </Box>
-          </Box>
-          <Scrollbar className='scroll-submenu'>
-            <List
-              className={classes.list}
-              onClick={() => {
-                setAnchorNotification(null);
-              }}>
-              {notification.map((item: NotificationData, index) => (
-                <NotificationItem key={item.id} item={item} />
-              ))}
-            </List>
-          </Scrollbar>
-          <Box mt={2}>
-            <Button
-              className={classes.btnPopover}
-              variant='contained'
-              color='primary'>
-              <IntlMessages id='common.viewAll' />
-            </Button>
+    <Popover
+      anchorEl={anchorNotification}
+      id='language-switcher'
+      className={classes.crPopover}
+      keepMounted
+      open={Boolean(anchorNotification)}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      onClose={() => setAnchorNotification(null)}>
+      <Box>
+        <Box px={5} py={3}>
+          <Box component='h5' fontFamily='Poppins' fontSize={16}>
+            <IntlMessages id='common.notifications' />({notification.length})
           </Box>
         </Box>
-      </Popover>
-    </>
-  );
+        <Scrollbar className='scroll-submenu'>
+          <List
+            className={classes.list}
+            onClick={() => {
+              setAnchorNotification(null);
+            }}>
+            {notification.map((item: NotificationData, index) => (
+              <NotificationItem key={item.id} item={item} />
+            ))}
+          </List>
+        </Scrollbar>
+        <Box mt={2}>
+          <Button
+            className={classes.btnPopover}
+            variant='contained'
+            color='primary'>
+            <IntlMessages id='common.viewAll' />
+          </Button>
+        </Box>
+      </Box>
+    </Popover>
+  </>;
 };
 
 export default Notifications;

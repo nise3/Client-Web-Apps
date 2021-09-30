@@ -2,8 +2,8 @@ import React, {useContext} from 'react';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {ContentView, ThemeSetting} from '../../../index';
-import Hidden from '@material-ui/core/Hidden';
-import Box from '@material-ui/core/Box';
+import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import AppFixedFooter from './AppFixedFooter';
 import AppContext from '../../../utility/AppContext';
@@ -34,7 +34,7 @@ const MiniSidebarToggle: React.FC<MiniSidebarToggleProps> = props => {
       <AppSidebar />
 
       <Box className={clsx(classes.mainContent, 'main-content')}>
-        <Hidden mdDown>
+        <Hidden xlDown>
           <Box className={classes.mainContainer}>
             <AppHeader />
             <ContentView>{props.children}</ContentView>

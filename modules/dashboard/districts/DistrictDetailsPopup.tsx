@@ -4,7 +4,7 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';

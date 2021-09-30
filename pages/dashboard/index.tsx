@@ -3,7 +3,7 @@ import AppPage from '../../@crema/hoc/AppPage';
 import PageMeta from '../../@crema/core/PageMeta';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import Badge from '../../@crema/core/Badge';
-import {Box, Grid} from '@material-ui/core';
+import {Box, Grid} from '@mui/material';
 import AppCard from '../../@crema/core/AppCard';
 import AddButton from '../../@softbd/elements/button/AddButton/AddButton';
 import AppCircularProgress from '../../@crema/core/AppCircularProgress';

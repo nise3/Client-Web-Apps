@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
-import Box from '@material-ui/core/Box';
-import {makeStyles} from '@material-ui/styles';
+import Box from '@mui/material/Box';
+import {makeStyles} from '@mui/styles';
 import useStyles from '../../../shared/jss/common/common.style';
 
 const useStyle = makeStyles(() => ({

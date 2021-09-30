@@ -1,8 +1,9 @@
 import React, {useCallback, useState} from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import ConfirmationDialog from '../../../../@crema/core/ConfirmationDialog';
-import {Button, makeStyles} from '@material-ui/core';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {FiTrash2} from 'react-icons/fi';
 

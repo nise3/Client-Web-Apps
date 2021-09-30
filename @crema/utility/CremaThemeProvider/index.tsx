@@ -1,12 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import MomentUtils from '@date-io/moment';
-import {ThemeProvider} from '@material-ui/styles';
-import {createTheme} from '@material-ui/core/styles';
-import {MuiPickersUtilsProvider} from '@material-ui/pickers';
+import {createTheme, StyledEngineProvider, Theme} from '@mui/material/styles';
 
 import AppContext from '../AppContext';
 import AppLocale from '../../../shared/localization';
-import {responsiveFontSizes} from '@material-ui/core';
+import {responsiveFontSizes} from '@mui/material';
 import {useBreakPointDown} from '../Utils';
 import {
   NavStyle,
@@ -15,6 +12,19 @@ import {
 } from '../../../shared/constants/AppEnums';
 import {useUrlSearchParams} from 'use-url-search-params';
 import AppContextPropsType from '../../../types/AppContextPropsType';
+import ThemeProvider from '@mui/styles/ThemeProvider';
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
 
 const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   const {
@@ -81,12 +91,13 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
     updateQuerySetting();
   }, [params.theme_style, theme, isBelowMd, updateTheme, updateThemeStyle]);
 
+  /* Inject emotion before JSS */
   return (
-    <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
         {props.children}
-      </MuiPickersUtilsProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

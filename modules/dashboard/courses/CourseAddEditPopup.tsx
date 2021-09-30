@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, Grid} from '@material-ui/core';
+import {Button, Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';

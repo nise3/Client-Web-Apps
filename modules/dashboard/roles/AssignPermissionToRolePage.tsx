@@ -5,10 +5,11 @@ import {
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
 } from 'lodash';
-import {Box, Checkbox, createStyles, Divider, Grid} from '@material-ui/core';
+import { Box, Checkbox, Divider, Grid } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import {makeStyles} from '@material-ui/styles';
-import {Theme} from '@material-ui/core/styles';
+import {makeStyles} from '@mui/styles';
+import {Theme} from '@mui/material/styles';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import {assignPermissions} from '../../../services/userManagement/RoleService';

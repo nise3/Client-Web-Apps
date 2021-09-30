@@ -1,7 +1,6 @@
-import {createTheme, useTheme} from '@material-ui/core/styles';
-import {useMediaQuery} from '@material-ui/core';
+import { createTheme, useTheme, Breakpoint } from '@mui/material/styles';
+import {useMediaQuery} from '@mui/material';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {Breakpoint} from '@material-ui/core/styles/createBreakpoints';
 import moment from 'moment';
 import {useIntl} from 'react-intl';
 

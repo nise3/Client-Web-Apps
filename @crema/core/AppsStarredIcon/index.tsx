@@ -1,7 +1,7 @@
 import React from 'react';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
-import {Checkbox} from '@material-ui/core';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import {Checkbox} from '@mui/material';
 
 interface AppsStarredIconProps {
   item: any;

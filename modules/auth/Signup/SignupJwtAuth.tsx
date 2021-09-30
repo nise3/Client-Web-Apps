@@ -1,19 +1,19 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import {Checkbox} from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import {Checkbox} from '@mui/material';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
 
 import {onJwtUserSignUp} from '../../../redux/actions';
 import Link from 'next/link';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {makeStyles} from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import {GridContainer} from '../../../@crema';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {useIntl} from 'react-intl';

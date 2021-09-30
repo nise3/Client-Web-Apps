@@ -1,20 +1,22 @@
 import React, {useContext} from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 import {useDispatch} from 'react-redux';
 import {onJWTAuthSignout} from '../../../redux/actions';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AppContext from '../../../@crema/utility/AppContext';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box';
-import {orange} from '@material-ui/core/colors';
+import makeStyles from '@mui/styles/makeStyles';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Box from '@mui/material/Box';
 import {Fonts, ThemeMode} from '../../constants/AppEnums';
-import Hidden from '@material-ui/core/Hidden';
-import AppContextPropsType, {CremaTheme} from '../../../types/AppContextPropsType';
+import Hidden from '@mui/material/Hidden';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AppContextPropsType, {
+  CremaTheme,
+} from '../../../types/AppContextPropsType';
 import {AuthUser} from '../../../types/models/AuthUser';
+import {orange} from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: CremaTheme) => {
   return {
@@ -87,7 +89,7 @@ const HeaderUser: React.FC<HeaderUserProps> = ({header = true}) => {
   };
   const getUserAvatarView = () => {
     if (user && user.photoURL) {
-      return <Avatar className={classes.profilePic} src={user.photoURL}/>;
+      return <Avatar className={classes.profilePic} src={user.photoURL} />;
     } else {
       return <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>;
     }
@@ -124,7 +126,7 @@ const HeaderUser: React.FC<HeaderUserProps> = ({header = true}) => {
                 themeMode === ThemeMode.DARK || !header ? 'white' : '#313541'
               }>
               <Hidden mdDown>
-                <ExpandMoreIcon onClick={handleClick}/>
+                <ExpandMoreIcon onClick={handleClick} />
               </Hidden>
               <Hidden lgUp>
                 <Box component='span' onClick={handleClick}>
@@ -138,8 +140,7 @@ const HeaderUser: React.FC<HeaderUserProps> = ({header = true}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
                 <MenuItem>My account</MenuItem>
-                <MenuItem
-                  onClick={() => dispatch(onJWTAuthSignout())}>
+                <MenuItem onClick={() => dispatch(onJWTAuthSignout())}>
                   Logout
                 </MenuItem>
               </Menu>

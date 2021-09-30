@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia, Chip, Grid} from '@material-ui/core';
-import {BusinessCenter, LocationOn, School} from '@material-ui/icons';
-import {makeStyles} from '@material-ui/styles';
+import {Box, Button, CardMedia, Chip, Grid} from '@mui/material';
+import {BusinessCenter, LocationOn, School} from '@mui/icons-material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 interface JobPostBlockProps {

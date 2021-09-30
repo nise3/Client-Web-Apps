@@ -7,8 +7,10 @@ import {
   Grid,
   NativeSelect,
   Typography,
-} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fade, Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '0 7px 2px 12px',
       marginTop: '13px',
       marginLeft: '-8px',
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('xl')]: {
         width: '100%',
         marginLeft: '-14px',
       },
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '18px',
       background: '#ddd',
       paddingBottom: 'auto',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         marginBottom: '10px',
         marginTop: '140px',
       },
@@ -74,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '40%',
       },
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         marginTop: '13px',
         marginBottom: '10px',
         width: '100%',

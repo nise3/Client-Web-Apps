@@ -17,10 +17,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {Button, makeStyles} from '@material-ui/core';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Link from 'next/link';
 import clsx from 'clsx';
-import {AccountTreeOutlined} from '@material-ui/icons';
+import {AccountTreeOutlined} from '@mui/icons-material';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const useStyles = makeStyles((theme) => {

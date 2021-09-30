@@ -1,7 +1,7 @@
 import React from 'react';
 import {useBottomScrollListener} from 'react-bottom-scroll-listener';
-import {Box, useTheme} from '@material-ui/core';
-import grey from '@material-ui/core/colors/grey';
+import {Box, useTheme} from '@mui/material';
+import grey from '@mui/material/colors/grey';
 import AppAnimateGroup from '../AppAnimateGroup';
 
 const getEmptyContainer = (ListEmptyComponent: any) => {
@@ -25,10 +25,6 @@ const getFooterContainer = (ListFooterComponent: any) => {
 };
 
 interface ListViewProps {
-  renderRow(item: any, index: number | null): any;
-
-  onEndReached?(): void;
-
   data: any[];
   delay?: number;
   duration?: number;
@@ -37,6 +33,10 @@ interface ListViewProps {
   ListFooterComponent?: any;
   ListEmptyComponent?: any;
   ItemSeparatorComponent?: any;
+
+  renderRow(item: any, index: number | null): any;
+
+  onEndReached?(): void;
 
   [x: string]: any;
 }

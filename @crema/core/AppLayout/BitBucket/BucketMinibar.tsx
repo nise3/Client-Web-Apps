@@ -1,12 +1,12 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import SettingsIcon from '@material-ui/icons/Settings';
-import SmsIcon from '@material-ui/icons/Sms';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SmsIcon from '@mui/icons-material/Sms';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import LanguageSwitcher from '../../LanguageSwitcher';
-import Box from '@material-ui/core/Box';
-import {makeStyles} from '@material-ui/core';
+import Box from '@mui/material/Box';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 
@@ -54,7 +54,8 @@ export default function PrimarySearchAppBar() {
       <Box>
         <IconButton
           className={classes.iconBtn}
-          aria-label='show 17 new notifications'>
+          aria-label='show 17 new notifications'
+          size="large">
           <img
             className={classes.logoRoot}
             src={'/images/logo-icon-large.png'}
@@ -64,23 +65,26 @@ export default function PrimarySearchAppBar() {
 
         <IconButton
           className={clsx(classes.bucketMiniBtn, '')}
-          aria-label='show 17 new notifications'>
+          aria-label='show 17 new notifications'
+          size="large">
           <SearchIcon className={classes.icon} />
         </IconButton>
         <LanguageSwitcher iconOnly={true} />
         <IconButton
           className={classes.bucketMiniBtn}
-          aria-label='show 4 new mails'>
+          aria-label='show 4 new mails'
+          size="large">
           <SmsIcon className={classes.icon} />
         </IconButton>
         <IconButton
           className={classes.bucketMiniBtn}
-          aria-label='show 17 new notifications'>
+          aria-label='show 17 new notifications'
+          size="large">
           <NotificationsActiveIcon className={classes.icon} />
         </IconButton>
       </Box>
       <Box mt='auto'>
-        <IconButton className={classes.bucketMiniBtn}>
+        <IconButton className={classes.bucketMiniBtn} size="large">
           <SettingsIcon className={classes.icon} />
         </IconButton>
       </Box>

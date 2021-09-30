@@ -1,4 +1,4 @@
-import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
+import {createTheme} from '@mui/material/styles';
 import {
   FooterType,
   HeaderType,
@@ -10,14 +10,26 @@ import {
   ThemeStyleRadius,
 } from '../../../shared/constants/AppEnums';
 
-const breakpoints = createBreakpoints({});
 const cardRadius = ThemeStyleRadius.STANDARD;
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
 const defaultConfig: any = {
   theme: {
     spacing: 4,
     direction: 'ltr', //ltr, rtl
     palette: {
-      type: ThemeMode.LIGHT,
+      mode: ThemeMode.LIGHT,
       background: {
         paper: '#FFFFFF',
         //default: '#F4F7FE',
@@ -124,7 +136,7 @@ const defaultConfig: any = {
         root: {
           borderRadius: cardRadius,
           boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
-          [breakpoints.down('md')]: {
+          [theme.breakpoints.down('md')]: {
             paddingTop: '8px !important',
             paddingBottom: '8px !important',
           },

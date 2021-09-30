@@ -1,7 +1,9 @@
 import React from 'react';
-import {Box, Card, Container, Grid, Typography} from '@material-ui/core';
-import {Accessibility, Build, HomeWork} from '@material-ui/icons';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {Box, Card, Container, Grid, Typography} from '@mui/material';
+import {Accessibility, Build, HomeWork} from '@mui/icons-material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -10,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('md')]: {
         marginTop: '50px',
       },
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         // marginTop: '200px',
       },
     },
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     rootMobileView: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         marginTop: '235px',
       },
     },

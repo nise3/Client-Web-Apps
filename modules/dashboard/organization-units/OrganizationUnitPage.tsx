@@ -18,9 +18,10 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import Link from 'next/link';
-import {Button, makeStyles} from '@material-ui/core';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-import {AccountTreeOutlined} from '@material-ui/icons';
+import {AccountTreeOutlined} from '@mui/icons-material';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const useStyles = makeStyles((theme) => {

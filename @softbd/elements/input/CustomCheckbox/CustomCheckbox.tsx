@@ -1,8 +1,8 @@
-import {Checkbox} from '@material-ui/core';
+import {Checkbox} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 type Props = {
   id: string;

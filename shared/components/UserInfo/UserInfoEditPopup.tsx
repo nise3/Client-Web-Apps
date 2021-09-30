@@ -1,16 +1,15 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
-// import {yupResolver} from '@hookform/resolvers/yup';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import React, {FC, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
 import IconUser from '../../../@softbd/icons/IconUser';
-import Avatar from '@material-ui/core/Avatar';
-import {makeStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Avatar from '@mui/material/Avatar';
+import makeStyles from '@mui/styles/makeStyles';
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles({
   ProfileImage: {
@@ -23,14 +22,12 @@ interface UserInfoEditPopupProps {
   onClose: () => void;
 }
 
-const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({
-                                                         ...props
-                                                       }) => {
-
-  const [profileImage, setProfileImage] = useState<any>('/images/userPageImages/profileImage.jpeg');
+const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
+  const [profileImage, setProfileImage] = useState<any>(
+    '/images/userPageImages/profileImage.jpeg',
+  );
   const {messages} = useIntl();
   const classes = useStyles();
-
 
   const imageHandler = (event: any) => {
     console.log(event);
@@ -43,7 +40,6 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({
       }
     };
     reader.readAsDataURL(event.target.files[0]);
-
   };
   const {
     register,
@@ -53,9 +49,7 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({
 
   const isLoading = false;
 
-  const onSubmit: SubmitHandler<any> = async (data: []) => {
-
-  };
+  const onSubmit: SubmitHandler<any> = async (data: []) => {};
 
   return (
     <HookFormMuiModal
@@ -88,7 +82,6 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({
                 accept='image/*'
                 onChange={imageHandler}
                 hidden
-
               />
             </Button>
           </label>

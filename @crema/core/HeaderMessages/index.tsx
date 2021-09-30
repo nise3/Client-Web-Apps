@@ -1,17 +1,17 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import SmsIcon from '@material-ui/icons/Sms';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import SmsIcon from '@mui/icons-material/Sms';
 import messages, {MessageData} from '../../services/db/messages/messages';
-import {makeStyles} from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 import MessageItem from './MessageItem';
-import Popover from '@material-ui/core/Popover';
-import List from '@material-ui/core/List';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import Popover from '@mui/material/Popover';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Scrollbar from '../Scrollbar';
 import IntlMessages from '../../utility/IntlMessages';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
@@ -111,74 +111,73 @@ const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
 
   const classes = useStyles();
 
-  return (
-    <>
-      <IconButton
-        className={clsx(classes.notiBtn, 'notiBtn')}
-        aria-label='show 4 new mails'
-        color='inherit'
-        onClick={onClickMessagesButton}>
-        <Badge
-          className={classes.badgeStyle}
-          badgeContent={messages.length}
-          color='secondary'>
-          <SmsIcon className={clsx(classes.smsIcon, 'smsIcon')} />
-        </Badge>
-        <Hidden mdUp>
-          <Box
-            ml={4}
-            fontSize={16}
-            fontFamily='Poppins'
-            fontWeight={Fonts.REGULAR}
-            component='span'>
-            <IntlMessages id='dashboard.messages' />
-          </Box>
-        </Hidden>
-      </IconButton>
+  return <>
+    <IconButton
+      className={clsx(classes.notiBtn, 'notiBtn')}
+      aria-label='show 4 new mails'
+      color='inherit'
+      onClick={onClickMessagesButton}
+      size="large">
+      <Badge
+        className={classes.badgeStyle}
+        badgeContent={messages.length}
+        color='secondary'>
+        <SmsIcon className={clsx(classes.smsIcon, 'smsIcon')} />
+      </Badge>
+      <Hidden mdUp>
+        <Box
+          ml={4}
+          fontSize={16}
+          fontFamily='Poppins'
+          fontWeight={Fonts.REGULAR}
+          component='span'>
+          <IntlMessages id='dashboard.messages' />
+        </Box>
+      </Hidden>
+    </IconButton>
 
-      <Popover
-        anchorEl={anchorMessages}
-        id='app-message'
-        className={classes.crPopover}
-        open={Boolean(anchorMessages)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        onClose={() => setAnchorMessages(null)}>
-        <Box>
-          <Box px={5} py={3}>
-            <Box component='h5' fontWeight={Fonts.MEDIUM}>
-              <IntlMessages id='dashboard.messages' />({messages.length})
-            </Box>
-          </Box>
-          <Scrollbar className='scroll-submenu'>
-            <List
-              className={classes.listRoot}
-              onClick={() => {
-                setAnchorMessages(null);
-              }}>
-              {messages.map((item: MessageData, index) => (
-                <MessageItem key={item.id} item={item} />
-              ))}
-            </List>
-          </Scrollbar>
-          <Box mt={2}>
-            <Button
-              className={classes.btnPopover}
-              variant='contained'
-              color='primary'>
-              <IntlMessages id='common.viewAll' />
-            </Button>
+    <Popover
+      anchorEl={anchorMessages}
+      id='app-message'
+      className={classes.crPopover}
+      open={Boolean(anchorMessages)}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      onClose={() => setAnchorMessages(null)}>
+      <Box>
+        <Box px={5} py={3}>
+          <Box component='h5' fontWeight={Fonts.MEDIUM}>
+            <IntlMessages id='dashboard.messages' />({messages.length})
           </Box>
         </Box>
-      </Popover>
-    </>
-  );
+        <Scrollbar className='scroll-submenu'>
+          <List
+            className={classes.listRoot}
+            onClick={() => {
+              setAnchorMessages(null);
+            }}>
+            {messages.map((item: MessageData, index) => (
+              <MessageItem key={item.id} item={item} />
+            ))}
+          </List>
+        </Scrollbar>
+        <Box mt={2}>
+          <Button
+            className={classes.btnPopover}
+            variant='contained'
+            color='primary'>
+            <IntlMessages id='common.viewAll' />
+          </Button>
+        </Box>
+      </Box>
+    </Popover>
+  </>;
 };
 
 export default HeaderMessages;

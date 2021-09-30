@@ -1,6 +1,6 @@
 import {FilterProps, FilterValue, IdType, Row} from 'react-table';
 import React, {useEffect} from 'react';
-import {Button, InputLabel, MenuItem, TextField} from '@material-ui/core';
+import {Button, InputLabel, MenuItem, TextField} from '@mui/material';
 import {matchSorter} from 'match-sorter';
 import {rowStatusArray} from '../../../utilities/RowStatus';
 
