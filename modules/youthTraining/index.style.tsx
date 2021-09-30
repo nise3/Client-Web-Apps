@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   pageRootHeader: {
-    background: '#776bff',
+    background: theme.palette.primary.main,
     color: '#fff',
     paddingTop: 20,
     paddingBottom: 20,
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   searchBox: {
     padding: '10px 5px 5px',
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: 10,
   },
   searchButton: {
     color: '#fff',
@@ -37,11 +37,48 @@ const useStyles = makeStyles((theme) => ({
       padding: '10px 30px 10px 15px',
     },
   },
-  courseCardRoot: {
-    maxWidth: 345,
+  sectionTitle: {
+    fontWeight: 'bold',
   },
-  courseCardImage: {
+  trainingCardRoot: {
+    maxWidth: 345,
+    minWidth: '100%',
+    position: 'relative',
+  },
+  trainingCardImage: {
     height: 140,
+  },
+  providerLogo: {
+    height: 55,
+    width: 55,
+    border: '1px solid ' + theme.palette.grey['300'],
+    position: 'absolute',
+    top: 110,
+    left: 10,
+  },
+  courseFee: {
+    textTransform: 'uppercase',
+    marginTop: 20,
+    display: 'flex',
+    marginBottom: 5,
+  },
+  courseFeeStyle: {
+    marginLeft: 10,
+    color: theme.palette.primary.main,
+  },
+  tagBox: {
+    marginTop: 15,
+    '& .tag': {
+      borderRadius: 4,
+      margin: '0px 10px 10px 0px',
+      color: theme.palette.grey['600'],
+    },
+  },
+
+  addressTextStyle: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginRight: 10,
   },
 }));
 

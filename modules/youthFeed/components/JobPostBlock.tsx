@@ -3,6 +3,7 @@ import {Box, Button, Card, CardMedia, Chip, Grid} from '@material-ui/core';
 import {BusinessCenter, LocationOn, School} from '@material-ui/icons';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import clsx from 'clsx';
 
 interface JobPostBlockProps {
   postData: any;
@@ -45,7 +46,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     margin: '15px 0px',
   },
   colorGray: {
-    color: '#8b8a95',
+    color: theme.palette.gray['600'],
   },
   chipStyle: {
     borderRadius: 4,
@@ -83,7 +84,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
             </Grid>
             <Grid item md={9} className={classes.titleBox}>
               <Box className={classes.titleStyle}>{postData.title}</Box>
-              <Box className={classes.locationStyle + ' ' + classes.colorGray}>
+              <Box className={clsx(classes.locationStyle, classes.colorGray)}>
                 {postData.ownerName}{' '}
                 <LocationOn className={classes.locationIcon} />{' '}
                 {postData.location}
@@ -98,7 +99,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
           </Box>
         </Grid>
       </Grid>
-      <Box className={classes.descriptionBox + ' ' + classes.colorGray}>
+      <Box className={clsx(classes.descriptionBox, classes.colorGray)}>
         {postData.postDescription}
       </Box>
       <Box>
@@ -106,7 +107,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
           {(postData?.postTags || []).map((tag: any, index: number) => {
             return (
               <Chip
-                className={classes.chipStyle + ' ' + classes.colorGray}
+                className={clsx(classes.chipStyle, classes.colorGray)}
                 icon={getIconByTagType(tag.type)}
                 label={tag.name}
                 key={index}

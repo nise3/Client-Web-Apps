@@ -20,11 +20,11 @@ const CourseListHeaderSection = () => {
     <Box className={classes.pageRootHeader}>
       <Container>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={7} md={7}>
-            <Box>Search Courses and Training</Box>
+          <Grid item xs={12} sm={12} md={7}>
+            <Box fontSize={'16px'}>Search Courses and Training</Box>
             <Card className={classes.searchBox}>
-              <Grid container>
-                <Grid item xs={10} sm={10} md={10}>
+              <Grid container spacing={2}>
+                <Grid item xs={9} sm={10} md={10}>
                   <TextField
                     variant='outlined'
                     name='searchBox'
@@ -40,7 +40,7 @@ const CourseListHeaderSection = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2} md={2}>
+                <Grid item xs={3} sm={2} md={2}>
                   <Button
                     variant='contained'
                     color={'primary'}
@@ -51,7 +51,7 @@ const CourseListHeaderSection = () => {
               </Grid>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={7} md={7}>
+          <Grid item xs={12} sm={12} md={7}>
             <Grid container spacing={2}>
               <Grid item xs={6} sm={4} md={2}>
                 <Select

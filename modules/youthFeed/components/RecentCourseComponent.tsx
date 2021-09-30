@@ -1,25 +1,23 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia} from '@material-ui/core';
+import {Avatar, Box, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {Fonts} from '../../../shared/constants/AppEnums';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseCompRoot: {
     padding: '5px 10px 0px 20px',
   },
   courseProviderImage: {
-    borderRadius: '50%',
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
   },
   courseTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: Fonts.BOLD,
   },
   courseProviderName: {
-    fontSize: 14,
-    color: '#8c8888',
+    color: theme.palette.gray['600'],
     marginBottom: 10,
   },
 }));
@@ -39,10 +37,9 @@ const RecentCourseComponent: FC<RecentCourseProps> = ({data}) => {
     <>
       <Box display={'flex'} className={classes.recentCourseCompRoot}>
         <Box>
-          <CardMedia
-            component='img'
+          <Avatar
             alt='provider image'
-            image={data.logoUrl}
+            src={data.logoUrl}
             className={classes.courseProviderImage}
           />
         </Box>

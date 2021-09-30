@@ -1,9 +1,9 @@
 import React from 'react';
 import {
+  Avatar,
   Box,
   Button,
   Card,
-  CardMedia,
   LinearProgress,
   makeStyles,
 } from '@material-ui/core';
@@ -20,12 +20,11 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
     backgroundImage: 'linear-gradient(110deg, #129e55 60%, #048340 40%)',
   },
   userImage: {
-    borderRadius: '50%',
     position: 'absolute',
-    height: 80,
-    width: 80,
-    left: 30,
-    top: -45,
+    height: 65,
+    width: 65,
+    left: 18,
+    top: -38,
   },
   userName: {
     marginTop: 30,
@@ -46,10 +45,9 @@ const BasicInfo = () => {
       <Card className={classes.root}>
         <Box className={classes.topCover} />
         <Box className={classes.container}>
-          <CardMedia
-            component='img'
-            alt='user image'
-            image='/images/userPageImages/profileImage.jpeg'
+          <Avatar
+            alt={'sakibul'}
+            src={'/images/userPageImages/profileImage.jpeg'}
             className={classes.userImage}
           />
           <Box className={classes.userName}>

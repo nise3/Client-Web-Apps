@@ -3,6 +3,8 @@ import {Box, Container, Grid} from '@material-ui/core';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
 import useStyles from './index.style';
+import PopularCoursesSection from './PopularCoursesSection';
+import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
 
 const CourseListPage = () => {
   const classes = useStyles();
@@ -16,10 +18,10 @@ const CourseListPage = () => {
             <SkillMatchingCoursesSection />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
-            <SkillMatchingCoursesSection />
+            <NearbyTrainingCenterSection />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
-            <SkillMatchingCoursesSection />
+            <PopularCoursesSection />
           </Grid>
         </Grid>
       </Container>
