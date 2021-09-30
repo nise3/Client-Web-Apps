@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       },
     },
     skillInfoVBar: {
+      display: 'flex',
       [theme.breakpoints.down('md')]: {
         display: 'flex',
         flexDirection: 'row',
