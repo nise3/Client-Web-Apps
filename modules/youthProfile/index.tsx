@@ -302,46 +302,50 @@ const JobExperience = ({
   return (
     <>
       <HorizontalLine />
-      <Grid item container sm={12} justifyContent={'space-between'}>
-        <Grid item container sm={6}>
-          {companyLogo && <Grid item>{companyLogo}</Grid>}
+      <Box mt={2}>
+        <Grid item container sm={12} justifyContent={'space-between'}>
+          <Grid item container sm={6}>
+            {companyLogo && <Grid item>{companyLogo}</Grid>}
 
-          <Grid item sm={4}>
-            <Box ml={1} mb={2}>
-              <Typography variant={'subtitle2'}>{companyName}</Typography>
-              <Typography variant={'caption'}>{postTitle}</Typography>
+            <Grid item sm={4}>
+              <Box ml={1} mb={2}>
+                <Typography variant={'subtitle2'}>{companyName}</Typography>
+                <Typography variant={'caption'}>{postTitle}</Typography>
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid item container sm={6} justifyContent={'flex-end'}>
+            <Box>
+              <CustomParabolaButton
+                buttonVariant={'outlined'}
+                title={messages['common.edit_btn'] as string}
+                icon={<BorderColor />}
+              />
             </Box>
           </Grid>
         </Grid>
-        <Grid item container sm={6} justifyContent={'flex-end'}>
-          <Box>
-            <CustomParabolaButton
-              buttonVariant={'outlined'}
-              title={messages['common.edit_btn'] as string}
-              icon={<BorderColor />}
+        <Grid item container>
+          <Box className={classes.jobDurationDate} mb={4}>
+            <AccessTime />
+            <Typography className={classes.jobAccessTime}>
+              {jobPeriod}
+            </Typography>
+            <VerticalLine
+              lineHeight={'15px'}
+              lineWidth={'2px'}
+              marginLeft={2}
+              marginRight={2}
             />
+            {jobLocation && (
+              <Box className={classes.jobDurationDate}>
+                <LocationOnIcon />
+                <Typography>{jobLocation}</Typography>
+              </Box>
+            )}
           </Box>
+          <Typography>{jobDescription}</Typography>
         </Grid>
-      </Grid>
-      <Grid item container>
-        <Box className={classes.jobDurationDate} mb={4}>
-          <AccessTime />
-          <Typography className={classes.jobAccessTime}>{jobPeriod}</Typography>
-          <VerticalLine
-            lineHeight={'15px'}
-            lineWidth={'2px'}
-            marginLeft={2}
-            marginRight={2}
-          />
-          {jobLocation && (
-            <Box className={classes.jobDurationDate}>
-              <LocationOnIcon />
-              <Typography>{jobLocation}</Typography>
-            </Box>
-          )}
-        </Box>
-        <Typography>{jobDescription}</Typography>
-      </Grid>
+      </Box>
     </>
   );
 };
