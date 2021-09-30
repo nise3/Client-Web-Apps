@@ -71,13 +71,11 @@ const Transition = React.forwardRef(function Transition(
 interface CustomMuiModalProps {
   open: boolean;
   onClose: () => any;
-  title: React.ReactNode | string;
   children: React.ReactNode;
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
-  title,
   onClose,
   children,
   maxWidth = 'md',

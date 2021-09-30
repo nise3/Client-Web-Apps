@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '@material-ui/core';
+import {Container, Grid} from '@material-ui/core';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
@@ -12,6 +12,9 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
+    container: {
+      margin: '20px auto',
+    },
     root: {
       [theme.breakpoints.down('md')]: {
         alignItems: 'center',
@@ -24,7 +27,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 const YouthFeedPage = () => {
   const classes: any = useStyles();
   return (
-    <>
+    <Container className={classes.container}>
       <Grid container spacing={5} className={classes.root}>
         <Grid item xs={12} md={3}>
           <Grid container spacing={5}>
@@ -60,7 +63,7 @@ const YouthFeedPage = () => {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 };
 

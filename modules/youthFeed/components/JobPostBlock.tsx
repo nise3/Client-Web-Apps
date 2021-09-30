@@ -1,8 +1,9 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia, Chip, Grid} from '@material-ui/core';
+import {Box, Button, Card, CardMedia, Chip, Grid} from '@material-ui/core';
 import {BusinessCenter, LocationOn, School} from '@material-ui/icons';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import clsx from 'clsx';
 
 interface JobPostBlockProps {
   postData: any;
@@ -10,16 +11,13 @@ interface JobPostBlockProps {
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   jobPostRoot: {
-    background: '#fff',
-    borderRadius: 4,
     padding: 15,
   },
   jobProviderImage: {
     borderRadius: '50%',
     height: 60,
     width: 60,
-    border: '1px solid #c4c4c4',
-    boxShadow: '0px 1px 4px 2px #e9e9e9',
+    border: '1px solid ' + theme.palette.grey['300'],
   },
   titleBox: {
     marginLeft: 10,
@@ -48,7 +46,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     margin: '15px 0px',
   },
   colorGray: {
-    color: '#8b8a95',
+    color: theme.palette.gray['600'],
   },
   chipStyle: {
     borderRadius: 4,
@@ -72,9 +70,9 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
   };
 
   return (
-    <Box className={classes.jobPostRoot}>
+    <Card className={classes.jobPostRoot}>
       <Grid container>
-        <Grid item md={9}>
+        <Grid item xs={12} md={9}>
           <Grid container>
             <Grid item>
               <CardMedia
@@ -86,7 +84,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
             </Grid>
             <Grid item md={9} className={classes.titleBox}>
               <Box className={classes.titleStyle}>{postData.title}</Box>
-              <Box className={classes.locationStyle + ' ' + classes.colorGray}>
+              <Box className={clsx(classes.locationStyle, classes.colorGray)}>
                 {postData.ownerName}{' '}
                 <LocationOn className={classes.locationIcon} />{' '}
                 {postData.location}
@@ -94,14 +92,14 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item className={classes.salaryBox} md={3}>
+        <Grid item className={classes.salaryBox} xs={12} md={3}>
           <Box className={classes.colorGray}>Salary Range: </Box>
           <Box fontSize={'15px'} fontWeight={'bold'}>
             {postData.salaryRange}
           </Box>
         </Grid>
       </Grid>
-      <Box className={classes.descriptionBox + ' ' + classes.colorGray}>
+      <Box className={clsx(classes.descriptionBox, classes.colorGray)}>
         {postData.postDescription}
       </Box>
       <Box>
@@ -109,7 +107,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
           {(postData?.postTags || []).map((tag: any, index: number) => {
             return (
               <Chip
-                className={classes.chipStyle + ' ' + classes.colorGray}
+                className={clsx(classes.chipStyle, classes.colorGray)}
                 icon={getIconByTagType(tag.type)}
                 label={tag.name}
                 key={index}
@@ -123,7 +121,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 

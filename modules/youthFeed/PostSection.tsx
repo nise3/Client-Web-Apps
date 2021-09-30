@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Grid} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import JobPostBlock from './component/JobPostBlock';
+import JobPostBlock from './components/JobPostBlock';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   postSectionTitle: {

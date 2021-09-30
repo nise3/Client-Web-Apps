@@ -3,12 +3,14 @@ import PageMeta from '../../@crema/core/PageMeta';
 import FrontPage from '../../@crema/hoc/FrontPage';
 import React from 'react';
 
-const YouthFeedPage = asyncComponent(() => import('../../modules/youthFeed'));
+const YouthTrainingPage = asyncComponent(
+  () => import('../../modules/youthTraining'),
+);
 export default FrontPage(() => {
   return (
     <>
-      <PageMeta title={'Youth Feed Page'} />
-      <YouthFeedPage />
+      <PageMeta title={'Training'} />
+      <YouthTrainingPage />
     </>
   );
 });

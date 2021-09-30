@@ -1,26 +1,23 @@
 import React, {FC} from 'react';
-import {Box, Button, CardMedia} from '@material-ui/core';
+import {Avatar, Box, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {Fonts} from '../../../shared/constants/AppEnums';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentJobCompRoot: {
     padding: '5px 10px 0px 20px',
   },
   jobProviderImage: {
-    borderRadius: '50%',
     height: 45,
     width: 45,
-    border: '1px solid #c4c4c4',
-    boxShadow: '0px 1px 4px 2px #e9e9e9',
+    border: '1px solid ' + theme.palette.grey['300'],
   },
   jobTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: Fonts.BOLD,
   },
   jobProviderName: {
-    fontSize: 14,
-    color: '#8c8888',
+    color: theme.palette.gray['600'],
     marginBottom: 10,
   },
 }));
@@ -41,10 +38,9 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
     <>
       <Box display={'flex'} className={classes.recentJobCompRoot}>
         <Box>
-          <CardMedia
-            component='img'
+          <Avatar
             alt='provider image'
-            image={data.imageUrl}
+            src={data.imageUrl}
             className={classes.jobProviderImage}
           />
         </Box>
