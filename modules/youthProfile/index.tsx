@@ -4,6 +4,8 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
+  CircularProgressProps,
   Container,
   Divider,
   Grid,
@@ -113,6 +115,33 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     },
   }),
 );
+
+function CircularProgressWithLabel(
+  props: CircularProgressProps & {value: number},
+) {
+  return (
+    <Box
+      position='relative'
+      display='inline-flex'
+      sx={{border: '1px solid #eee', borderRadius: '50%'}}>
+      <CircularProgress variant='determinate' {...props} />
+      <Box
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        position='absolute'
+        display='flex'
+        alignItems='center'
+        justifyContent='center'>
+        <Typography
+          variant='caption'
+          component='div'
+          color='textSecondary'>{`${Math.round(props.value)}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 type CustomParabolaButtonProps = {
   icon?: any;
@@ -268,6 +297,7 @@ const JobExperience = ({
   jobDescription,
 }: JobExperienceProp) => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <>
@@ -287,7 +317,7 @@ const JobExperience = ({
           <Box>
             <CustomParabolaButton
               buttonVariant={'outlined'}
-              title={'Edit'}
+              title={messages['common.edit_btn'] as string}
               icon={<BorderColor />}
             />
           </Box>
@@ -332,6 +362,7 @@ const Skill = ({
   location,
 }: SkillProp) => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <>
@@ -361,7 +392,7 @@ const Skill = ({
             <Box>
               <CustomParabolaButton
                 buttonVariant={'outlined'}
-                title={'Edit'}
+                title={messages['common.edit_btn'] as string}
                 icon={<BorderColor />}
               />
             </Box>
@@ -497,9 +528,9 @@ const YouthProfile = () => {
                 <Grid container>
                   <Grid item md={4} xs={12}>
                     <SkillInfo
-                      icon={<BusinessCenter htmlColor={'green'} />}
-                      text1={'Complete'}
-                      text2={'Profile'}
+                      icon={<CircularProgressWithLabel value={40} size={30} />}
+                      text1={messages['common.complete'] as string}
+                      text2={messages['common.profile'] as string}
                       vBar={true}
                     />
                   </Grid>
@@ -507,17 +538,19 @@ const YouthProfile = () => {
                   <Grid item md={4} xs={12}>
                     <SkillInfo
                       icon={<BusinessCenter htmlColor={'green'} />}
-                      text1={'5+ year jobs'}
-                      text2={'Experience'}
-                      vBar={false}
+                      text1={5 + ' ' + (messages['common.year'] as string)}
+                      text2={messages['common.experience'] as string}
+                      vBar={true}
                     />
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <SkillInfo
                       icon={<BusinessCenter htmlColor={'green'} />}
-                      text1={'5 Certificates'}
-                      text2={'Achived'}
-                      vBar={true}
+                      text1={
+                        5 + ' ' + (messages['common.certificate'] as string)
+                      }
+                      text2={messages['common.achieved'] as string}
+                      vBar={false}
                     />
                   </Grid>
                 </Grid>
@@ -532,14 +565,16 @@ const YouthProfile = () => {
                   <Grid item sm={6}>
                     <Typography variant={'h6'}>
                       <Box component={'span'} fontWeight='fontWeightBold'>
-                        Job Experience
+                        {messages['common.job_experience']}
                       </Box>
                     </Typography>
                   </Grid>
                   <Grid item container sm={6} justifyContent={'flex-end'}>
                     <CustomParabolaButton
                       buttonVariant={'outlined'}
-                      title={'Add New Experience'}
+                      title={
+                        messages['youth_profile.add_new_experience'] as string
+                      }
                       icon={<BusinessCenter />}
                     />
                   </Grid>
@@ -573,8 +608,8 @@ const YouthProfile = () => {
             <Card className={classes.youthJobExperienceCard}>
               <CardContent>
                 <CardHeader
-                  headerTitle={'Skills'}
-                  buttonLabel={'Add New Skill'}
+                  headerTitle={messages['common.skills'] as string}
+                  buttonLabel={messages['common.add_new_skill'] as string}
                   buttonIcon={<AddIcon />}
                 />
                 <Skill
@@ -599,8 +634,8 @@ const YouthProfile = () => {
             <Card className={classes.youthJobExperienceCard}>
               <CardContent>
                 <CardHeader
-                  headerTitle={'Portfolio'}
-                  buttonLabel={'Edit'}
+                  headerTitle={messages['common.portfolio'] as string}
+                  buttonLabel={messages['common.edit_btn'] as string}
                   buttonIcon={<BorderColor />}
                 />
               </CardContent>
@@ -658,10 +693,11 @@ const YouthProfile = () => {
           <Box mt={4}>
             <Card>
               <CardContent>
-                <Typography variant={'h6'}>Freelance profile</Typography>
+                <Typography variant={'h6'}>
+                  {messages['common.freelance_profile']}
+                </Typography>
                 <Typography variant={'body2'}>
-                  Turning this button on will show your profile in the freelance
-                  list.
+                  {messages['youth_profile.freelance_profile_turing_on_hint']}
                 </Typography>
                 <Switch color={'primary'} defaultChecked />
               </CardContent>
@@ -673,7 +709,9 @@ const YouthProfile = () => {
               <CardContent>
                 <Grid container>
                   <Grid item xs={9}>
-                    <Typography variant={'h6'}>My CV</Typography>
+                    <Typography variant={'h6'}>
+                      {messages['youth_profile.my_cv']}
+                    </Typography>
                   </Grid>
                   <Grid item xs={3}>
                     <input
@@ -707,7 +745,7 @@ const YouthProfile = () => {
                             variant={'contained'}
                             color={'primary'}
                             fullWidth={true}>
-                            View
+                            {messages['common.view']}
                           </Button>
                         </Grid>
                         <Grid item xs={6}>
@@ -715,7 +753,7 @@ const YouthProfile = () => {
                             variant={'outlined'}
                             color={'primary'}
                             fullWidth={true}>
-                            Download
+                            {messages['common.download']}
                           </Button>
                         </Grid>
                       </Grid>

@@ -312,5 +312,19 @@
   "permissions.sync_permission" : "Sync Permission",
   "common.assign_permission" : "Assign Permission",
   "permission.module" : "Module Name",
-  "youth_profile.edit_profile": "Edit Profile"
+  "youth_profile.edit_profile": "Edit Profile",
+  "common.profile": "Profile",
+  "common.experience": "Experience",
+  "common.year_of_experience": "year jobs",
+  "common.achieved": "Achieved",
+  "youth_profile.add_new_experience": "Add New Experience",
+  "common.job_experience": "Job Experience",
+  "common.skills": "Skills",
+  "common.portfolio": "Portfolio",
+  "common.add_new_skill": "Add New Skill",
+  "common.freelance_profile": "Freelance Profile",
+  "youth_profile.freelance_profile_turing_on_hint": "Turning this button on will show your profile in the freelance list",
+  "youth_profile.my_cv": "My CV",
+  "common.download": "Download",
+  "common.certificate": "Certificate"
 }
