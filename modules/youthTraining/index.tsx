@@ -5,6 +5,7 @@ import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
 import useStyles from './index.style';
 import PopularCoursesSection from './PopularCoursesSection';
 import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
+import TrendingCoursesSection from './TrendingCoursesSection';
 
 const CourseListPage = () => {
   const classes = useStyles();
@@ -22,6 +23,9 @@ const CourseListPage = () => {
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <PopularCoursesSection />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <TrendingCoursesSection />
           </Grid>
         </Grid>
       </Container>
