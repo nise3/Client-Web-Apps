@@ -538,7 +538,11 @@ const YouthProfile = () => {
                   <Grid item md={4} xs={12}>
                     <SkillInfo
                       icon={<BusinessCenter htmlColor={'green'} />}
-                      text1={5 + ' ' + (messages['common.year'] as string)}
+                      text1={
+                        5 +
+                        ' ' +
+                        (messages['common.year_of_experience'] as string)
+                      }
                       text2={messages['common.experience'] as string}
                       vBar={true}
                     />
