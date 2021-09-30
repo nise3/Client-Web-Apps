@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {ContentView, ThemeSetting} from '../../../index';
-import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import clsx from 'clsx';
@@ -12,14 +11,14 @@ import {LayoutType} from '../../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../../types/AppContextPropsType';
 
 interface StandardLayoutProps {
-  props?: any
+  props?: any;
 }
 
 const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
-  const {footer, themeStyle, layoutType, footerType} = useContext<
-    AppContextPropsType
-  >(AppContext);
+  const {footer, themeStyle, layoutType, footerType} =
+    useContext<AppContextPropsType>(AppContext);
   const classes = useStyles({footer, themeStyle});
+  console.log('StandardLayout');
 
   return (
     <Box
@@ -34,21 +33,26 @@ const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
       <AppSidebar />
 
       <Box className={classes.mainContent}>
-        <Hidden xlDown>
-          <Box className={classes.mainContainer}>
-            <AppHeader/>
-            <ContentView>{props.children}</ContentView>
-            <AppFixedFooter/>
-          </Box>
-        </Hidden>
+        {/*<Hidden xlDown>*/}
+        {/*  <Box className={classes.mainContainer}>*/}
+        {/*    <AppHeader />*/}
+        {/*    <ContentView>{props.children}</ContentView>*/}
+        {/*    <AppFixedFooter />*/}
+        {/*  </Box>*/}
+        {/*</Hidden>*/}
 
-        <Hidden lgUp>
-          <Box className={classes.mainContainerFull}>
-            <AppHeader/>
-            <ContentView>{props.children}</ContentView>
-            <AppFixedFooter/>
-          </Box>
-        </Hidden>
+        {/*<Hidden lgUp>*/}
+        {/*  <Box className={classes.mainContainerFull}>*/}
+        {/*    <AppHeader />*/}
+        {/*    <ContentView>{props.children}</ContentView>*/}
+        {/*    <AppFixedFooter />*/}
+        {/*  </Box>*/}
+        {/*</Hidden>*/}
+        <Box className={classes.mainContainer}>
+          <AppHeader />
+          <ContentView>{props.children}</ContentView>
+          <AppFixedFooter />
+        </Box>
       </Box>
       <ThemeSetting />
     </Box>

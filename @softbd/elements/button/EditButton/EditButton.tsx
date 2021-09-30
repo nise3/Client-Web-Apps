@@ -19,7 +19,7 @@ interface Props {
   isLoading?: boolean;
   className?: string;
   variant?: 'text' | 'outlined' | 'contained' | undefined;
-  color?: 'inherit' | 'primary' | 'secondary' | 'default';
+  color?: 'inherit' | 'primary' | 'secondary';
 }
 
 const EditButton = ({
@@ -38,7 +38,7 @@ const EditButton = ({
       startIcon={<RiEditBoxFill />}
       onClick={onClick}
       className={extra?.color ? clsx(classes.button, className) : className}
-      color={extra?.color ? extra.color : 'secondary'}
+      color={extra?.color || 'secondary'}
       variant={variant}
       {...extra}>
       <IntlMessages id='common.edit_btn' />

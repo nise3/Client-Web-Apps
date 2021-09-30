@@ -1,17 +1,15 @@
 import React, {useContext} from 'react';
-import Drawer from '@mui/material/Drawer';
-import Hidden from '@mui/material/Hidden';
-import clsx from 'clsx';
-import UserInfo from '../../../../shared/components/UserInfo';
-import Navigation from '../../Navigation/VerticleNav';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import Box from '@mui/material/Box';
 import useStyles from './AppSidebar.style';
-import Scrollbar from '../../Scrollbar';
 import AppContext from '../../../utility/AppContext';
 import {AppState} from '../../../../redux/store';
 import AppContextPropsType from '../../../../types/AppContextPropsType';
+import clsx from 'clsx';
+import Box from '@mui/material/Box';
+import UserInfo from '../../../../shared/components/UserInfo';
+import Scrollbar from '../../Scrollbar';
+import Navigation from '../../Navigation/VerticleNav';
 
 interface AppSidebarProps {
   position?: 'left' | 'bottom' | 'right' | 'top';
@@ -33,28 +31,38 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   };
   const classes = useStyles({themeMode});
   let sidebarClasses = classes.sidebarStandard;
-  return <>
-    <Hidden lgUp>
-      <Drawer
-        anchor={position}
-        open={navCollapsed}
-        onClose={() => handleToggleDrawer()}
-        classes={{
-          root: clsx(variant),
-          paper: clsx(variant),
-        }}
-        style={{position: 'absolute'}}>
-        <Box height='100%' className={classes.container}>
-          <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
-            <UserInfo />
-            <Scrollbar className={classes.drawerScrollAppSidebar}>
-              <Navigation />
-            </Scrollbar>
-          </Box>
-        </Box>
-      </Drawer>
-    </Hidden>
-    <Hidden xlDown>
+  return (
+    <>
+      {/*<Hidden lgUp>*/}
+      {/*  <Drawer*/}
+      {/*    anchor={position}*/}
+      {/*    open={navCollapsed}*/}
+      {/*    onClose={() => handleToggleDrawer()}*/}
+      {/*    classes={{*/}
+      {/*      root: clsx(variant),*/}
+      {/*      paper: clsx(variant),*/}
+      {/*    }}*/}
+      {/*    style={{position: 'absolute'}}>*/}
+      {/*    <Box height='100%' className={classes.container}>*/}
+      {/*      <Box className={clsx(classes.sidebarBg, sidebarClasses)}>*/}
+      {/*        <UserInfo />*/}
+      {/*        <Scrollbar className={classes.drawerScrollAppSidebar}>*/}
+      {/*          <Navigation />*/}
+      {/*        </Scrollbar>*/}
+      {/*      </Box>*/}
+      {/*    </Box>*/}
+      {/*  </Drawer>*/}
+      {/*</Hidden>*/}
+      {/*<Hidden xlDown>*/}
+      {/*  <Box height='100%' className={clsx(classes.container, 'app-sidebar')}>*/}
+      {/*    <Box className={clsx(classes.sidebarBg, sidebarClasses)}>*/}
+      {/*      <UserInfo />*/}
+      {/*      <Scrollbar className={classes.scrollAppSidebar}>*/}
+      {/*        <Navigation />*/}
+      {/*      </Scrollbar>*/}
+      {/*    </Box>*/}
+      {/*  </Box>*/}
+      {/*</Hidden>*/}
       <Box height='100%' className={clsx(classes.container, 'app-sidebar')}>
         <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
           <UserInfo />
@@ -63,8 +71,8 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
           </Scrollbar>
         </Box>
       </Box>
-    </Hidden>
-  </>;
+    </>
+  );
 };
 
 export default AppSidebar;
