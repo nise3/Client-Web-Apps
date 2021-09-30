@@ -9,6 +9,8 @@ import AppContext from '../../../utility/AppContext';
 import AppFixedFooter from './AppFixedFooter';
 import {LayoutType} from '../../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../../types/AppContextPropsType';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {Theme} from '@mui/system';
 
 interface StandardLayoutProps {
   props?: any;
@@ -18,7 +20,9 @@ const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
   const {footer, themeStyle, layoutType, footerType} =
     useContext<AppContextPropsType>(AppContext);
   const classes = useStyles({footer, themeStyle});
-  console.log('StandardLayout');
+  const breakpointMDUp = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up('md'),
+  );
 
   return (
     <Box
@@ -33,26 +37,19 @@ const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
       <AppSidebar />
 
       <Box className={classes.mainContent}>
-        {/*<Hidden xlDown>*/}
-        {/*  <Box className={classes.mainContainer}>*/}
-        {/*    <AppHeader />*/}
-        {/*    <ContentView>{props.children}</ContentView>*/}
-        {/*    <AppFixedFooter />*/}
-        {/*  </Box>*/}
-        {/*</Hidden>*/}
-
-        {/*<Hidden lgUp>*/}
-        {/*  <Box className={classes.mainContainerFull}>*/}
-        {/*    <AppHeader />*/}
-        {/*    <ContentView>{props.children}</ContentView>*/}
-        {/*    <AppFixedFooter />*/}
-        {/*  </Box>*/}
-        {/*</Hidden>*/}
-        <Box className={classes.mainContainer}>
-          <AppHeader />
-          <ContentView>{props.children}</ContentView>
-          <AppFixedFooter />
-        </Box>
+        {breakpointMDUp ? (
+          <Box className={classes.mainContainer}>
+            <AppHeader />
+            <ContentView>{props.children}</ContentView>
+            <AppFixedFooter />
+          </Box>
+        ) : (
+          <Box className={classes.mainContainerFull}>
+            <AppHeader />
+            <ContentView>{props.children}</ContentView>
+            <AppFixedFooter />
+          </Box>
+        )}
       </Box>
       <ThemeSetting />
     </Box>
