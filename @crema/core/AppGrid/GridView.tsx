@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useBottomScrollListener} from 'react-bottom-scroll-listener';
 import {Box} from '@mui/material';
-import grey from '@mui/material/colors/grey';
+import {grey} from '@mui/material/colors';
 import AppAnimateGroup from '../AppAnimateGroup';
 import {useWidth} from '../../utility/Utils';
 import makeStyles from '@mui/styles/makeStyles';

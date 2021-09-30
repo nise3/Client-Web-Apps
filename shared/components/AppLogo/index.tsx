@@ -3,7 +3,6 @@ import {Box} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import AppContext from '../../../@crema/utility/AppContext';
 import {ThemeMode} from '../../constants/AppEnums';
-import Hidden from '@mui/material/Hidden';
 import AppContextPropsType from '../../../types/AppContextPropsType';
 
 const AppLogo = () => {
@@ -24,7 +23,7 @@ const AppLogo = () => {
   const classes = useStyles();
   return (
     <Box className={classes.logoRoot}>
-      <Hidden smUp>
+      <Box sx={{display: {md: 'none', sm: 'block'}}}>
         <img
           className={classes.logo}
           src={
@@ -34,8 +33,8 @@ const AppLogo = () => {
           }
           alt='crema-logo'
         />
-      </Hidden>
-      <Hidden xsDown>
+      </Box>
+      <Box sx={{display: {xs: 'none', md: 'block'}}}>
         <img
           className={classes.logo}
           src={
@@ -45,7 +44,7 @@ const AppLogo = () => {
           }
           alt='crema-logo'
         />
-      </Hidden>
+      </Box>
     </Box>
   );
 };

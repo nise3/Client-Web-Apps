@@ -1,7 +1,7 @@
 import React from 'react';
 import {useBottomScrollListener} from 'react-bottom-scroll-listener';
 import {Box, useTheme} from '@mui/material';
-import grey from '@mui/material/colors/grey';
+import {grey} from '@mui/material/colors';
 import AppAnimateGroup from '../AppAnimateGroup';
 
 const getEmptyContainer = (ListEmptyComponent: any) => {
