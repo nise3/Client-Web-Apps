@@ -1,7 +1,7 @@
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   isResponseSuccess,
@@ -72,19 +72,21 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  let itemData: any = {};
+  const [itemData, setItemData] = useState<any>(null);
 
-  if (itemId) {
-    itemData = {
-      company_name: 'softbd ltd',
-      position: 'software engineer',
-      type_of_employee: 'full time',
-      location: 'dhaka 1232',
-      job_description: 'building web apps',
-      start_date: '12 oct 2993',
-      end_date: '12 oct 2993',
-    };
-  }
+  useEffect(() => {
+    if (itemId) {
+      setItemData({
+        company_name: 'softbd ltd',
+        position: 'software engineer',
+        type_of_employee: 'full time',
+        location: 'dhaka 1232',
+        job_description: 'building web apps',
+        start_date: '12 oct 2993',
+        end_date: '12 oct 2993',
+      });
+    }
+  }, [itemId]);
 
   useEffect(() => {
     if (itemData) {

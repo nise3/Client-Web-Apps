@@ -119,13 +119,13 @@ const YouthProfile = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 
   const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    setIsOpenAddEditModal(false);
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
+    setIsOpenAddEditModal(true);
   }, []);
 
   return (
