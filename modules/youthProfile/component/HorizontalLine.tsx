@@ -1,7 +1,7 @@
-import {Divider} from '@material-ui/core';
 import React from 'react';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {createStyles, makeStyles} from '@mui/styles';
+import {Divider} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({

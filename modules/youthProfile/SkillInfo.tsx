@@ -1,8 +1,8 @@
-import {Grid, Typography} from '@material-ui/core';
+import {createStyles, makeStyles} from '@mui/styles';
 import React from 'react';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import VerticalLine from './component/VerticalLine';
+import {Grid, Typography} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({

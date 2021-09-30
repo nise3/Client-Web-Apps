@@ -1,6 +1,6 @@
-import {Box, Grid, Typography} from '@material-ui/core';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import React from 'react';
+import {Box, Grid, Typography} from '@mui/material';
 
 type CardHeaderProps = {
   headerTitle?: string;

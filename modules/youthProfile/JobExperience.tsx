@@ -1,13 +1,13 @@
 import {useIntl} from 'react-intl';
 import HorizontalLine from './component/HorizontalLine';
-import {Box, Grid, Typography} from '@material-ui/core';
 import CustomParabolaButton from './component/CustomParabolaButton';
-import {AccessTime, BorderColor} from '@material-ui/icons';
 import VerticalLine from './component/VerticalLine';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import React from 'react';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import {AccessTime, BorderColor} from '@mui/icons-material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {createStyles, makeStyles} from '@mui/styles';
+import {Box, Grid, Typography} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({

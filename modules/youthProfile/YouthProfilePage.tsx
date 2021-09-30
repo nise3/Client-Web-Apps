@@ -1,21 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Switch,
-  Typography,
-} from '@material-ui/core';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import Image from 'next/image';
 import profileImage from '../../public/images/userPageImages/profileImage.jpeg';
-import {BorderColor, BusinessCenter, CheckCircle} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import AddIcon from '@material-ui/icons/Add';
 import youthCV from '../../public/images/youth/youth-cv.jpg';
 import Footer from '../home/Footer';
 import {useIntl} from 'react-intl';
@@ -28,6 +15,23 @@ import Skill from './Skills';
 import CardItem from './component/CardItem';
 import SkillInfo from './SkillInfo';
 import JobExperienceAddEditPopup from './JobExperienceAddEditPopup';
+import {
+  Add,
+  BorderColor,
+  BusinessCenter,
+  CheckCircle,
+} from '@mui/icons-material';
+import {createStyles, makeStyles} from '@mui/styles';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Switch,
+  Typography,
+} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -244,7 +248,6 @@ const YouthProfile = () => {
                     jobPeriod={'2010-present'}
                     postTitle={'software engineer'}
                     jobLocation={'panthapath, dhaka'}
-                    openAddEditModal={openAddEditModal}
                   />
                   <JobExperience
                     jobDescription={
@@ -266,7 +269,7 @@ const YouthProfile = () => {
                   <CardHeader
                     headerTitle={messages['common.skills'] as string}
                     buttonLabel={messages['common.add_new_skill'] as string}
-                    buttonIcon={<AddIcon />}
+                    buttonIcon={<Add />}
                   />
                   <Skill
                     skillCourseTitle={'Mobile UX Design Course'}
@@ -381,7 +384,7 @@ const YouthProfile = () => {
                           variant='contained'
                           color='primary'
                           component='span'>
-                          <AddIcon />
+                          <Add />
                         </Button>
                       </label>
                     </Grid>
