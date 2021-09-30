@@ -5,6 +5,7 @@ import {
   Card,
   Grid,
   InputAdornment,
+  Paper,
   Popover,
   Typography,
 } from '@material-ui/core';
@@ -66,22 +67,7 @@ const Notification = () => {
           </Card>
 
           {/* Notification Bar*/}
-
-          <Popover
-            anchorEl={anchorNotification}
-            id='language-switcher'
-            className={classes.crPopover}
-            keepMounted
-            open={true}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            onClose={() => setAnchorNotification(null)}>
+          <Paper>
             <Box>
               <Box px={5} py={3}>
                 <Box component='h5' fontFamily='Poppins' fontSize={16}>
@@ -101,7 +87,7 @@ const Notification = () => {
                 </List>
               </Scrollbar>
             </Box>
-          </Popover>
+          </Paper>
         </Grid>
 
         <Grid item sm={12} md={4}></Grid>
