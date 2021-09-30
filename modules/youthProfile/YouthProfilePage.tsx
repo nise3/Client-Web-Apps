@@ -27,7 +27,6 @@ import JobExperience from './JobExperience';
 import Skill from './Skills';
 import CardItem from './component/CardItem';
 import SkillInfo from './SkillInfo';
-import RankTypeAddEditPopup from '../dashboard/rank-type/RankTypeAddEditPopup';
 import JobExperienceAddEditPopup from './JobExperienceAddEditPopup';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
@@ -231,6 +230,7 @@ const YouthProfile = () => {
                           messages['youth_profile.add_new_experience'] as string
                         }
                         icon={<BusinessCenter />}
+                        onclick={openAddEditModal}
                       />
                     </Grid>
                   </Grid>
@@ -244,6 +244,7 @@ const YouthProfile = () => {
                     jobPeriod={'2010-present'}
                     postTitle={'software engineer'}
                     jobLocation={'panthapath, dhaka'}
+                    openAddEditModal={openAddEditModal}
                   />
                   <JobExperience
                     jobDescription={
