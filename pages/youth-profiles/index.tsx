@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const YouthProfilePage = asyncComponent(
-  () => import('../../modules/youthProfile'),
+  () => import('../../modules/youthProfile/YouthProfilePage'),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();

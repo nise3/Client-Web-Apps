@@ -4,10 +4,7 @@ import {
   Button,
   Card,
   CardContent,
-  CircularProgress,
-  CircularProgressProps,
   Container,
-  Divider,
   Grid,
   Switch,
   Typography,
@@ -15,19 +12,21 @@ import {
 import {createStyles, makeStyles} from '@material-ui/core/styles';
 import Image from 'next/image';
 import profileImage from '../../public/images/userPageImages/profileImage.jpeg';
-import {
-  AccessTime,
-  BorderColor,
-  BusinessCenter,
-  CheckCircle,
-} from '@material-ui/icons';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import {BorderColor, BusinessCenter, CheckCircle} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import AddIcon from '@material-ui/icons/Add';
 import youthCV from '../../public/images/youth/youth-cv.jpg';
 import Footer from '../home/Footer';
 import {useIntl} from 'react-intl';
+import CircularProgressWithLabel from './component/CircularProgressWithLabel';
+import CustomParabolaButton from './component/CustomParabolaButton';
+import HorizontalLine from './component/HorizontalLine';
+import CardHeader from './CardHeader';
+import JobExperience from './JobExperience';
+import Skill from './Skills';
+import CardItem from './component/CardItem';
+import SkillInfo from './SkillInfo';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -51,18 +50,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     editButton: {
       flexDirection: 'row',
     },
-    horizontalLine: {
-      height: '2px',
-      width: '120%',
-      marginLeft: '-20px',
-      marginTop: '17px',
-      marginBottom: '6px',
-    },
-    vBar: {
-      height: '30px',
-      width: '2px',
-      background: '#ddd',
-    },
+
     cardSpaceBetween: {
       // display: 'flex',
       // flexDirection: 'row',
@@ -70,10 +58,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       marginTop: '20px',
       // width: '100%',
     },
-    CustomParabolaButton: {
-      border: '1px solid green',
-      borderRadius: '40px',
-    },
+
     youthJobExperienceCard: {
       width: '100%',
     },
@@ -81,349 +66,14 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       display: 'flex',
       flexDirection: 'row',
     },
-    jobDurationDate: {
-      display: 'flex',
-      flexDirection: 'row',
-      color: 'green',
-    },
-    jobAccessTime: {
-      marginTop: '2px',
-      marginLeft: '5px',
-    },
+
     companyIcon: {
       height: '100px',
       width: '100px',
     },
-    image: {
-      width: '100%',
-      height: '200px',
-    },
-    skillCard: {
-      marginTop: '16px',
-    },
-    overallInfo: {
-      [theme.breakpoints.down('md')]: {
-        justifyContent: 'center',
-      },
-    },
-    skillInfoVBar: {
-      [theme.breakpoints.down('md')]: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-      },
-    },
   }),
 );
 
-function CircularProgressWithLabel(
-  props: CircularProgressProps & {value: number},
-) {
-  return (
-    <Box
-      position='relative'
-      display='inline-flex'
-      sx={{border: '1px solid #eee', borderRadius: '50%'}}>
-      <CircularProgress variant='determinate' {...props} />
-      <Box
-        top={0}
-        left={0}
-        bottom={0}
-        right={0}
-        position='absolute'
-        display='flex'
-        alignItems='center'
-        justifyContent='center'>
-        <Typography
-          variant='caption'
-          component='div'
-          color='textSecondary'>{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
-
-type CustomParabolaButtonProps = {
-  icon?: any;
-  title: string;
-  color?: string;
-  buttonVariant?: 'text' | 'contained' | 'outlined';
-};
-const CustomParabolaButton = ({
-  buttonVariant,
-  icon,
-  title,
-}: CustomParabolaButtonProps) => {
-  const classes = useStyles();
-
-  return (
-    <Button
-      variant={buttonVariant ? buttonVariant : 'contained'}
-      startIcon={icon}
-      className={classes.CustomParabolaButton}
-      color={'primary'}>
-      {title}
-    </Button>
-  );
-};
-
-type SkillInfoProps = {
-  icon?: any;
-  text1?: string;
-  text2?: string;
-  vBar?: boolean;
-};
-const SkillInfo = ({icon, text1, text2, vBar}: SkillInfoProps) => {
-  const classes = useStyles();
-
-  return (
-    <Grid container className={classes.overallInfo}>
-      <Grid item xs={2} md={2}>
-        {icon}
-      </Grid>
-      <Grid item xs={6} md={6}>
-        <Typography variant={'subtitle2'}>{text1}</Typography>
-        <Typography>{text2}</Typography>
-      </Grid>
-      {vBar && (
-        <Grid item xs={12} md={1} className={classes.skillInfoVBar}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-            <Box className={classes.vBar} />
-          </Box>
-        </Grid>
-      )}
-    </Grid>
-  );
-};
-
-type VerticalLineProps = {
-  lineHeight?: string;
-  lineWidth?: string;
-  marginLeft?: number;
-  marginRight?: number;
-  color?: string;
-};
-
-const VerticalLine = ({
-  lineHeight,
-  lineWidth,
-  marginLeft,
-  marginRight,
-  color,
-}: VerticalLineProps) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}>
-      <Box
-        ml={marginLeft ? marginLeft : 0}
-        mr={marginRight ? marginRight : 0}
-        sx={{
-          height: lineHeight,
-          width: lineWidth,
-          bgcolor: color ? color : '#eee',
-        }}
-      />
-    </Box>
-  );
-};
-
-type CardHeaderProps = {
-  headerTitle?: string;
-  buttonLabel?: string;
-  buttonIcon?: any;
-};
-
-const CardHeader = ({
-  headerTitle,
-  buttonLabel,
-  buttonIcon,
-}: CardHeaderProps) => {
-  return (
-    <Grid item container sm={12} justifyContent={'space-between'}>
-      <Grid item sm={6}>
-        <Typography variant={'h6'}>
-          <Box component={'span'} fontWeight='fontWeightBold'>
-            {headerTitle}
-          </Box>
-        </Typography>
-      </Grid>
-      {buttonLabel && (
-        <Grid item container sm={6} justifyContent={'flex-end'}>
-          <CustomParabolaButton
-            buttonVariant={'outlined'}
-            title={buttonLabel}
-            icon={buttonIcon}
-          />
-        </Grid>
-      )}
-    </Grid>
-  );
-};
-
-const HorizontalLine = () => {
-  const classes = useStyles();
-  return (
-    <Divider
-      variant={'fullWidth'}
-      light={true}
-      className={classes.horizontalLine}
-    />
-  );
-};
-
-type JobExperienceProp = {
-  postTitle?: string;
-  companyName?: string;
-  companyLogo?: any;
-  jobLocation?: string;
-  jobPeriod?: string;
-  jobDescription?: string;
-};
-const JobExperience = ({
-  postTitle,
-  companyName,
-  companyLogo,
-  jobLocation,
-  jobPeriod,
-  jobDescription,
-}: JobExperienceProp) => {
-  const classes = useStyles();
-  const {messages} = useIntl();
-
-  return (
-    <>
-      <HorizontalLine />
-      <Box mt={2}>
-        <Grid item container sm={12} justifyContent={'space-between'}>
-          <Grid item container sm={6}>
-            {companyLogo && <Grid item>{companyLogo}</Grid>}
-
-            <Grid item sm={4}>
-              <Box ml={1} mb={2}>
-                <Typography variant={'subtitle2'}>{companyName}</Typography>
-                <Typography variant={'caption'}>{postTitle}</Typography>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid item container sm={6} justifyContent={'flex-end'}>
-            <Box>
-              <CustomParabolaButton
-                buttonVariant={'outlined'}
-                title={messages['common.edit_btn'] as string}
-                icon={<BorderColor />}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Box className={classes.jobDurationDate} mb={4}>
-            <AccessTime />
-            <Typography className={classes.jobAccessTime}>
-              {jobPeriod}
-            </Typography>
-            <VerticalLine
-              lineHeight={'15px'}
-              lineWidth={'2px'}
-              marginLeft={2}
-              marginRight={2}
-            />
-            {jobLocation && (
-              <Box className={classes.jobDurationDate}>
-                <LocationOnIcon />
-                <Typography>{jobLocation}</Typography>
-              </Box>
-            )}
-          </Box>
-          <Typography>{jobDescription}</Typography>
-        </Grid>
-      </Box>
-    </>
-  );
-};
-
-type SkillProp = {
-  skillCourseTitle: string;
-  skillCourseLogo: any;
-  skillCourseProvider: string;
-  date: string;
-  location: string;
-};
-
-const Skill = ({
-  skillCourseTitle,
-  skillCourseLogo,
-  skillCourseProvider,
-  date,
-  location,
-}: SkillProp) => {
-  const classes = useStyles();
-  const {messages} = useIntl();
-
-  return (
-    <>
-      <HorizontalLine />
-
-      <Grid
-        container
-        justifyContent={'space-between'}
-        className={classes.skillCard}>
-        <Grid item sm={6}>
-          <Grid container>
-            {skillCourseLogo && <Grid item>{skillCourseLogo}</Grid>}
-            <Grid item sm={6}>
-              <Box ml={1} mb={2}>
-                <Typography variant={'subtitle2'}>
-                  {skillCourseTitle}
-                </Typography>
-                <Typography variant={'caption'}>
-                  {skillCourseProvider}
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item sm={6}>
-          <Grid container justifyContent={'flex-end'}>
-            <Box>
-              <CustomParabolaButton
-                buttonVariant={'outlined'}
-                title={messages['common.edit_btn'] as string}
-                icon={<BorderColor />}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item container>
-        <Box className={classes.jobDurationDate} mb={4}>
-          <AccessTime />
-          <Typography className={classes.jobAccessTime}>{date}</Typography>
-          <VerticalLine
-            lineHeight={'15px'}
-            lineWidth={'2px'}
-            marginLeft={2}
-            marginRight={2}
-          />
-          {location && (
-            <Box className={classes.jobDurationDate}>
-              <LocationOnIcon />
-              <Typography>{location}</Typography>
-            </Box>
-          )}
-        </Box>
-      </Grid>
-    </>
-  );
-};
 let items = [
   {
     img: '/images/popular-course1.png',
@@ -455,27 +105,6 @@ let items = [
     enrolls: 'Student (16.1k)',
   },
 ];
-
-const cardItem = (item: any, key: number) => {
-  const classes = useStyles();
-
-  return (
-    <Box mr={6} key={key}>
-      <Card>
-        <Box>
-          <Image
-            className={classes.image}
-            src={item.img}
-            alt='crema-logo'
-            height={50}
-            width={'100%'}
-            layout={'responsive'}
-          />
-        </Box>
-      </Card>
-    </Box>
-  );
-};
 
 const YouthProfile = () => {
   const classes = useStyles();
@@ -650,7 +279,7 @@ const YouthProfile = () => {
               <HorizontalLine />
               <Box>
                 <CustomCarousel>
-                  {items.map((item: any, key: number) => cardItem(item, key))}
+                  {items.map((item: any, key: number) => CardItem(item, key))}
                 </CustomCarousel>
               </Box>
             </Card>
