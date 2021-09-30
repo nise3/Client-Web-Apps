@@ -56,12 +56,20 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       marginRight: '10px',
     },
     deleteIcon: {
-      transform: 'scale(1.2)',
       color: 'red',
-    },
-    keyIcon: {
-      transform: 'scale(1.2)',
-      color: 'green',
+      transform: 'scale(1.5)',
+      // [theme.breakpoints.up('xs')]: {
+      //   marginTop: -70,
+      // },
+      // [theme.breakpoints.down('sm')]: {
+      //   marginTop: -30,
+      // },
+      // [theme.breakpoints.up('sm')]: {
+      //   marginTop: -15,
+      // },
+      // [theme.breakpoints.up('md')]: {
+      //   marginTop: -15,
+      // },
     },
     userItem: {
       background: '#d1eef3',
@@ -71,6 +79,12 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     },
     deleteItem: {
       background: '#f9e5e5',
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
+    title: {
+      background: '#fddcdc',
     },
   }),
 );
