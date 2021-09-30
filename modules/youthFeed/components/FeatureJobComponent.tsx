@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {Box, Card, CardMedia, Chip, Grid} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import {Avatar, Box, Card, Chip, Grid} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
@@ -9,11 +9,9 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     background: '#fff',
     borderRadius: 4,
     position: 'relative',
+    padding: '10px 5px',
   },
   jobProviderImage: {
-    borderRadius: '50%',
-    height: 45,
-    width: 45,
     marginLeft: 10,
     border: '1px solid ' + theme.palette.grey['300'],
   },
@@ -52,11 +50,10 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
       <Card className={classes.featureJobRoot}>
         <Grid container spacing={3} alignItems={'center'}>
           <Grid item>
-            <CardMedia
-              component='img'
-              alt='provider image'
-              image={data.imageUrl}
+            <Avatar
               className={classes.jobProviderImage}
+              alt='provider image'
+              src={data.imageUrl}
             />
           </Grid>
           <Grid item>

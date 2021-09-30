@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import {Box, Card, makeStyles} from '@material-ui/core';
 import {
   Business,
   CalendarToday,
@@ -9,14 +8,10 @@ import {
   Receipt,
   Score,
   Settings,
-} from '@mui/icons-material';
+} from '@material-ui/icons';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
-  root: {
-    background: '#fff',
-    borderRadius: 4,
-  },
   menuItem: {
     borderBottom: '1px solid #e9e9e9',
     paddingBottom: 10,
@@ -36,7 +31,7 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 const SideMenu = () => {
   const classes: any = useStyles();
   return (
-    <Box className={classes.root}>
+    <Card>
       <Box className={classes.menuItem}>
         <Person className='itemIcon' />
         <Box className={classes.displayInline}>My Profile</Box>
@@ -69,7 +64,7 @@ const SideMenu = () => {
         <Settings className='itemIcon' />
         <Box className={classes.displayInline}>Settings</Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 

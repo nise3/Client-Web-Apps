@@ -1,21 +1,13 @@
 import React from 'react';
-import {
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  MenuItem,
-  Select,
-} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import {Button, Card, Divider, Grid, MenuItem, Select} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {ChevronRight} from '@mui/icons-material';
-import RecentCourseComponent from './component/RecentCourseComponent';
+import {ChevronRight} from '@material-ui/icons';
+import RecentCourseComponent from './components/RecentCourseComponent';
+import clsx from 'clsx';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseSectionRoot: {
-    background: '#fff',
-    borderRadius: 4,
     marginTop: 0,
     paddingBottom: 10,
     paddingTop: 20,
@@ -42,7 +34,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     marginTop: 10,
   },
   selectControl: {
-    paddingLeft: 20,
+    marginLeft: 20,
     marginBottom: 10,
   },
 }));
@@ -68,19 +60,17 @@ const RecentCourseSection = () => {
   ];
 
   return (
-    <>
+    <Card>
       <Grid container className={classes.recentCourseSectionRoot}>
         <Grid item xs={12} sm={12} md={12}>
-          <FormControl className={classes.selectControl}>
-            <Select
-              id='recentCourses'
-              autoWidth
-              value={1}
-              variant='outlined'
-              className={classes.selectStyle}>
-              <MenuItem value={1}>Recent Courses</MenuItem>
-            </Select>
-          </FormControl>
+          <Select
+            id='recentCourses'
+            autoWidth
+            value={1}
+            variant='outlined'
+            className={clsx(classes.selectStyle, classes.selectControl)}>
+            <MenuItem value={1}>Recent Courses</MenuItem>
+          </Select>
         </Grid>
         {items.map((course: any, index: number) => {
           return (
@@ -96,7 +86,7 @@ const RecentCourseSection = () => {
             </Grid>
           );
         })}
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
           <Button
             variant={'text'}
             color={'primary'}
@@ -107,7 +97,7 @@ const RecentCourseSection = () => {
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Card>
   );
 };
 

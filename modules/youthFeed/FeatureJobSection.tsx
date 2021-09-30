@@ -1,7 +1,7 @@
 import React from 'react';
-import {Box, Grid} from '@mui/material';
-import FeatureJobComponent from './component/FeatureJobComponent';
-import {makeStyles} from '@mui/styles';
+import {Box, Grid} from '@material-ui/core';
+import FeatureJobComponent from './components/FeatureJobComponent';
+import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({

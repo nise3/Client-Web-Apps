@@ -1,21 +1,13 @@
 import React from 'react';
-import {
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  MenuItem,
-  Select,
-} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import RecentJobComponent from './component/RecentJobComponet';
+import {Button, Card, Divider, Grid, MenuItem, Select} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
+import RecentJobComponent from './components/RecentJobComponet';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {ChevronRight} from '@mui/icons-material';
+import {ChevronRight} from '@material-ui/icons';
+import clsx from 'clsx';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentSectionRoot: {
-    background: '#fff',
-    borderRadius: 4,
     marginTop: 0,
     paddingBottom: 10,
     paddingTop: 20,
@@ -42,7 +34,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     marginTop: 10,
   },
   selectControl: {
-    paddingLeft: 20,
+    marginLeft: 20,
     marginBottom: 10,
   },
 }));
@@ -71,19 +63,17 @@ const RecentJobSection = () => {
   ];
 
   return (
-    <>
+    <Card>
       <Grid container className={classes.recentSectionRoot}>
         <Grid item xs={12} sm={12} md={12}>
-          <FormControl className={classes.selectControl}>
-            <Select
-              id='recentJobs'
-              autoWidth
-              value={1}
-              variant='outlined'
-              className={classes.selectStyle}>
-              <MenuItem value={1}>Recent Jobs</MenuItem>
-            </Select>
-          </FormControl>
+          <Select
+            id='recentJobs'
+            autoWidth
+            value={1}
+            variant='outlined'
+            className={clsx(classes.selectStyle, classes.selectControl)}>
+            <MenuItem value={1}>Recent Jobs</MenuItem>
+          </Select>
         </Grid>
         {items.map((job: any, index: number) => {
           return (
@@ -99,7 +89,7 @@ const RecentJobSection = () => {
             </Grid>
           );
         })}
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
           <Button
             variant={'text'}
             color={'primary'}
@@ -110,7 +100,7 @@ const RecentJobSection = () => {
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Card>
   );
 };
 

@@ -1,14 +1,16 @@
 import React from 'react';
-import { Box, Button, CardMedia, LinearProgress } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import {AddCircle, CheckCircle} from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  LinearProgress,
+  makeStyles,
+} from '@material-ui/core';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import BasicInfoItemBox from '../../@softbd/elements/YouthBasicInfoItemBox';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
-  root: {
-    background: '#fff',
-    borderRadius: 4,
-  },
   container: {
     padding: 20,
     position: 'relative',
@@ -18,12 +20,11 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
     backgroundImage: 'linear-gradient(110deg, #129e55 60%, #048340 40%)',
   },
   userImage: {
-    borderRadius: '50%',
     position: 'absolute',
-    height: 80,
-    width: 80,
-    left: 30,
-    top: -45,
+    height: 65,
+    width: 65,
+    left: 18,
+    top: -38,
   },
   userName: {
     marginTop: 30,
@@ -31,24 +32,8 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
     fontWeight: 'bold',
   },
   designation: {fontSize: 14, fontWeight: 'normal'},
-  profileItem: {
-    borderBottom: '1px solid #e9e9e9',
-    paddingBottom: 10,
-    paddingTop: 5,
-    '& .itemIcon': {
-      fill: '#1c98f7',
-      float: 'right',
-    },
-    '& .itemIconAdd': {
-      float: 'right',
-    },
-  },
-  displayInline: {
-    display: 'inline-block',
-  },
   completeProfile: {
     marginTop: 20,
-    textTransform: 'capitalize',
   },
 }));
 
@@ -57,13 +42,12 @@ const BasicInfo = () => {
 
   return (
     <>
-      <Box className={classes.root}>
+      <Card className={classes.root}>
         <Box className={classes.topCover} />
         <Box className={classes.container}>
-          <CardMedia
-            component='img'
-            alt='user image'
-            image='/images/userPageImages/profileImage.jpeg'
+          <Avatar
+            alt={'sakibul'}
+            src={'/images/userPageImages/profileImage.jpeg'}
             className={classes.userImage}
           />
           <Box className={classes.userName}>
@@ -74,22 +58,8 @@ const BasicInfo = () => {
             <LinearProgress variant='determinate' value={55} />
             <Box>Profile complete 55%</Box>
           </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>Phone Number</Box>
-            <CheckCircle className='itemIcon' />
-          </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>Email Address</Box>
-            <CheckCircle className='itemIcon' />
-          </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>NID</Box>
-            <CheckCircle className='itemIcon' />
-          </Box>
-          <Box className={classes.profileItem}>
-            <Box className={classes.displayInline}>BID</Box>
-            <AddCircle className='itemIconAdd' color={'primary'} />
-          </Box>
+
+          <BasicInfoItemBox />
 
           <Box style={{textAlign: 'center'}}>
             <Button
@@ -100,7 +70,7 @@ const BasicInfo = () => {
             </Button>
           </Box>
         </Box>
-      </Box>
+      </Card>
     </>
   );
 };

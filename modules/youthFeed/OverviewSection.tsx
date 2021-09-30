@@ -1,17 +1,21 @@
 import React from 'react';
-import { Button, Grid, InputAdornment, NativeSelect } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import Tile from './component/Tile';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import {LocationOnOutlined} from '@mui/icons-material';
+import {
+  Button,
+  Card,
+  Grid,
+  InputAdornment,
+  makeStyles,
+  NativeSelect,
+} from '@material-ui/core';
+import Tile from './components/Tile';
+import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
+import {LocationOnOutlined} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   searchBox: {
     padding: '10px 5px 5px',
-    borderRadius: 4,
-    background: '#fff',
     alignItems: 'center',
     marginTop: 15,
   },
@@ -89,43 +93,45 @@ const OverviewSection = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} className={classes.searchBox}>
-          <Grid container>
-            <Grid item xs={12} sm={12} md={7}>
-              <TextField
-                variant='outlined'
-                name='searchBox'
-                placeholder='Search'
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                  className: classes.searchInputBorderHide,
-                }}
-              />
+        <Grid item xs={12}>
+          <Card className={classes.searchBox}>
+            <Grid container>
+              <Grid item xs={12} sm={12} md={7}>
+                <TextField
+                  variant='outlined'
+                  name='searchBox'
+                  placeholder='Search'
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                    className: classes.searchInputBorderHide,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={6} md={3} className={classes.location}>
+                <LocationOnOutlined color={'primary'} />
+                <NativeSelect
+                  disableUnderline
+                  className='selectColor'
+                  style={{width: 'calc(100% - 40px)'}}
+                  color={'primary'}>
+                  <option>লোকেশন</option>
+                </NativeSelect>
+              </Grid>
+              <Grid item xs={6} sm={6} md={2}>
+                <Button
+                  variant='contained'
+                  color={'primary'}
+                  className={classes.searchButton}>
+                  Search
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={6} sm={6} md={3} className={classes.location}>
-              <LocationOnOutlined color={'primary'} />
-              <NativeSelect
-                disableUnderline
-                className='selectColor'
-                style={{width: 'calc(100% - 40px)'}}
-                color={'primary'}>
-                <option>লোকেশন</option>
-              </NativeSelect>
-            </Grid>
-            <Grid item xs={6} sm={6} md={2}>
-              <Button
-                variant='contained'
-                color={'primary'}
-                className={classes.searchButton}>
-                Search
-              </Button>
-            </Grid>
-          </Grid>
+          </Card>
         </Grid>
       </Grid>
     </>
