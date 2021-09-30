@@ -30,6 +30,7 @@ type JobExperienceProp = {
   jobLocation?: string;
   jobPeriod?: string;
   jobDescription?: string;
+  openAddEditModal?: () => void;
 };
 
 const JobExperience = ({
@@ -39,6 +40,7 @@ const JobExperience = ({
   jobLocation,
   jobPeriod,
   jobDescription,
+  openAddEditModal,
 }: JobExperienceProp) => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -64,6 +66,7 @@ const JobExperience = ({
                 buttonVariant={'outlined'}
                 title={messages['common.edit_btn'] as string}
                 icon={<BorderColor />}
+                onclick={openAddEditModal}
               />
             </Box>
           </Grid>

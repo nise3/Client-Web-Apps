@@ -1,7 +1,7 @@
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
@@ -20,14 +20,8 @@ import {
   updateRankType,
 } from '../../services/organaizationManagement/RankTypeService';
 import yup from '../../@softbd/libs/yup';
-import {
-  useFetchOrganizations,
-  useFetchRankType,
-} from '../../services/organaizationManagement/hooks';
-import RowStatus from '../../@softbd/utilities/RowStatus';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import {useAuthUser} from '../../@crema/utility/AppHooks';
 
 interface JobExperienceAddEditPopupProps {
   itemId: number | null;
@@ -35,50 +29,38 @@ interface JobExperienceAddEditPopupProps {
 }
 
 const initialValues = {
-  title_en: '',
-  title_bn: '',
-  organization_id: '',
-  description: '',
-  row_status: '1',
+  company_name: '',
+  position: '',
+  type_of_employee: '',
+  location: '',
+  job_description: '',
+  start_date: '',
+  end_date: '',
 };
 
 const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   itemId,
   ...props
 }) => {
-  const authUser = useAuthUser();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateRankType,
-  } = useFetchRankType(itemId);
-  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
+      company_name: yup
         .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
-      title_bn: yup
+        .label(messages['common.company_name'] as string),
+      position: yup.string().label(messages['common.position'] as string),
+      type_of_employee: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
-      organization_id:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['organization.label'] as string)
-          : yup.string().label(messages['organization.label'] as string),
-      description: yup.string(),
-      row_status: yup.string(),
+        .label(messages['common.type_of_employee'] as string),
+      location: yup.string().label(messages['common.location'] as string),
+      job_description: yup
+        .string()
+        .label(messages['common.job_description'] as string),
+      start_date: yup.string().label(messages['common.start_date'] as string),
+      end_date: yup.string().label(messages['common.end_date'] as string),
     });
   }, [messages]);
 
@@ -108,9 +90,6 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
-    if (authUser?.isOrganizationUser && authUser.organization?.id) {
-      data.organization_id = authUser.organization.id;
-    }
     const response = itemId
       ? await updateRankType(itemId, data)
       : await createRankType(data);
