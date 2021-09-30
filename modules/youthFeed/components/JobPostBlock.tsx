@@ -1,9 +1,10 @@
 import React, {FC} from 'react';
-import {Box, Button, Card, CardMedia, Chip, Grid} from '@material-ui/core';
-import {BusinessCenter, LocationOn, School} from '@material-ui/icons';
-import {makeStyles} from '@material-ui/styles';
+import {Box, Button, Card, CardMedia, Grid} from '@mui/material';
+import {BusinessCenter, LocationOn, School} from '@mui/icons-material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import clsx from 'clsx';
+import TagChip from '../../../@softbd/elements/display/TagChip';
 
 interface JobPostBlockProps {
   postData: any;
@@ -106,8 +107,7 @@ const JobPostBlock: FC<JobPostBlockProps> = ({postData}) => {
         <Box>
           {(postData?.postTags || []).map((tag: any, index: number) => {
             return (
-              <Chip
-                className={clsx(classes.chipStyle, classes.colorGray)}
+              <TagChip
                 icon={getIconByTagType(tag.type)}
                 label={tag.name}
                 key={index}

@@ -1,8 +1,8 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 import clsx from 'clsx';
-import {Chip} from '@material-ui/core';
+import {Chip} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   colorGray: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   chipStyle: {
     borderRadius: 4,
     background: '#e4e4e4',
-    marginRight: 8,
+    margin: '0px 10px 10px 0px',
   },
 }));
 

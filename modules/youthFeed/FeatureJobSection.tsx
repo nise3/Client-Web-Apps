@@ -1,16 +1,13 @@
 import React from 'react';
-import {Box, Grid} from '@material-ui/core';
+import {Box, Grid} from '@mui/material';
 import FeatureJobComponent from './components/FeatureJobComponent';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   featureSectionTitle: {
     fontSize: 17,
     fontWeight: 'bold',
-  },
-  jobItem: {
-    marginBottom: 10,
   },
 }));
 
@@ -41,19 +38,13 @@ const FeatureJobSection = () => {
 
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12}>
           <Box className={classes.featureSectionTitle}>Featured</Box>
         </Grid>
         {items.map((job: any, index: number) => {
           return (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={6}
-              key={index}
-              className={classes.jobItem}>
+            <Grid item xs={12} sm={6} md={6} key={index}>
               <FeatureJobComponent data={job} />
             </Grid>
           );

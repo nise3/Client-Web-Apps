@@ -1,8 +1,8 @@
 import React from 'react';
-import {Button, Card, Divider, Grid, MenuItem, Select} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {ChevronRight} from '@material-ui/icons';
+import {ChevronRight} from '@mui/icons-material';
 import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 

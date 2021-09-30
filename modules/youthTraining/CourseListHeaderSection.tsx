@@ -8,10 +8,10 @@ import {
   InputAdornment,
   MenuItem,
   Select,
-} from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
+  TextField,
+} from '@mui/material';
 import useStyles from './index.style';
+import {Search} from '@mui/icons-material';
 
 const CourseListHeaderSection = () => {
   const classes: any = useStyles();
@@ -19,11 +19,11 @@ const CourseListHeaderSection = () => {
   return (
     <Box className={classes.pageRootHeader}>
       <Container>
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={7}>
             <Box fontSize={'16px'}>Search Courses and Training</Box>
             <Card className={classes.searchBox}>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 <Grid item xs={9} sm={10} md={10}>
                   <TextField
                     variant='outlined'
@@ -33,7 +33,7 @@ const CourseListHeaderSection = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
-                          <SearchIcon />
+                          <Search />
                         </InputAdornment>
                       ),
                       className: classes.searchInputBorderHide,

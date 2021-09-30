@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Container, Grid} from '@material-ui/core';
+import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
 import useStyles from './index.style';
@@ -13,8 +13,8 @@ const CourseListPage = () => {
   return (
     <Box className={classes.trainingViewRoot}>
       <CourseListHeaderSection />
-      <Container className={classes.mainContent}>
-        <Grid container spacing={8}>
+      <Container maxWidth={'xl'} className={classes.mainContent}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>
             <SkillMatchingCoursesSection />
           </Grid>

@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   trainingViewRoot: {
@@ -68,11 +68,6 @@ const useStyles = makeStyles((theme) => ({
   },
   tagBox: {
     marginTop: 15,
-    '& .tag': {
-      borderRadius: 4,
-      margin: '0px 10px 10px 0px',
-      color: theme.palette.grey['600'],
-    },
   },
 
   addressTextStyle: {

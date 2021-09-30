@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {Avatar, Box, Card, Chip, Grid} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
@@ -48,15 +48,15 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
   return (
     <>
       <Card className={classes.featureJobRoot}>
-        <Grid container spacing={3} alignItems={'center'}>
-          <Grid item>
+        <Grid container spacing={1} alignItems={'center'}>
+          <Grid item xs={2} sm={2} md={2}>
             <Avatar
               className={classes.jobProviderImage}
               alt='provider image'
               src={data.imageUrl}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={8} sm={8} md={8}>
             <Box className={classes.jobTitle}>{data.jobTitle}</Box>
             <Box>{data.jobProviderName}</Box>
           </Grid>

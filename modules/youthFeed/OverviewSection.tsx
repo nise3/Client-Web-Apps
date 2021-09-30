@@ -4,14 +4,13 @@ import {
   Card,
   Grid,
   InputAdornment,
-  makeStyles,
   NativeSelect,
-} from '@material-ui/core';
+  TextField,
+} from '@mui/material';
 import Tile from './components/Tile';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
-import {LocationOnOutlined} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import {makeStyles} from '@mui/styles';
+import {LocationOnOutlined, Search} from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   searchBox: {
@@ -78,7 +77,7 @@ const OverviewSection = () => {
     <>
       <Grid container>
         <Grid item xs={12} md={12}>
-          <Grid container spacing={3}>
+          <Grid container spacing={1}>
             {overviewItems.map((overview: any, index) => {
               return (
                 <Grid item xs={12} sm={6} md={4} key={index}>
@@ -105,7 +104,7 @@ const OverviewSection = () => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
-                        <SearchIcon />
+                        <Search />
                       </InputAdornment>
                     ),
                     className: classes.searchInputBorderHide,

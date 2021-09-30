@@ -1,7 +1,8 @@
 import React from 'react';
-import {Box, Divider, makeStyles} from '@material-ui/core';
-import {AddCircle, CheckCircle} from '@material-ui/icons';
+import {Box, Divider} from '@mui/material';
+import {AddCircle, CheckCircle} from '@mui/icons-material';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   profileItem: {

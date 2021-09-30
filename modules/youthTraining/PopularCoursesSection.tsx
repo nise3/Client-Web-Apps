@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Grid, Typography} from '@material-ui/core';
-import {ChevronRight} from '@material-ui/icons';
+import {Button, Grid, Typography} from '@mui/material';
+import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from './conponents/CourseCardComponent';
 import useStyles from './index.style';
 
@@ -51,7 +51,7 @@ const PopularCoursesSection = () => {
   ];
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={2}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
@@ -68,7 +68,7 @@ const PopularCoursesSection = () => {
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           {courseList.map((course: any) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={course.id}>

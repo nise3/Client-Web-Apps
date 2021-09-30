@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {Avatar, Box, Button} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Avatar, Box, Button} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
@@ -53,11 +53,7 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
             <Button variant='contained' color='primary' size={'small'}>
               Apply
             </Button>
-            <Button
-              variant='contained'
-              color='default'
-              size={'small'}
-              style={{marginLeft: 10}}>
+            <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
               Details
             </Button>
           </Box>

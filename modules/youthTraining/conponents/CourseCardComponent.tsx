@@ -1,13 +1,7 @@
 import React, {FC} from 'react';
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
-} from '@material-ui/core';
+import {Avatar, Box, Card, CardContent, CardMedia} from '@mui/material';
 import useStyles from '../index.style';
+import TagChip from '../../../@softbd/elements/display/TagChip';
 
 interface CourseCardComponentProps {
   course: any;
@@ -39,7 +33,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
         <Box className={classes.tagBox}>
           {(course.tags || []).map((tag: any, index: any) => {
-            return <Chip className='tag' label={tag} key={index} />;
+            return <TagChip label={tag} key={index} />;
           })}
         </Box>
       </CardContent>
