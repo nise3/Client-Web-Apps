@@ -9,6 +9,7 @@ import ChangeYouthUserIDPopup from './ChangeYouthUserIDPopup';
 import ConfirmPasswordPopup from './ConfirmPasswordPopup';
 import DeactivateAccountPopup from './DeactivateAccountPopup';
 import clsx from 'clsx';
+import SideMenu from '../../@softbd/elements/YouthSideMenu';
 
 const Settings = () => {
   const classes = useStyles();
@@ -42,7 +43,7 @@ const Settings = () => {
     <Container className={classes.container}>
       <Grid container spacing={6}>
         <Grid item sm={4} md={4}>
-          {/*Sidebar menuItems*/}
+          <SideMenu />
         </Grid>
 
         <Grid item sm={8} md={8}>
