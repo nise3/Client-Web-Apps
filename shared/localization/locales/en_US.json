@@ -125,6 +125,7 @@
   "common.send": "Send",
   "common.receive": "Receive",
   "common.viewAll": "View",
+  "common.view": "View",
   "common.scheduled": "Scheduled",
   "common.completed": "Completed",
   "common.pending": "Pending",
@@ -193,7 +194,6 @@
   "common.row_status" : "Status",
   "common.profile_name": "Profile Name",
   "common.user_name": "Username",
-  "common.settings": "Settings",
   "menu.organization_management": "Organization management",
   "menu.institute_management": "Institute management",
   "menu.course": "Course",
@@ -318,8 +318,21 @@
   "common.new_email": "New email or id",
   "common.old_email": "Old email or id",
   "common.change_password": "Change password",
-  "common.deactivate": "Deactivate"
-
-
-
+  "common.deactivate": "Deactivate",
+  "youth_profile.edit_profile": "Edit Profile",
+  "common.profile": "Profile",
+  "common.experience": "Experience",
+  "common.year_of_experience": "year jobs",
+  "common.achieved": "Achieved",
+  "youth_profile.add_new_experience": "Add New Experience",
+  "common.job_experience": "Job Experience",
+  "common.skills": "Skills",
+  "common.complete": "Complete",
+  "common.portfolio": "Portfolio",
+  "common.add_new_skill": "Add New Skill",
+  "common.freelance_profile": "Freelance Profile",
+  "youth_profile.freelance_profile_turing_on_hint": "Turning this button on will show your profile in the freelance list",
+  "youth_profile.my_cv": "My CV",
+  "common.download": "Download",
+  "common.certificate": "Certificate"
 }
