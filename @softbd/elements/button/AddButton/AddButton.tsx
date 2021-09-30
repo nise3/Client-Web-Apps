@@ -8,14 +8,14 @@ interface Props {
   onClick: () => void;
   className?: string;
   isLoading?: boolean;
-  tooltip?: any;
+  tooltip?: React.ReactNode;
 }
 
 const AddButton = ({onClick, className, tooltip, isLoading}: Props) => {
   return isLoading ? (
     <ButtonSkeleton isCircle={true} />
   ) : (
-    <Tooltip title={false}>
+    <Tooltip title={tooltip as any}>
       <Fab
         size='small'
         color='primary'

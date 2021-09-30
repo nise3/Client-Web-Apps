@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import Card from '@mui/material/Card';
-import { Box, CardHeader } from '@mui/material';
+import {Box, CardHeader} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
@@ -36,6 +36,7 @@ interface AppCardProps {
   footerStyle?: any;
   children: ReactNode;
   title?: any;
+
   [x: string]: any;
 }
 
@@ -54,7 +55,7 @@ const AppCard: React.FC<AppCardProps> = ({
 }) => {
   const classes = useStyles();
   return (
-    <Box display='flex' flexDirection='column' {...rest} clone>
+    <Box {...rest}>
       <Card>
         {title || action ? (
           <CardHeader
