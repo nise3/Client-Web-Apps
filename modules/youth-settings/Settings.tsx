@@ -1,14 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {Box, Container, Grid, Paper, Typography} from '@material-ui/core';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import DeleteIcon from '@material-ui/icons/Delete';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import DeleteIcon from '@mui/icons-material/Delete';
 import useStyles from './Settings.style';
 import ChangeYouthUserIDPopup from './ChangeYouthUserIDPopup';
 import ConfirmPasswordPopup from './ConfirmPasswordPopup';
 import DeactivateAccountPopup from './DeactivateAccountPopup';
 import clsx from 'clsx';
-import SideMenu from '../../@softbd/elements/YouthSideMenu';
+import {Box, Container, Grid, Paper, Typography} from '@mui/material';
+// import SideMenu from '../../@softbd/elements/YouthSideMenu';
 
 const Settings = () => {
   const classes = useStyles();
@@ -42,7 +42,7 @@ const Settings = () => {
     <Container className={classes.container}>
       <Grid container spacing={6}>
         <Grid item sm={4} md={4}>
-          <SideMenu />
+          {/*<SideMenu />*/}
         </Grid>
 
         <Grid item sm={8} md={8}>

@@ -1,6 +1,5 @@
-import {makeStyles} from '@material-ui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {createStyles} from '@material-ui/core/styles';
+import {createStyles, makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -26,23 +25,6 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       padding: '8px 14px',
       width: '95%',
     },
-    crPopover: {
-      '& .MuiPopover-paper': {
-        width: 260,
-        [theme.breakpoints.up('sm')]: {
-          width: 300,
-        },
-        [theme.breakpoints.up('xl')]: {
-          width: 380,
-        },
-      },
-      '& .scroll-submenu': {
-        maxHeight: 200,
-        [theme.breakpoints.up('xl')]: {
-          maxHeight: 380,
-        },
-      },
-    },
     btnPopover: {
       borderRadius: 0,
       width: '100%',
@@ -56,7 +38,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       borderRadius: 0,
       paddingLeft: '1rem',
       paddingRight: '1rem',
-      color: theme.palette.grey[800],
+      color: theme.palette.grey['800'],
       '&:hover, &:focus': {
         color: theme.palette.text.primary,
         backgroundColor: 'transparent',
@@ -96,6 +78,12 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     },
     badge: {
       marginRight: 8,
+    },
+    notificationBox: {
+      marginTop: 20,
+    },
+    card: {
+      marginTop: 0,
     },
   }),
 );

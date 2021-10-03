@@ -3,11 +3,17 @@ import IntlMessages from '../../@crema/utility/IntlMessages';
 import CustomMuiModal, {
   DialogTitle,
 } from '../../@softbd/modals/CustomMuiModal/CustomMuiModal';
-import {DialogActions, DialogContent, Typography, Box} from '@material-ui/core';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
+
 import useStyles from './Settings.style';
+import {
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  Typography,
+} from '@mui/material';
+import {Delete} from '@mui/icons-material';
 interface DeactivateAccountPopupProps {
   onClose: () => void;
 }
@@ -21,7 +27,7 @@ const DeactivateAccountPopup: FC<DeactivateAccountPopupProps> = ({
     <>
       <CustomMuiModal maxWidth={'sm'} onClose={props.onClose} open={true}>
         <DialogTitle className={classes.title} onClose={props.onClose}>
-          <DeleteIcon className={classes.deleteIcon} />
+          <Delete className={classes.deleteIcon} />
           <Box>
             <IntlMessages
               id='common.deactivate'
@@ -45,7 +51,7 @@ const DeactivateAccountPopup: FC<DeactivateAccountPopupProps> = ({
               variant='contained'
               color='secondary'
               className={classes.button}
-              startIcon={<DeleteIcon />}>
+              startIcon={<Delete />}>
               Delete
             </Button>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
