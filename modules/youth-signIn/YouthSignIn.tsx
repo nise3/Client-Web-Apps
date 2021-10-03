@@ -1,5 +1,13 @@
 import React from 'react';
-import {Box, Container, Grid, Paper, Switch, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Switch,
+  Typography,
+} from '@mui/material';
 import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -10,15 +18,14 @@ const YouthSignIn = () => {
   const {messages} = useIntl();
   const isLoading = false;
   const {
-    control,
     register,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: {errors},
   } = useForm();
 
   const onSubmit: SubmitHandler<any> = async () => {};
   return (
-    <Container>
+    <Container maxWidth={'sm'}>
       <Paper className={classes.PaperBox}>
         <Typography
           variant={'h6'}
@@ -52,12 +59,20 @@ const YouthSignIn = () => {
               </Box>
             </Grid>
             <Grid item xs={6}>
-              <Typography style={{textAlign: 'right'}}>
+              <Typography className={classes.forgotpass}>
                 Forgot password?
               </Typography>
             </Grid>
+            <Grid item xs={12}>
+              <Button variant='contained' style={{width: '100px'}}>
+                Sign in
+              </Button>
+            </Grid>
           </Grid>
         </form>
+        <Typography style={{marginTop: '10px'}}>
+          Don't have an account? Sign up here
+        </Typography>
       </Paper>
     </Container>
   );

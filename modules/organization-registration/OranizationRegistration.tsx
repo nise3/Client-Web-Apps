@@ -21,7 +21,7 @@ const OranizationRegistration = () => {
   const onSubmit: SubmitHandler<any> = async () => {};
 
   return (
-    <Container>
+    <Container maxWidth={'md'} style={{marginTop: '100px'}}>
       <Paper className={classes.PaperBox}>
         <Typography
           align={'center'}
@@ -34,7 +34,7 @@ const OranizationRegistration = () => {
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3} maxWidth={'md'}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='company_name'
                 label={messages['common.company_name']}
@@ -44,7 +44,7 @@ const OranizationRegistration = () => {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='company_type'
                 label={messages['common.company_type']}
@@ -55,7 +55,7 @@ const OranizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='email'
                 label={messages['common.email']}
@@ -65,7 +65,7 @@ const OranizationRegistration = () => {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='mobile'
                 label={messages['common.mobile']}
@@ -75,7 +75,7 @@ const OranizationRegistration = () => {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='Head_of_office'
                 label={messages['common.Head_of_office']}
@@ -85,7 +85,7 @@ const OranizationRegistration = () => {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='designation'
                 label={messages['common.designation']}
@@ -107,7 +107,7 @@ const OranizationRegistration = () => {
               <Typography variant={'h6'}>User Information</Typography>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='contact_person_name'
                 label={messages['common.contact_person_name']}
@@ -116,7 +116,7 @@ const OranizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='contact_person_designation'
                 label={messages['common.contact_person_designation']}
@@ -125,7 +125,7 @@ const OranizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='contact_person_email'
                 label={messages['common.contact_person_email']}
@@ -134,7 +134,7 @@ const OranizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='contact_person_mobile'
                 label={messages['common.contact_person_mobile']}
@@ -143,7 +143,7 @@ const OranizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password'
                 label={messages['common.password']}
@@ -152,7 +152,7 @@ const OranizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='retypePassword'
                 label={messages['common.retypePassword']}
