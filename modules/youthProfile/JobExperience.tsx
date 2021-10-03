@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 );
 
 type JobExperienceProp = {
-  postTitle?: string;
+  position?: string;
   companyName?: string;
   companyLogo?: any;
   jobLocation?: string;
@@ -34,7 +34,7 @@ type JobExperienceProp = {
 };
 
 const JobExperience = ({
-  postTitle,
+  position,
   companyName,
   companyLogo,
   jobLocation,
@@ -56,7 +56,7 @@ const JobExperience = ({
             <Grid item sm={4}>
               <Box ml={1} mb={2}>
                 <Typography variant={'subtitle2'}>{companyName}</Typography>
-                <Typography variant={'caption'}>{postTitle}</Typography>
+                <Typography variant={'caption'}>{position}</Typography>
               </Box>
             </Grid>
           </Grid>

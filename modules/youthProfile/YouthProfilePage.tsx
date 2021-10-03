@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Image from 'next/image';
 import profileImage from '../../public/images/userPageImages/profileImage.jpeg';
 import {CremaTheme} from '../../types/AppContextPropsType';
@@ -11,7 +11,6 @@ import CustomParabolaButton from './component/CustomParabolaButton';
 import HorizontalLine from './component/HorizontalLine';
 import CardHeader from './CardHeader';
 import JobExperience from './JobExperience';
-import Skill from './Skills';
 import CardItem from './component/CardItem';
 import SkillInfo from './SkillInfo';
 import JobExperienceAddEditPopup from './JobExperienceAddEditPopup';
@@ -32,6 +31,10 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
+import CustomContentCard from './CustomContentCard';
+import EducationAddEditPopup from './EducationAddEditPopup';
+import CertificateAddEditPopup from './CertificateAddEditPopup';
+import LanguageAddEditPopup from './LanguageAddEditPopup';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -111,24 +114,72 @@ let items = [
   },
 ];
 
+type JobExperienceProp = {
+  id?: number;
+  position?: string;
+  companyName?: string;
+  companyLogo?: any;
+  jobLocation?: string;
+  jobPeriod?: string;
+  jobDescription?: string;
+};
+
 const YouthProfile = () => {
   const classes = useStyles();
   const {messages} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenJobExperienceAddEditModal, setIsOpenJobExperienceAddEditModal] =
+    useState(false);
+  const [isOpenEducationAddEditModal, setIsOpenEducationAddEditModal] =
+    useState(false);
+  const [isOpenCertificateAddEditModal, setIsOpenCertificateAddEditModal] =
+    useState(false);
+  const [isOpenLanguageAddEditModal, setIsOpenLanguageAddEditModal] =
+    useState(false);
   const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
     useState(false);
+  const [jobExperiences, setJobExperiences] = useState<
+    Array<JobExperienceProp> | []
+  >([]);
 
-  const closeAddEditModal = useCallback(() => {
+  useEffect(() => {
+    setJobExperiences([
+      {
+        id: 1,
+        companyName: 'softBD Ltd',
+        companyLogo: <BusinessCenter fontSize={'large'} />,
+        jobPeriod: '2010-present',
+        jobLocation: 'panthapath',
+        position: 'software engineer',
+        jobDescription:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi cumque error exercitationem modi nam nisi, quia sed. Animi eius excepturi nulla perspiciatis repellat? Distinctio natus neque nostrum quaerat tenetur?',
+      },
+      {
+        id: 2,
+        companyName: 'Google',
+        companyLogo: <BusinessCenter fontSize={'large'} />,
+        jobPeriod: '2020-present',
+        jobLocation: 'CA',
+        position: 'software engineer',
+        jobDescription:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi cumque error exercitationem modi nam nisi, quia sed. Animi eius excepturi nulla perspiciatis repellat? Distinctio natus neque nostrum quaerat tenetur?',
+      },
+    ]);
+  }, []);
+
+  const closeJobExperienceAddEditModal = useCallback(() => {
     setSelectedItemId(null);
-    setIsOpenAddEditModal(false);
+    setIsOpenJobExperienceAddEditModal(false);
   }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setSelectedItemId(itemId);
-    setIsOpenAddEditModal(true);
-  }, []);
+  const openJobExperienceAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenJobExperienceAddEditModal(true);
+    },
+    [],
+  );
 
   const closePersonalInfoAddEditModal = useCallback(() => {
     setSelectedItemId(null);
@@ -139,6 +190,45 @@ const YouthProfile = () => {
     (itemId: number | null = null) => {
       setSelectedItemId(itemId);
       setIsOpenPersonalInfoAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeEducationAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenEducationAddEditModal(false);
+  }, []);
+
+  const openEducationAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenEducationAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeCertificationAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenCertificateAddEditModal(false);
+  }, []);
+
+  const openCertificationAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenCertificateAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeLanguageAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenLanguageAddEditModal(false);
+  }, []);
+
+  const openLanguageAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenLanguageAddEditModal(true);
     },
     [],
   );
@@ -250,31 +340,28 @@ const YouthProfile = () => {
                           messages['youth_profile.add_new_experience'] as string
                         }
                         icon={<BusinessCenter />}
-                        onclick={openAddEditModal}
+                        onclick={() => openJobExperienceAddEditModal(null)}
                       />
                     </Grid>
                   </Grid>
 
-                  <JobExperience
-                    jobDescription={
-                      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi cumque error exercitationem modi nam nisi, quia sed. Animi eius excepturi nulla perspiciatis repellat? Distinctio natus neque nostrum quaerat tenetur?'
-                    }
-                    companyName={'softBD Ltd'}
-                    companyLogo={<BusinessCenter fontSize={'large'} />}
-                    jobPeriod={'2010-present'}
-                    postTitle={'software engineer'}
-                    jobLocation={'panthapath, dhaka'}
-                  />
-                  <JobExperience
-                    jobDescription={
-                      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi cumque error exercitationem modi nam nisi, quia sed. Animi eius excepturi nulla perspiciatis repellat? Distinctio natus neque nostrum quaerat tenetur?'
-                    }
-                    companyName={'softBD Ltd'}
-                    companyLogo={<BusinessCenter fontSize={'large'} />}
-                    jobPeriod={'2010-present'}
-                    postTitle={'software engineer'}
-                    jobLocation={'panthapath, dhaka'}
-                  />
+                  {jobExperiences.map((jobExperience: JobExperienceProp) => {
+                    return (
+                      <React.Fragment key={jobExperience.id}>
+                        <JobExperience
+                          companyName={jobExperience.companyName}
+                          companyLogo={jobExperience.companyLogo}
+                          jobPeriod={jobExperience.jobPeriod}
+                          position={jobExperience.position}
+                          jobLocation={jobExperience.jobLocation}
+                          jobDescription={jobExperience.jobDescription}
+                          openAddEditModal={() =>
+                            openJobExperienceAddEditModal(jobExperience.id)
+                          }
+                        />
+                      </React.Fragment>
+                    );
+                  })}
                 </CardContent>
               </Card>
             </Grid>
@@ -288,15 +375,17 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_new_education'] as string,
                         icon: <Add />,
+                        onclick: () => openEducationAddEditModal(null),
                       },
                     ]}
                   />
-                  <Skill
-                    skillCourseTitle={'Mobile UX Design Course'}
-                    skillCourseLogo={<BusinessCenter />}
-                    skillCourseProvider={'Interaction Design Foundation'}
+                  <CustomContentCard
+                    contentTitle={'Mobile Ux Design course'}
+                    contentLogo={<BusinessCenter />}
+                    contentServiceProvider={'Interaction Design Foundation'}
                     date={'Oct 2020'}
                     location={'Dhaka 1215'}
+                    contentEditButton={() => openEducationAddEditModal(1)}
                   />
                 </CardContent>
               </Card>
@@ -311,22 +400,17 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_new_certificate'] as string,
                         icon: <Add />,
+                        onclick: () => openCertificationAddEditModal(null),
                       },
                     ]}
                   />
-                  <Skill
-                    skillCourseTitle={'Mobile UX Design Course'}
-                    skillCourseLogo={<BusinessCenter />}
-                    skillCourseProvider={'Interaction Design Foundation'}
+                  <CustomContentCard
+                    contentTitle={'Mobile Ux Design course'}
+                    contentLogo={<BusinessCenter />}
+                    contentServiceProvider={'Interaction Design Foundation'}
                     date={'Oct 2020'}
                     location={'Dhaka 1215'}
-                  />
-                  <Skill
-                    skillCourseTitle={'Mobile UX Design Course'}
-                    skillCourseLogo={<BusinessCenter />}
-                    skillCourseProvider={'Interaction Design Foundation'}
-                    date={'Oct 2020'}
-                    location={'Dhaka 1215'}
+                    contentEditButton={() => openCertificationAddEditModal(1)}
                   />
                 </CardContent>
               </Card>
@@ -341,17 +425,32 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_language'] as string,
                         icon: <Add />,
+                        onclick: () => openLanguageAddEditModal(null),
                       },
                       {
                         label: messages['common.edit_btn'] as string,
                         icon: <Add />,
+                        onclick: () => openLanguageAddEditModal(1),
                       },
                     ]}
                   />
-                  <Skill
-                    skillCourseTitle={'English, Bangla, Hindi'}
-                    skillCourseLogo={<BusinessCenter />}
-                    skillCourseProvider={'View Language Proficiency'}
+                  <CustomContentCard
+                    contentTitle={'English, Bangla, Hindi'}
+                    contentLogo={<BusinessCenter />}
+                    contentServiceProvider={
+                      <Box
+                        sx={{
+                          '&:hover': {
+                            cursor: 'pointer',
+                          },
+                        }}
+                        component={'span'}
+                        onClick={() =>
+                          openLanguageAddEditModal(selectedItemId)
+                        }>
+                        View language proficiency
+                      </Box>
+                    }
                   />
                 </CardContent>
               </Card>
@@ -498,10 +597,34 @@ const YouthProfile = () => {
         </Grid>
         <Footer />
       </Container>
-      {isOpenAddEditModal && (
+      {isOpenJobExperienceAddEditModal && (
         <JobExperienceAddEditPopup
           key={1}
-          onClose={closeAddEditModal}
+          onClose={closeJobExperienceAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenEducationAddEditModal && (
+        <EducationAddEditPopup
+          key={1}
+          onClose={closeEducationAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenCertificateAddEditModal && (
+        <CertificateAddEditPopup
+          key={1}
+          onClose={closeCertificationAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenLanguageAddEditModal && (
+        <LanguageAddEditPopup
+          key={1}
+          onClose={closeLanguageAddEditModal}
           itemId={selectedItemId}
         />
       )}

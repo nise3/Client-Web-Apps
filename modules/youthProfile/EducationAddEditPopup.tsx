@@ -19,52 +19,81 @@ import {
 import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
-import {FormControlLabel, Switch} from '@mui/material';
+import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 
-interface JobExperienceAddEditPopupProps {
+interface EducationAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
 }
 
-const initialValues = {
-  company_name: '',
-  position: '',
-  type_of_employee: '',
-  location: '',
-  job_description: '',
-  start_date: '',
-  end_date: '',
+const boards = [
+  {id: 1, title: 'HSC'},
+  {id: 2, title: 'SSC'},
+  {id: 3, title: 'BSC'},
+  {id: 4, title: 'MSC'},
+];
+
+const groups = [
+  {id: 1, title: 'science'},
+  {id: 2, title: 'arts'},
+  {id: 3, title: 'commerce'},
+];
+
+const resultTypes = [
+  {id: 1, title: 'Grade'},
+  {id: 2, title: 'Class'},
+];
+
+const passingYears = () => {
+  let passingYearsArray = [];
+  for (let i = 2021; i > 1971; i--) {
+    passingYearsArray.push({year: i});
+  }
+  return passingYearsArray;
 };
 
-const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
+const initialValues = {
+  exam: '',
+  board: '',
+  institution: '',
+  roll_no: '',
+  reg_no: '',
+  group: '',
+  result_type: '',
+  result: '',
+  passing_year: '',
+};
+
+const EducationAddEditPopup: FC<EducationAddEditPopupProps> = ({
   itemId,
   ...props
 }) => {
-  console.log('item id:', itemId);
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      company_name: yup
+      exam: yup.string().label(messages['education.exam'] as string),
+      board: yup.string().label(messages['education.board'] as string),
+      institution: yup
         .string()
-        .label(messages['common.company_name'] as string),
-      position: yup.string().label(messages['common.position'] as string),
-      type_of_employee: yup
+        .label(messages['education.institution'] as string),
+      roll_no: yup.string().label(messages['education.roll_no'] as string),
+      reg_no: yup.string().label(messages['education.reg_no'] as string),
+      group: yup.string().label(messages['education.group'] as string),
+      result_type: yup
         .string()
-        .label(messages['common.type_of_employee'] as string),
-      location: yup.string().label(messages['common.location'] as string),
-      job_description: yup
+        .label(messages['education.result_type'] as string),
+      result: yup.string().label(messages['education.result'] as string),
+      passing_year: yup
         .string()
-        .label(messages['common.job_description'] as string),
-      start_date: yup.string().label(messages['common.start_date'] as string),
-      end_date: yup.string().label(messages['common.end_date'] as string),
+        .label(messages['education.passing_year'] as string),
     });
   }, [messages]);
 
   const {
+    control,
     register,
     reset,
     handleSubmit,
@@ -79,13 +108,15 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   useEffect(() => {
     if (itemId) {
       setItemData({
-        company_name: 'softbd ltd',
-        position: 'software engineer',
-        type_of_employee: 'full time',
-        location: 'dhaka 1232',
-        job_description: 'building web apps',
-        start_date: '12 oct 1993',
-        end_date: '12 oct 1993',
+        exam: 'HSC',
+        board: '1',
+        institution: 'S.X college',
+        roll_no: '227289',
+        reg_no: '8494937',
+        group: '1',
+        result_type: 'Grade',
+        result: '5',
+        passing_year: '1773',
       });
     }
   }, [itemId]);
@@ -93,13 +124,15 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        company_name: itemData.company_name,
-        position: itemData?.position,
-        type_of_employee: itemData?.type_of_employee,
-        location: itemData?.location,
-        job_description: itemData?.job_description,
-        start_date: itemData?.start_date,
-        end_date: itemData?.end_date,
+        exam: itemData.exam,
+        board: itemData?.board,
+        institution: itemData?.institution,
+        roll_no: itemData?.roll_no,
+        reg_no: itemData?.reg_no,
+        group: itemData?.group,
+        result_type: itemData?.result_type,
+        result: itemData?.result,
+        passing_year: itemData?.passing_year,
       });
     } else {
       reset(initialValues);
@@ -140,12 +173,12 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='job_experience.label' />}}
+              values={{subject: <IntlMessages id='education.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='job_experience.label' />}}
+              values={{subject: <IntlMessages id='education.label' />}}
             />
           )}
         </>
@@ -161,8 +194,28 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='company_name'
-            label={messages['common.company_name']}
+            id='exam'
+            label={messages['education.exam']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id={'board'}
+            isLoading={false}
+            control={control}
+            options={boards}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='institution'
+            label={messages['education.institution']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -170,8 +223,8 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='position'
-            label={messages['common.position']}
+            id='roll_no'
+            label={messages['education.roll_no']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -179,56 +232,53 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='type_of_employee'
-            label={messages['common.type_of_employee']}
+            id='reg_no'
+            label={messages['education.reg_no']}
             register={register}
             errorInstance={errors}
             isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id={'group'}
+            isLoading={false}
+            control={control}
+            options={groups}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id={'result_type'}
+            isLoading={false}
+            control={control}
+            options={resultTypes}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='location'
-            label={messages['common.location']}
+            id='result'
+            label={messages['common.result']}
             register={register}
             errorInstance={errors}
             isLoading={false}
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomTextInput
-            id='job_description'
-            label={messages['job_experience.job_description']}
-            register={register}
-            errorInstance={errors}
+          <CustomFormSelect
+            id={'passing_year'}
             isLoading={false}
-            multiline={true}
-            rows={3}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomDateTimeField
-            id='start_date'
-            label={messages['job_experience.start_date']}
-            register={register}
+            control={control}
+            options={passingYears()}
+            optionValueProp={'year'}
+            optionTitleProp={['year']}
             errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomDateTimeField
-            id='end_date'
-            label={messages['job_experience.end_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Switch defaultChecked />}
-            label='I currently work here'
           />
         </Grid>
       </Grid>
@@ -236,4 +286,4 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   );
 };
 
-export default JobExperienceAddEditPopup;
+export default EducationAddEditPopup;

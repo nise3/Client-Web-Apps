@@ -5,6 +5,7 @@ import {Box, Grid, Typography} from '@mui/material';
 type CardHeaderProps = {
   headerTitle?: string;
   buttons?: Array<any>;
+  onclick?: () => void;
 };
 
 const CardHeader = ({headerTitle, buttons}: CardHeaderProps) => {
@@ -20,13 +21,14 @@ const CardHeader = ({headerTitle, buttons}: CardHeaderProps) => {
 
       <Grid item sm={6}>
         <Grid container justifyContent={'flex-end'}>
-          {buttons?.map((button: any) => {
+          {buttons?.map((button: any, index: number) => {
             return (
-              <Box ml={2}>
+              <Box ml={2} key={index}>
                 <CustomParabolaButton
                   buttonVariant={'outlined'}
                   title={button.label}
                   icon={button.icon}
+                  onclick={button.onclick}
                 />
               </Box>
             );
