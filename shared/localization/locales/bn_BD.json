@@ -341,5 +341,15 @@
   "common.company_name": "কোম্পানির নাম",
   "common.position": "পদ",
   "common.type_of_employee": "চাকরির ধরন",
-  "job_experience.label": "চাকরির অভিজ্ঞতা"
+  "job_experience.label": "চাকরির অভিজ্ঞতা",
+  "job_experience.job_description": "চাকরির বর্ণনা",
+  "job_experience.start_date": "চাকরি শুরুর তারিখ",
+  "job_experience.end_date": "চাকরি শেষের তারিখ",
+  "common.location": "অবস্থান",
+  "common.education": "শিক্ষা",
+  "common.certifications": "সনদপত্রসমূহ",
+  "common.add_new_education": "নতুন শিক্ষা যোগ করুন",
+  "common.add_new_certificate": "নতুন সনদপত্র যোগ করুন",
+  "common.language": "ভাষা",
+  "common.add_language": "ভাষা যোগ করুন"
 }

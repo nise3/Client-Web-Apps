@@ -4,15 +4,10 @@ import {Box, Grid, Typography} from '@mui/material';
 
 type CardHeaderProps = {
   headerTitle?: string;
-  buttonLabel?: string;
-  buttonIcon?: any;
+  buttons?: Array<any>;
 };
 
-const CardHeader = ({
-  headerTitle,
-  buttonLabel,
-  buttonIcon,
-}: CardHeaderProps) => {
+const CardHeader = ({headerTitle, buttons}: CardHeaderProps) => {
   return (
     <Grid item container sm={12} justifyContent={'space-between'}>
       <Grid item sm={6}>
@@ -22,15 +17,22 @@ const CardHeader = ({
           </Box>
         </Typography>
       </Grid>
-      {buttonLabel && (
-        <Grid item container sm={6} justifyContent={'flex-end'}>
-          <CustomParabolaButton
-            buttonVariant={'outlined'}
-            title={buttonLabel}
-            icon={buttonIcon}
-          />
+
+      <Grid item sm={6}>
+        <Grid container justifyContent={'flex-end'}>
+          {buttons?.map((button: any) => {
+            return (
+              <Box ml={2}>
+                <CustomParabolaButton
+                  buttonVariant={'outlined'}
+                  title={button.label}
+                  icon={button.icon}
+                />
+              </Box>
+            );
+          })}
         </Grid>
-      )}
+      </Grid>
     </Grid>
   );
 };

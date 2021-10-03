@@ -19,6 +19,8 @@ import {
 import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
+import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
+import {FormControlLabel, Switch} from '@mui/material';
 
 interface JobExperienceAddEditPopupProps {
   itemId: number | null;
@@ -81,8 +83,8 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         type_of_employee: 'full time',
         location: 'dhaka 1232',
         job_description: 'building web apps',
-        start_date: '12 oct 2993',
-        end_date: '12 oct 2993',
+        start_date: '12 oct 1993',
+        end_date: '12 oct 1993',
       });
     }
   }, [itemId]);
@@ -194,13 +196,38 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='job_experience'
-            label={messages['common.job_experience']}
+            id='job_description'
+            label={messages['job_experience.job_description']}
             register={register}
             errorInstance={errors}
             isLoading={false}
             multiline={true}
             rows={3}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomDateTimeField
+            id='start_date'
+            label={messages['job_experience.start_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomDateTimeField
+            id='end_date'
+            label={messages['job_experience.end_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={<Switch defaultChecked />}
+            label='I currently work here'
           />
         </Grid>
       </Grid>

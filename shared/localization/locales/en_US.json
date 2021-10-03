@@ -335,5 +335,19 @@
   "youth_profile.my_cv": "My CV",
   "common.download": "Download",
   "common.certificate": "Certificate",
-  "job_experience.label": "Job Experience"
+  "job_experience.label": "Job Experience",
+  "common.company_name": "Company Name",
+  "common.position": "Position",
+  "common.type_of_employee": "Job Type",
+  "job_experience.job_description": "Job Description",
+  "job_experience.start_date": "Joining Date",
+  "job_experience.end_date": "Resign Date",
+  "common.location": "Location",
+  "common.education": "Education",
+  "common.certifications": "Certifications",
+  "common.add_new_education": "Add New Education",
+  "common.add_new_certificate": "Add New Certificate",
+  "common.language": "Language",
+  "common.add_language": "Add Language"
+
 }

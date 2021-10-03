@@ -283,9 +283,36 @@ const YouthProfile = () => {
               <Card className={classes.youthJobExperienceCard}>
                 <CardContent>
                   <CardHeader
-                    headerTitle={messages['common.skills'] as string}
-                    buttonLabel={messages['common.add_new_skill'] as string}
-                    buttonIcon={<Add />}
+                    headerTitle={messages['common.education'] as string}
+                    buttons={[
+                      {
+                        label: messages['common.add_new_education'] as string,
+                        icon: <Add />,
+                      },
+                    ]}
+                  />
+                  <Skill
+                    skillCourseTitle={'Mobile UX Design Course'}
+                    skillCourseLogo={<BusinessCenter />}
+                    skillCourseProvider={'Interaction Design Foundation'}
+                    date={'Oct 2020'}
+                    location={'Dhaka 1215'}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid container xl={12} className={classes.cardSpaceBetween}>
+              <Card className={classes.youthJobExperienceCard}>
+                <CardContent>
+                  <CardHeader
+                    headerTitle={messages['common.certifications'] as string}
+                    buttons={[
+                      {
+                        label: messages['common.add_new_certificate'] as string,
+                        icon: <Add />,
+                      },
+                    ]}
                   />
                   <Skill
                     skillCourseTitle={'Mobile UX Design Course'}
@@ -309,9 +336,38 @@ const YouthProfile = () => {
               <Card className={classes.youthJobExperienceCard}>
                 <CardContent>
                   <CardHeader
+                    headerTitle={messages['common.language'] as string}
+                    buttons={[
+                      {
+                        label: messages['common.add_language'] as string,
+                        icon: <Add />,
+                      },
+                      {
+                        label: messages['common.edit_btn'] as string,
+                        icon: <Add />,
+                      },
+                    ]}
+                  />
+                  <Skill
+                    skillCourseTitle={'English, Bangla, Hindi'}
+                    skillCourseLogo={<BusinessCenter />}
+                    skillCourseProvider={'View Language Proficiency'}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid container xl={12} className={classes.cardSpaceBetween}>
+              <Card className={classes.youthJobExperienceCard}>
+                <CardContent>
+                  <CardHeader
                     headerTitle={messages['common.portfolio'] as string}
-                    buttonLabel={messages['common.edit_btn'] as string}
-                    buttonIcon={<BorderColor />}
+                    buttons={[
+                      {
+                        label: messages['common.edit_btn'] as string,
+                        icon: <BorderColor />,
+                      },
+                    ]}
                   />
                 </CardContent>
                 <HorizontalLine />
