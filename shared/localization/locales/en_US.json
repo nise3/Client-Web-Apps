@@ -334,5 +334,6 @@
   "youth_profile.freelance_profile_turing_on_hint": "Turning this button on will show your profile in the freelance list",
   "youth_profile.my_cv": "My CV",
   "common.download": "Download",
-  "common.certificate": "Certificate"
+  "common.certificate": "Certificate",
+  "job_experience.label": "Job Experience"
 }

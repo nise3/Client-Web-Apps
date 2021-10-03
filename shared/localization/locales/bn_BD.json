@@ -340,5 +340,6 @@
   "common.certificate": "সনদপত্র",
   "common.company_name": "কোম্পানির নাম",
   "common.position": "পদ",
-  "common.type_of_employee": "চাকরির ধরন"
+  "common.type_of_employee": "চাকরির ধরন",
+  "job_experience.label": "চাকরির অভিজ্ঞতা"
 }

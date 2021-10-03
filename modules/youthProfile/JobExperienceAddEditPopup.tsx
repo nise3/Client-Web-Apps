@@ -139,12 +139,12 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='rank_types.label' />}}
+              values={{subject: <IntlMessages id='job_experience.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='rank_types.label' />}}
+              values={{subject: <IntlMessages id='job_experience.label' />}}
             />
           )}
         </>
@@ -158,7 +158,7 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='title_en'
             label={messages['common.title_en']}
@@ -167,7 +167,7 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
             isLoading={false}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='title_bn'
             label={messages['common.title_bn']}
@@ -177,7 +177,7 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='description'
             label={messages['common.description']}
