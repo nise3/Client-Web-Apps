@@ -18,8 +18,9 @@ const CancelButton = ({onClick, className, label, isLoading}: Props) => {
     <ButtonSkeleton />
   ) : (
     <Button
+      color={'warning'}
       startIcon={<CancelIcon />}
-      variant='contained'
+      variant='outlined'
       onClick={onClick}
       className={className}>
       {btnText}

@@ -48,7 +48,7 @@ export default AppPage(() => {
         <Grid item md={12}>
           <AppCard
             title={'AppCard'}
-            action={<AddButton onClick={() => null} />}>
+            action={<AddButton onClick={() => null} tooltip={'Add new'} />}>
             AppCard
           </AppCard>
         </Grid>

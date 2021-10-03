@@ -39,7 +39,7 @@ const AppSelect: React.FC<AppSelectProps> = ({
 }) => {
   const [selectionType, setSelectionType] = useState(defaultValue);
 
-  const handleSelectionType = (event: React.ChangeEvent<{value: unknown}>) => {
+  const handleSelectionType = (event: any) => {
     setSelectionType(event.target.value);
     onChange(event.target.value);
   };
@@ -49,7 +49,6 @@ const AppSelect: React.FC<AppSelectProps> = ({
       defaultValue={defaultValue}
       value={selectionType}
       onChange={handleSelectionType}
-      disableUnderline={true}
       className={clsx(classes.selectBox, 'select-box')}>
       {menus.map((menu: any, index: number) => (
         <MenuItem

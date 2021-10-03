@@ -67,68 +67,78 @@ const defaultConfig: any = {
     typography: {
       fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
     },
-    overrides: {
+    components: {
       MuiTypography: {
-        h1: {
-          fontSize: 22,
-        },
-        h2: {
-          fontSize: 20,
-        },
-        h3: {
-          fontSize: 18,
-        },
-        h4: {
-          fontSize: 16,
-        },
-        h5: {
-          fontSize: 14,
-        },
-        h6: {
-          fontSize: 14,
-        },
-        subtitle1: {
-          fontSize: 14,
-        },
-        subtitle2: {
-          fontSize: 16,
-        },
-        body1: {
-          fontSize: 14,
-        },
-        body2: {
-          fontSize: 12,
+        styleOverrides: {
+          h1: {
+            fontSize: 22,
+          },
+          h2: {
+            fontSize: 20,
+          },
+          h3: {
+            fontSize: 18,
+          },
+          h4: {
+            fontSize: 16,
+          },
+          h5: {
+            fontSize: 14,
+          },
+          h6: {
+            fontSize: 14,
+          },
+          subtitle1: {
+            fontSize: 14,
+          },
+          subtitle2: {
+            fontSize: 16,
+          },
+          body1: {
+            fontSize: 14,
+          },
+          body2: {
+            fontSize: 12,
+          },
         },
       },
       MuiToggleButton: {
-        root: {
-          borderRadius: cardRadius,
+        styleOverrides: {
+          root: {
+            borderRadius: cardRadius,
+          },
         },
       },
       MuiCardLg: {
-        root: {
-          borderRadius:
-            cardRadius === ThemeStyleRadius.STANDARD
-              ? ThemeStyleRadius.STANDARD
-              : ThemeStyleRadius.MODERN + 20,
+        styleOverrides: {
+          root: {
+            borderRadius:
+              cardRadius === ThemeStyleRadius.STANDARD
+                ? ThemeStyleRadius.STANDARD
+                : ThemeStyleRadius.MODERN + 20,
+          },
         },
       },
       MuiCard: {
-        root: {
-          borderRadius: cardRadius,
-          boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
-          '& .MuiCardContent-root:last-child': {
-            paddingBottom: 16,
+        styleOverrides: {
+          root: {
+            borderRadius: cardRadius,
+            boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
+            '& .MuiCardContent-root:last-child': {
+              paddingBottom: 16,
+            },
           },
         },
       },
       MuiButton: {
-        root: {
-          borderRadius: cardRadius,
-          boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
-          [theme.breakpoints.down('md')]: {
-            paddingTop: '8px !important',
-            paddingBottom: '8px !important',
+        styleOverrides: {
+          root: {
+            borderRadius: cardRadius,
+            boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
+            [theme.breakpoints.down('md')]: {
+              paddingTop: '8px !important',
+              paddingBottom: '8px !important',
+            },
           },
         },
       },

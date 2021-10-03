@@ -1,4 +1,4 @@
-import { alpha } from '@mui/material/styles';
+import {alpha} from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),

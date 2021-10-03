@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     fontSize: 16,
     paddingTop: 12,
     paddingBottom: 12,
-    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
   },
   textSecondary: {
     color: theme.palette.primary.main,

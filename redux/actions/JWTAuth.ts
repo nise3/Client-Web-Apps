@@ -12,6 +12,9 @@ import {
   UPDATE_AUTH_USER,
 } from '../../types/actions/Auth.actions';
 import {Cookies} from 'react-cookie';
+import {Base64} from 'js-base64';
+import {apiGet} from '../../@softbd/common/api';
+import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const authUserMockData: TAuthUserSSOResponse = {
   role: undefined,
@@ -110,25 +113,27 @@ export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
   tokenData: TOnSSOSignInCallback,
 ) => {
-  console.log('loadAuthUser() - tokenData - ', tokenData);
+  // console.log('loadAuthUser() - tokenData - ', tokenData);
   dispatch(fetchStart());
   try {
-    // const ssoTokenData = JSON.parse(
-    //   Base64.decode((tokenData.id_token || '..').split('.')[1]),
-    // );
-    /*const coreResponse = await apiGet(
-      `/core/users/${ssoTokenData.sub}/permissions`,
-    );*/
+    const ssoTokenData = JSON.parse(
+      Base64.decode((tokenData.id_token || '..').split('.')[1]),
+    );
+    console.log(ssoTokenData);
+    const coreResponse = await apiGet(
+      CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`,
+    );
     //use for test purpose
     // const coreResponse = await apiGet(
     //   `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
     // );
-    // const {data} = coreResponse.data;
+    const {data} = coreResponse.data;
     dispatch(fetchSuccess());
     // console.log('res.data', data);
     dispatch({
       type: UPDATE_AUTH_USER,
-      payload: getUserObject(authUserMockData),
+      // payload: getUserObject(authUserMockData),
+      payload: getUserObject({...data, ...ssoTokenData}),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
@@ -179,8 +184,8 @@ export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
     isOrganizationUser: authUser?.isOrganizationUser,
     isSystemUser: authUser?.isSystemUser,
     userType: authUser?.userType,
-    institute_id: authUser.institute_id,
-    institute: authUser.institute,
+    institute_id: authUser?.institute_id,
+    institute: authUser?.institute,
     organization_id: authUser?.organization_id,
     organization: authUser?.organization,
     authType: AuthType.AUTH2,
