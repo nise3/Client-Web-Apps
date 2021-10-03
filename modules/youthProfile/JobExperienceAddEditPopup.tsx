@@ -10,7 +10,6 @@ import {
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import IconRankType from '../../@softbd/icons/IconRankType';
 import HookFormMuiModal from '../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
 import {
@@ -135,7 +134,6 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRankType />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -149,7 +147,7 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={'xs'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -160,8 +158,8 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            id='company_name'
+            label={messages['common.company_name']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -169,18 +167,35 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='position'
+            label={messages['common.position']}
             register={register}
             errorInstance={errors}
             isLoading={false}
           />
         </Grid>
-
         <Grid item xs={12}>
           <CustomTextInput
-            id='description'
-            label={messages['common.description']}
+            id='type_of_employee'
+            label={messages['common.type_of_employee']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='location'
+            label={messages['common.location']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='job_experience'
+            label={messages['common.job_experience']}
             register={register}
             errorInstance={errors}
             isLoading={false}

@@ -117,6 +117,8 @@ const YouthProfile = () => {
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
+    useState(false);
 
   const closeAddEditModal = useCallback(() => {
     setSelectedItemId(null);
@@ -127,6 +129,19 @@ const YouthProfile = () => {
     setSelectedItemId(itemId);
     setIsOpenAddEditModal(true);
   }, []);
+
+  const closePersonalInfoAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenPersonalInfoAddEditModal(false);
+  }, []);
+
+  const openPersonalInfoAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenPersonalInfoAddEditModal(true);
+    },
+    [],
+  );
 
   return (
     <>
@@ -169,6 +184,7 @@ const YouthProfile = () => {
                       <CustomParabolaButton
                         title={messages['youth_profile.edit_profile'] as string}
                         icon={<BusinessCenter />}
+                        onclick={openPersonalInfoAddEditModal}
                       />
                     </Grid>
                   </Grid>
@@ -430,6 +446,14 @@ const YouthProfile = () => {
         <JobExperienceAddEditPopup
           key={1}
           onClose={closeAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenPersonalInfoAddEditModal && (
+        <JobExperienceAddEditPopup
+          key={1}
+          onClose={closePersonalInfoAddEditModal}
           itemId={selectedItemId}
         />
       )}
