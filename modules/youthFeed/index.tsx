@@ -1,36 +1,35 @@
 import React from 'react';
-import {Container, Grid} from '@material-ui/core';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
 import PostSection from './PostSection';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import RecentJobSection from './RecentJobSection';
 import RecentCourseSection from './RecentCourseSection';
 import SideMenu from '../../@softbd/elements/YouthSideMenu';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import {Container, Grid} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 
-const useStyles = makeStyles((theme: CremaTheme) =>
-  createStyles({
-    container: {
-      margin: '20px auto',
+const useStyles = makeStyles((theme: CremaTheme) => ({
+  container: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  root: {
+    [theme.breakpoints.down('md')]: {
+      alignItems: 'center',
+      flexDirection: 'column',
     },
-    root: {
-      [theme.breakpoints.down('md')]: {
-        alignItems: 'center',
-        flexDirection: 'column',
-      },
-    },
-  }),
-);
+  },
+}));
 
 const YouthFeedPage = () => {
   const classes: any = useStyles();
   return (
-    <Container className={classes.container}>
-      <Grid container spacing={5} className={classes.root}>
+    <Container maxWidth={'xl'} className={classes.container}>
+      <Grid container spacing={2} className={classes.root}>
         <Grid item xs={12} md={3}>
-          <Grid container spacing={5}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <BasicInfo />
             </Grid>
@@ -40,7 +39,7 @@ const YouthFeedPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Grid container spacing={5}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <OverviewSection />
             </Grid>
@@ -53,7 +52,7 @@ const YouthFeedPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={3}>
-          <Grid container spacing={5}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <RecentJobSection />
             </Grid>

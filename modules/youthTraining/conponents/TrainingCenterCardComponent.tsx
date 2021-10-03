@@ -5,10 +5,10 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Chip,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import useStyles from '../index.style';
+import TagChip from '../../../@softbd/elements/display/TagChip';
 
 interface TrainingCenterCardComponentProps {
   trainingCenter: any;
@@ -43,7 +43,7 @@ const TrainingCenterCardComponent: FC<TrainingCenterCardComponentProps> = ({
 
         <Box className={classes.tagBox}>
           {(trainingCenter.tags || []).map((tag: any, index: any) => {
-            return <Chip className='tag' label={tag} key={index} />;
+            return <TagChip label={tag} key={index} />;
           })}
         </Box>
       </CardContent>

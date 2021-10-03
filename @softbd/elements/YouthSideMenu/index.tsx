@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Card, makeStyles} from '@material-ui/core';
+import {Box, Card} from '@mui/material';
 import {
   Business,
   CalendarToday,
@@ -8,8 +8,9 @@ import {
   Receipt,
   Score,
   Settings,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   menuItem: {

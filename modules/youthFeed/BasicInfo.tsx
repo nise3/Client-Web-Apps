@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  LinearProgress,
-  makeStyles,
-} from '@material-ui/core';
+import {Avatar, Box, Button, Card, LinearProgress} from '@mui/material';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import BasicInfoItemBox from '../../@softbd/elements/YouthBasicInfoItemBox';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
