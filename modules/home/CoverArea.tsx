@@ -27,20 +27,26 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid #5e6b0f',
       background: ' #5e6b0f',
       textAlign: 'center',
-      color: '#000',
+      color: '#fff',
       padding: '0 7px 2px 12px',
       marginTop: '13px',
+      marginBottom: '8px',
       marginLeft: '-8px',
       [theme.breakpoints.down('xl')]: {
         width: '100%',
         marginLeft: '-14px',
       },
       [theme.breakpoints.up('md')]: {
-        width: '90px',
+        width: '120px',
         marginLeft: '-24px',
       },
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: '0px',
+      },
     },
-
+    selectOption: {
+      color: '#000',
+    },
     skillSlide: {
       zIndex: 2,
       position: 'absolute',
@@ -142,10 +148,10 @@ const CoverArea = () => {
                 <Grid item xs={3} xl={2}>
                   <Box mt={5} zIndex={'tooltip'}>
                     <NativeSelect disableUnderline className={classes.select}>
-                      <option>দক্ষতা</option>
-                      <option>চাকরি</option>
-                      <option>ব্যবসা</option>
-                      <option>শিক্ষা</option>
+                      <option className={classes.selectOption}>দক্ষতা</option>
+                      <option className={classes.selectOption}>চাকরি</option>
+                      <option className={classes.selectOption}>ব্যবসা</option>
+                      <option className={classes.selectOption}>শিক্ষা</option>
                     </NativeSelect>
                   </Box>
                 </Grid>

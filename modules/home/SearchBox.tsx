@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: '-16px',
       },
       [theme.breakpoints.up('sm')]: {
-        width: '100%',
-        marginLeft: '-24px',
-        paddingBottom: '14px',
+        width: 'calc(100% - 24px)',
+        marginLeft: '0px',
+        paddingBottom: '0px'
       },
       [theme.breakpoints.up('md')]: {
         width: '50%',
@@ -52,7 +52,15 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '0px',
       height: '63px',
       width: '162px',
-      margin: '-8px'
+      margin: '8px 0px'
+    },
+    gridPaddingTop: {
+      paddingTop: '3px !important'
+    },
+    gridButtonWrap: {
+      padding: '0px !important',
+      display: 'flex',
+      justifyContent: 'flex-end'
     },
   }),
 );
@@ -66,7 +74,7 @@ const SearchBox = () => {
 
   return (
     <Grid container xl={12} spacing={2} className={classes.searchBox}>
-      <Grid item xs={12} md={7}>
+      <Grid item xs={12} md={7} className={classes.gridPaddingTop}>
         <TextField
           variant="outlined"
           name="searchBox"
@@ -97,7 +105,7 @@ const SearchBox = () => {
             <option>লোকেশন</option>
           </NativeSelect>
         </Grid>
-        <Grid item xs={6} md={6}>
+        <Grid item xs={6} md={6} className={classes.gridButtonWrap}>
           <Button variant='contained' className={classes.searchButton}>
             অনুসন্ধান
           </Button>
