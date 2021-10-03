@@ -1,21 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Switch,
-  Typography,
-} from '@material-ui/core';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import Image from 'next/image';
 import profileImage from '../../public/images/userPageImages/profileImage.jpeg';
-import {BorderColor, BusinessCenter, CheckCircle} from '@material-ui/icons';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import AddIcon from '@material-ui/icons/Add';
 import youthCV from '../../public/images/youth/youth-cv.jpg';
 import Footer from '../home/Footer';
 import {useIntl} from 'react-intl';
@@ -28,6 +15,23 @@ import Skill from './Skills';
 import CardItem from './component/CardItem';
 import SkillInfo from './SkillInfo';
 import JobExperienceAddEditPopup from './JobExperienceAddEditPopup';
+import {
+  Add,
+  BorderColor,
+  BusinessCenter,
+  CheckCircle,
+} from '@mui/icons-material';
+import {createStyles, makeStyles} from '@mui/styles';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Switch,
+  Typography,
+} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -113,16 +117,31 @@ const YouthProfile = () => {
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
+    useState(false);
 
   const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    setIsOpenAddEditModal(false);
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
+    setIsOpenAddEditModal(true);
   }, []);
+
+  const closePersonalInfoAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenPersonalInfoAddEditModal(false);
+  }, []);
+
+  const openPersonalInfoAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenPersonalInfoAddEditModal(true);
+    },
+    [],
+  );
 
   return (
     <>
@@ -165,6 +184,7 @@ const YouthProfile = () => {
                       <CustomParabolaButton
                         title={messages['youth_profile.edit_profile'] as string}
                         icon={<BusinessCenter />}
+                        onclick={openPersonalInfoAddEditModal}
                       />
                     </Grid>
                   </Grid>
@@ -244,7 +264,6 @@ const YouthProfile = () => {
                     jobPeriod={'2010-present'}
                     postTitle={'software engineer'}
                     jobLocation={'panthapath, dhaka'}
-                    openAddEditModal={openAddEditModal}
                   />
                   <JobExperience
                     jobDescription={
@@ -264,9 +283,36 @@ const YouthProfile = () => {
               <Card className={classes.youthJobExperienceCard}>
                 <CardContent>
                   <CardHeader
-                    headerTitle={messages['common.skills'] as string}
-                    buttonLabel={messages['common.add_new_skill'] as string}
-                    buttonIcon={<AddIcon />}
+                    headerTitle={messages['common.education'] as string}
+                    buttons={[
+                      {
+                        label: messages['common.add_new_education'] as string,
+                        icon: <Add />,
+                      },
+                    ]}
+                  />
+                  <Skill
+                    skillCourseTitle={'Mobile UX Design Course'}
+                    skillCourseLogo={<BusinessCenter />}
+                    skillCourseProvider={'Interaction Design Foundation'}
+                    date={'Oct 2020'}
+                    location={'Dhaka 1215'}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid container xl={12} className={classes.cardSpaceBetween}>
+              <Card className={classes.youthJobExperienceCard}>
+                <CardContent>
+                  <CardHeader
+                    headerTitle={messages['common.certifications'] as string}
+                    buttons={[
+                      {
+                        label: messages['common.add_new_certificate'] as string,
+                        icon: <Add />,
+                      },
+                    ]}
                   />
                   <Skill
                     skillCourseTitle={'Mobile UX Design Course'}
@@ -290,9 +336,38 @@ const YouthProfile = () => {
               <Card className={classes.youthJobExperienceCard}>
                 <CardContent>
                   <CardHeader
+                    headerTitle={messages['common.language'] as string}
+                    buttons={[
+                      {
+                        label: messages['common.add_language'] as string,
+                        icon: <Add />,
+                      },
+                      {
+                        label: messages['common.edit_btn'] as string,
+                        icon: <Add />,
+                      },
+                    ]}
+                  />
+                  <Skill
+                    skillCourseTitle={'English, Bangla, Hindi'}
+                    skillCourseLogo={<BusinessCenter />}
+                    skillCourseProvider={'View Language Proficiency'}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid container xl={12} className={classes.cardSpaceBetween}>
+              <Card className={classes.youthJobExperienceCard}>
+                <CardContent>
+                  <CardHeader
                     headerTitle={messages['common.portfolio'] as string}
-                    buttonLabel={messages['common.edit_btn'] as string}
-                    buttonIcon={<BorderColor />}
+                    buttons={[
+                      {
+                        label: messages['common.edit_btn'] as string,
+                        icon: <BorderColor />,
+                      },
+                    ]}
                   />
                 </CardContent>
                 <HorizontalLine />
@@ -381,7 +456,7 @@ const YouthProfile = () => {
                           variant='contained'
                           color='primary'
                           component='span'>
-                          <AddIcon />
+                          <Add />
                         </Button>
                       </label>
                     </Grid>
@@ -427,6 +502,14 @@ const YouthProfile = () => {
         <JobExperienceAddEditPopup
           key={1}
           onClose={closeAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenPersonalInfoAddEditModal && (
+        <JobExperienceAddEditPopup
+          key={1}
+          onClose={closePersonalInfoAddEditModal}
           itemId={selectedItemId}
         />
       )}

@@ -1,8 +1,8 @@
-import {Box, Card} from '@material-ui/core';
+import {Box, Card} from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {createStyles, makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({

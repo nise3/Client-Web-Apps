@@ -1,18 +1,15 @@
 import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
-  isNeedToSelectOrganization,
   isResponseSuccess,
   isValidationError,
 } from '../../@softbd/utilities/helpers';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import IconRankType from '../../@softbd/icons/IconRankType';
 import HookFormMuiModal from '../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
 import {
@@ -22,6 +19,8 @@ import {
 import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
+import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
+import {FormControlLabel, Switch} from '@mui/material';
 
 interface JobExperienceAddEditPopupProps {
   itemId: number | null;
@@ -65,149 +64,175 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   }, [messages]);
 
   const {
-    control,
     register,
     reset,
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<RankType>({
+  } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  let itemData = {};
+  const [itemData, setItemData] = useState<any>(null);
 
-  if (itemId) {
-    itemData = {
-      company_name: 'softbd ltd',
-      position: 'software engineer',
-      type_of_employee: 'full time',
-      location: 'dhaka 1232',
-      job_description: 'building web apps',
-      start_date: '12 oct 2993',
-      end_date: '12 oct 2993',
-    };
-  }
+  useEffect(() => {
+    if (itemId) {
+      setItemData({
+        company_name: 'softbd ltd',
+        position: 'software engineer',
+        type_of_employee: 'full time',
+        location: 'dhaka 1232',
+        job_description: 'building web apps',
+        start_date: '12 oct 1993',
+        end_date: '12 oct 1993',
+      });
+    }
+  }, [itemId]);
 
-  // useEffect(() => {
-  //   if (itemData) {
-  //     reset({
-  //       company_name: itemData?.company_name,
-  //       position: itemData?.position,
-  //       type_of_employee: itemData?.type_of_employee,
-  //       location: itemData?.location,
-  //       job_description: itemData?.job_description,
-  //       start_date: itemData?.start_date,
-  //       end_date: itemData?.end_date,
-  //     });
-  //   } else {
-  //     reset(initialValues);
-  //   }
-  // }, [itemData]);
-  //
-  // const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
-  //   const response = itemId
-  //     ? await updateRankType(itemId, data)
-  //     : await createRankType(data);
-  //   if (isResponseSuccess(response) && isEdit) {
-  //     successStack(
-  //       <IntlMessages
-  //         id='common.subject_updated_successfully'
-  //         values={{subject: <IntlMessages id='rank_types.label' />}}
-  //       />,
-  //     );
-  //     mutateRankType();
-  //     props.onClose();
-  //   } else if (isResponseSuccess(response) && !isEdit) {
-  //     successStack(
-  //       <IntlMessages
-  //         id='common.subject_created_successfully'
-  //         values={{subject: <IntlMessages id='rank_types.label' />}}
-  //       />,
-  //     );
-  //     props.onClose();
-  //   } else if (isValidationError(response)) {
-  //     setServerValidationErrors(response.errors, setError, validationSchema);
-  //   }
-  // };
-  //
-  // return (
-  //   <HookFormMuiModal
-  //     open={true}
-  //     {...props}
-  //     title={
-  //       <>
-  //         <IconRankType />
-  //         {isEdit ? (
-  //           <IntlMessages
-  //             id='common.edit'
-  //             values={{subject: <IntlMessages id='rank_types.label' />}}
-  //           />
-  //         ) : (
-  //           <IntlMessages
-  //             id='common.add_new'
-  //             values={{subject: <IntlMessages id='rank_types.label' />}}
-  //           />
-  //         )}
-  //       </>
-  //     }
-  //     maxWidth={'sm'}
-  //     handleSubmit={handleSubmit(onSubmit)}
-  //     actions={
-  //       <>
-  //         <CancelButton onClick={props.onClose} isLoading={isLoading} />
-  //         <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
-  //       </>
-  //     }>
-  //     <Grid container spacing={5}>
-  //       <Grid item xs={6}>
-  //         <CustomTextInput
-  //           id='title_en'
-  //           label={messages['common.title_en']}
-  //           register={register}
-  //           errorInstance={errors}
-  //           isLoading={isLoading}
-  //         />
-  //       </Grid>
-  //       <Grid item xs={6}>
-  //         <CustomTextInput
-  //           id='title_bn'
-  //           label={messages['common.title_bn']}
-  //           register={register}
-  //           errorInstance={errors}
-  //           isLoading={isLoading}
-  //         />
-  //       </Grid>
-  //       {authUser && isNeedToSelectOrganization(authUser) && (
-  //         <Grid item xs={6}>
-  //           <CustomFormSelect
-  //             id='organization_id'
-  //             label={messages['organization.label']}
-  //             isLoading={isLoadingOrganizations}
-  //             control={control}
-  //             options={organizations}
-  //             optionValueProp={'id'}
-  //             optionTitleProp={['title_en', 'title_bn']}
-  //             errorInstance={errors}
-  //           />
-  //         </Grid>
-  //       )}
-  //
-  //       <Grid item xs={6}>
-  //         <CustomTextInput
-  //           id='description'
-  //           label={messages['common.description']}
-  //           register={register}
-  //           errorInstance={errors}
-  //           isLoading={isLoading}
-  //           multiline={true}
-  //           rows={3}
-  //         />
-  //       </Grid>
-  //     </Grid>
-  //   </HookFormMuiModal>
-  // );
-  return <></>;
+  useEffect(() => {
+    if (itemData) {
+      reset({
+        company_name: itemData.company_name,
+        position: itemData?.position,
+        type_of_employee: itemData?.type_of_employee,
+        location: itemData?.location,
+        job_description: itemData?.job_description,
+        start_date: itemData?.start_date,
+        end_date: itemData?.end_date,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
+
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    const response = itemId
+      ? await updateRankType(itemId, data)
+      : await createRankType(data);
+    if (isResponseSuccess(response) && isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+      props.onClose();
+    } else if (isResponseSuccess(response) && !isEdit) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+      props.onClose();
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
+    }
+  };
+
+  return (
+    <HookFormMuiModal
+      open={true}
+      {...props}
+      title={
+        <>
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='job_experience.label' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='job_experience.label' />}}
+            />
+          )}
+        </>
+      }
+      maxWidth={'xs'}
+      handleSubmit={handleSubmit(onSubmit)}
+      actions={
+        <>
+          <CancelButton onClick={props.onClose} isLoading={false} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
+        </>
+      }>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='company_name'
+            label={messages['common.company_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='position'
+            label={messages['common.position']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='type_of_employee'
+            label={messages['common.type_of_employee']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='location'
+            label={messages['common.location']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='job_description'
+            label={messages['job_experience.job_description']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomDateTimeField
+            id='start_date'
+            label={messages['job_experience.start_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomDateTimeField
+            id='end_date'
+            label={messages['job_experience.end_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={<Switch defaultChecked />}
+            label='I currently work here'
+          />
+        </Grid>
+      </Grid>
+    </HookFormMuiModal>
+  );
 };
 
 export default JobExperienceAddEditPopup;

@@ -1,13 +1,13 @@
 import {useIntl} from 'react-intl';
 import HorizontalLine from './component/HorizontalLine';
-import {Box, Grid, Typography} from '@material-ui/core';
 import CustomParabolaButton from './component/CustomParabolaButton';
-import {AccessTime, BorderColor} from '@material-ui/icons';
 import VerticalLine from './component/VerticalLine';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import React from 'react';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
+import {createStyles, makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import {AccessTime, BorderColor} from '@mui/icons-material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {Box, Grid, Typography} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -30,8 +30,8 @@ type SkillProp = {
   skillCourseTitle: string;
   skillCourseLogo: any;
   skillCourseProvider: string;
-  date: string;
-  location: string;
+  date?: string;
+  location?: string;
 };
 
 const Skill = ({
@@ -80,22 +80,24 @@ const Skill = ({
         </Grid>
       </Grid>
       <Grid item container>
-        <Box className={classes.skillIssueDate} mb={4}>
-          <AccessTime />
-          <Typography className={classes.accessTime}>{date}</Typography>
-          <VerticalLine
-            lineHeight={'15px'}
-            lineWidth={'2px'}
-            marginLeft={2}
-            marginRight={2}
-          />
-          {location && (
-            <Box className={classes.skillIssueDate}>
-              <LocationOnIcon />
-              <Typography>{location}</Typography>
-            </Box>
-          )}
-        </Box>
+        {location && (
+          <Box className={classes.skillIssueDate} mb={4}>
+            <AccessTime />
+            <Typography className={classes.accessTime}>{date}</Typography>
+            <VerticalLine
+              lineHeight={'15px'}
+              lineWidth={'2px'}
+              marginLeft={2}
+              marginRight={2}
+            />
+            {location && (
+              <Box className={classes.skillIssueDate}>
+                <LocationOnIcon />
+                <Typography>{location}</Typography>
+              </Box>
+            )}
+          </Box>
+        )}
       </Grid>
     </>
   );
