@@ -5,7 +5,7 @@ import notification, {
 } from '../../@crema/services/db/notifications/notification';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import NotificationItem from '../../@crema/core/Notifications/NotificationItem';
+import NotificationItem from './NotificationItem';
 import {
   Box,
   Button,
