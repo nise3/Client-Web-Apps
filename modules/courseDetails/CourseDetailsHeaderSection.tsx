@@ -1,18 +1,36 @@
-import React from 'react';
+import React, {FC} from 'react';
 import useStyle from './index.style';
-import {Box, Container, Grid} from '@mui/material';
+import {Box, CardMedia, Container, Grid, Typography} from '@mui/material';
+import TagChip from '../../@softbd/elements/display/TagChip';
 
-const CourseDetailsHeaderSection = () => {
+interface CourseDetailsHeaderProps {
+  course: any;
+}
+
+const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const classes: any = useStyle();
 
   return (
     <Box className={classes.headerRoot}>
-      <Container>
-        <Grid container>
+      <Container maxWidth={'xl'}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={6}>
-            Course Fee
+            <Box className={classes.courseFee}>
+              Course Fees:{' '}
+              <Box className={classes.courseFeeStyle}>{course.fee} TK</Box>
+            </Box>
+            <Typography variant={'h4'} className={classes.courseHeaderTitle}>
+              {course.title}
+            </Typography>
+
+            {(course.tags || []).map((tag: any, index: any) => {
+              return <TagChip label={tag} key={index} />;
+            })}
+            {course.courseEnrolled && <TagChip label={course.courseEnrolled} />}
           </Grid>
-          <Grid item xs={12} sm={6} md={6}></Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <CardMedia image={course.logo} className={classes.headerImage} />
+          </Grid>
         </Grid>
       </Container>
     </Box>
