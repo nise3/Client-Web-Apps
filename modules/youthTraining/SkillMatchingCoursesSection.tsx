@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import CourseCardComponent from './conponents/CourseCardComponent';
 import useStyles from './index.style';
+import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 
 const SkillMatchingCoursesSection = () => {
   const classes = useStyles();

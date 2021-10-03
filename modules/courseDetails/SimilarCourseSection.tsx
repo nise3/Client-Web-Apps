@@ -1,11 +1,11 @@
 import React from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import useStyles from './index.style';
+import useStyle from './index.style';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 
-const PopularCoursesSection = () => {
-  const classes = useStyles();
+const SimilarCourseSection = () => {
+  const classes = useStyle();
 
   const courseList = [
     {
@@ -51,12 +51,12 @@ const PopularCoursesSection = () => {
   ];
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} mt={'20px'}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
             <Typography variant={'h5'} className={classes.sectionTitle}>
-              Popular Courses
+              Skill Matching Courses
             </Typography>
           </Grid>
           <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
@@ -68,10 +68,10 @@ const PopularCoursesSection = () => {
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           {courseList.map((course: any) => {
             return (
-              <Grid item xs={12} sm={6} md={3} key={course.id}>
+              <Grid item xs={12} sm={4} md={3} key={course.id}>
                 <CourseCardComponent course={course} />
               </Grid>
             );
@@ -82,4 +82,4 @@ const PopularCoursesSection = () => {
   );
 };
 
-export default PopularCoursesSection;
+export default SimilarCourseSection;

@@ -56,16 +56,6 @@ const useStyles = makeStyles((theme) => ({
     top: 110,
     left: 10,
   },
-  courseFee: {
-    textTransform: 'uppercase',
-    marginTop: 20,
-    display: 'flex',
-    marginBottom: 5,
-  },
-  courseFeeStyle: {
-    marginLeft: 10,
-    color: theme.palette.primary.main,
-  },
   tagBox: {
     marginTop: 15,
   },
