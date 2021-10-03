@@ -35,6 +35,7 @@ import CustomContentCard from './CustomContentCard';
 import EducationAddEditPopup from './EducationAddEditPopup';
 import CertificateAddEditPopup from './CertificateAddEditPopup';
 import LanguageAddEditPopup from './LanguageAddEditPopup';
+import LanguageProficiencyViewPopup from './LanguageProficiencyViewPopup';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -137,6 +138,10 @@ const YouthProfile = () => {
     useState(false);
   const [isOpenLanguageAddEditModal, setIsOpenLanguageAddEditModal] =
     useState(false);
+  const [
+    isOpenLanguageProficiencyViewModal,
+    setIsOpenLanguageProficiencyViewModal,
+  ] = useState(false);
   const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
     useState(false);
   const [jobExperiences, setJobExperiences] = useState<
@@ -229,6 +234,19 @@ const YouthProfile = () => {
     (itemId: number | null = null) => {
       setSelectedItemId(itemId);
       setIsOpenLanguageAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeLanguageProficiencyViewModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenLanguageProficiencyViewModal(false);
+  }, []);
+
+  const openLanguageProficiencyViewModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenLanguageProficiencyViewModal(true);
     },
     [],
   );
@@ -446,7 +464,7 @@ const YouthProfile = () => {
                         }}
                         component={'span'}
                         onClick={() =>
-                          openLanguageAddEditModal(selectedItemId)
+                          openLanguageProficiencyViewModal(selectedItemId)
                         }>
                         View language proficiency
                       </Box>
@@ -625,6 +643,14 @@ const YouthProfile = () => {
         <LanguageAddEditPopup
           key={1}
           onClose={closeLanguageAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenLanguageProficiencyViewModal && (
+        <LanguageProficiencyViewPopup
+          key={1}
+          onClose={closeLanguageProficiencyViewModal}
           itemId={selectedItemId}
         />
       )}
