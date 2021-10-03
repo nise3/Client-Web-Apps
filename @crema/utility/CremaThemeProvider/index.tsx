@@ -1,5 +1,11 @@
 import React, {useContext, useEffect} from 'react';
-import {createTheme, StyledEngineProvider, Theme} from '@mui/material/styles';
+import {
+  createTheme,
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider,
+
+} from '@mui/material/styles';
 
 import AppContext from '../AppContext';
 import AppLocale from '../../../shared/localization';
@@ -12,18 +18,20 @@ import {
 } from '../../../shared/constants/AppEnums';
 import {useUrlSearchParams} from 'use-url-search-params';
 import AppContextPropsType from '../../../types/AppContextPropsType';
-import ThemeProvider from '@mui/styles/ThemeProvider';
 
 declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
+  interface DefaultTheme extends Theme {
+  }
 }
 
 declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
+  interface DefaultTheme extends Theme {
+  }
 }
 
 declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
+  interface DefaultTheme extends Theme {
+  }
 }
 
 const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
