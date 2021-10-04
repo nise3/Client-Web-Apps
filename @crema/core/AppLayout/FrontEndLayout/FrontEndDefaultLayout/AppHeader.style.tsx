@@ -55,6 +55,12 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   menuIcons: {
     height: '0.6em',
   },
+  menuItem: {
+    padding: '10px 20px',
+  },
+  menuItemMobile: {
+    padding: '18px 20px 18px 12px',
+  },
   desktopMenu: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
