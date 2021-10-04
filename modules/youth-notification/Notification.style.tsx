@@ -85,5 +85,18 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   card: {
     marginTop: 0,
   },
+  textBase: {
+    fontSize: 14,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+  },
+  minWidth0: {
+    minWidth: 0,
+  },
+  listItemRoot: {
+    padding: '8px 20px',
+  },
 }));
 export default useStyles;

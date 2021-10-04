@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  Link,
   Paper,
   Radio,
   RadioGroup,
@@ -26,18 +27,27 @@ const YouthRegistration = () => {
   const {messages} = useIntl();
   const isLoading = false;
   const gender = messages['common.gender'];
+  const alreadyHaveAccount = messages['common.alreadyHaveAccount'];
+  const signInHere = messages['common.signInHere'];
+  const registration = messages['common.registration'];
+  const disability = messages['common.physical_disability'];
+  const yes = messages['common.yes'];
+  const no = messages['common.no'];
+  const male = messages['common.male'];
+  const female = messages['common.female'];
+  const others = messages['common.others'];
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      firstName: yup
+      first_name: yup
         .string()
         .trim()
         .required()
-        .label(messages['common.firstName'] as string),
-      lastName: yup
+        .label(messages['common.first_name'] as string),
+      last_name: yup
         .string()
         .trim()
         .required()
-        .label(messages['common.lastName'] as string),
+        .label(messages['common.last_name'] as string),
       skill: yup
         .string()
         .trim()
@@ -65,11 +75,11 @@ const YouthRegistration = () => {
         .required()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
-      retypePassword: yup
+      retype_password: yup
         .string()
         .trim()
         .required()
-        .label(messages['common.retypePassword'] as string),
+        .label(messages['common.retype_password'] as string),
       password: yup
         .string()
         .trim()
@@ -89,34 +99,32 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async () => {};
   return (
-    <Container maxWidth={'md'} style={{marginTop: '100px'}}>
+    <Container maxWidth={'md'} style={{marginTop: '50px'}}>
       <Paper className={classes.PaperBox}>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-          Registration
+          {registration}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3} maxWidth={'md'}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='firstName'
-                label={messages['common.firstName']}
+                id='first_name'
+                label={messages['common.first_name']}
                 register={register}
-                isLoading={isLoading}
                 errorInstance={errors}
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='lastName'
-                label={messages['common.lastName']}
+                id='last_name'
+                label={messages['common.last_name']}
                 register={register}
-                isLoading={isLoading}
                 errorInstance={errors}
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='skill'
                 label={messages['common.select_your_skills']}
@@ -128,28 +136,27 @@ const YouthRegistration = () => {
               />
             </Grid>
 
-            <Grid item xs={6}>
-              <FormLabel component='legend'>Disability</FormLabel>
+            <Grid item xs={12} md={6}>
+              <FormLabel component='legend'>{disability}</FormLabel>
               <RadioGroup
                 row
                 aria-label='position'
                 name='position'
                 defaultValue='No'>
-                <FormControlLabel value='Yes' control={<Radio />} label='Yes' />
-                <FormControlLabel value='No' control={<Radio />} label='No' />
+                <FormControlLabel value='Yes' control={<Radio />} label={yes} />
+                <FormControlLabel value='No' control={<Radio />} label={no} />
               </RadioGroup>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomDateTimeField
                 id='date_of_birth'
                 label={messages['common.date_of_birth']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='physical_disability'
                 label={messages['common.physical_disability']}
@@ -160,65 +167,61 @@ const YouthRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='email'
                 label={messages['common.email']}
                 register={register}
-                isLoading={isLoading}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='mobile'
                 label={messages['common.mobile']}
                 register={register}
-                isLoading={isLoading}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='retypePassword'
-                label={messages['common.retypePassword']}
+                id='retype_password'
+                label={messages['common.retype_password']}
                 register={register}
-                isLoading={isLoading}
                 errorInstance={errors}
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password'
                 label={messages['common.password']}
                 register={register}
-                isLoading={isLoading}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <FormControl component='fieldset'>
                 <FormLabel component='legend'>{gender}</FormLabel>
                 <RadioGroup
                   row
                   aria-label='position'
                   name='position'
-                  defaultValue='Male'>
+                  defaultValue='male'>
                   <FormControlLabel
-                    value='Male'
+                    value='male'
                     control={<Radio />}
-                    label='Male'
+                    label={male}
                   />
                   <FormControlLabel
-                    value='Female'
+                    value='female'
                     control={<Radio />}
-                    label='Female'
+                    label={female}
                   />
                   <FormControlLabel
                     value='others'
                     control={<Radio />}
-                    label='others'
+                    label={others}
                   />
                 </RadioGroup>
               </FormControl>
@@ -230,7 +233,7 @@ const YouthRegistration = () => {
           </Grid>
         </form>
         <Typography style={{marginTop: '5px'}}>
-          Already have an account? sing in here
+          {alreadyHaveAccount} <Link>{signInHere}</Link>
         </Typography>
       </Paper>
     </Container>

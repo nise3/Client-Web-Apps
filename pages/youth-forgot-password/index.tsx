@@ -11,7 +11,7 @@ export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.forgetPassword'] as string} />
+      <PageMeta title={messages['common.forgot_password'] as string} />
       <YouthForgotPasswordPage />
     </>
   );

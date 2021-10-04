@@ -3,29 +3,14 @@ import Box from '@mui/material/Box';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import {IconButton, ListItem, Menu, MenuItem, Typography} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../shared/constants/AppEnums';
 import clsx from 'clsx';
 import {NotificationData} from '../../@crema/services/db/notifications/notification';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 const options = ['None', 'asds'];
+import useStyles from './Notification.style';
 
 const ITEM_HEIGHT = 48;
-const useStyles = makeStyles(() => ({
-  textBase: {
-    fontSize: 14,
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-  },
-  minWidth0: {
-    minWidth: 0,
-  },
-  listItemRoot: {
-    padding: '8px 20px',
-  },
-}));
 
 interface NotificationItemProps {
   item: NotificationData;
