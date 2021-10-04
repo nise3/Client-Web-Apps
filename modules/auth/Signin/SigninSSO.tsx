@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   btnRoot: {
     // @ts-ignore
-    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
     width: '10rem',
     fontWeight: Fonts.REGULAR,
     fontSize: 16,

@@ -78,57 +78,67 @@ export interface CremaTheme extends Theme {
     danger: string;
   };
   divider: string;
-  overrides: {
+  components: {
     MuiTypography: {
-      h1: {
-        fontSize: number;
-      };
-      h2: {
-        fontSize: number;
-      };
-      h3: {
-        fontSize: number;
-      };
-      h4: {
-        fontSize: number;
-      };
-      h5: {
-        fontSize: number;
-      };
-      h6: {
-        fontSize: number;
-      };
-      subtitle1: {
-        fontSize: number;
-      };
-      subtitle2: {
-        fontSize: number;
-      };
-      body1: {
-        fontSize: number;
-      };
-      body2: {
-        fontSize: number;
+      styleOverrides: {
+        h1: {
+          fontSize: number;
+        };
+        h2: {
+          fontSize: number;
+        };
+        h3: {
+          fontSize: number;
+        };
+        h4: {
+          fontSize: number;
+        };
+        h5: {
+          fontSize: number;
+        };
+        h6: {
+          fontSize: number;
+        };
+        subtitle1: {
+          fontSize: number;
+        };
+        subtitle2: {
+          fontSize: number;
+        };
+        body1: {
+          fontSize: number;
+        };
+        body2: {
+          fontSize: number;
+        };
       };
     };
     MuiToggleButton: {
-      root: {
-        borderRadius: number;
+      styleOverrides: {
+        root: {
+          borderRadius: number;
+        };
       };
     };
     MuiCardLg: {
-      root: {
-        borderRadius: number;
+      styleOverrides: {
+        root: {
+          borderRadius: number;
+        };
       };
     };
     MuiCard: {
-      root: {
-        borderRadius: number;
+      styleOverrides: {
+        root: {
+          borderRadius: number;
+        };
       };
     };
     MuiButton: {
-      root: {
-        borderRadius: number;
+      styleOverrides: {
+        root: {
+          borderRadius: number;
+        };
       };
     };
   };

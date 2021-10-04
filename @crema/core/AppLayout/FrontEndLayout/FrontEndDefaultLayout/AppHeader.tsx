@@ -42,6 +42,24 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       transformOrigin={{vertical: 'top', horizontal: 'right'}}
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Home className={classes.menuIcons} /> হোম
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <WorkIcon className={classes.menuIcons} />
+        চাকরি
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <ListAltIcon className={classes.menuIcons} />
+        নোটিশ
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
+        কার্যক্রম
+      </MenuItem>
       <MenuItem className={classes.menuItemRoot}>
         <Notifications />
       </MenuItem>
@@ -60,21 +78,21 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
             <AppLogo />
             <Box className={classes.grow} />
             <Box className={clsx(classes.sectionDesktop)}>
-              <Box component='span'>
+              <Box component='span' className={classes.menuItem}>
                 <Home className={classes.menuIcons} /> হোম
               </Box>
-              <Box component='span'>
+              <Box component='span' className={classes.menuItem}>
                 <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
               </Box>
-              <Box component='span'>
+              <Box component='span' className={classes.menuItem}>
                 <WorkIcon className={classes.menuIcons} />
                 চাকরি
               </Box>
-              <Box component='span'>
+              <Box component='span' className={classes.menuItem}>
                 <ListAltIcon className={classes.menuIcons} />
                 নোটিশ
               </Box>
-              <Box component='span'>
+              <Box component='span' className={classes.menuItem}>
                 <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
                 কার্যক্রম
               </Box>

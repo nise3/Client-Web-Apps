@@ -21,12 +21,18 @@ axiosInstance.interceptors.request.use(
 
     let urlPath = config.url?.split('/')[1];
 
+    // export const CORE_SERVICE_PATH = ':8008/core/api/v1';
+    // export const ORGANIZATION_SERVICE_PATH = ':8010/org/api/v1';
+    // export const INSTITUTE_SERVICE_PATH = ':8009/institute/api/v1';
     if (urlPath == 'institute') {
-      apiToken = token.instituteApi;
+      config.baseURL = API_BASE_URL + ':8009';
+      config.url = config.url?.replace('/institute', '');
     } else if (urlPath == 'core') {
-      apiToken = token.coreApi;
+      config.baseURL = API_BASE_URL + ':8008';
+      config.url = config.url?.replace('/core', '');
     } else if (urlPath == 'org') {
-      apiToken = token.orgApi;
+      config.baseURL = API_BASE_URL + ':8010';
+      config.url = config.url?.replace('/org', '');
     }
 
     config.headers = {
