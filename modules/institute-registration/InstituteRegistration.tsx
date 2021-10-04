@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import useStyles from '../youth-registration/Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -6,30 +6,17 @@ import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
-import yup from '../../@softbd/libs/yup';
-import {yupResolver} from '@hookform/resolvers/yup';
 
 const InstituteRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const isLoading = false;
-
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      company_name: yup
-        .string()
-        .required()
-        .label(messages['common.code'] as string),
-    });
-  }, [messages]);
   const {
     control,
     register,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+  } = useForm();
 
   const onSubmit: SubmitHandler<any> = async () => {};
 
