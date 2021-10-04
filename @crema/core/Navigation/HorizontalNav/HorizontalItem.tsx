@@ -49,17 +49,17 @@ const HorizontalItem: React.FC<HorizontalItemProps> = ({item, dense}) => {
         active: pathname === item.url,
       })}>
       {item.icon && (
-        <Box fontSize={{xs: 16, xl: 18}} mr={3} clone>
+        <Box fontSize={{xs: 16, xl: 18}} mr={3}>
           <Icon style={{color: active ? 'white' : 'action'}}>{item.icon}</Icon>
         </Box>
       )}
       <ListItemText
         className='navLinkTextSubmenu'
-        primary={<IntlMessages id={item.messageId}/>}
+        primary={<IntlMessages id={item.messageId} />}
       />
       {item.count && (
-        <Box ml={4} clone>
-          <Badge count={item.count} color={item.color}/>
+        <Box ml={4}>
+          <Badge count={item.count} color={item.color} />
         </Box>
       )}
     </ListItem>
