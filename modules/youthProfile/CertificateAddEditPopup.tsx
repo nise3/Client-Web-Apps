@@ -20,47 +20,41 @@ import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
-import {FormControlLabel, Switch} from '@mui/material';
 
-interface JobExperienceAddEditPopupProps {
+interface CertificateAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
 }
 
 const initialValues = {
-  company_name: '',
-  position: '',
-  type_of_employee: '',
+  certification: '',
+  institution: '',
   location: '',
-  job_description: '',
   start_date: '',
   end_date: '',
+  certificate_file: '',
 };
 
-const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
+const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   itemId,
   ...props
 }) => {
-  console.log('item id:', itemId);
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      company_name: yup
+      certification: yup
         .string()
-        .label(messages['common.company_name'] as string),
-      position: yup.string().label(messages['common.position'] as string),
-      type_of_employee: yup
-        .string()
-        .label(messages['common.type_of_employee'] as string),
+        .label(messages['certification.label'] as string),
+      institute: yup.string().label(messages['common.institute'] as string),
       location: yup.string().label(messages['common.location'] as string),
-      job_description: yup
-        .string()
-        .label(messages['common.job_description'] as string),
       start_date: yup.string().label(messages['common.start_date'] as string),
       end_date: yup.string().label(messages['common.end_date'] as string),
+      certificate_file: yup
+        .string()
+        .label(messages['certificate.upload_certificate'] as string),
     });
   }, [messages]);
 
@@ -79,13 +73,12 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   useEffect(() => {
     if (itemId) {
       setItemData({
-        company_name: 'softbd ltd',
-        position: 'software engineer',
-        type_of_employee: 'full time',
-        location: 'dhaka 1232',
-        job_description: 'building web apps',
-        start_date: '12 oct 1993',
-        end_date: '12 oct 1993',
+        certification: 'ML',
+        institution: 'h20.io',
+        location: 'australia',
+        start_date: '16 oct 2021',
+        end_date: '30 dec 2021',
+        certificate_file: '',
       });
     }
   }, [itemId]);
@@ -93,13 +86,15 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        company_name: itemData.company_name,
-        position: itemData?.position,
-        type_of_employee: itemData?.type_of_employee,
-        location: itemData?.location,
-        job_description: itemData?.job_description,
-        start_date: itemData?.start_date,
-        end_date: itemData?.end_date,
+        exam: itemData.exam,
+        board: itemData?.board,
+        institution: itemData?.institution,
+        roll_no: itemData?.roll_no,
+        reg_no: itemData?.reg_no,
+        group: itemData?.group,
+        result_type: itemData?.result_type,
+        result: itemData?.result,
+        passing_year: itemData?.passing_year,
       });
     } else {
       reset(initialValues);
@@ -140,12 +135,12 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='job_experience.label' />}}
+              values={{subject: <IntlMessages id='certification.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='job_experience.label' />}}
+              values={{subject: <IntlMessages id='certification.label' />}}
             />
           )}
         </>
@@ -161,8 +156,8 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='company_name'
-            label={messages['common.company_name']}
+            id='certification'
+            label={messages['certification.label']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -170,17 +165,8 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='position'
-            label={messages['common.position']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='type_of_employee'
-            label={messages['common.type_of_employee']}
+            id='institute'
+            label={messages['institute.label']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -193,17 +179,6 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='job_description'
-            label={messages['job_experience.job_description']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-            multiline={true}
-            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -226,9 +201,13 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControlLabel
-            control={<Switch defaultChecked />}
-            label='I currently work here'
+          <CustomTextInput
+            id='certificate_file'
+            label={messages['certificate.certificate_file']}
+            type={'file'}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
           />
         </Grid>
       </Grid>
@@ -236,4 +215,4 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   );
 };
 
-export default JobExperienceAddEditPopup;
+export default CertificateAddEditPopup;

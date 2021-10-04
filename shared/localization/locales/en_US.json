@@ -194,7 +194,6 @@
   "common.row_status" : "Status",
   "common.profile_name": "Profile Name",
   "common.user_name": "Username",
-  "common.company_name": "Company Name",
   "common.company_type": "Company type",
   "common.company_address": "Company address",
   "common.designation": "Designation",
@@ -355,6 +354,11 @@
   "common.add_new_education": "Add New Education",
   "common.add_new_certificate": "Add New Certificate",
   "common.language": "Language",
-  "common.add_language": "Add Language"
-
+  "common.add_language": "Add Language",
+  "education.label": "Education",
+  "language.label": "language",
+  "language.read": "Read",
+  "language.write": "Write",
+  "language.speak": "Speak",
+  "language.understand": "Understand"
 }

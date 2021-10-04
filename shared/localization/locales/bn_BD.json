@@ -361,7 +361,18 @@
   "common.education": "শিক্ষা",
   "common.certifications": "সনদপত্রসমূহ",
   "common.add_new_education": "নতুন শিক্ষা যোগ করুন",
+  "education.label": "শিক্ষা",
   "common.add_new_certificate": "নতুন সনদপত্র যোগ করুন",
   "common.language": "ভাষা",
-  "common.add_language": "ভাষা যোগ করুন"
+  "common.add_language": "ভাষা যোগ করুন",
+  "certification.label": "সনদপত্র",
+  "certification.certificate_file": "ফাইল আপলোড করুন",
+  "language.label": "ভাষা",
+  "language.read": "পড়া",
+  "language.write": "লেখা",
+  "language.speak": "কথোপকথন",
+  "language.understand": "বোঝা",
+  "common.easily": "সহজ",
+  "common.not_easily": "কঠিন",
+  "common.add_new_portfolio": "নতুন পোর্টফলিও যোগ করুন"
 }
