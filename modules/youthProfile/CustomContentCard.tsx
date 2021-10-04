@@ -2,7 +2,7 @@ import {useIntl} from 'react-intl';
 import HorizontalLine from './component/HorizontalLine';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import VerticalLine from './component/VerticalLine';
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {createStyles, makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {AccessTime, BorderColor} from '@mui/icons-material';
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 type CustomContentCardProp = {
   contentTitle: string;
   contentLogo: any;
-  contentServiceProvider: string | element;
+  contentServiceProvider: string | ReactElement;
   contentEditButton?: any;
   date?: string;
   location?: string;
