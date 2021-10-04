@@ -36,6 +36,9 @@ import EducationAddEditPopup from './EducationAddEditPopup';
 import CertificateAddEditPopup from './CertificateAddEditPopup';
 import LanguageAddEditPopup from './LanguageAddEditPopup';
 import LanguageProficiencyViewPopup from './LanguageProficiencyViewPopup';
+import referencePeopleAvatar from '../../public/images/youth/avatar.png';
+import Reference from './Reference';
+import ReferenceAddEditPopup from './ReferenceAddEditPopup';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -125,6 +128,25 @@ type JobExperienceProp = {
   jobDescription?: string;
 };
 
+const references = [
+  {
+    name: 'Istiak',
+    position: 'Ui/UX designer',
+    image: referencePeopleAvatar,
+    email: 'istiak@gmail.com',
+    phone: '037583838',
+    location: 'mirpur 292010',
+  },
+  {
+    name: 'Md. Istiak Ahmen',
+    position: 'Software Engineer',
+    image: referencePeopleAvatar,
+    email: 'istiak@gmail.com',
+    phone: '037583838',
+    location: 'Mirpur 292010',
+  },
+];
+
 const YouthProfile = () => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -146,6 +168,8 @@ const YouthProfile = () => {
     useState(false);
 
   const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
+    useState(false);
+  const [isOpenReferenceAddEditModal, setIsOpenReferenceAddEditModal] =
     useState(false);
   const [jobExperiences, setJobExperiences] = useState<
     Array<JobExperienceProp> | []
@@ -267,6 +291,18 @@ const YouthProfile = () => {
     [],
   );
 
+  const closeReferenceAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenReferenceAddEditModal(false);
+  }, []);
+
+  const openReferenceAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenReferenceAddEditModal(true);
+    },
+    [],
+  );
   return (
     <>
       <Container className={classes.container}>
@@ -494,6 +530,37 @@ const YouthProfile = () => {
               <Card className={classes.youthJobExperienceCard}>
                 <CardContent>
                   <CardHeader
+                    headerTitle={messages['references.label'] as string}
+                    buttons={[
+                      {
+                        label: messages[
+                          'references.add_new_reference'
+                        ] as string,
+                        icon: <BorderColor />,
+                        onclick: () => openReferenceAddEditModal(null),
+                      },
+                    ]}
+                  />
+
+                  {references.map((reference: any, key: number) => (
+                    <Reference
+                      key={key}
+                      name={reference.name}
+                      image={reference.image}
+                      position={reference.position}
+                      phone={reference.phone}
+                      email={reference.email}
+                      location={reference.location}
+                    />
+                  ))}
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid container xl={12} className={classes.cardSpaceBetween}>
+              <Card className={classes.youthJobExperienceCard}>
+                <CardContent>
+                  <CardHeader
                     headerTitle={messages['common.portfolio'] as string}
                     buttons={[
                       {
@@ -665,6 +732,14 @@ const YouthProfile = () => {
         <LanguageAddEditPopup
           key={1}
           onClose={closeLanguageAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenReferenceAddEditModal && (
+        <ReferenceAddEditPopup
+          key={1}
+          onClose={closeReferenceAddEditModal}
           itemId={selectedItemId}
         />
       )}

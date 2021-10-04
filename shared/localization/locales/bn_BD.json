@@ -284,7 +284,7 @@
   "common.user_id": "User id",
   "common.firstName": "First Name",
   "common.lastName": "Last Name",
-  "common.designation": "Designation",
+  "common.designation": "পদবি",
   "common.select_your_skills": "Select Your Skills",
   "physical_disabilities_status": "Physical disabilities status",
   "yup_validation_required_field": "{path} অবশ্যই পূরণ করতে হবে",
@@ -359,7 +359,7 @@
   "job_experience.end_date": "চাকরি শেষের তারিখ",
   "common.location": "অবস্থান",
   "common.education": "শিক্ষা",
-  "common.certifications": "সনদপত্রসমূহ",
+  "common.certifications": "সনদপত্র সমূহ",
   "common.add_new_education": "নতুন শিক্ষা যোগ করুন",
   "education.label": "শিক্ষা",
   "common.add_new_certificate": "নতুন সনদপত্র যোগ করুন",
@@ -374,5 +374,13 @@
   "language.understand": "বোঝা",
   "common.easily": "সহজ",
   "common.not_easily": "কঠিন",
-  "common.add_new_portfolio": "নতুন পোর্টফলিও যোগ করুন"
+  "common.add_new_portfolio": "নতুন পোর্টফলিও যোগ করুন",
+  "references.label": "রেফারেন্স সমূহ",
+  "reference.label": "রেফারেন্স",
+  "references.add_new_reference": "নতুন রেফারেন্স যোগ করুন",
+  "reference.firstname": "নাম",
+  "reference.lastname": "উপাধি",
+  "reference.allow_contact": "যোগাযোগের অনুমতি দিন",
+  "references.edit_reference": "রেফারেন্স সম্পাদনা করুন",
+  "common.relation": "সম্পর্ক"
 }
