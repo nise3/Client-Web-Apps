@@ -142,6 +142,9 @@ const YouthProfile = () => {
     isOpenLanguageProficiencyViewModal,
     setIsOpenLanguageProficiencyViewModal,
   ] = useState(false);
+  const [isOpenPortfolioAddEditModal, setIsOpenPortfolioAddEditModal] =
+    useState(false);
+
   const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
     useState(false);
   const [jobExperiences, setJobExperiences] = useState<
@@ -247,6 +250,19 @@ const YouthProfile = () => {
     (itemId: number | null = null) => {
       setSelectedItemId(itemId);
       setIsOpenLanguageProficiencyViewModal(true);
+    },
+    [],
+  );
+
+  const closePortfolioAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenPortfolioAddEditModal(false);
+  }, []);
+
+  const openPortfolioAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenPortfolioAddEditModal(true);
     },
     [],
   );
@@ -481,8 +497,14 @@ const YouthProfile = () => {
                     headerTitle={messages['common.portfolio'] as string}
                     buttons={[
                       {
+                        label: messages['common.add_new_portfolio'] as string,
+                        icon: <BorderColor />,
+                        onclick: () => openPortfolioAddEditModal(null),
+                      },
+                      {
                         label: messages['common.edit_btn'] as string,
                         icon: <BorderColor />,
+                        onclick: () => openPortfolioAddEditModal(1),
                       },
                     ]}
                   />
@@ -659,6 +681,14 @@ const YouthProfile = () => {
         <JobExperienceAddEditPopup
           key={1}
           onClose={closePersonalInfoAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenPortfolioAddEditModal && (
+        <JobExperienceAddEditPopup
+          key={1}
+          onClose={closePortfolioAddEditModal}
           itemId={selectedItemId}
         />
       )}

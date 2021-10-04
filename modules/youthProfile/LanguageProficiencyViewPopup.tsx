@@ -77,11 +77,10 @@ const LanguageProficiencyViewPopup: FC<LanguageProficiencyViewPopupProps> = ({
   }, [messages]);
 
   const {
-    control,
     reset,
     handleSubmit,
     setError,
-    formState: {errors, isSubmitting},
+    formState: {isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
