@@ -5,6 +5,7 @@ import RecentJobComponent from './components/RecentJobComponet';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {ChevronRight} from '@mui/icons-material';
 import clsx from 'clsx';
+import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentSectionRoot: {
@@ -41,6 +42,8 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 
 const RecentJobSection = () => {
   const classes = useStyle();
+  const {messages} = useIntl();
+
   const items = [
     {
       imageUrl: '/images/skill-matching-job1.jpg',
@@ -95,7 +98,7 @@ const RecentJobSection = () => {
             color={'primary'}
             size={'medium'}
             className={classes.seeMoreButton}>
-            See More jobs
+            {messages['youth_feed.see_more_jobs']}
             <ChevronRight color={'primary'} />
           </Button>
         </Grid>

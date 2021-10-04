@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   menuItem: {
@@ -31,39 +32,57 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 
 const SideMenu = () => {
   const classes: any = useStyles();
+  const {messages} = useIntl();
+
   return (
     <Card>
       <Box className={classes.menuItem}>
         <Person className='itemIcon' />
-        <Box className={classes.displayInline}>My Profile</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.my_profile']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <Receipt className='itemIcon' />
-        <Box className={classes.displayInline}>My CV</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.my_cv']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <DesktopMac className='itemIcon' />
-        <Box className={classes.displayInline}>My Courses</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.my_courses']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <Business className='itemIcon' />
-        <Box className={classes.displayInline}>My Jobs</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.my_jobs']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <CalendarToday className='itemIcon' />
-        <Box className={classes.displayInline}>My Locker</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.my_locker']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <CalendarToday className='itemIcon' />
-        <Box className={classes.displayInline}>My Calender</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.my_calender']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <Score className='itemIcon' />
-        <Box className={classes.displayInline}>Freelance Corner</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.freelance_corner']}
+        </Box>
       </Box>
       <Box className={classes.menuItem}>
         <Settings className='itemIcon' />
-        <Box className={classes.displayInline}>Settings</Box>
+        <Box className={classes.displayInline}>
+          {messages['youth_feed_menu.settings']}
+        </Box>
       </Box>
     </Card>
   );

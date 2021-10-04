@@ -241,10 +241,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
         <Box ref={trainerRef} className={classes.boxMargin}>
           <Box className={classes.sectionTitleStyle}>Trainer</Box>
           <Box className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
-            <Avatar
-              className={classes.trainerImage}
-              src={course.trainer?.image}
-            />
+            <Avatar sx={{height: 60, width: 60}} src={course.trainer?.image} />
             <Box className={classes.trainerNameAndAboutBox}>
               <Box fontWeight={'bold'}>
                 {course.trainer?.firstName} {course.trainer?.lastName}

@@ -2,17 +2,6 @@ import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
-  rootContent: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  headerRoot: {
-    backgroundImage: 'linear-gradient(180deg, #fefffe, #deffef)',
-  },
-  headerImage: {
-    height: 300,
-    width: '100%',
-  },
   courseFee: {
     textTransform: 'uppercase',
     marginTop: 25,
@@ -22,10 +11,6 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
   courseFeeStyle: {
     marginLeft: 10,
     color: theme.palette.primary.main,
-  },
-  courseHeaderTitle: {
-    fontWeight: 'bold',
-    marginBottom: 30,
   },
   sectionTitleStyle: {
     fontSize: 17,
@@ -112,10 +97,6 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     marginLeft: 20,
     display: 'flex',
     flexDirection: 'column',
-  },
-  trainerImage: {
-    height: 60,
-    width: 60,
   },
   sectionTitle: {
     fontWeight: 'bold',

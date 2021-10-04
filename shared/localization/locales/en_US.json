@@ -355,6 +355,32 @@
   "common.add_new_education": "Add New Education",
   "common.add_new_certificate": "Add New Certificate",
   "common.language": "Language",
-  "common.add_language": "Add Language"
+  "common.add_language": "Add Language",
+  "youth_feed.profile_progress": "Profile Complete",
+  "youth_feed.complete_profile": "Complete Your Profile",
+  "common.bid": "BID",
+  "youth_feed_menu.my_profile" : "My Profile",
+  "youth_feed_menu.my_cv" : "My CV",
+  "youth_feed_menu.my_courses" : "My Courses",
+  "youth_feed_menu.my_jobs" : "My Jobs",
+  "youth_feed_menu.my_locker" : "My Locker",
+  "youth_feed_menu.my_calender" : "My Calender",
+  "youth_feed_menu.freelance_corner" : "Freelance Corner",
+  "youth_feed_menu.settings": "Settings",
+  "common.search": "Search",
+  "youth_feed.featured": "Featured",
+  "youth_feed.course_enrolled": "Course Enrolled",
+  "youth_feed.skill_matching_course": "Skill Matching Courses",
+  "youth_feed.total_course": "Total Courses",
+  "youth_feed.job_apply": "Jobs Apply",
+  "youth_feed.total_jobs": "Total Jobs",
+  "youth_feed.skill_matching_job": "Skill Matching Jobs",
+  "youth_feed.recent_post": "Recent Posts",
+  "common.apply_now": "Apply Now",
+  "common.apply": "Apply",
+  "common.details": "Details",
+  "youth_feed.see_more_jobs": "See More Jobs",
+  "youth_feed.see_more_courses": "See More Courses"
+
 
 }

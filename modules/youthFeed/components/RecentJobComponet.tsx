@@ -3,6 +3,7 @@ import {Avatar, Box, Button} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentJobCompRoot: {
@@ -33,6 +34,7 @@ interface RecentJobProps {
 
 const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   const classes = useStyle();
+  const {messages} = useIntl();
 
   return (
     <>
@@ -51,10 +53,10 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
           </Box>
           <Box>
             <Button variant='contained' color='primary' size={'small'}>
-              Apply
+              {messages['common.apply']}
             </Button>
             <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
-              Details
+              {messages['common.details']}
             </Button>
           </Box>
         </Box>

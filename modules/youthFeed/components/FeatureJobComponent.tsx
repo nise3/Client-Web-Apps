@@ -3,6 +3,7 @@ import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   featureJobRoot: {
@@ -44,6 +45,7 @@ interface FeatureJobProps {
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
   const classes = useStyle();
+  const {messages} = useIntl();
 
   return (
     <>
@@ -62,7 +64,7 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
           </Grid>
           <Chip
             variant='outlined'
-            label={'Feature'}
+            label={messages['youth_feed.featured']}
             className={classes.tagStyle}
           />
         </Grid>

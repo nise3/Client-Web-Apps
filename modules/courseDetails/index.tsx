@@ -4,11 +4,8 @@ import CourseDetailsHeaderSection from './CourseDetailsHeaderSection';
 import CourseContentSection from './CourseContentSection';
 import SimilarCourseSection from './SimilarCourseSection';
 import CourseDetailsSkillMatchingJobSection from './CourseDetailsSkillMatchingJobSection';
-import useStyle from './index.style';
 
 const CourseDetails = () => {
-  const classes = useStyle();
-
   const courseDetails = {
     logo: '/images/popular-course1.png',
     title: 'The Python Mega Course: Build 10 Real World Applications',
@@ -42,7 +39,7 @@ const CourseDetails = () => {
   };
 
   return (
-    <Container maxWidth={'xl'} className={classes.rootContent}>
+    <Container maxWidth={'xl'} sx={{marginTop: 5, marginBottom: 5}}>
       <CourseDetailsHeaderSection course={courseDetails} />
       <CourseContentSection course={courseDetails} />
       <SimilarCourseSection />
