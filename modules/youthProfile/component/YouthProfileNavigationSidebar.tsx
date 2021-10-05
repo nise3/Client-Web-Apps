@@ -17,7 +17,7 @@ const YouthProfileNavigationSidebar = () => {
 
   return (
     <Paper>
-      <MenuList dense>
+      <MenuList>
         <MenuItem>
           <Link href={'../../youth-profile-edit/job-experience/null'}>
             <ListItemText>

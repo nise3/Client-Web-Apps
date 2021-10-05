@@ -91,8 +91,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = () => {
         type_of_employee: 'full time',
         location: 'dhaka 1232',
         job_description: 'building web apps',
-        start_date: '12 oct 1993',
-        end_date: '12 oct 1993',
+        start_date: '2008-10-12',
+        end_date: '2008-12-12',
       });
     }
   }, [jobExperienceId]);
