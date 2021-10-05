@@ -29,7 +29,7 @@ import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSid
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 
-interface JobExperienceAddEditPopupProps {
+interface JobExperienceAddEditProps {
   itemId: number | null;
   onClose: () => void;
 }
@@ -44,7 +44,7 @@ const initialValues = {
   end_date: '',
 };
 
-const JobExperiencePage: FC<JobExperienceAddEditPopupProps> = ({
+const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   itemId,
   ...props
 }) => {
@@ -71,6 +71,7 @@ const JobExperiencePage: FC<JobExperienceAddEditPopupProps> = ({
   }, [messages]);
 
   const {
+    handleSubmit,
     register,
     reset,
     setError,
@@ -148,7 +149,7 @@ const JobExperiencePage: FC<JobExperienceAddEditPopupProps> = ({
               <Typography variant={'h6'} mb={4}>
                 {messages['common.job_experience']}
               </Typography>
-              <form onSubmit={onSubmit} autoComplete={'off'}>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
                     <CustomTextInput
@@ -248,4 +249,4 @@ const JobExperiencePage: FC<JobExperienceAddEditPopupProps> = ({
   );
 };
 
-export default JobExperiencePage;
+export default JobExperienceAddEditPage;
