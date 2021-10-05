@@ -31,7 +31,7 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import PersonalInformationEditPopup from './PersonalInfromationEditPopup';
+import PersonalInformationEditPopup from './PersonalInfromationEdit';
 import CustomContentCard from './CustomContentCard';
 import EducationAddEditPopup from './EducationAddEditPopup';
 import CertificateAddEditPopup from './CertificateAddEditPopup';
