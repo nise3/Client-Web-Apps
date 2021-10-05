@@ -3,8 +3,14 @@ import {createStyles, makeStyles} from '@mui/styles';
 const useStyles = makeStyles(() =>
   createStyles({
     root: {},
-    PaperBox: {
-      padding: 20,
+    text: {
+      marginTop: '5px',
+      marginBottom: '15px',
+      color: '#888181',
+    },
+    btn: {
+      marginTop: '12px',
+      width: '100px',
     },
   }),
 );

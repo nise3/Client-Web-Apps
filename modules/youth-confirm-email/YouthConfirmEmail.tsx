@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Container, Paper, Typography} from '@mui/material';
-import useStyles from './Registration.style';
+import useStyles from './ConfirmEmail.style';
 
 const YouthConfirmEmail = () => {
   const classes = useStyles();

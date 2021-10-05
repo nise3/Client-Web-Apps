@@ -4,15 +4,18 @@ import FrontPage from '../../@crema/hoc/FrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const YouthVerificationPage = asyncComponent(
-  () => import('../../modules/youth-verification/YouthVerification'),
+const YouthVerifyAccountMethodPage = asyncComponent(
+  () =>
+    import(
+      '../../modules/youth-verify-account-method/YouthVerifyAccountMethod'
+    ),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.verify'] as string} />
-      <YouthVerificationPage />
+      <PageMeta title={messages['common.verify_account'] as string} />
+      <YouthVerifyAccountMethodPage />
     </>
   );
 });
