@@ -75,7 +75,10 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      exam: yup.string().label(messages['education.exam'] as string),
+      exam: yup
+        .string()
+        .label(messages['education.exam'] as string)
+        .required(),
       board: yup.string().label(messages['education.board'] as string),
       institution: yup
         .string()
