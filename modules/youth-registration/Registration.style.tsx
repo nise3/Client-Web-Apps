@@ -1,7 +1,6 @@
-import {makeStyles} from '@material-ui/core';
-import {createStyles, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles} from '@mui/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {},
     PaperBox: {

@@ -3,6 +3,7 @@ import {Box, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import JobPostBlock from './components/JobPostBlock';
+import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   postSectionTitle: {
@@ -13,6 +14,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 
 const PostSection = () => {
   const classes = useStyle();
+  const {messages} = useIntl();
 
   const posts = [
     {
@@ -70,7 +72,9 @@ const PostSection = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={12} md={12}>
-        <Box className={classes.postSectionTitle}>Recent Posts</Box>
+        <Box className={classes.postSectionTitle}>
+          {messages['youth_feed.recent_post']}
+        </Box>
       </Grid>
 
       {posts.map((post: any, index) => {

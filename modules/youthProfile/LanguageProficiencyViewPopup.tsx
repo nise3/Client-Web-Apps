@@ -26,28 +26,20 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import EditButton from '../../@softbd/elements/button/EditButton/EditButton';
 
 interface LanguageProficiencyViewPopupProps {
   itemId: number | null;
   onClose: () => void;
 }
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return {name, calories, fat, carbs, protein};
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+let tableRow = [
+  {
+    language: 'English', read: 'Easily', write: 'Not Easily', speak: 'Fluently', understand: 'easily',
+  },
+  {
+    language: 'Bangla', read: 'Easily', write: 'Not Easily', speak: 'Fluently', understand: 'easily',
+  },
 ];
 
 const initialValues = {
@@ -58,10 +50,7 @@ const initialValues = {
   understand: '',
 };
 
-const LanguageProficiencyViewPopup: FC<LanguageProficiencyViewPopupProps> = ({
-  itemId,
-  ...props
-}) => {
+const LanguageProficiencyViewPopup: FC<LanguageProficiencyViewPopupProps> = ({itemId, ...props}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -113,6 +102,10 @@ const LanguageProficiencyViewPopup: FC<LanguageProficiencyViewPopupProps> = ({
     }
   }, [itemData]);
 
+  const editLanguage = () => {
+    console.log('this will be edit language');
+  }
+
   const onSubmit: SubmitHandler<any> = async (data) => {
     const response = itemId
       ? await updateRankType(itemId, data)
@@ -145,12 +138,11 @@ const LanguageProficiencyViewPopup: FC<LanguageProficiencyViewPopupProps> = ({
       title={
         <>
           <IntlMessages
-            id='common.view'
-            values={{subject: <IntlMessages id='language.label' />}}
+            id='language_proficiency.title'
           />
         </>
       }
-      maxWidth={'xs'}
+      maxWidth={'lg'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -162,25 +154,25 @@ const LanguageProficiencyViewPopup: FC<LanguageProficiencyViewPopupProps> = ({
         <Table sx={{minWidth: 650}} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align='right'>Calories</TableCell>
-              <TableCell align='right'>Fat&nbsp;(g)</TableCell>
-              <TableCell align='right'>Carbs&nbsp;(g)</TableCell>
-              <TableCell align='right'>Protein&nbsp;(g)</TableCell>
+              <TableCell>{messages['language.label']}</TableCell>
+              <TableCell align='right'>{messages['language.read']}</TableCell>
+              <TableCell align='right'>{messages['language.write']}</TableCell>
+              <TableCell align='right'>{messages['language.speak']}</TableCell>
+              <TableCell align='right'>{messages['language.understand']}</TableCell>
+              <TableCell align='right'>{messages['language.action']}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {tableRow.map((row, i) => (
               <TableRow
-                key={row.name}
+                key={i}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                <TableCell component='th' scope='row'>
-                  {row.name}
-                </TableCell>
-                <TableCell align='right'>{row.calories}</TableCell>
-                <TableCell align='right'>{row.fat}</TableCell>
-                <TableCell align='right'>{row.carbs}</TableCell>
-                <TableCell align='right'>{row.protein}</TableCell>
+                <TableCell component='th' scope='row'>{row.language}</TableCell>
+                <TableCell align='right'>{row.read}</TableCell>
+                <TableCell align='right'>{row.write}</TableCell>
+                <TableCell align='right'>{row.speak}</TableCell>
+                <TableCell align='right'>{row.understand}</TableCell>
+                <TableCell align='right'><EditButton onClick={editLanguage} /></TableCell>
               </TableRow>
             ))}
           </TableBody>

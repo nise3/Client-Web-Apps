@@ -3,6 +3,7 @@ import {Avatar, Box, Button, Card, LinearProgress} from '@mui/material';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import BasicInfoItemBox from '../../@softbd/elements/YouthBasicInfoItemBox';
 import {makeStyles} from '@mui/styles';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 
 const BasicInfo = () => {
   const classes: any = useStyles();
+  const {messages} = useIntl();
 
   return (
     <>
@@ -50,7 +52,7 @@ const BasicInfo = () => {
           </Box>
           <Box sx={{width: '100%'}}>
             <LinearProgress variant='determinate' value={55} />
-            <Box>Profile complete 55%</Box>
+            <Box>{messages['youth_feed.profile_progress']} 55%</Box>
           </Box>
 
           <BasicInfoItemBox />
@@ -60,7 +62,7 @@ const BasicInfo = () => {
               variant='outlined'
               color={'primary'}
               className={classes.completeProfile}>
-              Complete Your Profile
+              {messages['youth_feed.complete_profile']}
             </Button>
           </Box>
         </Box>

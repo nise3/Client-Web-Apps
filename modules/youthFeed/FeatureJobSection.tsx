@@ -3,6 +3,7 @@ import {Box, Grid} from '@mui/material';
 import FeatureJobComponent from './components/FeatureJobComponent';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   featureSectionTitle: {
@@ -13,6 +14,8 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 
 const FeatureJobSection = () => {
   const classes = useStyle();
+  const {messages} = useIntl();
+
   const items = [
     {
       imageUrl: '/images/skill-matching-job1.jpg',
@@ -40,7 +43,9 @@ const FeatureJobSection = () => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12}>
-          <Box className={classes.featureSectionTitle}>Featured</Box>
+          <Box className={classes.featureSectionTitle}>
+            {messages['youth_feed.featured']}
+          </Box>
         </Grid>
         {items.map((job: any, index: number) => {
           return (

@@ -12,23 +12,25 @@ import {
 } from '@mui/material';
 import useStyles from './index.style';
 import {Search} from '@mui/icons-material';
+import {useIntl} from 'react-intl';
 
 const CourseListHeaderSection = () => {
   const classes: any = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Box className={classes.pageRootHeader}>
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={7}>
-            <Box fontSize={'16px'}>Search Courses and Training</Box>
+            <Box fontSize={'16px'}>{messages['training.search_header']}</Box>
             <Card className={classes.searchBox}>
               <Grid container spacing={1}>
                 <Grid item xs={9} sm={10} md={10}>
                   <TextField
                     variant='outlined'
                     name='searchBox'
-                    placeholder='Search'
+                    placeholder={messages['common.searchHere'] as string}
                     fullWidth
                     InputProps={{
                       startAdornment: (
@@ -45,7 +47,7 @@ const CourseListHeaderSection = () => {
                     variant='contained'
                     color={'primary'}
                     className={classes.searchButton}>
-                    Search
+                    {messages['common.search']}
                   </Button>
                 </Grid>
               </Grid>
@@ -60,7 +62,7 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Select</MenuItem>
+                  <MenuItem value={1}>Subject</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -70,7 +72,7 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Select</MenuItem>
+                  <MenuItem value={1}>Partner</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -80,7 +82,7 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Select</MenuItem>
+                  <MenuItem value={1}>Program</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -90,7 +92,7 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Select</MenuItem>
+                  <MenuItem value={1}>Level</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -100,7 +102,7 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Select</MenuItem>
+                  <MenuItem value={1}>Availability</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -110,7 +112,7 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Select</MenuItem>
+                  <MenuItem value={1}>Language</MenuItem>
                 </Select>
               </Grid>
             </Grid>

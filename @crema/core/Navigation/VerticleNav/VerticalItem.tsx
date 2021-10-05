@@ -41,7 +41,7 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
           classes={{primary: 'nav-item-text'}}
         />
         {item.count && (
-          <Box mr={1} clone>
+          <Box mr={1}>
             <Badge count={item.count} color={item.color} />
           </Box>
         )}

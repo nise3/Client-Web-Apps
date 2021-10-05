@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import useStyles from '../index.style';
 import TagChip from '../../../@softbd/elements/display/TagChip';
+import {useIntl} from 'react-intl';
 
 interface TrainingCenterCardComponentProps {
   trainingCenter: any;
@@ -18,6 +19,8 @@ const TrainingCenterCardComponent: FC<TrainingCenterCardComponentProps> = ({
   trainingCenter,
 }) => {
   const classes = useStyles();
+  const {messages} = useIntl();
+
   return (
     <Card className={classes.trainingCardRoot}>
       <CardMedia
@@ -36,7 +39,7 @@ const TrainingCenterCardComponent: FC<TrainingCenterCardComponentProps> = ({
         </Box>
         <Box marginTop={'5px'}>
           <Typography variant={'caption'} className={classes.addressTextStyle}>
-            Address:
+            {messages['common.address']}:
           </Typography>
           {trainingCenter.address}
         </Box>

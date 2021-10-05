@@ -88,22 +88,27 @@ export function contextReducer(state: any, action: any) {
 
       if (action.payload === ThemeStyle.MODERN) {
         if (isBreakPointDown('md')) {
-          theme.overrides.MuiCard.root.borderRadius = 20;
-          theme.overrides.MuiToggleButton.root.borderRadius = 20;
+          theme.components.MuiCard.styleOverrides.root.borderRadius = 20;
+          theme.components.MuiToggleButton.styleOverrides.root.borderRadius = 20;
         } else {
-          theme.overrides.MuiCard.root.borderRadius = ThemeStyleRadius.MODERN;
-          theme.overrides.MuiToggleButton.root.borderRadius =
+          theme.components.MuiCard.styleOverrides.root.borderRadius =
+            ThemeStyleRadius.MODERN;
+          theme.components.MuiToggleButton.styleOverrides.root.borderRadius =
             ThemeStyleRadius.MODERN;
         }
-        theme.overrides.MuiButton.root.borderRadius = ThemeStyleRadius.MODERN;
-        theme.overrides.MuiCardLg.root.borderRadius =
+        theme.components.MuiButton.styleOverrides.root.borderRadius =
+          ThemeStyleRadius.MODERN;
+        theme.components.MuiCardLg.styleOverrides.root.borderRadius =
           ThemeStyleRadius.MODERN + 20;
       } else {
-        theme.overrides.MuiCard.root.borderRadius = ThemeStyleRadius.STANDARD;
-        theme.overrides.MuiToggleButton.root.borderRadius =
+        theme.components.MuiCard.styleOverrides.root.borderRadius =
           ThemeStyleRadius.STANDARD;
-        theme.overrides.MuiButton.root.borderRadius = ThemeStyleRadius.STANDARD;
-        theme.overrides.MuiCardLg.root.borderRadius = ThemeStyleRadius.STANDARD;
+        theme.components.MuiToggleButton.styleOverrides.root.borderRadius =
+          ThemeStyleRadius.STANDARD;
+        theme.components.MuiButton.styleOverrides.root.borderRadius =
+          ThemeStyleRadius.STANDARD;
+        theme.components.MuiCardLg.styleOverrides.root.borderRadius =
+          ThemeStyleRadius.STANDARD;
       }
 
       return {

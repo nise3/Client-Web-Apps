@@ -1,5 +1,5 @@
 import React from 'react';
-import { Chip } from '@mui/material';
+import {Chip} from '@mui/material';
 
 import makeStyles from '@mui/styles/makeStyles';
 
@@ -15,7 +15,7 @@ type Props = {
   color: 'primary' | 'secondary' | 'default' | undefined;
   label: any;
   icon?: any;
-  variant?: 'default' | 'outlined';
+  variant?: 'filled' | 'outlined';
 };
 
 const CustomChip = ({color, label, icon, variant = 'outlined'}: Props) => {

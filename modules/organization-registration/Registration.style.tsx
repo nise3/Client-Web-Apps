@@ -1,14 +1,11 @@
-import {makeStyles, createStyles} from '@mui/styles';
-import {Theme} from '@material-ui/core/styles';
+import {CremaTheme} from '../../types/AppContextPropsType';
+import {makeStyles} from '@mui/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {},
-    PaperBox: {
-      padding: 20,
-      margin: '20px 200px 20px 200px',
-    },
-  }),
-);
+const useStyles = makeStyles((theme: CremaTheme) => ({
+  root: {},
+  PaperBox: {
+    padding: 20,
+  },
+}));
 
 export default useStyles;

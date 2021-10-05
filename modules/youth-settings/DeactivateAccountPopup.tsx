@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import {Delete} from '@mui/icons-material';
+
 interface DeactivateAccountPopupProps {
   onClose: () => void;
 }
@@ -26,7 +27,7 @@ const DeactivateAccountPopup: FC<DeactivateAccountPopupProps> = ({
   return (
     <>
       <CustomMuiModal maxWidth={'sm'} onClose={props.onClose} open={true}>
-        <DialogTitle className={classes.title} onClose={props.onClose}>
+        <DialogTitle onClose={props.onClose}>
           <Delete className={classes.deleteIcon} />
           <Box>
             <IntlMessages

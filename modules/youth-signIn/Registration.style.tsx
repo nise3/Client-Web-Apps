@@ -1,18 +1,25 @@
-import {makeStyles} from '@material-ui/core';
-import {createStyles, Theme} from '@material-ui/core/styles';
+import {makeStyles} from '@mui/styles';
+import {CremaTheme} from '../../types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {},
-    PaperBox: {
-      padding: 40,
-      margin: '150px 350px 20px 350px',
-    },
-    toggle: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  }),
-);
+const useStyles = makeStyles((theme: CremaTheme) => ({
+  root: {},
+  PaperBox: {
+    padding: 40,
+  },
+  toggle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  forgotpass: {
+    marginTop: '7px',
+    textAlign: 'right',
+    // [theme.breakpoints.up('lg')]: {
+    //   textAlign: 'right',
+    // },
+    // [theme.breakpoints.down('md')]: {
+    //   textAlign: 'left',
+    // },
+  },
+}));
 
 export default useStyles;

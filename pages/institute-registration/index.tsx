@@ -11,7 +11,7 @@ export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.institute_registration'] as string} />
+      <PageMeta title={messages['common.registration'] as string} />
       <InstituteRegistrationPage />
     </>
   );

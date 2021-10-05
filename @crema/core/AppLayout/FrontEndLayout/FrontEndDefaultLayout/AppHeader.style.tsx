@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   appBar: {
     boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
   },
+  signinButton: {
+    width: '160px',
+    color: '#fff',
+    background: '#682988',
+  },
   headerMain: {
     minHeight: 56,
     paddingRight: 0,
@@ -54,6 +59,12 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   menuIcons: {
     height: '0.6em',
+  },
+  menuItem: {
+    padding: '10px 20px',
+  },
+  menuItemMobile: {
+    padding: '18px 20px 18px 12px',
   },
   desktopMenu: {
     display: 'none',

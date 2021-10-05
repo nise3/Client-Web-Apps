@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 const OrganizationRegistrationPage = asyncComponent(
   () =>
-    import('../../modules/organization-registration/OranizationRegistration'),
+    import('../../modules/organization-registration/OrganizationRegistration'),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();
