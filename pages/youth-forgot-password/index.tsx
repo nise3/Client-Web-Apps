@@ -4,15 +4,15 @@ import FrontPage from '../../@crema/hoc/FrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const InstituteRegistrationPage = asyncComponent(
-  () => import('../../modules/institute-registration/InstituteRegistration'),
+const YouthForgotPasswordPage = asyncComponent(
+  () => import('../../modules/youth-forgot-password/YouthForgotPassword'),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.registration'] as string} />
-      <InstituteRegistrationPage />
+      <PageMeta title={messages['common.forgot_password'] as string} />
+      <YouthForgotPasswordPage />
     </>
   );
 });

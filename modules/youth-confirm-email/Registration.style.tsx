@@ -5,20 +5,18 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   root: {},
   PaperBox: {
     padding: 40,
-  },
-  toggle: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
   },
-  forgotpass: {
-    marginTop: '7px',
-    textAlign: 'right',
-    // [theme.breakpoints.up('lg')]: {
-    //   textAlign: 'right',
-    // },
-    // [theme.breakpoints.down('md')]: {
-    //   textAlign: 'left',
-    // },
+  btn: {
+    width: '200px',
+    height: '50px',
+    marginTop: '40px',
+  },
+  text: {
+    marginBottom: '10px',
+    fontWeight: 'bold',
   },
 }));
 

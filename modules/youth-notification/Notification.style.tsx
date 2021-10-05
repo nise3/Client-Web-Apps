@@ -1,90 +1,102 @@
 import {CremaTheme} from '../../types/AppContextPropsType';
-import {createStyles, makeStyles} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
 
-const useStyles = makeStyles((theme: CremaTheme) =>
-  createStyles({
-    root: {},
-    midBox: {
-      paddingTop: 20,
+const useStyles = makeStyles((theme: CremaTheme) => ({
+  root: {},
+  container: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  searchBox: {
+    padding: '10px 5px 5px',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  searchInputBorderHide: {
+    '& fieldset': {
+      border: 'none',
     },
-    searchBox: {
-      padding: '10px 5px 5px',
-      alignItems: 'center',
-      marginTop: 10,
+    '& input': {
+      padding: '14px 0px',
     },
-    searchInputBorderHide: {
-      '& fieldset': {
-        border: 'none',
-      },
-      '& input': {
-        padding: '14px 0px',
-      },
+  },
+  searchButton: {
+    color: '#fff',
+    padding: '8px 14px',
+    width: '95%',
+  },
+  btnPopover: {
+    borderRadius: 0,
+    width: '100%',
+    textTransform: 'capitalize',
+  },
+  notiBtn: {
+    justifyContent: 'flex-start',
+    width: '100%',
+    height: 56,
+    fontSize: 16,
+    borderRadius: 0,
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    color: theme.palette.grey['800'],
+    '&:hover, &:focus': {
+      color: theme.palette.text.primary,
+      backgroundColor: 'transparent',
     },
-    searchButton: {
-      color: '#fff',
-      padding: '8px 14px',
-      width: '95%',
+    [theme.breakpoints.up('sm')]: {
+      height: 70,
     },
-    btnPopover: {
-      borderRadius: 0,
-      width: '100%',
-      textTransform: 'capitalize',
-    },
-    notiBtn: {
-      justifyContent: 'flex-start',
-      width: '100%',
-      height: 56,
-      fontSize: 16,
-      borderRadius: 0,
-      paddingLeft: '1rem',
-      paddingRight: '1rem',
-      color: theme.palette.grey['800'],
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'center',
+      width: 'auto',
+      borderLeft: 'solid 1px',
+      borderLeftColor: theme.palette.grey[200],
+      color: theme.palette.grey[400],
       '&:hover, &:focus': {
         color: theme.palette.text.primary,
-        backgroundColor: 'transparent',
-      },
-      [theme.breakpoints.up('sm')]: {
-        height: 70,
-      },
-      [theme.breakpoints.up('md')]: {
-        justifyContent: 'center',
-        width: 'auto',
-        borderLeft: 'solid 1px',
-        borderLeftColor: theme.palette.grey[200],
-        color: theme.palette.grey[400],
-        '&:hover, &:focus': {
-          color: theme.palette.text.primary,
-        },
-      },
-      [theme.breakpoints.up('lg')]: {
-        paddingLeft: '1.5rem',
-        paddingRight: '1.5rem',
-      },
-      [theme.breakpoints.up('xl')]: {
-        paddingLeft: '2.5rem',
-        paddingRight: '2.5rem',
       },
     },
-    notiIcon: {
-      fontSize: 22,
-      color: theme.palette.text.secondary,
-      [theme.breakpoints.up('xl')]: {
-        fontSize: 30,
-      },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: '1.5rem',
+      paddingRight: '1.5rem',
     },
-    list: {
-      paddingTop: 0,
-      paddingBottom: 0,
+    [theme.breakpoints.up('xl')]: {
+      paddingLeft: '2.5rem',
+      paddingRight: '2.5rem',
     },
-    badge: {
-      marginRight: 8,
+  },
+  notiIcon: {
+    fontSize: 22,
+    color: theme.palette.text.secondary,
+    [theme.breakpoints.up('xl')]: {
+      fontSize: 30,
     },
-    notificationBox: {
-      marginTop: 20,
-    },
-    card: {
-      marginTop: 0,
-    },
-  }),
-);
+  },
+  list: {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  badge: {
+    marginRight: 8,
+  },
+  notificationBox: {
+    marginTop: 20,
+  },
+  card: {
+    marginTop: 0,
+  },
+  textBase: {
+    fontSize: 14,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+  },
+  minWidth0: {
+    minWidth: 0,
+  },
+  listItemRoot: {
+    padding: '8px 20px',
+  },
+}));
 export default useStyles;
