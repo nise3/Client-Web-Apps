@@ -31,11 +31,13 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
+import PersonalInformationEditPopup from './PersonalInfromationEdit';
 import CustomContentCard from './CustomContentCard';
 import EducationAddEditPopup from './EducationAddEditPopup';
 import CertificateAddEditPopup from './CertificateAddEditPopup';
 import LanguageAddEditPopup from './LanguageAddEditPopup';
 import LanguageProficiencyViewPopup from './LanguageProficiencyViewPopup';
+import PortfolioAddEditPopup from './PortfolioAddEditPopup';
 import referencePeopleAvatar from '../../public/images/youth/avatar.png';
 import Reference from './Reference';
 import ReferenceAddEditPopup from './ReferenceAddEditPopup';
@@ -753,7 +755,7 @@ const YouthProfile = () => {
       )}
 
       {isOpenPersonalInfoAddEditModal && (
-        <JobExperienceAddEditPopup
+        <PersonalInformationEditPopup
           key={1}
           onClose={closePersonalInfoAddEditModal}
           itemId={selectedItemId}
@@ -761,7 +763,7 @@ const YouthProfile = () => {
       )}
 
       {isOpenPortfolioAddEditModal && (
-        <JobExperienceAddEditPopup
+        <PortfolioAddEditPopup
           key={1}
           onClose={closePortfolioAddEditModal}
           itemId={selectedItemId}

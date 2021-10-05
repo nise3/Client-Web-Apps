@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -19,42 +19,36 @@ import {
 import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
 
-interface CertificateAddEditPopupProps {
+interface PortfolioAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
 }
 
 const initialValues = {
-  certification: '',
-  institution: '',
-  location: '',
-  start_date: '',
-  end_date: '',
-  certificate_file: '',
+  upload_link: '',
+  title: '',
+  description: '',
+  upload_file: ''
 };
 
-const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
-  itemId,
-  ...props
-}) => {
+const PortfolioAddEditPopup: FC<PortfolioAddEditPopupProps> = ({itemId, ...props}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      certification: yup
+      upload_link: yup
         .string()
-        .label(messages['certification.label'] as string),
-      institute: yup.string().label(messages['common.institute'] as string),
-      location: yup.string().label(messages['common.location'] as string),
-      start_date: yup.string().label(messages['common.start_date'] as string),
-      end_date: yup.string().label(messages['common.end_date'] as string),
-      certificate_file: yup
+        .label(messages['upload_link.portfolio_modal'] as string),
+      title: yup.string().label(messages['common.title'] as string),
+      description: yup
         .string()
-        .label(messages['certificate.upload_certificate'] as string),
+        .label(messages['common.description'] as string),
+      upload_file: yup
+        .string()
+        .label(messages['upload_file.portfolio_modal'] as string),
     });
   }, [messages]);
 
@@ -73,12 +67,9 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   useEffect(() => {
     if (itemId) {
       setItemData({
-        certification: 'ML',
-        institution: 'h20.io',
-        location: 'australia',
-        start_date: '16 oct 2021',
-        end_date: '30 dec 2021',
-        certificate_file: '',
+        upload_link: 'link.com',
+        title: 'Title',
+        description: 'This is description',
       });
     }
   }, [itemId]);
@@ -86,15 +77,9 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        exam: itemData.exam,
-        board: itemData?.board,
-        institution: itemData?.institution,
-        roll_no: itemData?.roll_no,
-        reg_no: itemData?.reg_no,
-        group: itemData?.group,
-        result_type: itemData?.result_type,
-        result: itemData?.result,
-        passing_year: itemData?.passing_year,
+        upload_link: itemData.upload_link,
+        title: itemData?.title,
+        description: itemData?.description
       });
     } else {
       reset(initialValues);
@@ -135,12 +120,12 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='certification.label' />}}
+              values={{subject: <IntlMessages id='common.edit_portfolio' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='certification.label' />}}
+              values={{subject: <IntlMessages id='common.add_new_portfolio' />}}
             />
           )}
         </>
@@ -156,8 +141,8 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='certification'
-            label={messages['certification.label']}
+            id='upload_link'
+            label={messages['upload_link.portfolio_modal']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -165,8 +150,8 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='institute'
-            label={messages['institute.label']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -174,36 +159,19 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='location'
-            label={messages['common.location']}
+            id='description'
+            label={messages['common.description']}
             register={register}
             errorInstance={errors}
             isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomDateTimeField
-            id='start_date'
-            label={messages['job_experience.start_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomDateTimeField
-            id='end_date'
-            label={messages['job_experience.end_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='certificate_file'
-            label={messages['certificate.certificate_file']}
+            id='upload_file'
+            label={messages['upload_file.portfolio_modal']}
             type={'file'}
             register={register}
             errorInstance={errors}
@@ -215,4 +183,4 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   );
 };
 
-export default CertificateAddEditPopup;
+export default PortfolioAddEditPopup;
