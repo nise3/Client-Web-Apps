@@ -14,12 +14,12 @@ import SearchIcon from '@mui/icons-material/Search';
 const YouthNoticeBoard = () => {
   const classes = useStyles();
   return (
-    <Container maxWidth={'md'} className={classes.containerBox}>
-      <Box style={{position: 'relative'}}>
+    <Container maxWidth={'xl'} className={classes.containerBox}>
+      <Box className={classes.noticeTopBox}>
         <Typography variant={'h5'} className={classes.noticeBoardText}>
           Notice Board
         </Typography>
-        <Box className={classes.searchBox}>
+        <Box>
           <Paper component='form' className={classes.paperSearch}>
             <InputBase
               sx={{ml: 1, flex: 1}}
