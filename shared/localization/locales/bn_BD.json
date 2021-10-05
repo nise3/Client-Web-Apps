@@ -471,5 +471,9 @@
   "course_details.start_instantly": "তাতক্ষণিকভাবে শুরু করুন এবং চালান",
   "course_details.months_to_complete": "সম্পূর্ণ করতে {subject} মাস",
   "course_details.hours_per_weeks": "ঘন্টা/সপ্তাহ",
-  "course_details.view_more_courses_by": "{subject} এর আরও কোর্স দেখুন"
+  "course_details.view_more_courses_by": "{subject} এর আরও কোর্স দেখুন",
+  "common.fluent": "সাবলীল",
+  "common.not_fluent": "সাবলীল নয়",
+  "language.add_new_language": "নতুন ভাষা যোগ করুন",
+  "youth_sidebar_menu.personal_information": "বাক্তিগত তথ্য"
 }

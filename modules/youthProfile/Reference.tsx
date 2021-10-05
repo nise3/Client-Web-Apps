@@ -15,6 +15,7 @@ type ReferenceProp = {
   email?: string;
   phone?: string;
   location?: string;
+  onclick?: () => void;
 };
 
 const Reference = ({
@@ -25,6 +26,7 @@ const Reference = ({
   phone,
   location,
   key,
+  onclick,
 }: ReferenceProp) => {
   const {messages} = useIntl();
   return (
@@ -77,6 +79,7 @@ const Reference = ({
                   buttonVariant={'outlined'}
                   title={messages['common.delete_btn'] as string}
                   icon={<BorderColor />}
+                  onclick={onclick}
                 />
               </Box>
             </Grid>
@@ -86,6 +89,7 @@ const Reference = ({
                   buttonVariant={'outlined'}
                   title={messages['common.edit_btn'] as string}
                   icon={<BorderColor />}
+                  onclick={onclick}
                 />
               </Box>
             </Grid>
