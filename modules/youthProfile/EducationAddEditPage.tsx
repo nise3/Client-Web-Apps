@@ -1,4 +1,4 @@
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -66,9 +66,9 @@ const initialValues = {
 };
 
 const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
-  itemId,
-  ...props
-}) => {
+                                                               itemId,
+                                                               ...props
+                                                             }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -178,7 +178,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           <Card>
             <CardContent>
               <Typography variant={'h6'} mb={4}>
-                {messages['common.education']}
+                {isEdit ? messages['youth.edit_education'] : messages['common.education']}
               </Typography>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
