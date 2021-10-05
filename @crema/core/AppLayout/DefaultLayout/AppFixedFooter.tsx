@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
 import AppContext from '../../../utility/AppContext';
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import AppContextPropsType from '../../../../types/AppContextPropsType';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   footer: {
     position: 'fixed',
     left: 0,
@@ -33,7 +33,7 @@ interface AppFixedFooterProps {
   props?: any;
 }
 
-const AppFixedFooter: React.FC<AppFixedFooterProps> = props => {
+const AppFixedFooter: React.FC<AppFixedFooterProps> = (props) => {
   const {footer, footerType} = useContext<AppContextPropsType>(AppContext);
 
   const classes = useStyles(props);
@@ -49,7 +49,7 @@ const AppFixedFooter: React.FC<AppFixedFooterProps> = props => {
             display='flex'>
             <Box>Copy right @crema 2020</Box>
             <Box ml='auto'>
-              <Box px={5} clone>
+              <Box px={5}>
                 <Button color='primary'>Buy Now</Button>
               </Box>
             </Box>

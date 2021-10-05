@@ -3,10 +3,9 @@ import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import makeStyles from '@mui/styles/makeStyles';
-import {Fonts} from '../../../shared/constants/AppEnums';
 import SignupJwtAuth from './SignupJwtAuth';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   imgRoot: {
     cursor: 'pointer',
     display: 'inline-block',
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 32,
     },
     '&:before': {
-      content: '\'\'',
+      content: "''",
       position: 'absolute',
       left: 0,
       right: 0,
@@ -46,11 +45,7 @@ const Signup: React.FC<{}> = () => {
   const classes = useStyles();
 
   return (
-    <Box
-      flex={1}
-      display='flex'
-      flexDirection='column'
-      justifyContent='center'>
+    <Box flex={1} display='flex' flexDirection='column' justifyContent='center'>
       <Box mb={{xs: 6, md: 8, xl: 18}} textAlign='center'>
         <img
           className={classes.imgRoot}
@@ -70,12 +65,11 @@ const Signup: React.FC<{}> = () => {
               component='h2'
               mb={{xs: 3, xl: 6}}
               color='text.primary'
-              fontFamily={Fonts.LIGHT}
               fontSize={{xs: 24, xl: 30}}>
-              <IntlMessages id='common.signup'/>
+              <IntlMessages id='common.signup' />
             </Box>
           </Box>
-          <SignupJwtAuth/>
+          <SignupJwtAuth />
         </Card>
       </Box>
     </Box>

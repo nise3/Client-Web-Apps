@@ -66,54 +66,56 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
   const handleClick = () => {
     setOpen(!open);
   };
-  return <>
-    <ListItem
-      button
-      component='li'
-      className={clsx(classes.navItem, 'nav-item', open && 'open')}
-      onClick={handleClick}>
-      {item.icon && (
-        <Box component='span' mr={6}>
-          <Icon
-            color='action'
-            className={clsx('nav-item-icon', classes.listIcon)}>
-            {item.icon}
-          </Icon>
+  return (
+    <>
+      <ListItem
+        button
+        component='li'
+        className={clsx(classes.navItem, 'nav-item', open && 'open')}
+        onClick={handleClick}>
+        {item.icon && (
+          <Box component='span' mr={6}>
+            <Icon
+              color='action'
+              className={clsx('nav-item-icon', classes.listIcon)}>
+              {item.icon}
+            </Icon>
+          </Box>
+        )}
+        <ListItemText
+          classes={{primary: clsx('nav-item-text', classes.listItemText)}}
+          primary={<IntlMessages id={item.messageId} />}
+        />
+        <Box p={0}>
+          <IconButton disableRipple size='large'>
+            <Icon className='nav-item-icon-arrow' color='inherit'>
+              {open
+                ? 'expand_more'
+                : theme.direction === 'ltr'
+                ? 'chevron_right'
+                : 'chevron_left'}
+            </Icon>
+          </IconButton>
         </Box>
+      </ListItem>
+
+      {item.children && Array.isArray(item.children) && (
+        <Collapse in={open} className='collapse-children'>
+          {item.children.map((item: any) => (
+            <React.Fragment key={item.id}>
+              {item.type === 'collapse' && (
+                <VerticalCollapse item={item} level={level + 1} />
+              )}
+
+              {item.type === 'item' && (
+                <VerticalItem item={item} level={level + 1} />
+              )}
+            </React.Fragment>
+          ))}
+        </Collapse>
       )}
-      <ListItemText
-        classes={{primary: clsx('nav-item-text', classes.listItemText)}}
-        primary={<IntlMessages id={item.messageId} />}
-      />
-      <Box p={0} clone>
-        <IconButton disableRipple size="large">
-          <Icon className='nav-item-icon-arrow' color='inherit'>
-            {open
-              ? 'expand_more'
-              : theme.direction === 'ltr'
-              ? 'chevron_right'
-              : 'chevron_left'}
-          </Icon>
-        </IconButton>
-      </Box>
-    </ListItem>
-
-    {item.children && Array.isArray(item.children) && (
-      <Collapse in={open} className='collapse-children'>
-        {item.children.map((item: any) => (
-          <React.Fragment key={item.id}>
-            {item.type === 'collapse' && (
-              <VerticalCollapse item={item} level={level + 1} />
-            )}
-
-            {item.type === 'item' && (
-              <VerticalItem item={item} level={level + 1} />
-            )}
-          </React.Fragment>
-        ))}
-      </Collapse>
-    )}
-  </>;
+    </>
+  );
 };
 
 export default React.memo(VerticalCollapse);

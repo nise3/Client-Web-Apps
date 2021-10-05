@@ -41,7 +41,7 @@ function EducationEditForm() {
   const {
     control,
     register,
-    handleSubmit,
+    // handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm();
 

@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   appBar: {
     boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
   },
+  signinButton: {
+    width: '160px',
+    color: '#fff',
+    background: '#682988',
+  },
   headerMain: {
     minHeight: 56,
     paddingRight: 0,

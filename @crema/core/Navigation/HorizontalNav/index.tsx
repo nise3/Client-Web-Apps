@@ -26,7 +26,7 @@ const HorizontalNav: React.FC<HorizontalNavProps> = () => {
           {item.type === 'item' && <HorizontalItem item={item} />}
 
           {item.type === 'divider' && (
-            <Box my={5} clone>
+            <Box my={5}>
               <Divider />
             </Box>
           )}
