@@ -41,7 +41,6 @@ const JobExperienceAddEditPopup: FC<JobExperienceAddEditPopupProps> = ({
   itemId,
   ...props
 }) => {
-  console.log('item id:', itemId);
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;

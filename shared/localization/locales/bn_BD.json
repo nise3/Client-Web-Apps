@@ -397,5 +397,13 @@
   "reference.lastname": "উপাধি",
   "reference.allow_contact": "যোগাযোগের অনুমতি দিন",
   "references.edit_reference": "রেফারেন্স সম্পাদনা করুন",
-  "common.relation": "সম্পর্ক"
+  "common.relation": "সম্পর্ক",
+  "education.exam": "পরীক্ষা",
+  "education.board": "বোর্ড",
+  "education.roll_no": "রোল নং",
+  "education.reg_no": "রেজিস্ট্রেশান নং",
+  "education.group": "গ্রুপ",
+  "education.result_type": "ফলাফলের ধরন",
+  "education.result": "ফলাফল",
+  "education.passing_year": "পাসের বছর"
 }
