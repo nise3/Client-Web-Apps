@@ -41,10 +41,10 @@ const FeatureJobSection = () => {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item xs={12} sm={12} md={12}>
           <Box className={classes.featureSectionTitle}>
-            {messages['youth_feed.featured']}
+            {messages['common.featured']}
           </Box>
         </Grid>
         {items.map((job: any, index: number) => {

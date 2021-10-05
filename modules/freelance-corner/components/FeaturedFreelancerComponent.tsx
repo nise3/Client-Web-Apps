@@ -1,18 +1,18 @@
 import React, {FC} from 'react';
+import {useIntl} from 'react-intl';
 import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
-  featureJobRoot: {
+  featureFreelancerRoot: {
     background: '#fff',
     borderRadius: 4,
     position: 'relative',
     padding: '10px 5px',
   },
-  jobProviderImage: {
+  freelanceUserImage: {
     marginLeft: 10,
     border: '1px solid ' + theme.palette.grey['300'],
   },
@@ -29,38 +29,42 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
       padding: '0px 5px',
     },
   },
-  jobTitle: {
+  freelancerNameStyle: {
     color: theme.palette.primary.main,
     fontWeight: Fonts.BOLD,
   },
 }));
 
-interface FeatureJobProps {
-  data: {
-    imageUrl: string;
-    jobTitle: string;
-    jobProviderName: string;
+interface FeaturedFreelancerComponentProps {
+  freelanceUser: {
+    image: string;
+    name: string;
+    designation: string;
   };
 }
 
-const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
+const FeaturedFreelancerComponent: FC<FeaturedFreelancerComponentProps> = ({
+  freelanceUser,
+}) => {
   const classes = useStyle();
   const {messages} = useIntl();
 
   return (
     <>
-      <Card className={classes.featureJobRoot}>
+      <Card className={classes.featureFreelancerRoot}>
         <Grid container spacing={1} alignItems={'center'}>
           <Grid item xs={2} sm={2} md={2}>
             <Avatar
-              className={classes.jobProviderImage}
-              alt='provider image'
-              src={data.imageUrl}
+              className={classes.freelanceUserImage}
+              alt='user image'
+              src={freelanceUser.image}
             />
           </Grid>
           <Grid item xs={8} sm={8} md={8}>
-            <Box className={classes.jobTitle}>{data.jobTitle}</Box>
-            <Box>{data.jobProviderName}</Box>
+            <Box className={classes.freelancerNameStyle}>
+              {freelanceUser.name}
+            </Box>
+            <Box>{freelanceUser.designation}</Box>
           </Grid>
           <Chip
             variant='outlined'
@@ -73,4 +77,4 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
   );
 };
 
-export default FeatureJobComponent;
+export default FeaturedFreelancerComponent;

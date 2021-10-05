@@ -1,12 +1,9 @@
 import React from 'react';
-import {Button, Grid, Typography} from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
-import useStyles from './index.style';
+import {Container, Grid, Typography} from '@mui/material';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 
-const PopularCoursesSection = () => {
-  const classes = useStyles();
+const MyCoursePage = () => {
   const {messages} = useIntl();
 
   const courseList = [
@@ -19,6 +16,7 @@ const PopularCoursesSection = () => {
       providerName: 'Diane Croenwett',
       createDate: 'Mar 19,2020',
       tags: ['2hr, 47 min', '24 lessons'],
+      progress: 55,
     },
     {
       id: 2,
@@ -29,6 +27,7 @@ const PopularCoursesSection = () => {
       providerName: 'Diane Croenwett',
       createDate: 'Mar 19,2020',
       tags: ['2hr, 47 min', '24 lessons'],
+      progress: 35,
     },
     {
       id: 3,
@@ -39,6 +38,7 @@ const PopularCoursesSection = () => {
       providerName: 'Diane Croenwett',
       createDate: 'Mar 19,2020',
       tags: ['2hr, 47 min', '24 lessons'],
+      progress: 80,
     },
     {
       id: 4,
@@ -49,39 +49,32 @@ const PopularCoursesSection = () => {
       providerName: 'Diane Croenwett',
       createDate: 'Mar 19,2020',
       tags: ['2hr, 47 min', '24 lessons'],
+      progress: 65,
     },
   ];
 
   return (
-    <Grid container spacing={5}>
-      <Grid item xs={12} sm={12} md={12}>
-        <Grid container alignItems={'center'}>
-          <Grid item xs={8} sm={9} md={10}>
-            <Typography variant={'h5'} className={classes.sectionTitle}>
-              {messages['common.popular_courses']}
-            </Typography>
-          </Grid>
-          <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Button variant={'outlined'} size={'medium'} color={'primary'}>
-              {messages['common.see_all']}
-              <ChevronRight />
-            </Button>
+    <Container maxWidth={'xl'} sx={{padding: 5}}>
+      <Grid container spacing={5}>
+        <Grid item xs={12} sm={12} md={12}>
+          <Typography variant={'h5'} fontWeight={'bold'}>
+            {messages['common.my_courses']}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12}>
+          <Grid container spacing={5}>
+            {courseList.map((course: any) => {
+              return (
+                <Grid item xs={12} sm={6} md={3} key={course.id}>
+                  <CourseCardComponent course={course} />
+                </Grid>
+              );
+            })}
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} sm={12} md={12}>
-        <Grid container spacing={5}>
-          {courseList.map((course: any) => {
-            return (
-              <Grid item xs={12} sm={6} md={3} key={course.id}>
-                <CourseCardComponent course={course} />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Grid>
-    </Grid>
+    </Container>
   );
 };
 
-export default PopularCoursesSection;
+export default MyCoursePage;

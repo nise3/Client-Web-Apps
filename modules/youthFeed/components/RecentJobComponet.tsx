@@ -37,31 +37,29 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   const {messages} = useIntl();
 
   return (
-    <>
-      <Box display={'flex'} className={classes.recentJobCompRoot}>
-        <Box>
-          <Avatar
-            alt='provider image'
-            src={data.imageUrl}
-            className={classes.jobProviderImage}
-          />
+    <Box display={'flex'} className={classes.recentJobCompRoot}>
+      <Box>
+        <Avatar
+          alt='provider image'
+          src={data.imageUrl}
+          className={classes.jobProviderImage}
+        />
+      </Box>
+      <Box marginLeft={'10px'}>
+        <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+        <Box className={classes.jobProviderName}>
+          {data.jobProviderName} &#8226; {data.location}
         </Box>
-        <Box marginLeft={'10px'}>
-          <Box className={classes.jobTitle}>{data.jobTitle}</Box>
-          <Box className={classes.jobProviderName}>
-            {data.jobProviderName} &#8226; {data.location}
-          </Box>
-          <Box>
-            <Button variant='contained' color='primary' size={'small'}>
-              {messages['common.apply']}
-            </Button>
-            <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
-              {messages['common.details']}
-            </Button>
-          </Box>
+        <Box>
+          <Button variant='contained' color='primary' size={'small'}>
+            {messages['common.apply']}
+          </Button>
+          <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
+            {messages['common.details']}
+          </Button>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 
