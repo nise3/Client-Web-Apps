@@ -1,6 +1,5 @@
 import React from 'react';
-import {Card, CardContent, Grid} from '@mui/material';
-import HorizontalLine from './HorizontalLine';
+import {Divider, ListItemText, MenuItem, MenuList, Paper} from '@mui/material';
 import Link from 'next/link';
 import makeStyles from '@mui/styles/makeStyles';
 
@@ -17,65 +16,57 @@ const YouthProfileNavigationSidebar = () => {
   const classes = useStyles();
 
   return (
-    <Card>
-      <CardContent>
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/job-experience/null'}>
+    <Paper>
+      <MenuList dense>
+        <MenuItem>
+          <Link href={'../../youth-profile-edit/job-experience/null'}>
+            <ListItemText>
               <a className={classes.link}>Personal Information</a>
-            </Link>
-          </Grid>
-        </Grid>
-        <HorizontalLine />
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/education/null'}>
+            </ListItemText>
+          </Link>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Link href={'../../youth-profile-edit/education/null'}>
+            <ListItemText>
               <a className={classes.link}>Education</a>
-            </Link>
-          </Grid>
-        </Grid>
-        <HorizontalLine />
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/reference/null'}>
+            </ListItemText>
+          </Link>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Link href={'../../youth-profile-edit/reference/null'}>
+            <ListItemText>
               <a className={classes.link}>Reference</a>
-            </Link>
-          </Grid>
-        </Grid>
-        <HorizontalLine />
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/job-experience/null'}>
+            </ListItemText>
+          </Link>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Link href={'../../youth-profile-edit/job-experience/null'}>
+            <ListItemText>
               <a className={classes.link}>Job Experience</a>
-            </Link>
-          </Grid>
-        </Grid>
-        <HorizontalLine />
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/language'}>
+            </ListItemText>
+          </Link>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Link href={'../../youth-profile-edit/language/null'}>
+            <ListItemText>
               <a className={classes.link}>Language</a>
-            </Link>
-          </Grid>
-        </Grid>
-        <HorizontalLine />
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/view-language-proficiency'}>
-              <a className={classes.link}>Language Proficiency View</a>
-            </Link>
-          </Grid>
-        </Grid>
-        <HorizontalLine />
-        <Grid container>
-          <Grid item xs={12}>
-            <Link href={'../../youth-profile-edit/portfolio/null'}>
+            </ListItemText>
+          </Link>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Link href={'../../youth-profile-edit/portfolio/null'}>
+            <ListItemText>
               <a className={classes.link}>Portfolio</a>
-            </Link>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+            </ListItemText>
+          </Link>
+        </MenuItem>
+      </MenuList>
+    </Paper>
   );
 };
 

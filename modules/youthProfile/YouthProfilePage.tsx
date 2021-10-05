@@ -232,7 +232,7 @@ const YouthProfile = () => {
   );
 
   const openLanguageAddEditPage = useCallback(() => {
-    const URL = '/../../youth-profile-edit/language';
+    const URL = '/../../youth-profile-edit/language/null';
     router.push(URL);
   }, []);
 

@@ -460,5 +460,7 @@
   "common.trending_courses": "ট্রেন্ডিং কোর্স",
   "common.nearby_training_center": "নিকটবর্তী প্রশিক্ষণ কেন্দ্র",
   "common.fluent": "সাবলীল",
-  "common.not_fluent": "সাবলীল নয়"
+  "common.not_fluent": "সাবলীল নয়",
+  "language.add_new_language": "নতুন ভাষা যোগ করুন",
+  "youth_sidebar_menu.personal_information": "বাক্তিগত তথ্য"
 }

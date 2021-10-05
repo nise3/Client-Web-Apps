@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -137,104 +137,106 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = () => {
   };
 
   return (
-    <Box mt={4} mb={2}>
-      <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item xs={3}>
-          <YouthProfileNavigationSidebar />
-        </Grid>
-        <Grid item xs={5}>
-          <Card>
-            <CardContent>
-              <Typography variant={'h6'} mb={4}>
-                {messages['common.job_experience']}
-              </Typography>
-              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='company_name'
-                      label={messages['common.company_name']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='position'
-                      label={messages['common.position']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='type_of_employee'
-                      label={messages['common.type_of_employee']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='location'
-                      label={messages['common.location']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='job_description'
-                      label={messages['job_experience.job_description']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                      multiline={true}
-                      rows={3}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CustomDateTimeField
-                      id='start_date'
-                      label={messages['job_experience.start_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
+    <Container maxWidth={'lg'}>
+      <Box mt={4} mb={2}>
+        <Grid container justifyContent={'center'} spacing={2}>
+          <Grid item md={4}>
+            <YouthProfileNavigationSidebar />
+          </Grid>
+          <Grid item md={8}>
+            <Card>
+              <CardContent>
+                <Typography variant={'h6'} mb={4}>
+                  {messages['common.job_experience']}
+                </Typography>
+                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                  <Grid container spacing={5}>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        id='company_name'
+                        label={messages['common.company_name']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        id='position'
+                        label={messages['common.position']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        id='type_of_employee'
+                        label={messages['common.type_of_employee']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        id='location'
+                        label={messages['common.location']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        id='job_description'
+                        label={messages['job_experience.job_description']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                        multiline={true}
+                        rows={3}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CustomDateTimeField
+                        id='start_date'
+                        label={messages['job_experience.start_date']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
 
-                  <Grid item xs={6}>
-                    <CustomDateTimeField
-                      id='end_date'
-                      label={messages['job_experience.end_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
+                    <Grid item xs={6}>
+                      <CustomDateTimeField
+                        id='end_date'
+                        label={messages['job_experience.end_date']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControlLabel
+                        control={<Switch defaultChecked />}
+                        label='I currently work here'
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <SubmitButton
+                        isSubmitting={isSubmitting}
+                        isLoading={false}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Switch defaultChecked />}
-                      label='I currently work here'
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={false}
-                    />
-                  </Grid>
-                </Grid>
-              </form>
-            </CardContent>
-          </Card>
+                </form>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </Container>
   );
 };
 
