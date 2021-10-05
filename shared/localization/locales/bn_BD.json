@@ -458,5 +458,7 @@
   "common.recent_courses": "সাম্প্রতিক কোর্স",
   "common.course_fee": "প্রশিক্ষণ খরচ",
   "common.trending_courses": "ট্রেন্ডিং কোর্স",
-  "common.nearby_training_center": "নিকটবর্তী প্রশিক্ষণ কেন্দ্র"
+  "common.nearby_training_center": "নিকটবর্তী প্রশিক্ষণ কেন্দ্র",
+  "common.fluent": "সাবলীল",
+  "common.not_fluent": "সাবলীল নয়"
 }

@@ -1,4 +1,3 @@
-import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -6,7 +5,6 @@ import {
   isResponseSuccess,
   isValidationError,
 } from '../../@softbd/utilities/helpers';
-import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
@@ -19,8 +17,9 @@ import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Box, Card, CardContent, Typography} from '@mui/material';
+import {Grid, Box, Card, CardContent, Typography} from '@mui/material';
 import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
+import {useRouter} from 'next/router';
 
 interface ReferenceAddEditPageProps {
   itemId: number | null;
@@ -35,13 +34,11 @@ const initialValues = {
   understand: '',
 };
 
-const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
-  itemId,
-  ...props
-}) => {
+const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
+  const router = useRouter();
+  const {referenceId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -65,27 +62,23 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   });
 
   const [itemData, setItemData] = useState<any>(null);
+  const itemId = Number(referenceId);
+  const isEdit = itemId != null;
 
   useEffect(() => {
-    if (itemId) {
+    if (Number(referenceId)) {
       setItemData({
-        language: '1',
-        read: '1',
-        write: '1',
-        speak: '1',
-        understand: '1',
+        firstname: 'Mr John',
+        lastname: 'Doe',
       });
     }
-  }, [itemId]);
+  }, [referenceId]);
 
   useEffect(() => {
     if (itemData) {
       reset({
-        language: itemData.language,
-        read: itemData?.read,
-        write: itemData?.write,
-        speak: itemData?.speak,
-        understand: itemData?.understand,
+        firstname: itemData.firstname,
+        lastname: itemData?.lastname,
       });
     } else {
       reset(initialValues);
@@ -103,7 +96,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -111,7 +103,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -223,20 +214,10 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={4}>
-                      <Grid item>
-                        <CancelButton
-                          onClick={props.onClose}
-                          isLoading={false}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <SubmitButton
-                          isSubmitting={isSubmitting}
-                          isLoading={false}
-                        />
-                      </Grid>
-                    </Grid>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
                   </Grid>
                 </Grid>
               </form>

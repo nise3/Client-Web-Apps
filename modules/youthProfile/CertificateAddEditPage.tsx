@@ -7,7 +7,6 @@ import {
   isResponseSuccess,
   isValidationError,
 } from '../../@softbd/utilities/helpers';
-import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
@@ -21,6 +20,7 @@ import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
 import {Box, Card, CardContent, Typography} from '@mui/material';
 import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
+import {useRouter} from 'next/router';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -36,13 +36,12 @@ const initialValues = {
   certificate_file: '',
 };
 
-const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
-  itemId,
-  ...props
-}) => {
+const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
+
+  const router = useRouter();
+  const {certificateId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -70,9 +69,11 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   });
 
   const [itemData, setItemData] = useState<any>(null);
+  const itemId = Number(certificateId);
+  const isEdit = itemId != null;
 
   useEffect(() => {
-    if (itemId) {
+    if (Number(certificateId)) {
       setItemData({
         certification: 'ML',
         institution: 'h20.io',
@@ -82,7 +83,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         certificate_file: '',
       });
     }
-  }, [itemId]);
+  }, [certificateId]);
 
   useEffect(() => {
     if (itemData) {
@@ -113,7 +114,6 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -121,7 +121,6 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -190,7 +189,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                   <Grid item xs={12}>
                     <CustomTextInput
                       id='certificate_file'
-                      label={messages['certificate.certificate_file']}
+                      label={messages['common.certificate']}
                       type={'file'}
                       register={register}
                       errorInstance={errors}
@@ -198,20 +197,10 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={4}>
-                      <Grid item>
-                        <CancelButton
-                          onClick={props.onClose}
-                          isLoading={false}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <SubmitButton
-                          isSubmitting={isSubmitting}
-                          isLoading={false}
-                        />
-                      </Grid>
-                    </Grid>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
                   </Grid>
                 </Grid>
               </form>

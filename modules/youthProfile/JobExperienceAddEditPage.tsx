@@ -26,8 +26,8 @@ import {
   Typography,
 } from '@mui/material';
 import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
-import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {useRouter} from 'next/router';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -44,13 +44,12 @@ const initialValues = {
   end_date: '',
 };
 
-const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
-  itemId,
-  ...props
-}) => {
+const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
+
+  const router = useRouter();
+  const {jobExperienceId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -81,9 +80,11 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   });
 
   const [itemData, setItemData] = useState<any>(null);
+  const itemId = Number(jobExperienceId);
+  const isEdit = itemId != null;
 
   useEffect(() => {
-    if (itemId) {
+    if (Number(jobExperienceId)) {
       setItemData({
         company_name: 'softbd ltd',
         position: 'software engineer',
@@ -94,7 +95,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         end_date: '12 oct 1993',
       });
     }
-  }, [itemId]);
+  }, [jobExperienceId]);
 
   useEffect(() => {
     if (itemData) {
@@ -123,7 +124,6 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -131,7 +131,6 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -224,20 +223,10 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={4}>
-                      <Grid item>
-                        <CancelButton
-                          onClick={props.onClose}
-                          isLoading={false}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <SubmitButton
-                          isSubmitting={isSubmitting}
-                          isLoading={false}
-                        />
-                      </Grid>
-                    </Grid>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
                   </Grid>
                 </Grid>
               </form>

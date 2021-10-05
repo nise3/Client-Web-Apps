@@ -5,7 +5,6 @@ import {
   isResponseSuccess,
   isValidationError,
 } from '../../@softbd/utilities/helpers';
-import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
@@ -38,13 +37,9 @@ const initialValues = {
   understand: '',
 };
 
-const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
-  itemId,
-  ...props
-}) => {
+const LanguageAddEditPage: FC<LanguageAddEditPageProps> = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -67,6 +62,8 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
   });
 
   const [itemData, setItemData] = useState<any>(null);
+  const itemId = 1;
+  const isEdit = itemId != null;
 
   useEffect(() => {
     if (itemId) {
@@ -105,7 +102,6 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -113,7 +109,6 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -190,11 +185,11 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
                       radios={[
                         {
                           key: '1',
-                          label: messages['common.easily'],
+                          label: messages['common.fluent'],
                         },
                         {
                           key: '2',
-                          label: messages['common.not_easily'],
+                          label: messages['common.not_fluent'],
                         },
                       ]}
                       control={control}
@@ -223,20 +218,10 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={4}>
-                      <Grid item>
-                        <CancelButton
-                          onClick={props.onClose}
-                          isLoading={false}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <SubmitButton
-                          isSubmitting={isSubmitting}
-                          isLoading={false}
-                        />
-                      </Grid>
-                    </Grid>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
                   </Grid>
                 </Grid>
               </form>

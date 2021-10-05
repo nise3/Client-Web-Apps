@@ -1,4 +1,3 @@
-import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -17,10 +16,10 @@ import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {Box, Card, CardContent, Typography} from '@mui/material';
+import {Grid, Box, Card, CardContent, Typography} from '@mui/material';
 import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
-import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {useRouter} from 'next/router';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -72,13 +71,12 @@ const initialValues = {
   passing_year: '',
 };
 
-const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
-  itemId,
-  ...props
-}) => {
+const EducationAddEditPage: FC<EducationAddEditPageProps> = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
+
+  const router = useRouter();
+  const {educationId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -115,9 +113,11 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   });
 
   const [itemData, setItemData] = useState<any>(null);
+  const itemId = Number(educationId);
+  const isEdit = itemId != null;
 
   useEffect(() => {
-    if (itemId) {
+    if (Number(educationId)) {
       setItemData({
         exam: 'HSC',
         board: '1',
@@ -130,7 +130,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
         passing_year: '1773',
       });
     }
-  }, [itemId]);
+  }, [educationId]);
 
   useEffect(() => {
     if (itemData) {
@@ -161,7 +161,6 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -169,7 +168,6 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -178,10 +176,10 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   return (
     <Box mt={4} mb={2}>
       <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3}>
           <YouthProfileNavigationSidebar />
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={12} md={5}>
           <Card>
             <CardContent>
               <Typography variant={'h6'} mb={4}>
@@ -286,20 +284,10 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={4}>
-                      <Grid item>
-                        <CancelButton
-                          onClick={props.onClose}
-                          isLoading={false}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <SubmitButton
-                          isSubmitting={isSubmitting}
-                          isLoading={false}
-                        />
-                      </Grid>
-                    </Grid>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
                   </Grid>
                 </Grid>
               </form>
