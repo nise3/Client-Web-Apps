@@ -18,10 +18,12 @@ import EducationalQualificationForm from './EducationalQualificationForm';
 import OccupationalInfoForm from './OccupationalInfoForm';
 import GuardiansInfoForm from './GuardiansInfoForm';
 import OtherInfoForm from './OtherInfoForm';
+import {useIntl} from 'react-intl';
+import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
 
 const YouthCourseRegistrationPage = () => {
   const classes = useStyles();
-
+  const {messages} = useIntl();
   const steps = useMemo(
     () => [
       'Personal Information',
@@ -47,19 +49,49 @@ const YouthCourseRegistrationPage = () => {
   const getCurrentFormContent = () => {
     switch (activeStep) {
       case 0:
-        return <PersonalInfoForm register={register} errors={errors} />;
+        return (
+          <PersonalInfoForm
+            register={register}
+            errors={errors}
+            control={control}
+          />
+        );
       case 1:
-        return <AddressForm register={register} errors={errors} />;
+        return (
+          <AddressForm register={register} errors={errors} control={control} />
+        );
       case 2:
         return (
-          <EducationalQualificationForm register={register} errors={errors} />
+          <EducationalQualificationForm
+            register={register}
+            errors={errors}
+            control={control}
+          />
         );
       case 3:
-        return <OccupationalInfoForm register={register} errors={errors} />;
+        return (
+          <OccupationalInfoForm
+            register={register}
+            errors={errors}
+            control={control}
+          />
+        );
       case 4:
-        return <GuardiansInfoForm register={register} errors={errors} />;
+        return (
+          <GuardiansInfoForm
+            register={register}
+            errors={errors}
+            control={control}
+          />
+        );
       case 5:
-        return <OtherInfoForm register={register} errors={errors} />;
+        return (
+          <OtherInfoForm
+            register={register}
+            errors={errors}
+            control={control}
+          />
+        );
       default:
         return <></>;
     }
@@ -69,11 +101,64 @@ const YouthCourseRegistrationPage = () => {
     switch (activeStep) {
       case 0:
         return yup.object().shape({
-          first_name: yup.string().trim().required().label('First Name'),
+          name_en: yup
+            .string()
+            .title('en')
+            .label(messages['common.name_en'] as string),
+          name_bn: yup
+            .string()
+            .title('bn')
+            .label(messages['common.name_bn'] as string),
+          mobile: yup
+            .string()
+            .trim()
+            .required()
+            .matches(MOBILE_NUMBER_REGEX)
+            .label(messages['common.mobile'] as string),
+          email: yup
+            .string()
+            .trim()
+            .required()
+            .email()
+            .label(messages['common.email'] as string),
+          date_of_birth: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.date_of_birth'] as string),
         });
       case 1:
         return yup.object().shape({
-          address: yup.string().trim().required().label('Address'),
+          present_division: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['divisions.label'] as string),
+          present_district: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['districts.label'] as string),
+          present_area: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.area'] as string),
+          present_road: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.road'] as string),
+          present_upazila: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['post_office.label'] as string),
+          present_post_office: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.road'] as string),
         });
       case 2:
         return yup.object().shape({});
@@ -89,6 +174,7 @@ const YouthCourseRegistrationPage = () => {
   }, [activeStep]);
 
   const {
+    control,
     register,
     handleSubmit,
     formState: {errors, isSubmitting},
