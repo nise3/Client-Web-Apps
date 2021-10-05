@@ -33,7 +33,7 @@ import {
 } from '@mui/material';
 import CustomContentCard from './CustomContentCard';
 import EducationAddEditPopup from './EducationAddEditPopup';
-import CertificateAddEditPopup from './CertificateAddEditPopup';
+import CertificateAddEditPage from './CertificateAddEditPage';
 import LanguageAddEditPopup from './LanguageAddEditPopup';
 import LanguageProficiencyViewPopup from './LanguageProficiencyViewPopup';
 import referencePeopleAvatar from '../../public/images/youth/avatar.png';
@@ -721,7 +721,7 @@ const YouthProfile = () => {
       )}
 
       {isOpenCertificateAddEditModal && (
-        <CertificateAddEditPopup
+        <CertificateAddEditPage
           key={1}
           onClose={closeCertificationAddEditModal}
           itemId={selectedItemId}
