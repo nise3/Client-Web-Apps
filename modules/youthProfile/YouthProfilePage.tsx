@@ -11,7 +11,6 @@ import CustomParabolaButton from './component/CustomParabolaButton';
 import HorizontalLine from './component/HorizontalLine';
 import CardHeader from './CardHeader';
 import JobExperience from './JobExperience';
-import CardItem from './component/CardItem';
 import SkillInfo from './SkillInfo';
 import JobExperienceAddEditPopup from './JobExperienceAddEditPopup';
 import {
@@ -41,6 +40,7 @@ import PortfolioAddEdit from './PortfolioAddEdit';
 import referencePeopleAvatar from '../../public/images/youth/avatar.png';
 import Reference from './Reference';
 import ReferenceAddEditPopup from './ReferenceAddEditPopup';
+import CardItemWithButton from './component/CardItemWithButton';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -579,7 +579,7 @@ const YouthProfile = () => {
                 <HorizontalLine />
                 <Box>
                   <CustomCarousel>
-                    {items.map((item: any, key: number) => CardItem(item, key))}
+                    {items.map((item: any, key: number) => CardItemWithButton(item, key, openPortfolioAddEditModal))}
                   </CustomCarousel>
                 </Box>
               </Card>
