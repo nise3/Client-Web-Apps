@@ -1,18 +1,16 @@
-import {createStyles, makeStyles} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {},
-    text: {
-      marginTop: '5px',
-      marginBottom: '15px',
-      color: '#888181',
-    },
-    btn: {
-      marginTop: '12px',
-      width: '100px',
-    },
-  }),
-);
+const useStyles = makeStyles(() => ({
+  root: {},
+  text: {
+    marginTop: '5px',
+    marginBottom: '15px',
+    color: '#888181',
+  },
+  btn: {
+    marginTop: '12px',
+    width: '100px',
+  },
+}));
 
 export default useStyles;

@@ -70,7 +70,7 @@ const YouthNoticeBoard = () => {
 
       <Box className={classes.paginationBox}>
         <Stack spacing={2}>
-          <Pagination count={3} variant='outlined' shape='rounded' />
+          <Pagination count={3} color={'primary'} shape='rounded' />
         </Stack>
       </Box>
     </Container>
