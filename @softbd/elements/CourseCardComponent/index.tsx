@@ -11,6 +11,7 @@ import TagChip from '../../../@softbd/elements/display/TagChip';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   trainingCardRoot: {
@@ -95,7 +96,10 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           <Box sx={{width: '100%', marginTop: '10px'}}>
             <LinearProgress variant='determinate' value={course.progress} />
             <Box>
-              {messages['common.complete']} {course.progress}%
+              <IntlMessages
+                id='course_card.complete'
+                values={{subject: course.progress + '%'}}
+              />
             </Box>
           </Box>
         )}

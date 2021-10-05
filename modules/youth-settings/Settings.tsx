@@ -8,7 +8,7 @@ import ConfirmPasswordPopup from './ConfirmPasswordPopup';
 import DeactivateAccountPopup from './DeactivateAccountPopup';
 import clsx from 'clsx';
 import {Box, Container, Grid, Paper, Typography} from '@mui/material';
-// import SideMenu from '../../@softbd/elements/YouthSideMenu';
+import SideMenu from '../../@softbd/elements/YouthSideMenu';
 
 const Settings = () => {
   const classes = useStyles();
@@ -39,10 +39,10 @@ const Settings = () => {
   }, []);
 
   return (
-    <Container className={classes.container}>
-      <Grid container spacing={6}>
+    <Container maxWidth={'xl'} className={classes.container}>
+      <Grid container spacing={5}>
         <Grid item sm={4} md={4}>
-          {/*<SideMenu />*/}
+          <SideMenu />
         </Grid>
 
         <Grid item sm={8} md={8}>

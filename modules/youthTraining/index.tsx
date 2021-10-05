@@ -14,7 +14,7 @@ const CourseListPage = () => {
     <Box className={classes.trainingViewRoot}>
       <CourseListHeaderSection />
       <Container maxWidth={'xl'} className={classes.mainContent}>
-        <Grid container spacing={2}>
+        <Grid container spacing={5}>
           <Grid item xs={12} sm={12} md={12}>
             <SkillMatchingCoursesSection />
           </Grid>

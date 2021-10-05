@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
   searchBox: {
     padding: '10px',
     alignItems: 'center',
-    marginTop: 15,
   },
   searchButton: {
     color: '#fff',
@@ -78,9 +77,9 @@ const OverviewSection = () => {
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={5}>
         <Grid item xs={12} md={12}>
-          <Grid container spacing={1}>
+          <Grid container spacing={3}>
             {overviewItems.map((overview: any, index) => {
               return (
                 <Grid item xs={12} sm={6} md={4} key={index}>
