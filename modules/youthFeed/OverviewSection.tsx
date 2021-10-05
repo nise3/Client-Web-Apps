@@ -11,17 +11,19 @@ import Tile from './components/Tile';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   searchBox: {
-    padding: '10px 5px 5px',
+    padding: '10px',
     alignItems: 'center',
     marginTop: 15,
   },
   searchButton: {
     color: '#fff',
     padding: '8px 14px',
-    width: '95%',
+    width: '100%',
+    height: '100%',
   },
   searchInputBorderHide: {
     '& fieldset': {
@@ -39,36 +41,37 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 
 const OverviewSection = () => {
   const classes: any = useStyles();
+  const {messages} = useIntl();
 
   const overviewItems = [
     {
       amount: 5,
-      text: 'Course Enrolled',
+      text: messages['youth_feed.course_enrolled'],
       color: '#c865e7',
     },
     {
       amount: 50,
-      text: 'Skill Matching Courses',
+      text: messages['common.skill_matching_course'],
       color: '#5477f0',
     },
     {
       amount: 550,
-      text: 'Total Courses',
+      text: messages['youth_feed.total_course'],
       color: '#20d5c9',
     },
     {
       amount: 320,
-      text: 'Jobs Apply',
+      text: messages['youth_feed.job_apply'],
       color: '#32be7e',
     },
     {
       amount: 2500,
-      text: 'Total Jobs',
+      text: messages['youth_feed.total_jobs'],
       color: '#e52d84',
     },
     {
       amount: 100,
-      text: 'Skill Matching Jobs',
+      text: messages['youth_feed.skill_matching_job'],
       color: '#fd9157',
     },
   ];
@@ -99,7 +102,7 @@ const OverviewSection = () => {
                 <TextField
                   variant='outlined'
                   name='searchBox'
-                  placeholder='Search'
+                  placeholder={messages['common.searchHere'] as string}
                   fullWidth
                   InputProps={{
                     startAdornment: (
@@ -118,7 +121,7 @@ const OverviewSection = () => {
                   className='selectColor'
                   style={{width: 'calc(100% - 40px)'}}
                   color={'primary'}>
-                  <option>লোকেশন</option>
+                  <option>{messages['common.location']}</option>
                 </NativeSelect>
               </Grid>
               <Grid item xs={6} sm={6} md={2}>
@@ -126,7 +129,7 @@ const OverviewSection = () => {
                   variant='contained'
                   color={'primary'}
                   className={classes.searchButton}>
-                  Search
+                  {messages['common.search']}
                 </Button>
               </Grid>
             </Grid>
