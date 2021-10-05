@@ -394,7 +394,7 @@
   "youth_feed.total_course": "Total Courses",
   "youth_feed.job_apply": "Jobs Apply",
   "youth_feed.total_jobs": "Total Jobs",
-  "youth_feed.skill_matching_job": "Skill Matching Jobs",
+  "common.skill_matching_job": "Skill Matching Jobs",
   "youth_feed.recent_post": "Recent Posts",
   "common.apply_now": "Apply Now",
   "common.apply": "Apply",
@@ -430,5 +430,17 @@
   "common.edit_portfolio": "Portfolio",
   "upload_link.portfolio_modal": "Upload Link",
   "upload_file.portfolio_modal": "Upload File",
-  "common.title": "Title"
+  "common.title": "Title",
+  "common.enroll_now": "Enroll Now",
+  "course_details.overview": "Overview",
+  "course_details.lesson": "Lesson",
+  "course_details.requirements": "Requirements",
+  "course_details.trainer": "Trainer",
+  "course_details.assisment_method": "Exam/Assisment Method",
+  "course_details.earn_certificate": "Earn a certificate upon completion",
+  "course_details.online_100_percent": "100% Online",
+  "course_details.start_instantly": "Start instantly and run",
+  "course_details.months_to_complete": "{subject} months to complete",
+  "course_details.hours_per_weeks": "hours/weeks",
+  "course_details.view_more_courses_by": "View more courses by {subject}"
 }

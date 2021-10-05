@@ -71,7 +71,7 @@ const OverviewSection = () => {
     },
     {
       amount: 100,
-      text: messages['youth_feed.skill_matching_job'],
+      text: messages['common.skill_matching_job'],
       color: '#fd9157',
     },
   ];
