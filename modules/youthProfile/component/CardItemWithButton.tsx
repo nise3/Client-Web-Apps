@@ -1,13 +1,11 @@
 import {Box, Card} from '@mui/material';
 import Image from 'next/image';
-import React, {useState} from 'react';
-import {CremaTheme} from '../../../types/AppContextPropsType';
 import {createStyles, makeStyles} from '@mui/styles';
 import {BorderColor} from '@mui/icons-material';
 import CardHeader from '../CardHeader';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: CremaTheme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     image: {
       width: '100%',
@@ -18,9 +16,13 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       right: '5%',
       top: '4%',
       zIndex: 1,
+      display: 'none',
     },
     box: {
       position: 'relative',
+      '&:hover $buttons': {
+        display: 'block !important'
+      }
     },
   }),
 );
@@ -28,21 +30,12 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 const CardItem = (item: any, key: number, onClick: any) => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const [hovers, setHover] = useState(false);
 
   return (
-    <Box mr={6} key={key}
-         onMouseEnter={() => {
-           setHover(true);
-         }}
-         onMouseLeave={() => {
-           setHover(false);
-         }}>
+    <Box mr={6} key={key}>
       <Card>
         <Box className={classes.box}>
-          <div className={classes.buttons}
-               style={{display: hovers ? 'block' : 'none'}}
-          >
+          <div className={classes.buttons}>
             <CardHeader
               buttons={[
                 {
