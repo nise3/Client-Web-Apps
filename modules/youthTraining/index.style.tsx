@@ -14,14 +14,15 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 20,
   },
   searchBox: {
-    padding: '10px 5px 5px',
+    padding: '10px',
     alignItems: 'center',
     marginTop: 10,
   },
   searchButton: {
     color: '#fff',
     padding: '8px 14px',
-    width: '95%',
+    width: '100%',
+    height: '100%',
   },
   searchInputBorderHide: {
     '& fieldset': {

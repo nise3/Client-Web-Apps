@@ -51,7 +51,7 @@ const OverviewSection = () => {
     },
     {
       amount: 50,
-      text: messages['youth_feed.skill_matching_course'],
+      text: messages['common.skill_matching_course'],
       color: '#5477f0',
     },
     {

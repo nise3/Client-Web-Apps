@@ -3,9 +3,11 @@ import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import TrainingCenterCardComponent from './conponents/TrainingCenterCardComponent';
+import {useIntl} from 'react-intl';
 
 const NearbyTrainingCenterSection = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   const trainingCenterList = [
     {
@@ -72,12 +74,12 @@ const NearbyTrainingCenterSection = () => {
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
             <Typography variant={'h5'} className={classes.sectionTitle}>
-              Nearby Training Center
+              {messages['common.nearby_training_center']}
             </Typography>
           </Grid>
           <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
             <Button variant={'outlined'} size={'medium'} color={'primary'}>
-              See All
+              {messages['common.see_all']}
               <ChevronRight />
             </Button>
           </Grid>

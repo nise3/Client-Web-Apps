@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import RecentJobComponent from './components/RecentJobComponet';
@@ -43,6 +43,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 const RecentJobSection = () => {
   const classes = useStyle();
   const {messages} = useIntl();
+  const [selectedValue, setSelectedValue] = useState(1);
 
   const items = [
     {
@@ -65,6 +66,10 @@ const RecentJobSection = () => {
     },
   ];
 
+  const onSelectChange = useCallback((value: any) => {
+    setSelectedValue(value);
+  }, []);
+
   return (
     <Card>
       <Grid container className={classes.recentSectionRoot}>
@@ -72,10 +77,14 @@ const RecentJobSection = () => {
           <Select
             id='recentJobs'
             autoWidth
-            value={1}
+            defaultValue={selectedValue}
             variant='outlined'
-            className={clsx(classes.selectStyle, classes.selectControl)}>
+            className={clsx(classes.selectStyle, classes.selectControl)}
+            onChange={onSelectChange}>
             <MenuItem value={1}>Recent Jobs</MenuItem>
+            <MenuItem value={2}>Popular Jobs</MenuItem>
+            <MenuItem value={3}>Nearby Jobs</MenuItem>
+            <MenuItem value={4}>Skill Matching Jobs</MenuItem>
           </Select>
         </Grid>
         {items.map((job: any, index: number) => {

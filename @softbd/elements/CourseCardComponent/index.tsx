@@ -10,6 +10,7 @@ import {
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   trainingCardRoot: {
@@ -54,6 +55,8 @@ interface CourseCardComponentProps {
 
 const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   const classes = useStyles();
+  const {messages} = useIntl();
+
   return (
     <Card className={classes.trainingCardRoot}>
       <CardMedia
@@ -68,7 +71,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           src={course.providerLogo}
         />
         <Box className={classes.courseFee}>
-          Course Fees:{' '}
+          {messages['common.course_fee']}:
           <Box className={classes.courseFeeStyle}>{course.fee} TK</Box>
         </Box>
         <Box fontWeight={'bold'}>{course.title}</Box>
@@ -91,7 +94,9 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         {course.progress && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
             <LinearProgress variant='determinate' value={course.progress} />
-            <Box>Complete {course.progress}%</Box>
+            <Box>
+              {messages['common.complete']} {course.progress}%
+            </Box>
           </Box>
         )}
       </CardContent>

@@ -378,7 +378,7 @@
   "common.search": "অনুসন্ধান করুন",
   "youth_feed.featured": "বৈশিষ্ট্যযুক্ত",
   "youth_feed.course_enrolled": "কোর্স ভর্তি",
-  "youth_feed.skill_matching_course": "স্কিল ম্যাচিং কোর্স",
+  "common.skill_matching_course": "স্কিল ম্যাচিং কোর্স",
   "youth_feed.total_course": "মোট কোর্স",
   "youth_feed.job_apply": "চাকরির আবেদন",
   "youth_feed.total_jobs": "মোট চাকরি",
@@ -388,5 +388,13 @@
   "common.apply": "আবেদন করুন",
   "common.details": "বিস্তারিত",
   "youth_feed.see_more_jobs": "আরো চাকরি দেখুন",
-  "youth_feed.see_more_courses": "আরও কোর্স দেখুন"
+  "youth_feed.see_more_courses": "আরও কোর্স দেখুন",
+  "training.search_header": "অনুসন্ধান কোর্স এবং প্রশিক্ষণ",
+  "common.see_all": "সবগুলো দেখ",
+  "common.popular_courses": "জনপ্রিয় কোর্স",
+  "common.nearby_courses": "কাছাকাছি কোর্স",
+  "common.recent_courses": "সাম্প্রতিক কোর্স",
+  "common.course_fee": "প্রশিক্ষণ খরচ",
+  "common.trending_courses": "ট্রেন্ডিং কোর্স",
+  "common.nearby_training_center": "নিকটবর্তী প্রশিক্ষণ কেন্দ্র"
 }
