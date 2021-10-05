@@ -28,8 +28,9 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           label={messages['divisions.label']}
           isLoading={false}
           control={control}
-          options={['none']}
-          optionValueProp={''}
+          options={options}
+          optionValueProp={'id'}
+          optionTitleProp={['label']}
           errorInstance={errors}
         />
       </Grid>
@@ -39,8 +40,9 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           label={messages['districts.label']}
           isLoading={false}
           control={control}
-          options={['none']}
-          optionValueProp={''}
+          options={options}
+          optionValueProp={'id'}
+          optionTitleProp={['label']}
           errorInstance={errors}
         />
       </Grid>
@@ -50,8 +52,9 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           label={messages['upazilas.label']}
           isLoading={false}
           control={control}
-          options={['none']}
-          optionValueProp={''}
+          options={options}
+          optionValueProp={'id'}
+          optionTitleProp={['label']}
           errorInstance={errors}
         />
       </Grid>
@@ -73,8 +76,9 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           label={messages['common.area']}
           isLoading={false}
           control={control}
-          options={['none']}
-          optionValueProp={''}
+          options={options}
+          optionValueProp={'id'}
+          optionTitleProp={['label']}
           errorInstance={errors}
         />
       </Grid>
@@ -84,8 +88,9 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           label={messages['common.road']}
           isLoading={false}
           control={control}
-          options={['none']}
-          optionValueProp={''}
+          options={options}
+          optionValueProp={'id'}
+          optionTitleProp={['label']}
           errorInstance={errors}
         />
       </Grid>
