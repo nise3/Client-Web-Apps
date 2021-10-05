@@ -31,13 +31,13 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import PersonalInformationEditPopup from './PersonalInfromationEdit';
+import PersonalInformationEditPopup from './PersonalInformationEdit';
 import CustomContentCard from './CustomContentCard';
 import EducationAddEditPopup from './EducationAddEditPopup';
 import CertificateAddEditPopup from './CertificateAddEditPopup';
 import LanguageAddEditPopup from './LanguageAddEditPopup';
-import LanguageProficiencyViewPopup from './LanguageProficiencyViewPopup';
-import PortfolioAddEditPopup from './PortfolioAddEditPopup';
+import LanguageProficiencyViewPopup from './LanguageProficiencyView';
+import PortfolioAddEdit from './PortfolioAddEdit';
 import referencePeopleAvatar from '../../public/images/youth/avatar.png';
 import Reference from './Reference';
 import ReferenceAddEditPopup from './ReferenceAddEditPopup';
@@ -173,9 +173,7 @@ const YouthProfile = () => {
     useState(false);
   const [isOpenReferenceAddEditModal, setIsOpenReferenceAddEditModal] =
     useState(false);
-  const [jobExperiences, setJobExperiences] = useState<
-    Array<JobExperienceProp> | []
-  >([]);
+  const [jobExperiences, setJobExperiences] = useState<Array<JobExperienceProp> | []>([]);
 
   useEffect(() => {
     setJobExperiences([
@@ -537,7 +535,7 @@ const YouthProfile = () => {
                       {
                         label: messages[
                           'references.add_new_reference'
-                        ] as string,
+                          ] as string,
                         icon: <BorderColor />,
                         onclick: () => openReferenceAddEditModal(null),
                       },
@@ -763,7 +761,7 @@ const YouthProfile = () => {
       )}
 
       {isOpenPortfolioAddEditModal && (
-        <PortfolioAddEditPopup
+        <PortfolioAddEdit
           key={1}
           onClose={closePortfolioAddEditModal}
           itemId={selectedItemId}

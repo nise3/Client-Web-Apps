@@ -16,7 +16,6 @@ import {
 import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
 import {
   Box,
   Card,
@@ -26,6 +25,8 @@ import {
 import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 
 interface PersonalInformationEditProps {
   itemId: number | null;
@@ -60,7 +61,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({itemId, ...p
     handleSubmit,
     setError,
     control,
-    formState: {errors},
+    formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -132,7 +133,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({itemId, ...p
           <Card>
             <CardContent>
               <Typography variant={'h6'} mb={4}>
-                {messages['common.job_experience']}
+                {isEdit ? (messages['personal_info_edit.label']) : (messages['personal_info_add.label'])}
               </Typography>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
@@ -180,45 +181,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({itemId, ...p
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='type_of_employee'
-                      label={messages['common.type_of_employee']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='location'
-                      label={messages['common.location']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      id='job_description'
-                      label={messages['job_experience.job_description']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                      multiline={true}
-                      rows={3}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CustomDateTimeField
-                      id='start_date'
-                      label={messages['job_experience.start_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-
                   <Grid item xs={12}>
                     <CustomTextInput
                       id='email_address'
@@ -331,6 +293,22 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({itemId, ...p
                       style={{display: 'none'}}
                       id='contained-button-file'
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={4}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>
