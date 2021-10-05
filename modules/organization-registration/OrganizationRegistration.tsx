@@ -100,7 +100,7 @@ const OrganizationRegistration = () => {
   const onSubmit: SubmitHandler<any> = async () => {};
 
   return (
-    <Container maxWidth={'md'} style={{marginTop: '100px'}}>
+    <Container maxWidth={'md'} style={{marginTop: '50px'}}>
       <Paper className={classes.PaperBox}>
         <Typography
           align={'center'}

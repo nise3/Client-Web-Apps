@@ -1,5 +1,5 @@
 import React from 'react';
-import useStyles from './Registration.style';
+import useStyles from './Verification.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {
   Box,
@@ -18,8 +18,8 @@ const YouthVerification = () => {
   const {messages} = useIntl();
   const enterVerificationCode = messages['common.enter_verification_code'];
   const verificationMessageOnMobile =
-    messages['common.verificationMessageOnMobile'];
-  const sendCodeText = messages['common.sendCodeText'];
+    messages['common.verification_message_on_mobile'];
+  const sendCodeText = messages['common.send_code_text'];
   const verify = messages['common.verify'];
   const {handleSubmit} = useForm();
 
