@@ -27,11 +27,18 @@ interface EducationAddEditPageProps {
   onClose: () => void;
 }
 
-const boards = [
+const exams = [
   {id: 1, title: 'HSC'},
   {id: 2, title: 'SSC'},
   {id: 3, title: 'BSC'},
   {id: 4, title: 'MSC'},
+];
+
+const boards = [
+  {id: 1, title: 'Dhaka'},
+  {id: 2, title: 'Rajshahi'},
+  {id: 3, title: 'Chittagong'},
+  {id: 4, title: 'Barisal'},
 ];
 
 const groups = [
@@ -183,12 +190,15 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
-                    <CustomTextInput
-                      id='exam'
+                    <CustomFormSelect
+                      id={'exam'}
                       label={messages['education.exam']}
-                      register={register}
-                      errorInstance={errors}
                       isLoading={false}
+                      control={control}
+                      options={exams}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title']}
+                      errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12}>
