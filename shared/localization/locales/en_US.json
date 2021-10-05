@@ -194,7 +194,6 @@
   "common.row_status": "Status",
   "common.profile_name": "Profile Name",
   "common.user_name": "Username",
-  "common.company_name": "Company Name",
   "common.company_type": "Company type",
   "common.company_address": "Company address",
   "common.designation": "Designation",
@@ -388,5 +387,11 @@
   "common.trending_courses": "Trending Courses",
   "common.nearby_courses": "Nearby Courses",
   "common.recent_courses": "Recent Courses",
-  "common.nearby_training_center": "Nearby Training Center"
+  "common.nearby_training_center": "Nearby Training Center",
+  "education.label": "Education",
+  "language.label": "language",
+  "language.read": "Read",
+  "language.write": "Write",
+  "language.speak": "Speak",
+  "language.understand": "Understand"
 }
