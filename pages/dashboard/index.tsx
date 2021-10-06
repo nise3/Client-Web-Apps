@@ -1,5 +1,4 @@
 import React from 'react';
-import AppPage from '../../@crema/hoc/AppPage';
 import PageMeta from '../../@crema/core/PageMeta';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import Badge from '../../@crema/core/Badge';
@@ -19,8 +18,12 @@ import GridContainer from '../../@crema/core/GridContainer';
 import Loader from '../../@crema/core/Loader';
 import SearchBar from '../../@crema/core/SearchBar';
 import SemiCircleProgress from '../../@crema/core/SemiCircleProgress';
+import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
+import {useTheme} from '@mui/system';
 
-export default AppPage(() => {
+export default NiseFrontPage(() => {
+  const theme = useTheme();
+  console.log(theme);
   const {successStack} = useNotiStack();
 
   const onShowMessage = () => {
