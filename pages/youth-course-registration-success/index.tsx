@@ -4,15 +4,17 @@ import FrontPage from '../../@crema/hoc/FrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const YouthConfirmEmailPage = asyncComponent(
+const YouthCourseRegistrationSuccessPage = asyncComponent(
   () => import('../../modules/youth-course-registration-success/index'),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.confirm_email'] as string} />
-      <YouthConfirmEmailPage />
+      <PageMeta
+        title={messages['common.course_registration_success'] as string}
+      />
+      <YouthCourseRegistrationSuccessPage />
     </>
   );
 });
