@@ -145,7 +145,6 @@
   "common.amount": "Amount",
   "common.type": "Type",
   "common.created": "Created",
-  "common.next": "Next",
   "common.save": "Save",
   "common.na": "No",
   "common.no": "No",
@@ -477,5 +476,12 @@
   "freelance_corner.java_developer": "Java Developer",
   "freelance_corner.filter_title": "What works do you want?",
   "freelance_corner.specific_location": "Specific Location",
-  "freelance_corner.add_location": "Add Location"
+  "freelance_corner.add_location": "Add Location",
+  "feedback.institution": "Feedback",
+  "advice.institute": "Advice",
+  "recipient.institute": "Recipient",
+  "contact_with_us.institute": "Contact with us",
+  "find_our_location_in_map.institute": "Find our location in map",
+  "faq.institute": "FAQ",
+  "contact.institute": "Contact"
 }
