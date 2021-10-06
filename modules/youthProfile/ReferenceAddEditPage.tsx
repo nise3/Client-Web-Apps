@@ -17,16 +17,8 @@ import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  Grid,
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Container,
-} from '@mui/material';
-import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
-import {useRouter} from 'next/router';
+import {Grid, Box, Card, CardContent} from '@mui/material';
+import {DialogTitle} from '../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 
 interface ReferenceAddEditPageProps {
   itemId: number | null;
@@ -41,11 +33,12 @@ const initialValues = {
   understand: '',
 };
 
-const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = () => {
+const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
+  itemId,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const router = useRouter();
-  const {referenceId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -69,17 +62,16 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = () => {
   });
 
   const [itemData, setItemData] = useState<any>(null);
-  const itemId = Number(referenceId);
   const isEdit = itemId != null;
 
   useEffect(() => {
-    if (Number(referenceId)) {
+    if (itemId) {
       setItemData({
         firstname: 'Mr John',
         lastname: 'Doe',
       });
     }
-  }, [referenceId]);
+  }, [itemId]);
 
   useEffect(() => {
     if (itemData) {
@@ -103,6 +95,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -110,131 +103,127 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
   return (
-    <Container maxWidth={'lg'}>
-      <Box mt={4} mb={2}>
-        <Grid container justifyContent={'center'} spacing={2}>
-          <Grid item md={4}>
-            <YouthProfileNavigationSidebar />
-          </Grid>
-          <Grid item md={8}>
-            <Card>
-              <CardContent>
-                <Typography variant={'h6'} mb={4}>
-                  {messages['reference.label']}
-                </Typography>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={6}>
-                      <CustomTextInput
-                        id='firstname'
-                        label={messages['reference.firstname']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <CustomTextInput
-                        id='lastname'
-                        label={messages['reference.lastname']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='organization'
-                        label={messages['organization.label']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='designation'
-                        label={messages['common.designation']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='address'
-                        label={messages['common.address']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='email_address'
-                        label={messages['common.email']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='phone_number'
-                        label={messages['common.phone']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='relation'
-                        label={messages['common.relation']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormRadioButtons
-                        id='allow_contact'
-                        label={'reference.allow_contact'}
-                        radios={[
-                          {
-                            key: '1',
-                            label: messages['common.yes'],
-                          },
-                          {
-                            key: '2',
-                            label: messages['common.no'],
-                          },
-                        ]}
-                        control={control}
-                        defaultValue={'1'}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <SubmitButton
-                        isSubmitting={isSubmitting}
-                        isLoading={false}
-                      />
-                    </Grid>
+    <Box mt={4} mb={2}>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item>
+          <Card>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['reference.label']}
+              </DialogTitle>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='firstname'
+                      label={messages['reference.firstname']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
                   </Grid>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='lastname'
+                      label={messages['reference.lastname']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='organization'
+                      label={messages['organization.label']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='designation'
+                      label={messages['common.designation']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='address'
+                      label={messages['common.address']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='email_address'
+                      label={messages['common.email']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='phone_number'
+                      label={messages['common.phone']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='relation'
+                      label={messages['common.relation']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormRadioButtons
+                      id='allow_contact'
+                      label={'reference.allow_contact'}
+                      radios={[
+                        {
+                          key: '1',
+                          label: messages['common.yes'],
+                        },
+                        {
+                          key: '2',
+                          label: messages['common.no'],
+                        },
+                      ]}
+                      control={control}
+                      defaultValue={'1'}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
-      </Box>
-    </Container>
+      </Grid>
+    </Box>
   );
 };
 

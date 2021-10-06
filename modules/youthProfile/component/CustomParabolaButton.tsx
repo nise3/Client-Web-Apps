@@ -6,8 +6,7 @@ import {Button} from '@mui/material';
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
     CustomParabolaButton: {
-      border: '1px solid green',
-      borderRadius: '40px',
+      borderRadius: 40,
     },
   }),
 );

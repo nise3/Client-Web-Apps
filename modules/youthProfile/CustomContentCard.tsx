@@ -54,10 +54,10 @@ const CustomContentCard = ({
         container
         justifyContent={'space-between'}
         className={classes.skillCard}>
-        <Grid item sm={6}>
+        <Grid item>
           <Grid container>
             {contentLogo && <Grid item>{contentLogo}</Grid>}
-            <Grid item sm={6}>
+            <Grid item>
               <Box ml={1} mb={2}>
                 <Typography variant={'subtitle2'}>{contentTitle}</Typography>
                 <Typography variant={'caption'}>
@@ -68,7 +68,7 @@ const CustomContentCard = ({
           </Grid>
         </Grid>
         {contentEditButton && (
-          <Grid item sm={6}>
+          <Grid item>
             <Grid container justifyContent={'flex-end'}>
               <Box>
                 <CustomParabolaButton

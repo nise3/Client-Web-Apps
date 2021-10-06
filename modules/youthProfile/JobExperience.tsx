@@ -8,6 +8,7 @@ import {AccessTime, BorderColor} from '@mui/icons-material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Box, Grid, Typography} from '@mui/material';
+import DeleteButton from '../../@softbd/elements/button/DeleteButton/DeleteButton';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -30,7 +31,8 @@ type JobExperienceProp = {
   jobLocation?: string;
   jobPeriod?: string;
   jobDescription?: string;
-  openAddEditModal?: () => void;
+  openAddEditForm?: () => void;
+  deleteJobExperience: () => void;
 };
 
 const JobExperience = ({
@@ -40,7 +42,8 @@ const JobExperience = ({
   jobLocation,
   jobPeriod,
   jobDescription,
-  openAddEditModal,
+  openAddEditForm,
+  deleteJobExperience,
 }: JobExperienceProp) => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -66,7 +69,11 @@ const JobExperience = ({
                 buttonVariant={'outlined'}
                 title={messages['common.edit_btn'] as string}
                 icon={<BorderColor />}
-                onclick={openAddEditModal}
+                onclick={openAddEditForm}
+              />
+              <DeleteButton
+                deleteAction={deleteJobExperience}
+                deleteTitle={'Delete'}
               />
             </Box>
           </Grid>

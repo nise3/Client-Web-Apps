@@ -1,6 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import yup from '../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
 import {
@@ -13,7 +13,6 @@ import {
   TableRow,
 } from '@mui/material';
 import EditButton from '../../@softbd/elements/button/EditButton/EditButton';
-import {useRouter} from 'next/router';
 
 let languages = [
   {
@@ -41,10 +40,14 @@ const initialValues = {
   speak: '',
   understand: '',
 };
+type LanguageProficiencyViewPageProps = {
+  onEdit: (itemId: number) => void;
+};
 
-const LanguageProficiencyViewPage = () => {
+const LanguageProficiencyViewPage = ({
+  onEdit,
+}: LanguageProficiencyViewPageProps) => {
   const {messages} = useIntl();
-  const router = useRouter();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -59,14 +62,6 @@ const LanguageProficiencyViewPage = () => {
   const {reset} = useForm({
     resolver: yupResolver(validationSchema),
   });
-
-  const editLanguage = useCallback((itemId: number) => {
-    const URL = '/../../youth-profile-edit/language/__'.replace(
-      '__',
-      String(itemId),
-    );
-    router.push(URL);
-  }, []);
 
   const [itemData] = useState<any>(null);
 
@@ -98,7 +93,7 @@ const LanguageProficiencyViewPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {languages.map((language, i) => (
+          {languages.map((language, i: number) => (
             <TableRow key={i}>
               <TableCell component='th' scope='language'>
                 {language.title}
@@ -110,7 +105,7 @@ const LanguageProficiencyViewPage = () => {
               <TableCell>
                 <EditButton
                   size={'small'}
-                  onClick={() => editLanguage(language.id)}
+                  onClick={() => onEdit(language.id)}
                 />
               </TableCell>
             </TableRow>

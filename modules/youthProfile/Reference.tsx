@@ -19,16 +19,17 @@ type ReferenceProp = {
 };
 
 const Reference = ({
+  key,
   name,
   image,
   position,
   email,
   phone,
   location,
-  key,
   onclick,
 }: ReferenceProp) => {
   const {messages} = useIntl();
+
   return (
     <React.Fragment key={key}>
       <HorizontalLine />
