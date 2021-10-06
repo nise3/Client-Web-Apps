@@ -34,34 +34,39 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const {messages} = useIntl();
 
   const [value, setValue] = useState('1');
-  const overviewRef = useRef<any>(null);
-  const lessonRef = useRef<any>(null);
-  const requirementRef = useRef<any>(null);
-  const trainerRef = useRef<any>(null);
+  const overviewRef = useRef<any>();
+  const lessonRef = useRef<any>();
+  const requirementRef = useRef<any>();
+  const trainerRef = useRef<any>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
 
-    if (newValue == '1' && overviewRef) {
-      overviewRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (newValue == '2' && lessonRef) {
-      lessonRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (newValue == '3' && requirementRef) {
-      requirementRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (newValue == '4' && trainerRef) {
-      trainerRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+    switch (newValue) {
+      case '1':
+        overviewRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case '2':
+        lessonRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case '3':
+        requirementRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case '4':
+        trainerRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
     }
   };
 
@@ -181,9 +186,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <List dense={false} className={classes.listStyle}>
                 {(course.lessonsList || []).map((lesson: any, index: any) => {
                   return (
-                    <>
-                      {index != 0 && <Divider key={'d' + index} />}
-                      <ListItem key={index}>
+                    <React.Fragment key={index}>
+                      {index != 0 && <Divider />}
+                      <ListItem>
                         <ListItemAvatar>
                           <Avatar>
                             <PlayCircleOutline />
@@ -195,7 +200,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                           secondary={lesson.duration + ' minutes'}
                         />
                       </ListItem>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </List>
