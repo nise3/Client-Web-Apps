@@ -144,6 +144,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           options={[]}
           optionValueProp={''}
           errorInstance={errors}
+          isDisabled={disabledPermanentAddress}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -155,6 +156,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           options={[]}
           optionValueProp={''}
           errorInstance={errors}
+          isDisabled={disabledPermanentAddress}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -166,6 +168,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           options={[]}
           optionValueProp={''}
           errorInstance={errors}
+          isDisabled={disabledPermanentAddress}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -177,6 +180,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           options={[]}
           optionValueProp={''}
           errorInstance={errors}
+          isDisabled={disabledPermanentAddress}
         />
       </Grid>
     </Grid>
