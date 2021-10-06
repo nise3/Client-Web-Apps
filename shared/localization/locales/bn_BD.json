@@ -346,7 +346,7 @@
   "common.new_email": "নতুন ইমেইল অথবা আইডি",
   "common.old_email": "পুরাতন ইমেইল অথবা আইডি",
   "common.change_userId": "চেঞ্জ ইউজার আইডি",
-  "common.change_password": "Change password",
+  "common.change_password": "চেঞ্জ পাসওয়ার্ড",
   "common.forgot_password": "Forgot password",
   "common.confirm_email": "Confirm Email",
   "common.deactivate": "Deactivate",
