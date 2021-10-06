@@ -18,8 +18,6 @@ interface OtherInfoFormProps {
 
 const OtherInfoForm: FC<OtherInfoFormProps> = ({register, errors, control}) => {
   const {messages} = useIntl();
-  const yes = messages['common.yes'];
-  const no = messages['common.no'];
   return (
     <Grid container spacing={5}>
       <Grid item xs={12} md={6}>
@@ -36,44 +34,70 @@ const OtherInfoForm: FC<OtherInfoFormProps> = ({register, errors, control}) => {
       <Grid item xs={12} md={6}>
         <FormControl component='fieldset'>
           <FormLabel component='legend'>
-            Does your family own any house?
+            {messages['common.own_house?']}
           </FormLabel>
           <RadioGroup
             row
             aria-label='position'
             name='position'
             defaultValue='unmarried'>
-            <FormControlLabel value='yes' control={<Radio />} label={yes} />
-            <FormControlLabel value='no' control={<Radio />} label={no} />
+            <FormControlLabel
+              value='yes'
+              control={<Radio />}
+              label={messages['common.yes']}
+            />
+            <FormControlLabel
+              value='no'
+              control={<Radio />}
+              label={messages['common.no']}
+            />
           </RadioGroup>
         </FormControl>
       </Grid>
       <Grid item xs={12} md={6}>
         <FormControl component='fieldset'>
           <FormLabel component='legend'>
-            Does your family own any property?
+            {messages['common.own_property?']}
           </FormLabel>
           <RadioGroup
             row
             aria-label='position'
             name='position'
-            defaultValue='unmarried'>
-            <FormControlLabel value='yes' control={<Radio />} label={yes} />
-            <FormControlLabel value='no' control={<Radio />} label={no} />
+            defaultValue='yes'>
+            <FormControlLabel
+              value='yes'
+              control={<Radio />}
+              label={messages['common.yes']}
+            />
+            <FormControlLabel
+              value='no'
+              control={<Radio />}
+              label={messages['common.no']}
+            />
           </RadioGroup>
         </FormControl>
       </Grid>
 
       <Grid item xs={12} md={6}>
         <FormControl component='fieldset'>
-          <FormLabel component='legend'>ds</FormLabel>
+          <FormLabel component='legend'>
+            {messages['common.proposed_organization?']}
+          </FormLabel>
           <RadioGroup
             row
             aria-label='position'
             name='position'
-            defaultValue='unmarried'>
-            <FormControlLabel value='yes' control={<Radio />} label={yes} />
-            <FormControlLabel value='no' control={<Radio />} label={no} />
+            defaultValue='yes'>
+            <FormControlLabel
+              value='yes'
+              control={<Radio />}
+              label={messages['common.yes']}
+            />
+            <FormControlLabel
+              value='no'
+              control={<Radio />}
+              label={messages['common.no']}
+            />
           </RadioGroup>
         </FormControl>
       </Grid>

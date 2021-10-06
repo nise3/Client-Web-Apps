@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -9,6 +9,7 @@ interface AddressFormProps {
   errors: any;
   control: any;
 }
+
 const options = [
   {
     id: 1,
@@ -18,8 +19,12 @@ const options = [
 
 const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
   const {messages} = useIntl();
-  const permanent_address = messages['common.permanent_address'];
-  const handleCheckBox = () => {};
+  const [disabledPermanentAddress, setDisabledPermanentAddress] =
+    useState<boolean>(false);
+
+  const handleCheckBox = useCallback((event) => {
+    setDisabledPermanentAddress(event.target.checked);
+  }, []);
   return (
     <Grid container spacing={5}>
       <Grid item xs={12} md={6}>
@@ -95,11 +100,13 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant={'h6'}>{permanent_address}</Typography>
+        <Typography variant={'h6'}>
+          {messages['common.permanent_address']}
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <FormControlLabel
-          control={<Checkbox defaultChecked />}
+          control={<Checkbox defaultChecked={false} />}
           label='Same as current'
           onChange={handleCheckBox}
         />
@@ -113,6 +120,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           options={[]}
           optionValueProp={''}
           errorInstance={errors}
+          isDisabled={disabledPermanentAddress}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -124,6 +132,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           options={[]}
           optionValueProp={''}
           errorInstance={errors}
+          isDisabled={disabledPermanentAddress}
         />
       </Grid>
       <Grid item xs={12} md={6}>

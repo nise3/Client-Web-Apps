@@ -26,6 +26,7 @@ type Props = {
   onChange?: (e: any) => any;
   multiple?: boolean;
   inputProps?: any;
+  isDisabled?: boolean;
 };
 
 const CustomFormSelect = ({
@@ -39,13 +40,12 @@ const CustomFormSelect = ({
   defaultValue,
   optionValueProp,
   optionTitleProp,
-  maxHeight,
+  maxHeight = 400,
   multiple,
   onChange: onChangeCallback,
   inputProps,
+  isDisabled = false,
 }: Props) => {
-  maxHeight = maxHeight ? maxHeight : 400;
-
   const getTitle = (
     option: any,
     optionTitleProp: Array<string> | undefined,
@@ -68,6 +68,7 @@ const CustomFormSelect = ({
     <FormControl
       variant='outlined'
       fullWidth={true}
+      disabled={isDisabled}
       error={!!errorInstance?.[id]}
       size={size ? size : 'small'}>
       <InputLabel id='select-outlined-label'>{label}</InputLabel>
