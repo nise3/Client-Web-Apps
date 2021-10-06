@@ -20,7 +20,9 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({
   return (
     <Grid container spacing={5}>
       <Grid item xs={12}>
-        <Typography variant={'h6'}>Father's Information</Typography>
+        <Typography variant={'h6'}>
+          {messages['common.father_information']}
+        </Typography>
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
@@ -58,7 +60,9 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({
         />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant={'h6'}>Mother's Information</Typography>
+        <Typography variant={'h6'}>
+          {messages['common.mother_information']}
+        </Typography>
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput

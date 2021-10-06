@@ -26,12 +26,12 @@ const YouthCourseRegistrationPage = () => {
   const {messages} = useIntl();
   const steps = useMemo(
     () => [
-      'Personal Information',
-      'Address',
-      'Educational Qualification',
-      'Occupational Information',
-      'Guardians Information',
-      'Other Information',
+      messages['common.personal_information'],
+      messages['common.address'],
+      messages['common.educational_qualification'],
+      messages['common.occupational_information'],
+      messages['common.guardian_info'],
+      messages['common.other_information'],
     ],
     [],
   );
@@ -200,14 +200,17 @@ const YouthCourseRegistrationPage = () => {
       </Box>
 
       <Box sx={{width: '100%'}}>
-        <Stepper activeStep={activeStep} alternativeLabel>
+        <Stepper
+          activeStep={activeStep}
+          alternativeLabel
+          style={{marginBottom: '10px'}}>
           {steps.map((label, index) => {
             const stepProps: {completed?: boolean} = {};
             const labelProps: {
               optional?: React.ReactNode;
             } = {};
             return (
-              <Step key={label} {...stepProps}>
+              <Step key={label as string} {...stepProps}>
                 <StepLabel {...labelProps}>{label}</StepLabel>
               </Step>
             );
@@ -234,7 +237,9 @@ const YouthCourseRegistrationPage = () => {
                 variant={'contained'}
                 color={'primary'}
                 disabled={isSubmitting}>
-                {activeStep == steps.length - 1 ? 'Submit' : 'Next'}
+                {activeStep == steps.length - 1
+                  ? messages['common.submit']
+                  : messages['common.next']}
               </Button>
             </form>
           </React.Fragment>
