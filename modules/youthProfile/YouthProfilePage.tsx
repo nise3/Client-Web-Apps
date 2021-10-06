@@ -11,8 +11,8 @@ import CustomParabolaButton from './component/CustomParabolaButton';
 import HorizontalLine from './component/HorizontalLine';
 import CardHeader from './CardHeader';
 import JobExperience from './JobExperience';
-import CardItem from './component/CardItem';
 import SkillInfo from './SkillInfo';
+import JobExperienceAddEditPopup from './JobExperienceAddEditPopup';
 import {
   Add,
   BorderColor,
@@ -30,10 +30,17 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
+import PersonalInformationEditPopup from './PersonalInformationEdit';
 import CustomContentCard from './CustomContentCard';
+import EducationAddEditPopup from './EducationAddEditPopup';
+import CertificateAddEditPopup from './CertificateAddEditPopup';
+import LanguageAddEditPopup from './LanguageAddEditPopup';
+import LanguageProficiencyViewPopup from './LanguageProficiencyView';
+import PortfolioAddEdit from './PortfolioAddEdit';
 import referencePeopleAvatar from '../../public/images/youth/avatar.png';
 import Reference from './Reference';
-import {useRouter} from 'next/router';
+import ReferenceAddEditPopup from './ReferenceAddEditPopup';
+import CardItemWithButton from './component/CardItemWithButton';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -125,7 +132,6 @@ type JobExperienceProp = {
 
 const references = [
   {
-    id: 1,
     name: 'Istiak',
     position: 'Ui/UX designer',
     image: referencePeopleAvatar,
@@ -134,7 +140,6 @@ const references = [
     location: 'mirpur 292010',
   },
   {
-    id: 2,
     name: 'Md. Istiak Ahmen',
     position: 'Software Engineer',
     image: referencePeopleAvatar,
@@ -148,11 +153,27 @@ const YouthProfile = () => {
   const classes = useStyles();
   const {messages} = useIntl();
 
-  const [jobExperiences, setJobExperiences] = useState<
-    Array<JobExperienceProp> | []
-  >([]);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isOpenJobExperienceAddEditModal, setIsOpenJobExperienceAddEditModal] =
+    useState(false);
+  const [isOpenEducationAddEditModal, setIsOpenEducationAddEditModal] =
+    useState(false);
+  const [isOpenCertificateAddEditModal, setIsOpenCertificateAddEditModal] =
+    useState(false);
+  const [isOpenLanguageAddEditModal, setIsOpenLanguageAddEditModal] =
+    useState(false);
+  const [
+    isOpenLanguageProficiencyViewModal,
+    setIsOpenLanguageProficiencyViewModal,
+  ] = useState(false);
+  const [isOpenPortfolioAddEditModal, setIsOpenPortfolioAddEditModal] =
+    useState(false);
 
-  const router = useRouter();
+  const [isOpenPersonalInfoAddEditModal, setIsOpenPersonalInfoAddEditModal] =
+    useState(false);
+  const [isOpenReferenceAddEditModal, setIsOpenReferenceAddEditModal] =
+    useState(false);
+  const [jobExperiences, setJobExperiences] = useState<Array<JobExperienceProp> | []>([]);
 
   useEffect(() => {
     setJobExperiences([
@@ -179,71 +200,109 @@ const YouthProfile = () => {
     ]);
   }, []);
 
-  const openJobExperienceAddEditPage = useCallback(
-    (itemId: number | null = null) => {
-      const URL = '/../../youth-profile-edit/job-experience/__'.replace(
-        '__',
-        String(itemId),
-      );
-      router.push(URL);
-    },
-    [],
-  );
-
-  const openReferenceAddEditPage = useCallback(
-    (itemId: number | null = null) => {
-      const URL = '/../../youth-profile-edit/reference/__'.replace(
-        '__',
-        String(itemId),
-      );
-      router.push(URL);
-    },
-    [],
-  );
-
-  const openPortfolioAddEditPage = useCallback(
-    (itemId: number | null = null) => {
-      const URL = '/../../youth-profile-edit/portfolio/__'.replace(
-        '__',
-        String(itemId),
-      );
-      router.push(URL);
-    },
-    [],
-  );
-
-  const openCertificateAddEdit = useCallback((itemId: number | null = null) => {
-    const URL = '/../../youth-profile-edit/certificate/__'.replace(
-      '__',
-      String(itemId),
-    );
-    router.push(URL);
+  const closeJobExperienceAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenJobExperienceAddEditModal(false);
   }, []);
 
-  const openEducationAddEditPage = useCallback(
+  const openJobExperienceAddEditModal = useCallback(
     (itemId: number | null = null) => {
-      const URL = '/../../youth-profile-edit/education/__'.replace(
-        '__',
-        String(itemId),
-      );
-      router.push(URL);
+      setSelectedItemId(itemId);
+      setIsOpenJobExperienceAddEditModal(true);
     },
     [],
   );
 
-  const openLanguageAddEditPage = useCallback(() => {
-    const URL = '/../../youth-profile-edit/language/null';
-    router.push(URL);
+  const closePersonalInfoAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenPersonalInfoAddEditModal(false);
   }, []);
 
-  const openLanguageProficiencyViewPage = useCallback(
+  const openPersonalInfoAddEditModal = useCallback(
     (itemId: number | null = null) => {
-      const URL = '/../../youth-profile-edit/view-language-proficiency';
-      router.push(URL);
+      setSelectedItemId(itemId);
+      setIsOpenPersonalInfoAddEditModal(true);
     },
     [],
   );
 
+  const closeEducationAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenEducationAddEditModal(false);
+  }, []);
+
+  const openEducationAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenEducationAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeCertificationAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenCertificateAddEditModal(false);
+  }, []);
+
+  const openCertificationAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenCertificateAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeLanguageAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenLanguageAddEditModal(false);
+  }, []);
+
+  const openLanguageAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenLanguageAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeLanguageProficiencyViewModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenLanguageProficiencyViewModal(false);
+  }, []);
+
+  const openLanguageProficiencyViewModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenLanguageProficiencyViewModal(true);
+    },
+    [],
+  );
+
+  const closePortfolioAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenPortfolioAddEditModal(false);
+  }, []);
+
+  const openPortfolioAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenPortfolioAddEditModal(true);
+    },
+    [],
+  );
+
+  const closeReferenceAddEditModal = useCallback(() => {
+    setSelectedItemId(null);
+    setIsOpenReferenceAddEditModal(false);
+  }, []);
+
+  const openReferenceAddEditModal = useCallback(
+    (itemId: number | null = null) => {
+      setSelectedItemId(itemId);
+      setIsOpenReferenceAddEditModal(true);
+    },
+    [],
+  );
   return (
     <>
       <Container className={classes.container}>
@@ -285,6 +344,7 @@ const YouthProfile = () => {
                       <CustomParabolaButton
                         title={messages['youth_profile.edit_profile'] as string}
                         icon={<BusinessCenter />}
+                        onclick={openPersonalInfoAddEditModal}
                       />
                     </Grid>
                   </Grid>
@@ -350,7 +410,7 @@ const YouthProfile = () => {
                           messages['youth_profile.add_new_experience'] as string
                         }
                         icon={<BusinessCenter />}
-                        onclick={() => openJobExperienceAddEditPage(null)}
+                        onclick={() => openJobExperienceAddEditModal(null)}
                       />
                     </Grid>
                   </Grid>
@@ -366,7 +426,7 @@ const YouthProfile = () => {
                           jobLocation={jobExperience.jobLocation}
                           jobDescription={jobExperience.jobDescription}
                           openAddEditModal={() =>
-                            openJobExperienceAddEditPage(jobExperience.id)
+                            openJobExperienceAddEditModal(jobExperience.id)
                           }
                         />
                       </React.Fragment>
@@ -385,7 +445,7 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_new_education'] as string,
                         icon: <Add />,
-                        onclick: () => openEducationAddEditPage(null),
+                        onclick: () => openEducationAddEditModal(null),
                       },
                     ]}
                   />
@@ -395,7 +455,7 @@ const YouthProfile = () => {
                     contentServiceProvider={'Interaction Design Foundation'}
                     date={'Oct 2020'}
                     location={'Dhaka 1215'}
-                    contentEditButton={() => openEducationAddEditPage(1)}
+                    contentEditButton={() => openEducationAddEditModal(1)}
                   />
                 </CardContent>
               </Card>
@@ -410,7 +470,7 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_new_certificate'] as string,
                         icon: <Add />,
-                        onclick: () => openCertificateAddEdit(null),
+                        onclick: () => openCertificationAddEditModal(null),
                       },
                     ]}
                   />
@@ -420,7 +480,7 @@ const YouthProfile = () => {
                     contentServiceProvider={'Interaction Design Foundation'}
                     date={'Oct 2020'}
                     location={'Dhaka 1215'}
-                    contentEditButton={() => openCertificateAddEdit(1)}
+                    contentEditButton={() => openCertificationAddEditModal(1)}
                   />
                 </CardContent>
               </Card>
@@ -435,12 +495,12 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_language'] as string,
                         icon: <Add />,
-                        onclick: () => openLanguageAddEditPage(),
+                        onclick: () => openLanguageAddEditModal(null),
                       },
                       {
                         label: messages['common.edit_btn'] as string,
                         icon: <Add />,
-                        onclick: () => openLanguageAddEditPage(),
+                        onclick: () => openLanguageAddEditModal(1),
                       },
                     ]}
                   />
@@ -455,7 +515,9 @@ const YouthProfile = () => {
                           },
                         }}
                         component={'span'}
-                        onClick={() => openLanguageProficiencyViewPage()}>
+                        onClick={() =>
+                          openLanguageProficiencyViewModal(selectedItemId)
+                        }>
                         View language proficiency
                       </Box>
                     }
@@ -473,9 +535,9 @@ const YouthProfile = () => {
                       {
                         label: messages[
                           'references.add_new_reference'
-                        ] as string,
+                          ] as string,
                         icon: <BorderColor />,
-                        onclick: () => openReferenceAddEditPage(null),
+                        onclick: () => openReferenceAddEditModal(null),
                       },
                     ]}
                   />
@@ -489,7 +551,6 @@ const YouthProfile = () => {
                       phone={reference.phone}
                       email={reference.email}
                       location={reference.location}
-                      onclick={() => openReferenceAddEditPage(reference.id)}
                     />
                   ))}
                 </CardContent>
@@ -505,12 +566,12 @@ const YouthProfile = () => {
                       {
                         label: messages['common.add_new_portfolio'] as string,
                         icon: <BorderColor />,
-                        onclick: () => openPortfolioAddEditPage(null),
+                        onclick: () => openPortfolioAddEditModal(null),
                       },
                       {
                         label: messages['common.edit_btn'] as string,
                         icon: <BorderColor />,
-                        onclick: () => openPortfolioAddEditPage(1),
+                        onclick: () => openPortfolioAddEditModal(1),
                       },
                     ]}
                   />
@@ -518,7 +579,7 @@ const YouthProfile = () => {
                 <HorizontalLine />
                 <Box>
                   <CustomCarousel>
-                    {items.map((item: any, key: number) => CardItem(item, key))}
+                    {items.map((item: any, key: number) => CardItemWithButton(item, key, openPortfolioAddEditModal))}
                   </CustomCarousel>
                 </Box>
               </Card>
@@ -643,6 +704,69 @@ const YouthProfile = () => {
         </Grid>
         <Footer />
       </Container>
+      {isOpenJobExperienceAddEditModal && (
+        <JobExperienceAddEditPopup
+          key={1}
+          onClose={closeJobExperienceAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenEducationAddEditModal && (
+        <EducationAddEditPopup
+          key={1}
+          onClose={closeEducationAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenCertificateAddEditModal && (
+        <CertificateAddEditPopup
+          key={1}
+          onClose={closeCertificationAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenLanguageAddEditModal && (
+        <LanguageAddEditPopup
+          key={1}
+          onClose={closeLanguageAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenReferenceAddEditModal && (
+        <ReferenceAddEditPopup
+          key={1}
+          onClose={closeReferenceAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenLanguageProficiencyViewModal && (
+        <LanguageProficiencyViewPopup
+          key={1}
+          onClose={closeLanguageProficiencyViewModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenPersonalInfoAddEditModal && (
+        <PersonalInformationEditPopup
+          key={1}
+          onClose={closePersonalInfoAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
+
+      {isOpenPortfolioAddEditModal && (
+        <PortfolioAddEdit
+          key={1}
+          onClose={closePortfolioAddEditModal}
+          itemId={selectedItemId}
+        />
+      )}
     </>
   );
 };
