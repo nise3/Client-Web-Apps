@@ -1,16 +1,16 @@
 import React, {useContext, useState} from 'react';
 import {SketchPicker} from 'react-color';
-import {makeStyles} from '@material-ui/core/index';
-import Box from '@material-ui/core/Box';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
 import AppContext from '../../utility/AppContext';
 import {CremaTheme} from '../../../types/AppContextPropsType';
-import {grey} from '@material-ui/core/colors';
+import {grey} from '@mui/material/colors';
 
 interface SidebarColorPickerProps {
   props?: any;
 }
 
-const SidebarColorPicker: React.FC<SidebarColorPickerProps> = props => {
+const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
   const {theme, sidebarColor, updateTheme} = useContext(AppContext);
 
@@ -54,7 +54,7 @@ const SidebarColorPicker: React.FC<SidebarColorPickerProps> = props => {
         <Box className={classes.cpPopover} onClick={() => setVisibility(false)}>
           <SketchPicker
             color={sidebarColor}
-            onChangeComplete={color => {
+            onChangeComplete={(color) => {
               theme.palette.sidebar.bgColor = color.hex;
               updateTheme!(theme);
             }}

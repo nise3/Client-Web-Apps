@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -72,7 +72,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<OrganizationType>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -83,7 +83,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         title_bn: itemData?.title_bn,
         row_status: String(itemData?.row_status),
       });
-      setCheckedIsGovernment(itemData?.is_government);
+      setCheckedIsGovernment(itemData?.is_government == 1);
     } else {
       reset(initialValues);
     }

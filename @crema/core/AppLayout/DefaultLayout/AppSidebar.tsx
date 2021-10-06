@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../Navigation/VerticleNav';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import AppContext from '../../../utility/AppContext';
 import useStyles from './AppSidebar.style';
 import {ThemeStyle} from '../../../../shared/constants/AppEnums';
@@ -40,44 +40,42 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
     sidebarClasses = classes.sidebarStandard;
   }
 
-  return (
-    <>
-      <Hidden lgUp>
-        <Drawer
-          anchor={position}
-          open={navCollapsed}
-          onClose={() => handleToggleDrawer()}
-          classes={{
-            paper: clsx(variant),
-          }}
-          style={{position: 'absolute'}}>
-          <Box height='100%' className={classes.drawerContainer}>
-            <Box
-              height='100%'
-              width='100%'
-              color='primary.contrastText'
-              className={classes.sidebarBg}>
-              <UserInfo />
-              <Scrollbar className={classes.drawerScrollAppSidebar}>
-                <Navigation />
-              </Scrollbar>
-            </Box>
-          </Box>
-        </Drawer>
-      </Hidden>
-      <Hidden mdDown>
-        <Box height='100%' className={classes.container}>
-          <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
+  return <>
+    <Hidden lgUp>
+      <Drawer
+        anchor={position}
+        open={navCollapsed}
+        onClose={() => handleToggleDrawer()}
+        classes={{
+          paper: clsx(variant),
+        }}
+        style={{position: 'absolute'}}>
+        <Box height='100%' className={classes.drawerContainer}>
+          <Box
+            height='100%'
+            width='100%'
+            color='primary.contrastText'
+            className={classes.sidebarBg}>
             <UserInfo />
-            <Scrollbar
-              className={clsx(classes.scrollAppSidebar, 'scrollAppSidebar')}>
+            <Scrollbar className={classes.drawerScrollAppSidebar}>
               <Navigation />
             </Scrollbar>
           </Box>
         </Box>
-      </Hidden>
-    </>
-  );
+      </Drawer>
+    </Hidden>
+    <Hidden xlDown>
+      <Box height='100%' className={classes.container}>
+        <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
+          <UserInfo />
+          <Scrollbar
+            className={clsx(classes.scrollAppSidebar, 'scrollAppSidebar')}>
+            <Navigation />
+          </Scrollbar>
+        </Box>
+      </Box>
+    </Hidden>
+  </>;
 };
 
 export default AppSidebar;

@@ -1,16 +1,16 @@
 import React, {useContext, useState} from 'react';
 import AppContext from '../../utility/AppContext';
 import {SketchPicker} from 'react-color';
-import {makeStyles} from '@material-ui/core/index';
-import Box from '@material-ui/core/Box';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/material/Box';
 import {CremaTheme} from '../../../types/AppContextPropsType';
-import {grey} from '@material-ui/core/colors';
+import {grey} from '@mui/material/colors';
 
 interface SecondaryColorPickerProps {
   props?: any;
 }
 
-const SecondaryColorPicker: React.FC<SecondaryColorPickerProps> = props => {
+const SecondaryColorPicker: React.FC<SecondaryColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
   const {theme, updateTheme, secondary} = useContext(AppContext);
 
@@ -56,7 +56,7 @@ const SecondaryColorPicker: React.FC<SecondaryColorPickerProps> = props => {
         <Box className={classes.cpPopover} onClick={() => setVisibility(false)}>
           <SketchPicker
             color={secondary}
-            onChangeComplete={color => {
+            onChangeComplete={(color) => {
               theme.palette.secondary.main = color.hex;
               updateTheme!(theme);
             }}

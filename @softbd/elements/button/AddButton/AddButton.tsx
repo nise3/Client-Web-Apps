@@ -1,14 +1,14 @@
 import React from 'react';
-import {Fab} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import {Fab} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
 interface Props {
   onClick: () => void;
   className?: string;
   isLoading?: boolean;
-  tooltip?: any;
+  tooltip?: React.ReactNode;
 }
 
 const AddButton = ({onClick, className, tooltip, isLoading}: Props) => {

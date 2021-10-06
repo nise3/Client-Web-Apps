@@ -1,6 +1,9 @@
 import React from 'react';
-import {Box, Container, Grid, Typography} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {Box, Container, Grid, Link, Typography} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '280px',
     },
     softbdImage: {
-      width: '150px',
+      width: '147px',
     },
   }),
 );
@@ -24,66 +27,100 @@ const Footer = () => {
     <>
       <Grid container className={classes.root}>
         <Container maxWidth='xl'>
-          <Grid container spacing={10}>
-            <Grid item lg={2}>
+          <Grid item container spacing={10}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>আমাদের সম্পর্কে</Box>
+                <Box component={'span'} fontWeight='fontWeightBold'>
+                  আমাদের সম্পর্কে
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>আমাদের সম্পর্কে</Box>
+                <Box component={'span'} mt={2}>
+                  আমাদের সম্পর্কে
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>শর্তাবলী এবং নীতিমালা</Box>
+                <Box component={'span'} mt={2}>
+                  শর্তাবলী এবং নীতিমালা
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>সহযোগী</Box>
+                <Box component={'span'} mt={2}>
+                  সহযোগী
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>প্রাইভেসি পলিসি</Box>
+                <Box component={'span'} mt={2}>
+                  প্রাইভেসি পলিসি
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>যোগাযোগ</Box>
+                <Box component={'span'} mt={2}>
+                  যোগাযোগ
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>বিডি জবস</Box>
+                <Box component={'span'} mt={2}>
+                  বিডি জবস
+                </Box>
               </Typography>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>চাকরি প্রার্থীদের জন্য</Box>
+                <Box component={'span'} fontWeight='fontWeightBold'>
+                  চাকরি প্রার্থীদের জন্য
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>জীবনবৃত্তান্ত এডিট</Box>
+                <Box component={'span'} mt={2}>
+                  জীবনবৃত্তান্ত এডিট
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>ক্যারিয়ার পরামর্শ</Box>
+                <Box component={'span'} mt={2}>
+                  ক্যারিয়ার পরামর্শ
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>মাই জবস</Box>
+                <Box component={'span'} mt={2}>
+                  মাই জবস
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>প্রশ্নাবলী</Box>
+                <Box component={'span'} mt={2}>
+                  প্রশ্নাবলী
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>গাইডলাইন</Box>
+                <Box component={'span'} mt={2}>
+                  গাইডলাইন
+                </Box>
               </Typography>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>চাকরিদাতা</Box>
+                <Box component={'span'} fontWeight='fontWeightBold'>
+                  চাকরিদাতা
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>আমাদের সম্পর্কে</Box>
+                <Box component={'span'} mt={2}>
+                  আমাদের সম্পর্কে
+                </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box mt={2}>শর্তাবলী এবং নীতিমালা</Box>
+                <Box component={'span'} mt={2}>
+                  শর্তাবলী এবং নীতিমালা
+                </Box>
               </Typography>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item md={4}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>বাস্তবায়নে</Box>
+                <Box component={'span'} fontWeight='fontWeightBold'>
+                  বাস্তবায়নে
+                </Box>
               </Typography>
-              <Box>
+              <Box component={'span'}>
                 <img
                   src='/images/footer-img.png'
                   alt='crema-logo'
@@ -91,17 +128,21 @@ const Footer = () => {
                 />
               </Box>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>কারিগরি সহায়তায়</Box>
+                <Box component={'span'} fontWeight='fontWeightBold'>
+                  কারিগরি সহায়তায়
+                </Box>
               </Typography>
-              <Box>
-                <img
-                  src='/images/softbd.png'
-                  alt='crema-logo'
-                  className={classes.softbdImage}
-                />
-              </Box>
+              <Link href={'https://softbdltd.com/'}>
+                <Box component={'span'}>
+                  <img
+                    src='/images/softbd.png'
+                    alt='crema-logo'
+                    className={classes.softbdImage}
+                  />
+                </Box>
+              </Link>
             </Grid>
           </Grid>
         </Container>

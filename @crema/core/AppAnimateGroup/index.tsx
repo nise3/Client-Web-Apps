@@ -1,9 +1,9 @@
 import React, {memo, useEffect} from 'react';
-import Grow, {GrowProps} from '@material-ui/core/Grow';
-import Fade, {FadeProps} from '@material-ui/core/Fade';
-import Slide, {SlideProps} from '@material-ui/core/Slide';
-import Zoom, {ZoomProps} from '@material-ui/core/Zoom';
-import Collapse, {CollapseProps} from '@material-ui/core/Collapse';
+import Grow, {GrowProps} from '@mui/material/Grow';
+import Fade, {FadeProps} from '@mui/material/Fade';
+import Slide, {SlideProps} from '@mui/material/Slide';
+import Zoom, {ZoomProps} from '@mui/material/Zoom';
+import Collapse, {CollapseProps} from '@mui/material/Collapse';
 
 export type AnimType = 'grow' | 'fade' | 'slide' | 'zoom' | 'collapse';
 type AnimProps = GrowProps | FadeProps | SlideProps | ZoomProps | CollapseProps;

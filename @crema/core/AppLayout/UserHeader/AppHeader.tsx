@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import LanguageSwitcher from '../../LanguageSwitcher';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
-import Box from '@material-ui/core/Box';
+import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 import SearchBar from '../../SearchBar';
 import useStyles from './AppHeader.style';
 import HeaderMessages from '../../HeaderMessages';
@@ -57,43 +57,43 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
     </Menu>
   );
 
-  return (
-    <>
-      <AppBar color='inherit' className={clsx(classes.appBar, 'app-bar')}>
-        <Toolbar className={classes.appToolbar}>
-          <Hidden lgUp>
-            <IconButton
-              edge='start'
-              className={classes.menuButton}
-              color='inherit'
-              aria-label='open drawer'
-              onClick={() => dispatch(toggleNavCollapsed())}>
-              <MenuIcon className={classes.menuIcon} />
-            </IconButton>
-          </Hidden>
-          <AppLogo />
-          <Box className={classes.grow} />
-          <SearchBar borderLight placeholder='Search…' />
-          <Box className={classes.sectionDesktop}>
-            <LanguageSwitcher />
-            <HeaderMessages />
-            <Notifications />
-          </Box>
-          <HeaderUser />
-          <Box className={classes.sectionMobile}>
-            <IconButton
-              aria-label='show more'
-              aria-controls={mobileMenuId}
-              aria-haspopup='true'
-              onClick={handleMobileMenuOpen}
-              color='inherit'>
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-    </>
-  );
+  return <>
+    <AppBar color='inherit' className={clsx(classes.appBar, 'app-bar')}>
+      <Toolbar className={classes.appToolbar}>
+        <Hidden lgUp>
+          <IconButton
+            edge='start'
+            className={classes.menuButton}
+            color='inherit'
+            aria-label='open drawer'
+            onClick={() => dispatch(toggleNavCollapsed())}
+            size="large">
+            <MenuIcon className={classes.menuIcon} />
+          </IconButton>
+        </Hidden>
+        <AppLogo />
+        <Box className={classes.grow} />
+        <SearchBar borderLight placeholder='Search…' />
+        <Box className={classes.sectionDesktop}>
+          <LanguageSwitcher />
+          <HeaderMessages />
+          <Notifications />
+        </Box>
+        <HeaderUser />
+        <Box className={classes.sectionMobile}>
+          <IconButton
+            aria-label='show more'
+            aria-controls={mobileMenuId}
+            aria-haspopup='true'
+            onClick={handleMobileMenuOpen}
+            color='inherit'
+            size="large">
+            <MoreIcon />
+          </IconButton>
+        </Box>
+      </Toolbar>
+    </AppBar>
+    {renderMobileMenu}
+  </>;
 };
 export default AppHeader;

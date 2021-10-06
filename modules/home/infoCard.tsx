@@ -1,21 +1,37 @@
-import React from 'react';
-import {Container, Grid} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import React, {Fragment} from 'react';
+import {Box, Container, Grid} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: '12px',
+      position: 'absolute',
+      marginTop: '-18px',
+      zIndex: 0,
+      width: '228px',
+      height: '100px',
+      [theme.breakpoints.down('xl')]: {
+        width: '100%',
+      },
     },
     infoItem: {
-      backgroundColor: '#eee',
+      backgroundColor: '#fff',
+      paddingTop: '10px',
+    },
+    logo: {
+      height: '20px',
+      width: '20px',
+      marginTop: '5px',
     },
   }),
 );
 
 type Props = {
   color?: string;
-  infos?: Array<string>;
+  infos?: Array<any>;
 };
 const InfoCard = ({color, infos}: Props) => {
   const classes = useStyles();
@@ -23,19 +39,34 @@ const InfoCard = ({color, infos}: Props) => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
-        <Grid container xs={10} spacing={6} className={classes.infoItem}>
-          <Grid item xs={8}>
-            softbd ltd
-          </Grid>
-          <Grid item xs={4}>
-            45
-          </Grid>
-          <Grid item xs={8}>
-            softbd ltd
-          </Grid>
-          <Grid item xs={4}>
-            45
-          </Grid>
+        <Grid item container md={12} xs={12} className={classes.infoItem}>
+          {infos &&
+            infos.map((infoItem, key: number) => {
+              return (
+                <Fragment key={infoItem.id.toString()}>
+                  <Grid item md={10} xs={10}>
+                    <Grid item container>
+                      <Grid item md={2}>
+                        <Box ml={2}>
+                          <img
+                            className={classes.logo}
+                            src='/images/logo1.png'
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item md={10} xs={10}>
+                        <Box mt={1}> {infoItem.name}</Box>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={2} xs={2}>
+                    <Box mt={1} sx={{color: color}}>
+                      {infoItem.count}
+                    </Box>
+                  </Grid>
+                </Fragment>
+              );
+            })}
         </Grid>
       </Container>
     </Grid>

@@ -1,11 +1,21 @@
 import React from 'react';
-import {Box, Card, Container, Grid, Typography} from '@material-ui/core';
-import {Assignment} from '@material-ui/icons';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {Box, Card, Container, Grid, Typography} from '@mui/material';
+import {Accessibility, Build, HomeWork} from '@mui/icons-material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      [theme.breakpoints.up('md')]: {
+        marginTop: '50px',
+      },
+      [theme.breakpoints.down('xl')]: {
+        // marginTop: '200px',
+      },
+    },
     youthBoxItem: {
       background: '#1B69BC',
       textAlign: 'center',
@@ -29,13 +39,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     rootMobileView: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         marginTop: '235px',
-      },
-    },
-    root: {
-      [theme.breakpoints.up('md')]: {
-        marginTop: '50px',
       },
     },
   }),
@@ -54,7 +59,8 @@ const InfoCardSection = () => {
           <Grid container spacing={5}>
             <Grid item xs={12} md={4}>
               <Card className={classes.youthBoxItem}>
-                <Assignment className={classes.icon} />
+                {/*<Assignment className={classes.icon} />*/}
+                <Accessibility className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> যুব </Box>
                 </Typography>
@@ -65,7 +71,7 @@ const InfoCardSection = () => {
             </Grid>
             <Grid item xs={12} md={4}>
               <Card className={classes.skillBoxItem}>
-                <Assignment className={classes.icon} />
+                <Build className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'> দক্ষতা উন্নয়ন</Box>
                 </Typography>
@@ -76,7 +82,7 @@ const InfoCardSection = () => {
             </Grid>
             <Grid item xs={12} md={4}>
               <Card className={classes.industryBoxItem}>
-                <Assignment className={classes.icon} />
+                <HomeWork className={classes.icon} />
                 <Typography variant='h5' gutterBottom={true}>
                   <Box fontWeight='fontWeightBold'>শিল্প প্রতিষ্ঠান</Box>
                 </Typography>

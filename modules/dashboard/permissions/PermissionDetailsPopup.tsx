@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -48,6 +48,13 @@ const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.name']}
               value={itemData?.name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['permission.module']}
+              value={itemData?.module}
               isLoading={isLoading}
             />
           </Grid>

@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -27,6 +27,7 @@ import {
   useFetchOrganizationUnitType,
 } from '../../../services/organaizationManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
@@ -43,6 +44,7 @@ const initialValues = {
 
 const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps> =
   ({itemId, refreshDataTable, ...props}) => {
+    const authUser = useAuthUser();
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
     const isEdit = itemId != null;
@@ -65,10 +67,14 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
           .string()
           .title('bn')
           .label(messages['common.title_bn'] as string),
-        organization_id: yup
-          .string()
-          .required()
-          .label(messages['organization.label'] as string),
+        organization_id:
+          authUser && authUser.isSystemUser
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['organization.label'] as string)
+            : yup.string().label(messages['organization.label'] as string),
       });
     }, []);
 
@@ -99,6 +105,10 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     const onSubmit: SubmitHandler<OrganizationUnitType> = async (
       data: OrganizationUnitType,
     ) => {
+      if (authUser?.isOrganizationUser && authUser.organization?.id) {
+        data.organization_id = authUser.organization.id;
+      }
+
       const response = itemId
         ? await updateOrganizationUnitType(itemId, data)
         : await createOrganizationUnitType(data);
@@ -181,18 +191,21 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isOrganizationLoading}
-              control={control}
-              options={organizations}
-              optionValueProp='id'
-              optionTitleProp={['title_en', 'title_bn']}
-              errorInstance={errors}
-            />
-          </Grid>
+          {!authUser?.isOrganizationUser && (
+            <Grid item xs={12}>
+              <CustomFormSelect
+                id='organization_id'
+                label={messages['organization.label']}
+                isLoading={isOrganizationLoading}
+                control={control}
+                options={organizations}
+                optionValueProp='id'
+                optionTitleProp={['title_en', 'title_bn']}
+                errorInstance={errors}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <FormRowStatus
               id='row_status'

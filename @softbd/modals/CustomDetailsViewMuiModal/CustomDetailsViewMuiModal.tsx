@@ -1,5 +1,5 @@
 import React from 'react';
-import {DialogContent, DialogActions} from '@material-ui/core';
+import {DialogContent, DialogActions} from '@mui/material';
 import CustomMuiModal, {DialogTitle} from '../CustomMuiModal/CustomMuiModal';
 
 interface CustomDetailsViewMuiModalPopupProps {

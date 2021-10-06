@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {
   createTrainer,
   updateTrainer,
@@ -91,51 +91,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      trainer_name_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
-      trainer_name_bn: yup
-        .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
-      mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['common.mobile'] as string),
-      email: yup
-        .string()
-        .required()
-        .email()
-        .label(messages['common.email'] as string),
-      institute_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.label'] as string),
-      nationality: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.nationality'] as string),
-    });
-  }, [messages]);
-
-  const {
-    register,
-    control,
-    reset,
-    handleSubmit,
-    setError,
-    formState: {errors, isSubmitting},
-  } = useForm<any>({
-    resolver: yupResolver(validationSchema),
-  });
-
   const {
     data: itemData,
     isLoading: isLoading,
@@ -183,6 +138,51 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   });
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
     useFetchTrainingCenters(trainingCenterFilters);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      trainer_name_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.title_en'] as string),
+      trainer_name_bn: yup
+        .string()
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
+      mobile: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
+      email: yup
+        .string()
+        .required()
+        .email()
+        .label(messages['common.email'] as string),
+      institute_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.label'] as string),
+      nationality: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.nationality'] as string),
+    });
+  }, [messages]);
+
+  const {
+    register,
+    control,
+    reset,
+    handleSubmit,
+    setError,
+    formState: {errors, isSubmitting},
+  } = useForm<Trainer>({
+    resolver: yupResolver(validationSchema),
+  });
 
   useEffect(() => {
     if (itemData) {
@@ -268,7 +268,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
   const onPresentDistrictChange = useCallback(
     (districtId: number) => {
-      console.log('upazilas', upazilas);
       let presentUpazila = filterUpazilasByDistrictId(upazilas, districtId);
       setPresentUpazilas(presentUpazila);
     },

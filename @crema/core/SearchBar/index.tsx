@@ -1,9 +1,9 @@
 import React from 'react';
-import InputBase from '@material-ui/core/InputBase';
-import {makeStyles} from '@material-ui/core/styles';
-import {Box, alpha} from '@material-ui/core';
+import InputBase from '@mui/material/InputBase';
+import makeStyles from '@mui/styles/makeStyles';
+import {Box, alpha} from '@mui/material';
 import clsx from 'clsx';
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@mui/icons-material/Search';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     '&.cr-search': {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         position: 'absolute',
         right: 0,
         top: '50%',
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       right: 0,
       '& + $inputRoot $inputInput': {
         paddingLeft: theme.spacing(2),
-        paddingRight: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingRight: `calc(1em + ${theme.spacing(4)})`,
       },
     },
   },
@@ -70,21 +70,21 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   inputInput: {
     padding: theme.spacing(2, 2, 2, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     backgroundColor: theme.palette.common.white,
     width: 162,
     height: 35,
     borderRadius: 4,
     boxSizing: 'border-box',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xl')]: {
       width: 100,
     },
     '&:focus': {
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
       borderColor: theme.palette.primary,
       width: 235,
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xl')]: {
         backgroundColor: theme.palette.common.white,
         width: 162,
       },
@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       '&:focus': {
         width: 235,
         borderRadius: 4,
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       },
     },
     '& $searchIcon': {

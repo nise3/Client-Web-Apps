@@ -1,12 +1,14 @@
 import React, {useContext, useEffect} from 'react';
-import MomentUtils from '@date-io/moment';
-import {ThemeProvider} from '@material-ui/styles';
-import {createTheme} from '@material-ui/core/styles';
-import {MuiPickersUtilsProvider} from '@material-ui/pickers';
+import {
+  createTheme,
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider,
+} from '@mui/material/styles';
 
 import AppContext from '../AppContext';
 import AppLocale from '../../../shared/localization';
-import {responsiveFontSizes} from '@material-ui/core';
+import {responsiveFontSizes} from '@mui/material';
 import {useBreakPointDown} from '../Utils';
 import {
   NavStyle,
@@ -15,6 +17,18 @@ import {
 } from '../../../shared/constants/AppEnums';
 import {useUrlSearchParams} from 'use-url-search-params';
 import AppContextPropsType from '../../../types/AppContextPropsType';
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
+
+declare module '@mui/styles/defaultTheme' {
+  interface DefaultTheme extends Theme {}
+}
 
 const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   const {
@@ -55,19 +69,19 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
       if (params.theme_style) {
         if (params.theme_style === ThemeStyle.MODERN) {
           if (isBelowMd) {
-            theme.overrides.MuiCard.root.borderRadius = 20;
-            theme.overrides.MuiToggleButton.root.borderRadius = 20;
+            theme.components.MuiCard.styleOverrides.root.borderRadius = 20;
+            theme.components.MuiToggleButton.styleOverrides.root.borderRadius = 20;
           } else {
-            theme.overrides.MuiCard.root.borderRadius = 30;
-            theme.overrides.MuiToggleButton.root.borderRadius = 30;
+            theme.components.MuiCard.styleOverrides.root.borderRadius = 30;
+            theme.components.MuiToggleButton.styleOverrides.root.borderRadius = 30;
           }
-          theme.overrides.MuiButton.root.borderRadius = 30;
-          theme.overrides.MuiCardLg.root.borderRadius = 50;
+          theme.components.MuiButton.styleOverrides.root.borderRadius = 30;
+          theme.components.MuiCardLg.styleOverrides.root.borderRadius = 50;
         } else {
-          theme.overrides.MuiCard.root.borderRadius = 4;
-          theme.overrides.MuiToggleButton.root.borderRadius = 4;
-          theme.overrides.MuiButton.root.borderRadius = 4;
-          theme.overrides.MuiCardLg.root.borderRadius = 4;
+          theme.components.MuiCard.styleOverrides.root.borderRadius = 4;
+          theme.components.MuiToggleButton.styleOverrides.root.borderRadius = 4;
+          theme.components.MuiButton.styleOverrides.root.borderRadius = 4;
+          theme.components.MuiCardLg.styleOverrides.root.borderRadius = 4;
         }
         updateTheme?.(theme);
         if (
@@ -81,12 +95,13 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
     updateQuerySetting();
   }, [params.theme_style, theme, isBelowMd, updateTheme, updateThemeStyle]);
 
+  /* Inject emotion before JSS */
   return (
-    <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
         {props.children}
-      </MuiPickersUtilsProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

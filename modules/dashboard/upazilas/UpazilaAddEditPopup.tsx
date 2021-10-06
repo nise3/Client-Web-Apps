@@ -8,7 +8,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';

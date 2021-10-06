@@ -23,7 +23,7 @@ type Programme = {
   id: number;
   title_en: string;
   title_bn: string;
-  institute_id: number;
+  institute_id: string | number;
   institute_title_en?: string;
   code: string;
   logo: string;
@@ -35,9 +35,9 @@ type Programme = {
 };
 
 type Course = {
-  id: number;
+  id: string;
   code: string;
-  institute_id: number;
+  institute_id: number | string;
   institute_title_en: string;
   title_en: string;
   title_bn: string;
@@ -64,7 +64,7 @@ type Branch = {
   id: number;
   title_en: string;
   title_bn: string;
-  institute_id: number;
+  institute_id: number | string;
   institute_title_en?: string;
   address?: string;
   google_map_src?: string;
@@ -78,8 +78,8 @@ type TrainingCenter = {
   id: number;
   title_en: string;
   title_bn: string;
-  institute_id: number;
-  branch_id?: number;
+  institute_id: number | string;
+  branch_id?: number | string;
   address: string;
   google_map_src: string;
   row_status: string;
@@ -91,26 +91,26 @@ type Trainer = {
   id: number;
   trainer_name_en: string;
   trainer_name_bn: string;
-  institute_id: number;
-  branch_id: number;
-  training_center_id: number;
-  trainer_registration_number: number;
+  institute_id: number | string;
+  branch_id: number | string;
+  training_center_id: number | string;
+  trainer_registration_number: number | string;
   email: string;
   mobile: string;
   date_of_birth: string;
   about_me: string;
-  gender: number;
-  marital_status: number;
-  religion: number;
+  gender: number | string;
+  marital_status: number | string;
+  religion: number | string;
   nationality: string;
   nid: string;
   passport_number: string;
-  present_address_division_id: number;
-  present_address_district_id: number;
-  present_address_upazila_id: number;
-  permanent_address_district_id: number;
-  permanent_address_upazila_id: number;
-  permanent_address_division_id: number;
+  present_address_division_id: number | string;
+  present_address_district_id: number | string;
+  present_address_upazila_id: number | string;
+  permanent_address_district_id: number | string;
+  permanent_address_upazila_id: number | string;
+  permanent_address_division_id: number | string;
   present_house_address: string;
   permanent_house_address: string;
   educational_qualification: string;
@@ -122,18 +122,18 @@ type Trainer = {
 
 type Batch = {
   id: number;
-  institute_id: number;
-  course_id: number;
-  training_center_id: number;
-  programme_id: number;
-  branch_id: number;
-  number_of_seats: number;
-  available_seats: number;
+  institute_id: number | string;
+  course_id: number | string;
+  training_center_id: number | string;
+  programme_id: number | string;
+  branch_id: number | string;
+  number_of_seats: number | string;
+  available_seats: number | string;
   registration_start_date: string;
   registration_end_date: string;
   batch_start_date: string;
   batch_end_date: string;
-  dynamic_form_field: string;
+  dynamic_form_field: string | object;
   row_status: string;
   trainers?: Array<number>;
   crated_by?: string;

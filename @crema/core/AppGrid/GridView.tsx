@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useBottomScrollListener} from 'react-bottom-scroll-listener';
-import {Box, makeStyles, useTheme} from '@material-ui/core';
-import grey from '@material-ui/core/colors/grey';
+import {Box} from '@mui/material';
+import {grey} from '@mui/material/colors';
 import AppAnimateGroup from '../AppAnimateGroup';
 import {useWidth} from '../../utility/Utils';
+import makeStyles from '@mui/styles/makeStyles';
+import useTheme from '@mui/styles/useTheme';
 
 const useStyles = makeStyles(() => ({
   gridContainer: {
@@ -49,17 +51,16 @@ interface GridViewProps {
   column?: number;
   responsive?: any;
   itemPadding?: number;
-
-  renderRow(item: any, index: number | null): any;
-
-  onEndReached(): void;
-
   data: any;
   containerStyle?: any;
   border?: any;
   ListFooterComponent?: any;
   ListEmptyComponent?: any;
   ItemSeparatorComponent?: any;
+
+  renderRow(item: any, index: number | null): any;
+
+  onEndReached(): void;
 }
 
 const GridView: React.FC<GridViewProps> = ({

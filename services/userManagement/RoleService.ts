@@ -4,6 +4,9 @@ import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_ROLES = CORE_SERVICE_PATH + '/roles';
 
+/**
+ * @deprecated
+ */
 export const getAllRoles = async () => {
   try {
     let response: any = await apiGet(API_ROLES);
@@ -13,6 +16,10 @@ export const getAllRoles = async () => {
   }
 };
 
+/**
+ * @deprecated
+ * @param roleId
+ */
 export const getRole = async (roleId: number) => {
   try {
     let response: any = await apiGet(API_ROLES + '/' + roleId);

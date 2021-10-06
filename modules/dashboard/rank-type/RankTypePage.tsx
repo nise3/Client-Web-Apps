@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -16,20 +16,29 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRankTypes} from '../../../services/organaizationManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const RankTypePage = () => {
+  const authUser = useAuthUser();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [rankFilters] = useState({});
+  const [rankFilters, setRankFilters] = useState({});
+
   const {
     data: rankTypes,
     isLoading,
     mutate: mutateRankTypes,
   } = useFetchRankTypes(rankFilters);
+
+  useEffect(() => {
+    if (authUser?.isOrganizationUser) {
+      setRankFilters({organization_id: authUser.organization?.id});
+    }
+  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);

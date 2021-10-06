@@ -1,4 +1,4 @@
-import {Person} from '@material-ui/icons';
+import {Person} from '@mui/icons-material';
 import React from 'react';
 
 const IconRole = () => {

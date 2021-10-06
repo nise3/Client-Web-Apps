@@ -1,5 +1,5 @@
 import React from 'react';
-import {Business} from '@material-ui/icons';
+import {Business} from '@mui/icons-material';
 
 const IconBatch = () => {
   return (

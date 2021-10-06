@@ -1,4 +1,5 @@
-import {Chip, makeStyles, Theme} from '@material-ui/core';
+import { Chip, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import React, {useCallback} from 'react';
 import {ColumnInstance, FilterValue, IdType, TableInstance} from 'react-table';
 import {getRowStatusLabel} from '../../utilities/RowStatus';
@@ -6,7 +7,7 @@ import {ThemeMode} from '../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme: Theme): any => ({
   filtersActiveLabel: {
-    color: theme.palette.type === ThemeMode.DARK ? '#FFF' : '#998',
+    color: theme.palette.mode === ThemeMode.DARK ? '#FFF' : '#998',
     fontSize: '14px',
     paddingRight: 10,
   },
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme: Theme): any => ({
   },
   filterChip: {
     marginRight: 4,
-    color: theme.palette.type === ThemeMode.DARK ? '#FFF' : '#222',
+    color: theme.palette.mode === ThemeMode.DARK ? '#FFF' : '#222',
   },
 }));
 

@@ -2,8 +2,8 @@ import React, {useContext} from 'react';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {ContentView, ThemeSetting} from '../../../index';
-import Hidden from '@material-ui/core/Hidden';
-import Box from '@material-ui/core/Box';
+import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import AppFixedFooter from './AppFixedFooter';
 import clsx from 'clsx';
@@ -35,7 +35,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = (props) => {
       <Box className={classes.mainContent}>
         <AppSidebar />
 
-        <Hidden mdDown>
+        <Hidden xlDown>
           <Box className={classes.mainContainer}>
             <ContentView>{props.children}</ContentView>
           </Box>

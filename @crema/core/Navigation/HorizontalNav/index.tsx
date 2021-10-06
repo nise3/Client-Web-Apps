@@ -2,11 +2,11 @@ import React from 'react';
 import HorizontalGroup from './HorizontalGroup';
 import HorizontalCollapse from './HorizontalCollapse';
 import HorizontalItem from './HorizontalItem';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
 
 import routesConfig from '../../../../modules/routesConfig';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 interface HorizontalNavProps {}
 
@@ -26,7 +26,7 @@ const HorizontalNav: React.FC<HorizontalNavProps> = () => {
           {item.type === 'item' && <HorizontalItem item={item} />}
 
           {item.type === 'divider' && (
-            <Box my={5} clone>
+            <Box my={5}>
               <Divider />
             </Box>
           )}

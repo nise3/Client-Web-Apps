@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button} from '@material-ui/core';
-import {Save} from '@material-ui/icons';
+import {Button} from '@mui/material';
+import {Save} from '@mui/icons-material';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
 import {useIntl} from 'react-intl';
 

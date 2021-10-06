@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Grid} from '@material-ui/core';
+import React from 'react';
+import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -7,11 +7,12 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
-import {getTrainer} from '../../../services/instituteManagement/TrainerService';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import {genders} from '../../../@softbd/utilities/helpers';
 import {religions} from '../../../@softbd/utilities/helpers';
 import {marital_status} from '../../../@softbd/utilities/helpers';
+import {useFetchTrainer} from '../../../services/instituteManagement/hooks';
+
 type Props = {
   itemId: number;
   onClose: () => void;
@@ -19,24 +20,8 @@ type Props = {
 };
 
 const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const [itemData, setItemData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {data: itemData, isLoading} = useFetchTrainer(itemId);
   const {messages} = useIntl();
-
-  useEffect(() => {
-    if (itemId) {
-      setItemState(itemId);
-    }
-  }, [itemId]);
-
-  const setItemState = async (itemId: number) => {
-    setIsLoading(true);
-    let response = await getTrainer(itemId);
-    if (response) {
-      setItemData(response.data);
-    }
-    setIsLoading(false);
-  };
 
   return (
     <>
@@ -98,42 +83,42 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.district_title_bn_permanent_address']}
+              label={messages['common.district_title_permanent_address']}
               value={itemData?.district_title_bn_permanent_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.district_title_bn_present_address']}
+              label={messages['common.district_title_present_address']}
               value={itemData?.district_title_bn_present_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.division_title_bn_permanent_address']}
+              label={messages['common.division_title_permanent_address']}
               value={itemData?.division_title_bn_permanent_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.division_title_bn_present_address']}
+              label={messages['common.division_title_present_address']}
               value={itemData?.division_title_bn_present_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.upazila_title_bn_permanent_address']}
+              label={messages['common.upazila_title_permanent_address']}
               value={itemData?.upazila_title_bn_permanent_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.upazila_title_bn_present_address']}
+              label={messages['common.upazila_title_present_address']}
               value={itemData?.upazila_title_bn_present_address}
               isLoading={isLoading}
             />
@@ -141,7 +126,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.educational_qualification_bn']}
+              label={messages['common.educational_qualification']}
               value={itemData?.educational_qualification}
               isLoading={isLoading}
             />

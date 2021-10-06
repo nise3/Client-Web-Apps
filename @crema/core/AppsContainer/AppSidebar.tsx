@@ -1,10 +1,10 @@
 import React, {ReactNode} from 'react';
-import Hidden from '@material-ui/core/Hidden';
-import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@mui/material/Hidden';
+import Drawer from '@mui/material/Drawer';
 import {onToggleAppDrawer} from '../../../redux/actions';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import {Box} from '@material-ui/core';
+import Card from '@mui/material/Card';
+import {Box} from '@mui/material';
 import useStyles from './index.style';
 import {useDispatch} from 'react-redux';
 import {NavStyle} from '../../../shared/constants/AppEnums';
@@ -34,7 +34,7 @@ const AppSidebar: React.FC<AppSidebarProps> = props => {
           {sidebarContent}
         </Drawer>
       </Hidden>
-      <Hidden mdDown>
+      <Hidden xlDown>
         <Card style={{height: '100%'}}>{sidebarContent}</Card>
       </Hidden>
     </Box>

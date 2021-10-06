@@ -1,7 +1,4 @@
 import React from 'react';
-import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
-import {Container} from '@material-ui/core';
-import Header from './Header';
 import CoverArea from './CoverArea';
 import InfoCardSection from './InfoCardSection';
 import SelfAssessment from './SelfAssessment';
@@ -14,21 +11,9 @@ import Partners from './Partners';
 import Footer from './Footer';
 import BdMap from './BdMap';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      padding: 0,
-    },
-  }),
-);
-
 const Home = () => {
-  const classes = useStyles();
-
   return (
-    <Container maxWidth={'xl'} className={classes.root}>
-      <Header />
+    <>
       <CoverArea />
       <InfoCardSection />
       <SelfAssessment />
@@ -40,7 +25,7 @@ const Home = () => {
       <SkillMatchingJobs />
       <Partners />
       <Footer />
-    </Container>
+    </>
   );
 };
 

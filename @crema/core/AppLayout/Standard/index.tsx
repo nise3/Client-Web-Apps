@@ -2,24 +2,27 @@ import React, {useContext} from 'react';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {ContentView, ThemeSetting} from '../../../index';
-import Hidden from '@material-ui/core/Hidden';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import clsx from 'clsx';
 import AppContext from '../../../utility/AppContext';
 import AppFixedFooter from './AppFixedFooter';
 import {LayoutType} from '../../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../../types/AppContextPropsType';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {Theme} from '@mui/system';
 
 interface StandardLayoutProps {
-  props?: any
+  props?: any;
 }
 
 const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
-  const {footer, themeStyle, layoutType, footerType} = useContext<
-    AppContextPropsType
-  >(AppContext);
+  const {footer, themeStyle, layoutType, footerType} =
+    useContext<AppContextPropsType>(AppContext);
   const classes = useStyles({footer, themeStyle});
+  const breakpointMDUp = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up('md'),
+  );
 
   return (
     <Box
@@ -34,21 +37,19 @@ const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
       <AppSidebar />
 
       <Box className={classes.mainContent}>
-        <Hidden mdDown>
+        {breakpointMDUp ? (
           <Box className={classes.mainContainer}>
-            <AppHeader/>
+            <AppHeader />
             <ContentView>{props.children}</ContentView>
-            <AppFixedFooter/>
+            <AppFixedFooter />
           </Box>
-        </Hidden>
-
-        <Hidden lgUp>
+        ) : (
           <Box className={classes.mainContainerFull}>
-            <AppHeader/>
+            <AppHeader />
             <ContentView>{props.children}</ContentView>
-            <AppFixedFooter/>
+            <AppFixedFooter />
           </Box>
-        </Hidden>
+        )}
       </Box>
       <ThemeSetting />
     </Box>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import Select from '@material-ui/core/Select';
-import {makeStyles} from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@mui/material/Select';
+import makeStyles from '@mui/styles/makeStyles';
+import MenuItem from '@mui/material/MenuItem';
 import clsx from 'clsx';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
@@ -39,7 +39,7 @@ const AppSelect: React.FC<AppSelectProps> = ({
 }) => {
   const [selectionType, setSelectionType] = useState(defaultValue);
 
-  const handleSelectionType = (event: React.ChangeEvent<{value: unknown}>) => {
+  const handleSelectionType = (event: any) => {
     setSelectionType(event.target.value);
     onChange(event.target.value);
   };
@@ -49,7 +49,6 @@ const AppSelect: React.FC<AppSelectProps> = ({
       defaultValue={defaultValue}
       value={selectionType}
       onChange={handleSelectionType}
-      disableUnderline={true}
       className={clsx(classes.selectBox, 'select-box')}>
       {menus.map((menu: any, index: number) => (
         <MenuItem

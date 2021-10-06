@@ -1,15 +1,24 @@
 import React, {useContext, useState} from 'react';
-import {Grow, Icon, IconButton, ListItem, ListItemText, Paper} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import {
+  Grow,
+  Icon,
+  IconButton,
+  ListItem,
+  ListItemText,
+  Paper,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 import {Manager, Popper, Reference} from 'react-popper';
 import HorizontalItem from './HorizontalItem';
 import HorizontalGroup from './HorizontalGroup';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import AppContext from '../../../utility/AppContext';
-import AppContextPropsType, {CremaTheme} from '../../../../types/AppContextPropsType';
+import AppContextPropsType, {
+  CremaTheme,
+} from '../../../../types/AppContextPropsType';
 import ClientOnlyPortal from './ClientPortal';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {useRouter} from 'next/router';
@@ -53,15 +62,17 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
 }));
 
-
 interface HorizontalCollapseProps {
   item: NavItemProps;
   nestedLevel: number;
-  dense?: string
-
+  dense?: string;
 }
 
-const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({item, nestedLevel, dense}) => {
+const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({
+  item,
+  nestedLevel,
+  dense,
+}) => {
   const classes = useStyles();
   const [opened, setOpened] = useState(false);
   const {theme} = useContext<AppContextPropsType>(AppContext);
@@ -121,10 +132,10 @@ const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({item, nestedLeve
               )}
               <ListItemText
                 className='navLinkTextSubmenu'
-                primary={<IntlMessages id={item.messageId}/>}
+                primary={<IntlMessages id={item.messageId} />}
               />
-              <Box p={0} clone>
-                <IconButton disableRipple>
+              <Box p={0}>
+                <IconButton disableRipple size='large'>
                   <Icon style={{color: active ? 'white' : 'action'}}>
                     {theme.direction === 'ltr'
                       ? 'chevron_right'

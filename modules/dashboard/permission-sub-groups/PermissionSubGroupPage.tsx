@@ -17,8 +17,24 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
 import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGroup';
 import {deletePermissionSubGroup} from '../../../services/userManagement/PermissionSubGroupService';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import clsx from 'clsx';
+import {AccountTreeOutlined} from '@mui/icons-material';
+import Link from 'next/link';
+import {LINK_PERMISSION_SUB_GROUP} from '../../../@softbd/common/appLinks';
+
+const useStyles = makeStyles((theme) => {
+  return {
+    button: {
+      color: theme.palette.primary.light,
+      border: 'none',
+    },
+  };
+});
 
 const PermissionSubGroupPage = () => {
+  const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -111,6 +127,7 @@ const PermissionSubGroupPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = LINK_PERMISSION_SUB_GROUP + `/${data.id}`;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -119,6 +136,14 @@ const PermissionSubGroupPage = () => {
                 deleteAction={() => deletePermissionSubGroupItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={URL} passHref>
+                <Button
+                  className={clsx(classes.button)}
+                  variant={'outlined'}
+                  startIcon={<AccountTreeOutlined />}>
+                  {messages['permission.label']}
+                </Button>
+              </Link>
             </DatatableButtonGroup>
           );
         },

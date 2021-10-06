@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -37,28 +37,20 @@ interface HumanResourceTemplateAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
-  organization_id: 0,
+  organization_id: '',
   parent_id: '',
   rank_id: '',
   display_order: '',
-  is_designation: '',
-  organization_unit_type_id: 0,
+  is_designation: '2',
+  organization_unit_type_id: '',
   status: '',
   row_status: '1',
 };
 
 const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupProps> =
   ({itemId, refreshDataTable, ...props}) => {
-    /**
-     * itemId = "m25" transform it 25 as integer
-     */
-    if (itemId) {
-      itemId = Number(itemId?.toString().substring(1));
-    }
-
     const {messages} = useIntl();
     const {successStack} = useNotiStack();
     const isEdit = props.isEdit;
@@ -228,9 +220,10 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     ) => {
       data.parent_id = data.parent_id ? data.parent_id : null;
 
-      const response = itemId
-        ? await updateHumanResourceTemplate(itemId, data)
-        : await createHumanResourceTemplate(data);
+      const response =
+        isEdit && itemId
+          ? await updateHumanResourceTemplate(itemId, data)
+          : await createHumanResourceTemplate(data);
 
       if (isResponseSuccess(response) && isEdit) {
         successStack(

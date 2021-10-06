@@ -1,5 +1,5 @@
 import enMessages from '../locales/en_US.json';
-import {enUS} from '@material-ui/core/locale';
+import {enUS} from '@mui/material/locale';
 
 const EnLang = {
   messages: {

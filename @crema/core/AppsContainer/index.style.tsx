@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {NavStyle} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 

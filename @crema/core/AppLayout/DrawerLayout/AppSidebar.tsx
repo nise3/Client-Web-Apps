@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
-import Drawer from '@material-ui/core/Drawer';
+import Drawer from '@mui/material/Drawer';
 import clsx from 'clsx';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../Navigation/VerticleNav';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import useStyles from './AppSidebar.style';
 import Scrollbar from '../../Scrollbar';
 import AppContext from '../../../utility/AppContext';

@@ -1,8 +1,8 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import ProtoTypes from 'prop-types';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Box from '@material-ui/core/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
@@ -90,7 +90,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
     <Box className={classes.root}>
       <Box position='relative'>
         <CircularProgress
-          variant='static'
+          variant="determinate"
           value={100}
           className={classes.circularProgressRoot}
           thickness={thickness}
@@ -98,7 +98,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
         />
         <CircularProgress
           className={classes.circularProgressPrimary}
-          variant='static'
+          variant="determinate"
           value={value}
           thickness={thickness}
           classes={{

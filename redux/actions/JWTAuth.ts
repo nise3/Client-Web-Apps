@@ -1,7 +1,7 @@
 import jwtAxios from '../../@crema/services/auth/jwt-auth/jwt-api';
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, defaultUser} from '../../shared/constants/AppConst';
+import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {AuthUser} from '../../types/models/AuthUser';
 import {AppActions} from '../../types';
 import {Dispatch} from 'redux';
@@ -14,6 +14,23 @@ import {
 import {Cookies} from 'react-cookie';
 import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
+import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+
+const authUserMockData: TAuthUserSSOResponse = {
+  role: undefined,
+  family_name: 'System',
+  given_name: 'Admin',
+  sub: '4679687976547984545',
+  upn: '5496846497949654989',
+  isInstituteUser: false,
+  isOrganizationUser: false,
+  isSystemUser: true,
+  permissions: [],
+  userType: 'system',
+  username: 'system_admin',
+  email: 'admin@gmail.com',
+  displayName: 'System Admin',
+};
 
 /**
  * @deprecated
@@ -96,22 +113,27 @@ export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
   tokenData: TOnSSOSignInCallback,
 ) => {
-  console.log('loadAuthUser() - tokenData - ', tokenData);
+  // console.log('loadAuthUser() - tokenData - ', tokenData);
   dispatch(fetchStart());
   try {
-    const data = JSON.parse(
+    const ssoTokenData = JSON.parse(
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
-    console.log('idTokenData', data);
-
-    const coreResponse = await apiGet(`/core/users/${data.sub}/permissions`);
-    console.log('coreResponse', coreResponse);
-    const res = {data};
+    console.log(ssoTokenData);
+    const coreResponse = await apiGet(
+      CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`,
+    );
+    //use for test purpose
+    // const coreResponse = await apiGet(
+    //   `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
+    // );
+    const {data} = coreResponse.data;
     dispatch(fetchSuccess());
-    console.log('res.data', res.data);
+    // console.log('res.data', data);
     dispatch({
       type: UPDATE_AUTH_USER,
-      payload: getUserObject(res.data),
+      // payload: getUserObject(authUserMockData),
+      payload: getUserObject({...data, ...ssoTokenData}),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
@@ -136,34 +158,44 @@ export const setAuthAccessTokenData = (
 });
 
 type TAuthUserSSOResponse = {
-  email?: string;
   sub: string;
   upn: string;
   given_name: string;
   family_name: string;
-  role?: string[];
+  userType: 'system' | 'institute' | 'organization';
+  isSystemUser: boolean;
+  isInstituteUser: boolean;
+  isOrganizationUser: boolean;
+  institute_id?: string | number;
+  organization_id?: string | number;
+  institute?: Institute;
+  organization?: Organization;
+  // role: Role;
+  role?: Role;
+  displayName?: string;
+  email?: string;
+  username: string;
+  permissions: string[];
+  photoURL?: string;
 };
 export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
   return {
-    isInstituteUser: true,
-    isOrganizationUser: false,
-    isSystemUser: false,
-    userType: 'institute',
-    institute: defaultUser.institute,
+    isInstituteUser: authUser?.isInstituteUser,
+    isOrganizationUser: authUser?.isOrganizationUser,
+    isSystemUser: authUser?.isSystemUser,
+    userType: authUser?.userType,
+    institute_id: authUser?.institute_id,
+    institute: authUser?.institute,
+    organization_id: authUser?.organization_id,
+    organization: authUser?.organization,
     authType: AuthType.AUTH2,
-    displayName: authUser.given_name + ' ' + authUser.family_name,
+    displayName: authUser?.displayName,
     email: authUser?.email,
-    role: authUser?.role || defaultUser.role,
+    role: authUser?.role,
     uid: authUser.sub,
-    username: authUser.upn,
-    permissions: [
-      'create_institute',
-      'update_institute',
-      'delete_institute',
-      'view_single_institute',
-      'view_any_institute',
-      'view_single_division',
-    ],
+    username: authUser.username,
+    permissions: authUser.permissions,
+    photoURL: authUser?.photoURL,
   };
 };
 

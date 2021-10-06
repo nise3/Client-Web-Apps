@@ -1,1 +1,7 @@
 @import "./nprogress.css";
+
+@font-face {
+    font-family: 'NotoSerifBangla';
+    src: local('NotoSerifBangla'),
+    url(./fonts/NotoSerifBengali.ttf) format('truetype');
+}

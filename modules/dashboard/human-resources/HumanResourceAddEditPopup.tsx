@@ -1,5 +1,4 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -29,6 +28,7 @@ import {
 } from '../../../services/organaizationManagement/HumanResourceService';
 import IconHumanResource from '../../../@softbd/icons/IconHumanResource';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import { Grid } from '@mui/material';
 
 interface HumanResourceAddEditPopupProps {
   itemId: number | null;
@@ -39,15 +39,14 @@ interface HumanResourceAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
-  organization_id: 0,
+  organization_id: '',
   parent_id: '',
   rank_id: '',
   display_order: '',
-  is_designation: '',
-  organization_unit_id: 0,
+  is_designation: '2',
+  organization_unit_id: '',
   status: '',
   row_status: '1',
 };
@@ -57,22 +56,10 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  /**
-   * itemId = "m25" transform it 25 as integer
-   */
-  if (itemId) {
-    itemId = Number(itemId?.toString().substring(1));
-  }
-
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = props.isEdit;
 
-  const [organization, setOrganization] = useState<any | {}>({});
-  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
-  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
-    null,
-  );
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title_en: yup
@@ -114,6 +101,11 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  const [organization, setOrganization] = useState<any | {}>({});
+  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
+  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
+    null,
+  );
   const {
     data: humanResourceData,
     isLoading: isHumanResourceLoading,
@@ -130,6 +122,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
 
   useEffect(() => {
     if (isEdit && humanResourceData) {
+      //edit action setup
       setOrganizationUnitId(humanResourceData.organization_unit_type_id);
       setOrganization({
         id: humanResourceData.organization_id,
@@ -156,23 +149,25 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         row_status: String(humanResourceData.row_status),
       });
     } else if (humanResourceData) {
+      // add action setup
       setOrganization({
         id: humanResourceData.organization_id,
         title_en: humanResourceData.organization_title_en,
         title_bn: humanResourceData.organization_title_bn,
       });
       setOrganizationUnit({
-        id: humanResourceData.organization_unit_type_id,
-        title_en: humanResourceData.organization_unit_type_title_en,
-        title_bn: humanResourceData.organization_unit_type_title_bn,
+        id: humanResourceData.organization_unit_id,
+        title_en: humanResourceData.organization_unit_title_en,
+        title_bn: humanResourceData.organization_unit_title_bn,
       });
       setOrganizationUnitId(humanResourceData.organization_unit_id);
       initialValues.organization_id = humanResourceData.organization_id;
       initialValues.organization_unit_id =
-        humanResourceData.organization_unit_type_id;
+        humanResourceData.organization_unit_id;
       initialValues.parent_id = humanResourceData.id;
       reset(initialValues);
     } else if (props.organizationUnitId && organizationUnitData) {
+      // when hierarchy tree is empty
       setOrganizationUnitId(organizationUnitId);
       setOrganization({
         id: organizationUnitData.organization_id,
@@ -189,15 +184,16 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       initialValues.parent_id = '';
       reset(initialValues);
     }
-  }, [organizationUnitData, humanResourceData]);
+  }, [itemId]);
 
   const onSubmit: SubmitHandler<HumanResource> = async (
     data: HumanResource,
   ) => {
     data.parent_id = data.parent_id ? data.parent_id : null;
-    const response = itemId
-      ? await updateHumanResource(itemId, data)
-      : await createHumanResource(data);
+    const response =
+      isEdit && itemId
+        ? await updateHumanResource(itemId, data)
+        : await createHumanResource(data);
 
     if (isResponseSuccess(response) && isEdit) {
       successStack(

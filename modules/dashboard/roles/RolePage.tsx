@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -16,10 +16,13 @@ import {useFetchRoles} from '../../../services/userManagement/hooks';
 import RoleAddEditPopup from './RoleAddEditPopup';
 import RoleDetailsPopup from './RoleDetailsPopup';
 import IconRole from '../../../@softbd/icons/IconRole';
-import {Button, makeStyles} from '@material-ui/core';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-import {AccountTreeOutlined} from '@material-ui/icons';
+import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {LINK_ROLE} from '../../../@softbd/common/appLinks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -30,20 +33,53 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+/*
+const filter = (authUser: AuthUser | null) => {
+  if (authUser && authUser.institute_id) {
+    return {
+      institute_id: authUser.institute_id,
+    };
+  } else if (authUser && authUser.organization_id) {
+    return {
+      organization_id: authUser.organization_id,
+    };
+  } else {
+    return {};
+  }
+};
+*/
+
 const RolePage = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [roleFilters] = useState({});
+  //const [roleFilters] = useState<any>(filter(authUser));
+  const [roleFilters, setRoleFilters] = useState<any>({});
+
   const {
     data: roles,
     isLoading,
     mutate: mutateRoles,
   } = useFetchRoles(roleFilters);
+
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.institute_id) {
+        setRoleFilters({
+          institute_id: authUser.institute_id,
+        });
+      } else if (authUser.organization_id) {
+        setRoleFilters({
+          organization_id: authUser.organization_id,
+        });
+      }
+    }
+  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -109,8 +145,8 @@ const RolePage = () => {
         isVisible: false,
       },
       {
-        Header: messages['permission_group.label'],
-        accessor: 'permission_group_title_en',
+        Header: messages['permission_sub_group.label'],
+        accessor: 'permission_sub_group_title_en',
       },
       {
         Header: messages['common.status'],
@@ -125,7 +161,7 @@ const RolePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = `/dashboard/roles/assign-permissions/${data.id}`;
+          const URL = LINK_ROLE + `/${data.id}`;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />

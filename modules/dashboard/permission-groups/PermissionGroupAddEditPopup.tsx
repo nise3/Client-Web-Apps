@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
@@ -30,7 +30,6 @@ interface PermissionGroupAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
   key: '',

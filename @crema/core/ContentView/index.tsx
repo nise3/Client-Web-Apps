@@ -5,7 +5,7 @@ import {AppSuspense} from '../../index';
 import Scrollbar from '../Scrollbar';
 import AppContext from '../../utility/AppContext';
 import AppFooter from '../AppLayout/AppFooter';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import {RouteTransition} from '../../../shared/constants/AppEnums';
 import AppErrorBoundary from '../AppErrorBoundary';
 import AppContextPropsType from '../../../types/AppContextPropsType';

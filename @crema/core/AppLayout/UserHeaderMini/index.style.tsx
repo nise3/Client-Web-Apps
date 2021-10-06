@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 import {ThemeStyle} from '../../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 

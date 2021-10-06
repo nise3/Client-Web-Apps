@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {useSelector} from 'react-redux';
-import Box from '@material-ui/core/Box';
-import {makeStyles} from '@material-ui/core/styles';
+import Box from '@mui/material/Box';
+import makeStyles from '@mui/styles/makeStyles';
 
 import AppContext from '../../utility/AppContext';
 import Layouts from './Layouts';

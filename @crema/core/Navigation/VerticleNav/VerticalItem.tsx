@@ -1,40 +1,25 @@
-import React, {useContext, useMemo} from 'react';
-import {Icon, ListItem, ListItemText} from '@material-ui/core';
+import React, {useContext} from 'react';
+import {Icon, ListItem, ListItemText} from '@mui/material';
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
 import {Badge} from '../../../index';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import useStyles from './VerticalItem.style';
 import AppContext from '../../../utility/AppContext';
-import {checkPermission} from '../../../utility/Utils';
-import {useSelector} from 'react-redux';
 import Link from 'next/link';
 import {NavItemProps} from '../../../../modules/routesConfig';
-import {AppState} from '../../../../redux/store';
-import {AuthUser} from '../../../../types/models/AuthUser';
-
 
 interface VerticalItemProps {
   item: NavItemProps;
-  level: number
+  level: number;
 }
-
 
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
-  const {user}: {user: AuthUser | null} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
   const router = useRouter();
   const {pathname} = router;
-  const hasPermission = useMemo(() => checkPermission(item.auth, user!.role), [
-    item.auth,
-    user!.role,
-  ]);
-  if (!hasPermission) {
-    return null;
-  }
-
   return (
     <Link href={item.url!} as={item.as}>
       <ListItem
@@ -52,12 +37,12 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
           </Box>
         )}
         <ListItemText
-          primary={<IntlMessages id={item.messageId}/>}
+          primary={<IntlMessages id={item.messageId} />}
           classes={{primary: 'nav-item-text'}}
         />
         {item.count && (
-          <Box mr={1} clone>
-            <Badge count={item.count} color={item.color}/>
+          <Box mr={1}>
+            <Badge count={item.count} color={item.color} />
           </Box>
         )}
       </ListItem>

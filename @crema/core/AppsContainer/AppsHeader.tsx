@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
-import {Box} from '@material-ui/core';
-import {grey} from '@material-ui/core/colors';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import {Box} from '@mui/material';
+import {grey} from '@mui/material/colors';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   appHeader: {

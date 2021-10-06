@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button} from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
+import {Button} from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
 import {useIntl} from 'react-intl';
 
@@ -18,9 +18,9 @@ const CancelButton = ({onClick, className, label, isLoading}: Props) => {
     <ButtonSkeleton />
   ) : (
     <Button
+      color={'warning'}
       startIcon={<CancelIcon />}
-      variant='contained'
-      color='default'
+      variant='outlined'
       onClick={onClick}
       className={className}>
       {btnText}

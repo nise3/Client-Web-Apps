@@ -1,20 +1,19 @@
 import IconRole from '../../../@softbd/icons/IconRole';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {Grid} from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {AuthUser} from '../../../types/models/AuthUser';
 import {useIntl} from 'react-intl';
-import Avatar from '@material-ui/core/Avatar';
-import {makeStyles} from '@material-ui/core/styles';
+import Avatar from '@mui/material/Avatar';
+import makeStyles from '@mui/styles/makeStyles';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 
 const useStyles = makeStyles({
-  ProfileImage:{
+  ProfileImage: {
     height: '200px',
-    width: '200px'
+    width: '200px',
   },
 });
 type Props = {
@@ -22,7 +21,11 @@ type Props = {
   openEditModal: () => void;
 };
 
-export default function UserInfoDetailsPopup({ onClose,openEditModal, ...props}: Props) {
+export default function UserInfoDetailsPopup({
+  onClose,
+  openEditModal,
+  ...props
+}: Props) {
   const user: AuthUser | null = useAuthUser();
   const {messages} = useIntl();
   const classes = useStyles();
@@ -40,16 +43,15 @@ export default function UserInfoDetailsPopup({ onClose,openEditModal, ...props}:
       maxWidth={'md'}
       actions={
         <>
-          <CancelButton onClick={onClose} />
-          <EditButton
-            onClick={() => openEditModal()}
-          />
+          <EditButton onClick={() => openEditModal()} />
         </>
       }>
-
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <Avatar className = {classes.ProfileImage} src='/images/userPageImages/profileImage.jpeg' />
+          <Avatar
+            className={classes.ProfileImage}
+            src='/images/userPageImages/profileImage.jpeg'
+          />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
@@ -72,28 +74,21 @@ export default function UserInfoDetailsPopup({ onClose,openEditModal, ...props}:
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['common.mobile']}
-            value={"0180384888"}
+            value={'0180384888'}
           />
         </Grid>
         <Grid item xs={6}>
-          <DetailsInputView
-            label={messages['role.label']}
-            value={user?.role}
-          />
+          <DetailsInputView label={messages['role.label']} value={user?.role} />
         </Grid>
         <Grid item xs={6}>
-          <DetailsInputView
-            label={messages['institute.label']}
-            value={"xyz"}
-          />
+          <DetailsInputView label={messages['institute.label']} value={'xyz'} />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['organization.label']}
-            value={"abc"}
+            value={'abc'}
           />
         </Grid>
-
       </Grid>
     </CustomDetailsViewMuiModal>
   );

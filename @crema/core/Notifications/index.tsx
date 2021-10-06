@@ -1,17 +1,18 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
 import notification, {
   NotificationData,
 } from '../../services/db/notifications/notification';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import {makeStyles, Popover} from '@material-ui/core';
-import List from '@material-ui/core/List';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import {Popover} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Scrollbar from '../Scrollbar';
 import IntlMessages from '../../utility/IntlMessages';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import NotificationItem from './NotificationItem';
 import {Fonts} from '../../../shared/constants/AppEnums';
@@ -94,10 +95,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 interface NotificationsProps {}
 
 const Notifications: React.FC<NotificationsProps> = () => {
-  const [
-    anchorNotification,
-    setAnchorNotification,
-  ] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorNotification, setAnchorNotification] =
+    React.useState<HTMLButtonElement | null>(null);
 
   const onClickNotificationButton = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -113,7 +112,8 @@ const Notifications: React.FC<NotificationsProps> = () => {
         className={clsx(classes.notiBtn, 'notiBtn')}
         aria-label='show 17 new notifications'
         color='inherit'
-        onClick={onClickNotificationButton}>
+        onClick={onClickNotificationButton}
+        size='large'>
         <Badge
           className={classes.badge}
           badgeContent={notification.length}
@@ -151,7 +151,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
         onClose={() => setAnchorNotification(null)}>
         <Box>
           <Box px={5} py={3}>
-            <Box component='h5' fontFamily='Poppins' fontSize={16}>
+            <Box component='h5' fontSize={16}>
               <IntlMessages id='common.notifications' />({notification.length})
             </Box>
           </Box>

@@ -1,13 +1,13 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import Card from '@mui/material/Card';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {makeStyles} from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     fontSize: 16,
     paddingTop: 12,
     paddingBottom: 12,
-    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
   },
   textSecondary: {
     color: theme.palette.primary.main,

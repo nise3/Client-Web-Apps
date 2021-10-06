@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react';
 import AppsHeader from '../../@crema/core/AppsContainer/AppsHeader';
-import {Box, makeStyles, Theme, Typography} from '@material-ui/core';
+import { Box, Theme, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import AppsContent from '../../@crema/core/AppsContainer/AppsContent';
 import AppsContainer from '../../@crema/core/AppsContainer';
 

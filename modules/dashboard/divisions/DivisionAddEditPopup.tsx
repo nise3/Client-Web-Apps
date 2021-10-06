@@ -6,7 +6,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   createDivision,

@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -21,6 +21,7 @@ import {
   updateOrganizationUnit,
 } from '../../../services/organaizationManagement/OrganizationUnitService';
 import {
+  isNeedToSelectOrganization,
   isResponseSuccess,
   isValidationError,
 } from '../../../@softbd/utilities/helpers';
@@ -36,6 +37,7 @@ import {
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -68,6 +70,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
+  const authUser = useAuthUser();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -117,10 +120,14 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .title('bn')
         .label(messages['common.title_bn'] as string),
-      organization_id: yup
-        .string()
-        .required()
-        .label(messages['organization.label'] as string),
+      organization_id:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['organization.label'] as string)
+          : yup.string().label(messages['organization.label'] as string),
       organization_unit_type_id: yup
         .string()
         .required()
@@ -212,6 +219,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         row_status: RowStatus.ACTIVE,
       });
     } else {
+      if (authUser && authUser.isOrganizationUser) {
+        setOrganizationUnitTypeFilters({
+          organization_id: authUser?.organization?.id,
+          row_status: RowStatus.ACTIVE,
+        });
+      }
       reset(initialValues);
     }
   }, [itemData]);
@@ -247,13 +260,16 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   }, []);
 
   const getServiceIds = (services: Array<Service>) => {
-    let ids = services.map((item: Service) => item.id);
-    return ids;
+    return services.map((item: Service) => item.id);
   };
 
   const onSubmit: SubmitHandler<OrganizationUnit> = async (
     data: OrganizationUnit,
   ) => {
+    if (authUser?.isOrganizationUser && authUser.organization?.id) {
+      data.organization_id = authUser.organization.id;
+    }
+
     const response = itemId
       ? await updateOrganizationUnit(itemId, data)
       : await createOrganizationUnit(data);
@@ -344,19 +360,21 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organization_id'
-            label={messages['organization.label']}
-            isLoading={isLoadingOrganization}
-            control={control}
-            options={organizations}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
-            errorInstance={errors}
-            onChange={onOrganizationChange}
-          />
-        </Grid>
+        {isNeedToSelectOrganization(authUser) && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganization}
+              control={control}
+              options={organizations}
+              optionValueProp='id'
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+              onChange={onOrganizationChange}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomFormSelect
             id='organization_unit_type_id'

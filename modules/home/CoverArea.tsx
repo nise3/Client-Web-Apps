@@ -1,20 +1,19 @@
 import React from 'react';
 import {
   Box,
-  Button,
+  Card,
+  CardMedia,
   Container,
-  FormControl,
   Grid,
-  InputAdornment,
-  InputLabel,
   NativeSelect,
-  OutlinedInput,
   Typography,
-} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import {Slide, Fade, Zoom} from 'react-awesome-reveal';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+} from '@mui/material';
+import {Theme} from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import {Fade, Slide} from 'react-awesome-reveal';
+import SearchBox from './SearchBox';
+import TrendSearchItemList from './TrendSearchItemList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,34 +27,40 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid #5e6b0f',
       background: ' #5e6b0f',
       textAlign: 'center',
-      color: '#000',
+      color: '#fff',
       padding: '0 7px 2px 12px',
       marginTop: '13px',
+      marginBottom: '8px',
+      marginLeft: '-8px',
+      [theme.breakpoints.down('xl')]: {
+        width: '100%',
+        marginLeft: '-14px',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: '120px',
+        marginLeft: '-24px',
+      },
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: '0px',
+      },
     },
-    searchBox: {
-      padding: '12px 5px 5px 15px',
-      background: '#fff',
-      position: 'absolute',
-      zIndex: 1,
-      width: 'auto',
-      // borderRadius: '2px',
-      border: 'none',
+    selectOption: {
+      color: '#000',
     },
     skillSlide: {
       zIndex: 2,
       position: 'absolute',
     },
-    searchButton: {
-      // marginLeft: '50px',
-      background: '#682988',
-      color: '#fff',
-      borderRadius: '0px',
-    },
+
     trendWrapper: {
-      height: '200px',
+      position: 'relative',
+      // height: '200px',
+      padding: '18px',
       background: '#ddd',
-      [theme.breakpoints.down('sm')]: {
+      paddingBottom: 'auto',
+      [theme.breakpoints.down('xl')]: {
         marginBottom: '10px',
+        marginTop: '140px',
       },
     },
     trendSearchItem: {
@@ -66,30 +71,24 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '42px',
     },
 
-    mobileCoverImage: {
-      width: '100%',
-      // position: 'absolute',
+    coverImage: {
+      height: '430px',
       right: 0,
+      bottom: 0,
       borderRadius: '5px',
       display: 'flex',
-      marginTop: '13px',
-      marginBottom: '10px',
       [theme.breakpoints.up('md')]: {
-        display: 'none',
-        marginBottom: '100px',
+        position: 'absolute',
+        width: '40%',
       },
-    },
-    coverImage: {
-      width: '45vw',
-      height: '430px',
-      position: 'absolute',
-      right: 0,
-      borderRadius: '5px',
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-        bottom: '-135px',
-        // right: '6vw',
+
+      [theme.breakpoints.down('xl')]: {
+        marginTop: '13px',
+        marginBottom: '10px',
+        width: '100%',
+      },
+      [theme.breakpoints.up('xl')]: {
+        width: '40%',
       },
     },
     animationFillMode: {
@@ -107,6 +106,11 @@ const useStyles = makeStyles((theme: Theme) =>
     noBorder: {
       border: 'none',
     },
+    dropdownStyle: {
+      border: '1px solid black',
+      borderRadius: '5%',
+      backgroundColor: 'lightgrey',
+    },
   }),
 );
 
@@ -117,10 +121,10 @@ const CoverArea = () => {
       <Grid container>
         <Grid item xs={12} className={classes.root}>
           <Container maxWidth='md'>
-            <Box pt={10}>
+            <Box pt={6}>
               <Fade direction='up'>
                 <Typography variant='h4'>
-                  <Box fontWeight='fontWeightBold' mt={15}>
+                  <Box fontWeight='fontWeightBold' mt={4}>
                     এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
                     প্রশিক্ষণ
                   </Box>
@@ -128,122 +132,76 @@ const CoverArea = () => {
               </Fade>
 
               <Fade direction='down'>
-                <Typography variant='subtitle2'>
-                  <Box fontWeight={500} mt={5}>
+                <Box mt={2}>
+                  <Typography variant={'h6'}>
                     আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
                     তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
                     <br />
-                    অনুসারে চাকরি
-                  </Box>
-                </Typography>
+                    অনুসারে চাকরি।
+                  </Typography>
+                </Box>
               </Fade>
             </Box>
 
             <Slide direction='up'>
-              <Grid container>
+              <Grid item container>
                 <Grid item xs={3} xl={2}>
-                  <Box mt={10} zIndex={'tooltip'}>
-                    <NativeSelect className={classes.select}>
-                      <option>দক্ষতা</option>
-                      <option>চাকরি</option>
-                      <option>ব্যবসা</option>
-                      <option>শিক্ষা</option>
+                  <Box mt={5} zIndex={'tooltip'}>
+                    <NativeSelect disableUnderline className={classes.select}>
+                      <option className={classes.selectOption}>দক্ষতা</option>
+                      <option className={classes.selectOption}>চাকরি</option>
+                      <option className={classes.selectOption}>ব্যবসা</option>
+                      <option className={classes.selectOption}>শিক্ষা</option>
                     </NativeSelect>
                   </Box>
                 </Grid>
               </Grid>
             </Slide>
-
-            <Grid container spacing={2} className={classes.searchBox}>
-              <Grid item xs={12} sm={7}>
-                <FormControl variant='outlined'>
-                  <InputLabel htmlFor='outlined-adornment-amount'>
-                    Search
-                  </InputLabel>
-                  <OutlinedInput
-                    className={classes.noBorder}
-                    id='outlined-adornment-amount'
-                    startAdornment={
-                      <InputAdornment position='start'>
-                        <SearchIcon /> অনুসন্ধান করুণ
-                      </InputAdornment>
-                    }
-                    labelWidth={60}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <NativeSelect>
-                  <LocationOnIcon />
-                  <option>লোকেশন</option>
-                </NativeSelect>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <Button variant='contained' className={classes.searchButton}>
-                  অনুসন্ধান
-                </Button>
-              </Grid>
-            </Grid>
+            <SearchBox />
           </Container>
         </Grid>
         <Grid container className={classes.trendWrapper}>
           <Container maxWidth='md'>
             <Slide direction='down'>
-              <Grid container xs={12} md={6} spacing={2}>
-                <Grid item xs={3}>
-                  <Box mt={10}>
+              <Grid item container xs={12} md={8} spacing={2}>
+                <Grid item xs={12} md={2}>
+                  <Box>
                     <Typography variant='h6' gutterBottom={true}>
                       ট্রেন্ড সার্চ
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={3} md={3}>
-                  <Box mt={10} className={classes.trendSearchKey}>
-                    <p>গ্রাফিক্স ডিজাইন</p>
-                  </Box>
-                </Grid>
-                <Grid item xs={3} md={3}>
-                  <Box mt={10} className={classes.trendSearchKey}>
-                    <p>ওয়েব ডিজাইন</p>
-                  </Box>
-                </Grid>
-                <Grid item xs={3} md={3}>
-                  <Box mt={10} className={classes.trendSearchKey}>
-                    <p>ইউ-আই/এক্স</p>
-                  </Box>
-                </Grid>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={3} md={3}>
-                  <Box className={classes.trendSearchKey}>
-                    <p> হেলথ কেয়ার জব</p>
-                  </Box>
-                </Grid>
+                <TrendSearchItemList
+                  searchItems={[
+                    'গ্রাফিক্স ডিজাইন',
+                    'ওয়েব ডিজাইন',
+                    'ইউ-আই/এক্স',
+                    'হেলথ কেয়ার জব',
+                  ]}
+                />
               </Grid>
             </Slide>
           </Container>
-          <Zoom>
-            {/*<Box className={classes.coverImage}>*/}
-            {/*  <Image*/}
-            {/*    src={coverImg}*/}
-            {/*    width={550}*/}
-            {/*    height={400}*/}
-            {/*    alt='cover-image'*/}
-            {/*  />*/}
-            {/*</Box>*/}
 
-            <Grid container>
-              <img
-                src='/images/cover-area.png'
-                alt='crema-logo'
-                className={classes.coverImage}
-              />
-              <img
-                src='/images/cover-area.png'
-                alt='crema-logo'
-                className={classes.mobileCoverImage}
-              />
-            </Grid>
-          </Zoom>
+          <Card>
+            <CardMedia
+              component='img'
+              alt='green iguana'
+              height='140'
+              image='/images/cover-area.png'
+              className={classes.coverImage}
+            />
+          </Card>
+
+          {/*<Grid item container md={4} sm={12}>*/}
+          {/*  /!*<Zoom>*!/*/}
+          {/*  <img*/}
+          {/*    src='/images/cover-area.png'*/}
+          {/*    alt='crema-logo'*/}
+          {/*    // className={classes.coverImage}*/}
+          {/*  />*/}
+          {/*  /!*</Zoom>*!/*/}
+          {/*</Grid>*/}
         </Grid>
       </Grid>
     </>

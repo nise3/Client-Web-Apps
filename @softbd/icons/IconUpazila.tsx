@@ -1,5 +1,5 @@
 import React from 'react';
-import {RoomOutlined} from '@material-ui/icons';
+import {RoomOutlined} from '@mui/icons-material';
 
 const IconUpazila = () => {
   return (

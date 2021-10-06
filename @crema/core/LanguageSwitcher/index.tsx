@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
 import languageData, {LanguageProps} from './data';
-import Menu from '@material-ui/core/Menu';
+import Menu from '@mui/material/Menu';
 import AppContext from '../../utility/AppContext';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
 import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
-import {makeStyles} from '@material-ui/core';
+import Box from '@mui/material/Box';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import AppContextPropsType, {
   CremaTheme,
@@ -129,7 +129,8 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         aria-controls='language-switcher'
         aria-haspopup='true'
         onClick={onClickMenu}
-        color='inherit'>
+        color='inherit'
+        size="large">
         {!iconOnly ? (
           <>
             <Box

@@ -1,6 +1,6 @@
 import React from 'react';
 import Document, {Head, Html, Main, NextScript} from 'next/document';
-import {ServerStyleSheets} from '@material-ui/core/styles';
+import ServerStyleSheets from '@mui/styles/ServerStyleSheets';
 import defaultConfig from '../@crema/utility/ContextProvider/defaultConfig';
 
 export default class MyDocument extends Document {

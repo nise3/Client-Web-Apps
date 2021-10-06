@@ -1,10 +1,10 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
-import Box from '@material-ui/core/Box';
+import makeStyles from '@mui/styles/makeStyles';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+import Box from '@mui/material/Box';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

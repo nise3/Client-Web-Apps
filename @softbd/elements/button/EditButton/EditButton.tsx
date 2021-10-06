@@ -1,10 +1,11 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
-import {makeStyles} from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {RiEditBoxFill} from 'react-icons/ri';
+import {ButtonProps} from '@mui/material/Button/Button';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -14,12 +15,12 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-interface Props {
+interface Props extends ButtonProps {
   onClick: () => void;
   isLoading?: boolean;
   className?: string;
   variant?: 'text' | 'outlined' | 'contained' | undefined;
-  color?: 'inherit' | 'primary' | 'secondary' | 'default';
+  color?: 'inherit' | 'primary' | 'secondary';
 }
 
 const EditButton = ({
@@ -38,7 +39,7 @@ const EditButton = ({
       startIcon={<RiEditBoxFill />}
       onClick={onClick}
       className={extra?.color ? clsx(classes.button, className) : className}
-      color={extra?.color ? extra.color : 'secondary'}
+      color={extra?.color || 'secondary'}
       variant={variant}
       {...extra}>
       <IntlMessages id='common.edit_btn' />

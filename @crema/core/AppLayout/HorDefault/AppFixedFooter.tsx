@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import AppContext from '../../../utility/AppContext';
-import Box from '@material-ui/core/Box';
-import {Button, makeStyles} from '@material-ui/core';
+import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import AppContextPropsType from '../../../../types/AppContextPropsType';
 

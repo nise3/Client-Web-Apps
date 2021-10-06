@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../Navigation/VerticleNav';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import BucketMinibar from './BucketMinibar';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import useStyles from './AppSidebar.style';
 import Scrollbar from '../../Scrollbar';
 import AppContext from '../../../utility/AppContext';
@@ -58,23 +58,21 @@ const AppSidebar: React.FC<AppSidebarProps> = props => {
       </Box>
     );
   };
-  return (
-    <>
-      <Hidden lgUp>
-        <Drawer
-          anchor={props.position}
-          open={navCollapsed}
-          onClose={() => handleToggleDrawer()}
-          classes={{
-            root: clsx(props.variant),
-            paper: clsx(props.variant),
-          }}
-          style={{position: 'absolute'}}>
-          {sideBarComponent()}
-        </Drawer>
-      </Hidden>
-      <Hidden mdDown>{sideBarComponent()}</Hidden>
-    </>
-  );
+  return <>
+    <Hidden lgUp>
+      <Drawer
+        anchor={props.position}
+        open={navCollapsed}
+        onClose={() => handleToggleDrawer()}
+        classes={{
+          root: clsx(props.variant),
+          paper: clsx(props.variant),
+        }}
+        style={{position: 'absolute'}}>
+        {sideBarComponent()}
+      </Drawer>
+    </Hidden>
+    <Hidden xlDown>{sideBarComponent()}</Hidden>
+  </>;
 };
 export default AppSidebar;

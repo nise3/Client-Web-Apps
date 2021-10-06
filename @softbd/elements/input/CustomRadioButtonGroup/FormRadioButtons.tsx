@@ -4,7 +4,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-} from '@material-ui/core';
+} from '@mui/material';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import React from 'react';
 import {useIntl} from 'react-intl';

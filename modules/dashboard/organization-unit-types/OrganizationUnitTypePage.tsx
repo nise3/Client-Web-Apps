@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -17,10 +17,12 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUnitType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {Button, makeStyles} from '@material-ui/core';
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Link from 'next/link';
 import clsx from 'clsx';
-import {AccountTreeOutlined} from '@material-ui/icons';
+import {AccountTreeOutlined} from '@mui/icons-material';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const OrganizationUnitTypePage = () => {
+  const authUser = useAuthUser();
   const classes = useStyles();
   const {successStack} = useNotiStack();
   const {messages} = useIntl();
@@ -42,6 +45,16 @@ const OrganizationUnitTypePage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [organizationUnitTypeFilters, setOrganizationUnitTypeFilters] =
+    useState({});
+
+  useEffect(() => {
+    if (authUser?.isOrganizationUser) {
+      setOrganizationUnitTypeFilters({
+        organization_id: authUser.organization?.id,
+      });
+    }
+  }, []);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -120,7 +133,7 @@ const OrganizationUnitTypePage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           const URL =
-            '/../../dashboard/organization-unit-types/org-chart/__'.replace(
+            '/../../dashboard/organization-unit-types/organization-unit-types-hr-hierarchy/__'.replace(
               '__',
               String(data.id),
             );
@@ -154,6 +167,7 @@ const OrganizationUnitTypePage = () => {
     useReactTableFetchData({
       urlPath: API_ORGANIZATION_UNIT_TYPES,
       dataAccessor: 'data',
+      filters: organizationUnitTypeFilters,
     });
 
   return (

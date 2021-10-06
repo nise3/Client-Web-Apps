@@ -4,6 +4,9 @@ import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_PERMISSION_SUB_GROUPS = CORE_SERVICE_PATH + '/permission-sub-groups';
 
+/**
+ * @deprecated
+ */
 export const getAllPermissionSubGroups = async () => {
   try {
     let response: any = await apiGet(API_PERMISSION_SUB_GROUPS);
@@ -13,6 +16,10 @@ export const getAllPermissionSubGroups = async () => {
   }
 };
 
+/**
+ * @deprecated
+ * @param permissionSubGroupId
+ */
 export const getPermissionSubGroup = async (permissionSubGroupId: number) => {
   try {
     let response: any = await apiGet(
@@ -54,6 +61,21 @@ export const deletePermissionSubGroup = async (
   try {
     let response: any = await apiDelete(
       API_PERMISSION_SUB_GROUPS + '/' + permissionSubGroupId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const assignPermissions = async (
+  permissionSubGroupId: number,
+  permissions: number[],
+) => {
+  try {
+    let response: any = await apiPost(
+      `${API_PERMISSION_SUB_GROUPS}/${permissionSubGroupId}/assign-permissions`,
+      {permissions: permissions},
     );
     return response.data;
   } catch (error) {

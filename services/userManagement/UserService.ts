@@ -4,6 +4,9 @@ import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
 const API_USERS = CORE_SERVICE_PATH + '/users';
 
+/**
+ * @deprecated
+ */
 export const getAllUsers = async () => {
   try {
     let response: any = await apiGet(API_USERS);
@@ -13,6 +16,10 @@ export const getAllUsers = async () => {
   }
 };
 
+/**
+ * @deprecated
+ * @param userId
+ */
 export const getUser = async (userId: number) => {
   try {
     let response: any = await apiGet(API_USERS + '/' + userId);

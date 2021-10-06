@@ -1,15 +1,15 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import {Checkbox} from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import {Checkbox} from '@mui/material';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
 import {onJwtSignIn} from '../../../redux/actions';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import {makeStyles} from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import Link from 'next/link';
 import {CremaTheme} from '../../../types/AppContextPropsType';
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   btnRoot: {
     // @ts-ignore
-    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
     width: '10rem',
     fontWeight: Fonts.REGULAR,
     fontSize: 16,
@@ -82,8 +82,7 @@ const validationSchema = yup.object({
   password: yup.string().required('Password required'),
 });
 
-interface UserSigninProps {
-}
+interface UserSigninProps {}
 
 const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
   const dispatch = useDispatch();

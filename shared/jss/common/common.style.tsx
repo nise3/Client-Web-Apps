@@ -1,6 +1,6 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../constants/AppEnums';
-import {alpha} from '@material-ui/core';
+import {alpha} from '@mui/material';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

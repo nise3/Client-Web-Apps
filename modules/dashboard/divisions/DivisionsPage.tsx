@@ -16,10 +16,18 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
+import {styled} from '@mui/styles';
+
+const PREFIX = 'DivisionPage';
+const classes = {root: `${PREFIX}-root`};
+const StyledDiv = styled('div')((theme: any) => ({
+  [`&.${classes.root}`]: {
+    background: 'red',
+  },
+}));
 
 const DivisionsPage = () => {
   // const user: AuthUser | null = useAuthUser();
-  //
   // const hasPermission = useMemo(() => readDivision(user), [user]);
   // console.log('hasPermission', hasPermission);
 
@@ -134,7 +142,7 @@ const DivisionsPage = () => {
   );
 
   return (
-    <>
+    <StyledDiv className={classes.root}>
       <PageBlock
         title={
           <>
@@ -175,7 +183,7 @@ const DivisionsPage = () => {
           />
         )}
       </PageBlock>
-    </>
+    </StyledDiv>
   );
 };
 

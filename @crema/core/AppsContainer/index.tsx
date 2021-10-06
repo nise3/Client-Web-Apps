@@ -1,6 +1,6 @@
 import React, {ReactNode, useContext} from 'react';
-import {Box} from '@material-ui/core';
-import Card from '@material-ui/core/Card';
+import {Box} from '@mui/material';
+import Card from '@mui/material/Card';
 import useStyles from './index.style';
 import {AppContext} from '../../index';
 import clsx from 'clsx';

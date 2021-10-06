@@ -5,17 +5,21 @@ import {
   Container,
   Grid,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {AccessTime, ArrowRightAlt, Info} from '@material-ui/icons';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import SectionTitle from './SectionTitle';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       marginTop: '50px',
+      backgroundColor: '#fff',
     },
     courseItem: {
       position: 'relative',
@@ -76,29 +80,48 @@ let items = [
 
 const PopularCourse = () => {
   const classes = useStyles();
-  const cardItem = (item: any) => {
+  const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={6}>
+      <Box mr={6} key={key}>
         <Card className={classes.courseItem}>
           <Typography>
-            <Box fontWeight='fontWeightBold' className={classes.priceDetails}>
+            <Box
+              component={'span'}
+              fontWeight='fontWeightBold'
+              className={classes.priceDetails}>
               {item.price}
             </Box>
           </Typography>
           <Box>
-            <img className={classes.image} src={item.img} alt='crema-logo' />
+            <Image
+              className={classes.image}
+              src={item.img}
+              alt='crema-logo'
+              height={50}
+              width={'100%'}
+              layout={'responsive'}
+            />
+            {/*<img className={classes.image} src={item.img} alt='crema-logo' />*/}
           </Box>
           <Box p={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
-              <Box fontWeight='fontWeightBold'>{item.title}</Box>
+              <Box component={'span'} fontWeight='fontWeightBold'>
+                {item.title}
+              </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box fontWeight='fontWeightBold' className={classes.timeDetails}>
+              <Box
+                component={'span'}
+                fontWeight='fontWeightBold'
+                className={classes.timeDetails}>
                 <AccessTime /> {item.duration}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box fontWeight='fontWeightBold' className={classes.timeDetails}>
+              <Box
+                component={'span'}
+                fontWeight='fontWeightBold'
+                className={classes.timeDetails}>
                 <Info /> {item.enrolls}
               </Box>
             </Typography>
@@ -113,10 +136,10 @@ const PopularCourse = () => {
         <SectionTitle title='জনপ্রিয় কোর্স' center={true}></SectionTitle>
         <Box mb={2}>
           <CustomCarousel>
-            {items.map((item: any) => cardItem(item))}
+            {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
-        <Grid container justifyContent='center' spacing={2}>
+        <Grid item container justifyContent='center' spacing={2}>
           <Button
             variant='outlined'
             color='primary'

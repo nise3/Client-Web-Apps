@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -28,6 +28,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface RankAddEditPopupProps {
   itemId: number | null;
@@ -36,10 +37,9 @@ interface RankAddEditPopupProps {
 }
 
 const initialValues = {
-  id: 0,
   title_en: '',
   title_bn: '',
-  organization_id: 0,
+  organization_id: '',
   rank_type_id: '',
   display_order: '',
   grade: '',
@@ -54,6 +54,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
+  const authUser = useAuthUser();
 
   const {data: itemData, isLoading, mutate: mutateRank} = useFetchRank(itemId);
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
@@ -77,11 +78,14 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         .string()
         .title('bn')
         .label(messages['common.title_bn'] as string),
-      organization_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['organization.label'] as string),
+      organization_id:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['organization.label'] as string)
+          : yup.string().label(messages['organization.label'] as string),
       rank_type_id: yup
         .string()
         .trim()
@@ -101,6 +105,17 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   } = useForm<Rank>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.isOrganizationUser) {
+        setRankTypeFilters({
+          organization_id: authUser.organization_id,
+          row_status: RowStatus.ACTIVE,
+        });
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (itemData) {
@@ -131,6 +146,10 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<Rank> = async (data: Rank) => {
+    if (authUser && authUser.isOrganizationUser) {
+      data.organization_id = authUser?.organization_id;
+    }
+
     const response = itemId
       ? await updateRank(itemId, data)
       : await createRank(data);
@@ -205,19 +224,21 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organization_id'
-            label={messages['organization.label']}
-            isLoading={isLoadingOrganizations}
-            control={control}
-            options={organizations}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
-            errorInstance={errors}
-            onChange={handleOrganizationChange}
-          />
-        </Grid>
+        {authUser && authUser.isSystemUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganizations}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title_bn']}
+              errorInstance={errors}
+              onChange={handleOrganizationChange}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomFormSelect
             id='rank_type_id'
