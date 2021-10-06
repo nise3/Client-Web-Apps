@@ -64,7 +64,7 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
           </Grid>
           <Chip
             variant='outlined'
-            label={messages['youth_feed.featured']}
+            label={messages['common.featured']}
             className={classes.tagStyle}
           />
         </Grid>

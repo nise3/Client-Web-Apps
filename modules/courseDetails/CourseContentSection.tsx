@@ -22,6 +22,8 @@ import {
   PlayCircleOutline,
 } from '@mui/icons-material';
 import clsx from 'clsx';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../@crema/utility/IntlMessages';
 
 interface CourseContentProps {
   course: any;
@@ -29,6 +31,7 @@ interface CourseContentProps {
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const classes = useStyle();
+  const {messages} = useIntl();
 
   const [value, setValue] = useState('1');
   const overviewRef = useRef<any>(null);
@@ -66,10 +69,10 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
     <TabContext value={value}>
       <Box sx={{background: '#e6f3ec'}}>
         <TabList aria-label='tabs' onChange={handleChange}>
-          <Tab label='Overview' value='1' />
-          <Tab label='Lessons' value='2' />
-          <Tab label='Requirements' value='3' />
-          <Tab label='Trainer' value='4' />
+          <Tab label={messages['course_details.overview']} value='1' />
+          <Tab label={messages['course_details.lesson']} value='2' />
+          <Tab label={messages['course_details.requirements']} value='3' />
+          <Tab label={messages['course_details.trainer']} value='4' />
         </TabList>
       </Box>
 
@@ -83,8 +86,10 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               )}>
               <CardMembership className={classes.courseBadgeIcon} />
               <Box>
-                <Box className={classes.courseBadgeTitle}>Certificate</Box>
-                <Box>Earn a certificate upon completion</Box>
+                <Box className={classes.courseBadgeTitle}>
+                  {messages['common.certificate']}
+                </Box>
+                <Box>{messages['course_details.earn_certificate']}</Box>
               </Box>
             </Box>
           </Grid>
@@ -101,8 +106,10 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               )}>
               <Language className={classes.courseBadgeIcon} />
               <Box>
-                <Box className={classes.courseBadgeTitle}>100% Online</Box>
-                <Box>Start instantly and run</Box>
+                <Box className={classes.courseBadgeTitle}>
+                  {messages['course_details.online_100_percent']}
+                </Box>
+                <Box>{messages['course_details.start_instantly']}</Box>
               </Box>
             </Box>
           </Grid>
@@ -120,29 +127,34 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <Alarm className={classes.courseBadgeIcon} />
               <Box>
                 <Box className={classes.courseBadgeTitle}>
-                  6 months to complete
+                  <IntlMessages
+                    id='course_details.months_to_complete'
+                    values={{subject: 6}}
+                  />
                 </Box>
-                <Box>3 hours/weeks</Box>
+                <Box>3 {messages['course_details.hours_per_weeks']}</Box>
               </Box>
             </Box>
           </Grid>
         </Grid>
 
         <Box ref={overviewRef} className={classes.boxMargin}>
-          <Box className={classes.sectionTitleStyle}>Overview</Box>
+          <Box className={classes.sectionTitleStyle}>
+            {messages['course_details.overview']}
+          </Box>
           <Typography variant={'h6'} fontWeight={'bold'}>
             Explore how Physical Computing is Changing Tech
           </Typography>
           <Typography className={classes.padTop18}>
             Physical computing is the use of computers to respond to the
             physical movement of the human body.
-          </Typography>
-          <Typography className={classes.padTop18}>
+            <br></br>
+            <br></br>
             Whereas in the past computing was limited to immobile computers and
             laptops, today microcontrollers and sensors are revolutionising the
             tech industry and how we interact with household items.
-          </Typography>
-          <Typography className={classes.padTop18}>
+            <br></br>
+            <br></br>
             On this course you'll learn what's inside the devices we all use
             every day, like kettles, phones, and smartwatches. You'll come to
             understand how they work, how they respond to our movements, and
@@ -151,7 +163,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
         </Box>
 
         <Box ref={lessonRef} style={{marginTop: 20, marginBottom: 20}}>
-          <Box className={classes.sectionTitleStyle}>Lessons</Box>
+          <Box className={classes.sectionTitleStyle}>
+            {messages['course_details.lesson']}
+          </Box>
           <Box style={{display: 'flex', alignItems: 'center'}}>
             {(course.tags || []).map((tag: any, index: any) => {
               return index == 0 ? (
@@ -189,7 +203,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           </Grid>
           <Box>
             <Box className={classes.sectionTitleStyle}>
-              Exam/Assisment Method
+              {messages['course_details.assisment_method']}
             </Box>
             <List className={classes.ulList}>
               <ListItem className='list-item'>
@@ -209,7 +223,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
         </Box>
 
         <Box ref={requirementRef} className={classes.boxMargin}>
-          <Box className={classes.sectionTitleStyle}>Requirements</Box>
+          <Box className={classes.sectionTitleStyle}>
+            {messages['course_details.requirements']}
+          </Box>
           <Box>
             <List className={classes.ulList}>
               <ListItem className='list-item'>
@@ -239,7 +255,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
         </Box>
 
         <Box ref={trainerRef} className={classes.boxMargin}>
-          <Box className={classes.sectionTitleStyle}>Trainer</Box>
+          <Box className={classes.sectionTitleStyle}>
+            {messages['course_details.trainer']}
+          </Box>
           <Box className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
             <Avatar sx={{height: 60, width: 60}} src={course.trainer?.image} />
             <Box className={classes.trainerNameAndAboutBox}>
@@ -250,7 +268,10 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {course.trainer.about}
               </Typography>
               <Link href={'#more-courses'} style={{textDecoration: 'none'}}>
-                View more courses by {course.trainer?.firstName}
+                <IntlMessages
+                  id='course_details.view_more_courses_by'
+                  values={{subject: course.trainer?.firstName}}
+                />
               </Link>
             </Box>
           </Box>

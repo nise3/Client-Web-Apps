@@ -36,7 +36,7 @@ const NoticeCard = () => {
               <Button variant='outlined' className={classes.btn}>
                 2021-03-12
               </Button>
-              <Button variant='contained'>Download</Button>
+              <Button color={'primary'}>Download</Button>
             </Box>
           </Grid>
         </Grid>

@@ -5,6 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {RiEditBoxFill} from 'react-icons/ri';
+import {ButtonProps} from '@mui/material/Button/Button';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-interface Props {
+interface Props extends ButtonProps {
   onClick: () => void;
   isLoading?: boolean;
   className?: string;

@@ -7,10 +7,8 @@ import {
   isResponseSuccess,
   isValidationError,
 } from '../../@softbd/utilities/helpers';
-import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import HookFormMuiModal from '../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
 import {
   createRankType,
@@ -20,8 +18,11 @@ import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
+import {Box, Card, CardContent, Typography} from '@mui/material';
+import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
+import {useRouter} from 'next/router';
 
-interface CertificateAddEditPopupProps {
+interface CertificateAddEditPageProps {
   itemId: number | null;
   onClose: () => void;
 }
@@ -35,13 +36,12 @@ const initialValues = {
   certificate_file: '',
 };
 
-const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
-  itemId,
-  ...props
-}) => {
+const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
+
+  const router = useRouter();
+  const {certificateId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -69,9 +69,11 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   });
 
   const [itemData, setItemData] = useState<any>(null);
+  const itemId = Number(certificateId);
+  const isEdit = itemId != null;
 
   useEffect(() => {
-    if (itemId) {
+    if (Number(certificateId)) {
       setItemData({
         certification: 'ML',
         institution: 'h20.io',
@@ -81,7 +83,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
         certificate_file: '',
       });
     }
-  }, [itemId]);
+  }, [certificateId]);
 
   useEffect(() => {
     if (itemData) {
@@ -112,7 +114,6 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -120,99 +121,95 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
-      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
   return (
-    <HookFormMuiModal
-      open={true}
-      {...props}
-      title={
-        <>
-          {isEdit ? (
-            <IntlMessages
-              id='common.edit'
-              values={{subject: <IntlMessages id='certification.label' />}}
-            />
-          ) : (
-            <IntlMessages
-              id='common.add_new'
-              values={{subject: <IntlMessages id='certification.label' />}}
-            />
-          )}
-        </>
-      }
-      maxWidth={'xs'}
-      handleSubmit={handleSubmit(onSubmit)}
-      actions={
-        <>
-          <CancelButton onClick={props.onClose} isLoading={false} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
-        </>
-      }>
-      <Grid container spacing={5}>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='certification'
-            label={messages['certification.label']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
+    <Box mt={4} mb={2}>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item xs={3}>
+          <YouthProfileNavigationSidebar />
         </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='institute'
-            label={messages['institute.label']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='location'
-            label={messages['common.location']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomDateTimeField
-            id='start_date'
-            label={messages['job_experience.start_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
+        <Grid item xs={5}>
+          <Card>
+            <CardContent>
+              <Typography variant={'h6'} mb={4}>
+                {messages['certification.label']}
+              </Typography>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='certification'
+                      label={messages['certification.label']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='institute'
+                      label={messages['institute.label']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='location'
+                      label={messages['common.location']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomDateTimeField
+                      id='start_date'
+                      label={messages['job_experience.start_date']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
 
-        <Grid item xs={6}>
-          <CustomDateTimeField
-            id='end_date'
-            label={messages['job_experience.end_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='certificate_file'
-            label={messages['certificate.certificate_file']}
-            type={'file'}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
+                  <Grid item xs={6}>
+                    <CustomDateTimeField
+                      id='end_date'
+                      label={messages['job_experience.end_date']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='certificate_file'
+                      label={messages['common.certificate']}
+                      type={'file'}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
-    </HookFormMuiModal>
+    </Box>
   );
 };
 
-export default CertificateAddEditPopup;
+export default CertificateAddEditPage;

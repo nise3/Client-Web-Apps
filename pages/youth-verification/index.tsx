@@ -11,7 +11,7 @@ export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.signIn'] as string} />
+      <PageMeta title={messages['common.verify'] as string} />
       <YouthVerificationPage />
     </>
   );

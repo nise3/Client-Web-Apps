@@ -11,6 +11,7 @@ import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {BusinessCenter, Room} from '@mui/icons-material';
 import clsx from 'clsx';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   jobCardRoot: {
@@ -46,6 +47,7 @@ interface JobComponentProps {
 
 const JobComponent: FC<JobComponentProps> = ({job}) => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Card className={classes.jobCardRoot}>
@@ -70,7 +72,7 @@ const JobComponent: FC<JobComponentProps> = ({job}) => {
         </Box>
         <Box className={classes.buttonBox}>
           <Button variant={'outlined'} color={'primary'}>
-            Apply Now
+            {messages['common.apply_now']}
           </Button>
         </Box>
       </CardContent>

@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import useStyle from './index.style';
 import {Box, Button, CardMedia, Grid, Typography} from '@mui/material';
 import TagChip from '../../@softbd/elements/display/TagChip';
+import {useIntl} from 'react-intl';
 
 interface CourseDetailsHeaderProps {
   course: any;
@@ -9,12 +10,13 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const classes: any = useStyle();
+  const {messages} = useIntl();
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={6}>
         <Box className={classes.courseFee}>
-          Course Fees:{' '}
+          {messages['common.course_fee']}:{' '}
           <Box className={classes.courseFeeStyle}>{course.fee} TK</Box>
         </Box>
         <Typography variant={'h4'} mb={8} fontWeight={'bold'}>
@@ -27,7 +29,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
         {course.courseEnrolled && <TagChip label={course.courseEnrolled} />}
         <Box mt={4}>
           <Button variant={'contained'} color={'primary'}>
-            Enroll Now
+            {messages['common.enroll_now']}
           </Button>
         </Box>
       </Grid>

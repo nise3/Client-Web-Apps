@@ -4,9 +4,6 @@ import {makeStyles} from '@mui/styles';
 const useStyles = makeStyles((theme: CremaTheme) => ({
   root: {},
   containerBox: {
-    padding: 40,
-  },
-  PaperBox: {
     padding: 20,
   },
   avatar: {
@@ -19,7 +16,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     fontWeight: 'bold',
   },
   paperSearch: {
-    p: '2px 4px',
     display: 'flex',
     alignItems: 'center',
   },
@@ -44,7 +40,13 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'center',
     },
+  },
+  paginationBox: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 

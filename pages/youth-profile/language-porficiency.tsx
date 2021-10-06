@@ -4,15 +4,15 @@ import FrontPage from '../../@crema/hoc/FrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const JobExperiencePage = asyncComponent(
-  () => import('../../modules/youthProfile/JobExperienceAddEditPage'),
+const LanguageProficiencyPage = asyncComponent(
+  () => import('../../modules/youthProfile/LanguageProficiencyView'),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.job_experience']} />
-      <JobExperiencePage />
+      <PageMeta title={messages['personal_info_edit.label']} />
+      <LanguageProficiencyPage />
     </>
   );
 });

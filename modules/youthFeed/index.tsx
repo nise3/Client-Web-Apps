@@ -27,9 +27,9 @@ const YouthFeedPage = () => {
   const classes: any = useStyles();
   return (
     <Container maxWidth={'xl'} className={classes.container}>
-      <Grid container spacing={2} className={classes.root}>
+      <Grid container spacing={5} className={classes.root}>
         <Grid item xs={12} md={3}>
-          <Grid container spacing={2}>
+          <Grid container spacing={5}>
             <Grid item xs={12}>
               <BasicInfo />
             </Grid>
@@ -39,7 +39,7 @@ const YouthFeedPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Grid container spacing={2}>
+          <Grid container spacing={5}>
             <Grid item xs={12}>
               <OverviewSection />
             </Grid>
@@ -52,7 +52,7 @@ const YouthFeedPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={3}>
-          <Grid container spacing={2}>
+          <Grid container spacing={5}>
             <Grid item xs={12}>
               <RecentJobSection />
             </Grid>
