@@ -1,9 +1,11 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
-import FrontPage from '../../../@crema/hoc/FrontPage';
+import InstituteLayoutComposed from '../../../modules/institute/InstituteLayoutComposed';
 import React from 'react';
 
-const InstituteCourses = asyncComponent(() => import('../../../modules/institute/courses'));
+const InstituteCourses = asyncComponent(
+  () => import('../../../modules/institute/courses'),
+);
 
-export default FrontPage(() => {
+export default InstituteLayoutComposed(() => {
   return <InstituteCourses />;
 });
