@@ -224,23 +224,26 @@ const YouthCourseRegistrationPage = () => {
           <React.Fragment>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
               <Box sx={{p: '10px 0px'}}>{getCurrentFormContent()}</Box>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                variant={'outlined'}
-                color={'primary'}>
-                Previous
-              </Button>
-              <Button
-                sx={{marginLeft: 3}}
-                type={'submit'}
-                variant={'contained'}
-                color={'primary'}
-                disabled={isSubmitting}>
-                {activeStep == steps.length - 1
-                  ? messages['common.submit']
-                  : messages['common.next']}
-              </Button>
+              <Box className={classes.btnGroup}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  variant={'outlined'}
+                  color={'primary'}
+                  sx={{width: '100px'}}>
+                  {messages['common.previous']}
+                </Button>
+                <Button
+                  sx={{marginLeft: 3, width: '100px'}}
+                  type={'submit'}
+                  variant={'contained'}
+                  color={'primary'}
+                  disabled={isSubmitting}>
+                  {activeStep == steps.length - 1
+                    ? messages['common.submit']
+                    : messages['common.next']}
+                </Button>
+              </Box>
             </form>
           </React.Fragment>
         )}

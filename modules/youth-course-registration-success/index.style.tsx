@@ -3,15 +3,14 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   rootContainer: {
-    marginTop: 20,
-    marginBottom: 20,
-    background: '#fff',
-    borderRadius: 10,
-    padding: 14,
-  },
-  btnGroup: {
+    height: 'calc(100vh - 70px)',
     display: 'flex',
-    justifyContent: 'space-between',
+    [theme.breakpoints.only('xs')]: {
+      height: 'calc(100vh - 56px)',
+    },
+    [theme.breakpoints.only('sm')]: {
+      height: 'calc(100vh - 75px)',
+    },
   },
 }));
 

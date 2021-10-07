@@ -10,7 +10,10 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     box: {
       padding: 40,
     },
-    paper: {},
+    userIdPaperBox: {
+      padding: '20px',
+      margin: 'auto',
+    },
     settingBox: {
       display: 'flex',
       alignItems: 'center',
@@ -57,18 +60,6 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     deleteIcon: {
       color: 'red',
       transform: 'scale(1.5)',
-      // [theme.breakpoints.up('xs')]: {
-      //   marginTop: -70,
-      // },
-      // [theme.breakpoints.down('sm')]: {
-      //   marginTop: -30,
-      // },
-      // [theme.breakpoints.up('sm')]: {
-      //   marginTop: -15,
-      // },
-      // [theme.breakpoints.up('md')]: {
-      //   marginTop: -15,
-      // },
     },
     userItem: {
       background: '#d1eef3',
@@ -81,9 +72,15 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     },
     button: {
       margin: theme.spacing(1),
+      width: '100px',
+      marginLeft: '10px',
     },
     title: {
       background: '#fddcdc',
+    },
+    paperBox: {
+      padding: '20px',
+      margin: 'auto',
     },
   }),
 );
