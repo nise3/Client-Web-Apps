@@ -19,6 +19,7 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {Grid, Box, Card, CardContent} from '@mui/material';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface ReferenceAddEditPageProps {
   itemId: number | null;
@@ -212,10 +213,20 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={false}
-                    />
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

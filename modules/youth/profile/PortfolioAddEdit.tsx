@@ -17,6 +17,8 @@ import yup from '../../../@softbd/libs/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -53,7 +55,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     reset,
     handleSubmit,
     setError,
-    formState: {errors},
+    formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -156,6 +158,22 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                       errorInstance={errors}
                       isLoading={false}
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

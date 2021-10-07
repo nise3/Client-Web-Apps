@@ -20,6 +20,7 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 import {Card, CardContent, FormControlLabel, Switch} from '@mui/material';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -140,7 +141,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               </DialogTitle>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='company_name'
                       label={messages['common.company_name']}
@@ -149,7 +150,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='position'
                       label={messages['common.position']}
@@ -158,7 +159,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='type_of_employee'
                       label={messages['common.type_of_employee']}
@@ -167,7 +168,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='location'
                       label={messages['common.location']}
@@ -176,7 +177,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='job_description'
                       label={messages['job_experience.job_description']}
@@ -197,7 +198,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <CustomDateTimeField
                       id='end_date'
                       label={messages['job_experience.end_date']}
@@ -213,10 +214,20 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={false}
-                    />
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

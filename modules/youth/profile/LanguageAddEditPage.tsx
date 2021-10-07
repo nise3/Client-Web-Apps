@@ -21,6 +21,7 @@ import {Grid, Box, Card, CardContent, Typography} from '@mui/material';
 import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
 import HorizontalLine from './component/HorizontalLine';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface LanguageAddEditPageProps {
   itemId: number | null;
@@ -124,7 +125,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
   return (
     <Box mt={4} mb={2}>
       <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item>
+        <Grid item xs={12}>
           <Card>
             <CardContent sx={{position: 'relative'}}>
               <DialogTitle onClose={props.onClose}>
@@ -242,10 +243,20 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={false}
-                    />
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

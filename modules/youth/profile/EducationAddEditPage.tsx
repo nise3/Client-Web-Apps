@@ -19,6 +19,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {Grid, Box, Card, CardContent} from '@mui/material';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -186,7 +187,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               </DialogTitle>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomFormSelect
                       id={'exam'}
                       label={messages['education.exam']}
@@ -198,7 +199,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomFormSelect
                       id={'board'}
                       label={messages['education.board']}
@@ -210,7 +211,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='institution'
                       label={messages['institute.label']}
@@ -219,7 +220,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='roll_no'
                       label={messages['education.roll_no']}
@@ -228,7 +229,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='reg_no'
                       label={messages['education.reg_no']}
@@ -237,7 +238,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomFormSelect
                       id={'group'}
                       label={messages['education.group']}
@@ -249,7 +250,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomFormSelect
                       id={'result_type'}
                       label={messages['education.result_type']}
@@ -261,7 +262,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='result'
                       label={messages['education.result']}
@@ -270,7 +271,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={6}>
                     <CustomFormSelect
                       id={'passing_year'}
                       label={messages['education.passing_year']}
@@ -283,10 +284,20 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={false}
-                    />
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>
