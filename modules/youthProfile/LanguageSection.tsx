@@ -42,7 +42,7 @@ const LanguageSection = ({onclick}: LanguageSectionProp) => {
                   },
                 }}
                 component={'span'}
-                onClick={() => onclick}>
+                onClick={() => onclick(null)}>
                 View language proficiency
               </Box>
             }

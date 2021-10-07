@@ -6,6 +6,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
+import CircularDeleteButton from './component/CircularDeleteButton';
 
 type ReferenceProp = {
   key: number;
@@ -16,6 +17,7 @@ type ReferenceProp = {
   phone?: string;
   location?: string;
   onclick?: () => void;
+  onDelete?: () => void;
 };
 
 const Reference = ({
@@ -27,6 +29,7 @@ const Reference = ({
   phone,
   location,
   onclick,
+  onDelete,
 }: ReferenceProp) => {
   const {messages} = useIntl();
 
@@ -39,7 +42,7 @@ const Reference = ({
           <Grid container>
             <Grid item sm={2}>
               <Avatar
-                alt='Remy Sharp'
+                alt='Reference logo'
                 src={image}
                 sx={{height: 80, width: 80}}
               />
@@ -50,19 +53,19 @@ const Reference = ({
                 <Typography variant={'caption'}>{position}</Typography>
                 <Grid container spacing={4}>
                   <Grid item>
-                    <Typography variant={'caption'}>
+                    <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocalPhoneIcon fontSize={'small'} />
                       {email}
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant={'caption'}>
+                    <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocalPhoneIcon fontSize={'small'} />
                       {phone}
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant={'caption'}>
+                    <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocationOnIcon fontSize={'small'} />
                       {location}
                     </Typography>
@@ -74,26 +77,20 @@ const Reference = ({
         </Grid>
         <Grid item>
           <Grid container spacing={2} justifyContent={'flex-end'}>
-            <Grid item>
-              <Box>
-                <CustomParabolaButton
-                  buttonVariant={'outlined'}
-                  title={messages['common.delete_btn'] as string}
-                  icon={<BorderColor />}
-                  onclick={onclick}
+            <Box mt={2}>
+              <CustomParabolaButton
+                buttonVariant={'outlined'}
+                title={messages['common.edit_btn'] as string}
+                icon={<BorderColor />}
+                onclick={onclick}
+              />
+              {onDelete && (
+                <CircularDeleteButton
+                  deleteAction={onDelete}
+                  deleteTitle={'delete reference'}
                 />
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box>
-                <CustomParabolaButton
-                  buttonVariant={'outlined'}
-                  title={messages['common.edit_btn'] as string}
-                  icon={<BorderColor />}
-                  onclick={onclick}
-                />
-              </Box>
-            </Grid>
+              )}
+            </Box>
           </Grid>
         </Grid>
       </Grid>

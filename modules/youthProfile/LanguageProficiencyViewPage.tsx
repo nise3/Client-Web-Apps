@@ -13,6 +13,11 @@ import {
   TableRow,
 } from '@mui/material';
 import EditButton from '../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../@softbd/elements/button/DeleteButton/DeleteButton';
+import useNotiStack from '../../@softbd/hooks/useNotifyStack';
+import {deleteRankType} from '../../services/organaizationManagement/RankTypeService';
+import {isResponseSuccess} from '../../@softbd/utilities/helpers';
+import IntlMessages from '../../@crema/utility/IntlMessages';
 
 let languages = [
   {
@@ -79,9 +84,23 @@ const LanguageProficiencyViewPage = ({
     }
   }, [itemData]);
 
+  const {successStack} = useNotiStack();
+
+  const deleteLanguageItem = async (itemId: number) => {
+    let response = await deleteRankType(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+    }
+  };
+
   return (
     <TableContainer component={Paper}>
-      <Table size={'small'} aria-label='simple table'>
+      <Table size={'small'} aria-label='Language proficiency table'>
         <TableHead>
           <TableRow>
             <TableCell>{messages['language.label']}</TableCell>
@@ -89,7 +108,7 @@ const LanguageProficiencyViewPage = ({
             <TableCell>{messages['language.write']}</TableCell>
             <TableCell>{messages['language.speak']}</TableCell>
             <TableCell>{messages['language.understand']}</TableCell>
-            <TableCell>{messages['language.action']}</TableCell>
+            <TableCell>{messages['common.actions']}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -106,6 +125,10 @@ const LanguageProficiencyViewPage = ({
                 <EditButton
                   size={'small'}
                   onClick={() => onEdit(language.id)}
+                />
+                <DeleteButton
+                  deleteAction={() => deleteLanguageItem(language.id)}
+                  deleteTitle={'Delete language'}
                 />
               </TableCell>
             </TableRow>

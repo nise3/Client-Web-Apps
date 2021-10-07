@@ -1,9 +1,13 @@
 import {Box, Card, CardContent} from '@mui/material';
 import CardHeader from './CardHeader';
-import {Add, BusinessCenter} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import CustomContentCard from './CustomContentCard';
 import React from 'react';
 import {useIntl} from 'react-intl';
+import {deleteRankType} from '../../services/organaizationManagement/RankTypeService';
+import {isResponseSuccess} from '../../@softbd/utilities/helpers';
+import IntlMessages from '../../@crema/utility/IntlMessages';
+import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 
 type CertificationSectionProp = {
   onclick: (itemId: number | null) => void;
@@ -13,7 +17,7 @@ const certificates = [
   {
     id: 1,
     title: 'Javascript programming',
-    image: '',
+    image: '/images/userPageImages/profileImage.jpeg',
     institute_name: 'MIT',
     location: 'NC',
     achieve_date: '10-11-2020',
@@ -21,7 +25,7 @@ const certificates = [
   {
     id: 2,
     title: 'C programming',
-    image: '',
+    image: '/images/userPageImages/profileImage.jpeg',
     institute_name: 'Harvard',
     location: 'NC',
     achieve_date: '10-11-2020',
@@ -30,6 +34,19 @@ const certificates = [
 
 const CertificationSection = ({onclick}: CertificationSectionProp) => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
+
+  const deleteCertificationItem = async (itemId: number) => {
+    let response = await deleteRankType(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+    }
+  };
 
   return (
     <Box mt={4}>
@@ -49,11 +66,14 @@ const CertificationSection = ({onclick}: CertificationSectionProp) => {
             return (
               <CustomContentCard
                 contentTitle={certificate.title}
-                contentLogo={<BusinessCenter />}
+                contentLogo={certificate.image}
                 contentServiceProvider={certificate.institute_name}
                 date={certificate.achieve_date}
                 location={certificate.location}
                 contentEditButton={() => onclick(certificate.id)}
+                contentDeleteButton={() =>
+                  deleteCertificationItem(certificate.id)
+                }
               />
             );
           })}

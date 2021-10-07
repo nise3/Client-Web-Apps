@@ -7,15 +7,15 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 import {AccessTime, BorderColor} from '@mui/icons-material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {createStyles, makeStyles} from '@mui/styles';
-import {Box, Grid, Typography} from '@mui/material';
-import DeleteButton from '../../@softbd/elements/button/DeleteButton/DeleteButton';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
+import CircularDeleteButton from './component/CircularDeleteButton';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
     jobDurationDate: {
       display: 'flex',
       flexDirection: 'row',
-      color: 'green',
+      color: theme.palette.primary.main,
     },
     jobAccessTime: {
       marginTop: '2px',
@@ -54,7 +54,9 @@ const JobExperience = ({
       <Box mt={2}>
         <Grid item container sm={12} justifyContent={'space-between'}>
           <Grid item container sm={6}>
-            {companyLogo && <Grid item>{companyLogo}</Grid>}
+            {companyLogo && (
+              <Avatar alt='organization logo' src={companyLogo} />
+            )}
 
             <Grid item sm={4}>
               <Box ml={1} mb={2}>
@@ -63,19 +65,21 @@ const JobExperience = ({
               </Box>
             </Grid>
           </Grid>
-          <Grid item container sm={6} justifyContent={'flex-end'}>
-            <Box>
-              <CustomParabolaButton
-                buttonVariant={'outlined'}
-                title={messages['common.edit_btn'] as string}
-                icon={<BorderColor />}
-                onclick={openAddEditForm}
-              />
-              <DeleteButton
-                deleteAction={deleteJobExperience}
-                deleteTitle={'Delete'}
-              />
-            </Box>
+          <Grid item sm={6}>
+            <Grid container justifyContent={'flex-end'}>
+              <Box>
+                <CustomParabolaButton
+                  buttonVariant={'outlined'}
+                  title={messages['common.edit_btn'] as string}
+                  icon={<BorderColor />}
+                  onclick={openAddEditForm}
+                />
+                <CircularDeleteButton
+                  deleteAction={deleteJobExperience}
+                  deleteTitle={'Delete'}
+                />
+              </Box>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item container>

@@ -398,7 +398,7 @@
   "common.add_language": "ভাষা যোগ করুন",
   "certification.label": "সনদপত্র",
   "certification.certificate_file": "ফাইল আপলোড করুন",
-  "language_proficiency.title": "ভাষাগত দক্ষতা",
+  "language.proficiency": "ভাষাগত দক্ষতা",
   "language.label": "ভাষা",
   "language.read": "পড়া",
   "language.write": "লেখা",

@@ -114,7 +114,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
           <Card>
             <CardContent sx={{position: 'relative'}}>
               <DialogTitle onClose={props.onClose}>
-                {messages['reference.label']}
+                {messages['common.portfolio']}
               </DialogTitle>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>

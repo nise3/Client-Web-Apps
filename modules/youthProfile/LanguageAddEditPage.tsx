@@ -128,7 +128,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
           <Card>
             <CardContent sx={{position: 'relative'}}>
               <DialogTitle onClose={props.onClose}>
-                {messages['common.language']}
+                {messages['language.proficiency']}
               </DialogTitle>
 
               <LanguageProficiencyViewPage

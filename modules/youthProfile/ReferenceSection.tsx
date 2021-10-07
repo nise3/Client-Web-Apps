@@ -5,6 +5,10 @@ import Reference from './Reference';
 import React from 'react';
 import referencePeopleAvatar from '../../public/images/youth/avatar.png';
 import {useIntl} from 'react-intl';
+import useNotiStack from '../../@softbd/hooks/useNotifyStack';
+import {deleteRankType} from '../../services/organaizationManagement/RankTypeService';
+import {isResponseSuccess} from '../../@softbd/utilities/helpers';
+import IntlMessages from '../../@crema/utility/IntlMessages';
 
 type ReferenceSectionProp = {
   openReferenceAddEditForm: (itemId: number | null) => void;
@@ -33,6 +37,19 @@ const references = [
 
 const ReferenceSection = ({openReferenceAddEditForm}: ReferenceSectionProp) => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
+
+  const deleteReferenceItem = async (itemId: number) => {
+    let response = await deleteRankType(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='rank_types.label' />}}
+        />,
+      );
+    }
+  };
 
   return (
     <Box mt={4}>
@@ -59,6 +76,7 @@ const ReferenceSection = ({openReferenceAddEditForm}: ReferenceSectionProp) => {
               email={reference.email}
               location={reference.location}
               onclick={() => openReferenceAddEditForm(reference.id)}
+              onDelete={() => deleteReferenceItem(reference.id)}
             />
           ))}
         </CardContent>

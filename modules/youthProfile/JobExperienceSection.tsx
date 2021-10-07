@@ -39,7 +39,7 @@ const jobExperiences: Array<JobExperienceProp> = [
   {
     id: 1,
     companyName: 'softBD Ltd',
-    companyLogo: <BusinessCenter fontSize={'large'} />,
+    companyLogo: '/images/userPageImages/profileImage.jpeg',
     jobPeriod: '2010-present',
     jobLocation: 'panthapath',
     position: 'software engineer',
@@ -49,7 +49,7 @@ const jobExperiences: Array<JobExperienceProp> = [
   {
     id: 2,
     companyName: 'Google',
-    companyLogo: <BusinessCenter fontSize={'large'} />,
+    companyLogo: '/images/userPageImages/profileImage.jpeg',
     jobPeriod: '2020-present',
     jobLocation: 'CA',
     position: 'software engineer',
