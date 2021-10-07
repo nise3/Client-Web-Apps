@@ -24,6 +24,7 @@ import {
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../@crema/utility/IntlMessages';
+import CourseDetailsTabs from './CourseDetailsTabs';
 
 interface CourseContentProps {
   course: any;
@@ -33,35 +34,40 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const classes = useStyle();
   const {messages} = useIntl();
 
-  const [value, setValue] = useState('1');
-  const overviewRef = useRef<any>(null);
-  const lessonRef = useRef<any>(null);
-  const requirementRef = useRef<any>(null);
-  const trainerRef = useRef<any>(null);
+  const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
+  const overviewRef = useRef<any>();
+  const lessonRef = useRef<any>();
+  const requirementRef = useRef<any>();
+  const trainerRef = useRef<any>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
 
-    if (newValue == '1' && overviewRef) {
-      overviewRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (newValue == '2' && lessonRef) {
-      lessonRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (newValue == '3' && requirementRef) {
-      requirementRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (newValue == '4' && trainerRef) {
-      trainerRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+    switch (newValue) {
+      case CourseDetailsTabs.TAB_OVERVIEW:
+        overviewRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case CourseDetailsTabs.TAB_LESSON:
+        lessonRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case CourseDetailsTabs.TAB_REQUIREMENTS:
+        requirementRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case CourseDetailsTabs.TAB_TRAINER:
+        trainerRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
     }
   };
 
@@ -69,10 +75,22 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
     <TabContext value={value}>
       <Box sx={{background: '#e6f3ec'}}>
         <TabList aria-label='tabs' onChange={handleChange}>
-          <Tab label={messages['course_details.overview']} value='1' />
-          <Tab label={messages['course_details.lesson']} value='2' />
-          <Tab label={messages['course_details.requirements']} value='3' />
-          <Tab label={messages['course_details.trainer']} value='4' />
+          <Tab
+            label={messages['course_details.overview']}
+            value={CourseDetailsTabs.TAB_OVERVIEW}
+          />
+          <Tab
+            label={messages['course_details.lesson']}
+            value={CourseDetailsTabs.TAB_LESSON}
+          />
+          <Tab
+            label={messages['course_details.requirements']}
+            value={CourseDetailsTabs.TAB_REQUIREMENTS}
+          />
+          <Tab
+            label={messages['course_details.trainer']}
+            value={CourseDetailsTabs.TAB_TRAINER}
+          />
         </TabList>
       </Box>
 
@@ -145,16 +163,16 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           <Typography variant={'h6'} fontWeight={'bold'}>
             Explore how Physical Computing is Changing Tech
           </Typography>
-          <Typography className={classes.padTop18}>
+          <Typography sx={{paddingTop: 4}}>
             Physical computing is the use of computers to respond to the
             physical movement of the human body.
-            <br></br>
-            <br></br>
+            <br />
+            <br />
             Whereas in the past computing was limited to immobile computers and
             laptops, today microcontrollers and sensors are revolutionising the
             tech industry and how we interact with household items.
-            <br></br>
-            <br></br>
+            <br />
+            <br />
             On this course you'll learn what's inside the devices we all use
             every day, like kettles, phones, and smartwatches. You'll come to
             understand how they work, how they respond to our movements, and
@@ -181,9 +199,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <List dense={false} className={classes.listStyle}>
                 {(course.lessonsList || []).map((lesson: any, index: any) => {
                   return (
-                    <>
-                      {index != 0 && <Divider key={'d' + index} />}
-                      <ListItem key={index}>
+                    <React.Fragment key={index}>
+                      {index != 0 && <Divider />}
+                      <ListItem>
                         <ListItemAvatar>
                           <Avatar>
                             <PlayCircleOutline />
@@ -195,7 +213,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                           secondary={lesson.duration + ' minutes'}
                         />
                       </ListItem>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </List>

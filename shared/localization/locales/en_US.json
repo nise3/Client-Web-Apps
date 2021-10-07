@@ -477,5 +477,8 @@
   "freelance_corner.java_developer": "Java Developer",
   "freelance_corner.filter_title": "What works do you want?",
   "freelance_corner.specific_location": "Specific Location",
-  "freelance_corner.add_location": "Add Location"
+  "freelance_corner.add_location": "Add Location",
+  "common.my_cv": "My CV",
+  "cv_view.template_title": "Choose from our resume templates"
+
 }

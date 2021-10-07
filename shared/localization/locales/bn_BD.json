@@ -513,5 +513,7 @@
   "freelance_corner.java_developer": "জাভা ডেভেলপার",
   "freelance_corner.filter_title": "আপনি কি কাজ চান?",
   "freelance_corner.specific_location": "নির্দিষ্ট অবস্থান",
-  "freelance_corner.add_location": "ঠিকানা লিখুন"
+  "freelance_corner.add_location": "ঠিকানা লিখুন",
+  "common.my_cv": "আমার সিভি",
+  "cv_view.template_title": "আমাদের জীবনবৃত্তান্ত টেমপ্লেটগুলি থেকে চয়ন করুন"
 }

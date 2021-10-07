@@ -1,12 +1,10 @@
 import React from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import useStyle from './index.style';
 import JobComponent from './components/JobComponent';
 import {useIntl} from 'react-intl';
 
 const CourseDetailsSkillMatchingJobSection = () => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   const jobList: any = [
@@ -49,7 +47,7 @@ const CourseDetailsSkillMatchingJobSection = () => {
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
-            <Typography variant={'h5'} className={classes.sectionTitle}>
+            <Typography variant={'h5'} fontWeight={'bold'}>
               {messages['common.skill_matching_job']}
             </Typography>
           </Grid>

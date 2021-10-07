@@ -1,12 +1,10 @@
 import React from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import useStyle from './index.style';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 
 const SimilarCourseSection = () => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   const courseList = [
@@ -57,7 +55,7 @@ const SimilarCourseSection = () => {
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
-            <Typography variant={'h5'} className={classes.sectionTitle}>
+            <Typography variant={'h5'} fontWeight={'bold'}>
               {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
