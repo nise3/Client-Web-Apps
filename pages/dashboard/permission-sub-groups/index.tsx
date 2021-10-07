@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 const PermissionSubGroupsPage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/permission-sub-groups/PermissionSubGroupPage'
+      '../../../modules/dashboard/permissionSubGroups/PermissionSubGroupPage'
     ),
 );
 export default AppPage(() => {

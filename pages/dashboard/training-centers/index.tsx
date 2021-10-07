@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 const TrainingCenterPage = asyncComponent(
   () =>
-    import('../../../modules/dashboard/training-centers/TrainingCenterPage'),
+    import('../../../modules/dashboard/trainingCenters/TrainingCenterPage'),
 );
 export default AppPage(() => {
   const {messages} = useIntl();

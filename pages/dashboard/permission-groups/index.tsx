@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 const PermissionGroupsPage = asyncComponent(
   () =>
-    import('../../../modules/dashboard/permission-groups/PermissionGroupPage'),
+    import('../../../modules/dashboard/permissionGroups/PermissionGroupPage'),
 );
 export default AppPage(() => {
   const {messages} = useIntl();

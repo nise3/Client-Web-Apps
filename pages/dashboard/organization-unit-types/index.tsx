@@ -6,7 +6,7 @@ import React from 'react';
 const OrganizationUnitTypePage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/organization-unit-types/OrganizationUnitTypePage'
+      '../../../modules/dashboard/organizationUnitTypes/OrganizationUnitTypePage'
     ),
 );
 export default AppPage(() => (

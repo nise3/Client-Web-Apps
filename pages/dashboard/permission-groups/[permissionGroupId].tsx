@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 const AssignPermissionToPermissionGroupPage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/permission-groups/AssignPermissionToPermissionGroupPage'
+      '../../../modules/dashboard/permissionGroups/AssignPermissionToPermissionGroupPage'
     ),
 );
 export default AppPage(() => {

@@ -6,7 +6,7 @@ import React from 'react';
 const OrganizationUnitHierarchyPage = asyncComponent(
   () =>
     import(
-      '../../../../modules/dashboard/organization-units/OrganizationUnitHierarchyPage'
+      '../../../../modules/dashboard/organizationUnits/OrganizationUnitHierarchyPage'
     ),
 );
 export default AppPage(() => {

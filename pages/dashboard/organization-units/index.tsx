@@ -5,7 +5,7 @@ import AppPage from '../../../@crema/hoc/AppPage';
 const OrganizationUnitPage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/organization-units/OrganizationUnitPage'
+      '../../../modules/dashboard/organizationUnits/OrganizationUnitPage'
     ),
 );
 export default AppPage(() => (

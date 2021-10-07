@@ -6,7 +6,7 @@ import React from 'react';
 const OrganizationTypePage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/organization-types/OrganizationTypePage'
+      '../../../modules/dashboard/organizationTypes/OrganizationTypePage'
     ),
 );
 export default AppPage(() => (

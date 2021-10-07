@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const JobSectorPage = asyncComponent(
-  () => import('../../../modules/dashboard/job-sectors/JobSectorPage'),
+  () => import('../../../modules/dashboard/jobSectors/JobSectorPage'),
 );
 export default AppPage(() => {
   const {messages} = useIntl();

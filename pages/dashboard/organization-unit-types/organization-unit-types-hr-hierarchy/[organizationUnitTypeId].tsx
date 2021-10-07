@@ -6,7 +6,7 @@ import AppPage from '../../../../@crema/hoc/AppPage';
 const OrganizationUnitTypeHierarchyPage = asyncComponent(
   () =>
     import(
-      '../../../../modules/dashboard/organization-unit-types/OrganizationUnitTypeHierarchy'
+      '../../../../modules/dashboard/organizationUnitTypes/OrganizationUnitTypeHierarchy'
     ),
 );
 export default AppPage(() => {

@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const RankTypesPage = asyncComponent(
-  () => import('../../../modules/dashboard/rank-type/RankTypePage'),
+  () => import('../../../modules/dashboard/rankType/RankTypePage'),
 );
 export default AppPage(() => {
   const {messages} = useIntl();
