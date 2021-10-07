@@ -26,16 +26,6 @@ const YouthRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const isLoading = false;
-  const gender = messages['common.gender'];
-  const alreadyHaveAccount = messages['common.alreadyHaveAccount'];
-  const signInHere = messages['common.signInHere'];
-  const registration = messages['common.registration'];
-  const disability = messages['common.physical_disability'];
-  const yes = messages['common.yes'];
-  const no = messages['common.no'];
-  const male = messages['common.male'];
-  const female = messages['common.female'];
-  const others = messages['common.others'];
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       first_name: yup
@@ -102,7 +92,7 @@ const YouthRegistration = () => {
     <Container maxWidth={'md'} style={{marginTop: '50px'}}>
       <Paper className={classes.PaperBox}>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-          {registration}
+          {messages['common.registration']}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3} maxWidth={'md'}>
@@ -137,14 +127,24 @@ const YouthRegistration = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <FormLabel component='legend'>{disability}</FormLabel>
+              <FormLabel component='legend'>
+                {messages['common.physical_disability']}
+              </FormLabel>
               <RadioGroup
                 row
                 aria-label='position'
                 name='position'
                 defaultValue='No'>
-                <FormControlLabel value='Yes' control={<Radio />} label={yes} />
-                <FormControlLabel value='No' control={<Radio />} label={no} />
+                <FormControlLabel
+                  value='Yes'
+                  control={<Radio />}
+                  label={messages['common.yes']}
+                />
+                <FormControlLabel
+                  value='No'
+                  control={<Radio />}
+                  label={messages['common.no']}
+                />
               </RadioGroup>
             </Grid>
 
@@ -202,7 +202,9 @@ const YouthRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl component='fieldset'>
-                <FormLabel component='legend'>{gender}</FormLabel>
+                <FormLabel component='legend'>
+                  {messages['common.gender']}
+                </FormLabel>
                 <RadioGroup
                   row
                   aria-label='position'
@@ -211,17 +213,17 @@ const YouthRegistration = () => {
                   <FormControlLabel
                     value='male'
                     control={<Radio />}
-                    label={male}
+                    label={messages['common.male']}
                   />
                   <FormControlLabel
                     value='female'
                     control={<Radio />}
-                    label={female}
+                    label={messages['common.female']}
                   />
                   <FormControlLabel
                     value='others'
                     control={<Radio />}
-                    label={others}
+                    label={messages['common.others']}
                   />
                 </RadioGroup>
               </FormControl>
@@ -233,7 +235,8 @@ const YouthRegistration = () => {
           </Grid>
         </form>
         <Typography style={{marginTop: '5px'}}>
-          {alreadyHaveAccount} <Link>{signInHere}</Link>
+          {messages['common.alreadyHaveAccount']}{' '}
+          <Link>{messages['common.signInHere']}</Link>
         </Typography>
       </Paper>
     </Container>

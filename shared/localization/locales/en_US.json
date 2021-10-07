@@ -131,6 +131,8 @@
   "common.currently_working": "Currently working",
   "common.submit": "Submit",
   "common.next": "Next",
+  "common.back": "Back",
+  "common.previous": "Previous",
   "common.id": "Id",
   "common.send": "Send",
   "common.receive": "Receive",

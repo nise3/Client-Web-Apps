@@ -3,14 +3,14 @@ import {CremaTheme} from '../../types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   rootContainer: {
-    display: 'flex',
     height: 'calc(100vh - 70px)',
-  },
-  paperBox: {
-    margin: 'auto',
-  },
-  button: {
-    margin: theme.spacing(1),
+    display: 'flex',
+    [theme.breakpoints.only('xs')]: {
+      height: 'calc(100vh - 56px)',
+    },
+    [theme.breakpoints.only('sm')]: {
+      height: 'calc(100vh - 75px)',
+    },
   },
 }));
 

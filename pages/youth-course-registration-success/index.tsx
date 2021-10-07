@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const YouthCourseRegistrationSuccessPage = asyncComponent(
-  () => import('../../modules/youth-course-registration-success/index'),
+  () => import('../../modules/youth-course-registration-success'),
 );
 export default FrontPage(() => {
   const {messages} = useIntl();
