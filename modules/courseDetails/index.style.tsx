@@ -41,9 +41,6 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
       display: 'none',
     },
   },
-  padTop18: {
-    paddingTop: 18,
-  },
   boxMargin: {
     marginTop: 20,
     marginBottom: 25,
@@ -97,9 +94,6 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     marginLeft: 20,
     display: 'flex',
     flexDirection: 'column',
-  },
-  sectionTitle: {
-    fontWeight: 'bold',
   },
 }));
 

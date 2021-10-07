@@ -47,7 +47,9 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
             <Email className={classes.modernLeftIcon} />
             <Typography mt={2}>{userData.email}</Typography>
             <LocationOn className={classes.modernLeftIcon} />
-            <Typography mt={2}>{userData.address}</Typography>
+            <Typography mt={2} align={'center'}>
+              {userData.address}
+            </Typography>
             <Box mt={5} className={classes.modernTitleBox}>
               Education
             </Box>
@@ -74,20 +76,101 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
             )}
 
             <Box mt={5} className={classes.modernTitleBox}>
-              Expertise
+              Language Proficiency
             </Box>
-            <Box className={classes.expertiseItem}>
-              {(userData.expertises || []).map((skill: any, index: number) => {
-                return (
-                  <Typography key={index} className='item'>
-                    {skill}
-                  </Typography>
-                );
-              })}
+            <Box className={classes.languageItem}>
+              {(userData.languages || []).map(
+                (language: any, index: number) => {
+                  return (
+                    <Typography key={index} className='item'>
+                      {language}
+                    </Typography>
+                  );
+                },
+              )}
             </Box>
           </Grid>
           <Grid item xs={12} sm={8} md={8}>
-            <Box className={classes.modernRightBox}></Box>
+            <Box className={classes.modernRightBox}>
+              <Box className={classes.modernObjectiveBlock}>
+                <Typography variant={'subtitle2'} className='title'>
+                  Objective
+                </Typography>
+                {userData.objective}
+              </Box>
+              <Box mt={5} className={classes.modernObjectiveBlock}>
+                <Typography variant={'subtitle2'} className='title'>
+                  Experience
+                </Typography>
+                {(userData.jobExperiences || []).map(
+                  (experience: any, index: number) => {
+                    return (
+                      <Box key={index} className={classes.classicJobItem}>
+                        <Typography
+                          variant={'caption'}
+                          fontWeight={'bold'}
+                          className='text'>
+                          {experience.companyName}
+                        </Typography>
+                        <Typography variant={'caption'} className='text'>
+                          <Typography variant={'caption'} fontWeight={'bold'}>
+                            Designation:
+                          </Typography>{' '}
+                          {experience.designation}
+                        </Typography>
+                        <Typography variant={'caption'} className='text'>
+                          <Typography variant={'caption'} fontWeight={'bold'}>
+                            Working year:
+                          </Typography>
+                          {experience.joiningDate +
+                            (experience.leavingDate
+                              ? ' to ' + experience.leavingDate
+                              : 'til now')}
+                        </Typography>
+                        <Typography variant={'caption'} className='text'>
+                          <Typography variant={'caption'} fontWeight={'bold'}>
+                            Company Phone:
+                          </Typography>
+                          {experience.companyPhone}
+                        </Typography>
+                        <Typography variant={'caption'} className='text'>
+                          <Typography variant={'caption'} fontWeight={'bold'}>
+                            Company Email:
+                          </Typography>
+                          {experience.companyEmail}
+                        </Typography>
+                        <Typography variant={'caption'} className='text'>
+                          <Typography variant={'caption'} fontWeight={'bold'}>
+                            Company Website:
+                          </Typography>
+                          {experience.companyWebsite}
+                        </Typography>
+                        <Typography variant={'caption'} className='text'>
+                          <Typography variant={'caption'} fontWeight={'bold'}>
+                            Description:
+                          </Typography>
+                          {experience.description}
+                        </Typography>
+                      </Box>
+                    );
+                  },
+                )}
+              </Box>
+
+              <Box mt={5} className={classes.modernObjectiveBlock}>
+                <Typography variant={'subtitle2'} className='title'>
+                  Computer Skill
+                </Typography>
+                {(userData.skills || []).map((skill: any, index: number) => {
+                  return (
+                    <Box key={index} sx={{display: 'flex'}}>
+                      #&nbsp;&nbsp;
+                      <Typography>{skill}</Typography>
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Box>
           </Grid>
         </Grid>
       </Box>

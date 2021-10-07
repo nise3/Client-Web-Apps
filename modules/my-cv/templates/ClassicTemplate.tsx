@@ -172,7 +172,11 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
           Language Proficiency
         </Typography>
         <Divider orientation={'horizontal'} className={classes.divider} />
-        <Typography mt={2}>{userData.language}</Typography>
+        <Box mt={2}>
+          {(userData.languages || []).map((language: any, index: number) => {
+            return <Typography key={index}>{language}</Typography>;
+          })}
+        </Box>
       </Container>
     </Slide>
   );

@@ -113,6 +113,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: '0px 10px',
   },
   modernEducationItem: {
     textAlign: 'center',
@@ -121,7 +122,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       display: 'block',
     },
   },
-  expertiseItem: {
+  languageItem: {
     display: 'block',
     textAlign: 'center',
     '& .item': {
@@ -136,6 +137,18 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     flexDirection: 'column',
     marginTop: 10,
     marginBottom: 5,
+  },
+  modernObjectiveBlock: {
+    border: '2px solid #bfbfbf',
+    padding: '15px 10px',
+    borderRight: 'none',
+    //borderImage: 'linear-gradient(to right, grey 25%, #fff 15%) 5',
+    position: 'relative',
+    '& .title': {
+      position: 'absolute',
+      background: '#fff',
+      top: -12,
+    },
   },
 }));
 

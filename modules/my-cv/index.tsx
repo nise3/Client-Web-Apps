@@ -6,23 +6,24 @@ import clsx from 'clsx';
 import ClassicTemplate from './templates/ClassicTemplate';
 import ModernTemplate from './templates/ModernTemplate';
 import ColorfulTemplate from './templates/ColorfulTemplate';
+import CVTemplateKeys from './CVTemplateKeys';
 
 const resumeTemplates = [
   {
-    id: 1,
+    key: CVTemplateKeys.CLASSIC,
     name: 'Classic',
     demoImage: '/images/youth/youth-cv.jpg',
   },
   {
-    id: 2,
+    key: CVTemplateKeys.MODERN,
     name: 'Modern',
     demoImage: '/images/youth/youth-cv.jpg',
   },
-  {
-    id: 3,
+  /*{
+    key: CVTemplateKeys.COLORFUL,
     name: 'Colorful',
     demoImage: '/images/youth/youth-cv.jpg',
-  },
+  },*/
 ];
 
 const userData = {
@@ -69,8 +70,7 @@ const userData = {
     'Internet: Blogging, Website Making, SEO, SMM, Browsing & E mail literacy.',
     'Hardware & Software Troubleshooting.\n - Trained by Path Finder Computer Training Institute, Pabna.',
   ],
-  language: 'Good command over English & colloquial Bengali',
-  expertises: ['Graphic Design', 'UI Design', 'UX Design', 'Web Design'],
+  languages: ['Good command over English ', 'Excellent command over Bengali'],
   jobExperiences: [
     {
       id: 1,
@@ -106,19 +106,21 @@ const userData = {
 const MyCVPage = () => {
   const classes: any = useStyles();
   const {messages} = useIntl();
-  const [selectedTemplateId, setSelectedTemplateId] = useState<number>(2);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
+    CVTemplateKeys.CLASSIC,
+  );
 
-  const onTemplateSelect = useCallback((id: number) => {
-    setSelectedTemplateId(id);
+  const onTemplateSelect = useCallback((key: string) => {
+    setSelectedTemplateKey(key);
   }, []);
 
   const getTemplate = () => {
-    switch (selectedTemplateId) {
-      case 1:
+    switch (selectedTemplateKey) {
+      case CVTemplateKeys.CLASSIC:
         return <ClassicTemplate userData={userData} />;
-      case 2:
+      case CVTemplateKeys.MODERN:
         return <ModernTemplate userData={userData} />;
-      case 3:
+      case CVTemplateKeys.COLORFUL:
         return <ColorfulTemplate userData={userData} />;
       default:
         return <ClassicTemplate userData={userData} />;
@@ -145,12 +147,12 @@ const MyCVPage = () => {
                     image={template.demoImage}
                     className={clsx(
                       classes.templateImage,
-                      selectedTemplateId == template.id
+                      selectedTemplateKey == template.key
                         ? classes.templateSelected
                         : '',
                     )}
                     onClick={() => {
-                      onTemplateSelect(template.id);
+                      onTemplateSelect(template.key);
                     }}
                   />
                   <Typography>{template.name}</Typography>
