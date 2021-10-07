@@ -513,5 +513,12 @@
   "freelance_corner.java_developer": "জাভা ডেভেলপার",
   "freelance_corner.filter_title": "আপনি কি কাজ চান?",
   "freelance_corner.specific_location": "নির্দিষ্ট অবস্থান",
-  "freelance_corner.add_location": "ঠিকানা লিখুন"
+  "freelance_corner.add_location": "ঠিকানা লিখুন",
+  "feedback.institution": "পরামর্শ",
+  "advice.institute": "মতামত",
+  "recipient.institute": "প্রাপক",
+  "contact_with_us.institute": "আমাদের সাথে যোগাযোগ করুন",
+  "find_our_location_in_map.institute": "আমাদের লোকেশন ম্যাপ এ খুজুন",
+  "faq.institute": "সাধারন জিজ্ঞাসা",
+  "contact.institute": "যোগাযোগ"
 }
