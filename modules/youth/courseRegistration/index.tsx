@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Container,
+  Paper,
   Step,
   StepLabel,
   Stepper,
@@ -33,7 +34,7 @@ const YouthCourseRegistrationPage = () => {
       messages['common.guardian_info'],
       messages['common.other_information'],
     ],
-    [],
+    [messages],
   );
 
   const [activeStep, setActiveStep] = useState(0);
@@ -183,7 +184,6 @@ const YouthCourseRegistrationPage = () => {
   });
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('submit', data);
     if (activeStep < steps.length - 1) {
       handleNext();
     } else if (activeStep == steps.length - 1) {
@@ -191,63 +191,63 @@ const YouthCourseRegistrationPage = () => {
     }
   };
 
-  console.log('render', errors);
-
   return (
-    <Container className={classes.rootContainer}>
-      <Box sx={{textAlign: 'center', marginBottom: 5}}>
-        <Typography variant={'h4'}>Course Registration</Typography>
-      </Box>
+    <Container maxWidth={'xl'} className={classes.rootContainer}>
+      <Paper className={classes.paperBox}>
+        <Box sx={{textAlign: 'center', marginBottom: 5}}>
+          <Typography variant={'h4'}>
+            {messages['course_registration.title']}
+          </Typography>
+        </Box>
 
-      <Box sx={{width: '100%'}}>
-        <Stepper
-          activeStep={activeStep}
-          alternativeLabel
-          style={{marginBottom: '10px'}}>
-          {steps.map((label, index) => {
-            const stepProps: {completed?: boolean} = {};
-            const labelProps: {
-              optional?: React.ReactNode;
-            } = {};
-            return (
-              <Step key={label as string} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Box>Done</Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-              <Box sx={{p: '10px 0px'}}>{getCurrentFormContent()}</Box>
-              <Box className={classes.btnGroup}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  variant={'outlined'}
-                  color={'primary'}
-                  sx={{width: '100px'}}>
-                  {messages['common.previous']}
-                </Button>
-                <Button
-                  sx={{marginLeft: 3, width: '100px'}}
-                  type={'submit'}
-                  variant={'contained'}
-                  color={'primary'}
-                  disabled={isSubmitting}>
-                  {activeStep == steps.length - 1
-                    ? messages['common.submit']
-                    : messages['common.next']}
-                </Button>
-              </Box>
-            </form>
-          </React.Fragment>
-        )}
-      </Box>
+        <Box sx={{width: '100%'}}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label, index) => {
+              const stepProps: {completed?: boolean} = {};
+              const labelProps: {
+                optional?: React.ReactNode;
+              } = {};
+              return (
+                <Step key={label as string} {...stepProps}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
+          {activeStep === steps.length ? (
+            <React.Fragment>
+              <Box>Done</Box>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+                <Box sx={{p: '10px 0px', marginTop: 3}}>
+                  {getCurrentFormContent()}
+                </Box>
+                <Box className={classes.btnGroup}>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    variant={'outlined'}
+                    color={'primary'}>
+                    {messages['common.previous']}
+                  </Button>
+                  <Button
+                    sx={{marginLeft: 3}}
+                    type={'submit'}
+                    variant={'contained'}
+                    color={'primary'}
+                    disabled={isSubmitting}>
+                    {activeStep == steps.length - 1
+                      ? messages['common.submit']
+                      : messages['common.next']}
+                  </Button>
+                </Box>
+              </form>
+            </React.Fragment>
+          )}
+        </Box>
+      </Paper>
     </Container>
   );
 };

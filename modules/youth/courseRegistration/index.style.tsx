@@ -5,13 +5,14 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   rootContainer: {
     marginTop: 20,
     marginBottom: 20,
-    background: '#fff',
-    borderRadius: 10,
-    padding: 14,
+  },
+  paperBox: {
+    padding: 15,
   },
   btnGroup: {
     display: 'flex',
     justifyContent: 'space-between',
+    margin: '15px 0px',
   },
 }));
 
