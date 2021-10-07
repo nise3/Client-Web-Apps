@@ -16,21 +16,21 @@ import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
 import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 
-const authUserMockData: TAuthUserSSOResponse = {
-  role: undefined,
-  family_name: 'System',
-  given_name: 'Admin',
-  sub: '4679687976547984545',
-  upn: '5496846497949654989',
-  isInstituteUser: false,
-  isOrganizationUser: false,
-  isSystemUser: true,
-  permissions: [],
-  userType: 'system',
-  username: 'system_admin',
-  email: 'admin@gmail.com',
-  displayName: 'System Admin',
-};
+// const authUserMockData: TAuthUserSSOResponse = {
+//   role: undefined,
+//   family_name: 'System',
+//   given_name: 'Admin',
+//   sub: '4679687976547984545',
+//   upn: '5496846497949654989',
+//   isInstituteUser: false,
+//   isOrganizationUser: false,
+//   isSystemUser: true,
+//   permissions: [],
+//   userType: 'system',
+//   username: 'system_admin',
+//   email: 'admin@gmail.com',
+//   displayName: 'System Admin',
+// };
 
 /**
  * @deprecated

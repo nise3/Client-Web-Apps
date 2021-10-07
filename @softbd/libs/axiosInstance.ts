@@ -19,21 +19,21 @@ axiosInstance.interceptors.request.use(
      * For development purpose. It should be commented in production mode
      */
 
-    let urlPath = config.url?.split('/')[1];
+    // let urlPath = config.url?.split('/')[1];
 
     // export const CORE_SERVICE_PATH = ':8008/core/api/v1';
     // export const ORGANIZATION_SERVICE_PATH = ':8010/org/api/v1';
     // export const INSTITUTE_SERVICE_PATH = ':8009/institute/api/v1';
-    if (urlPath == 'institute') {
-      config.baseURL = API_BASE_URL + ':8009';
-      config.url = config.url?.replace('/institute', '');
-    } else if (urlPath == 'core') {
-      config.baseURL = API_BASE_URL + ':8008';
-      config.url = config.url?.replace('/core', '');
-    } else if (urlPath == 'org') {
-      config.baseURL = API_BASE_URL + ':8010';
-      config.url = config.url?.replace('/org', '');
-    }
+    // if (urlPath == 'institute') {
+    //   config.baseURL = API_BASE_URL + ':8009';
+    //   config.url = config.url?.replace('/institute', '');
+    // } else if (urlPath == 'core') {
+    //   config.baseURL = API_BASE_URL + ':8008';
+    //   config.url = config.url?.replace('/core', '');
+    // } else if (urlPath == 'org') {
+    //   config.baseURL = API_BASE_URL + ':8010';
+    //   config.url = config.url?.replace('/org', '');
+    // }
 
     config.headers = {
       /*Token: `Bearer ${apiToken}`,*/
