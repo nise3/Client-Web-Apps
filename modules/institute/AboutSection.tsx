@@ -1,5 +1,5 @@
 import React from 'react';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Box, Container, Grid, Typography} from '@mui/material';
@@ -71,7 +71,10 @@ const AboutSection = () => {
           alignItems='center'>
           <Grid item xs={12} md={7}>
             <Fade direction='down'>
-              <Typography variant='h3' gutterBottom={true} className={classes.heading}>
+              <Typography
+                variant='h3'
+                gutterBottom={true}
+                className={classes.heading}>
                 <Box fontWeight='fontWeightBold' mb={6}>
                   Lorem Ipsum Dolor
                 </Box>
@@ -82,18 +85,24 @@ const AboutSection = () => {
               <Typography variant='subtitle1' gutterBottom={true}>
                 <Grid item xs={12}>
                   <Box mb={8}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                    sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
                   </Box>
                 </Grid>
               </Typography>
             </Fade>
 
             <Fade direction='down'>
-              <Typography variant='h4' gutterBottom={true} className={classes.heading}>
+              <Typography
+                variant='h4'
+                gutterBottom={true}
+                className={classes.heading}>
                 <Box fontWeight='fontWeightBold' mb={6}>
                   Lorem Ipsum Dolor Sit Amet
                 </Box>
@@ -105,7 +114,9 @@ const AboutSection = () => {
                 <Grid item xs={12}>
                   <Box mb={8}>
                     <ul>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipiscing</li>
+                      <li>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                      </li>
                       <li>et dolore magna aliqua. Ut enim ad minim veniam</li>
                       <li>aliquip ex ea commodo consequat. Duis aute irure</li>
                       <li>cillum dolore eu fugiat nulla pariatur. Excepteur</li>
@@ -119,10 +130,12 @@ const AboutSection = () => {
           <Grid item xs={12} md={5} className={classes.youtubePlayerBox}>
             <iframe
               className={classes.youtubePlayerMobileView}
-              src='https://www.youtube.com/embed/PWkOvVkI09k' />
+              src='https://www.youtube.com/embed/PWkOvVkI09k'
+            />
             <iframe
               className={classes.youtubePlayer}
-              src='https://www.youtube.com/embed/PWkOvVkI09k' />
+              src='https://www.youtube.com/embed/PWkOvVkI09k'
+            />
           </Grid>
         </Grid>
       </Container>

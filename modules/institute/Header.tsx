@@ -11,17 +11,24 @@ import Box from '@mui/material/Box';
 import {Person, Login, Note} from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../types/AppContextPropsType';
+import LogoCustomizable from './LogoCustomizable';
 
 interface AppHeaderProps {}
 
 const headerFixedHeight = {
   height: 60,
   minHeight: 60,
-}
+};
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   appBar: {
-    boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+    // boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+    boxShadow: 'none',
+  },
+  logoArea: {
+    width: '100%',
+    minHeight: 80,
+    margin: '0px auto',
   },
   signinButton: {
     width: '160px',
@@ -36,6 +43,10 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       minHeight: 70,
     },
     backgroundColor: theme.palette.primary.main,
+    // maxWidth: theme.breakpoints.values.xl,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    width: '100%',
   },
   headerMainFlex: {
     display: 'flex',
@@ -159,7 +170,6 @@ const Header: React.FC<AppHeaderProps> = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
 
-
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
   }
@@ -213,16 +223,32 @@ const Header: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
+      <Box className={classes.logoArea}>
+        <Box maxWidth='xl' margin='auto'>
+          <LogoCustomizable
+            instituteName='Bangladesh Industrial Technical Assistance Centre'
+            instituteLogo='/images/bitac-logo.jpg'
+          />
+          <Box></Box>
+        </Box>
+      </Box>
       <AppBar
         position='relative'
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
-        <Toolbar className={clsx(classes.headerMain, classes.headerFixedHeight)}>
-          <Box className={clsx(classes.headerMainFlex, classes.headerFixedHeight)}>
-            {/*<AppLogo />*/}
+        <Toolbar
+          className={clsx(classes.headerMain, classes.headerFixedHeight)}>
+          <Box
+            className={clsx(classes.headerMainFlex, classes.headerFixedHeight)}>
             {/*<Box className={classes.grow} />*/}
-            <Box className={clsx(classes.sectionDesktop, classes.headerFixedHeight)}>
-              <Box component='span' className={clsx(classes.menuItem, classes.menuItemActive)}>
+            <Box
+              className={clsx(
+                classes.sectionDesktop,
+                classes.headerFixedHeight,
+              )}>
+              <Box
+                component='span'
+                className={clsx(classes.menuItem, classes.menuItemActive)}>
                 প্রথম পাতা
               </Box>
               <Box component='span' className={classes.menuItem}>
@@ -249,7 +275,9 @@ const Header: React.FC<AppHeaderProps> = () => {
               <Box component='span' className={classes.menuItem}>
                 <Person className={classes.menuIcons} /> ইউথ লগইন
               </Box>
-              <Box component='span' className={clsx(classes.menuItem, classes.menuItemAction)}>
+              <Box
+                component='span'
+                className={clsx(classes.menuItem, classes.menuItemAction)}>
                 <Login className={classes.menuIcons} /> রেজিস্ট্রেশন
               </Box>
             </Box>
