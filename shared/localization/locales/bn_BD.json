@@ -520,5 +520,13 @@
   "freelance_corner.specific_location": "নির্দিষ্ট অবস্থান",
   "freelance_corner.add_location": "ঠিকানা লিখুন",
   "common.my_cv": "আমার সিভি",
-  "cv_view.template_title": "আমাদের জীবনবৃত্তান্ত টেমপ্লেটগুলি থেকে চয়ন করুন"
+  "cv_view.template_title": "আমাদের জীবনবৃত্তান্ত টেমপ্লেটগুলি থেকে চয়ন করুন",
+  "freelance_corner.add_location": "ঠিকানা লিখুন",
+  "feedback.institution": "পরামর্শ",
+  "advice.institute": "মতামত",
+  "recipient.institute": "প্রাপক",
+  "contact_with_us.institute": "আমাদের সাথে যোগাযোগ করুন",
+  "find_our_location_in_map.institute": "আমাদের লোকেশন ম্যাপ এ খুজুন",
+  "faq.institute": "সাধারন জিজ্ঞাসা",
+  "contact.institute": "যোগাযোগ"
 }
