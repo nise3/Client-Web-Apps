@@ -64,17 +64,19 @@ const CertificationSection = ({onclick}: CertificationSectionProp) => {
           />
           {certificates.map((certificate) => {
             return (
-              <CustomContentCard
-                contentTitle={certificate.title}
-                contentLogo={certificate.image}
-                contentServiceProvider={certificate.institute_name}
-                date={certificate.achieve_date}
-                location={certificate.location}
-                contentEditButton={() => onclick(certificate.id)}
-                contentDeleteButton={() =>
-                  deleteCertificationItem(certificate.id)
-                }
-              />
+              <React.Fragment key={certificate.id}>
+                <CustomContentCard
+                  contentTitle={certificate.title}
+                  contentLogo={certificate.image}
+                  contentServiceProvider={certificate.institute_name}
+                  date={certificate.achieve_date}
+                  location={certificate.location}
+                  contentEditButton={() => onclick(certificate.id)}
+                  contentDeleteButton={() =>
+                    deleteCertificationItem(certificate.id)
+                  }
+                />
+              </React.Fragment>
             );
           })}
         </CardContent>

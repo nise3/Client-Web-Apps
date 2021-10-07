@@ -1,22 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import Image from 'next/image';
 import {CremaTheme} from '../../types/AppContextPropsType';
-import youthCV from '../../public/images/youth/youth-cv.jpg';
 import Footer from '../home/Footer';
-import {useIntl} from 'react-intl';
-import HorizontalLine from './component/HorizontalLine';
-import {Add, CheckCircle} from '@mui/icons-material';
 import {createStyles, makeStyles} from '@mui/styles';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Switch,
-  Typography,
-} from '@mui/material';
+import {Box, Container, Grid} from '@mui/material';
 import PersonalInfoSection from './PersonalInfoSection';
 import PersonalInformationEdit from './PersonalInformationEdit';
 import JobExperienceSection from './JobExperienceSection';
@@ -31,6 +17,9 @@ import ReferenceAddEditPage from './ReferenceAddEditPage';
 import ReferenceSection from './ReferenceSection';
 import PortfolioAddEdit from './PortfolioAddEdit';
 import PortfolioSection from './PortfolioSection';
+import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
+import FreelanceProfileSection from './FreelanceProfileSection';
+import MyCVSection from './MyCVSection';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -42,7 +31,6 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 
 const YouthProfile = () => {
   const classes = useStyles();
-  const {messages} = useIntl();
 
   const [jobExperienceId, setJobExperienceId] = useState<number | null>(null);
   const [educationItemId, setEducationItemId] = useState<number | null>(null);
@@ -228,118 +216,14 @@ const YouthProfile = () => {
             )}
           </Grid>
           <Grid item md={3} xs={12}>
-            <Card>
-              <CardContent>
-                <Grid container>
-                  <Grid item xs={11}>
-                    Phone Number
-                  </Grid>
-                  <Grid item xs={1}>
-                    <CheckCircle fontSize={'inherit'} color={'primary'} />
-                  </Grid>
-                </Grid>
-                <HorizontalLine />
-                <Grid container>
-                  <Grid item xs={11}>
-                    Email Address
-                  </Grid>
-                  <Grid item xs={1}>
-                    <CheckCircle fontSize={'inherit'} color={'primary'} />
-                  </Grid>
-                </Grid>
-                <HorizontalLine />
-                <Grid container>
-                  <Grid item xs={11}>
-                    NID
-                  </Grid>
-                  <Grid item xs={1}>
-                    <CheckCircle fontSize={'inherit'} color={'primary'} />
-                  </Grid>
-                </Grid>
-                <HorizontalLine />
-                <Grid container>
-                  <Grid item xs={11}>
-                    BRN
-                  </Grid>
-                  <Grid item xs={1}>
-                    <CheckCircle fontSize={'inherit'} color={'primary'} />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
+            <ProfileCompleteSignatureMenu />
 
             <Box mt={4}>
-              <Card>
-                <CardContent>
-                  <Typography variant={'h6'}>
-                    {messages['common.freelance_profile']}
-                  </Typography>
-                  <Typography variant={'body2'}>
-                    {messages['youth_profile.freelance_profile_turing_on_hint']}
-                  </Typography>
-                  <Switch color={'primary'} defaultChecked />
-                </CardContent>
-              </Card>
+              <FreelanceProfileSection />
             </Box>
 
             <Box mt={4}>
-              <Card>
-                <CardContent>
-                  <Grid container>
-                    <Grid item xs={9}>
-                      <Typography variant={'h6'}>
-                        {messages['youth_profile.my_cv']}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <input
-                        type='file'
-                        accept='image/pdf/doc/*'
-                        style={{display: 'none'}}
-                        id='contained-button-file'
-                      />
-                      <label htmlFor='contained-button-file'>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          component='span'>
-                          <Add />
-                        </Button>
-                      </label>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid container>
-                        <Grid item xs={8}>
-                          <Image src={youthCV} />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-
-                    <Box mt={2} width={'100%'}>
-                      <Grid item xs={12}>
-                        <Grid container spacing={3}>
-                          <Grid item xs={6}>
-                            <Button
-                              variant={'contained'}
-                              color={'primary'}
-                              fullWidth={true}>
-                              {messages['common.view']}
-                            </Button>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Button
-                              variant={'outlined'}
-                              color={'primary'}
-                              fullWidth={true}>
-                              {messages['common.download']}
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Grid>
-                </CardContent>
-              </Card>
+              <MyCVSection />
             </Box>
           </Grid>
         </Grid>

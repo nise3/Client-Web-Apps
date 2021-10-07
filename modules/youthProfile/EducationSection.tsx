@@ -64,15 +64,17 @@ const EducationSection = ({onclick}: EducationSectionProp) => {
           />
           {educations.map((education) => {
             return (
-              <CustomContentCard
-                contentTitle={education.name}
-                contentLogo={education.logo}
-                contentServiceProvider={education.institute}
-                date={education.passingYear}
-                location={education.board}
-                contentEditButton={onclick}
-                contentDeleteButton={() => deleteEducationItem(education.id)}
-              />
+              <React.Fragment key={education.id}>
+                <CustomContentCard
+                  contentTitle={education.name}
+                  contentLogo={education.logo}
+                  contentServiceProvider={education.institute}
+                  date={education.passingYear}
+                  location={education.board}
+                  contentEditButton={onclick}
+                  contentDeleteButton={() => deleteEducationItem(education.id)}
+                />
+              </React.Fragment>
             );
           })}
         </CardContent>
