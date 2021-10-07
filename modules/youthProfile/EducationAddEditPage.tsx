@@ -16,17 +16,9 @@ import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {
-  Grid,
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Container,
-} from '@mui/material';
-import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
+import {Grid, Box, Card, CardContent} from '@mui/material';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {useRouter} from 'next/router';
+import {DialogTitle} from '../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -78,12 +70,12 @@ const initialValues = {
   passing_year: '',
 };
 
-const EducationAddEditPage: FC<EducationAddEditPageProps> = () => {
+const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
+  itemId,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-
-  const router = useRouter();
-  const {educationId} = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -120,11 +112,12 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = () => {
   });
 
   const [itemData, setItemData] = useState<any>(null);
-  const itemId = Number(educationId);
   const isEdit = itemId != null;
 
+  console.log('item id: ', itemId);
+
   useEffect(() => {
-    if (Number(educationId)) {
+    if (itemId) {
       setItemData({
         exam: 'HSC',
         board: '1',
@@ -137,7 +130,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = () => {
         passing_year: '1773',
       });
     }
-  }, [educationId]);
+  }, [itemId]);
 
   useEffect(() => {
     if (itemData) {
@@ -168,6 +161,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -175,136 +169,132 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
   return (
-    <Container maxWidth={'lg'}>
-      <Box mt={4} mb={2}>
-        <Grid container justifyContent={'center'} spacing={2}>
-          <Grid item xs={12} md={4}>
-            <YouthProfileNavigationSidebar />
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Card>
-              <CardContent>
-                <Typography variant={'h6'} mb={4}>
-                  {messages['common.education']}
-                </Typography>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <CustomFormSelect
-                        id={'exam'}
-                        label={messages['education.exam']}
-                        isLoading={false}
-                        control={control}
-                        options={exams}
-                        optionValueProp={'id'}
-                        optionTitleProp={['title']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomFormSelect
-                        id={'board'}
-                        label={messages['education.board']}
-                        isLoading={false}
-                        control={control}
-                        options={boards}
-                        optionValueProp={'id'}
-                        optionTitleProp={['title']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='institution'
-                        label={messages['institute.label']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='roll_no'
-                        label={messages['education.roll_no']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='reg_no'
-                        label={messages['education.reg_no']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomFormSelect
-                        id={'group'}
-                        label={messages['education.group']}
-                        isLoading={false}
-                        control={control}
-                        options={groups}
-                        optionValueProp={'id'}
-                        optionTitleProp={['title']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomFormSelect
-                        id={'result_type'}
-                        label={messages['education.result_type']}
-                        isLoading={false}
-                        control={control}
-                        options={resultTypes}
-                        optionValueProp={'id'}
-                        optionTitleProp={['title']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='result'
-                        label={messages['education.result']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomFormSelect
-                        id={'passing_year'}
-                        label={messages['education.passing_year']}
-                        isLoading={false}
-                        control={control}
-                        options={passingYears()}
-                        optionValueProp={'year'}
-                        optionTitleProp={['year']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <SubmitButton
-                        isSubmitting={isSubmitting}
-                        isLoading={false}
-                      />
-                    </Grid>
+    <Box mt={4} mb={2}>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item>
+          <Card>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['common.education']}
+              </DialogTitle>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id={'exam'}
+                      label={messages['education.exam']}
+                      isLoading={false}
+                      control={control}
+                      options={exams}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title']}
+                      errorInstance={errors}
+                    />
                   </Grid>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id={'board'}
+                      label={messages['education.board']}
+                      isLoading={false}
+                      control={control}
+                      options={boards}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='institution'
+                      label={messages['institute.label']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='roll_no'
+                      label={messages['education.roll_no']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='reg_no'
+                      label={messages['education.reg_no']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id={'group'}
+                      label={messages['education.group']}
+                      isLoading={false}
+                      control={control}
+                      options={groups}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id={'result_type'}
+                      label={messages['education.result_type']}
+                      isLoading={false}
+                      control={control}
+                      options={resultTypes}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='result'
+                      label={messages['education.result']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id={'passing_year'}
+                      label={messages['education.passing_year']}
+                      isLoading={false}
+                      control={control}
+                      options={passingYears()}
+                      optionValueProp={'year'}
+                      optionTitleProp={['year']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={false}
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
-      </Box>
-    </Container>
+      </Grid>
+    </Box>
   );
 };
 

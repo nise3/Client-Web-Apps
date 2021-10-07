@@ -2,10 +2,11 @@ import React, {useCallback, useState} from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import ConfirmationDialog from '../../../../@crema/core/ConfirmationDialog';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {FiTrash2} from 'react-icons/fi';
+import {ButtonProps} from '@mui/material/Button/Button';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-interface DeleteButtonProps {
+interface DeleteButtonProps extends ButtonProps {
   deleteAction: () => void;
   deleteTitle: string;
   className?: string;

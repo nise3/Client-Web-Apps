@@ -18,9 +18,8 @@ import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../@softbd/elements/input/CustomDateTimeField';
-import {Box, Card, CardContent, Typography} from '@mui/material';
-import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
-import {useRouter} from 'next/router';
+import {Box, Card, CardContent} from '@mui/material';
+import {DialogTitle} from '../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -36,12 +35,13 @@ const initialValues = {
   certificate_file: '',
 };
 
-const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
+const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
+  itemId,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-
-  const router = useRouter();
-  const {certificateId} = router.query;
+  console.log('certificate id :', itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -69,34 +69,30 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
   });
 
   const [itemData, setItemData] = useState<any>(null);
-  const itemId = Number(certificateId);
   const isEdit = itemId != null;
 
   useEffect(() => {
-    if (Number(certificateId)) {
+    if (itemId) {
       setItemData({
         certification: 'ML',
-        institution: 'h20.io',
+        institute: 'h20.io',
         location: 'australia',
-        start_date: '16 oct 2021',
-        end_date: '30 dec 2021',
+        start_date: '2021-10-10',
+        end_date: '2021-12-12',
         certificate_file: '',
       });
     }
-  }, [certificateId]);
+  }, [itemId]);
 
   useEffect(() => {
     if (itemData) {
       reset({
-        exam: itemData.exam,
-        board: itemData?.board,
-        institution: itemData?.institution,
-        roll_no: itemData?.roll_no,
-        reg_no: itemData?.reg_no,
-        group: itemData?.group,
-        result_type: itemData?.result_type,
-        result: itemData?.result,
-        passing_year: itemData?.passing_year,
+        certification: itemData.certification,
+        institute: itemData?.institute,
+        location: itemData?.location,
+        start_date: itemData?.start_date,
+        end_date: itemData?.end_date,
+        certification_date: itemData?.certification_date,
       });
     } else {
       reset(initialValues);
@@ -114,6 +110,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
@@ -121,6 +118,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -129,18 +127,15 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
   return (
     <Box mt={4} mb={2}>
       <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item xs={3}>
-          <YouthProfileNavigationSidebar />
-        </Grid>
-        <Grid item xs={5}>
+        <Grid item>
           <Card>
-            <CardContent>
-              <Typography variant={'h6'} mb={4}>
-                {messages['certification.label']}
-              </Typography>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['common.education']}
+              </DialogTitle>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
-                  <Grid item xs={12}>
+                  <Grid item>
                     <CustomTextInput
                       id='certification'
                       label={messages['certification.label']}
@@ -149,7 +144,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item>
                     <CustomTextInput
                       id='institute'
                       label={messages['institute.label']}
@@ -158,7 +153,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item>
                     <CustomTextInput
                       id='location'
                       label={messages['common.location']}
@@ -186,7 +181,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item>
                     <CustomTextInput
                       id='certificate_file'
                       label={messages['common.certificate']}
@@ -196,7 +191,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = () => {
                       isLoading={false}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item>
                     <SubmitButton
                       isSubmitting={isSubmitting}
                       isLoading={false}

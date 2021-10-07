@@ -7,14 +7,15 @@ import {createStyles, makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../types/AppContextPropsType';
 import {AccessTime, BorderColor} from '@mui/icons-material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import {Box, Grid, Typography} from '@mui/material';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
+import CircularDeleteButton from './component/CircularDeleteButton';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
     skillIssueDate: {
       display: 'flex',
       flexDirection: 'row',
-      color: 'green',
+      color: theme.palette.primary.main,
     },
     accessTime: {
       marginTop: '2px',
@@ -33,6 +34,7 @@ type CustomContentCardProp = {
   contentEditButton?: any;
   date?: string;
   location?: string;
+  contentDeleteButton?: () => void;
 };
 
 const CustomContentCard = ({
@@ -42,6 +44,7 @@ const CustomContentCard = ({
   contentEditButton,
   date,
   location,
+  contentDeleteButton,
 }: CustomContentCardProp) => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -54,10 +57,12 @@ const CustomContentCard = ({
         container
         justifyContent={'space-between'}
         className={classes.skillCard}>
-        <Grid item sm={6}>
+        <Grid item>
           <Grid container>
-            {contentLogo && <Grid item>{contentLogo}</Grid>}
-            <Grid item sm={6}>
+            {contentLogo && (
+              <Avatar alt={contentTitle + ' logo'} src={contentLogo} />
+            )}
+            <Grid item>
               <Box ml={1} mb={2}>
                 <Typography variant={'subtitle2'}>{contentTitle}</Typography>
                 <Typography variant={'caption'}>
@@ -68,7 +73,7 @@ const CustomContentCard = ({
           </Grid>
         </Grid>
         {contentEditButton && (
-          <Grid item sm={6}>
+          <Grid item>
             <Grid container justifyContent={'flex-end'}>
               <Box>
                 <CustomParabolaButton
@@ -77,6 +82,12 @@ const CustomContentCard = ({
                   icon={<BorderColor />}
                   onclick={contentEditButton}
                 />
+                {contentDeleteButton && (
+                  <CircularDeleteButton
+                    deleteAction={contentDeleteButton}
+                    deleteTitle={'delete'}
+                  />
+                )}
               </Box>
             </Grid>
           </Grid>

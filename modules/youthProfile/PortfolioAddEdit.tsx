@@ -1,4 +1,4 @@
-import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
+import {Box, Card, CardContent, Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -16,7 +16,7 @@ import {
 import yup from '../../@softbd/libs/yup';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import YouthProfileNavigationSidebar from './component/YouthProfileNavigationSidebar';
+import {DialogTitle} from '../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -41,9 +41,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
         .string()
         .label(messages['upload_link.portfolio_modal'] as string),
       title: yup.string().label(messages['common.title'] as string),
-      description: yup
-        .string()
-        .label(messages['common.description'] as string),
+      description: yup.string().label(messages['common.description'] as string),
       upload_file: yup
         .string()
         .label(messages['upload_file.portfolio_modal'] as string),
@@ -112,15 +110,12 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   return (
     <Box mt={4} mb={2}>
       <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item xs={3}>
-          <YouthProfileNavigationSidebar />
-        </Grid>
-        <Grid item xs={5}>
+        <Grid item>
           <Card>
-            <CardContent>
-              <Typography variant={'h6'} mb={4}>
-                {isEdit ? (messages['personal_info_edit.label']) : (messages['common.add_new_portfolio'])}
-              </Typography>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['common.portfolio']}
+              </DialogTitle>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
