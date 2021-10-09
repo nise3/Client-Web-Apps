@@ -1,4 +1,4 @@
-import {Avatar, Button, Grid} from '@mui/material';
+import {Avatar, Button, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -120,82 +120,83 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   };
 
   return (
-    <Grid container justifyContent={'center'} spacing={2}>
-      <Grid item>
-        <Card>
-          <CardContent sx={{position: 'relative'}}>
-            <DialogTitle onClose={props.onClose}>
-              {messages['personal_info_edit.label']}
-            </DialogTitle>
+    <Zoom in={true}>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['personal_info_edit.label']}
+              </DialogTitle>
 
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-              <Grid container spacing={5}>
-                <Grid item xs={4}>
-                  <Avatar
-                    style={{
-                      border: '0.5px solid lightgray',
-                    }}
-                    alt='Travis Howard'
-                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKMjeeornJdOe6FD8JTzqih-CByVmSWpSD0g&usqp=CAU'
-                    sx={{width: 100, height: 100}}
-                  />
-                </Grid>
-                <Grid style={{marginTop: '20px'}} item xs={8}>
-                  <input
-                    type='file'
-                    accept='image*'
-                    style={{display: 'none'}}
-                    id='contained-button-file'
-                  />
-                  <label htmlFor='contained-button-file'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      component='span'>
-                      <CloudUploadOutlinedIcon
-                        style={{marginRight: '5px', fontSize: 30}}
-                      />{' '}
-                      Upload new picture
-                    </Button>
-                  </label>
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='first_name'
-                    label={messages['common.first_name']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={false}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='middle_name'
-                    label={messages['common.middle_name']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={false}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <CustomTextInput
-                    id='email_address'
-                    label={messages['common.email']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={false}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <CustomTextInput
-                    id='phone_numbers'
-                    label={messages['common.phone_number']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={false}
-                  />
-                </Grid>
-                {/*<Grid item xs={12}>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12} md={4}>
+                    <Avatar
+                      style={{
+                        border: '0.5px solid lightgray',
+                      }}
+                      alt='Travis Howard'
+                      src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKMjeeornJdOe6FD8JTzqih-CByVmSWpSD0g&usqp=CAU'
+                      sx={{width: 100, height: 100}}
+                    />
+                  </Grid>
+                  <Grid style={{marginTop: '20px'}} item xs={12} md={8}>
+                    <input
+                      type='file'
+                      accept='image*'
+                      style={{display: 'none'}}
+                      id='contained-button-file'
+                    />
+                    <label htmlFor='contained-button-file'>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        component='span'>
+                        <CloudUploadOutlinedIcon
+                          style={{marginRight: '5px', fontSize: 30}}
+                        />{' '}
+                        Upload new picture
+                      </Button>
+                    </label>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='first_name'
+                      label={messages['common.first_name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='middle_name'
+                      label={messages['common.middle_name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='email_address'
+                      label={messages['common.email']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='phone_numbers'
+                      label={messages['common.phone_number']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  {/*<Grid item xs={12} md=6>
                     <CustomFormSelect
                       id='skills'
                       label={messages['trainers.label']}
@@ -209,109 +210,113 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                       defaultValue={initialValues.skills}
                     />
                   </Grid>*/}
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='districts'
-                    label={messages['districts.label']}
-                    isLoading={false}
-                    control={control}
-                    optionValueProp={'id'}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='division'
-                    label={messages['divisions.label']}
-                    isLoading={false}
-                    control={control}
-                    optionValueProp={'id'}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='upazila'
-                    label={messages['upazilas.label']}
-                    isLoading={false}
-                    control={control}
-                    optionValueProp={'id'}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='post_office'
-                    label={messages['post_office.label']}
-                    isLoading={false}
-                    control={control}
-                    optionValueProp={'id'}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='area'
-                    label={messages['personal_info.area']}
-                    isLoading={false}
-                    control={control}
-                    optionValueProp={'id'}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='road'
-                    label={messages['personal_info.road']}
-                    isLoading={false}
-                    control={control}
-                    optionValueProp={'id'}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <CustomTextInput
-                    id='bio'
-                    label={messages['personal_info.bio']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={false}
-                    multiline={true}
-                    rows={3}
-                  />
-                </Grid>
-                <Grid item xs={8}>
-                  <label htmlFor='contained-button-file'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      component='span'>
-                      <CloudUploadOutlinedIcon
-                        style={{marginRight: '20px', fontSize: 30}}
-                      />{' '}
-                      Upload CV
-                    </Button>
-                  </label>
-                  <input
-                    type='file'
-                    accept='image/pdf/doc/*'
-                    style={{display: 'none'}}
-                    id='contained-button-file'
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={4}>
-                    <Grid item>
-                      <CancelButton onClick={props.onClose} isLoading={false} />
-                    </Grid>
-                    <Grid item>
-                      <SubmitButton
-                        isSubmitting={isSubmitting}
-                        isLoading={false}
-                      />
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='districts'
+                      label={messages['districts.label']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'id'}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='division'
+                      label={messages['divisions.label']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'id'}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='upazila'
+                      label={messages['upazilas.label']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'id'}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='post_office'
+                      label={messages['post_office.label']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'id'}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='area'
+                      label={messages['personal_info.area']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'id'}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='road'
+                      label={messages['personal_info.road']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'id'}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='bio'
+                      label={messages['personal_info.bio']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <label htmlFor='contained-button-file'>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        component='span'>
+                        <CloudUploadOutlinedIcon
+                          style={{marginRight: '20px', fontSize: 30}}
+                        />{' '}
+                        Upload CV
+                      </Button>
+                    </label>
+                    <input
+                      type='file'
+                      accept='image/pdf/doc/*'
+                      style={{display: 'none'}}
+                      id='contained-button-file'
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          </CardContent>
-        </Card>
+              </form>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
+    </Zoom>
   );
 };
 
