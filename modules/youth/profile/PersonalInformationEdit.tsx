@@ -35,7 +35,9 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      first_name: yup.string().label(messages['common.first_name'] as string),
+      first_name: yup
+        .string()
+        .label(messages['common.first_name_bn'] as string),
       middle_name: yup.string().label(messages['common.middle_name'] as string),
       email_address: yup.string().label(messages['common.email'] as string),
       phone_numbers: yup
@@ -163,7 +165,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
                       id='first_name'
-                      label={messages['common.first_name']}
+                      label={messages['common.first_name_bn']}
                       register={register}
                       errorInstance={errors}
                       isLoading={false}
