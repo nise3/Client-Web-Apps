@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
-// import token from '../common/appToken';
+import token from '../common/appToken';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -24,7 +24,7 @@ axiosInstance.interceptors.request.use(
     // export const CORE_SERVICE_PATH = ':8008/core/api/v1';
     // export const ORGANIZATION_SERVICE_PATH = ':8010/org/api/v1';
     // export const INSTITUTE_SERVICE_PATH = ':8009/institute/api/v1';
-    if (urlPath == 'institute') {
+    /*if (urlPath == 'institute') {
       config.baseURL = API_BASE_URL + ':8009';
       config.url = config.url?.replace('/institute', '');
     } else if (urlPath == 'core') {
@@ -33,10 +33,10 @@ axiosInstance.interceptors.request.use(
     } else if (urlPath == 'org') {
       config.baseURL = API_BASE_URL + ':8010';
       config.url = config.url?.replace('/org', '');
-    }
+    }*/
 
     config.headers = {
-      /*Token: `Bearer ${apiToken}`,*/
+      Authorization: `Bearer ${token.instituteApi}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };

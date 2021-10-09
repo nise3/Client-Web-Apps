@@ -4,11 +4,19 @@ import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Container, Grid, Link, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
 import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../@softbd/utilities/helpers';
+import IntlMessages from '../../@crema/utility/IntlMessages';
+import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../@softbd/hooks/useNotifyStack';
+import {createRegistration} from '../../services/instituteManagement/RegistrationService';
+import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 const InstituteRegistration = () => {
   const classes = useStyles();
@@ -95,11 +103,30 @@ const InstituteRegistration = () => {
     control,
     register,
     handleSubmit,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  const onSubmit: SubmitHandler<any> = async () => {};
+  const {successStack} = useNotiStack();
 
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log('form data', data);
+    const response = await createRegistration(data);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_created_successfully'
+          values={{
+            subject: <IntlMessages id='common.institute_registration' />,
+          }}
+        />,
+      );
+    } else if (isValidationError(response)) {
+      setServerValidationErrors(response.errors, setError, validationSchema);
+    }
+  };
+
+  console.log(errors);
   return (
     <Container maxWidth={'md'} style={{marginTop: '50px'}}>
       <Paper className={classes.PaperBox}>
@@ -124,14 +151,22 @@ const InstituteRegistration = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <FormRadioButtons
                 id='institute_type'
-                label={messages['common.institute_type']}
-                isLoading={isLoading}
+                label={'common.institute_type'}
+                radios={[
+                  {
+                    key: '1',
+                    label: messages['common.government'],
+                  },
+                  {
+                    key: '2',
+                    label: messages['common.non_government'],
+                  },
+                ]}
                 control={control}
-                options={[]}
-                optionValueProp={''}
-                errorInstance={errors}
+                defaultValue={'1'}
+                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -230,7 +265,12 @@ const InstituteRegistration = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+              <Grid container justifyContent={'flex-end'}>
+                <SubmitButton
+                  isSubmitting={isSubmitting}
+                  isLoading={isLoading}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </form>
