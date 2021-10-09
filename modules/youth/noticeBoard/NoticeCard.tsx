@@ -9,9 +9,12 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 
 const NoticeCard = () => {
   const classes = useStyles();
+
+  const URL = `/youth/notice-details/1`;
   return (
     <Card style={{padding: '10px'}}>
       <CardContent>
@@ -19,15 +22,18 @@ const NoticeCard = () => {
           <Grid item xs={3} md={3}>
             <Box className={classes.avatar}>
               <Avatar
-                src={'images/creativeIt.png'}
+                src={'/images/creativeIt.png'}
                 className={classes.avatarImage}
               />
             </Box>
           </Grid>
           <Grid item xs={9} md={9}>
-            <Typography style={{fontWeight: 'bold'}}>
-              CreativeIt give 20% waver based on result notice
-            </Typography>
+            <Link href={URL} passHref>
+              <Typography style={{fontWeight: 'bold', cursor: 'pointer'}}>
+                CreativeIt give 20% waver based on result notice
+              </Typography>
+            </Link>
+
             <Typography className={classes.creativaItText}>
               CreativeIt Institute
             </Typography>
