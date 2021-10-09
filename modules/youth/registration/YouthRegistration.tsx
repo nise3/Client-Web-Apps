@@ -89,7 +89,7 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async () => {};
   return (
-    <Container maxWidth={'md'} style={{marginTop: '50px'}}>
+    <Container maxWidth={'md'} className={classes.root}>
       <Paper className={classes.PaperBox}>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
           {messages['common.registration']}
