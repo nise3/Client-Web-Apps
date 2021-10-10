@@ -1,7 +1,7 @@
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import {BusinessCenter} from '@mui/icons-material';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import JobExperience from './JobExperience';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
@@ -10,6 +10,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useFetchYouthJobExperiences} from '../../../services/youthManagement/hooks';
+import JobExperienceAddEditPage from './JobExperienceAddEditPage';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -37,11 +38,7 @@ type JobExperienceProp = {
   jobDescription?: string;
 };
 
-type JobExperienceSectionProp = {
-  onclick: (itemId: number | null) => void;
-};
-
-const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
+const JobExperienceSection = () => {
   const {messages} = useIntl();
   const classes = useStyles();
   const {successStack} = useNotiStack();
@@ -49,7 +46,21 @@ const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
 
   const {data: jobExperiences} =
     useFetchYouthJobExperiences(jobExperienceFilters);
-  console.log(jobExperiences);
+  const [isOpenJobExperienceAddEditForm, setIsOpenJobExperienceAddEditForm] =
+    useState<boolean>(false);
+  const [jobExperienceId, setJobExperienceId] = useState<number | null>(null);
+
+  const openJobExperienceAddEditForm = useCallback(
+    (itemId: number | null = null) => {
+      setJobExperienceId(itemId);
+      setIsOpenJobExperienceAddEditForm(true);
+    },
+    [],
+  );
+
+  const closeJobExperienceAddEditForm = useCallback(() => {
+    setIsOpenJobExperienceAddEditForm(false);
+  }, []);
 
   useEffect(() => {
     // if (authUser?.youth) {
@@ -69,7 +80,12 @@ const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
     }
   };
 
-  return (
+  return isOpenJobExperienceAddEditForm ? (
+    <JobExperienceAddEditPage
+      itemId={jobExperienceId}
+      onClose={closeJobExperienceAddEditForm}
+    />
+  ) : (
     <Grid container xl={12} className={classes.cardSpaceBetween}>
       <Card className={classes.youthJobExperienceCard}>
         <CardContent>
@@ -86,7 +102,7 @@ const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
                 buttonVariant={'outlined'}
                 title={messages['youth_profile.add_new_experience'] as string}
                 icon={<BusinessCenter />}
-                onclick={() => onclick(null)}
+                onclick={() => openJobExperienceAddEditForm(null)}
               />
             </Grid>
           </Grid>
@@ -97,7 +113,9 @@ const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
                 <React.Fragment key={jobExperience.id}>
                   <JobExperience
                     {...jobExperience}
-                    openAddEditForm={() => onclick(jobExperience.id)}
+                    openAddEditForm={() =>
+                      openJobExperienceAddEditForm(jobExperience.id)
+                    }
                     deleteJobExperience={() =>
                       deleteJobExperienceItem(jobExperience.id)
                     }

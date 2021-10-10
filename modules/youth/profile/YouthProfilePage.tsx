@@ -4,7 +4,6 @@ import {createStyles, makeStyles} from '@mui/styles';
 import {Box, Container, Grid} from '@mui/material';
 import PersonalInfoSection from './PersonalInfoSection';
 import JobExperienceSection from './JobExperienceSection';
-import JobExperienceAddEditPage from './JobExperienceAddEditPage';
 import EducationSection from './EducationSection';
 import CertificationSection from './CertificationSection';
 import LanguageSection from './LanguageSection';
@@ -26,26 +25,10 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 const YouthProfile = () => {
   const classes = useStyles();
 
-  const [jobExperienceId, setJobExperienceId] = useState<number | null>(null);
   const [referenceId, setReferenceId] = useState<number | null>(null);
-
-  const [isOpenJobExperienceAddEditForm, setIsOpenJobExperienceAddEditForm] =
-    useState<boolean>(false);
 
   const [isOpenReferenceAddEditForm, setIsOpenReferenceAddEditForm] =
     useState<boolean>(false);
-
-  const openJobExperienceAddEditForm = useCallback(
-    (itemId: number | null = null) => {
-      setJobExperienceId(itemId);
-      setIsOpenJobExperienceAddEditForm(true);
-    },
-    [],
-  );
-
-  const closeJobExperienceAddEditForm = useCallback(() => {
-    setIsOpenJobExperienceAddEditForm(false);
-  }, []);
 
   const openReferenceAddEditForm = useCallback(
     (itemId: number | null = null) => {
@@ -69,16 +52,7 @@ const YouthProfile = () => {
                 <PersonalInfoSection />
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
-                {isOpenJobExperienceAddEditForm ? (
-                  <JobExperienceAddEditPage
-                    itemId={jobExperienceId}
-                    onClose={closeJobExperienceAddEditForm}
-                  />
-                ) : (
-                  <JobExperienceSection
-                    onclick={openJobExperienceAddEditForm}
-                  />
-                )}
+                <JobExperienceSection />
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
                 <EducationSection />
