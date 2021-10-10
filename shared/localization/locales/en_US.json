@@ -227,6 +227,8 @@
   "common.institute_type": "Company type",
   "common.institute_address": "Company address",
   "common.designation": "Designation",
+  "common.designation_en": "Designation(english)",
+  "common.designation_bn": "Designation(bangla)",
   "common.head_of_office": "Head of office",
   "common.enter_verification_code": "Enter verification code",
   "common.verify": "Verify",

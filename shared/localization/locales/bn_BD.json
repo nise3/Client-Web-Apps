@@ -307,6 +307,8 @@
   "common.user_name_type": "ব্যবহারকারীর নামের ধরন",
   "common.user_id": "User id",
   "common.designation": "পদবি",
+  "common.designation_en": "পদবি(ইংরেজি)",
+  "common.designation_bn": "পদবি(বাংলা)",
   "common.first_name_en": "নামের প্রথম অংশ (ইংরেজি)",
   "common.first_name_bn": "নামের প্রথম অংশ (বাংলা)",
   "common.last_name_en": "নামের শেষ অংশ (ইংরেজি)",
