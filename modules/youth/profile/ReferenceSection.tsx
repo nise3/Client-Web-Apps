@@ -1,57 +1,39 @@
-import {Box, Card, CardContent} from '@mui/material';
+import {Box, Card, CardContent, Skeleton} from '@mui/material';
 import CardHeader from './CardHeader';
 import {BorderColor} from '@mui/icons-material';
 import Reference from './Reference';
 import React from 'react';
-import referencePeopleAvatar from '../../../public/images/youth/avatar.png';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useFetchYouthReferences} from '../../../services/youthManagement/hooks';
+import {deleteReference} from '../../../services/youthManagement/ReferenceService';
 
 type ReferenceSectionProp = {
   openReferenceAddEditForm: (itemId: number | null) => void;
 };
 
-const references = [
-  {
-    id: 1,
-    name: 'Istiak',
-    position: 'Ui/UX designer',
-    image: referencePeopleAvatar,
-    email: 'istiak@gmail.com',
-    phone: '037583838',
-    location: 'mirpur 292010',
-  },
-  {
-    id: 2,
-    name: 'Md. Istiak Ahmen',
-    position: 'Software Engineer',
-    image: referencePeopleAvatar,
-    email: 'istiak@gmail.com',
-    phone: '037583838',
-    location: 'Mirpur 292010',
-  },
-];
-
 const ReferenceSection = ({openReferenceAddEditForm}: ReferenceSectionProp) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const {data: references, isLoading} = useFetchYouthReferences();
 
   const deleteReferenceItem = async (itemId: number) => {
-    let response = await deleteRankType(itemId);
+    let response = await deleteReference(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='reference.label' />}}
         />,
       );
     }
   };
 
-  return (
+  return isLoading ? (
+    <Skeleton />
+  ) : (
     <Box mt={4}>
       <Card>
         <CardContent>
@@ -66,16 +48,13 @@ const ReferenceSection = ({openReferenceAddEditForm}: ReferenceSectionProp) => {
             ]}
           />
 
-          {references.map((reference: any, key: number) => (
+          {(references || []).map((reference: any, key: number) => (
             <Reference
               key={key}
-              name={reference.name}
-              image={reference.image}
-              position={reference.position}
-              phone={reference.phone}
-              email={reference.email}
-              location={reference.location}
-              onclick={() => openReferenceAddEditForm(reference.id)}
+              reference={reference}
+              openReferenceAddEditForm={() =>
+                openReferenceAddEditForm(reference.id)
+              }
               onDelete={() => deleteReferenceItem(reference.id)}
             />
           ))}

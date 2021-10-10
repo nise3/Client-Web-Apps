@@ -3,6 +3,7 @@ import {
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_PROFILE,
   API_YOUTH_SKILLS,
+  API_YOUTH_REFERENCES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -20,5 +21,15 @@ export function useFetchYouthJobExperiences(params: any) {
 export function useFetchJobExperience(jobExperienceId: number | null) {
   return useAxiosSWR(
     jobExperienceId ? API_YOUTH_JOB_EXPERIENCES + '/' + jobExperienceId : null,
+  );
+}
+
+export function useFetchYouthReferences() {
+  return useAxiosSWR(API_YOUTH_REFERENCES);
+}
+
+export function useFetchReference(referenceId: number | null) {
+  return useAxiosSWR(
+    referenceId ? API_YOUTH_REFERENCES + '/' + referenceId : null,
   );
 }
