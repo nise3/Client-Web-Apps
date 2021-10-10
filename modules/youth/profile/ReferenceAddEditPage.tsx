@@ -64,27 +64,27 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
       organization_name_en: yup
         .string()
         .title('en')
-        .label(messages['organization.label'] as string),
+        .label(messages['common.organization_en'] as string),
       organization_name_bn: yup
         .string()
         .title('bn')
-        .label(messages['organization.label'] as string),
+        .label(messages['common.organization_bn'] as string),
       designation_en: yup
         .string()
         .title('en')
-        .label(messages['common.designation'] as string),
+        .label(messages['common.designation_en'] as string),
       designation_bn: yup
         .string()
         .title('bn')
-        .label(messages['common.designation'] as string),
+        .label(messages['common.designation_bn'] as string),
       address_en: yup
         .string()
         .title('en')
-        .label(messages['common.address'] as string),
+        .label(messages['common.address_en'] as string),
       address_bn: yup
         .string()
         .title('bn')
-        .label(messages['common.address'] as string),
+        .label(messages['common.address_bn'] as string),
       mobile: yup
         .string()
         .trim()
@@ -100,11 +100,11 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
       relation_en: yup
         .string()
         .title('en')
-        .label(messages['common.relation'] as string),
+        .label(messages['common.relation_en'] as string),
       relation_bn: yup
         .string()
         .title('bn')
-        .label(messages['common.relation'] as string),
+        .label(messages['common.relation_bn'] as string),
     });
   }, [messages]);
 
@@ -220,7 +220,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='organization_name_en'
-                        label={messages['organization.label']}
+                        label={messages['common.organization_en']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -229,7 +229,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='organization_name_bn'
-                        label={messages['organization.label']}
+                        label={messages['common.organization_bn']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -238,7 +238,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='designation_en'
-                        label={messages['common.designation']}
+                        label={messages['common.designation_en']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -247,7 +247,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='designation_bn'
-                        label={messages['common.designation']}
+                        label={messages['common.designation_bn']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -256,7 +256,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='address_en'
-                        label={messages['common.address']}
+                        label={messages['common.address_en']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -265,7 +265,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='address_bn'
-                        label={messages['common.address']}
+                        label={messages['common.address_bn']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -292,7 +292,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='relation_en'
-                        label={messages['common.relation']}
+                        label={messages['common.relation_en']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
@@ -301,7 +301,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                     <Grid item xs={6}>
                       <CustomTextInput
                         id='relation_bn'
-                        label={messages['common.relation']}
+                        label={messages['common.relation_bn']}
                         register={register}
                         errorInstance={errors}
                         isLoading={false}
