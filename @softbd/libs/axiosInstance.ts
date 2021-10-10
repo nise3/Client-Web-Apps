@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
+import {Cookies} from 'react-cookie';
+import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 // import token from '../common/appToken';
 
 const axiosInstance = axios.create({
@@ -10,11 +12,11 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // const cookies = new Cookies();
-    // const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-    // const accessToken = authAccessTokenData?.access_token;
-    // console.log('accessToken', accessToken);
-    // let apiToken = '';
+    const cookies = new Cookies();
+    const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    const accessToken = authAccessTokenData?.access_token;
+    console.log('accessToken', accessToken);
+    let apiToken = '';
     /**
      * For development purpose. It should be commented in production mode
      */
@@ -41,13 +43,13 @@ axiosInstance.interceptors.request.use(
       'Content-Type': 'application/json',
     };
 
-    // if (accessToken) {
-    //   delete config.headers['Token'];
-    //   config.headers['Authorization'] = `Bearer ${accessToken}`;
-    // } else {
-    //   config.headers['Token'] = `Bearer ${apiToken}`;
-    //   delete config.headers['Authorization'];
-    // }
+    if (accessToken) {
+      delete config.headers['Token'];
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    } else {
+      config.headers['Token'] = `Bearer ${apiToken}`;
+      delete config.headers['Authorization'];
+    }
 
     return config;
   },
