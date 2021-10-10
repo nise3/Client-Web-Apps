@@ -54,3 +54,5 @@ export const API_YOUTH_REGISTRATION =
   YOUTH_SERVICE_PATH + '/youth-registration';
 export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
+export const API_YOUTH_JOB_EXPERIENCES =
+  YOUTH_SERVICE_PATH + '/youth-job-experience';
