@@ -1,4 +1,4 @@
-import {AuthUser} from '../models/AuthUser';
+import {CommonAuthUser} from '../models/CommonAuthUser';
 
 export const UPDATE_AUTH_USER = 'UPDATE_AUTH_USER';
 /**
@@ -31,7 +31,7 @@ export interface SetAuthAccessTokenDataActions {
 
 export interface UpdateAuthUserActions {
   type: typeof UPDATE_AUTH_USER;
-  payload: AuthUser | null;
+  payload: CommonAuthUser | null;
 }
 
 export interface UserLoadedActions {

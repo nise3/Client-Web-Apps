@@ -1,4 +1,4 @@
-import {AuthUser} from '../../types/models/AuthUser';
+import {CommonAuthUser} from '../../types/models/CommonAuthUser';
 import {AuthType} from './AppEnums';
 
 /**
@@ -12,7 +12,7 @@ export const authRole = {
 /**
  * @deprecated
  */
-export const defaultUser: AuthUser = {
+export const defaultUser: CommonAuthUser = {
   isInstituteUser: true,
   isOrganizationUser: false,
   isSystemUser: false,

@@ -15,7 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AppContextPropsType, {
   CremaTheme,
 } from '../../../types/AppContextPropsType';
-import {AuthUser} from '../../../types/models/AuthUser';
+import {CommonAuthUser} from '../../../types/models/CommonAuthUser';
 import {orange} from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: CremaTheme) => {
@@ -69,7 +69,7 @@ const HeaderUser: React.FC<HeaderUserProps> = ({header = true}) => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
-  const user: AuthUser | null = useAuthUser();
+  const user: CommonAuthUser | null = useAuthUser();
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);

@@ -7,10 +7,10 @@ import {
   setAuthAccessTokenData,
 } from '../../redux/actions';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-import {Cookies} from 'react-cookie';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../types/actions/Auth.actions';
-import {AuthUser} from '../../types/models/AuthUser';
+import {CommonAuthUser} from '../../types/models/CommonAuthUser';
+import cookieInstance from '../../@softbd/libs/cookieInstance';
 
 export const useAuthToken = () => {
   const dispatch = useDispatch();
@@ -20,8 +20,7 @@ export const useAuthToken = () => {
   useEffect(() => {
     const validateAuth = async () => {
       dispatch(fetchStart());
-      const cookies = new Cookies();
-      const authAccessTokenData = cookies.get(
+      const authAccessTokenData = cookieInstance.get(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
       );
       if (!authAccessTokenData) {
@@ -52,7 +51,7 @@ export const useAuthToken = () => {
   return [loading, user];
 };
 
-export const useAuthUser = (): AuthUser | null => {
+export const useAuthUser = (): CommonAuthUser | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {

@@ -2,7 +2,7 @@ import jwtAxios from '../../@crema/services/auth/jwt-auth/jwt-api';
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-import {AuthUser} from '../../types/models/AuthUser';
+import {CommonAuthUser, YouthAuthUser} from '../../types/models/CommonAuthUser';
 import {AppActions} from '../../types';
 import {Dispatch} from 'redux';
 import {
@@ -11,26 +11,15 @@ import {
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
 } from '../../types/actions/Auth.actions';
-import {Cookies} from 'react-cookie';
 import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
-import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-
-// const authUserMockData: TAuthUserSSOResponse = {
-//   role: undefined,
-//   family_name: 'System',
-//   given_name: 'Admin',
-//   sub: '4679687976547984545',
-//   upn: '5496846497949654989',
-//   isInstituteUser: false,
-//   isOrganizationUser: false,
-//   isSystemUser: true,
-//   permissions: [],
-//   userType: 'system',
-//   username: 'system_admin',
-//   email: 'admin@gmail.com',
-//   displayName: 'System Admin',
-// };
+import {
+  CORE_SERVICE_PATH,
+  YOUTH_SERVICE_PATH,
+} from '../../@softbd/common/apiRoutes';
+import UserTypes from '../../@softbd/utilities/UserTypes';
+import cookieInstance from '../../@softbd/libs/cookieInstance';
+import {Gender} from '../../@softbd/utilities/Genders';
 
 /**
  * @deprecated
@@ -45,8 +34,7 @@ export const onJwtUserSignUp = (body: {
     dispatch(fetchStart());
     try {
       const res = await jwtAxios.post('users', body);
-      const cookies = new Cookies();
-      cookies.set('token', res.data.token, {path: '/'});
+      cookieInstance.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
       // await loadJWTUser(dispatch);
     } catch (err: any) {
@@ -72,8 +60,7 @@ export const onJwtSignIn = (body: {email: string; password: string}) => {
           token: token,
         },
       };
-      const cookies = new Cookies();
-      cookies.set('token', res.data.token, {path: '/'});
+      cookieInstance.set('token', res.data.token, {path: '/'});
       dispatch(setJWTToken(res.data.token));
       // await loadJWTUser(dispatch);
     } catch (err: any) {
@@ -93,8 +80,7 @@ type TOnSSOSignInCallback = {
 export const onSSOSignInCallback = (tokenData: TOnSSOSignInCallback) => {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      const cookies = new Cookies();
-      cookies.set(
+      cookieInstance.set(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify(tokenData),
         {
@@ -120,20 +106,22 @@ export const loadAuthUser = async (
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
     console.log(ssoTokenData);
-    const coreResponse = await apiGet(
-      CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`,
-    );
-    //use for test purpose
-    // const coreResponse = await apiGet(
-    //   `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
-    // );
+    const coreResponse =
+      ssoTokenData.userType == UserTypes.YOUTH_USER
+        ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile')
+        : await apiGet(
+            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`,
+          );
+    console.log(coreResponse);
+
     const {data} = coreResponse.data;
     dispatch(fetchSuccess());
-    // console.log('res.data', data);
     dispatch({
       type: UPDATE_AUTH_USER,
-      // payload: getUserObject(authUserMockData),
-      payload: getUserObject({...data, ...ssoTokenData}),
+      payload:
+        ssoTokenData.userType == UserTypes.YOUTH_USER
+          ? getYouthAuthUserObject({...data, ...ssoTokenData})
+          : getCommonAuthUserObject({...data, ...ssoTokenData}),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
@@ -162,7 +150,7 @@ type TAuthUserSSOResponse = {
   upn: string;
   given_name: string;
   family_name: string;
-  userType: 'system' | 'institute' | 'organization';
+  userType: 'system' | 'institute' | 'organization' | 'youth';
   isSystemUser: boolean;
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
@@ -170,7 +158,6 @@ type TAuthUserSSOResponse = {
   organization_id?: string | number;
   institute?: Institute;
   organization?: Organization;
-  // role: Role;
   role?: Role;
   displayName?: string;
   email?: string;
@@ -178,11 +165,34 @@ type TAuthUserSSOResponse = {
   permissions: string[];
   photoURL?: string;
 };
-export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
+
+type TYouthAuthUserSSOResponse = {
+  sub: string;
+  upn: string;
+  given_name: string;
+  family_name: string;
+  userType: 'youth';
+  displayName?: string;
+  email?: string;
+  username: string;
+  permissions: string[];
+  photoURL?: string;
+  date_of_birth: string;
+  first_name: string;
+  gender: Gender;
+  last_name: string;
+  last_name_en?: string;
+  mobile: string;
+};
+
+export const getCommonAuthUserObject = (
+  authUser: TAuthUserSSOResponse,
+): CommonAuthUser => {
   return {
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
     isSystemUser: authUser?.isSystemUser,
+    isYouthUser: false,
     userType: authUser?.userType,
     institute_id: authUser?.institute_id,
     institute: authUser?.institute,
@@ -199,6 +209,26 @@ export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
   };
 };
 
+export const getYouthAuthUserObject = (
+  authUser: TYouthAuthUserSSOResponse,
+): YouthAuthUser => {
+  return {
+    isYouthUser: true,
+    userType: authUser?.userType,
+    authType: AuthType.AUTH2,
+    displayName: authUser?.displayName,
+    email: authUser?.email,
+    uid: authUser.sub,
+    username: authUser.username,
+    date_of_birth: authUser.date_of_birth,
+    first_name: authUser.first_name,
+    gender: authUser.gender,
+    last_name: authUser.last_name,
+    last_name_en: authUser?.last_name_en,
+    mobile: authUser.mobile,
+  };
+};
+
 /**
  * @deprecated
  */
@@ -208,8 +238,7 @@ export const onJWTAuthSignout = () => {
     setTimeout(() => {
       dispatch({type: SIGNOUT_AUTH_SUCCESS});
       dispatch(fetchSuccess());
-      const cookies = new Cookies();
-      cookies.remove('token');
+      cookieInstance.remove('token');
     }, 500);
   };
 };

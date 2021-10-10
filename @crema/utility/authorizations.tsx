@@ -1,7 +1,7 @@
-import {AuthUser} from '../../types/models/AuthUser';
+import {CommonAuthUser} from '../../types/models/CommonAuthUser';
 
 export const checkPermission = (
-  authUser: AuthUser | null,
+  authUser: CommonAuthUser | null,
   permissionKeys: any[],
 ): boolean => {
   if (authUser === null || authUser === undefined) {

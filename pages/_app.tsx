@@ -16,55 +16,56 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/index.css';
 import '../@crema/services/index';
 import {SWRConfig} from 'swr';
+import {CookiesProvider} from 'react-cookie';
 
-const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
-  Component,
-  pageProps,
-}: any) => {
-  const store = useStore(pageProps.initialReduxState);
+const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
+  ({Component, pageProps}: any) => {
+    const store = useStore(pageProps.initialReduxState);
 
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement?.removeChild(jssStyles);
-    }
-  }, []);
+    React.useEffect(() => {
+      // Remove the server-side injected CSS.
+      const jssStyles = document.querySelector('#jss-server-side');
+      if (jssStyles) {
+        jssStyles.parentElement?.removeChild(jssStyles);
+      }
+    }, []);
 
-  return (
-    <React.Fragment>
-      <PageMeta />
-      <Nprogress />
-      <ContextProvider>
-        <Provider store={store}>
-          <SWRConfig
-            value={{
-              provider: () => new Map(),
-              revalidateIfStale: false,
-              revalidateOnFocus: false,
-              revalidateOnReconnect: false,
-            }}>
-            <CremaThemeProvider>
-              <CremaStyleProvider>
-                <LocaleProvider>
-                  <AuthRoutes>
-                    <CssBaseline />
-                    <SnackbarProvider
-                      maxSnack={20}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}>
-                      <Component {...pageProps} />
-                    </SnackbarProvider>
-                  </AuthRoutes>
-                </LocaleProvider>
-              </CremaStyleProvider>
-            </CremaThemeProvider>
-          </SWRConfig>
-        </Provider>
-      </ContextProvider>
-    </React.Fragment>
-  );
-};
+    return (
+      <React.Fragment>
+        <PageMeta />
+        <Nprogress />
+        <CookiesProvider>
+          <ContextProvider>
+            <Provider store={store}>
+              <SWRConfig
+                value={{
+                  provider: () => new Map(),
+                  revalidateIfStale: false,
+                  revalidateOnFocus: false,
+                  revalidateOnReconnect: false,
+                }}>
+                <CremaThemeProvider>
+                  <CremaStyleProvider>
+                    <LocaleProvider>
+                      <AuthRoutes>
+                        <CssBaseline />
+                        <SnackbarProvider
+                          maxSnack={20}
+                          anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}>
+                          <Component {...pageProps} />
+                        </SnackbarProvider>
+                      </AuthRoutes>
+                    </LocaleProvider>
+                  </CremaStyleProvider>
+                </CremaThemeProvider>
+              </SWRConfig>
+            </Provider>
+          </ContextProvider>
+        </CookiesProvider>
+      </React.Fragment>
+    );
+  };
 export default Nise3AdminApp;

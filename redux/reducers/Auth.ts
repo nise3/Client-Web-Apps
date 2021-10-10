@@ -6,10 +6,10 @@ import {
   UPDATE_AUTH_USER,
   USER_LOADED,
 } from '../../types/actions/Auth.actions';
-import {AuthUser} from '../../types/models/AuthUser';
+import {CommonAuthUser, YouthAuthUser} from '../../types/models/CommonAuthUser';
 
 const INIT_STATE: {
-  user: AuthUser | null;
+  user: CommonAuthUser | YouthAuthUser | null;
   token: string | null;
   authAccessTokenData: string | null;
   loading: boolean;
