@@ -1,4 +1,4 @@
-import {Box, Grid, Zoom} from '@mui/material';
+import {Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -149,119 +149,117 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
 
   return (
     <Zoom in={true}>
-      <Box mt={4}>
-        <Grid container justifyContent={'center'} spacing={2}>
-          <Grid item>
-            <Card>
-              <CardContent sx={{position: 'relative'}}>
-                <DialogTitle onClose={props.onClose}>
-                  {messages['common.job_experience']}
-                </DialogTitle>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={12} md={6}>
-                      <CustomTextInput
-                        id='company_name'
-                        label={messages['common.company_name']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <CustomTextInput
-                        id='position'
-                        label={messages['common.position']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <CustomFormSelect
-                        id={'employment_type_id'}
-                        label={messages['common.type_of_employee']}
-                        isLoading={isLoading}
-                        control={control}
-                        options={employmentTypes}
-                        optionValueProp={'id'}
-                        optionTitleProp={['title']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <CustomTextInput
-                        id='location'
-                        label={messages['common.location']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <CustomTextInput
-                        id='job_description'
-                        label={messages['job_experience.job_description']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={isLoading}
-                        multiline={true}
-                        rows={3}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <CustomDateTimeField
-                        id='start_date'
-                        label={messages['job_experience.start_date']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item>
+          <Card>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['common.job_experience']}
+              </DialogTitle>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='company_name'
+                      label={messages['common.company_name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='position'
+                      label={messages['common.position']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomFormSelect
+                      id={'employment_type_id'}
+                      label={messages['common.type_of_employee']}
+                      isLoading={isLoading}
+                      control={control}
+                      options={employmentTypes}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='location'
+                      label={messages['common.location']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='job_description'
+                      label={messages['job_experience.job_description']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomDateTimeField
+                      id='start_date'
+                      label={messages['job_experience.start_date']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
 
-                    <Grid item xs={12} md={6}>
-                      <CustomDateTimeField
-                        id='end_date'
-                        label={messages['job_experience.end_date']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            onChange={handleCurrentWorkStatusChange}
-                            checked={currentWorkStatus}
-                          />
-                        }
-                        label='I currently work here'
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid container spacing={4} justifyContent={'flex-end'}>
-                        <Grid item>
-                          <CancelButton
-                            onClick={props.onClose}
-                            isLoading={isLoading}
-                          />
-                        </Grid>
-                        <Grid item>
-                          <SubmitButton
-                            isSubmitting={isSubmitting}
-                            isLoading={isLoading}
-                          />
-                        </Grid>
+                  <Grid item xs={12} md={6}>
+                    <CustomDateTimeField
+                      id='end_date'
+                      label={messages['job_experience.end_date']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          onChange={handleCurrentWorkStatusChange}
+                          checked={currentWorkStatus}
+                        />
+                      }
+                      label='I currently work here'
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={isLoading}
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
-      </Box>
+      </Grid>
     </Zoom>
   );
 };

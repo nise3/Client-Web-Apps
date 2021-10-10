@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     fontWeight: 'bold',
   },
   colorGray: {
-    color: theme.palette.gray['600'],
+    color: theme.palette.grey['600'],
   },
 }));
 

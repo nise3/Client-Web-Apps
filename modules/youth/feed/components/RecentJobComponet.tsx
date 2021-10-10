@@ -18,7 +18,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     fontWeight: Fonts.BOLD,
   },
   jobProviderName: {
-    color: theme.palette.gray['600'],
+    color: theme.palette.grey['600'],
     marginBottom: 10,
   },
 }));

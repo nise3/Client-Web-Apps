@@ -11,7 +11,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     border: '1px solid ' + theme.palette.grey['300'],
   },
   designation: {
-    color: theme.palette.gray['600'],
+    color: theme.palette.grey['600'],
     marginBottom: 10,
   },
 }));

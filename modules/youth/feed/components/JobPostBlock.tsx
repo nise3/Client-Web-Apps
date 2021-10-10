@@ -47,7 +47,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     margin: '15px 0px',
   },
   colorGray: {
-    color: theme.palette.gray['600'],
+    color: theme.palette.grey['600'],
   },
   chipStyle: {
     borderRadius: 4,

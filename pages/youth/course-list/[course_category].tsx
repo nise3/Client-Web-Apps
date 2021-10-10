@@ -1,12 +1,12 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
-import FrontPage from '../../../@crema/hoc/FrontPage';
 import React from 'react';
+import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
 
 const CourseCategoryPage = asyncComponent(
   () => import('../../../modules/youth/courseList'),
 );
-export default FrontPage(() => {
+export default YouthFrontPage(() => {
   return (
     <>
       <PageMeta title={'Course Category '} />

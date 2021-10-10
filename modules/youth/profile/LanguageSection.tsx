@@ -1,6 +1,6 @@
 import {Box, Card, CardContent} from '@mui/material';
 import CardHeader from './CardHeader';
-import {Add, BusinessCenter} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import CustomContentCard from './CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -50,7 +50,7 @@ const LanguageSection = () => {
         />
         <CustomContentCard
           contentTitle={'English, Bangla, Hindi'}
-          contentLogo={<BusinessCenter />}
+          contentLogo='L'
           contentServiceProvider={
             <Box
               sx={{
