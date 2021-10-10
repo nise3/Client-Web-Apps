@@ -1,15 +1,15 @@
 import React from 'react';
-import NiseLayout from '../../frontEnd/NiseLayout';
+import InstituteDefaultLayout from '../../frontEnd/InstituteDefaultLayout';
 import {responsiveFontSizes} from '@mui/material';
 import {ThemeProvider} from '@mui/material/styles';
-import theme from '../../themes/nise';
+import theme from '../../themes/instituteDefault';
 
 const withLayout = (ComposedComponent: any) => (props: any) => {
   return (
     <ThemeProvider theme={responsiveFontSizes(theme())}>
-      <NiseLayout>
+      <InstituteDefaultLayout>
         <ComposedComponent {...props} />
-      </NiseLayout>
+      </InstituteDefaultLayout>
     </ThemeProvider>
   );
 };

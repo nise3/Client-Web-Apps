@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     rootMobileView: {
       [theme.breakpoints.down('xl')]: {
-        marginTop: '235px',
+        marginTop: '80px',
       },
     },
   }),

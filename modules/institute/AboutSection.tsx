@@ -2,8 +2,9 @@ import React from 'react';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import {Box, Container, Grid, Typography} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
+import {H3, H4, S1} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,15 +13,18 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '50px',
       background: theme.palette.grey[200],
       color: theme.palette.text.primary,
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         marginTop: '120px',
       },
       [theme.breakpoints.down('xl')]: {
-        marginTop: '30px',
+        // marginTop: '120px',
       },
     },
     heading: {
       color: theme.palette.primary.main,
+    },
+    desc: {
+      color: theme.palette.text.primary,
     },
     detailsButton: {
       background: '#fff',
@@ -50,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '15px',
       border: 'none',
       bottom: '120px',
-      width: '540px',
+      width: '100%',
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
@@ -71,60 +75,36 @@ const AboutSection = () => {
           alignItems='center'>
           <Grid item xs={12} md={7}>
             <Fade direction='down'>
-              <Typography
-                variant='h3'
+              <H3
                 gutterBottom={true}
-                className={classes.heading}>
-                <Box fontWeight='fontWeightBold' mb={6}>
-                  Lorem Ipsum Dolor
-                </Box>
-              </Typography>
-            </Fade>
-
-            <Fade direction='up'>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                <Grid item xs={12}>
-                  <Box mb={8}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                  </Box>
-                </Grid>
-              </Typography>
-            </Fade>
-
-            <Fade direction='down'>
-              <Typography
-                variant='h4'
+                className={classes.heading}
+                fontWeight='fontWeightBold'>
+                Lorem Ipsum Dolor
+              </H3>
+              <S1 gutterBottom={true} className={classes.desc}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </S1>
+              <H4
                 gutterBottom={true}
-                className={classes.heading}>
-                <Box fontWeight='fontWeightBold' mb={6}>
-                  Lorem Ipsum Dolor Sit Amet
-                </Box>
-              </Typography>
-            </Fade>
-
-            <Fade direction='up'>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                <Grid item xs={12}>
-                  <Box mb={8}>
-                    <ul>
-                      <li>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                      </li>
-                      <li>et dolore magna aliqua. Ut enim ad minim veniam</li>
-                      <li>aliquip ex ea commodo consequat. Duis aute irure</li>
-                      <li>cillum dolore eu fugiat nulla pariatur. Excepteur</li>
-                      <li>sunt in culpa qui officia deserunt mollit anim</li>
-                    </ul>
-                  </Box>
-                </Grid>
-              </Typography>
+                className={classes.heading}
+                fontWeight='fontWeightBold'>
+                Lorem Ipsum Dolor Sit Amet
+              </H4>
+              <S1 gutterBottom={true} className={classes.desc}>
+                <ul>
+                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing</li>
+                  <li>et dolore magna aliqua. Ut enim ad minim veniam</li>
+                  <li>aliquip ex ea commodo consequat. Duis aute irure</li>
+                  <li>cillum dolore eu fugiat nulla pariatur. Excepteur</li>
+                  <li>sunt in culpa qui officia deserunt mollit anim</li>
+                </ul>
+              </S1>
             </Fade>
           </Grid>
           <Grid item xs={12} md={5} className={classes.youtubePlayerBox}>

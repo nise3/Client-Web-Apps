@@ -1,26 +1,61 @@
 import React from 'react';
-import AppHeader from './AppHeader';
+import Header from './Header';
+import Footer from './Footer';
+import {ContentView} from '../../../../@crema';
 import Box from '@mui/material/Box';
-import useStyles from './index.style';
 import clsx from 'clsx';
-import ContentView from '../../../../@crema/core/ContentView';
+import makeStyles from '@mui/styles/makeStyles';
+import {Theme} from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
 
-interface HorLightNavProps {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    appMain: {
+      width: '100%',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      // alignItems: 'center',
+    },
+    mainContent: {
+      flex: 1,
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    mainContainer: {
+      flex: 1,
+      width: '100%',
+      color: theme.palette.text.primary,
+      // maxWidth: theme.breakpoints.values.xl,
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    },
+  }),
+);
+
+interface InstituteDefaultLayoutProps {
   props?: any;
 }
 
-const NiseLayout: React.FC<HorLightNavProps> = (props) => {
+const InstituteDefaultLayout: React.FC<InstituteDefaultLayoutProps> = (
+  props,
+) => {
   const classes = useStyles(props);
   return (
     <Box className={clsx(classes.appMain, 'appMainHor')}>
-      <AppHeader />
+      <Header />
       <Box className={classes.mainContent}>
         <Box className={classes.mainContainer}>
           <ContentView>{props.children}</ContentView>
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 };
 
-export default NiseLayout;
+export default InstituteDefaultLayout;
