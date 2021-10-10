@@ -233,7 +233,7 @@ const YouthRegistration = () => {
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    data.user_name_type = 1;
+    data.user_name_type = userNameType;
 
     const response = await youthRegistration(data);
     if (isResponseSuccess(response)) {

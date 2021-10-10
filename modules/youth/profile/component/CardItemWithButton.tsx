@@ -1,8 +1,7 @@
-import {Box, Card} from '@mui/material';
+import {Box, Button, Card} from '@mui/material';
 import Image from 'next/image';
 import {createStyles, makeStyles} from '@mui/styles';
 import {BorderColor} from '@mui/icons-material';
-import CardHeader from '../CardHeader';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles(() =>
@@ -23,31 +22,40 @@ const useStyles = makeStyles(() =>
       position: 'relative',
       '&:hover $buttons': {
         display: 'block !important',
-        border: '1px solid #fff',
-        borderRadius: '40',
+        borderRadius: 40,
       },
+    },
+    editButton: {
+      borderRadius: 40,
     },
   }),
 );
 
-const CardItemWithButton = (item: any, onClick: any) => {
+interface cardItemWithButtonProps {
+  item: any;
+  onClick: () => void;
+}
+
+const CardItemWithButton = ({
+  item,
+  onClick: onclickHandler,
+}: cardItemWithButtonProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Box mr={6} key={item.id}>
+    <Box mr={4} key={item.id}>
       <Card>
         <Box className={classes.box}>
           <div className={classes.buttons}>
-            <CardHeader
-              buttons={[
-                {
-                  label: messages['common.edit_btn'] as string,
-                  icon: <BorderColor />,
-                  onclick: () => onClick(item.id),
-                },
-              ]}
-            />
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              className={classes.editButton}
+              onClick={onclickHandler}>
+              <BorderColor />
+              {messages['common.edit_btn']}
+            </Button>
           </div>
           <Image
             className={classes.image}

@@ -1,17 +1,14 @@
-import {Box, Card, CardContent} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import CardHeader from './CardHeader';
 import {Add} from '@mui/icons-material';
 import CustomContentCard from './CustomContentCard';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-
-type CertificationSectionProp = {
-  onclick: (itemId: number | null) => void;
-};
+import CertificateAddEditPage from './CertificateAddEditPage';
 
 const certificates = [
   {
@@ -32,9 +29,26 @@ const certificates = [
   },
 ];
 
-const CertificationSection = ({onclick}: CertificationSectionProp) => {
+const CertificationSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const [isOpenCertificateAddEditForm, setIsOpenCertificateAddEditForm] =
+    useState<boolean>(false);
+  const [certificateItemId, setCertificateItemId] = useState<number | null>(
+    null,
+  );
+
+  const openCertificateAddEditForm = useCallback(
+    (itemId: number | null = null) => {
+      setCertificateItemId(itemId);
+      setIsOpenCertificateAddEditForm(true);
+    },
+    [],
+  );
+  const closeCertificateAddEditForm = useCallback(() => {
+    setCertificateItemId(null);
+    setIsOpenCertificateAddEditForm(false);
+  }, []);
 
   const deleteCertificationItem = async (itemId: number) => {
     let response = await deleteRankType(itemId);
@@ -48,40 +62,45 @@ const CertificationSection = ({onclick}: CertificationSectionProp) => {
     }
   };
 
-  return (
-    <Box mt={4}>
-      <Card>
-        <CardContent>
-          <CardHeader
-            headerTitle={messages['common.certifications'] as string}
-            buttons={[
-              {
-                label: messages['common.add_new_certificate'] as string,
-                icon: <Add />,
-                onclick: () => onclick(null),
-              },
-            ]}
-          />
-          {certificates.map((certificate) => {
-            return (
-              <React.Fragment key={certificate.id}>
-                <CustomContentCard
-                  contentTitle={certificate.title}
-                  contentLogo={certificate.image}
-                  contentServiceProvider={certificate.institute_name}
-                  date={certificate.achieve_date}
-                  location={certificate.location}
-                  contentEditButton={() => onclick(certificate.id)}
-                  contentDeleteButton={() =>
-                    deleteCertificationItem(certificate.id)
-                  }
-                />
-              </React.Fragment>
-            );
-          })}
-        </CardContent>
-      </Card>
-    </Box>
+  return isOpenCertificateAddEditForm ? (
+    <CertificateAddEditPage
+      itemId={certificateItemId}
+      onClose={closeCertificateAddEditForm}
+    />
+  ) : (
+    <Card>
+      <CardContent>
+        <CardHeader
+          headerTitle={messages['common.certifications'] as string}
+          buttons={[
+            {
+              label: messages['common.add_new_certificate'] as string,
+              icon: <Add />,
+              onclick: () => openCertificateAddEditForm(null),
+            },
+          ]}
+        />
+        {certificates.map((certificate) => {
+          return (
+            <React.Fragment key={certificate.id}>
+              <CustomContentCard
+                contentTitle={certificate.title}
+                contentLogo={certificate.image}
+                contentServiceProvider={certificate.institute_name}
+                date={certificate.achieve_date}
+                location={certificate.location}
+                contentEditButton={() =>
+                  openCertificateAddEditForm(certificate.id)
+                }
+                contentDeleteButton={() =>
+                  deleteCertificationItem(certificate.id)
+                }
+              />
+            </React.Fragment>
+          );
+        })}
+      </CardContent>
+    </Card>
   );
 };
 

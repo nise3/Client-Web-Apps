@@ -17,7 +17,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {Grid, Box, Card, CardContent, Typography, Zoom} from '@mui/material';
+import {Grid, Card, CardContent, Typography, Zoom} from '@mui/material';
 import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
 import HorizontalLine from './component/HorizontalLine';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
@@ -124,148 +124,146 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
 
   return (
     <Zoom in={true}>
-      <Box mt={4} mb={2}>
-        <Grid container justifyContent={'center'} spacing={2}>
-          <Grid item xs={12}>
-            <Card>
-              <CardContent sx={{position: 'relative'}}>
-                <DialogTitle onClose={props.onClose}>
-                  {messages['language.proficiency']}
-                </DialogTitle>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['language.proficiency']}
+              </DialogTitle>
 
-                <LanguageProficiencyViewPage
-                  onEdit={props.openLanguageEditForm}
-                />
+              <LanguageProficiencyViewPage
+                onEdit={props.openLanguageEditForm}
+              />
 
-                <HorizontalLine />
+              <HorizontalLine />
 
-                <Typography variant={'h6'} mb={4}>
-                  {itemId ? (
-                    <IntlMessages
-                      id='common.edit'
-                      values={{subject: <IntlMessages id='language.label' />}}
+              <Typography variant={'h6'} mb={4}>
+                {itemId ? (
+                  <IntlMessages
+                    id='common.edit'
+                    values={{subject: <IntlMessages id='language.label' />}}
+                  />
+                ) : (
+                  <IntlMessages
+                    id='common.add_new'
+                    values={{subject: <IntlMessages id='language.label' />}}
+                  />
+                )}
+              </Typography>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id={'language'}
+                      isLoading={false}
+                      control={control}
+                      options={languages}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title_en']}
+                      errorInstance={errors}
                     />
-                  ) : (
-                    <IntlMessages
-                      id='common.add_new'
-                      values={{subject: <IntlMessages id='language.label' />}}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormRadioButtons
+                      id='read'
+                      label={'language.read'}
+                      radios={[
+                        {
+                          key: '1',
+                          label: messages['common.easily'],
+                        },
+                        {
+                          key: '2',
+                          label: messages['common.not_easily'],
+                        },
+                      ]}
+                      control={control}
+                      defaultValue={initialValues.read}
+                      isLoading={false}
                     />
-                  )}
-                </Typography>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <CustomFormSelect
-                        id={'language'}
-                        isLoading={false}
-                        control={control}
-                        options={languages}
-                        optionValueProp={'id'}
-                        optionTitleProp={['title_en']}
-                        errorInstance={errors}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormRadioButtons
-                        id='read'
-                        label={'language.read'}
-                        radios={[
-                          {
-                            key: '1',
-                            label: messages['common.easily'],
-                          },
-                          {
-                            key: '2',
-                            label: messages['common.not_easily'],
-                          },
-                        ]}
-                        control={control}
-                        defaultValue={initialValues.read}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormRadioButtons
-                        id='write'
-                        label={'language.write'}
-                        radios={[
-                          {
-                            key: '1',
-                            label: messages['common.easily'],
-                          },
-                          {
-                            key: '2',
-                            label: messages['common.not_easily'],
-                          },
-                        ]}
-                        control={control}
-                        defaultValue={initialValues.write}
-                        isLoading={false}
-                      />
-                    </Grid>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormRadioButtons
+                      id='write'
+                      label={'language.write'}
+                      radios={[
+                        {
+                          key: '1',
+                          label: messages['common.easily'],
+                        },
+                        {
+                          key: '2',
+                          label: messages['common.not_easily'],
+                        },
+                      ]}
+                      control={control}
+                      defaultValue={initialValues.write}
+                      isLoading={false}
+                    />
+                  </Grid>
 
-                    <Grid item xs={12}>
-                      <FormRadioButtons
-                        id='speak'
-                        label={'language.speak'}
-                        radios={[
-                          {
-                            key: '1',
-                            label: messages['common.fluent'],
-                          },
-                          {
-                            key: '2',
-                            label: messages['common.not_fluent'],
-                          },
-                        ]}
-                        control={control}
-                        defaultValue={initialValues.speak}
-                        isLoading={false}
-                      />
-                    </Grid>
+                  <Grid item xs={12}>
+                    <FormRadioButtons
+                      id='speak'
+                      label={'language.speak'}
+                      radios={[
+                        {
+                          key: '1',
+                          label: messages['common.fluent'],
+                        },
+                        {
+                          key: '2',
+                          label: messages['common.not_fluent'],
+                        },
+                      ]}
+                      control={control}
+                      defaultValue={initialValues.speak}
+                      isLoading={false}
+                    />
+                  </Grid>
 
-                    <Grid item xs={12}>
-                      <FormRadioButtons
-                        id='understand'
-                        label={'language.understand'}
-                        radios={[
-                          {
-                            key: '1',
-                            label: messages['common.easily'],
-                          },
-                          {
-                            key: '2',
-                            label: messages['common.not_easily'],
-                          },
-                        ]}
-                        control={control}
-                        defaultValue={initialValues.understand}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid container spacing={4} justifyContent={'flex-end'}>
-                        <Grid item>
-                          <CancelButton
-                            onClick={props.onClose}
-                            isLoading={false}
-                          />
-                        </Grid>
-                        <Grid item>
-                          <SubmitButton
-                            isSubmitting={isSubmitting}
-                            isLoading={false}
-                          />
-                        </Grid>
+                  <Grid item xs={12}>
+                    <FormRadioButtons
+                      id='understand'
+                      label={'language.understand'}
+                      radios={[
+                        {
+                          key: '1',
+                          label: messages['common.easily'],
+                        },
+                        {
+                          key: '2',
+                          label: messages['common.not_easily'],
+                        },
+                      ]}
+                      control={control}
+                      defaultValue={initialValues.understand}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
-      </Box>
+      </Grid>
     </Zoom>
   );
 };

@@ -11,10 +11,12 @@ import {BusinessCenter} from '@mui/icons-material';
 import HorizontalLine from './component/HorizontalLine';
 import SkillInfo from './SkillInfo';
 import CircularProgressWithLabel from './component/CircularProgressWithLabel';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../types/AppContextPropsType';
+import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
+import PersonalInformationEdit from './PersonalInformationEdit';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -44,14 +46,27 @@ const useStyles = makeStyles((theme: CremaTheme) =>
   }),
 );
 
-type PersonalInfoProp = {
-  onclick: () => void;
-};
-
-const PersonalInfoSection = ({onclick}: PersonalInfoProp) => {
+const PersonalInfoSection = () => {
   const {messages} = useIntl();
   const classes = useStyles();
-  return (
+  const {data: youthInfo} = useFetchYouthProfile();
+  console.log('profile ', youthInfo);
+  const [
+    isOpenPersonalInformationEditForm,
+    setIsOpenPersonalInformationEditForm,
+  ] = useState<boolean>(false);
+
+  const openPersonalInformationEditForm = useCallback(() => {
+    setIsOpenPersonalInformationEditForm(true);
+  }, []);
+
+  const closePersonalInformationEditForm = useCallback(() => {
+    setIsOpenPersonalInformationEditForm(false);
+  }, []);
+
+  return isOpenPersonalInformationEditForm ? (
+    <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
+  ) : (
     <Card>
       <CardContent>
         <Grid item container spacing={2} className={classes.aboutYouth}>
@@ -82,7 +97,7 @@ const PersonalInfoSection = ({onclick}: PersonalInfoProp) => {
               <CustomParabolaButton
                 title={messages['youth_profile.edit_profile'] as string}
                 icon={<BusinessCenter />}
-                onclick={onclick}
+                onclick={openPersonalInformationEditForm}
               />
             </Grid>
           </Grid>
