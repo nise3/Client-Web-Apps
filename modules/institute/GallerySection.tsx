@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
       padding: '20px 15px 60px 15px',
       margin: 0,
+      [theme.breakpoints.down('xl')]: {
+        padding: '20px 10px 60px 10px',
+      },
     },
     image: {
       height: 150,
@@ -43,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     rootMobileView: {
       [theme.breakpoints.down('xl')]: {
-        marginTop: '235px',
+        marginTop: '80px',
       },
     },
   }),

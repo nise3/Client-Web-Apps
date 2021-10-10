@@ -8,10 +8,19 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 // import AppLogo from '../../shared/components/AppLogo';
-import {Person, Login, Note} from '@mui/icons-material';
+import {Person, Login} from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../types/AppContextPropsType';
 import LogoCustomizable from './LogoCustomizable';
+import {Link} from '../../../elements/common';
+import {
+  LINK_FRONTEND_INSTITUTE_ROOT,
+  LINK_FRONTEND_INSTITUTE_COURSES,
+  LINK_FRONTEND_INSTITUTE_VIDEOS,
+  LINK_FRONTEND_INSTITUTE_FEEDBACK,
+  LINK_FRONTEND_INSTITUTE_FAQ,
+  LINK_FRONTEND_INSTITUTE_CONTACT,
+} from '../../../common/appLinks';
 
 interface AppHeaderProps {}
 
@@ -29,11 +38,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     width: '100%',
     minHeight: 80,
     margin: '0px auto',
-  },
-  signinButton: {
-    width: '160px',
-    color: '#fff',
-    background: '#682988',
   },
   headerMain: {
     minHeight: 56,
@@ -54,23 +58,19 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     justifyContent: 'center',
     width: '100%',
   },
-  headerContainer: {
-    width: '100%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingLeft: 20,
-    paddingRight: 20,
-    [theme.breakpoints.up('lg')]: {
-      maxWidth: 1140,
-    },
-    [theme.breakpoints.up('xl')]: {
-      maxWidth: 1720,
-    },
-    display: 'flex',
-    justifyContent: 'center',
-  },
   headerFixedHeight: {
     ...headerFixedHeight,
+  },
+  headerMenu: {
+    width: '100%',
+    maxWidth: theme.breakpoints.values.xl,
+    justifyContent: 'space-between',
+    display: 'flex',
+  },
+  headerMenuGroup: {
+    ...headerFixedHeight,
+    justifyContent: 'center',
+    display: 'flex',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -80,6 +80,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   sectionDesktop: {
     display: 'none',
+    width: '100%',
+    maxWidth: theme.breakpoints.values.xl,
     [theme.breakpoints.up('md')]: {
       display: 'flex',
       alignItems: 'center',
@@ -94,28 +96,25 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       display: 'none',
     },
   },
+  mobileMenuButton: {
+    color: theme.palette.primary.contrastText,
+  },
   menuIcons: {
     height: '0.6em',
   },
   menuItem: {
     ...headerFixedHeight,
-    padding: '20px 20px',
+    padding: '20px 10px',
     color: theme.palette.primary.contrastText,
   },
   menuItemActive: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.light,
   },
   menuItemAction: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.warning.main,
   },
   menuItemMobile: {
     padding: '18px 20px 18px 12px',
-  },
-  desktopMenu: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
   },
   headerNav: {
     backgroundColor: theme.palette.primary.contrastText,
@@ -150,18 +149,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       fontSize: 20,
     },
   },
-  menuItemRoot: {
-    padding: 0,
-  },
   pointer: {
     cursor: 'pointer',
-  },
-  menuIconRoot: {
-    width: '2.5rem',
-    height: '2.5rem',
-  },
-  logoRoot: {
-    height: 30,
   },
 }));
 
@@ -189,29 +178,29 @@ const Header: React.FC<AppHeaderProps> = () => {
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        প্রথম পাতা
+        <Link href={LINK_FRONTEND_INSTITUTE_ROOT}>প্রথম পাতা</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        কোর্স সমূহ
+        <Link href={LINK_FRONTEND_INSTITUTE_COURSES}>কোর্স সমূহ</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         প্রশিক্ষণ বর্ষপঞ্জি
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        ভিডিও সমূহ
+        <Link href={LINK_FRONTEND_INSTITUTE_VIDEOS}>ভিডিও সমূহ</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        পরামর্শ
+        <Link href={LINK_FRONTEND_INSTITUTE_FEEDBACK}>পরামর্শ</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        সাধারণ জিজ্ঞাসা
+        <Link href={LINK_FRONTEND_INSTITUTE_FAQ}>সাধারণ জিজ্ঞাসা</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        যোগাযোগ
+        <Link href={LINK_FRONTEND_INSTITUTE_CONTACT}>যোগাযোগ</Link>
       </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Note className={classes.menuIcons} /> অনলাইন আবেদন
-      </MenuItem>
+      {/*<MenuItem component='span' className={classes.menuItemMobile}>*/}
+      {/*  <Note className={classes.menuIcons} /> অনলাইন আবেদন*/}
+      {/*</MenuItem>*/}
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Person className={classes.menuIcons} /> ইউথ লগইন
       </MenuItem>
@@ -225,11 +214,12 @@ const Header: React.FC<AppHeaderProps> = () => {
     <>
       <Box className={classes.logoArea}>
         <Box maxWidth='xl' margin='auto'>
-          <LogoCustomizable
-            instituteName='Bangladesh Industrial Technical Assistance Centre'
-            instituteLogo='/images/bitac-logo.jpg'
-          />
-          <Box></Box>
+          <Link href='/'>
+            <LogoCustomizable
+              instituteName='Bangladesh Industrial Technical Assistance Centre'
+              instituteLogo='/images/bitac-logo.jpg'
+            />
+          </Link>
         </Box>
       </Box>
       <AppBar
@@ -246,39 +236,61 @@ const Header: React.FC<AppHeaderProps> = () => {
                 classes.sectionDesktop,
                 classes.headerFixedHeight,
               )}>
-              <Box
-                component='span'
-                className={clsx(classes.menuItem, classes.menuItemActive)}>
-                প্রথম পাতা
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                কোর্স সমূহ
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                প্রশিক্ষণ বর্ষপঞ্জি
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                ভিডিও সমূহ
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                পরামর্শ
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                সাধারণ জিজ্ঞাসা
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                যোগাযোগ
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                <Note className={classes.menuIcons} /> অনলাইন আবেদন
-              </Box>
-              <Box component='span' className={classes.menuItem}>
-                <Person className={classes.menuIcons} /> ইউথ লগইন
-              </Box>
-              <Box
-                component='span'
-                className={clsx(classes.menuItem, classes.menuItemAction)}>
-                <Login className={classes.menuIcons} /> রেজিস্ট্রেশন
+              <Box className={classes.headerMenu}>
+                <Box className={classes.headerMenuGroup}>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_ROOT}
+                    className={classes.menuItem}>
+                    প্রথম পাতা
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_COURSES}
+                    className={classes.menuItem}>
+                    কোর্স সমূহ
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_ROOT}
+                    className={classes.menuItem}>
+                    প্রশিক্ষণ বর্ষপঞ্জি
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_VIDEOS}
+                    className={classes.menuItem}>
+                    ভিডিও সমূহ
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_FEEDBACK}
+                    className={classes.menuItem}>
+                    পরামর্শ
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_FAQ}
+                    className={classes.menuItem}>
+                    সাধারণ জিজ্ঞাসা
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_CONTACT}
+                    className={classes.menuItem}>
+                    যোগাযোগ
+                  </Link>
+                </Box>
+                <Box className={classes.headerMenuGroup}>
+                  {/*<Link*/}
+                  {/*  href={LINK_FRONTEND_INSTITUTE_ROOT}*/}
+                  {/*  className={classes.menuItem}>*/}
+                  {/*  <Note className={classes.menuIcons} /> অনলাইন আবেদন*/}
+                  {/*</Link>*/}
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_ROOT}
+                    className={classes.menuItem}>
+                    <Person className={classes.menuIcons} /> ইউথ লগইন
+                  </Link>
+                  <Link
+                    href='/'
+                    className={clsx(classes.menuItem, classes.menuItemAction)}>
+                    <Login className={classes.menuIcons} /> রেজিস্ট্রেশন
+                  </Link>
+                </Box>
               </Box>
             </Box>
             <Box ml={1} className={classes.sectionMobile}>
@@ -287,7 +299,8 @@ const Header: React.FC<AppHeaderProps> = () => {
                 aria-controls={mobileMenuId}
                 aria-haspopup='true'
                 onClick={handleMobileMenuOpen}
-                color='inherit'
+                // color='inherit'
+                className={classes.mobileMenuButton}
                 size='large'>
                 <MoreIcon />
               </IconButton>

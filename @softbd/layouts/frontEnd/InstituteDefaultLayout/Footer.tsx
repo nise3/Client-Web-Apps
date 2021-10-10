@@ -119,36 +119,6 @@ const Footer = () => {
                 </Box>
               </Typography>
             </Grid>
-            <Grid item md={4}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  বাস্তবায়নে
-                </Box>
-              </Typography>
-              <Box component={'span'}>
-                <img
-                  src='/images/footer-img.png'
-                  alt='crema-logo'
-                  className={classes.footerImage}
-                />
-              </Box>
-            </Grid>
-            <Grid item md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  কারিগরি সহায়তায়
-                </Box>
-              </Typography>
-              <Link href={'https://softbdltd.com/'}>
-                <Box component={'span'}>
-                  <img
-                    src='/images/softbd.png'
-                    alt='crema-logo'
-                    className={classes.softbdImage}
-                  />
-                </Box>
-              </Link>
-            </Grid>
           </Grid>
         </Container>
       </Grid>
@@ -169,7 +139,7 @@ const Footer = () => {
                 />
               </Box>
             </Grid>
-            <Grid item md={6}></Grid>
+            <Grid item md={6} />
             <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>

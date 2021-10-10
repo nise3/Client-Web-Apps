@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
 import {Box} from '@mui/material';
-import {ThemeMode} from '../../shared/constants/AppEnums';
-import AppContextPropsType from '../../types/AppContextPropsType';
-import AppContext from '../../@crema/utility/AppContext';
+import {ThemeMode} from '../../../../shared/constants/AppEnums';
+import AppContextPropsType from '../../../../types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((/*theme*/) => ({
   logoRoot: {
     display: 'flex',
     flexDirection: 'row',
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textBottom: {
     fontSize: 9,
-    color: theme.palette.primary.main,
+    color: '#6f95ca', //theme.palette.primary.main,
   },
   logoLast: {
     marginLeft: 10,

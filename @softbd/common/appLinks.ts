@@ -28,3 +28,12 @@ export const LINK_INSTITUTES = '/dashboard/institutes';
 export const LINK_BRANCHES = '/dashboard/branches';
 export const LINK_PROGRAMMES = '/dashboard/programmes';
 export const LINK_COURSES = '/dashboard/courses';
+
+/** institute links  */
+export const LINK_FRONTEND_INSTITUTE_ROOT = '/institute';
+export const LINK_FRONTEND_INSTITUTE_COURSES = '/institute/courses';
+export const LINK_FRONTEND_INSTITUTE_VIDEOS = '/institute/videos';
+export const LINK_FRONTEND_INSTITUTE_GALLERY = '/institute/gallery';
+export const LINK_FRONTEND_INSTITUTE_FEEDBACK = '/institute/feedback';
+export const LINK_FRONTEND_INSTITUTE_FAQ = '/institute/faq';
+export const LINK_FRONTEND_INSTITUTE_CONTACT = '/institute/contact';

@@ -8,15 +8,15 @@ const palette: PaletteOptions = {
     white: '#fff',
   },
   primary: {
-    main: '#4e9dec',
-    light: '#738593',
-    dark: '#253f5d',
+    main: '#671688',
+    light: '#9c36c6',
+    dark: '#4d0d64',
     contrastText: '#fff',
   },
   secondary: {
-    main: '#b98fbd',
-    light: '#967798',
-    dark: '#28172f',
+    main: '#014e84',
+    light: '#147cc3',
+    dark: '#04436e',
     contrastText: '#fff',
   },
   error: {
