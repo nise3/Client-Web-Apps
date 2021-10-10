@@ -108,7 +108,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    data.is_currently_work = currentWorkStatus;
+    data.is_currently_work = Number(currentWorkStatus);
+    data.youth_id = 1;
 
     const response = itemId
       ? await updateJobExperience(itemId, data)

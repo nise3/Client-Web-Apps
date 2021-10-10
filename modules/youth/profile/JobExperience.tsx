@@ -31,6 +31,7 @@ type JobExperienceProp = {
   start_date?: string;
   end_date?: string;
   description?: string;
+  is_currently_work?: number;
   openAddEditForm?: () => void;
   deleteJobExperience: () => void;
 };
@@ -42,6 +43,7 @@ const JobExperience = ({
   start_date,
   end_date,
   description,
+  is_currently_work,
   openAddEditForm,
   deleteJobExperience,
 }: JobExperienceProp) => {
@@ -87,7 +89,7 @@ const JobExperience = ({
           <Box className={classes.jobDurationDate} mb={4}>
             <AccessTime />
             <Typography className={classes.jobAccessTime}>
-              {start_date} - {end_date}
+              {start_date} - {is_currently_work ? end_date : 'present'}
             </Typography>
             <VerticalLine
               lineHeight={'15px'}
