@@ -1,7 +1,8 @@
-export const API_BASE_URL = 'http://apm.local';
+export const API_BASE_URL = 'https://apm.local:8243';
 export const CORE_SERVICE_PATH = '/core/api/v1';
 export const ORGANIZATION_SERVICE_PATH = '/org/api/v1';
-export const INSTITUTE_SERVICE_PATH = '/institute/api/v1';
+export const INSTITUTE_SERVICE_PATH = '/institute';
+export const YOUTH_SERVICE_PATH = '/youth';
 
 export const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
@@ -48,3 +49,7 @@ export const API_TRAINING_CENTERS =
 export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
+
+export const API_YOUTH_REGISTRATION =
+  YOUTH_SERVICE_PATH + '/youth-registration';
+export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';

@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -20,6 +20,7 @@ import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {Box, Card, CardContent} from '@mui/material';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -125,85 +126,96 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   };
 
   return (
-    <Box mt={4} mb={2}>
-      <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item>
-          <Card>
-            <CardContent sx={{position: 'relative'}}>
-              <DialogTitle onClose={props.onClose}>
-                {messages['common.education']}
-              </DialogTitle>
-              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                <Grid container spacing={5}>
-                  <Grid item>
-                    <CustomTextInput
-                      id='certification'
-                      label={messages['certification.label']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
+    <Zoom in={true}>
+      <Box mt={4} mb={2}>
+        <Grid container justifyContent={'center'} spacing={2}>
+          <Grid item>
+            <Card>
+              <CardContent sx={{position: 'relative'}}>
+                <DialogTitle onClose={props.onClose}>
+                  {messages['common.certificate']}
+                </DialogTitle>
+                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                  <Grid container spacing={5}>
+                    <Grid item md={6}>
+                      <CustomTextInput
+                        id='certification'
+                        label={messages['certification.label']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <CustomTextInput
+                        id='institute'
+                        label={messages['institute.label']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <CustomTextInput
+                        id='location'
+                        label={messages['common.location']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item md={3} xs={12}>
+                      <CustomDateTimeField
+                        id='start_date'
+                        label={messages['job_experience.start_date']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item md={3} xs={12}>
+                      <CustomDateTimeField
+                        id='end_date'
+                        label={messages['job_experience.end_date']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <CustomTextInput
+                        id='certificate_file'
+                        label={messages['common.certificate']}
+                        type={'file'}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={false}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Grid container spacing={4} justifyContent={'flex-end'}>
+                        <Grid item>
+                          <CancelButton
+                            onClick={props.onClose}
+                            isLoading={false}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <SubmitButton
+                            isSubmitting={isSubmitting}
+                            isLoading={false}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <CustomTextInput
-                      id='institute'
-                      label={messages['institute.label']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <CustomTextInput
-                      id='location'
-                      label={messages['common.location']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CustomDateTimeField
-                      id='start_date'
-                      label={messages['job_experience.start_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <CustomDateTimeField
-                      id='end_date'
-                      label={messages['job_experience.end_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <CustomTextInput
-                      id='certificate_file'
-                      label={messages['common.certificate']}
-                      type={'file'}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={false}
-                    />
-                  </Grid>
-                </Grid>
-              </form>
-            </CardContent>
-          </Card>
+                </form>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </Zoom>
   );
 };
 

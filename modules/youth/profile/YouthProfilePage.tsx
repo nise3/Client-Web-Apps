@@ -148,7 +148,7 @@ const YouthProfile = () => {
     <>
       <Container className={classes.container}>
         <Grid container xl={12} spacing={2}>
-          <Grid item sm={12} md={9}>
+          <Grid item xs={12} md={9}>
             {isOpenPersonalInformationEditForm ? (
               <PersonalInformationEdit
                 onClose={closePersonalInformationEditForm}

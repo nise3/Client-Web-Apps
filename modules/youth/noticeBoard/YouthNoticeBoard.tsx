@@ -13,13 +13,45 @@ import useStyles from './NoticeBoard.style';
 import NoticeCard from './NoticeCard';
 import SearchIcon from '@mui/icons-material/Search';
 import {Pagination} from '@mui/lab';
+import {useIntl} from 'react-intl';
 const YouthNoticeBoard = () => {
+  const noticeList = [
+    {
+      id: 1,
+      logo: '/images/creativeIt.png',
+      title: 'CreativeIt give 20% waver based on result notice',
+      providerName: 'CreativeIt Institute',
+      noticeDate: '2021-03-12',
+    },
+    {
+      id: 2,
+      logo: '/images/creativeIt.png',
+      title: 'CreativeIt give 20% waver based on result notice',
+      providerName: 'CreativeIt Institute',
+      noticeDate: '2021-03-12',
+    },
+    {
+      id: 3,
+      logo: '/images/creativeIt.png',
+      title: 'CreativeIt give 20% waver based on result notice',
+      providerName: 'CreativeIt Institute',
+      noticeDate: '2021-03-12',
+    },
+    {
+      id: 4,
+      logo: '/images/creativeIt.png',
+      title: 'CreativeIt give 20% waver based on result notice',
+      providerName: 'CreativeIt Institute',
+      noticeDate: '2021-03-12',
+    },
+  ];
   const classes = useStyles();
+  const {messages} = useIntl();
   return (
     <Container maxWidth={'xl'} className={classes.containerBox}>
       <Box className={classes.noticeTopBox}>
         <Typography variant={'h5'} className={classes.noticeBoardText}>
-          Notice Board
+          {messages['common.notice_board']}
         </Typography>
         <Box>
           <Paper component='form' className={classes.paperSearch}>
@@ -36,36 +68,13 @@ const YouthNoticeBoard = () => {
       </Box>
 
       <Grid container spacing={5} style={{marginTop: 0}}>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <NoticeCard />
-        </Grid>
+        {noticeList.map((notice: any) => {
+          return (
+            <Grid item xs={12} md={6}>
+              <NoticeCard notice={notice} />
+            </Grid>
+          );
+        })}
       </Grid>
 
       <Box className={classes.paginationBox}>

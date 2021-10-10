@@ -38,16 +38,16 @@ const Reference = ({
       <HorizontalLine />
 
       <Grid container justifyContent={'space-between'}>
-        <Grid item sm={8}>
+        <Grid item xs={12} md={8}>
           <Grid container>
-            <Grid item sm={2}>
+            <Grid item xs={4} md={2}>
               <Avatar
                 alt='Reference logo'
                 src={image}
                 sx={{height: 80, width: 80}}
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={8} md={8}>
               <Box mb={2}>
                 <Typography variant={'subtitle2'}>{name}</Typography>
                 <Typography variant={'caption'}>{position}</Typography>

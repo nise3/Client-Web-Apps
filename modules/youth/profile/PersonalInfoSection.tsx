@@ -57,7 +57,7 @@ const PersonalInfoSection = ({onclick}: PersonalInfoProp) => {
         <Grid item container spacing={2} className={classes.aboutYouth}>
           <Grid item sm={2}>
             <Avatar
-              alt='Remy Sharp'
+              alt='youth profile pic'
               src={'/images/userPageImages/profileImage.jpeg'}
               sx={{height: 100, width: 100}}
             />
@@ -108,7 +108,7 @@ const PersonalInfoSection = ({onclick}: PersonalInfoProp) => {
 
             <Grid item>
               <SkillInfo
-                icon={<BusinessCenter htmlColor={'green'} />}
+                icon={<BusinessCenter />}
                 text1={
                   5 + ' ' + (messages['common.year_of_experience'] as string)
                 }
@@ -124,7 +124,7 @@ const PersonalInfoSection = ({onclick}: PersonalInfoProp) => {
 
             <Grid item>
               <SkillInfo
-                icon={<BusinessCenter htmlColor={'green'} />}
+                icon={<BusinessCenter />}
                 text1={5 + ' ' + (messages['common.certificate'] as string)}
                 text2={messages['common.achieved'] as string}
               />
