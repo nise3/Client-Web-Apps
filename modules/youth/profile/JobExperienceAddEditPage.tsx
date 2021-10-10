@@ -9,10 +9,6 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  createRankType,
-  updateRankType,
-} from '../../../services/organaizationManagement/RankTypeService';
 import yup from '../../../@softbd/libs/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
@@ -21,6 +17,12 @@ import {Card, CardContent, FormControlLabel, Switch} from '@mui/material';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {useFetchJobExperience} from '../../../services/youthManagement/hooks';
+import {
+  createJobExperience,
+  updateJobExperience,
+} from '../../../services/youthManagement/JobExperienceService';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -30,12 +32,20 @@ interface JobExperienceAddEditProps {
 const initialValues = {
   company_name: '',
   position: '',
-  type_of_employee: '',
+  employment_type_id: '',
   location: '',
   job_description: '',
   start_date: '',
   end_date: '',
+  is_currently_work: false,
 };
+
+const employmentTypes = [
+  {id: 1, title: 'Full-time'},
+  {id: 2, title: 'Part-time'},
+  {id: 3, title: 'Casual'},
+  {id: 4, title: 'Apprentice/Trainee'},
+];
 
 const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   itemId,
@@ -50,7 +60,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .label(messages['common.company_name'] as string),
       position: yup.string().label(messages['common.position'] as string),
-      type_of_employee: yup
+      employment_type_id: yup
         .string()
         .label(messages['common.type_of_employee'] as string),
       location: yup.string().label(messages['common.location'] as string),
@@ -63,6 +73,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   }, [messages]);
 
   const {
+    control,
     handleSubmit,
     register,
     reset,
@@ -72,22 +83,10 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const [itemData, setItemData] = useState<any>(null);
   const isEdit = itemId != null;
+  const {data: itemData, isLoading} = useFetchJobExperience(itemId);
 
-  useEffect(() => {
-    if (itemId) {
-      setItemData({
-        company_name: 'softbd ltd',
-        position: 'software engineer',
-        type_of_employee: 'full time',
-        location: 'dhaka 1232',
-        job_description: 'building web apps',
-        start_date: '2008-10-12',
-        end_date: '2008-12-12',
-      });
-    }
-  }, [itemId]);
+  const [currentWorkStatus, setCurrentWorkStatus] = useState<boolean>(false);
 
   useEffect(() => {
     if (itemData) {
@@ -99,21 +98,26 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         job_description: itemData?.job_description,
         start_date: itemData?.start_date,
         end_date: itemData?.end_date,
+        employment_type_id: itemData?.employment_type_id,
       });
+      setCurrentWorkStatus(itemData.is_currently_work);
     } else {
       reset(initialValues);
+      setCurrentWorkStatus(initialValues.is_currently_work);
     }
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    data.is_currently_work = currentWorkStatus;
+
     const response = itemId
-      ? await updateRankType(itemId, data)
-      : await createRankType(data);
+      ? await updateJobExperience(itemId, data)
+      : await createJobExperience(data);
     if (isResponseSuccess(response) && isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
       props.onClose();
@@ -121,13 +125,17 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
       props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
+  };
+
+  const handleCurrentWorkStatusChange = (event: any) => {
+    setCurrentWorkStatus(event.target.checked);
   };
 
   return (
@@ -148,7 +156,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         label={messages['common.company_name']}
                         register={register}
                         errorInstance={errors}
-                        isLoading={false}
+                        isLoading={isLoading}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -157,16 +165,19 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         label={messages['common.position']}
                         register={register}
                         errorInstance={errors}
-                        isLoading={false}
+                        isLoading={isLoading}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <CustomTextInput
-                        id='type_of_employee'
+                      <CustomFormSelect
+                        id={'employment_type_id'}
                         label={messages['common.type_of_employee']}
-                        register={register}
+                        isLoading={isLoading}
+                        control={control}
+                        options={employmentTypes}
+                        optionValueProp={'id'}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
-                        isLoading={false}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -175,7 +186,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         label={messages['common.location']}
                         register={register}
                         errorInstance={errors}
-                        isLoading={false}
+                        isLoading={isLoading}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -184,7 +195,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         label={messages['job_experience.job_description']}
                         register={register}
                         errorInstance={errors}
-                        isLoading={false}
+                        isLoading={isLoading}
                         multiline={true}
                         rows={3}
                       />
@@ -195,7 +206,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         label={messages['job_experience.start_date']}
                         register={register}
                         errorInstance={errors}
-                        isLoading={false}
+                        isLoading={isLoading}
                       />
                     </Grid>
 
@@ -205,12 +216,17 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         label={messages['job_experience.end_date']}
                         register={register}
                         errorInstance={errors}
-                        isLoading={false}
+                        isLoading={isLoading}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <FormControlLabel
-                        control={<Switch defaultChecked />}
+                        control={
+                          <Switch
+                            onChange={handleCurrentWorkStatusChange}
+                            defaultChecked={currentWorkStatus}
+                          />
+                        }
                         label='I currently work here'
                       />
                     </Grid>
@@ -219,13 +235,13 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         <Grid item>
                           <CancelButton
                             onClick={props.onClose}
-                            isLoading={false}
+                            isLoading={isLoading}
                           />
                         </Grid>
                         <Grid item>
                           <SubmitButton
                             isSubmitting={isSubmitting}
-                            isLoading={false}
+                            isLoading={isLoading}
                           />
                         </Grid>
                       </Grid>

@@ -26,22 +26,22 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 
 type JobExperienceProp = {
   position?: string;
-  companyName?: string;
-  companyLogo?: any;
-  jobLocation?: string;
-  jobPeriod?: string;
-  jobDescription?: string;
+  company_name?: string;
+  location?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
   openAddEditForm?: () => void;
   deleteJobExperience: () => void;
 };
 
 const JobExperience = ({
   position,
-  companyName,
-  companyLogo,
-  jobLocation,
-  jobPeriod,
-  jobDescription,
+  company_name,
+  location,
+  start_date,
+  end_date,
+  description,
   openAddEditForm,
   deleteJobExperience,
 }: JobExperienceProp) => {
@@ -52,20 +52,21 @@ const JobExperience = ({
     <>
       <HorizontalLine />
       <Box mt={2}>
-        <Grid item container sm={12} justifyContent={'space-between'}>
-          <Grid item container sm={6}>
-            {companyLogo && (
-              <Avatar alt='organization logo' src={companyLogo} />
-            )}
+        <Grid item container xs={12} justifyContent={'space-between'}>
+          <Grid item container xs={8}>
+            <Avatar
+              alt='organization logo'
+              src={'/images/companyLogos/apple.png'}
+            />
 
-            <Grid item sm={4}>
+            <Grid item>
               <Box ml={1} mb={2}>
-                <Typography variant={'subtitle2'}>{companyName}</Typography>
+                <Typography variant={'subtitle2'}>{company_name}</Typography>
                 <Typography variant={'caption'}>{position}</Typography>
               </Box>
             </Grid>
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={4}>
             <Grid container justifyContent={'flex-end'}>
               <Box>
                 <CustomParabolaButton
@@ -86,7 +87,7 @@ const JobExperience = ({
           <Box className={classes.jobDurationDate} mb={4}>
             <AccessTime />
             <Typography className={classes.jobAccessTime}>
-              {jobPeriod}
+              {start_date} - {end_date}
             </Typography>
             <VerticalLine
               lineHeight={'15px'}
@@ -94,14 +95,14 @@ const JobExperience = ({
               marginLeft={2}
               marginRight={2}
             />
-            {jobLocation && (
+            {location && (
               <Box className={classes.jobDurationDate}>
                 <LocationOnIcon />
-                <Typography>{jobLocation}</Typography>
+                <Typography>{location}</Typography>
               </Box>
             )}
           </Box>
-          <Typography>{jobDescription}</Typography>
+          <Typography>{description}</Typography>
         </Grid>
       </Box>
     </>

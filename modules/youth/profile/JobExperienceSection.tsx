@@ -1,7 +1,7 @@
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import {BusinessCenter} from '@mui/icons-material';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import JobExperience from './JobExperience';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
@@ -9,6 +9,7 @@ import {deleteRankType} from '../../../services/organaizationManagement/RankType
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useFetchYouthJobExperiences} from '../../../services/youthManagement/hooks';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -35,28 +36,6 @@ type JobExperienceProp = {
   jobPeriod?: string;
   jobDescription?: string;
 };
-const jobExperiences: Array<JobExperienceProp> = [
-  {
-    id: 1,
-    companyName: 'softBD Ltd',
-    companyLogo: '/images/userPageImages/profileImage.jpeg',
-    jobPeriod: '2010-present',
-    jobLocation: 'panthapath',
-    position: 'software engineer',
-    jobDescription:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi cumque error exercitationem modi nam nisi, quia sed. Animi eius excepturi nulla perspiciatis repellat? Distinctio natus neque nostrum quaerat tenetur?',
-  },
-  {
-    id: 2,
-    companyName: 'Google',
-    companyLogo: '/images/userPageImages/profileImage.jpeg',
-    jobPeriod: '2020-present',
-    jobLocation: 'CA',
-    position: 'software engineer',
-    jobDescription:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab commodi cumque error exercitationem modi nam nisi, quia sed. Animi eius excepturi nulla perspiciatis repellat? Distinctio natus neque nostrum quaerat tenetur?',
-  },
-];
 
 type JobExperienceSectionProp = {
   onclick: (itemId: number | null) => void;
@@ -66,6 +45,17 @@ const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
   const {messages} = useIntl();
   const classes = useStyles();
   const {successStack} = useNotiStack();
+  const [jobExperienceFilters, setJobExperienceFilters] = useState({});
+
+  const {data: jobExperiences} =
+    useFetchYouthJobExperiences(jobExperienceFilters);
+  console.log(jobExperiences);
+
+  useEffect(() => {
+    // if (authUser?.youth) {
+    setJobExperienceFilters({youth_id: 1});
+    // }
+  }, []);
 
   const deleteJobExperienceItem = async (itemId: number) => {
     let response = await deleteRankType(itemId);
@@ -101,24 +91,20 @@ const JobExperienceSection = ({onclick}: JobExperienceSectionProp) => {
             </Grid>
           </Grid>
 
-          {jobExperiences.map((jobExperience: JobExperienceProp) => {
-            return (
-              <React.Fragment key={jobExperience.id}>
-                <JobExperience
-                  companyName={jobExperience.companyName}
-                  companyLogo={jobExperience.companyLogo}
-                  jobPeriod={jobExperience.jobPeriod}
-                  position={jobExperience.position}
-                  jobLocation={jobExperience.jobLocation}
-                  jobDescription={jobExperience.jobDescription}
-                  openAddEditForm={() => onclick(jobExperience.id)}
-                  deleteJobExperience={() =>
-                    deleteJobExperienceItem(jobExperience.id)
-                  }
-                />
-              </React.Fragment>
-            );
-          })}
+          {jobExperiences &&
+            jobExperiences.map((jobExperience: JobExperienceProp) => {
+              return (
+                <React.Fragment key={jobExperience.id}>
+                  <JobExperience
+                    {...jobExperience}
+                    openAddEditForm={() => onclick(jobExperience.id)}
+                    deleteJobExperience={() =>
+                      deleteJobExperienceItem(jobExperience.id)
+                    }
+                  />
+                </React.Fragment>
+              );
+            })}
         </CardContent>
       </Card>
     </Grid>

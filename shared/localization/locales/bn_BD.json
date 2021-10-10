@@ -548,5 +548,8 @@
   "physical_disability.intellectual": "বুদ্ধিবৃত্তিক অক্ষমতা",
   "physical_disability.social": "সামাজিক অক্ষমতা",
   "youth_registration.success": "নিবন্ধন সফল হয়েছে",
-  "youth_registration.set_as_username": "ব্যবহারকারীর নাম হিসাবে সেট করুন"
+  "youth_registration.set_as_username": "ব্যবহারকারীর নাম হিসাবে সেট করুন",
+  "common.name_of_the_office_head" : "অফিস প্রধানের নাম",
+  "common.name_of_the_office_head_designation" : "অফিস প্রধানের পদবি",
+  "common.password_must_match" : "পাসওয়ার্ড অবশ্যই মিলতে হবে"
 }
