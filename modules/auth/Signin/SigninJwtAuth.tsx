@@ -4,8 +4,6 @@ import Button from '@mui/material/Button';
 import {Checkbox} from '@mui/material';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import {useDispatch} from 'react-redux';
-import {onJwtSignIn} from '../../../redux/actions';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
@@ -85,7 +83,6 @@ const validationSchema = yup.object({
 interface UserSigninProps {}
 
 const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const onGoToForgetPassword = () => {
@@ -112,8 +109,6 @@ const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
           }}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
-            setSubmitting(true);
-            dispatch(onJwtSignIn({email: data.email, password: data.password}));
             setSubmitting(false);
           }}>
           {({isSubmitting}) => (

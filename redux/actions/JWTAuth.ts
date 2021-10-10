@@ -1,4 +1,3 @@
-import jwtAxios from '../../@crema/services/auth/jwt-auth/jwt-api';
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
@@ -7,7 +6,6 @@ import {AppActions} from '../../types';
 import {Dispatch} from 'redux';
 import {
   SET_AUTH_ACCESS_TOKEN_DATA,
-  SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
 } from '../../types/actions/Auth.actions';
@@ -20,55 +18,6 @@ import {
 import UserTypes from '../../@softbd/utilities/UserTypes';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 import {Gender} from '../../@softbd/utilities/Genders';
-
-/**
- * @deprecated
- * @param body
- */
-export const onJwtUserSignUp = (body: {
-  email: string;
-  password: string;
-  name: string;
-}) => {
-  return async (dispatch: Dispatch<AppActions>) => {
-    dispatch(fetchStart());
-    try {
-      const res = await jwtAxios.post('users', body);
-      cookieInstance.set('token', res.data.token, {path: '/'});
-      dispatch(setJWTToken(res.data.token));
-      // await loadJWTUser(dispatch);
-    } catch (err: any) {
-      console.log('error!!!!', err.response.data.error);
-      dispatch(fetchError(err.response.data.error));
-    }
-  };
-};
-
-/**
- * @deprecated
- * @param body
- */
-export const onJwtSignIn = (body: {email: string; password: string}) => {
-  return async (dispatch: Dispatch<AppActions>) => {
-    dispatch(fetchStart());
-    try {
-      // const res = await jwtAxios.post('auth', body);
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY0ZjE5ZWNjN2Y5ZGEwMDE3ZDg1YmFkIn0sImlhdCI6MTU5OTA3MDc3MCwiZXhwIjoxNTk5NTAyNzcwfQ.fK3L6ZmU8S7I-i21kJj_0sA212JOPgFaTWeSeAUaORQ';
-      const res = {
-        data: {
-          token: token,
-        },
-      };
-      cookieInstance.set('token', res.data.token, {path: '/'});
-      dispatch(setJWTToken(res.data.token));
-      // await loadJWTUser(dispatch);
-    } catch (err: any) {
-      console.log('error!!!!', err.response.data.error);
-      dispatch(fetchError(err.response.data.error));
-    }
-  };
-};
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -128,15 +77,6 @@ export const loadAuthUser = async (
     dispatch(fetchError(err));
   }
 };
-
-/**
- * @deprecated
- * @param token
- */
-export const setJWTToken = (token: string | null): AppActions | any => ({
-  type: SET_AUTH_TOKEN,
-  payload: token,
-});
 
 export const setAuthAccessTokenData = (
   data: TOnSSOSignInCallback,

@@ -4,9 +4,6 @@ import Button from '@mui/material/Button';
 import {Checkbox} from '@mui/material';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import {useDispatch} from 'react-redux';
-
-import {onJwtUserSignUp} from '../../../redux/actions';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -77,7 +74,6 @@ const MyTextField = (props: any) => {
 };
 
 const SignupJwtAuth: React.FC<{}> = () => {
-  const dispatch = useDispatch();
   const {messages} = useIntl();
   const validationSchema = yup.object({
     name: yup.string().required(messages['validation.nameRequired'] as string),
@@ -119,14 +115,6 @@ const SignupJwtAuth: React.FC<{}> = () => {
                 ] as string,
               });
             } else {
-              setSubmitting(true);
-              dispatch(
-                onJwtUserSignUp({
-                  email: data.email,
-                  password: data.password,
-                  name: data.name,
-                }),
-              );
               setSubmitting(false);
             }
           }}>
