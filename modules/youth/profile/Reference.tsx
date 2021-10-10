@@ -7,28 +7,17 @@ import CustomParabolaButton from './component/CustomParabolaButton';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from './component/CircularDeleteButton';
-
 type ReferenceProp = {
   key: number;
-  name: string;
-  image: any;
-  position: string;
-  email?: string;
-  phone?: string;
-  location?: string;
-  onclick?: () => void;
+  reference: any;
+  openReferenceAddEditForm?: () => void;
   onDelete?: () => void;
 };
 
 const Reference = ({
   key,
-  name,
-  image,
-  position,
-  email,
-  phone,
-  location,
-  onclick,
+  reference,
+  openReferenceAddEditForm,
   onDelete,
 }: ReferenceProp) => {
   const {messages} = useIntl();
@@ -43,25 +32,29 @@ const Reference = ({
             <Grid item xs={4} md={2}>
               <Avatar
                 alt='Reference logo'
-                src={image}
+                src={'/images/youth/avatar.png'}
                 sx={{height: 80, width: 80}}
               />
             </Grid>
             <Grid item xs={8} md={8}>
               <Box mb={2}>
-                <Typography variant={'subtitle2'}>{name}</Typography>
-                <Typography variant={'caption'}>{position}</Typography>
+                <Typography variant={'subtitle2'}>
+                  {reference.referrer_first_name}
+                </Typography>
+                <Typography variant={'caption'}>
+                  {reference.referrer_designation}
+                </Typography>
                 <Grid container spacing={4}>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocalPhoneIcon fontSize={'small'} />
-                      {email}
+                      {reference.referrer_email}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocalPhoneIcon fontSize={'small'} />
-                      {phone}
+                      {reference.referrer_mobile}
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -82,7 +75,7 @@ const Reference = ({
                 buttonVariant={'outlined'}
                 title={messages['common.edit_btn'] as string}
                 icon={<BorderColor />}
-                onclick={onclick}
+                onclick={openReferenceAddEditForm}
               />
               {onDelete && (
                 <CircularDeleteButton
