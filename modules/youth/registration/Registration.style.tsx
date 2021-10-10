@@ -2,13 +2,10 @@ import {createStyles, makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles(() =>
   createStyles({
-    root: {
-      height: 'calc(100vh - 70px)',
-      display: 'flex',
-    },
+    root: {},
     PaperBox: {
       padding: 20,
-      margin: 'auto',
+      margin: '20px auto',
     },
   }),
 );

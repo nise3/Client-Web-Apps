@@ -102,7 +102,7 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .label(messages['common.physical_disability'] as string),
-      physical_disability:
+      physical_disabilities:
         disabilityStatus == 1
           ? yup
               .string()
@@ -288,7 +288,7 @@ const YouthRegistration = () => {
             <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
               <Chip
                 icon={<CheckCircle />}
-                label='Set as username'
+                label={messages['youth_registration.set_as_username']}
                 color='primary'
                 variant={userNameType == 1 ? 'filled' : 'outlined'}
                 sx={{marginBottom: '2px'}}
@@ -304,7 +304,7 @@ const YouthRegistration = () => {
             <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
               <Chip
                 icon={<CheckCircle />}
-                label='Set as username'
+                label={messages['youth_registration.set_as_username']}
                 color='primary'
                 variant={userNameType == 2 ? 'filled' : 'outlined'}
                 sx={{marginBottom: '2px'}}

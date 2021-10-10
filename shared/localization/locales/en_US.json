@@ -552,5 +552,6 @@
   "physical_disability.mental_health": "Mental Health Disabilities",
   "physical_disability.intellectual": "Intellectual Disabilities",
   "physical_disability.social": "Social Disabilities",
-  "youth_registration.success": "Registration Successful"
+  "youth_registration.success": "Registration Successful",
+  "youth_registration.set_as_username": "Set as username"
 }
