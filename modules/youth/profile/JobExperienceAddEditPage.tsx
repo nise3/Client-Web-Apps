@@ -84,7 +84,11 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   });
 
   const isEdit = itemId != null;
-  const {data: itemData, isLoading} = useFetchJobExperience(itemId);
+  const {
+    data: itemData,
+    mutate: jobExperienceMutate,
+    isLoading,
+  } = useFetchJobExperience(itemId);
 
   const [currentWorkStatus, setCurrentWorkStatus] = useState<boolean>(false);
 
@@ -100,7 +104,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         end_date: itemData?.end_date,
         employment_type_id: itemData?.employment_type_id,
       });
-      setCurrentWorkStatus(itemData.is_currently_work);
+      setCurrentWorkStatus(!!itemData.is_currently_work);
     } else {
       reset(initialValues);
       setCurrentWorkStatus(initialValues.is_currently_work);
@@ -108,7 +112,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    data.is_currently_work = Number(currentWorkStatus);
+    data.is_currently_work = currentWorkStatus;
     data.youth_id = 1;
 
     const response = itemId
@@ -121,6 +125,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
           values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
+      jobExperienceMutate();
       props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
@@ -129,6 +134,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
           values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
+      jobExperienceMutate();
       props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
@@ -138,6 +144,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   const handleCurrentWorkStatusChange = (event: any) => {
     setCurrentWorkStatus(event.target.checked);
   };
+
+  console.log(currentWorkStatus);
 
   return (
     <Zoom in={true}>
@@ -225,7 +233,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                         control={
                           <Switch
                             onChange={handleCurrentWorkStatusChange}
-                            defaultChecked={currentWorkStatus}
+                            checked={currentWorkStatus}
                           />
                         }
                         label='I currently work here'
