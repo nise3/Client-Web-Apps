@@ -29,6 +29,8 @@ axiosInstance.interceptors.request.use(
       apiAccessToken = token.coreApi;
     } else if (urlPath == 'org') {
       apiAccessToken = token.orgApi;
+    } else if (urlPath == 'youth') {
+      apiAccessToken = token.youthApi;
     }
 
     config.headers = {
