@@ -6,7 +6,7 @@ import {ChevronRight} from '@mui/icons-material';
 import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
-
+import Link from 'next/link';
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseSectionRoot: {
     marginTop: 0,
@@ -43,8 +43,8 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 const RecentCourseSection = () => {
   const classes = useStyle();
   const {messages} = useIntl();
-  const [selectedValue, setSelectedValue] = useState(1);
-
+  const [selectedValue, setSelectedValue] = useState('recent');
+  const URL = `/youth/course-list/${selectedValue}`;
   const items = [
     {
       logoUrl: '/images/skill-matching-job1.jpg',
@@ -63,8 +63,8 @@ const RecentCourseSection = () => {
     },
   ];
 
-  const onSelectChange = useCallback((value: any) => {
-    setSelectedValue(value);
+  const onSelectChange = useCallback((event: any) => {
+    setSelectedValue(event.target.value);
   }, []);
 
   return (
@@ -78,9 +78,9 @@ const RecentCourseSection = () => {
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
             onChange={onSelectChange}>
-            <MenuItem value={1}>Recent Courses</MenuItem>
-            <MenuItem value={2}>Popular Courses</MenuItem>
-            <MenuItem value={3}>Nearby Courses</MenuItem>
+            <MenuItem value={'recent'}>Recent Courses</MenuItem>
+            <MenuItem value={'popular'}>Popular Courses</MenuItem>
+            <MenuItem value={'nearby'}>Nearby Courses</MenuItem>
           </Select>
         </Grid>
         {items.map((course: any, index: number) => {
@@ -98,14 +98,16 @@ const RecentCourseSection = () => {
           );
         })}
         <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
-          <Button
-            variant={'text'}
-            color={'primary'}
-            size={'medium'}
-            className={classes.seeMoreButton}>
-            {messages['youth_feed.see_more_courses']}
-            <ChevronRight color={'primary'} />
-          </Button>
+          <Link href={URL} passHref>
+            <Button
+              variant={'text'}
+              color={'primary'}
+              size={'medium'}
+              className={classes.seeMoreButton}>
+              {messages['youth_feed.see_more_courses']}
+              <ChevronRight color={'primary'} />
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </Card>
