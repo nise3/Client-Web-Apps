@@ -484,12 +484,12 @@
   "freelance_corner.add_location": "Add Location",
   "common.my_cv": "My CV",
   "cv_view.template_title": "Choose from our resume templates",
-  "freelance_corner.add_location": "Add Location",
   "feedback.institution": "Feedback",
   "advice.institute": "Advice",
   "recipient.institute": "Recipient",
   "contact_with_us.institute": "Contact with us",
   "find_our_location_in_map.institute": "Find our location in map",
   "faq.institute": "FAQ",
-  "contact.institute": "Contact"
+  "contact.institute": "Contact",
+  "videos.institute": "Videos"
 }

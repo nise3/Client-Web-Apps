@@ -55,7 +55,7 @@ const InstituteFAQ = () => {
 
   return (
     <>
-      <Grid>
+      <Grid sx={{maxWidth: 'xl'}}>
         <Grid textAlign={'center'}>
           <Card>
             <CardContent>
