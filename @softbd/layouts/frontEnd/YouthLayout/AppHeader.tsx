@@ -8,22 +8,34 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import useStyles from './AppHeader.style';
-import {CastForEducation, ExitToApp, Home} from '@mui/icons-material';
+import {Badge, CastForEducation, ExitToApp, Home} from '@mui/icons-material';
 import WorkIcon from '@mui/icons-material/Work';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import {Button} from '@mui/material';
+import {Button, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
 import HorUserInfo from '../../../../@crema/core/AppLayout/HorUserInfo';
+import {Link} from '../../../elements/common';
+import {
+  LINK_FRONTEND_YOUTH_ROOT,
+  LINK_FRONTEND_YOUTH_TRAINING,
+  LINK_FRONTEND_YOUTH_JOBS,
+  LINK_FRONTEND_YOUTH_NOTICE_BOARD,
+  LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
+} from '../../../common/appLinks';
+import {Theme} from '@mui/system';
 
 interface AppHeaderProps {}
 
 const AppHeader: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
+  const isMDDown = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('md'),
+  );
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -51,30 +63,40 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Home className={classes.menuIcons} /> হোম
+        <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+          <Home className={classes.menuIcons} /> হোম
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+        <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+          <Badge className={classes.menuIcons} /> মাই লাইফ
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <WorkIcon className={classes.menuIcons} />
-        চাকরি
+        <Link href={LINK_FRONTEND_YOUTH_TRAINING}>
+          <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <ListAltIcon className={classes.menuIcons} />
-        নোটিশ
+        <Link href={LINK_FRONTEND_YOUTH_JOBS}>
+          <WorkIcon className={classes.menuIcons} /> চাকরি
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক কার্যক্রম
+        <Link href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
+          <ListAltIcon className={classes.menuIcons} /> নোটিশ
+        </Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES}>
+          <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
+          কার্যক্রম
+        </Link>
       </MenuItem>
       <MenuItem className={classes.menuItemRoot}>
         <Notifications />
       </MenuItem>
       <LanguageSwitcher />
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <ListAltIcon className={classes.menuIcons} />
-        নোটিশ
-      </MenuItem>
     </Menu>
   );
 
@@ -87,27 +109,57 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         <Toolbar className={classes.headerMain}>
           <Box className={classes.headerContainer}>
             <Box className={classes.headerMainFlex}>
-              <AppLogo />
+              <AppLogo height={isMDDown ? 40 : 60} />
               <Box className={classes.grow} />
 
               <Box className={clsx(classes.sectionDesktop)}>
                 <Box component='span' className={classes.menuItem}>
-                  <Home className={classes.menuIcons} /> <a href={'/'}>হোম</a>
+                  <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+                    <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
+                    হোম
+                  </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+                  <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+                    <Badge className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
+                    মাই লাইফ
+                  </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <WorkIcon className={classes.menuIcons} />
-                  চাকরি
+                  <Link href={LINK_FRONTEND_YOUTH_TRAINING}>
+                    <CastForEducation
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    প্রশিক্ষণ
+                  </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <ListAltIcon className={classes.menuIcons} />
-                  নোটিশ
+                  <Link href={LINK_FRONTEND_YOUTH_JOBS}>
+                    <WorkIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    চাকরি
+                  </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
-                  কার্যক্রম
+                  <Link href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
+                    <ListAltIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    নোটিশ
+                  </Link>
+                </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES}>
+                    <LocalActivityIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    সাম্প্রতিক কার্যক্রম
+                  </Link>
                 </Box>
                 <Notifications />
                 <LanguageSwitcher />
