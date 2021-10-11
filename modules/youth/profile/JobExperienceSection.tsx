@@ -4,8 +4,6 @@ import {BusinessCenter} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import JobExperience from './JobExperience';
 import {useIntl} from 'react-intl';
-import {createStyles, makeStyles} from '@mui/styles';
-import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -13,17 +11,8 @@ import {useFetchYouthJobExperiences} from '../../../services/youthManagement/hoo
 import JobExperienceAddEditPage from './JobExperienceAddEditPage';
 import {YouthJobExperience} from '../../../services/youthManagement/typing';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    youthJobExperienceCard: {
-      width: '100%',
-    },
-  }),
-);
-
 const JobExperienceSection = () => {
   const {messages} = useIntl();
-  const classes = useStyles();
   const {successStack} = useNotiStack();
   const [jobExperienceFilters] = useState({});
 
@@ -46,12 +35,12 @@ const JobExperienceSection = () => {
   }, []);
 
   const deleteJobExperienceItem = async (itemId: number) => {
-    let response = await deleteRankType(itemId);
+    let response = await deleteJobExperienceItem(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
     }
@@ -63,7 +52,7 @@ const JobExperienceSection = () => {
       onClose={closeJobExperienceAddEditForm}
     />
   ) : (
-    <Card className={classes.youthJobExperienceCard}>
+    <Card>
       <CardContent>
         <Grid item container sm={12} justifyContent={'space-between'}>
           <Grid item sm={6}>
@@ -84,21 +73,19 @@ const JobExperienceSection = () => {
         </Grid>
 
         {jobExperiences &&
-          jobExperiences.map((jobExperience: YouthJobExperience) => {
-            return (
-              <React.Fragment key={jobExperience.id}>
-                <JobExperience
-                  jobExperience={jobExperience}
-                  openAddEditForm={() =>
-                    openJobExperienceAddEditForm(jobExperience.id)
-                  }
-                  deleteJobExperience={() =>
-                    deleteJobExperienceItem(jobExperience.id)
-                  }
-                />
-              </React.Fragment>
-            );
-          })}
+          jobExperiences.map((jobExperience: YouthJobExperience) => (
+            <React.Fragment key={jobExperience.id}>
+              <JobExperience
+                jobExperience={jobExperience}
+                openAddEditForm={() =>
+                  openJobExperienceAddEditForm(jobExperience.id)
+                }
+                deleteJobExperience={() =>
+                  deleteJobExperienceItem(jobExperience.id)
+                }
+              />
+            </React.Fragment>
+          ))}
       </CardContent>
     </Card>
   );
