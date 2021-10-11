@@ -1,11 +1,13 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
-import FrontPage from '../../../@crema/hoc/FrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
+import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
 
-const MyCoursePage = asyncComponent(() => import('../../../modules/youth/myCourses'));
-export default FrontPage(() => {
+const MyCoursePage = asyncComponent(
+  () => import('../../../modules/youth/myCourses'),
+);
+export default YouthFrontPage(() => {
   const {messages} = useIntl();
 
   return (

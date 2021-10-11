@@ -6,7 +6,7 @@ import {Chip} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   colorGray: {
-    color: theme.palette.gray['600'],
+    color: theme.palette.grey['600'],
   },
   chipStyle: {
     borderRadius: 4,

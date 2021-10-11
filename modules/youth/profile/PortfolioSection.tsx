@@ -3,9 +3,10 @@ import CardHeader from './CardHeader';
 import {BorderColor} from '@mui/icons-material';
 import HorizontalLine from './component/HorizontalLine';
 import CustomCarousel from '../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CardItemWithButton from './component/CardItemWithButton';
+import PortfolioAddEdit from './PortfolioAddEdit';
 
 let items = [
   {
@@ -33,53 +34,61 @@ let items = [
     duration: '১ ঘন্টা',
     enrolls: 'Student (16.1k)',
   },
-  {
-    id: 4,
-    img: '/images/popular-course4.png',
-    price: '২০০০',
-    title: 'সেলস ট্রেনিং',
-    duration: '১ ঘন্টা',
-    enrolls: 'Student (16.1k)',
-  },
 ];
 
-type PortfolioSectionProp = {
-  openPortfolioAddEditForm: (itemId: number | null) => void;
-};
-
-const PortfolioSection = ({openPortfolioAddEditForm}: PortfolioSectionProp) => {
+const PortfolioSection = () => {
   const {messages} = useIntl();
+  const [portfolioId, setPortfolioId] = useState<number | null>(null);
+  const [isOpenPortfolioAddEditForm, setIsOpenPortfolioAddEditForm] =
+    useState<boolean>(false);
 
-  return (
-    <Box mt={4}>
-      <Card>
-        <CardContent>
-          <CardHeader
-            headerTitle={messages['common.portfolio'] as string}
-            buttons={[
-              {
-                label: messages['common.add_new_portfolio'] as string,
-                icon: <BorderColor />,
-                onclick: () => openPortfolioAddEditForm(null),
-              },
-              {
-                label: messages['common.edit_btn'] as string,
-                icon: <BorderColor />,
-                onclick: () => openPortfolioAddEditForm(1),
-              },
-            ]}
-          />
-        </CardContent>
-        <HorizontalLine />
-        <Box>
-          <CustomCarousel>
-            {items.map((item: any) =>
-              CardItemWithButton(item, openPortfolioAddEditForm),
-            )}
-          </CustomCarousel>
-        </Box>
-      </Card>
-    </Box>
+  const openPortfolioAddEditForm = useCallback(
+    (itemId: number | null = null) => {
+      setPortfolioId(itemId);
+      setIsOpenPortfolioAddEditForm(true);
+    },
+    [],
+  );
+  const closePortfolioAddEditForm = useCallback(() => {
+    setPortfolioId(null);
+    setIsOpenPortfolioAddEditForm(false);
+  }, []);
+
+  return isOpenPortfolioAddEditForm ? (
+    <PortfolioAddEdit
+      itemId={portfolioId}
+      onClose={closePortfolioAddEditForm}
+    />
+  ) : (
+    <Card>
+      <CardContent>
+        <CardHeader
+          headerTitle={messages['common.portfolio'] as string}
+          buttons={[
+            {
+              label: messages['common.add_new_portfolio'] as string,
+              icon: <BorderColor />,
+              onclick: () => openPortfolioAddEditForm(null),
+            },
+          ]}
+        />
+      </CardContent>
+      <HorizontalLine />
+      <Box>
+        <CustomCarousel>
+          {items.map((item: any) => {
+            return (
+              <React.Fragment key={item.id}>
+                <CardItemWithButton
+                  item={item}
+                  onClick={() => openPortfolioAddEditForm(item.id)}
+                />
+              </React.Fragment>
+            );
+          })}
+        </CustomCarousel>
+      </Box>
+    </Card>
   );
 };
 export default PortfolioSection;

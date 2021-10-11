@@ -1,4 +1,4 @@
-import {Box, Card, CardContent, Grid, Zoom} from '@mui/material';
+import {Card, CardContent, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -111,78 +111,76 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
 
   return (
     <Zoom in={true}>
-      <Box mt={4} mb={2}>
-        <Grid container justifyContent={'center'} spacing={2}>
-          <Grid item>
-            <Card>
-              <CardContent sx={{position: 'relative'}}>
-                <DialogTitle onClose={props.onClose}>
-                  {messages['common.portfolio']}
-                </DialogTitle>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='upload_link'
-                        label={messages['upload_link.portfolio_modal']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='title'
-                        label={messages['common.title']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='description'
-                        label={messages['common.description']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                        multiline={true}
-                        rows={3}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='upload_file'
-                        label={messages['upload_file.portfolio_modal']}
-                        type={'file'}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid container spacing={4} justifyContent={'flex-end'}>
-                        <Grid item>
-                          <CancelButton
-                            onClick={props.onClose}
-                            isLoading={false}
-                          />
-                        </Grid>
-                        <Grid item>
-                          <SubmitButton
-                            isSubmitting={isSubmitting}
-                            isLoading={false}
-                          />
-                        </Grid>
+      <Grid container justifyContent={'center'} spacing={2}>
+        <Grid item>
+          <Card>
+            <CardContent sx={{position: 'relative'}}>
+              <DialogTitle onClose={props.onClose}>
+                {messages['common.portfolio']}
+              </DialogTitle>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='upload_link'
+                      label={messages['upload_link.portfolio_modal']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='title'
+                      label={messages['common.title']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='description'
+                      label={messages['common.description']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='upload_file'
+                      label={messages['upload_file.portfolio_modal']}
+                      type={'file'}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={4} justifyContent={'flex-end'}>
+                      <Grid item>
+                        <CancelButton
+                          onClick={props.onClose}
+                          isLoading={false}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <SubmitButton
+                          isSubmitting={isSubmitting}
+                          isLoading={false}
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
         </Grid>
-      </Box>
+      </Grid>
     </Zoom>
   );
 };

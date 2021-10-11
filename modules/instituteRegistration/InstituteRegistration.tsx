@@ -6,7 +6,10 @@ import {Container, Grid, Link, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
-import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_BANGLA_ONLY,
+} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   isResponseSuccess,
@@ -30,12 +33,18 @@ const InstituteRegistration = () => {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      institute_name: yup
+      title_en: yup
         .string()
         .trim()
         .required()
-        .label(messages['common.institute_name'] as string),
-      institute_type: yup
+        .label(messages['common.title_en'] as string),
+      title: yup
+        .string()
+        .trim()
+        .required()
+        .matches(TEXT_REGEX_BANGLA_ONLY)
+        .label(messages['common.title_bn'] as string),
+      institute_type_id: yup
         .string()
         .trim()
         .required()
@@ -51,17 +60,17 @@ const InstituteRegistration = () => {
         .trim()
         .required()
         .label(messages['common.mobile'] as string),
-      head_of_office: yup
+      name_of_the_office_head: yup
         .string()
         .trim()
-        .required()
-        .label(messages['common.Head_of_office'] as string),
-      designation: yup
+        .label(messages['common.name_of_the_office_head'] as string),
+      name_of_the_office_head_designation: yup
         .string()
         .trim()
-        .required()
-        .label(messages['common.designation'] as string),
-      institute_address: yup
+        .label(
+          messages['common.name_of_the_office_head_designation'] as string,
+        ),
+      address: yup
         .string()
         .trim()
         .required()
@@ -92,11 +101,14 @@ const InstituteRegistration = () => {
         .trim()
         .required()
         .label(messages['common.password'] as string),
-      retype_password: yup
+      password_confirmation: yup
         .string()
         .trim()
-        .required()
-        .label(messages['common.retype_password'] as string),
+        .oneOf(
+          [yup.ref('password'), null],
+          messages['common.password_must_match'] as string,
+        )
+        .label(messages['common.password_confirmation'] as string),
     });
   }, [messages]);
   const {
@@ -110,7 +122,6 @@ const InstituteRegistration = () => {
   const {successStack} = useNotiStack();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('form data', data);
     const response = await createRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(
@@ -126,7 +137,6 @@ const InstituteRegistration = () => {
     }
   };
 
-  console.log(errors);
   return (
     <Container maxWidth={'md'} style={{marginTop: '50px'}}>
       <Paper className={classes.PaperBox}>
@@ -143,8 +153,17 @@ const InstituteRegistration = () => {
           <Grid container spacing={3} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='institute_name'
-                label={messages['common.institute_name']}
+                id='title_en'
+                label={messages['common.title_en']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='title'
+                label={messages['common.title_bn']}
                 register={register}
                 errorInstance={errors}
               />
@@ -152,7 +171,7 @@ const InstituteRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <FormRadioButtons
-                id='institute_type'
+                id='institute_type_id'
                 label={'common.institute_type'}
                 radios={[
                   {
@@ -189,8 +208,8 @@ const InstituteRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='head_of_office'
-                label={messages['common.head_of_office']}
+                id='name_of_the_office_head'
+                label={messages['common.name_of_the_office_head']}
                 register={register}
                 errorInstance={errors}
               />
@@ -198,15 +217,15 @@ const InstituteRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='designation'
-                label={messages['common.designation']}
+                id='name_of_the_office_head_designation'
+                label={messages['common.name_of_the_office_head_designation']}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='institute_address'
+                id='address'
                 label={messages['common.institute_address']}
                 register={register}
                 errorInstance={errors}
@@ -258,7 +277,7 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='retype_password'
+                id='password_confirmation'
                 label={messages['common.retype_password']}
                 register={register}
                 errorInstance={errors}

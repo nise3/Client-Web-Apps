@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 
 type CustomContentCardProp = {
   contentTitle: string;
-  contentLogo: any;
+  contentLogo: string;
   contentServiceProvider: string | ReactElement;
   contentEditButton?: any;
   date?: string;

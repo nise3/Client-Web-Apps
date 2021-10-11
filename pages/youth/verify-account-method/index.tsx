@@ -1,8 +1,8 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
-import FrontPage from '../../../@crema/hoc/FrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
+import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
 
 const YouthVerifyAccountMethodPage = asyncComponent(
   () =>
@@ -10,7 +10,7 @@ const YouthVerifyAccountMethodPage = asyncComponent(
       '../../../modules/youth/verifyAccountMethod/YouthVerifyAccountMethod'
     ),
 );
-export default FrontPage(() => {
+export default YouthFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
