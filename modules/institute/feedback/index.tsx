@@ -91,7 +91,7 @@ const InstituteFeedback = () => {
 
   return (
     <>
-      <Box className={classes.box}>
+      <Box sx={{maxWidth: 'xl'}} className={classes.box}>
         <Grid container justifyContent={'center'} spacing={2}>
           <Grid md={12} xs={12}>
             <Card>

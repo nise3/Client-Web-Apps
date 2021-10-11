@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {
   Box,
   Button,
@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => {
     },
     mainGrid: {
       background: theme.palette.primary.light,
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
   };
 });
@@ -102,7 +104,7 @@ const InstituteContact = () => {
 
   return (
     <>
-      <Box>
+      <Box sx={{maxWidth: 'xl'}}>
         <Grid className={classes.mainGrid} lg={12} container justifyContent={'center'} spacing={2}>
           <Grid xs={12} md={12} textAlign={'center'}>
             <Card>

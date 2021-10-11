@@ -547,7 +547,6 @@
   "contact_with_us.institute": "আমাদের সাথে যোগাযোগ করুন",
   "find_our_location_in_map.institute": "আমাদের লোকেশন ম্যাপ এ খুজুন",
   "faq.institute": "সাধারন জিজ্ঞাসা",
-  "contact.institute": "যোগাযোগ",
   "common.government": "সরকারি",
   "common.non_government": "বেসরকারি",
   "course_registration.title": "কোর্স নিবন্ধন",
@@ -561,4 +560,6 @@
   "common.name_of_the_office_head" : "অফিস প্রধানের নাম",
   "common.name_of_the_office_head_designation" : "অফিস প্রধানের পদবি",
   "common.password_must_match" : "পাসওয়ার্ড অবশ্যই মিলতে হবে"
+  "contact.institute": "যোগাযোগ",
+  "videos.institute": "ভিডিও সমূহ"
 }
