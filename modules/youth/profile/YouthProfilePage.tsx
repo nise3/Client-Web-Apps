@@ -27,7 +27,7 @@ const YouthProfile = () => {
   return (
     <>
       <Container className={classes.container}>
-        <Grid container xl={12} spacing={2}>
+        <Grid container xl={12} spacing={3}>
           <Grid item xs={12} md={9}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={12}>

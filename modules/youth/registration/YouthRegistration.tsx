@@ -32,16 +32,19 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {CheckCircle} from '@mui/icons-material';
+import PhysicalDisabilities from '../../../@softbd/utilities/PhysicalDisabilities';
+import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
+import UserNameType from '../../../@softbd/utilities/UserNameType';
 
 const initialValues = {
   first_name: '',
   last_name: '',
   date_of_birth: '',
-  physical_disability_status: '0',
-  physical_disability: '',
+  physical_disability_status: PhysicalDisabilityStatus.NO,
+  physical_disabilities: [],
   email: '',
   mobile: '',
-  gender: '1',
+  gender: Genders.MALE,
   skills: [],
   loc_division_id: '',
   loc_district_id: '',
@@ -74,8 +77,10 @@ const YouthRegistration = () => {
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
-  const [disabilityStatus, setDisabilityStatus] = useState<number>(0);
-  const [userNameType, setUserNameType] = useState<number>(2);
+  const [disabilityStatus, setDisabilityStatus] = useState<number>(
+    PhysicalDisabilityStatus.NO,
+  );
+  const [userNameType, setUserNameType] = useState<number>(UserNameType.MOBILE);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -103,13 +108,13 @@ const YouthRegistration = () => {
         .required()
         .label(messages['common.physical_disability'] as string),
       physical_disabilities:
-        disabilityStatus == 1
+        disabilityStatus == PhysicalDisabilityStatus.YES
           ? yup
-              .string()
-              .trim()
-              .required()
+              .array()
+              .of(yup.number())
+              .min(1)
               .label(messages['common.physical_disability'] as string)
-          : yup.string(),
+          : yup.array().of(yup.number()),
       email: yup
         .string()
         .trim()
@@ -163,23 +168,23 @@ const YouthRegistration = () => {
   const physicalDisabilities = useMemo(
     () => [
       {
-        id: 1,
+        id: PhysicalDisabilities.VISUAL,
         label: messages['physical_disability.visual'],
       },
       {
-        id: 2,
+        id: PhysicalDisabilities.HEARING,
         label: messages['physical_disability.hearing'],
       },
       {
-        id: 3,
+        id: PhysicalDisabilities.MENTAL_HEALTH,
         label: messages['physical_disability.mental_health'],
       },
       {
-        id: 4,
+        id: PhysicalDisabilities.INTELLECTUAL,
         label: messages['physical_disability.intellectual'],
       },
       {
-        id: 5,
+        id: PhysicalDisabilities.SOCIAL,
         label: messages['physical_disability.social'],
       },
     ],
@@ -225,15 +230,18 @@ const YouthRegistration = () => {
   }, []);
 
   const handleEmailChipClick = () => {
-    setUserNameType(1);
+    setUserNameType(UserNameType.EMAIL);
   };
 
   const handleMobileChipClick = () => {
-    setUserNameType(2);
+    setUserNameType(UserNameType.MOBILE);
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     data.user_name_type = userNameType;
+    if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
+      data.physical_disabilities = [];
+    }
 
     const response = await youthRegistration(data);
     if (isResponseSuccess(response)) {
@@ -290,7 +298,9 @@ const YouthRegistration = () => {
                 icon={<CheckCircle />}
                 label={messages['youth_registration.set_as_username']}
                 color='primary'
-                variant={userNameType == 1 ? 'filled' : 'outlined'}
+                variant={
+                  userNameType == UserNameType.EMAIL ? 'filled' : 'outlined'
+                }
                 sx={{marginBottom: '2px'}}
                 onClick={handleEmailChipClick}
               />
@@ -306,7 +316,9 @@ const YouthRegistration = () => {
                 icon={<CheckCircle />}
                 label={messages['youth_registration.set_as_username']}
                 color='primary'
-                variant={userNameType == 2 ? 'filled' : 'outlined'}
+                variant={
+                  userNameType == UserNameType.MOBILE ? 'filled' : 'outlined'
+                }
                 sx={{marginBottom: '2px'}}
                 clickable={true}
                 onClick={handleMobileChipClick}
@@ -364,11 +376,11 @@ const YouthRegistration = () => {
                 label={'common.physical_disability'}
                 radios={[
                   {
-                    key: '1',
+                    key: PhysicalDisabilityStatus.YES,
                     label: messages['common.yes'],
                   },
                   {
-                    key: '0',
+                    key: PhysicalDisabilityStatus.NO,
                     label: messages['common.no'],
                   },
                 ]}
@@ -390,6 +402,8 @@ const YouthRegistration = () => {
                   optionValueProp={'id'}
                   optionTitleProp={['label']}
                   errorInstance={errors}
+                  multiple={true}
+                  defaultValue={[]}
                 />
               </Grid>
             )}

@@ -4,6 +4,8 @@ import {
   API_YOUTH_PROFILE,
   API_YOUTH_SKILLS,
   API_YOUTH_REFERENCES,
+  API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
+  API_YOUTH_EDUCATION,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -32,4 +34,18 @@ export function useFetchReference(referenceId: number | null) {
   return useAxiosSWR(
     referenceId ? API_YOUTH_REFERENCES + '/' + referenceId : null,
   );
+}
+
+export function useFetchEducations() {
+  return useAxiosSWR(API_YOUTH_EDUCATION);
+}
+
+export function useFetchEducation(educationId: number | null) {
+  return useAxiosSWR(
+    educationId ? API_YOUTH_EDUCATION + '/' + educationId : null,
+  );
+}
+
+export function useFetchEducationExamsBoardsEduGroupsAndSubjects() {
+  return useAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
 }

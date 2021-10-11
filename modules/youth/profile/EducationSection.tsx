@@ -4,34 +4,23 @@ import {Add} from '@mui/icons-material';
 import CustomContentCard from './CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import EducationAddEditPage from './EducationAddEditPage';
-
-const educations = [
-  {
-    id: 1,
-    name: 'ssc',
-    institute: 's.x college',
-    board: 'dhaka',
-    passingYear: '2017',
-    logo: '/image/',
-  },
-  {
-    id: 2,
-    name: 'hsc',
-    institute: 's.x college',
-    board: 'dhaka',
-    passingYear: '2019',
-    logo: '/image/',
-  },
-];
+import {useFetchEducations} from '../../../services/youthManagement/hooks';
+import {YouthEducation} from '../../../services/youthManagement/typing';
+import {deleteEducation} from '../../../services/youthManagement/EducationService';
+import ContentWithImageSkeleton from './component/ContentWithImageSkeleton';
 
 const EducationSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const {
+    data: educations,
+    isLoading,
+    mutate: mutateEducation,
+  } = useFetchEducations();
   const [isOpenEducationAddEditForm, setIsOpenEducationAddEditForm] =
     useState<boolean>(false);
   const [educationItemId, setEducationItemId] = useState<number | null>(null);
@@ -47,15 +36,16 @@ const EducationSection = () => {
   const closeEducationAddEditForm = useCallback(() => {
     setEducationItemId(null);
     setIsOpenEducationAddEditForm(false);
+    mutateEducation();
   }, []);
 
   const deleteEducationItem = async (itemId: number) => {
-    let response = await deleteRankType(itemId);
+    let response = await deleteEducation(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='education.label' />}}
         />,
       );
     }
@@ -70,7 +60,7 @@ const EducationSection = () => {
     <Card>
       <CardContent>
         <CardHeader
-          headerTitle={messages['common.education'] as string}
+          headerTitle={messages['education.label'] as string}
           buttons={[
             {
               label: messages['common.add_new_education'] as string,
@@ -79,23 +69,27 @@ const EducationSection = () => {
             },
           ]}
         />
-        {educations.map((education) => {
-          return (
-            <React.Fragment key={education.id}>
-              <CustomContentCard
-                contentTitle={education.name}
-                contentLogo={education.logo}
-                contentServiceProvider={education.institute}
-                date={education.passingYear}
-                location={education.board}
-                contentEditButton={() => {
-                  openEducationAddEditForm(education.id);
-                }}
-                contentDeleteButton={() => deleteEducationItem(education.id)}
-              />
-            </React.Fragment>
-          );
-        })}
+        {isLoading ? (
+          <ContentWithImageSkeleton />
+        ) : (
+          (educations || []).map((education: YouthEducation) => {
+            return (
+              <React.Fragment key={education.id}>
+                <CustomContentCard
+                  contentTitle={education?.institute_name}
+                  contentLogo={'E'}
+                  contentServiceProvider={education?.institute_name}
+                  date={education?.passing_year}
+                  location={''}
+                  contentEditButton={() => {
+                    openEducationAddEditForm(education.id);
+                  }}
+                  contentDeleteButton={() => deleteEducationItem(education.id)}
+                />
+              </React.Fragment>
+            );
+          })
+        )}
       </CardContent>
     </Card>
   );
