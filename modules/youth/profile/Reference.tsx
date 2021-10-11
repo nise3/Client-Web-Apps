@@ -1,15 +1,15 @@
 import HorizontalLine from './component/HorizontalLine';
 import React from 'react';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {Avatar, Box, Grid, Typography} from '@mui/material';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from './component/CircularDeleteButton';
+import {YouthReference} from '../../../services/youthManagement/typing';
 type ReferenceProp = {
   key: number;
-  reference: any;
+  reference: YouthReference;
   openReferenceAddEditForm?: () => void;
   onDelete?: () => void;
 };
@@ -39,28 +39,32 @@ const Reference = ({
             <Grid item xs={8} md={8}>
               <Box mb={2}>
                 <Typography variant={'subtitle2'}>
-                  {reference.referrer_first_name}
+                  {reference?.referrer_first_name}{' '}
+                  {reference?.referrer_last_name}
                 </Typography>
                 <Typography variant={'caption'}>
-                  {reference.referrer_designation}
+                  {reference?.referrer_designation}
+                </Typography>
+                <Typography variant={'caption'}>
+                  {reference?.referrer_organization_name}
                 </Typography>
                 <Grid container spacing={4}>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocalPhoneIcon fontSize={'small'} />
-                      {reference.referrer_email}
+                      {reference?.referrer_email}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
                       <LocalPhoneIcon fontSize={'small'} />
-                      {reference.referrer_mobile}
+                      {reference?.referrer_mobile}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
-                      <LocationOnIcon fontSize={'small'} />
-                      {location}
+                      <LocalPhoneIcon fontSize={'small'} />
+                      {reference?.referrer_address}
                     </Typography>
                   </Grid>
                 </Grid>

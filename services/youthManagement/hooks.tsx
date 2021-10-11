@@ -4,6 +4,7 @@ import {
   API_YOUTH_PROFILE,
   API_YOUTH_SKILLS,
   API_YOUTH_REFERENCES,
+  API_YOUTH_PORTFOLIOS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -31,5 +32,15 @@ export function useFetchYouthReferences() {
 export function useFetchReference(referenceId: number | null) {
   return useAxiosSWR(
     referenceId ? API_YOUTH_REFERENCES + '/' + referenceId : null,
+  );
+}
+
+export function useFetchPortfolios() {
+  return useAxiosSWR(API_YOUTH_PORTFOLIOS);
+}
+
+export function useFetchPortfolio(portfolioId: number | null) {
+  return useAxiosSWR(
+    portfolioId ? API_YOUTH_PORTFOLIOS + '/' + portfolioId : null,
   );
 }

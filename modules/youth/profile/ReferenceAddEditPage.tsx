@@ -11,7 +11,6 @@ import {setServerValidationErrors} from '../../../@softbd/utilities/validationEr
 import yup from '../../../@softbd/libs/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {Grid, Card, CardContent, Zoom} from '@mui/material';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
@@ -22,6 +21,7 @@ import {
   createReference,
   updateReference,
 } from '../../../services/youthManagement/ReferenceService';
+import {YouthReference} from '../../../services/youthManagement/typing';
 
 interface ReferenceAddEditPageProps {
   itemId: number | null;
@@ -29,79 +29,93 @@ interface ReferenceAddEditPageProps {
 }
 
 const initialValues = {
-  language: '',
-  read: '',
-  write: '',
-  speak: '',
-  understand: '',
+  referrer_first_name_en: '',
+  referrer_first_name: '',
+  referrer_last_name_en: '',
+  referrer_last_name: '',
+  referrer_organization_name_en: '',
+  referrer_organization_name: '',
+  referrer_designation_en: '',
+  referrer_designation: '',
+  referrer_address_en: '',
+  referrer_address: '',
+  referrer_email: '',
+  referrer_mobile: '',
+  referrer_relation_en: '',
+  referrer_relation: '',
 };
 
 const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   itemId,
   ...props
-}) => {
+}: ReferenceAddEditPageProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {data: itemData} = useFetchReference(itemId);
+  const {
+    data: itemData,
+    mutate: mutateReference,
+    isLoading,
+  } = useFetchReference(itemId);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      firstname_en: yup
+      referrer_first_name_en: yup
         .string()
         .title('en')
         .label(messages['common.first_name_en'] as string),
-      firstname_bn: yup
+      referrer_first_name: yup
         .string()
         .title('bn')
         .label(messages['common.first_name_bn'] as string),
-      lastname_en: yup
+      referrer_last_name_en: yup
         .string()
         .title('en')
         .label(messages['common.last_name_en'] as string),
-      lastname_bn: yup
+      referrer_last_name: yup
         .string()
         .title('bn')
         .label(messages['common.last_name_bn'] as string),
-      organization_name_en: yup
+      referrer_organization_name_en: yup
         .string()
         .title('en')
         .label(messages['common.organization_en'] as string),
-      organization_name_bn: yup
+      referrer_organization_name: yup
         .string()
         .title('bn')
         .label(messages['common.organization_bn'] as string),
-      designation_en: yup
+      referrer_designation_en: yup
         .string()
         .title('en')
         .label(messages['common.designation_en'] as string),
-      designation_bn: yup
+      referrer_designation: yup
         .string()
         .title('bn')
         .label(messages['common.designation_bn'] as string),
-      address_en: yup
+      referrer_address_en: yup
         .string()
         .title('en')
         .label(messages['common.address_en'] as string),
-      address_bn: yup
+      referrer_address: yup
         .string()
         .title('bn')
         .label(messages['common.address_bn'] as string),
-      mobile: yup
+      referrer_mobile: yup
         .string()
         .trim()
         .required()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
-      email: yup
+      referrer_email: yup
         .string()
         .trim()
         .required()
         .email()
         .label(messages['common.email'] as string),
-      relation_en: yup
+      referrer_relation_en: yup
         .string()
         .title('en')
         .label(messages['common.relation_en'] as string),
-      relation_bn: yup
+      referrer_relation: yup
         .string()
         .title('bn')
         .label(messages['common.relation_bn'] as string),
@@ -110,12 +124,11 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
   const {
     register,
-    control,
     reset,
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<YouthReference>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -124,27 +137,29 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        firstname_en: itemData.referrer_first_name_en,
-        firstname_bn: itemData.referrer_first_name,
-        lastname_en: itemData?.referrer_last_name_en,
-        lastname_bn: itemData?.referrer_last_name,
-        organization_name_en: itemData?.referrer_organization_name_en,
-        organization_name_bn: itemData?.referrer_organization_name,
-        designation_en: itemData?.referrer_designation_en,
-        designation_bn: itemData?.referrer_designation,
-        address_en: itemData?.referrer_address_en,
-        address_bn: itemData?.referrer_address,
-        email: itemData?.referrer_email,
-        mobile: itemData?.referrer_mobile,
-        relation_en: itemData?.referrer_relation_en,
-        relation_bn: itemData?.referrer_relation,
+        referrer_first_name_en: itemData.referrer_first_name_en,
+        referrer_first_name: itemData.referrer_first_name,
+        referrer_last_name_en: itemData?.referrer_last_name_en,
+        referrer_last_name: itemData?.referrer_last_name,
+        referrer_organization_name_en: itemData?.referrer_organization_name_en,
+        referrer_organization_name: itemData?.referrer_organization_name,
+        referrer_designation_en: itemData?.referrer_designation_en,
+        referrer_designation: itemData?.referrer_designation,
+        referrer_address_en: itemData?.referrer_address_en,
+        referrer_address: itemData?.referrer_address,
+        referrer_email: itemData?.referrer_email,
+        referrer_mobile: itemData?.referrer_mobile,
+        referrer_relation_en: itemData?.referrer_relation_en,
+        referrer_relation: itemData?.referrer_relation,
       });
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit: SubmitHandler<YouthReference> = async (
+    data: YouthReference,
+  ) => {
     const response = itemId
       ? await updateReference(itemId, data)
       : await createReference(data);
@@ -155,6 +170,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           values={{subject: <IntlMessages id='common.reference' />}}
         />,
       );
+      mutateReference();
       props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
@@ -178,160 +194,163 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           </DialogTitle>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='firstname_en'
+                  id='referrer_first_name_en'
                   label={messages['common.first_name_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='firstname_bn'
+                  id='referrer_first_name'
                   label={messages['common.first_name_bn']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='lastname_en'
+                  id='referrer_last_name_en'
                   label={messages['common.last_name_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='lastname_bn'
+                  id='referrer_last_name'
                   label={messages['common.last_name_bn']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='organization_name_en'
+                  id='referrer_organization_name_en'
                   label={messages['common.organization_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='organization_name_bn'
+                  id='referrer_organization_name'
                   label={messages['common.organization_bn']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='designation_en'
+                  id='referrer_designation_en'
                   label={messages['common.designation_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='designation_bn'
+                  id='referrer_designation'
                   label={messages['common.designation_bn']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='address_en'
+                  id='referrer_address_en'
                   label={messages['common.address_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='address_bn'
+                  id='referrer_address'
                   label={messages['common.address_bn']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='email'
+                  id='referrer_email'
                   label={messages['common.email']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='mobile'
+                  id='referrer_mobile'
                   label={messages['common.phone']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='relation_en'
+                  id='referrer_relation_en'
                   label={messages['common.relation_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  id='relation_bn'
+                  id='referrer_relation'
                   label={messages['common.relation_bn']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={6}>
-                <FormRadioButtons
-                  id='allow_contact'
-                  label={'reference.allow_contact'}
-                  radios={[
-                    {
-                      key: '1',
-                      label: messages['common.yes'],
-                    },
-                    {
-                      key: '2',
-                      label: messages['common.no'],
-                    },
-                  ]}
-                  control={control}
-                  defaultValue={'1'}
-                  isLoading={false}
-                />
+              <Grid item xs={12} md={6}>
+                {/*<FormRadioButtons*/}
+                {/*  id='allow_contact'*/}
+                {/*  label={'reference.allow_contact'}*/}
+                {/*  radios={[*/}
+                {/*    {*/}
+                {/*      key: '1',*/}
+                {/*      label: messages['common.yes'],*/}
+                {/*    },*/}
+                {/*    {*/}
+                {/*      key: '2',*/}
+                {/*      label: messages['common.no'],*/}
+                {/*    },*/}
+                {/*  ]}*/}
+                {/*  control={control}*/}
+                {/*  defaultValue={'1'}*/}
+                {/*  isLoading={isLoading}*/}
+                {/*/>*/}
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={3} justifyContent={'flex-end'}>
                   <Grid item>
-                    <CancelButton onClick={props.onClose} isLoading={false} />
+                    <CancelButton
+                      onClick={props.onClose}
+                      isLoading={isLoading}
+                    />
                   </Grid>
                   <Grid item>
                     <SubmitButton
                       isSubmitting={isSubmitting}
-                      isLoading={false}
+                      isLoading={isLoading}
                     />
                   </Grid>
                 </Grid>

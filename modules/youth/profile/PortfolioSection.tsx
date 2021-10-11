@@ -7,38 +7,12 @@ import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import CardItemWithButton from './component/CardItemWithButton';
 import PortfolioAddEdit from './PortfolioAddEdit';
-
-let items = [
-  {
-    id: 1,
-    img: '/images/popular-course1.png',
-    price: '৫০০০',
-    title: 'লিডারশিপ স্কিল',
-    duration: '১ ঘন্টা ৩০ মিনিট',
-    enrolls: 'Student (16.1k)',
-  },
-
-  {
-    id: 2,
-    img: '/images/popular-course2.png',
-    price: '৩০০০',
-    title: 'প্রফেশনাল মাস্টার ক্লাস',
-    duration: '১ ঘন্টা',
-    enrolls: 'Student (16.1k)',
-  },
-  {
-    id: 3,
-    img: '/images/popular-course3.png',
-    price: 'বিনামূল্যে',
-    title: 'কম্পিঊটার স্কিল',
-    duration: '১ ঘন্টা',
-    enrolls: 'Student (16.1k)',
-  },
-];
+import {useFetchPortfolios} from '../../../services/youthManagement/hooks';
 
 const PortfolioSection = () => {
   const {messages} = useIntl();
   const [portfolioId, setPortfolioId] = useState<number | null>(null);
+  const {data: portfolios, mutate: mutatePortfolios} = useFetchPortfolios();
   const [isOpenPortfolioAddEditForm, setIsOpenPortfolioAddEditForm] =
     useState<boolean>(false);
 
@@ -52,6 +26,7 @@ const PortfolioSection = () => {
   const closePortfolioAddEditForm = useCallback(() => {
     setPortfolioId(null);
     setIsOpenPortfolioAddEditForm(false);
+    mutatePortfolios();
   }, []);
 
   return isOpenPortfolioAddEditForm ? (
@@ -76,12 +51,12 @@ const PortfolioSection = () => {
       <HorizontalLine />
       <Box>
         <CustomCarousel>
-          {items.map((item: any) => {
+          {(portfolios || []).map((portfolio: any) => {
             return (
-              <React.Fragment key={item.id}>
+              <React.Fragment key={portfolio?.id}>
                 <CardItemWithButton
-                  item={item}
-                  onClick={() => openPortfolioAddEditForm(item.id)}
+                  portfolio={portfolio}
+                  onClick={() => openPortfolioAddEditForm(portfolio?.id)}
                 />
               </React.Fragment>
             );
