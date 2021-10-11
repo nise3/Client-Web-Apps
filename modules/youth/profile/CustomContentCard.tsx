@@ -35,6 +35,8 @@ type CustomContentCardProp = {
   date?: string;
   location?: string;
   contentDeleteButton?: () => void;
+  openAddEditForm?: () => void;
+  isViewPageOpen?: boolean;
 };
 
 const CustomContentCard = ({
@@ -45,6 +47,7 @@ const CustomContentCard = ({
   date,
   location,
   contentDeleteButton,
+  isViewPageOpen,
 }: CustomContentCardProp) => {
   const classes = useStyles();
   const {messages} = useIntl();
