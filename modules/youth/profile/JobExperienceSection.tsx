@@ -1,7 +1,7 @@
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import {BusinessCenter} from '@mui/icons-material';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import JobExperience from './JobExperience';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
@@ -11,34 +11,21 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useFetchYouthJobExperiences} from '../../../services/youthManagement/hooks';
 import JobExperienceAddEditPage from './JobExperienceAddEditPage';
+import {YouthJobExperience} from '../../../services/youthManagement/typing';
 
 const useStyles = makeStyles(() =>
   createStyles({
     youthJobExperienceCard: {
       width: '100%',
     },
-    youthJobExperienceCompanyInfo: {
-      display: 'flex',
-      flexDirection: 'row',
-    },
   }),
 );
-
-type JobExperienceProp = {
-  id: number;
-  position?: string;
-  companyName?: string;
-  companyLogo?: any;
-  jobLocation?: string;
-  jobPeriod?: string;
-  jobDescription?: string;
-};
 
 const JobExperienceSection = () => {
   const {messages} = useIntl();
   const classes = useStyles();
   const {successStack} = useNotiStack();
-  const [jobExperienceFilters, setJobExperienceFilters] = useState({});
+  const [jobExperienceFilters] = useState({});
 
   const {data: jobExperiences} =
     useFetchYouthJobExperiences(jobExperienceFilters);
@@ -56,12 +43,6 @@ const JobExperienceSection = () => {
 
   const closeJobExperienceAddEditForm = useCallback(() => {
     setIsOpenJobExperienceAddEditForm(false);
-  }, []);
-
-  useEffect(() => {
-    // if (authUser?.youth) {
-    setJobExperienceFilters({youth_id: 1});
-    // }
   }, []);
 
   const deleteJobExperienceItem = async (itemId: number) => {
@@ -103,11 +84,11 @@ const JobExperienceSection = () => {
         </Grid>
 
         {jobExperiences &&
-          jobExperiences.map((jobExperience: JobExperienceProp) => {
+          jobExperiences.map((jobExperience: YouthJobExperience) => {
             return (
               <React.Fragment key={jobExperience.id}>
                 <JobExperience
-                  {...jobExperience}
+                  jobExperience={jobExperience}
                   openAddEditForm={() =>
                     openJobExperienceAddEditForm(jobExperience.id)
                   }

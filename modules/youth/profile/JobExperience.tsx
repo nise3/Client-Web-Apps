@@ -9,6 +9,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Avatar, Box, Grid, Typography} from '@mui/material';
 import CircularDeleteButton from './component/CircularDeleteButton';
+import {YouthJobExperience} from '../../../services/youthManagement/typing';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -25,25 +26,13 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 );
 
 type JobExperienceProp = {
-  position?: string;
-  company_name?: string;
-  location?: string;
-  start_date?: string;
-  end_date?: string;
-  description?: string;
-  is_currently_work?: number;
+  jobExperience: YouthJobExperience;
   openAddEditForm?: () => void;
   deleteJobExperience: () => void;
 };
 
 const JobExperience = ({
-  position,
-  company_name,
-  location,
-  start_date,
-  end_date,
-  description,
-  is_currently_work,
+  jobExperience,
   openAddEditForm,
   deleteJobExperience,
 }: JobExperienceProp) => {
@@ -63,8 +52,12 @@ const JobExperience = ({
 
             <Grid item>
               <Box ml={1} mb={2}>
-                <Typography variant={'subtitle2'}>{company_name}</Typography>
-                <Typography variant={'caption'}>{position}</Typography>
+                <Typography variant={'subtitle2'}>
+                  {jobExperience.company_name}
+                </Typography>
+                <Typography variant={'caption'}>
+                  {jobExperience.position}
+                </Typography>
               </Box>
             </Grid>
           </Grid>
@@ -89,7 +82,10 @@ const JobExperience = ({
           <Box className={classes.jobDurationDate} mb={4}>
             <AccessTime />
             <Typography className={classes.jobAccessTime}>
-              {start_date} - {is_currently_work ? end_date : 'present'}
+              {jobExperience.start_date} -{' '}
+              {jobExperience.is_currently_work
+                ? jobExperience.end_date
+                : 'present'}
             </Typography>
             <VerticalLine
               lineHeight={'15px'}
@@ -104,7 +100,7 @@ const JobExperience = ({
               </Box>
             )}
           </Box>
-          <Typography>{description}</Typography>
+          <Typography>{jobExperience.description}</Typography>
         </Grid>
       </Box>
     </>

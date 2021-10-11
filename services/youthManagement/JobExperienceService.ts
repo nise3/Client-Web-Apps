@@ -1,25 +1,9 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_YOUTH_JOB_EXPERIENCES} from '../../@softbd/common/apiRoutes';
+import {YouthJobExperience} from './typing';
 
-interface JobExperience {
-  id: number;
-  youth_id: number;
-  company_name: string;
-  company_name_en: string;
-  employment_type_id: number;
-  position: string;
-  position_en: string;
-  start_date: string;
-  end_date: string;
-  location: string;
-  location_en: string;
-  description: string;
-  description_en: string;
-  is_currently_work: string;
-  row_status: string;
-}
-export const createJobExperience = async (data: JobExperience) => {
+export const createJobExperience = async (data: YouthJobExperience) => {
   try {
     let response: any = await apiPost(API_YOUTH_JOB_EXPERIENCES, data);
     return response.data;
@@ -30,7 +14,7 @@ export const createJobExperience = async (data: JobExperience) => {
 
 export const updateJobExperience = async (
   JobExperienceId: number,
-  data: JobExperience,
+  data: YouthJobExperience,
 ) => {
   try {
     let response: any = await apiPut(

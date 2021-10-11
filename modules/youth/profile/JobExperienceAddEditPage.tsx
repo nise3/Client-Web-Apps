@@ -23,6 +23,7 @@ import {
   updateJobExperience,
 } from '../../../services/youthManagement/JobExperienceService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {YouthJobExperience} from '../../../services/youthManagement/typing';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -34,10 +35,10 @@ const initialValues = {
   position: '',
   employment_type_id: '',
   location: '',
-  job_description: '',
+  description: '',
   start_date: '',
   end_date: '',
-  is_currently_work: false,
+  is_currently_work: 0,
 };
 
 const employmentTypes = [
@@ -58,17 +59,24 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     return yup.object().shape({
       company_name: yup
         .string()
+        .required()
         .label(messages['common.company_name'] as string),
-      position: yup.string().label(messages['common.position'] as string),
+      position: yup
+        .string()
+        .required()
+        .label(messages['common.position'] as string),
       employment_type_id: yup
         .string()
+        .required()
         .label(messages['common.type_of_employee'] as string),
-      location: yup.string().label(messages['common.location'] as string),
-      job_description: yup
+      location: yup
         .string()
-        .label(messages['common.job_description'] as string),
-      start_date: yup.string().label(messages['common.start_date'] as string),
-      end_date: yup.string().label(messages['common.end_date'] as string),
+        .required()
+        .label(messages['common.location'] as string),
+      start_date: yup
+        .string()
+        .required()
+        .label(messages['common.start_date'] as string),
     });
   }, [messages]);
 
@@ -79,7 +87,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     reset,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<YouthJobExperience>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -90,30 +98,30 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     isLoading,
   } = useFetchJobExperience(itemId);
 
-  const [currentWorkStatus, setCurrentWorkStatus] = useState<boolean>(false);
+  const [currentWorkStatus, setCurrentWorkStatus] = useState<number>(0);
 
   useEffect(() => {
     if (itemData) {
       reset({
         company_name: itemData.company_name,
         position: itemData?.position,
-        type_of_employee: itemData?.type_of_employee,
         location: itemData?.location,
-        job_description: itemData?.job_description,
+        description: itemData?.description,
         start_date: itemData?.start_date,
         end_date: itemData?.end_date,
         employment_type_id: itemData?.employment_type_id,
       });
-      setCurrentWorkStatus(!!itemData.is_currently_work);
+      setCurrentWorkStatus(itemData?.is_currently_work);
     } else {
       reset(initialValues);
       setCurrentWorkStatus(initialValues.is_currently_work);
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit: SubmitHandler<YouthJobExperience> = async (
+    data: YouthJobExperience,
+  ) => {
     data.is_currently_work = currentWorkStatus;
-    data.youth_id = 1;
 
     const response = itemId
       ? await updateJobExperience(itemId, data)
@@ -142,10 +150,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   };
 
   const handleCurrentWorkStatusChange = (event: any) => {
-    setCurrentWorkStatus(event.target.checked);
+    setCurrentWorkStatus(event.target.checked ? 1 : 0);
   };
-
-  console.log(currentWorkStatus);
 
   return (
     <Zoom in={true}>
@@ -232,7 +238,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                       control={
                         <Switch
                           onChange={handleCurrentWorkStatusChange}
-                          checked={currentWorkStatus}
+                          checked={currentWorkStatus == 1}
                         />
                       }
                       label='I currently work here'
