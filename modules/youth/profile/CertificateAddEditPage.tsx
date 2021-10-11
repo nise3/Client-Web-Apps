@@ -1,7 +1,7 @@
 import {Grid, Card, CardContent, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   isResponseSuccess,
@@ -10,16 +10,19 @@ import {
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  createRankType,
-  updateRankType,
-} from '../../../services/organaizationManagement/RankTypeService';
+
 import yup from '../../../@softbd/libs/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {YouthCertificate} from '../../../services/youthManagement/typing';
+import {
+  createCertificate,
+  updateCertificate,
+} from '../../../services/youthManagement/CertificateService';
+import {useFetchYouthCertificate} from '../../../services/youthManagement/hooks';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -27,12 +30,12 @@ interface CertificateAddEditPageProps {
 }
 
 const initialValues = {
-  certification: '',
-  institution: '',
+  certification_name: '',
+  institute_name: '',
   location: '',
   start_date: '',
   end_date: '',
-  certificate_file: '',
+  certificate_file_path: '',
 };
 
 const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
@@ -41,20 +44,34 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  console.log('certificate id :', itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      certification: yup
+      certification_name: yup
+        .string()
+        .required()
+        .label(messages['certification.label'] as string),
+      certification_name_en: yup
         .string()
         .label(messages['certification.label'] as string),
-      institute: yup.string().label(messages['common.institute'] as string),
-      location: yup.string().label(messages['common.location'] as string),
+      institute_name: yup
+        .string()
+        .required()
+        .label(messages['common.institute_name'] as string),
+      institute_name_en: yup
+        .string()
+        .label(messages['common.institute_name_en'] as string),
+      location: yup
+        .string()
+        .required()
+        .label(messages['common.location'] as string),
+      location_en: yup.string().label(messages['common.location'] as string),
       start_date: yup.string().label(messages['common.start_date'] as string),
       end_date: yup.string().label(messages['common.end_date'] as string),
-      certificate_file: yup
+      certificate_file_path: yup
         .string()
-        .label(messages['certificate.upload_certificate'] as string),
+        .required(messages['certificate.upload'] as string)
+        .label(messages['certificate.upload'] as string),
     });
   }, [messages]);
 
@@ -68,19 +85,28 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const [itemData, setItemData] = useState<any>(null);
   const isEdit = itemId != null;
+  const {
+    data: itemData,
+    mutate: certificateMutate,
+    isLoading,
+  } = useFetchYouthCertificate(itemId);
 
   useEffect(() => {
     if (itemId) {
-      setItemData({
-        certification: 'ML',
-        institute: 'h20.io',
-        location: 'australia',
-        start_date: '2021-10-10',
-        end_date: '2021-12-12',
-        certificate_file: '',
+      reset({
+        certification_name: itemData.certification_name,
+        certification_name_en: itemData?.certification_name_en,
+        institute_name: itemData.institute_name,
+        institute_name_en: itemData?.institute_name_en,
+        location: itemData.location,
+        location_en: itemData?.location_en,
+        start_date: itemData?.start_date,
+        end_date: itemData?.end_date,
+        certificate_file_path: itemData.certification_file_path,
       });
+    } else {
+      reset(initialValues);
     }
   }, [itemId]);
 
@@ -99,25 +125,29 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit: SubmitHandler<YouthCertificate> = async (
+    data: YouthCertificate,
+  ) => {
     const response = itemId
-      ? await updateRankType(itemId, data)
-      : await createRankType(data);
+      ? await updateCertificate(itemId, data)
+      : await createCertificate(data);
     if (isResponseSuccess(response) && isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='certificate.label' />}}
         />,
       );
+      certificateMutate();
       props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='certificate.label' />}}
         />,
       );
+      certificateMutate();
       props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
@@ -126,92 +156,115 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
 
   return (
     <Zoom in={true}>
-      <Grid container justifyContent={'center'} spacing={2}>
-        <Grid item>
-          <Card>
-            <CardContent sx={{position: 'relative'}}>
-              <DialogTitle onClose={props.onClose}>
-                {messages['common.certificate']}
-              </DialogTitle>
-              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                <Grid container spacing={5}>
-                  <Grid item md={6}>
-                    <CustomTextInput
-                      id='certification'
-                      label={messages['certification.label']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
+      <Card>
+        <CardContent sx={{position: 'relative'}}>
+          <DialogTitle onClose={props.onClose}>
+            {messages['common.certificate']}
+          </DialogTitle>
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+            <Grid container spacing={2}>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='certification_name'
+                  label={messages['certificate.name']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='certification_name_en'
+                  label={messages['certificate.name_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='institute_name'
+                  label={messages['institute.name']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='institute_name_en'
+                  label={messages['institute.name_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='location'
+                  label={messages['common.location']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='location_en'
+                  label={messages['common.location_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <CustomDateTimeField
+                  id='start_date'
+                  label={messages['common.start_date']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <CustomDateTimeField
+                  id='end_date'
+                  label={messages['common.end_date']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <CustomTextInput
+                  id='certificate_file_path'
+                  label={messages['common.certificate']}
+                  type={'file'}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={4} justifyContent={'flex-end'}>
+                  <Grid item>
+                    <CancelButton
+                      onClick={props.onClose}
+                      isLoading={isLoading}
                     />
                   </Grid>
-                  <Grid item md={6}>
-                    <CustomTextInput
-                      id='institute'
-                      label={messages['institute.label']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
+                  <Grid item>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      isLoading={isLoading}
                     />
-                  </Grid>
-                  <Grid item md={6}>
-                    <CustomTextInput
-                      id='location'
-                      label={messages['common.location']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item md={3} xs={12}>
-                    <CustomDateTimeField
-                      id='start_date'
-                      label={messages['job_experience.start_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item md={3} xs={12}>
-                    <CustomDateTimeField
-                      id='end_date'
-                      label={messages['job_experience.end_date']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <CustomTextInput
-                      id='certificate_file'
-                      label={messages['common.certificate']}
-                      type={'file'}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={false}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container spacing={4} justifyContent={'flex-end'}>
-                      <Grid item>
-                        <CancelButton
-                          onClick={props.onClose}
-                          isLoading={false}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <SubmitButton
-                          isSubmitting={isSubmitting}
-                          isLoading={false}
-                        />
-                      </Grid>
-                    </Grid>
                   </Grid>
                 </Grid>
-              </form>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+              </Grid>
+            </Grid>
+          </form>
+        </CardContent>
+      </Card>
     </Zoom>
   );
 };

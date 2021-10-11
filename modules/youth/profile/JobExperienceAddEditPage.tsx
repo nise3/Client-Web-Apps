@@ -32,10 +32,14 @@ interface JobExperienceAddEditProps {
 
 const initialValues = {
   company_name: '',
+  company_name_en: '',
   position: '',
+  position_en: '',
   employment_type_id: '',
   location: '',
-  description: '',
+  location_en: '',
+  job_description: '',
+  job_description_en: '',
   start_date: '',
   end_date: '',
   is_currently_work: 0,
@@ -61,10 +65,14 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .required()
         .label(messages['common.company_name'] as string),
+      company_name_name: yup
+        .string()
+        .label(messages['common.company_name_en'] as string),
       position: yup
         .string()
         .required()
         .label(messages['common.position'] as string),
+      position_en: yup.string().label(messages['common.position_en'] as string),
       employment_type_id: yup
         .string()
         .required()
@@ -73,10 +81,15 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .required()
         .label(messages['common.location'] as string),
+      location_en: yup
+        .string()
+        .required()
+        .label(messages['common.location_en'] as string),
       start_date: yup
         .string()
         .required()
         .label(messages['common.start_date'] as string),
+      end_date: yup.string().label(messages['common.end_date'] as string),
     });
   }, [messages]);
 
@@ -104,10 +117,14 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     if (itemData) {
       reset({
         company_name: itemData.company_name,
-        position: itemData?.position,
-        location: itemData?.location,
-        description: itemData?.description,
-        start_date: itemData?.start_date,
+        company_name_en: itemData?.company_name_en,
+        position: itemData.position,
+        position_en: itemData?.position_en,
+        location: itemData.location,
+        location_en: itemData?.location_en,
+        job_description: itemData?.job_description,
+        job_description_en: itemData?.job_description_en,
+        start_date: itemData.start_date,
         end_date: itemData?.end_date,
         employment_type_id: itemData?.employment_type_id,
       });
@@ -173,8 +190,26 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomTextInput
+                  id='company_name_en'
+                  label={messages['common.company_name_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
                   id='position'
                   label={messages['common.position']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='position_en'
+                  label={messages['common.position_en']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -203,8 +238,28 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomTextInput
+                  id='location_en'
+                  label={messages['common.location_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
                   id='job_description'
-                  label={messages['job_experience.job_description']}
+                  label={messages['common.job_description']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='job_description_en'
+                  label={messages['common.job_description_en']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -222,7 +277,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={6}>
                 <CustomDateTimeField
                   id='end_date'
                   label={messages['job_experience.end_date']}
@@ -231,7 +286,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                   isLoading={isLoading}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={12}>
                 <FormControlLabel
                   control={
                     <Switch
