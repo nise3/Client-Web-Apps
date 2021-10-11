@@ -21,7 +21,8 @@ const CertificationSection = () => {
     null,
   );
 
-  const {data: certificates} = useFetchYouthCertificates();
+  const {data: certificates, mutate: mutateCertifications} =
+    useFetchYouthCertificates();
 
   const openCertificateAddEditForm = useCallback(
     (itemId: number | null = null) => {
@@ -33,6 +34,7 @@ const CertificationSection = () => {
   const closeCertificateAddEditForm = useCallback(() => {
     setCertificateItemId(null);
     setIsOpenCertificateAddEditForm(false);
+    mutateCertifications();
   }, []);
 
   const deleteCertificationItem = async (itemId: number) => {
@@ -44,6 +46,7 @@ const CertificationSection = () => {
           values={{subject: <IntlMessages id='certificate.label' />}}
         />,
       );
+      mutateCertifications();
     }
   };
 
@@ -66,25 +69,23 @@ const CertificationSection = () => {
           ]}
         />
         {certificates &&
-          certificates.map((certificate: YouthCertificate) => {
-            return (
-              <React.Fragment key={certificate.id}>
-                <CustomContentCard
-                  contentTitle={certificate.certification_name}
-                  contentLogo={certificate.certificate_file_path}
-                  contentServiceProvider={certificate.institute_name}
-                  date={certificate.start_date}
-                  location={certificate.location}
-                  contentEditButton={() =>
-                    openCertificateAddEditForm(certificate.id)
-                  }
-                  contentDeleteButton={() =>
-                    deleteCertificationItem(certificate.id)
-                  }
-                />
-              </React.Fragment>
-            );
-          })}
+          certificates.map((certificate: YouthCertificate) => (
+            <React.Fragment key={certificate.id}>
+              <CustomContentCard
+                contentTitle={certificate.certification_name}
+                contentLogo={certificate.certificate_file_path}
+                contentServiceProvider={certificate.institute_name}
+                date={certificate.start_date + ' to ' + certificate?.end_date}
+                location={certificate.location}
+                contentEditButton={() =>
+                  openCertificateAddEditForm(certificate.id)
+                }
+                contentDeleteButton={() =>
+                  deleteCertificationItem(certificate.id)
+                }
+              />
+            </React.Fragment>
+          ))}
       </CardContent>
     </Card>
   );

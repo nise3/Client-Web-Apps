@@ -569,6 +569,7 @@
   "common.name_of_the_office_head_designation" : "অফিস প্রধানের পদবি",
   "common.password_must_match" : "পাসওয়ার্ড অবশ্যই মিলতে হবে",
   "certificate.name": "সনদপত্রের নাম",
+  "certificate.label": "সনদপত্র",
   "certificate.name_en": "সনদপত্রের নাম(ইংরেজি)",
   "certificate.upload": "সনদপত্র ফাইলটি আপলোড করুন",
   "institute.name": "প্রতিষ্ঠানের নাম",

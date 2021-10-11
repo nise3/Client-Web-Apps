@@ -6,6 +6,7 @@ import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import LanguageAddEditPage from './LanguageAddEditPage';
 import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
+import {useFetchYouthLanguages} from '../../../services/youthManagement/hooks';
 
 const LanguageSection = () => {
   const {messages} = useIntl();
@@ -15,6 +16,9 @@ const LanguageSection = () => {
     useState<boolean>(false);
   const [languageId, setLanguageId] = useState<number | null>(null);
 
+  const {data: languages, mutate: mutateLanguages} = useFetchYouthLanguages();
+  console.log('languages', languages);
+
   const openLanguageAddEditForm = useCallback(
     (itemId: number | null = null) => {
       setLanguageId(itemId);
@@ -23,6 +27,7 @@ const LanguageSection = () => {
     [],
   );
   const closeLanguageAddEditForm = useCallback(() => {
+    mutateLanguages();
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
   }, []);
@@ -32,6 +37,7 @@ const LanguageSection = () => {
   }, []);
 
   const closeLanguageProficiencyView = useCallback(() => {
+    setIsOpenLanguageAddEditForm(false);
     setIsOpenLanguageProficiencyView(false);
   }, []);
 

@@ -55,6 +55,8 @@ export const API_YOUTH_REGISTRATION =
 export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
 export const API_YOUTH_JOB_EXPERIENCES =
-  YOUTH_SERVICE_PATH + '/youth-job-experience';
-export const API_YOUTH_CERTIFICATES = YOUTH_SERVICE_PATH + '/youth-certificate';
+  YOUTH_SERVICE_PATH + '/youth-job-experiences';
+export const API_YOUTH_CERTIFICATES =
+  YOUTH_SERVICE_PATH + '/youth-certifications';
+export const API_YOUTH_LANGUAGES = YOUTH_SERVICE_PATH + '/youth-languages';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';

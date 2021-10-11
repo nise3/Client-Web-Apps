@@ -12,6 +12,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Zoom,
 } from '@mui/material';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
@@ -103,49 +104,51 @@ const LanguageProficiencyViewPage = ({
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Box sx={{position: 'relative'}}>
-        <DialogTitle onClose={onClose}>
-          {messages['language.proficiency']}
-        </DialogTitle>
-      </Box>
+    <Zoom in={true}>
+      <TableContainer component={Paper}>
+        <Box sx={{position: 'relative'}}>
+          <DialogTitle onClose={onClose}>
+            {messages['language.proficiency']}
+          </DialogTitle>
+        </Box>
 
-      <Table size={'small'} aria-label='Language proficiency table'>
-        <TableHead>
-          <TableRow>
-            <TableCell>{messages['language.label']}</TableCell>
-            <TableCell>{messages['language.read']}</TableCell>
-            <TableCell>{messages['language.write']}</TableCell>
-            <TableCell>{messages['language.speak']}</TableCell>
-            <TableCell>{messages['language.understand']}</TableCell>
-            <TableCell>{messages['common.actions']}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {languages.map((language, i: number) => (
-            <TableRow key={i}>
-              <TableCell component='th' scope='language'>
-                {language.title}
-              </TableCell>
-              <TableCell>{language.read}</TableCell>
-              <TableCell>{language.write}</TableCell>
-              <TableCell>{language.speak}</TableCell>
-              <TableCell>{language.understand}</TableCell>
-              <TableCell>
-                <EditButton
-                  size={'small'}
-                  onClick={() => onEdit(language.id)}
-                />
-                <DeleteButton
-                  deleteAction={() => deleteLanguageItem(language.id)}
-                  deleteTitle={'Delete language'}
-                />
-              </TableCell>
+        <Table size={'small'} aria-label='Language proficiency table'>
+          <TableHead>
+            <TableRow>
+              <TableCell>{messages['language.label']}</TableCell>
+              <TableCell>{messages['language.read']}</TableCell>
+              <TableCell>{messages['language.write']}</TableCell>
+              <TableCell>{messages['language.speak']}</TableCell>
+              <TableCell>{messages['language.understand']}</TableCell>
+              <TableCell>{messages['common.actions']}</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {languages.map((language, i: number) => (
+              <TableRow key={i}>
+                <TableCell component='th' scope='language'>
+                  {language.title}
+                </TableCell>
+                <TableCell>{language.read}</TableCell>
+                <TableCell>{language.write}</TableCell>
+                <TableCell>{language.speak}</TableCell>
+                <TableCell>{language.understand}</TableCell>
+                <TableCell>
+                  <EditButton
+                    size={'small'}
+                    onClick={() => onEdit(language.id)}
+                  />
+                  <DeleteButton
+                    deleteAction={() => deleteLanguageItem(language.id)}
+                    deleteTitle={'Delete language'}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Zoom>
   );
 };
 

@@ -53,6 +53,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         .label(messages['certification.label'] as string),
       certification_name_en: yup
         .string()
+        .nullable()
         .label(messages['certification.label'] as string),
       institute_name: yup
         .string()
@@ -60,14 +61,24 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         .label(messages['common.institute_name'] as string),
       institute_name_en: yup
         .string()
+        .nullable()
         .label(messages['common.institute_name_en'] as string),
       location: yup
         .string()
         .required()
         .label(messages['common.location'] as string),
-      location_en: yup.string().label(messages['common.location'] as string),
-      start_date: yup.string().label(messages['common.start_date'] as string),
-      end_date: yup.string().label(messages['common.end_date'] as string),
+      location_en: yup
+        .string()
+        .nullable()
+        .label(messages['common.location'] as string),
+      start_date: yup
+        .string()
+        .nullable()
+        .label(messages['common.start_date'] as string),
+      end_date: yup
+        .string()
+        .nullable()
+        .label(messages['common.end_date'] as string),
       certificate_file_path: yup
         .string()
         .required(messages['certificate.upload'] as string)
@@ -93,32 +104,17 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   } = useFetchYouthCertificate(itemId);
 
   useEffect(() => {
-    if (itemId) {
+    if (itemData) {
       reset({
         certification_name: itemData.certification_name,
         certification_name_en: itemData?.certification_name_en,
-        institute_name: itemData.institute_name,
+        institute_name: itemData?.institute_name,
         institute_name_en: itemData?.institute_name_en,
-        location: itemData.location,
+        location: itemData?.location,
         location_en: itemData?.location_en,
         start_date: itemData?.start_date,
         end_date: itemData?.end_date,
         certificate_file_path: itemData.certification_file_path,
-      });
-    } else {
-      reset(initialValues);
-    }
-  }, [itemId]);
-
-  useEffect(() => {
-    if (itemData) {
-      reset({
-        certification: itemData.certification,
-        institute: itemData?.institute,
-        location: itemData?.location,
-        start_date: itemData?.start_date,
-        end_date: itemData?.end_date,
-        certification_date: itemData?.certification_date,
       });
     } else {
       reset(initialValues);

@@ -16,7 +16,7 @@ const JobExperienceSection = () => {
   const {successStack} = useNotiStack();
   const [jobExperienceFilters] = useState({});
 
-  const {data: jobExperiences} =
+  const {data: jobExperiences, mutate: mutateJobExperience} =
     useFetchYouthJobExperiences(jobExperienceFilters);
   const [isOpenJobExperienceAddEditForm, setIsOpenJobExperienceAddEditForm] =
     useState<boolean>(false);
@@ -31,6 +31,7 @@ const JobExperienceSection = () => {
   );
 
   const closeJobExperienceAddEditForm = useCallback(() => {
+    mutateJobExperience();
     setIsOpenJobExperienceAddEditForm(false);
   }, []);
 
@@ -43,6 +44,7 @@ const JobExperienceSection = () => {
           values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
+      mutateJobExperience();
     }
   };
 

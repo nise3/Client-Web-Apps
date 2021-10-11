@@ -65,14 +65,18 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .required()
         .label(messages['common.company_name'] as string),
-      company_name_name: yup
+      company_name_en: yup
         .string()
+        .nullable()
         .label(messages['common.company_name_en'] as string),
       position: yup
         .string()
         .required()
         .label(messages['common.position'] as string),
-      position_en: yup.string().label(messages['common.position_en'] as string),
+      position_en: yup
+        .string()
+        .nullable()
+        .label(messages['common.position_en'] as string),
       employment_type_id: yup
         .string()
         .required()
@@ -83,13 +87,16 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .label(messages['common.location'] as string),
       location_en: yup
         .string()
-        .required()
+        .nullable()
         .label(messages['common.location_en'] as string),
       start_date: yup
         .string()
         .required()
         .label(messages['common.start_date'] as string),
-      end_date: yup.string().label(messages['common.end_date'] as string),
+      end_date: yup
+        .string()
+        .nullable()
+        .label(messages['common.end_date'] as string),
     });
   }, [messages]);
 

@@ -5,6 +5,7 @@ import {
   API_YOUTH_SKILLS,
   API_YOUTH_REFERENCES,
   API_YOUTH_CERTIFICATES,
+  API_YOUTH_LANGUAGES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -43,4 +44,8 @@ export function useFetchReference(referenceId: number | null) {
   return useAxiosSWR(
     referenceId ? API_YOUTH_REFERENCES + '/' + referenceId : null,
   );
+}
+
+export function useFetchYouthLanguages(params?: any) {
+  return useAxiosSWR([API_YOUTH_LANGUAGES, params]);
 }
