@@ -72,7 +72,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       position: yup
         .string()
         .required()
-        .label(messages['common.position'] as string),
+        .label(messages['common.position_bn'] as string),
       position_en: yup
         .string()
         .nullable()
@@ -84,7 +84,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       location: yup
         .string()
         .required()
-        .label(messages['common.location'] as string),
+        .label(messages['common.location_bn'] as string),
       location_en: yup
         .string()
         .nullable()
@@ -189,7 +189,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='company_name'
-                  label={messages['common.company_name']}
+                  label={messages['common.company_name_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -207,7 +207,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='position'
-                  label={messages['common.position']}
+                  label={messages['common.position_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -237,7 +237,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='location'
-                  label={messages['common.location']}
+                  label={messages['common.location_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -255,7 +255,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='job_description'
-                  label={messages['common.job_description']}
+                  label={messages['common.job_description_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}

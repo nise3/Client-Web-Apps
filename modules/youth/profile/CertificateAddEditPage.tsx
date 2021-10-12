@@ -58,7 +58,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
       institute_name: yup
         .string()
         .required()
-        .label(messages['common.institute_name'] as string),
+        .label(messages['common.institute_name_bn'] as string),
       institute_name_en: yup
         .string()
         .nullable()
@@ -66,11 +66,11 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
       location: yup
         .string()
         .required()
-        .label(messages['common.location'] as string),
+        .label(messages['common.location_bn'] as string),
       location_en: yup
         .string()
         .nullable()
-        .label(messages['common.location'] as string),
+        .label(messages['common.location_en'] as string),
       start_date: yup
         .string()
         .nullable()
@@ -162,7 +162,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               <Grid item md={6}>
                 <CustomTextInput
                   id='certification_name'
-                  label={messages['certificate.name']}
+                  label={messages['certificate.name_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -180,7 +180,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               <Grid item md={6}>
                 <CustomTextInput
                   id='institute_name'
-                  label={messages['institute.name']}
+                  label={messages['common.institute_name_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -189,7 +189,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               <Grid item md={6}>
                 <CustomTextInput
                   id='institute_name_en'
-                  label={messages['institute.name_en']}
+                  label={messages['common.institute_name_en']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -198,7 +198,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               <Grid item md={6}>
                 <CustomTextInput
                   id='location'
-                  label={messages['common.location']}
+                  label={messages['common.location_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
