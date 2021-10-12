@@ -45,10 +45,6 @@ const useStyles = makeStyles((theme) => {
       marginLeft: 'auto',
       justifyContent: 'space-between',
     },
-    heading: {
-      boxShadow: '0px 2px 2px #8888',
-      padding: '40px 0px',
-    },
   };
 });
 
@@ -132,9 +128,13 @@ const InstituteCourses = () => {
   }, [itemData.select_video, itemData.video_category, reset]);
 
   return (
-    <Grid sx={{maxWidth: '100%'}}>
-      <Grid textAlign={'center'} className={classes.heading}>
-        <H2>পছন্দের কোর্স সমূহ</H2>
+    <>
+      <Grid container sx={{maxWidth: '100%'}}>
+        <Grid item xs={12} textAlign={'center'}>
+          <Paper>
+            <H2 py={5}>পছন্দের কোর্স সমূহ</H2>
+          </Paper>
+        </Grid>
       </Grid>
       <Container maxWidth='xl'>
         <Grid>
@@ -265,7 +265,7 @@ const InstituteCourses = () => {
           </Grid>
         </Grid>
       </Container>
-    </Grid>
+    </>
   );
 };
 

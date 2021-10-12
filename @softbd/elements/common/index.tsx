@@ -1,30 +1,34 @@
 import React from 'react';
 import NextLink from 'next/link';
-import {Typography} from '@mui/material';
+import {Theme, Typography} from '@mui/material';
 import clsx from 'clsx';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
 
 interface LinkProp {
   children?: any;
   href?: string;
   className?: string;
   decorated?: boolean;
+
   [x: string]: any;
 }
+
 interface TextProp {
   children?: any;
   className?: string;
+
   [x: string]: any;
 }
+
 interface HeadingProp {
   children?: any;
   className?: string;
   centered?: boolean;
+
   [x: string]: any;
 }
 
-const useStyles = makeStyles((/*theme: CremaTheme*/) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   linkText: {
     textDecoration: 'none',
     color: 'inherit',
@@ -35,16 +39,12 @@ export const Link = ({
   children,
   href = '',
   className = '',
-  // decorated = false,
   ...props
 }: LinkProp) => {
   const classes = useStyles();
   return (
     <NextLink href={href}>
-      <a
-        // style={decorated ? {} : {textDecoration: 'none', color: 'unset'}}
-        className={clsx(classes.linkText, className)}
-        {...props}>
+      <a className={clsx(classes.linkText, className)} {...props}>
         {children}
       </a>
     </NextLink>
@@ -65,8 +65,6 @@ export const H1 = ({children, centered = false, ...props}: HeadingProp) => (
     {children}
   </Typography>
 );
-
-<H1 centered></H1>;
 
 export const H2 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
