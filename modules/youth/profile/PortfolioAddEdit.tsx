@@ -1,7 +1,7 @@
 import {Card, CardContent, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   isResponseSuccess,
@@ -9,16 +9,17 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  createRankType,
-  updateRankType,
-} from '../../../services/organaizationManagement/RankTypeService';
 import yup from '../../../@softbd/libs/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {useFetchPortfolio} from '../../../services/youthManagement/hooks';
+import {
+  createPortfolio,
+  updatePortfolio,
+} from '../../../services/youthManagement/PortfolioService';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -26,30 +27,29 @@ interface PortfolioAddEditProps {
 }
 
 const initialValues = {
-  upload_link: '',
   title: '',
+  title_en: '',
   description: '',
-  upload_file: '',
+  description_en: '',
+  file_path: '',
 };
 
 const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
-
+  const {data: itemData, mutate: mutatePortfolio} = useFetchPortfolio(itemId);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      upload_link: yup
+      title: yup
         .string()
-        .label(messages['upload_link.portfolio_modal'] as string),
-      title: yup.string().label(messages['common.title'] as string),
-      description: yup.string().label(messages['common.description'] as string),
-      upload_file: yup
-        .string()
-        .label(messages['upload_file.portfolio_modal'] as string),
+        .title('bn')
+        .label(messages['common.title_bn'] as string),
     });
   }, [messages]);
 
+  console.log(itemData);
+  console.log(itemId);
   const {
     register,
     reset,
@@ -60,24 +60,14 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const [itemData, setItemData] = useState<any>(null);
-
-  useEffect(() => {
-    if (itemId) {
-      setItemData({
-        upload_link: 'link.com',
-        title: 'Title',
-        description: 'This is description',
-      });
-    }
-  }, [itemId]);
-
   useEffect(() => {
     if (itemData) {
       reset({
-        upload_link: itemData.upload_link,
-        title: itemData?.title,
+        title: itemData.title,
+        title_en: itemData?.title_en,
         description: itemData?.description,
+        description_en: itemData?.description_en,
+        file_path: itemData?.file_path,
       });
     } else {
       reset(initialValues);
@@ -86,8 +76,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const response = itemId
-      ? await updateRankType(itemId, data)
-      : await createRankType(data);
+      ? await updatePortfolio(itemId, data)
+      : await createPortfolio(data);
     if (isResponseSuccess(response) && isEdit) {
       successStack(
         <IntlMessages
@@ -95,6 +85,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
           values={{subject: <IntlMessages id='rank_types.label' />}}
         />,
       );
+      mutatePortfolio();
       props.onClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
@@ -122,8 +113,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
                     <CustomTextInput
-                      id='upload_link'
-                      label={messages['upload_link.portfolio_modal']}
+                      id='title_en'
+                      label={messages['common.title_en']}
                       register={register}
                       errorInstance={errors}
                       isLoading={false}
@@ -132,16 +123,29 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                   <Grid item xs={12}>
                     <CustomTextInput
                       id='title'
-                      label={messages['common.title']}
+                      label={messages['common.title_bn']}
                       register={register}
                       errorInstance={errors}
                       isLoading={false}
                     />
                   </Grid>
+
                   <Grid item xs={12}>
                     <CustomTextInput
                       id='description'
-                      label={messages['common.description']}
+                      label={messages['common.description_bn']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={false}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='description_en'
+                      label={messages['common.description_en']}
                       register={register}
                       errorInstance={errors}
                       isLoading={false}

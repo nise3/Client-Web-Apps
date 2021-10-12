@@ -14,7 +14,11 @@ import ReferenceAddEditPage from './ReferenceAddEditPage';
 const ReferenceSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {data: references, isLoading} = useFetchYouthReferences();
+  const {
+    data: references,
+    isLoading,
+    mutate: mutateReferences,
+  } = useFetchYouthReferences();
   const [referenceId, setReferenceId] = useState<number | null>(null);
 
   const [isOpenReferenceAddEditForm, setIsOpenReferenceAddEditForm] =
@@ -30,6 +34,7 @@ const ReferenceSection = () => {
   const closeReferenceAddEditForm = useCallback(() => {
     setReferenceId(null);
     setIsOpenReferenceAddEditForm(false);
+    mutateReferences();
   }, []);
 
   const deleteReferenceItem = async (itemId: number) => {
@@ -42,6 +47,7 @@ const ReferenceSection = () => {
         />,
       );
     }
+    mutateReferences();
   };
 
   return isLoading ? (
@@ -64,10 +70,9 @@ const ReferenceSection = () => {
             },
           ]}
         />
-
-        {(references || []).map((reference: any, key: number) => (
+        {(references || []).map((reference: any) => (
           <Reference
-            key={key}
+            key={reference.id}
             reference={reference}
             openReferenceAddEditForm={() =>
               openReferenceAddEditForm(reference.id)

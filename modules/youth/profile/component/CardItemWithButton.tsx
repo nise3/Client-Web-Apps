@@ -32,19 +32,19 @@ const useStyles = makeStyles(() =>
 );
 
 interface cardItemWithButtonProps {
-  item: any;
+  portfolio: any;
   onClick: () => void;
 }
 
 const CardItemWithButton = ({
-  item,
+  portfolio,
   onClick: onclickHandler,
 }: cardItemWithButtonProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Box mr={4} key={item.id}>
+    <Box mr={4} key={portfolio?.id}>
       <Card>
         <Box className={classes.box}>
           <div className={classes.buttons}>
@@ -59,7 +59,9 @@ const CardItemWithButton = ({
           </div>
           <Image
             className={classes.image}
-            src={item.img}
+            src={
+              portfolio?.img ? portfolio.img : '/images/youth/portfolio.jpeg'
+            }
             alt='crema-logo'
             height={50}
             width={'100%'}

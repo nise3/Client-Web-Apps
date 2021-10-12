@@ -6,6 +6,7 @@ import {
   API_YOUTH_REFERENCES,
   API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
   API_YOUTH_EDUCATION,
+  API_YOUTH_PORTFOLIOS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -48,4 +49,14 @@ export function useFetchEducation(educationId: number | null) {
 
 export function useFetchEducationExamsBoardsEduGroupsAndSubjects() {
   return useAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
+}
+
+export function useFetchPortfolios() {
+  return useAxiosSWR(API_YOUTH_PORTFOLIOS);
+}
+
+export function useFetchPortfolio(portfolioId: number | null) {
+  return useAxiosSWR(
+    portfolioId ? API_YOUTH_PORTFOLIOS + '/' + portfolioId : null,
+  );
 }

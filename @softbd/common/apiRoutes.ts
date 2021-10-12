@@ -24,6 +24,8 @@ export const API_ORGANIZATION_UNIT_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
 export const API_ORGANIZATION_UNITS =
   ORGANIZATION_SERVICE_PATH + '/organization-units';
+export const API_ORGANIZATION_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/organization-registration';
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
@@ -61,4 +63,7 @@ export const API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS =
   YOUTH_SERVICE_PATH + '/youth-educations-exam-board-edugroup-subject';
 export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experience';
+
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
+
+export const API_YOUTH_PORTFOLIOS = YOUTH_SERVICE_PATH + '/youth-portfolios';

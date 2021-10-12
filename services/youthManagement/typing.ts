@@ -59,3 +59,22 @@ export interface YouthEducation {
   received_cgpa_gpa?: string;
   passing_year: string;
 }
+
+export interface YouthReference {
+  id: number;
+  youth_id?: number;
+  referrer_first_name_en?: string;
+  referrer_first_name: string;
+  referrer_last_name_en?: string;
+  referrer_last_name: string;
+  referrer_organization_name_en?: string;
+  referrer_organization_name: string;
+  referrer_designation_en?: string;
+  referrer_designation: string;
+  referrer_address_en?: string;
+  referrer_address: string;
+  referrer_email: string;
+  referrer_mobile: string;
+  referrer_relation_en?: string;
+  referrer_relation: string;
+}
