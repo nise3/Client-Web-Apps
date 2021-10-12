@@ -1,7 +1,6 @@
 import {Card, CardContent} from '@mui/material';
 import CardHeader from './CardHeader';
 import {Add} from '@mui/icons-material';
-import CustomContentCard from './CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -9,9 +8,9 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import EducationAddEditPage from './EducationAddEditPage';
 import {useFetchEducations} from '../../../services/youthManagement/hooks';
-import {YouthEducation} from '../../../services/youthManagement/typing';
 import {deleteEducation} from '../../../services/youthManagement/EducationService';
 import ContentWithImageSkeleton from './component/ContentWithImageSkeleton';
+import EducationComponent from './component/EducationComponent';
 
 const EducationSection = () => {
   const {messages} = useIntl();
@@ -73,23 +72,15 @@ const EducationSection = () => {
         {isLoading ? (
           <ContentWithImageSkeleton />
         ) : (
-          (educations || []).map((education: YouthEducation) => {
-            return (
-              <React.Fragment key={education.id}>
-                <CustomContentCard
-                  contentTitle={education?.institute_name}
-                  contentLogo={'E'}
-                  contentServiceProvider={education?.institute_name}
-                  date={education?.passing_year}
-                  location={''}
-                  contentEditButton={() => {
-                    openEducationAddEditForm(education.id);
-                  }}
-                  contentDeleteButton={() => deleteEducationItem(education.id)}
-                />
-              </React.Fragment>
-            );
-          })
+          <EducationComponent
+            educations={educations}
+            onEditClick={openEducationAddEditForm}
+            onDeleteClick={(educationId) => {
+              (async () => {
+                await deleteEducationItem(educationId);
+              })();
+            }}
+          />
         )}
       </CardContent>
     </Card>

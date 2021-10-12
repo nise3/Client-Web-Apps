@@ -49,8 +49,9 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 const PersonalInfoSection = () => {
   const {messages} = useIntl();
   const classes = useStyles();
-  const {data: youthInfo} = useFetchYouthProfile();
+  const {data: youthInfo, mutate: mutateProfile} = useFetchYouthProfile();
   console.log('profile ', youthInfo);
+
   const [
     isOpenPersonalInformationEditForm,
     setIsOpenPersonalInformationEditForm,
@@ -62,6 +63,7 @@ const PersonalInfoSection = () => {
 
   const closePersonalInformationEditForm = useCallback(() => {
     setIsOpenPersonalInformationEditForm(false);
+    mutateProfile();
   }, []);
 
   return isOpenPersonalInformationEditForm ? (
@@ -78,14 +80,11 @@ const PersonalInfoSection = () => {
             />
           </Grid>
           <Grid item sm={6}>
-            <Typography variant={'subtitle2'}>Md. Sakibul Islam</Typography>
-            <Typography variant={'overline'}>Software Engineer</Typography>
-            <Typography variant={'body1'}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad
-              amet, autem explicabo natus reiciendis rem sunt. Aut beatae
-              doloremque, est hic ipsa iste, libero officiis quis rem
-              reprehenderit tempora!
+            <Typography variant={'subtitle2'}>
+              {youthInfo?.first_name} {youthInfo?.last_name}
             </Typography>
+            {/*<Typography variant={'overline'}>Software Engineer</Typography>*/}
+            <Typography variant={'body1'}>{youthInfo?.bio}</Typography>
           </Grid>
           <Grid
             item

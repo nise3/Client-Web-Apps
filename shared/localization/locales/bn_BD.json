@@ -593,8 +593,10 @@
   "language_proficiency.title": "ভাষাগত দক্ষতা",
   "common.my_courses": "আমার কোর্স",
   "education.major_subject": "প্রধান বিষয়",
-  "common.result_type_division": "",
-  "common.result_type_grade": "",
-  "common.institute_name_bn": "প্রতিষ্ঠানের নাম ((াংলা)",
-  "common.location_bn": "অবস্থান (বাংলা)"
+  "common.result_type_division": "বিভাগ",
+  "common.result_type_grade": "গ্রেড পয়েন্ট",
+  "common.institute_name_bn": "প্রতিষ্ঠানের নাম (বাংলা)",
+  "common.location_bn": "অবস্থান (বাংলা)",
+  "common.earned_cgpa": "অর্জিত সিজিপিএ",
+  "common.total_cgpa": "মোট সিজিপিএ"
 }

@@ -2,34 +2,11 @@ import React, {FC} from 'react';
 import {
   Card,
   CardContent,
+  CardHeader,
   DialogActions,
-  DialogTitle as MuiDialogTitle,
   IconButton,
-  Typography,
 } from '@mui/material';
 import {Close as CloseIcon} from '@mui/icons-material';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
-import {makeStyles} from '@mui/styles';
-
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  formTitleRoot: {
-    margin: 0,
-    padding: '10px 0px 20px 0px',
-  },
-  formTitle: {
-    display: 'flex',
-    alignItems: 'center',
-    '& svg': {
-      marginRight: '12px',
-    },
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-}));
 
 interface CustomHookFormProps {
   title: React.ReactNode | string;
@@ -45,22 +22,19 @@ const CustomHookForm: FC<CustomHookFormProps> = ({
   actions,
   ...props
 }) => {
-  const classes = useStyles();
   return (
     <Card>
-      <CardContent sx={{position: 'relative'}}>
-        <MuiDialogTitle className={classes.formTitleRoot}>
-          <Typography className={classes.formTitle}>{props.title}</Typography>
-          {props.onClose ? (
-            <IconButton
-              aria-label='close'
-              className={classes.closeButton}
-              onClick={props.onClose}
-              size='large'>
+      <CardHeader
+        action={
+          props.onClose && (
+            <IconButton aria-label='close' onClick={props.onClose} size='large'>
               <CloseIcon />
             </IconButton>
-          ) : null}
-        </MuiDialogTitle>
+          )
+        }
+        title={props.title}
+      />
+      <CardContent sx={{position: 'relative'}}>
         <form onSubmit={handleSubmit} autoComplete='off'>
           {children}
           {actions && <DialogActions>{actions}</DialogActions>}

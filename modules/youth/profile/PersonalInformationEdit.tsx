@@ -62,7 +62,6 @@ const initialValues = {
 
 const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   onClose: onEditPageClose,
-  ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -101,11 +100,11 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     return yup.object().shape({
       first_name: yup
         .string()
-        .title('en')
+        .title('bn')
         .label(messages['common.first_name_bn'] as string),
       last_name: yup
         .string()
-        .title('en')
+        .title('bn')
         .label(messages['common.last_name_bn'] as string),
       date_of_birth: yup
         .string()
@@ -243,10 +242,21 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       });
       setDisabilityStatus(itemData?.physical_disability_status);
       setUserNameType(itemData?.user_name_type);
+      let filteredDistricts = filterDistrictsByDivisionId(
+        districts,
+        itemData?.loc_division_id,
+      );
+      setDistrictList(filteredDistricts);
+
+      let filteredUpazilas = filterUpazilasByDistrictId(
+        upazilas,
+        itemData?.loc_district_id,
+      );
+      setUpazilaList(filteredUpazilas);
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
   const getSkillIds = (skills: any) => {
     return (skills || []).map((skill: any) => skill.id);
@@ -475,7 +485,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 />
               </Grid>
             )}
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_division_id'
                 label={messages['divisions.label']}
@@ -488,7 +498,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 onChange={onDivisionChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_district_id'
                 label={messages['districts.label']}
@@ -501,7 +511,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 onChange={onDistrictChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}

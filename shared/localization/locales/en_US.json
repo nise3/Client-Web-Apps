@@ -573,8 +573,8 @@
   "physical_disability.social": "Social Disabilities",
   "youth_registration.success": "Registration Successful",
   "youth_registration.set_as_username": "Set as username",
-  "common.result_type_division": "",
-  "common.result_type_grade": "",
+  "common.result_type_division": "Division",
+  "common.result_type_grade": "Grade Point",
   "common.institute_name_bn": "Institute Name (Bn)",
   "common.institute_name_en": "Institute Name (En)",
   "common.company_name_en": "Company Name (En)",
@@ -594,5 +594,7 @@
   "certificate.name_bn": "Certificate Name (Bn)",
   "certificate.label": "Certificate",
   "certificate.name_en": "Certificate Name (En)",
-  "certificate.upload": "Upload certificate"
+  "certificate.upload": "Upload certificate",
+  "common.earned_cgpa": "Earned CGPA",
+  "common.total_cgpa": "Total CGPA"
 }

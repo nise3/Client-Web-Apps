@@ -48,8 +48,14 @@ export interface YouthEducation {
   institute_name: string;
   institute_name_en?: string;
   examination_id: string | number;
+  examination_title?: string;
+  examination_title_en?: string;
   board_id?: string | number;
+  board_title?: string;
+  board_title_en?: string;
   edu_group_id?: string | number;
+  edu_group_title?: string;
+  edu_group_title_en?: string;
   major_or_subject_id?: string | number;
   roll_number: string;
   registration_number: string;
