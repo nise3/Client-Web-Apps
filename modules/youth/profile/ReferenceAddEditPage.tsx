@@ -12,8 +12,7 @@ import yup from '../../../@softbd/libs/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Grid, Card, CardContent, Zoom} from '@mui/material';
-import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import {Grid, Zoom, Box} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {useFetchReference} from '../../../services/youthManagement/hooks';
@@ -22,6 +21,7 @@ import {
   updateReference,
 } from '../../../services/youthManagement/ReferenceService';
 import {YouthReference} from '../../../services/youthManagement/typing';
+import CustomHookForm from './component/CustomHookForm';
 
 interface ReferenceAddEditPageProps {
   itemId: number | null;
@@ -160,6 +160,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthReference> = async (
     data: YouthReference,
   ) => {
+    console.log('data--', data);
     const response = itemId
       ? await updateReference(itemId, data)
       : await createReference(data);
@@ -179,6 +180,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           values={{subject: <IntlMessages id='common.reference' />}}
         />,
       );
+      mutateReference();
       props.onClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
@@ -187,178 +189,166 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
   return (
     <Zoom in={true}>
-      <Card>
-        <CardContent sx={{position: 'relative'}}>
-          <DialogTitle onClose={props.onClose}>
-            {messages['reference.label']}
-          </DialogTitle>
-          <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_first_name_en'
-                  label={messages['common.first_name_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_first_name'
-                  label={messages['common.first_name_bn']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_last_name_en'
-                  label={messages['common.last_name_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_last_name'
-                  label={messages['common.last_name_bn']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_organization_name_en'
-                  label={messages['common.organization_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_organization_name'
-                  label={messages['common.organization_bn']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_designation_en'
-                  label={messages['common.designation_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_designation'
-                  label={messages['common.designation_bn']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_address_en'
-                  label={messages['common.address_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_address'
-                  label={messages['common.address_bn']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_email'
-                  label={messages['common.email']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_mobile'
-                  label={messages['common.phone']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_relation_en'
-                  label={messages['common.relation_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='referrer_relation'
-                  label={messages['common.relation_bn']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                {/*<FormRadioButtons*/}
-                {/*  id='allow_contact'*/}
-                {/*  label={'reference.allow_contact'}*/}
-                {/*  radios={[*/}
-                {/*    {*/}
-                {/*      key: '1',*/}
-                {/*      label: messages['common.yes'],*/}
-                {/*    },*/}
-                {/*    {*/}
-                {/*      key: '2',*/}
-                {/*      label: messages['common.no'],*/}
-                {/*    },*/}
-                {/*  ]}*/}
-                {/*  control={control}*/}
-                {/*  defaultValue={'1'}*/}
-                {/*  isLoading={isLoading}*/}
-                {/*/>*/}
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={3} justifyContent={'flex-end'}>
-                  <Grid item>
-                    <CancelButton
-                      onClick={props.onClose}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <SubmitButton
-                      isSubmitting={isSubmitting}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
+      <Box>
+        <CustomHookForm
+          title={messages['reference.label']}
+          handleSubmit={handleSubmit(onSubmit)}
+          actions={
+            <React.Fragment>
+              <CancelButton onClick={props.onClose} isLoading={isLoading} />
+              <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+            </React.Fragment>
+          }
+          onClose={props.onClose}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_first_name_en'
+                label={messages['common.first_name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
             </Grid>
-          </form>
-        </CardContent>
-      </Card>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_first_name'
+                label={messages['common.first_name_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_last_name_en'
+                label={messages['common.last_name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_last_name'
+                label={messages['common.last_name_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_organization_name_en'
+                label={messages['common.organization_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_organization_name'
+                label={messages['common.organization_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_designation_en'
+                label={messages['common.designation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_designation'
+                label={messages['common.designation_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_address_en'
+                label={messages['common.address_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_address'
+                label={messages['common.address_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_email'
+                label={messages['common.email']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_mobile'
+                label={messages['common.phone']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_relation_en'
+                label={messages['common.relation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_relation'
+                label={messages['common.relation_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {/*<FormRadioButtons
+                id='allow_contact'
+                label={'reference.allow_contact'}
+                radios={[
+                  {
+                    key: '1',
+                    label: messages['common.yes'],
+                  },
+                  {
+                    key: '2',
+                    label: messages['common.no'],
+                  },
+                ]}
+                control={control}
+                defaultValue={'1'}
+                isLoading={isLoading}
+              />*/}
+            </Grid>
+          </Grid>
+        </CustomHookForm>
+      </Box>
     </Zoom>
   );
 };

@@ -1,4 +1,4 @@
-import {Card, CardContent, Skeleton} from '@mui/material';
+import {Card, CardContent} from '@mui/material';
 import CardHeader from './CardHeader';
 import {BorderColor} from '@mui/icons-material';
 import Reference from './Reference';
@@ -14,11 +14,8 @@ import ReferenceAddEditPage from './ReferenceAddEditPage';
 const ReferenceSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {
-    data: references,
-    isLoading,
-    mutate: mutateReferences,
-  } = useFetchYouthReferences();
+  const {data: references, mutate: mutateReferences} =
+    useFetchYouthReferences();
   const [referenceId, setReferenceId] = useState<number | null>(null);
 
   const [isOpenReferenceAddEditForm, setIsOpenReferenceAddEditForm] =
@@ -46,13 +43,11 @@ const ReferenceSection = () => {
           values={{subject: <IntlMessages id='reference.label' />}}
         />,
       );
+      mutateReferences();
     }
-    mutateReferences();
   };
 
-  return isLoading ? (
-    <Skeleton />
-  ) : isOpenReferenceAddEditForm ? (
+  return isOpenReferenceAddEditForm ? (
     <ReferenceAddEditPage
       itemId={referenceId}
       onClose={closeReferenceAddEditForm}
@@ -72,12 +67,12 @@ const ReferenceSection = () => {
         />
         {(references || []).map((reference: any) => (
           <Reference
-            key={reference.id}
+            key={reference?.id}
             reference={reference}
             openReferenceAddEditForm={() =>
-              openReferenceAddEditForm(reference.id)
+              openReferenceAddEditForm(reference?.id)
             }
-            onDelete={() => deleteReferenceItem(reference.id)}
+            onDelete={() => deleteReferenceItem(reference?.id)}
           />
         ))}
       </CardContent>
