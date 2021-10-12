@@ -45,9 +45,9 @@ const YouthProfile = () => {
               <Grid item xs={12} md={12}>
                 <LanguageSection />
               </Grid>
-              {/*<Grid item xs={12} md={12}>*/}
-              {/*  <ReferenceSection />*/}
-              {/*</Grid>*/}
+              <Grid item xs={12} md={12}>
+                <ReferenceSection />
+              </Grid>
               <Grid item xs={12} md={12}>
                 <PortfolioSection />
               </Grid>

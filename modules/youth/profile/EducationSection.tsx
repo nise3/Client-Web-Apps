@@ -19,7 +19,7 @@ const EducationSection = () => {
   const {
     data: educations,
     isLoading,
-    mutate: mutateEducation,
+    mutate: mutateEducations,
   } = useFetchEducations();
   const [isOpenEducationAddEditForm, setIsOpenEducationAddEditForm] =
     useState<boolean>(false);
@@ -36,7 +36,7 @@ const EducationSection = () => {
   const closeEducationAddEditForm = useCallback(() => {
     setEducationItemId(null);
     setIsOpenEducationAddEditForm(false);
-    mutateEducation();
+    mutateEducations();
   }, []);
 
   const deleteEducationItem = async (itemId: number) => {
@@ -48,6 +48,7 @@ const EducationSection = () => {
           values={{subject: <IntlMessages id='education.label' />}}
         />,
       );
+      mutateEducations();
     }
   };
 
