@@ -5,22 +5,22 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {Card, CardContent, Grid} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import makeStyles from '@mui/styles/makeStyles';
+import {H2} from '../../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme) => {
   return {
-    mainDiv: {
-      marginTop: '10px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
     accordion: {
       marginBottom: '10px',
     },
     question: {
       whiteSpace: 'nowrap',
+    },
+    heading: {
+      boxShadow: '0px 2px 2px #8888',
+      padding: '40px 0px',
     },
   };
 });
@@ -54,40 +54,40 @@ const InstituteFAQ = () => {
   ];
 
   return (
-    <>
-      <Grid>
-        <Grid textAlign={'center'}>
-          <Card>
-            <CardContent>
-              <Typography variant={'h2'} mb={4}>
-                {messages['faq.institute']}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={10} md={10} className={classes.mainDiv}>
-          {data.map((item, i) => (
-            <Accordion className={classes.accordion} expanded={expanded === item.id} onChange={handleChange(item.id)}
-                       key={i}>
-              <AccordionSummary
-                expandIcon={expanded === item.id ? <RemoveIcon /> : <AddIcon />}
-                aria-controls='panel1bh-content'
-                id='panel1bh-header'
-              >
-                <Typography className={classes.question} sx={{width: '33%', flexShrink: 0}}>
-                  {item.question}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  {item.answer}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Grid>
+    <Grid sx={{maxWidth: '100%'}}>
+      <Grid textAlign={'center'} className={classes.heading}>
+        <H2>{messages['faq.institute']}</H2>
       </Grid>
-    </>
+      <Container maxWidth='xl'>
+        <Grid container>
+          <Grid item xs={12} my={4}>
+            {data.map((item, i) => (
+              <Accordion
+                className={classes.accordion}
+                expanded={expanded === item.id}
+                onChange={handleChange(item.id)}
+                key={i}>
+                <AccordionSummary
+                  expandIcon={
+                    expanded === item.id ? <RemoveIcon /> : <AddIcon />
+                  }
+                  aria-controls='panel1bh-content'
+                  id='panel1bh-header'>
+                  <Typography
+                    className={classes.question}
+                    sx={{width: '33%', flexShrink: 0}}>
+                    {item.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>{item.answer}</Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Grid>
+        </Grid>
+      </Container>
+    </Grid>
   );
 };
 

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InstituteGallery = () => {
+const InstituteVideos = () => {
   let cardData = [
     {
       id: 1,
@@ -249,4 +249,4 @@ const InstituteGallery = () => {
   );
 };
 
-export default InstituteGallery;
+export default InstituteVideos;

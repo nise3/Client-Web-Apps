@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {Box} from '@mui/material';
-import {ThemeMode} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
+import {ThemeMode} from '../../../shared/constants/AppEnums';
+import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContext from '../../../@crema/utility/AppContext';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((/*theme*/) => ({
@@ -44,13 +44,14 @@ const useStyles = makeStyles((/*theme*/) => ({
 type Prop = {
   instituteName: string;
   instituteLogo: string;
+  className?: any;
 };
 
-const LogoCustomizable = ({instituteName, instituteLogo}: Prop) => {
+const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const classes = useStyles();
   return (
-    <Box>
+    <Box className={className}>
       <Box className={classes.logoRoot}>
         <Box sx={{display: {md: 'none', sm: 'block'}}}>
           <img

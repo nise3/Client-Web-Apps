@@ -511,7 +511,6 @@
   "contact_with_us.institute": "Contact with us",
   "find_our_location_in_map.institute": "Find our location in map",
   "faq.institute": "FAQ",
-  "contact.institute": "Contact",
   "common.back": "Go Back",
   "common.previous": "Previous",
   "common.freedom_fighter_info": "Freedom Fighter Info",
@@ -562,5 +561,7 @@
   "physical_disability.intellectual": "Intellectual Disabilities",
   "physical_disability.social": "Social Disabilities",
   "youth_registration.success": "Registration Successful",
-  "youth_registration.set_as_username": "Set as username"
+  "youth_registration.set_as_username": "Set as username",
+  "contact.institute": "Contact",
+  "videos.institute": "Videos"
 }

@@ -8,11 +8,11 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 // import AppLogo from '../../shared/components/AppLogo';
-import {Person, Login} from '@mui/icons-material';
+import {Person, Login, LocalPhone, Send} from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
-import LogoCustomizable from './LogoCustomizable';
-import {Link} from '../../../elements/common';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
+import {H6, Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_INSTITUTE_ROOT,
   LINK_FRONTEND_INSTITUTE_COURSES,
@@ -20,6 +20,7 @@ import {
   LINK_FRONTEND_INSTITUTE_FEEDBACK,
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_CONTACT,
+  LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR,
 } from '../../../common/appLinks';
 
 interface AppHeaderProps {}
@@ -35,9 +36,25 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     boxShadow: 'none',
   },
   logoArea: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+  },
+  header: {
     width: '100%',
     minHeight: 80,
     margin: '0px auto',
+  },
+  headerHalf: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.up('md')]: {
+      // width: '50%',
+      justifyContent: 'unset',
+    },
   },
   headerMain: {
     minHeight: 56,
@@ -212,14 +229,30 @@ const Header: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <Box className={classes.logoArea}>
-        <Box maxWidth='xl' margin='auto'>
-          <Link href='/'>
+      <Box className={classes.header}>
+        <Box
+          maxWidth='xl'
+          margin='auto'
+          display='flex'
+          className={classes.logoArea}>
+          <Link href='/' className={classes.headerHalf}>
             <LogoCustomizable
               instituteName='Bangladesh Industrial Technical Assistance Centre'
               instituteLogo='/images/bitac-logo.jpg'
             />
           </Link>
+          <Box
+            className={classes.headerHalf}
+            justifyContent='flex-end'
+            alignItems='center'>
+            <H6 p={2}>
+              <Send className={classes.menuIcons} /> support@bitac.gov.bd
+            </H6>
+            <H6 p={2}>
+              <LocalPhone className={classes.menuIcons} /> ০১৯১২৩৪৫৬৭৮,
+              ০১৮১২৩৪৫৬৭৮
+            </H6>
+          </Box>
         </Box>
       </Box>
       <AppBar
@@ -249,7 +282,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                     কোর্স সমূহ
                   </Link>
                   <Link
-                    href={LINK_FRONTEND_INSTITUTE_ROOT}
+                    href={LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR}
                     className={classes.menuItem}>
                     প্রশিক্ষণ বর্ষপঞ্জি
                   </Link>
