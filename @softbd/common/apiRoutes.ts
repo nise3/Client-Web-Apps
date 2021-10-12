@@ -62,7 +62,11 @@ export const API_YOUTH_EDUCATION = YOUTH_SERVICE_PATH + '/youth-educations';
 export const API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS =
   YOUTH_SERVICE_PATH + '/youth-educations-exam-board-edugroup-subject';
 export const API_YOUTH_JOB_EXPERIENCES =
-  YOUTH_SERVICE_PATH + '/youth-job-experience';
+  YOUTH_SERVICE_PATH + '/youth-job-experiences';
+export const API_YOUTH_CERTIFICATES =
+  YOUTH_SERVICE_PATH + '/youth-certifications';
+export const API_YOUTH_LANGUAGES = YOUTH_SERVICE_PATH + '/youth-languages';
+  YOUTH_SERVICE_PATH + '/youth-languages';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 

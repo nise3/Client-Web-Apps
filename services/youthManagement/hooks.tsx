@@ -7,6 +7,8 @@ import {
   API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
   API_YOUTH_EDUCATION,
   API_YOUTH_PORTFOLIOS,
+  API_YOUTH_CERTIFICATES,
+  API_YOUTH_LANGUAGES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -24,6 +26,16 @@ export function useFetchYouthJobExperiences(params: any) {
 export function useFetchJobExperience(jobExperienceId: number | null) {
   return useAxiosSWR(
     jobExperienceId ? API_YOUTH_JOB_EXPERIENCES + '/' + jobExperienceId : null,
+  );
+}
+
+export function useFetchYouthCertificates(params?: any) {
+  return useAxiosSWR([API_YOUTH_CERTIFICATES, params]);
+}
+
+export function useFetchYouthCertificate(certificateId: number | null) {
+  return useAxiosSWR(
+    certificateId ? API_YOUTH_CERTIFICATES + '/' + certificateId : null,
   );
 }
 
@@ -59,4 +71,8 @@ export function useFetchPortfolio(portfolioId: number | null) {
   return useAxiosSWR(
     portfolioId ? API_YOUTH_PORTFOLIOS + '/' + portfolioId : null,
   );
+}
+
+export function useFetchYouthLanguages(params?: any) {
+  return useAxiosSWR([API_YOUTH_LANGUAGES, params]);
 }

@@ -5,12 +5,19 @@ import CustomContentCard from './CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import LanguageAddEditPage from './LanguageAddEditPage';
+import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
+import {useFetchYouthLanguages} from '../../../services/youthManagement/hooks';
 
 const LanguageSection = () => {
   const {messages} = useIntl();
   const [isOpenLanguageAddEditForm, setIsOpenLanguageAddEditForm] =
     useState<boolean>(false);
+  const [isOpenLanguageProficiencyView, setIsOpenLanguageProficiencyView] =
+    useState<boolean>(false);
   const [languageId, setLanguageId] = useState<number | null>(null);
+
+  const {data: languages, mutate: mutateLanguages} = useFetchYouthLanguages();
+  console.log('languages', languages);
 
   const openLanguageAddEditForm = useCallback(
     (itemId: number | null = null) => {
@@ -20,15 +27,44 @@ const LanguageSection = () => {
     [],
   );
   const closeLanguageAddEditForm = useCallback(() => {
+    mutateLanguages();
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
   }, []);
 
+  const openLanguageProficiencyView = useCallback(() => {
+    setIsOpenLanguageProficiencyView(true);
+  }, []);
+
+  const closeLanguageProficiencyView = useCallback(() => {
+    setIsOpenLanguageAddEditForm(false);
+    setIsOpenLanguageProficiencyView(false);
+  }, []);
+
   return isOpenLanguageAddEditForm ? (
-    <LanguageAddEditPage
-      itemId={languageId}
-      onClose={closeLanguageAddEditForm}
-      openLanguageEditForm={openLanguageAddEditForm}
+    isOpenLanguageProficiencyView ? (
+      <>
+        <LanguageProficiencyViewPage
+          onEdit={openLanguageAddEditForm}
+          onClose={closeLanguageProficiencyView}
+        />
+        <LanguageAddEditPage
+          itemId={languageId}
+          onClose={closeLanguageAddEditForm}
+          openLanguageEditForm={openLanguageAddEditForm}
+        />
+      </>
+    ) : (
+      <LanguageAddEditPage
+        itemId={languageId}
+        onClose={closeLanguageAddEditForm}
+        openLanguageEditForm={openLanguageAddEditForm}
+      />
+    )
+  ) : isOpenLanguageProficiencyView ? (
+    <LanguageProficiencyViewPage
+      onEdit={openLanguageAddEditForm}
+      onClose={closeLanguageProficiencyView}
     />
   ) : (
     <Card>
@@ -38,11 +74,6 @@ const LanguageSection = () => {
           buttons={[
             {
               label: messages['common.add_language'] as string,
-              icon: <Add />,
-              onclick: () => openLanguageAddEditForm(null),
-            },
-            {
-              label: messages['common.edit_btn'] as string,
               icon: <Add />,
               onclick: () => openLanguageAddEditForm(null),
             },
@@ -59,7 +90,7 @@ const LanguageSection = () => {
                 },
               }}
               component={'span'}
-              onClick={() => openLanguageAddEditForm(2)}>
+              onClick={() => openLanguageProficiencyView()}>
               View language proficiency
             </Box>
           }

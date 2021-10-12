@@ -4,30 +4,13 @@ import {Add} from '@mui/icons-material';
 import CustomContentCard from './CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CertificateAddEditPage from './CertificateAddEditPage';
-
-const certificates = [
-  {
-    id: 1,
-    title: 'Javascript programming',
-    image: '/images/userPageImages/profileImage.jpeg',
-    institute_name: 'MIT',
-    location: 'NC',
-    achieve_date: '10-11-2020',
-  },
-  {
-    id: 2,
-    title: 'C programming',
-    image: '/images/userPageImages/profileImage.jpeg',
-    institute_name: 'Harvard',
-    location: 'NC',
-    achieve_date: '10-11-2020',
-  },
-];
+import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
+import {useFetchYouthCertificates} from '../../../services/youthManagement/hooks';
+import {YouthCertificate} from '../../../services/youthManagement/typing';
 
 const CertificationSection = () => {
   const {messages} = useIntl();
@@ -37,6 +20,9 @@ const CertificationSection = () => {
   const [certificateItemId, setCertificateItemId] = useState<number | null>(
     null,
   );
+
+  const {data: certificates, mutate: mutateCertifications} =
+    useFetchYouthCertificates();
 
   const openCertificateAddEditForm = useCallback(
     (itemId: number | null = null) => {
@@ -48,17 +34,19 @@ const CertificationSection = () => {
   const closeCertificateAddEditForm = useCallback(() => {
     setCertificateItemId(null);
     setIsOpenCertificateAddEditForm(false);
+    mutateCertifications();
   }, []);
 
   const deleteCertificationItem = async (itemId: number) => {
-    let response = await deleteRankType(itemId);
+    let response = await deleteCertificate(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='certificate.label' />}}
         />,
       );
+      mutateCertifications();
     }
   };
 
@@ -80,14 +68,14 @@ const CertificationSection = () => {
             },
           ]}
         />
-        {certificates.map((certificate) => {
-          return (
+        {certificates &&
+          certificates.map((certificate: YouthCertificate) => (
             <React.Fragment key={certificate.id}>
               <CustomContentCard
-                contentTitle={certificate.title}
-                contentLogo={certificate.image}
+                contentTitle={certificate.certification_name}
+                contentLogo={certificate.certificate_file_path}
                 contentServiceProvider={certificate.institute_name}
-                date={certificate.achieve_date}
+                date={certificate.start_date + ' to ' + certificate?.end_date}
                 location={certificate.location}
                 contentEditButton={() =>
                   openCertificateAddEditForm(certificate.id)
@@ -97,8 +85,7 @@ const CertificationSection = () => {
                 }
               />
             </React.Fragment>
-          );
-        })}
+          ))}
       </CardContent>
     </Card>
   );

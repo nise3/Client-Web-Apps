@@ -35,6 +35,7 @@ type CustomContentCardProp = {
   date?: string;
   location?: string;
   contentDeleteButton?: () => void;
+  openAddEditForm?: () => void;
 };
 
 const CustomContentCard = ({
@@ -96,14 +97,19 @@ const CustomContentCard = ({
       <Grid item container>
         {location && (
           <Box className={classes.skillIssueDate} mb={4}>
-            <AccessTime />
-            <Typography className={classes.accessTime}>{date}</Typography>
-            <VerticalLine
-              lineHeight={'15px'}
-              lineWidth={'2px'}
-              marginLeft={2}
-              marginRight={2}
-            />
+            {date && (
+              <>
+                <AccessTime />
+                <Typography className={classes.accessTime}>{date}</Typography>
+                <VerticalLine
+                  lineHeight={'15px'}
+                  lineWidth={'2px'}
+                  marginLeft={2}
+                  marginRight={2}
+                />
+              </>
+            )}
+
             {location && (
               <Box className={classes.skillIssueDate}>
                 <LocationOnIcon />
