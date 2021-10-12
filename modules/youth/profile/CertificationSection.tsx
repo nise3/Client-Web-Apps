@@ -1,5 +1,3 @@
-import {Card, CardContent} from '@mui/material';
-import CardHeader from './CardHeader';
 import {Add} from '@mui/icons-material';
 import CustomContentCard from './CustomContentCard';
 import React, {useCallback, useState} from 'react';
@@ -11,6 +9,8 @@ import CertificateAddEditPage from './CertificateAddEditPage';
 import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
 import {useFetchYouthCertificates} from '../../../services/youthManagement/hooks';
 import {YouthCertificate} from '../../../services/youthManagement/typing';
+import ContentLayout from './component/ContentLayout';
+import CustomParabolaButton from './component/CustomParabolaButton';
 
 const CertificationSection = () => {
   const {messages} = useIntl();
@@ -21,8 +21,11 @@ const CertificationSection = () => {
     null,
   );
 
-  const {data: certificates, mutate: mutateCertifications} =
-    useFetchYouthCertificates();
+  const {
+    data: certificates,
+    isLoading,
+    mutate: mutateCertifications,
+  } = useFetchYouthCertificates();
 
   const openCertificateAddEditForm = useCallback(
     (itemId: number | null = null) => {
@@ -31,6 +34,7 @@ const CertificationSection = () => {
     },
     [],
   );
+
   const closeCertificateAddEditForm = useCallback(() => {
     setCertificateItemId(null);
     setIsOpenCertificateAddEditForm(false);
@@ -56,39 +60,36 @@ const CertificationSection = () => {
       onClose={closeCertificateAddEditForm}
     />
   ) : (
-    <Card>
-      <CardContent>
-        <CardHeader
-          headerTitle={messages['common.certifications'] as string}
-          buttons={[
-            {
-              label: messages['common.add_new_certificate'] as string,
-              icon: <Add />,
-              onclick: () => openCertificateAddEditForm(null),
-            },
-          ]}
+    <ContentLayout
+      title={messages['common.certificate']}
+      isLoading={isLoading}
+      actions={
+        <CustomParabolaButton
+          buttonVariant={'outlined'}
+          title={messages['common.add_new_certificate'] as string}
+          icon={<Add />}
+          onclick={() => openCertificateAddEditForm(null)}
         />
-        {certificates &&
-          certificates.map((certificate: YouthCertificate) => (
-            <React.Fragment key={certificate.id}>
-              <CustomContentCard
-                contentTitle={certificate.certification_name}
-                contentLogo={certificate.certificate_file_path}
-                contentServiceProvider={certificate.institute_name}
-                date={certificate.start_date + ' to ' + certificate?.end_date}
-                location={certificate.location}
-                contentEditButton={() =>
-                  openCertificateAddEditForm(certificate.id)
-                }
-                contentDeleteButton={() =>
-                  deleteCertificationItem(certificate.id)
-                }
-              />
-            </React.Fragment>
-          ))}
-      </CardContent>
-    </Card>
+      }>
+      {certificates &&
+        certificates.map((certificate: YouthCertificate) => (
+          <React.Fragment key={certificate.id}>
+            <CustomContentCard
+              contentTitle={certificate.certification_name}
+              contentLogo={certificate.certificate_file_path}
+              contentServiceProvider={certificate.institute_name}
+              date={certificate.start_date + ' to ' + certificate?.end_date}
+              location={certificate.location}
+              contentEditButton={() =>
+                openCertificateAddEditForm(certificate.id)
+              }
+              contentDeleteButton={() =>
+                deleteCertificationItem(certificate.id)
+              }
+            />
+          </React.Fragment>
+        ))}
+    </ContentLayout>
   );
 };
-
 export default CertificationSection;

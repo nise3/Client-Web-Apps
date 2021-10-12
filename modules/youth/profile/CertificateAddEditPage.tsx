@@ -1,4 +1,4 @@
-import {Grid, Card, CardContent, Zoom} from '@mui/material';
+import {Grid, Card, CardContent, Zoom, Box} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
@@ -23,6 +23,7 @@ import {
   updateCertificate,
 } from '../../../services/youthManagement/CertificateService';
 import {useFetchYouthCertificate} from '../../../services/youthManagement/hooks';
+import CustomHookForm from './component/CustomHookForm';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -152,6 +153,9 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
 
   return (
     <Zoom in={true}>
+      <Box>
+        <CustomHookForm title={messages['common.certificate']} handleSubmit={handleSubmit(onSubmit)}
+      </Box>
       <Card>
         <CardContent sx={{position: 'relative'}}>
           <DialogTitle onClose={props.onClose}>

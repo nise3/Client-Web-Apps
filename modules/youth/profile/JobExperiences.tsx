@@ -2,10 +2,9 @@ import {useIntl} from 'react-intl';
 import HorizontalLine from './component/HorizontalLine';
 import CustomParabolaButton from './component/CustomParabolaButton';
 import VerticalLine from './component/VerticalLine';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {AccessTime, BorderColor} from '@mui/icons-material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Avatar, Box, Grid, Typography} from '@mui/material';
 import CircularDeleteButton from './component/CircularDeleteButton';
@@ -26,30 +25,33 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 );
 
 type JobExperienceProp = {
-  jobExperience: YouthJobExperience;
-  openAddEditForm?: () => void;
-  deleteJobExperience: () => void;
+  jobExperiences: Array<YouthJobExperience>;
+  onOpenAddEditForm: (itemId: number) => void;
+  onDeleteJobExperience: (itemId: number) => void;
 };
 
-const JobExperience = ({
-  jobExperience,
-  openAddEditForm,
-  deleteJobExperience,
+const JobExperiences = ({
+  jobExperiences,
+  onOpenAddEditForm,
+  onDeleteJobExperience,
 }: JobExperienceProp) => {
   const classes = useStyles();
   const {messages} = useIntl();
 
-  return (
-    <>
+  const onClickEditButton = useCallback(() => {}, []);
+
+  const onClickDeleteButton = useCallback(() => {}, []);
+
+  return jobExperiences.map((jobExperience: YouthJobExperience) => (
+    <React.Fragment key={jobExperience.id}>
       <HorizontalLine />
       <Box mt={2}>
-        <Grid item container xs={12} justifyContent={'space-between'}>
-          <Grid item container xs={8}>
+        <Grid container>
+          <Grid item xs={8}>
             <Avatar
               alt='organization logo'
               src={'/images/companyLogos/apple.png'}
             />
-
             <Grid item>
               <Box ml={1} mb={2}>
                 <Typography variant={'subtitle2'}>
@@ -68,43 +70,45 @@ const JobExperience = ({
                   buttonVariant={'outlined'}
                   title={messages['common.edit_btn'] as string}
                   icon={<BorderColor />}
-                  onclick={openAddEditForm}
+                  onClick={onClickEditButton}
                 />
                 <CircularDeleteButton
-                  deleteAction={deleteJobExperience}
+                  deleteAction={onClickDeleteButton}
                   deleteTitle={'Delete'}
                 />
               </Box>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item container>
-          <Box className={classes.jobDurationDate} mb={4}>
-            <AccessTime />
-            <Typography className={classes.jobAccessTime}>
-              {jobExperience.start_date} -{' '}
-              {jobExperience.is_currently_work
-                ? jobExperience.end_date
-                : 'present'}
-            </Typography>
-            <VerticalLine
-              lineHeight={'15px'}
-              lineWidth={'2px'}
-              marginLeft={2}
-              marginRight={2}
-            />
-            {location && (
-              <Box className={classes.jobDurationDate}>
-                <LocationOnIcon />
-                <Typography>{location}</Typography>
-              </Box>
-            )}
-          </Box>
-          <Typography>{jobExperience.description}</Typography>
+        <Grid container>
+          <Grid item xs={12}>
+            <Box className={classes.jobDurationDate} mb={4}>
+              <AccessTime />
+              <Typography className={classes.jobAccessTime}>
+                {jobExperience.start_date} -{' '}
+                {jobExperience.is_currently_work
+                  ? jobExperience.end_date
+                  : 'present'}
+              </Typography>
+              <VerticalLine
+                lineHeight={'15px'}
+                lineWidth={'2px'}
+                marginLeft={2}
+                marginRight={2}
+              />
+              {/*{location && (*/}
+              {/*  <Box className={classes.jobDurationDate}>*/}
+              {/*    <LocationOnIcon />*/}
+              {/*    <Typography>{location}</Typography>*/}
+              {/*  </Box>*/}
+              {/*)}*/}
+            </Box>
+            <Typography>{jobExperience?.job_description}</Typography>
+          </Grid>
         </Grid>
       </Box>
-    </>
-  );
+    </React.Fragment>
+  ));
 };
 
-export default JobExperience;
+export default JobExperiences;

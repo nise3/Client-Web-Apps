@@ -39,9 +39,9 @@ const YouthProfile = () => {
               <Grid item xs={12} md={12}>
                 <EducationSection />
               </Grid>
-              <Grid item xs={12} md={12}>
+              {/*<Grid item xs={12} md={12}>
                 <CertificationSection />
-              </Grid>
+              </Grid>*/}
               <Grid item xs={12} md={12}>
                 <LanguageSection />
               </Grid>
