@@ -15,7 +15,6 @@ type ReferenceProp = {
 };
 
 const Reference = ({
-  key,
   reference,
   openReferenceAddEditForm,
   onDelete,
@@ -23,7 +22,7 @@ const Reference = ({
   const {messages} = useIntl();
 
   return (
-    <React.Fragment key={key}>
+    <React.Fragment key={reference?.id}>
       <HorizontalLine />
 
       <Grid container justifyContent={'space-between'}>
