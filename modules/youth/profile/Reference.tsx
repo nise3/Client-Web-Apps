@@ -3,7 +3,7 @@ import React from 'react';
 import {Avatar, Box, Grid, Typography} from '@mui/material';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import CustomParabolaButton from './component/CustomParabolaButton';
-import {BorderColor} from '@mui/icons-material';
+import {BorderColor, Email, LocationOn} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from './component/CircularDeleteButton';
 import {YouthReference} from '../../../services/youthManagement/typing';
@@ -51,7 +51,7 @@ const Reference = ({
                 <Grid container spacing={4}>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
-                      <LocalPhoneIcon fontSize={'small'} />
+                      <Email fontSize={'small'} />
                       {reference?.referrer_email}
                     </Typography>
                   </Grid>
@@ -63,7 +63,7 @@ const Reference = ({
                   </Grid>
                   <Grid item>
                     <Typography variant={'caption'} sx={{display: 'flex'}}>
-                      <LocalPhoneIcon fontSize={'small'} />
+                      <LocationOn fontSize={'small'} />
                       {reference?.referrer_address}
                     </Typography>
                   </Grid>
