@@ -28,7 +28,7 @@ const CardHeader = ({headerTitle, buttons}: CardHeaderProps) => {
                   buttonVariant={'outlined'}
                   title={button.label}
                   icon={button.icon}
-                  onclick={button.onclick}
+                  onClick={button.onclick}
                 />
               </Box>
             );

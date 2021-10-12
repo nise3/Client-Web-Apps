@@ -2,43 +2,43 @@ import {Avatar, Box, Button, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import yup from '../../../@softbd/libs/yup';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import yup from '../../../../@softbd/libs/yup';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import CustomHookForm from './component/CustomHookForm';
+import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import CustomHookForm from '../component/CustomHookForm';
 import {
   useFetchYouthProfile,
   useFetchYouthSkills,
-} from '../../../services/youthManagement/hooks';
-import {updateYouthPersonalInfo} from '../../../services/youthManagement/YouthService';
-import {YouthPersonalInfo} from '../../../services/youthManagement/typing';
+} from '../../../../services/youthManagement/hooks';
+import {updateYouthPersonalInfo} from '../../../../services/youthManagement/YouthService';
+import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 import {
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
-} from '../../../services/locationManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
+} from '../../../../services/locationManagement/hooks';
+import RowStatus from '../../../../@softbd/utilities/RowStatus';
 import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
-} from '../../../services/locationManagement/locationUtils';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import Genders from '../../../@softbd/utilities/Genders';
-import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
-import UserNameType from '../../../@softbd/utilities/UserNameType';
-import PhysicalDisabilities from '../../../@softbd/utilities/PhysicalDisabilities';
+} from '../../../../services/locationManagement/locationUtils';
+import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
+import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import Genders from '../../../../@softbd/utilities/Genders';
+import PhysicalDisabilityStatus from '../../../../@softbd/utilities/PhysicalDisabilityStatus';
+import UserNameType from '../../../../@softbd/utilities/UserNameType';
+import PhysicalDisabilities from '../../../../@softbd/utilities/PhysicalDisabilities';
 
 interface PersonalInformationEditProps {
   onClose: () => void;

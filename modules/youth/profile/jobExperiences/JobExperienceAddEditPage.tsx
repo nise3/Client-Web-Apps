@@ -2,28 +2,28 @@ import {Box, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import yup from '../../../@softbd/libs/yup';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import yup from '../../../../@softbd/libs/yup';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import {FormControlLabel, Switch} from '@mui/material';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {useFetchJobExperience} from '../../../services/youthManagement/hooks';
+import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import {useFetchJobExperience} from '../../../../services/youthManagement/hooks';
 import {
   createJobExperience,
   updateJobExperience,
-} from '../../../services/youthManagement/JobExperienceService';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {YouthJobExperience} from '../../../services/youthManagement/typing';
-import CustomHookForm from './component/CustomHookForm';
+} from '../../../../services/youthManagement/JobExperienceService';
+import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {YouthJobExperience} from '../../../../services/youthManagement/typing';
+import CustomHookForm from '../component/CustomHookForm';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;

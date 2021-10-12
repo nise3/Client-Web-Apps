@@ -1,16 +1,16 @@
 import {Add} from '@mui/icons-material';
-import CustomContentCard from './CustomContentCard';
+import CustomContentCard from '../CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import CertificateAddEditPage from './CertificateAddEditPage';
-import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
-import {useFetchYouthCertificates} from '../../../services/youthManagement/hooks';
-import {YouthCertificate} from '../../../services/youthManagement/typing';
-import ContentLayout from './component/ContentLayout';
-import CustomParabolaButton from './component/CustomParabolaButton';
+import {deleteCertificate} from '../../../../services/youthManagement/CertificateService';
+import {useFetchYouthCertificates} from '../../../../services/youthManagement/hooks';
+import {YouthCertificate} from '../../../../services/youthManagement/typing';
+import ContentLayout from '../component/ContentLayout';
+import CustomParabolaButton from '../component/CustomParabolaButton';
 
 const CertificationSection = () => {
   const {messages} = useIntl();
@@ -68,7 +68,7 @@ const CertificationSection = () => {
           buttonVariant={'outlined'}
           title={messages['common.add_new_certificate'] as string}
           icon={<Add />}
-          onclick={() => openCertificateAddEditForm(null)}
+          onClick={() => openCertificateAddEditForm(null)}
         />
       }>
       {certificates &&

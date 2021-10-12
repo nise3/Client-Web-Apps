@@ -1,14 +1,14 @@
-import CustomParabolaButton from './component/CustomParabolaButton';
+import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BusinessCenter} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import JobExperiences from './JobExperiences';
 import {useIntl} from 'react-intl';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useFetchYouthJobExperiences} from '../../../services/youthManagement/hooks';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {useFetchYouthJobExperiences} from '../../../../services/youthManagement/hooks';
 import JobExperienceAddEditPage from './JobExperienceAddEditPage';
-import ContentLayout from './component/ContentLayout';
+import ContentLayout from '../component/ContentLayout';
 
 const JobExperienceSection = () => {
   const {messages} = useIntl();
@@ -67,13 +67,11 @@ const JobExperienceSection = () => {
           onClick={() => openJobExperienceAddEditForm(null)}
         />
       }>
-      {
-        <JobExperiences
-          jobExperiences={jobExperiences || []}
-          onOpenAddEditForm={openJobExperienceAddEditForm}
-          onDeleteJobExperience={deleteJobExperienceItem}
-        />
-      }
+      <JobExperiences
+        jobExperiences={jobExperiences || []}
+        onOpenAddEditForm={openJobExperienceAddEditForm}
+        onDeleteJobExperience={deleteJobExperienceItem}
+      />
     </ContentLayout>
   );
 };

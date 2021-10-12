@@ -8,10 +8,10 @@ import {
   Verified,
 } from '@mui/icons-material';
 import ResultType from '../utilities/ResultType';
-import TextPrimary from './TextPrimary';
+import TextPrimary from '../component/TextPrimary';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CustomParabolaButton from './CustomParabolaButton';
-import CircularDeleteButton from './CircularDeleteButton';
+import CustomParabolaButton from '../component/CustomParabolaButton';
+import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthEducation} from '../../../../services/youthManagement/typing';
 import {useIntl} from 'react-intl';
 
@@ -21,7 +21,7 @@ interface EducationComponentProps {
   onDeleteClick: (id: number) => void;
 }
 
-const EducationComponent: FC<EducationComponentProps> = ({
+const Educations: FC<EducationComponentProps> = ({
   educations,
   onEditClick,
   onDeleteClick,
@@ -108,7 +108,7 @@ const EducationComponent: FC<EducationComponentProps> = ({
                   buttonVariant={'outlined'}
                   title={messages['common.edit_btn'] as string}
                   icon={<BorderColor />}
-                  onclick={() => {
+                  onClick={() => {
                     onEditClick(education.id);
                   }}
                 />
@@ -127,4 +127,4 @@ const EducationComponent: FC<EducationComponentProps> = ({
   );
 };
 
-export default EducationComponent;
+export default Educations;

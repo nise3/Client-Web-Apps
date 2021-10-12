@@ -1,18 +1,24 @@
-import {Box, Card, CardContent} from '@mui/material';
-import CardHeader from './CardHeader';
+import {Box} from '@mui/material';
 import {BorderColor} from '@mui/icons-material';
-import HorizontalLine from './component/HorizontalLine';
-import CustomCarousel from '../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
+import HorizontalLine from '../component/HorizontalLine';
+import CustomCarousel from '../../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import CardItemWithButton from './component/CardItemWithButton';
+import CardItemWithButton from '../component/CardItemWithButton';
 import PortfolioAddEdit from './PortfolioAddEdit';
-import {useFetchPortfolios} from '../../../services/youthManagement/hooks';
+import {useFetchPortfolios} from '../../../../services/youthManagement/hooks';
+import CustomParabolaButton from '../component/CustomParabolaButton';
+import ContentLayout from '../component/ContentLayout';
+import BoxContentSkeleton from '../component/BoxContentSkeleton';
 
 const PortfolioSection = () => {
   const {messages} = useIntl();
   const [portfolioId, setPortfolioId] = useState<number | null>(null);
-  const {data: portfolios, mutate: mutatePortfolios} = useFetchPortfolios();
+  const {
+    data: portfolios,
+    isLoading,
+    mutate: mutatePortfolios,
+  } = useFetchPortfolios();
   const [isOpenPortfolioAddEditForm, setIsOpenPortfolioAddEditForm] =
     useState<boolean>(false);
 
@@ -35,19 +41,18 @@ const PortfolioSection = () => {
       onClose={closePortfolioAddEditForm}
     />
   ) : (
-    <Card>
-      <CardContent>
-        <CardHeader
-          headerTitle={messages['common.portfolio'] as string}
-          buttons={[
-            {
-              label: messages['common.add_new_portfolio'] as string,
-              icon: <BorderColor />,
-              onclick: () => openPortfolioAddEditForm(null),
-            },
-          ]}
+    <ContentLayout
+      title={messages['common.portfolio']}
+      isLoading={isLoading}
+      actions={
+        <CustomParabolaButton
+          buttonVariant={'outlined'}
+          title={messages['common.add_new_portfolio'] as string}
+          icon={<BorderColor />}
+          onClick={() => openPortfolioAddEditForm(null)}
         />
-      </CardContent>
+      }
+      contentSkeleton={<BoxContentSkeleton />}>
       <HorizontalLine />
       <Box>
         <CustomCarousel>
@@ -63,7 +68,7 @@ const PortfolioSection = () => {
           })}
         </CustomCarousel>
       </Box>
-    </Card>
+    </ContentLayout>
   );
 };
 export default PortfolioSection;

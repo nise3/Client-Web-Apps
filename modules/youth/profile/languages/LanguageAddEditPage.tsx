@@ -4,22 +4,22 @@ import React, {FC, useEffect, useMemo, useState} from 'react';
 import {
   isResponseSuccess,
   isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+} from '../../../../@softbd/utilities/helpers';
+import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import {
   createRankType,
   updateRankType,
-} from '../../../services/organaizationManagement/RankTypeService';
-import yup from '../../../@softbd/libs/yup';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+} from '../../../../services/organaizationManagement/RankTypeService';
+import yup from '../../../../@softbd/libs/yup';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {Grid, Card, CardContent, Typography, Zoom} from '@mui/material';
-import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {DialogTitle} from '../../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 
 interface LanguageAddEditPageProps {
   itemId: number | null;

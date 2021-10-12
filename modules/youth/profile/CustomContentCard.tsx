@@ -81,7 +81,7 @@ const CustomContentCard = ({
                   buttonVariant={'outlined'}
                   title={messages['common.edit_btn'] as string}
                   icon={<BorderColor />}
-                  onclick={contentEditButton}
+                  onClick={contentEditButton}
                 />
                 {contentDeleteButton && (
                   <CircularDeleteButton

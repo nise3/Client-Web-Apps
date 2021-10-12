@@ -2,13 +2,13 @@ import React from 'react';
 import {CremaTheme} from '../../../types/AppContextPropsType';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Container, Grid} from '@mui/material';
-import PersonalInfoSection from './PersonalInfoSection';
-import JobExperienceSection from './JobExperienceSection';
-import EducationSection from './EducationSection';
-import CertificationSection from './CertificationSection';
-import LanguageSection from './LanguageSection';
-import ReferenceSection from './ReferenceSection';
-import PortfolioSection from './PortfolioSection';
+import PersonalInfoSection from './personalInfo/PersonalInfoSection';
+import JobExperienceSection from './jobExperiences/JobExperienceSection';
+import EducationSection from './educations/EducationSection';
+import CertificationSection from './certifications/CertificationSection';
+import LanguageSection from './languages/LanguageSection';
+import ReferenceSection from './references/ReferenceSection';
+import PortfolioSection from './portfolios/PortfolioSection';
 import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
 import FreelanceProfileSection from './FreelanceProfileSection';
 import MyCVSection from './MyCVSection';
@@ -39,9 +39,9 @@ const YouthProfile = () => {
               <Grid item xs={12} md={12}>
                 <EducationSection />
               </Grid>
-              {/*<Grid item xs={12} md={12}>
+              <Grid item xs={12} md={12}>
                 <CertificationSection />
-              </Grid>*/}
+              </Grid>
               <Grid item xs={12} md={12}>
                 <LanguageSection />
               </Grid>

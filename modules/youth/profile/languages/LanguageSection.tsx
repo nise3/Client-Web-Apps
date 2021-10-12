@@ -1,12 +1,12 @@
 import {Box, Card, CardContent} from '@mui/material';
-import CardHeader from './CardHeader';
+import CardHeader from '../CardHeader';
 import {Add} from '@mui/icons-material';
-import CustomContentCard from './CustomContentCard';
+import CustomContentCard from '../CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import LanguageAddEditPage from './LanguageAddEditPage';
 import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
-import {useFetchYouthLanguages} from '../../../services/youthManagement/hooks';
+import {useFetchYouthLanguages} from '../../../../services/youthManagement/hooks';
 
 const LanguageSection = () => {
   const {messages} = useIntl();

@@ -1,16 +1,15 @@
-import {Card, CardContent} from '@mui/material';
-import CardHeader from './CardHeader';
 import {Add} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import EducationAddEditPage from './EducationAddEditPage';
-import {useFetchEducations} from '../../../services/youthManagement/hooks';
-import {deleteEducation} from '../../../services/youthManagement/EducationService';
-import ContentWithImageSkeleton from './component/ContentWithImageSkeleton';
-import EducationComponent from './component/EducationComponent';
+import {useFetchEducations} from '../../../../services/youthManagement/hooks';
+import {deleteEducation} from '../../../../services/youthManagement/EducationService';
+import Educations from './Educations';
+import CustomParabolaButton from '../component/CustomParabolaButton';
+import ContentLayout from '../component/ContentLayout';
 
 const EducationSection = () => {
   const {messages} = useIntl();
@@ -57,33 +56,27 @@ const EducationSection = () => {
       onClose={closeEducationAddEditForm}
     />
   ) : (
-    <Card>
-      <CardContent>
-        <CardHeader
-          headerTitle={messages['education.label'] as string}
-          buttons={[
-            {
-              label: messages['common.add_new_education'] as string,
-              icon: <Add />,
-              onclick: () => openEducationAddEditForm(null),
-            },
-          ]}
+    <ContentLayout
+      title={messages['education.label']}
+      isLoading={isLoading}
+      actions={
+        <CustomParabolaButton
+          buttonVariant={'outlined'}
+          title={messages['common.add_new_education'] as string}
+          icon={<Add />}
+          onClick={() => openEducationAddEditForm(null)}
         />
-        {isLoading ? (
-          <ContentWithImageSkeleton />
-        ) : (
-          <EducationComponent
-            educations={educations}
-            onEditClick={openEducationAddEditForm}
-            onDeleteClick={(educationId) => {
-              (async () => {
-                await deleteEducationItem(educationId);
-              })();
-            }}
-          />
-        )}
-      </CardContent>
-    </Card>
+      }>
+      <Educations
+        educations={educations}
+        onEditClick={openEducationAddEditForm}
+        onDeleteClick={(educationId) => {
+          (async () => {
+            await deleteEducationItem(educationId);
+          })();
+        }}
+      />
+    </ContentLayout>
   );
 };
 

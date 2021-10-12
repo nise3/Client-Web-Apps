@@ -6,16 +6,16 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import CustomParabolaButton from './component/CustomParabolaButton';
+import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BusinessCenter} from '@mui/icons-material';
-import HorizontalLine from './component/HorizontalLine';
-import SkillInfo from './SkillInfo';
-import CircularProgressWithLabel from './component/CircularProgressWithLabel';
+import HorizontalLine from '../component/HorizontalLine';
+import SkillInfo from '../SkillInfo';
+import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
-import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
+import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {useFetchYouthProfile} from '../../../../services/youthManagement/hooks';
 import PersonalInformationEdit from './PersonalInformationEdit';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
@@ -96,7 +96,7 @@ const PersonalInfoSection = () => {
               <CustomParabolaButton
                 title={messages['youth_profile.edit_profile'] as string}
                 icon={<BusinessCenter />}
-                onclick={openPersonalInformationEditForm}
+                onClick={openPersonalInformationEditForm}
               />
             </Grid>
           </Grid>

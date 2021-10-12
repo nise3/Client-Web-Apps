@@ -1,7 +1,7 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
 import React, {useEffect, useMemo, useState} from 'react';
-import yup from '../../../@softbd/libs/yup';
+import yup from '../../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
 import {
   Box,
@@ -14,13 +14,13 @@ import {
   TableRow,
   Zoom,
 } from '@mui/material';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteRankType} from '../../../services/organaizationManagement/RankTypeService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {DialogTitle} from '../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
+import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {deleteRankType} from '../../../../services/organaizationManagement/RankTypeService';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {DialogTitle} from '../../../../@softbd/modals/CustomMuiModal/CustomMuiModal';
 
 let languages = [
   {
