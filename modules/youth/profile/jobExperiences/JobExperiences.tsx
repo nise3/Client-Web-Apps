@@ -1,28 +1,15 @@
 import {useIntl} from 'react-intl';
-import HorizontalLine from '../component/HorizontalLine';
 import CustomParabolaButton from '../component/CustomParabolaButton';
-import VerticalLine from '../component/VerticalLine';
 import React from 'react';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
-import {AccessTime, BorderColor} from '@mui/icons-material';
-import {createStyles, makeStyles} from '@mui/styles';
+import {AccessTime, BorderColor, Verified} from '@mui/icons-material';
 import {Avatar, Box, Grid, Typography} from '@mui/material';
 import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthJobExperience} from '../../../../services/youthManagement/typing';
-
-const useStyles = makeStyles((theme: CremaTheme) =>
-  createStyles({
-    jobDurationDate: {
-      display: 'flex',
-      flexDirection: 'row',
-      color: theme.palette.primary.main,
-    },
-    jobAccessTime: {
-      marginTop: '2px',
-      marginLeft: '5px',
-    },
-  }),
-);
+import TextPrimary from '../component/TextPrimary';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import HorizontalLine from '../component/HorizontalLine';
+import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
+import VerticalLine from '../component/VerticalLine';
 
 type JobExperienceProp = {
   jobExperiences: Array<YouthJobExperience>;
@@ -35,7 +22,6 @@ const JobExperiences = ({
   onOpenAddEditForm,
   onDeleteJobExperience,
 }: JobExperienceProp) => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
@@ -43,66 +29,76 @@ const JobExperiences = ({
       {jobExperiences.map((jobExperience: YouthJobExperience) => (
         <React.Fragment key={jobExperience.id}>
           <HorizontalLine />
-          <Box mt={2}>
-            <Grid container>
-              <Grid item xs={8}>
-                <Avatar
-                  alt='organization logo'
-                  src={'/images/companyLogos/apple.png'}
-                />
-                <Grid item>
-                  <Box ml={1} mb={2}>
-                    <Typography variant={'subtitle2'}>
-                      {jobExperience.company_name}
-                    </Typography>
-                    <Typography variant={'caption'}>
-                      {jobExperience.position}
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid item xs={4}>
-                <Grid container justifyContent={'flex-end'}>
-                  <Box>
-                    <CustomParabolaButton
-                      buttonVariant={'outlined'}
-                      title={messages['common.edit_btn'] as string}
-                      icon={<BorderColor />}
-                      onClick={() => {
-                        onOpenAddEditForm(jobExperience.id);
-                      }}
-                    />
-                    <CircularDeleteButton
-                      deleteAction={() => {
-                        onDeleteJobExperience(jobExperience.id);
-                      }}
-                      deleteTitle={'Delete'}
-                    />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item xs={12}>
-                <Box className={classes.jobDurationDate} mb={4}>
-                  <AccessTime />
-                  <Typography className={classes.jobAccessTime}>
-                    {jobExperience.start_date} -{' '}
-                    {jobExperience.is_currently_work
-                      ? jobExperience.end_date
-                      : 'present'}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={8} md={9}>
+              <Box sx={{display: 'flex'}}>
+                <Avatar>
+                  <Verified />
+                </Avatar>
+                <Box sx={{marginLeft: '15px'}}>
+                  <Typography variant={'subtitle2'}>
+                    {jobExperience?.company_name}
                   </Typography>
-                  <VerticalLine
-                    lineHeight={'15px'}
-                    lineWidth={'2px'}
-                    marginLeft={2}
-                    marginRight={2}
-                  />
+                  <Typography variant={'caption'}>
+                    {jobExperience?.position}
+                  </Typography>
                 </Box>
-                <Typography>{jobExperience?.job_description}</Typography>
-              </Grid>
+              </Box>
+              <Box>
+                <Grid container sx={{marginTop: '10px'}}>
+                  <Grid item sx={{display: 'flex'}}>
+                    <AccessTime color={'primary'} sx={{marginRight: '5px'}} />
+                    <TextPrimary
+                      text={
+                        getMomentDateFormat(
+                          jobExperience?.start_date,
+                          'DD MMM, YYYY',
+                        ) +
+                        ' - ' +
+                        (jobExperience.is_currently_work == 1
+                          ? 'Present'
+                          : jobExperience?.end_date
+                          ? getMomentDateFormat(
+                              jobExperience?.end_date,
+                              'DD MMM, YYYY',
+                            )
+                          : '')
+                      }
+                    />
+                  </Grid>
+                  <VerticalLine />
+                  <Grid item sx={{display: 'flex'}}>
+                    <LocationOnIcon
+                      color={'primary'}
+                      sx={{marginRight: '5px'}}
+                    />
+                    <TextPrimary text={jobExperience?.location} />
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
-          </Box>
+            <Grid item xs={12} sm={4} md={3}>
+              <Box sx={{display: 'flex'}}>
+                <CustomParabolaButton
+                  buttonVariant={'outlined'}
+                  title={messages['common.edit_btn'] as string}
+                  icon={<BorderColor />}
+                  onClick={() => {
+                    onOpenAddEditForm(jobExperience.id);
+                  }}
+                />
+                <CircularDeleteButton
+                  deleteAction={() => {
+                    onDeleteJobExperience(jobExperience.id);
+                  }}
+                  deleteTitle={'delete'}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>{jobExperience?.job_description}</Typography>
+            </Grid>
+          </Grid>
         </React.Fragment>
       ))}
     </React.Fragment>

@@ -232,18 +232,6 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id={'employment_type_id'}
-                label={messages['common.type_of_employee']}
-                isLoading={isLoading}
-                control={control}
-                options={employmentTypes}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='location'
                 label={messages['common.location_bn']}
@@ -256,6 +244,36 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               <CustomTextInput
                 id='location_en'
                 label={messages['common.location_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id={'employment_type_id'}
+                label={messages['common.type_of_employee']}
+                isLoading={isLoading}
+                control={control}
+                options={employmentTypes}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomDateTimeField
+                id='start_date'
+                label={messages['job_experience.start_date']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomDateTimeField
+                id='end_date'
+                label={messages['job_experience.end_date']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -281,25 +299,6 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 isLoading={isLoading}
                 multiline={true}
                 rows={3}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomDateTimeField
-                id='start_date'
-                label={messages['job_experience.start_date']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomDateTimeField
-                id='end_date'
-                label={messages['job_experience.end_date']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12} md={12}>

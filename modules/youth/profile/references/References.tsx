@@ -7,6 +7,8 @@ import {BorderColor, Email, LocationOn} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthReference} from '../../../../services/youthManagement/typing';
+import TextPrimary from '../component/TextPrimary';
+import VerticalLine from '../component/VerticalLine';
 
 type ReferencesProp = {
   references: Array<YouthReference> | undefined;
@@ -33,12 +35,12 @@ const References = ({
                 <Grid item xs={4} md={2}>
                   <Avatar
                     alt='Reference logo'
-                    src={'/images/youth/avatar.png'}
+                    src={'/images/userPageImages/profileImage.jpeg'}
                     sx={{height: 80, width: 80}}
                   />
                 </Grid>
                 <Grid item xs={8} md={8}>
-                  <Box mb={2}>
+                  <Box>
                     <Typography variant={'subtitle2'}>
                       {reference?.referrer_first_name}{' '}
                       {reference?.referrer_last_name}
@@ -49,26 +51,30 @@ const References = ({
                     <Typography variant={'caption'}>
                       {reference?.referrer_organization_name}
                     </Typography>
-                    <Grid container spacing={4}>
-                      <Grid item>
-                        <Typography variant={'caption'} sx={{display: 'flex'}}>
-                          <Email fontSize={'small'} />
-                          {reference?.referrer_email}
-                        </Typography>
+                    <Box>
+                      <Grid container sx={{marginTop: '10px'}}>
+                        <Grid item sx={{display: 'flex'}}>
+                          <Email color={'primary'} sx={{marginRight: '5px'}} />
+                          <TextPrimary text={reference?.referrer_email} />
+                        </Grid>
+                        <VerticalLine />
+                        <Grid item sx={{display: 'flex'}}>
+                          <LocalPhoneIcon
+                            color={'primary'}
+                            sx={{marginRight: '5px'}}
+                          />
+                          <TextPrimary text={reference?.referrer_mobile} />
+                        </Grid>
+                        <VerticalLine />
+                        <Grid item sx={{display: 'flex'}}>
+                          <LocationOn
+                            color={'primary'}
+                            sx={{marginRight: '5px'}}
+                          />
+                          <TextPrimary text={reference?.referrer_address} />
+                        </Grid>
                       </Grid>
-                      <Grid item>
-                        <Typography variant={'caption'} sx={{display: 'flex'}}>
-                          <LocalPhoneIcon fontSize={'small'} />
-                          {reference?.referrer_mobile}
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant={'caption'} sx={{display: 'flex'}}>
-                          <LocationOn fontSize={'small'} />
-                          {reference?.referrer_address}
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                    </Box>
                   </Box>
                 </Grid>
               </Grid>

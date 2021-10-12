@@ -26,7 +26,7 @@ const ContentLayout: FC<ContentLayoutProps> = ({
             <H6 sx={{fontWeight: 'bold'}}>{title}</H6>
           </Grid>
           {actions && (
-            <Grid item container xs={6} justifyContent={'flex-end'}>
+            <Grid item xs={6} sx={{textAlign: 'right'}}>
               {actions}
             </Grid>
           )}

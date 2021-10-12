@@ -61,7 +61,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
     return yup.object().shape({
       referrer_first_name_en: yup
         .string()
-        .title('en')
         .label(messages['common.first_name_en'] as string),
       referrer_first_name: yup
         .string()
@@ -69,7 +68,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
         .label(messages['common.first_name_bn'] as string),
       referrer_last_name_en: yup
         .string()
-        .title('en')
         .label(messages['common.last_name_en'] as string),
       referrer_last_name: yup
         .string()
@@ -77,7 +75,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
         .label(messages['common.last_name_bn'] as string),
       referrer_organization_name_en: yup
         .string()
-        .title('en')
         .label(messages['common.organization_en'] as string),
       referrer_organization_name: yup
         .string()
@@ -85,7 +82,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
         .label(messages['common.organization_bn'] as string),
       referrer_designation_en: yup
         .string()
-        .title('en')
         .label(messages['common.designation_en'] as string),
       referrer_designation: yup
         .string()
@@ -93,7 +89,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
         .label(messages['common.designation_bn'] as string),
       referrer_address_en: yup
         .string()
-        .title('en')
         .label(messages['common.address_en'] as string),
       referrer_address: yup
         .string()
@@ -113,7 +108,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
         .label(messages['common.email'] as string),
       referrer_relation_en: yup
         .string()
-        .title('en')
         .label(messages['common.relation_en'] as string),
       referrer_relation: yup
         .string()
@@ -203,15 +197,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='referrer_first_name_en'
-                label={messages['common.first_name_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
                 id='referrer_first_name'
                 label={messages['common.first_name_bn']}
                 register={register}
@@ -221,13 +206,14 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='referrer_last_name_en'
-                label={messages['common.last_name_en']}
+                id='referrer_first_name_en'
+                label={messages['common.first_name_en']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
               />
             </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='referrer_last_name'
@@ -239,53 +225,8 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='referrer_organization_name_en'
-                label={messages['common.organization_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='referrer_organization_name'
-                label={messages['common.organization_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='referrer_designation_en'
-                label={messages['common.designation_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='referrer_designation'
-                label={messages['common.designation_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='referrer_address_en'
-                label={messages['common.address_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='referrer_address'
-                label={messages['common.address_bn']}
+                id='referrer_last_name_en'
+                label={messages['common.last_name_en']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -309,15 +250,64 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='referrer_relation_en'
-                label={messages['common.relation_en']}
+                id='referrer_organization_name'
+                label={messages['common.organization_bn']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
               />
             </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_organization_name_en'
+                label={messages['common.organization_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_designation'
+                label={messages['common.designation_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_designation_en'
+                label={messages['common.designation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_address'
+                label={messages['common.address_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='referrer_address_en'
+                label={messages['common.address_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='referrer_relation'
@@ -328,7 +318,16 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              {/*<FormRadioButtons
+              <CustomTextInput
+                id='referrer_relation_en'
+                label={messages['common.relation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            {/*<Grid item xs={12} md={6}>
+              <FormRadioButtons
                 id='allow_contact'
                 label={'reference.allow_contact'}
                 radios={[
@@ -344,8 +343,8 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
                 control={control}
                 defaultValue={'1'}
                 isLoading={isLoading}
-              />*/}
-            </Grid>
+              />
+            </Grid>*/}
           </Grid>
         </CustomHookForm>
       </Box>

@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Avatar, Box, Divider, Grid, Typography} from '@mui/material';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
 import {
   AccessTime,
   BorderColor,
@@ -14,14 +14,16 @@ import CustomParabolaButton from '../component/CustomParabolaButton';
 import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthEducation} from '../../../../services/youthManagement/typing';
 import {useIntl} from 'react-intl';
+import HorizontalLine from '../component/HorizontalLine';
+import VerticalLine from '../component/VerticalLine';
 
-interface EducationComponentProps {
-  educations: Array<YouthEducation> | undefined;
+interface EducationsProps {
+  educations: Array<YouthEducation> | any[];
   onEditClick: (id: number) => void;
   onDeleteClick: (id: number) => void;
 }
 
-const Educations: FC<EducationComponentProps> = ({
+const Educations: FC<EducationsProps> = ({
   educations,
   onEditClick,
   onDeleteClick,
@@ -30,9 +32,10 @@ const Educations: FC<EducationComponentProps> = ({
 
   return (
     <React.Fragment>
-      {(educations || []).map((education: YouthEducation) => {
-        return (
-          <Grid container spacing={3} sx={{marginTop: 0}} key={education.id}>
+      {educations.map((education: YouthEducation) => (
+        <React.Fragment key={education.id}>
+          <HorizontalLine />
+          <Grid container spacing={{xs: 2, md: 3}}>
             <Grid item xs={12} sm={8} md={9}>
               <Box sx={{display: 'flex'}}>
                 <Avatar>
@@ -48,7 +51,7 @@ const Educations: FC<EducationComponentProps> = ({
                 </Box>
               </Box>
               <Box>
-                <Grid container sx={{marginTop: 2}}>
+                <Grid container sx={{marginTop: '10px'}}>
                   <Grid item sx={{display: 'flex'}}>
                     <Grade color={'primary'} sx={{marginRight: '5px'}} />
                     {education.result_type == ResultType.GRADE_POINT ? (
@@ -69,20 +72,12 @@ const Educations: FC<EducationComponentProps> = ({
                       />
                     )}
                   </Grid>
-                  <Divider
-                    orientation='vertical'
-                    flexItem
-                    sx={{margin: '0px 8px', borderWidth: 1}}
-                  />
+                  <VerticalLine />
                   <Grid item sx={{display: 'flex'}}>
                     <CheckCircle color={'primary'} sx={{marginRight: '5px'}} />
                     <TextPrimary text={education.edu_group_title} />
                   </Grid>
-                  <Divider
-                    orientation='vertical'
-                    flexItem
-                    sx={{margin: '0px 8px', borderWidth: 1}}
-                  />
+                  <VerticalLine />
                   <Grid item sx={{display: 'flex'}}>
                     <LocationOnIcon
                       color={'primary'}
@@ -90,11 +85,7 @@ const Educations: FC<EducationComponentProps> = ({
                     />
                     <TextPrimary text={education.board_title} />
                   </Grid>
-                  <Divider
-                    orientation='vertical'
-                    flexItem
-                    sx={{margin: '0px 8px', borderWidth: 1}}
-                  />
+                  <VerticalLine />
                   <Grid item sx={{display: 'flex'}}>
                     <AccessTime color={'primary'} sx={{marginRight: '5px'}} />
                     <TextPrimary text={education.passing_year} />
@@ -121,8 +112,8 @@ const Educations: FC<EducationComponentProps> = ({
               </Box>
             </Grid>
           </Grid>
-        );
-      })}
+        </React.Fragment>
+      ))}
     </React.Fragment>
   );
 };

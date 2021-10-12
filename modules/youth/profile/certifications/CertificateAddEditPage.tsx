@@ -125,6 +125,8 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthCertificate> = async (
     data: YouthCertificate,
   ) => {
+    /* data.certificate_file_path =
+       'https://image.freepik.com/free-vector/elegant-blue-gold-diploma-certificate-template_1017-17257.jpg';*/
     const response = itemId
       ? await updateCertificate(itemId, data)
       : await createCertificate(data);
@@ -168,7 +170,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
           }
           onClose={onCertificationAddEditPageClose}>
           <Grid container spacing={2}>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='certification_name'
                 label={messages['certificate.name_bn']}
@@ -177,7 +179,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='certification_name_en'
                 label={messages['certificate.name_en']}
@@ -186,7 +188,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='institute_name'
                 label={messages['common.institute_name_bn']}
@@ -195,7 +197,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='institute_name_en'
                 label={messages['common.institute_name_en']}
@@ -204,7 +206,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='location'
                 label={messages['common.location_bn']}
@@ -213,7 +215,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='location_en'
                 label={messages['common.location_en']}
@@ -222,7 +224,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={3} xs={12}>
+            <Grid item xs={12} md={3}>
               <CustomDateTimeField
                 id='start_date'
                 label={messages['common.start_date']}
@@ -231,7 +233,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={3} xs={12}>
+            <Grid item xs={12} md={3}>
               <CustomDateTimeField
                 id='end_date'
                 label={messages['common.end_date']}
@@ -240,7 +242,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='certificate_file_path'
                 label={messages['common.certificate']}

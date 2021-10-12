@@ -1,5 +1,4 @@
 import {Add} from '@mui/icons-material';
-import CustomContentCard from '../CustomContentCard';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
@@ -8,9 +7,9 @@ import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import CertificateAddEditPage from './CertificateAddEditPage';
 import {deleteCertificate} from '../../../../services/youthManagement/CertificateService';
 import {useFetchYouthCertificates} from '../../../../services/youthManagement/hooks';
-import {YouthCertificate} from '../../../../services/youthManagement/typing';
 import ContentLayout from '../component/ContentLayout';
 import CustomParabolaButton from '../component/CustomParabolaButton';
+import Certifications from './Certifications';
 
 const CertificationSection = () => {
   const {messages} = useIntl();
@@ -41,7 +40,7 @@ const CertificationSection = () => {
     mutateCertifications();
   }, []);
 
-  const deleteCertificationItem = async (itemId: number) => {
+  const deleteCertificationItem = useCallback(async (itemId: number) => {
     let response = await deleteCertificate(itemId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -52,7 +51,7 @@ const CertificationSection = () => {
       );
       mutateCertifications();
     }
-  };
+  }, []);
 
   return isOpenCertificateAddEditForm ? (
     <CertificateAddEditPage
@@ -71,24 +70,11 @@ const CertificationSection = () => {
           onClick={() => openCertificateAddEditForm(null)}
         />
       }>
-      {certificates &&
-        certificates.map((certificate: YouthCertificate) => (
-          <React.Fragment key={certificate.id}>
-            <CustomContentCard
-              contentTitle={certificate.certification_name}
-              contentLogo={certificate.certificate_file_path}
-              contentServiceProvider={certificate.institute_name}
-              date={certificate.start_date + ' to ' + certificate?.end_date}
-              location={certificate.location}
-              contentEditButton={() =>
-                openCertificateAddEditForm(certificate.id)
-              }
-              contentDeleteButton={() =>
-                deleteCertificationItem(certificate.id)
-              }
-            />
-          </React.Fragment>
-        ))}
+      <Certifications
+        certificates={certificates}
+        onEditClick={openCertificateAddEditForm}
+        onDeleteClick={deleteCertificationItem}
+      />
     </ContentLayout>
   );
 };

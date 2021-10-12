@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Card,
   CardContent,
   Divider,
@@ -26,7 +27,10 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       },
     },
     editButton: {
-      flexDirection: 'row',
+      textAlign: 'right',
+      [theme.breakpoints.only('xs')]: {
+        textAlign: 'center',
+      },
     },
 
     dividerStyle: {
@@ -72,33 +76,37 @@ const PersonalInfoSection = () => {
     <Card>
       <CardContent>
         <Grid item container spacing={2} className={classes.aboutYouth}>
-          <Grid item sm={2}>
+          <Grid item xs={12} sm={2}>
             <Avatar
               alt='youth profile pic'
               src={'/images/userPageImages/profileImage.jpeg'}
-              sx={{height: 100, width: 100}}
+              sx={{height: 100, width: 100, margin: 'auto'}}
             />
           </Grid>
-          <Grid item sm={6}>
-            <Typography variant={'subtitle2'}>
-              {youthInfo?.first_name} {youthInfo?.last_name}
+          <Grid item xs={12} sm={10} md={10}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <Box>
+                <Typography variant={'h6'}>
+                  {youthInfo?.first_name} {youthInfo?.last_name}
+                </Typography>
+                <Typography variant={'subtitle2'}>
+                  {messages['common.email']}: {youthInfo?.email}
+                </Typography>
+                <Typography variant={'subtitle2'}>
+                  {messages['common.mobile']}: {youthInfo?.mobile}
+                </Typography>
+              </Box>
+              <Box>
+                <CustomParabolaButton
+                  title={messages['youth_profile.edit_profile'] as string}
+                  icon={<BusinessCenter />}
+                  onClick={openPersonalInformationEditForm}
+                />
+              </Box>
+            </Box>
+            <Typography variant={'body1'} mt={1}>
+              {youthInfo?.bio}
             </Typography>
-            {/*<Typography variant={'overline'}>Software Engineer</Typography>*/}
-            <Typography variant={'body1'}>{youthInfo?.bio}</Typography>
-          </Grid>
-          <Grid
-            item
-            container
-            sm={4}
-            justifyContent={'flex-end'}
-            className={classes.editButton}>
-            <Grid item>
-              <CustomParabolaButton
-                title={messages['youth_profile.edit_profile'] as string}
-                icon={<BusinessCenter />}
-                onClick={openPersonalInformationEditForm}
-              />
-            </Grid>
           </Grid>
         </Grid>
 

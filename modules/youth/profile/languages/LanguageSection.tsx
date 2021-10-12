@@ -1,12 +1,12 @@
-import {Box, Card, CardContent} from '@mui/material';
-import CardHeader from '../CardHeader';
-import {Add} from '@mui/icons-material';
-import CustomContentCard from '../CustomContentCard';
+import {Avatar, Box, Typography} from '@mui/material';
+import {BorderColor} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import LanguageAddEditPage from './LanguageAddEditPage';
 import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
-import {useFetchYouthLanguages} from '../../../../services/youthManagement/hooks';
+import CustomParabolaButton from '../component/CustomParabolaButton';
+import ContentLayout from '../component/ContentLayout';
+import HorizontalLine from '../component/HorizontalLine';
 
 const LanguageSection = () => {
   const {messages} = useIntl();
@@ -16,9 +16,6 @@ const LanguageSection = () => {
     useState<boolean>(false);
   const [languageId, setLanguageId] = useState<number | null>(null);
 
-  const {data: languages, mutate: mutateLanguages} = useFetchYouthLanguages();
-  console.log('languages', languages);
-
   const openLanguageAddEditForm = useCallback(
     (itemId: number | null = null) => {
       setLanguageId(itemId);
@@ -27,7 +24,6 @@ const LanguageSection = () => {
     [],
   );
   const closeLanguageAddEditForm = useCallback(() => {
-    mutateLanguages();
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
   }, []);
@@ -67,36 +63,33 @@ const LanguageSection = () => {
       onClose={closeLanguageProficiencyView}
     />
   ) : (
-    <Card>
-      <CardContent>
-        <CardHeader
-          headerTitle={messages['common.language'] as string}
-          buttons={[
-            {
-              label: messages['common.add_language'] as string,
-              icon: <Add />,
-              onclick: () => openLanguageAddEditForm(null),
-            },
-          ]}
+    <ContentLayout
+      title={messages['common.language']}
+      isLoading={false}
+      actions={
+        <CustomParabolaButton
+          buttonVariant={'outlined'}
+          title={messages['common.add_language'] as string}
+          icon={<BorderColor />}
+          onClick={() => openLanguageAddEditForm(null)}
         />
-        <CustomContentCard
-          contentTitle={'English, Bangla, Hindi'}
-          contentLogo='L'
-          contentServiceProvider={
-            <Box
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer',
-                },
-              }}
-              component={'span'}
-              onClick={() => openLanguageProficiencyView()}>
-              View language proficiency
-            </Box>
-          }
-        />
-      </CardContent>
-    </Card>
+      }>
+      <HorizontalLine />
+      <Box sx={{display: 'flex'}}>
+        <Avatar>L</Avatar>
+        <Box sx={{marginLeft: '15px'}}>
+          <Typography variant={'subtitle2'}>English, Bangla, Hindi</Typography>
+          <Typography
+            variant={'caption'}
+            onClick={() => {
+              openLanguageProficiencyView();
+            }}
+            sx={{cursor: 'pointer'}}>
+            View language proficiency
+          </Typography>
+        </Box>
+      </Box>
+    </ContentLayout>
   );
 };
 

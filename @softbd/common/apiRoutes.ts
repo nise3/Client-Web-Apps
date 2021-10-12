@@ -66,7 +66,6 @@ export const API_YOUTH_JOB_EXPERIENCES =
 export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
 export const API_YOUTH_LANGUAGES = YOUTH_SERVICE_PATH + '/youth-languages';
-  YOUTH_SERVICE_PATH + '/youth-languages';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 
