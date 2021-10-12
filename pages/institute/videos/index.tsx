@@ -1,10 +1,11 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
+import React from 'react';
 
-const RecentActivities = asyncComponent(
-  () => import('../../../modules/institute/recent-activities'),
+const InstituteVideos = asyncComponent(
+  () => import('../../../modules/institute/videos'),
 );
 
 export default InstituteDefaultFrontPage(() => {
-  return <RecentActivities />;
+  return <InstituteVideos />;
 });

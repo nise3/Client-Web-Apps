@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InstituteCourses = () => {
+const InstituteTrainingCalendar = () => {
   const {items} = usePagination({
     count: 10,
   });
@@ -269,4 +269,4 @@ const InstituteCourses = () => {
   );
 };
 
-export default InstituteCourses;
+export default InstituteTrainingCalendar;

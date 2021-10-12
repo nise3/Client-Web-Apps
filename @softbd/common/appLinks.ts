@@ -37,6 +37,8 @@ export const LINK_FRONTEND_INSTITUTE_GALLERY = '/institute/gallery';
 export const LINK_FRONTEND_INSTITUTE_FEEDBACK = '/institute/feedback';
 export const LINK_FRONTEND_INSTITUTE_FAQ = '/institute/faq';
 export const LINK_FRONTEND_INSTITUTE_CONTACT = '/institute/contact';
+export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR =
+  '/institute/training-calendar';
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/youth';
