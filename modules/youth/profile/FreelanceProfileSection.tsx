@@ -5,19 +5,27 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {updateYouthFreelanceProfileStatus} from '../../../services/youthManagement/YouthService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
 
 const FreelanceProfileSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const {data: youthProfile} = useFetchYouthProfile();
 
   const [freelanceProfileStatus, setFreelanceProfileStatus] =
     useState<number>(0);
+
+  useEffect(() => {
+    if (youthProfile) {
+      setFreelanceProfileStatus(youthProfile.is_freelance_profile);
+    }
+  }, [youthProfile]);
 
   const handleFreelanceProfileStatusChange = useCallback(async (event: any) => {
     const status = event.target.checked ? 1 : 0;
