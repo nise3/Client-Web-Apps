@@ -16,13 +16,13 @@ type CustomParabolaButtonProps = {
   title: string;
   color?: string;
   buttonVariant?: 'text' | 'contained' | 'outlined';
-  onclick?: () => void;
+  onClick?: () => void;
 };
 const CustomParabolaButton = ({
   buttonVariant,
   icon,
   title,
-  onclick,
+  onClick,
 }: CustomParabolaButtonProps) => {
   const classes = useStyles();
 
@@ -32,7 +32,7 @@ const CustomParabolaButton = ({
       startIcon={icon}
       className={classes.CustomParabolaButton}
       color={'primary'}
-      onClick={onclick}>
+      onClick={onClick}>
       {title}
     </Button>
   );

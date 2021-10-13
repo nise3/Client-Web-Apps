@@ -1,40 +1,48 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useStyles from './Registration.style';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {Chip, Container, Grid, Link, Paper, Typography} from '@mui/material';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import {useIntl} from 'react-intl';
-import yup from '../../../@softbd/libs/yup';
+import {Avatar, Box, Button, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {
+  isResponseSuccess,
+  isValidationError,
+} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import yup from '../../../../@softbd/libs/yup';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import {useIntl} from 'react-intl';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import CustomHookForm from '../component/CustomHookForm';
+import {
+  useFetchYouthProfile,
+  useFetchYouthSkills,
+} from '../../../../services/youthManagement/hooks';
+import {updateYouthPersonalInfo} from '../../../../services/youthManagement/YouthService';
+import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 import {
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
-} from '../../../services/locationManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
+} from '../../../../services/locationManagement/hooks';
+import RowStatus from '../../../../@softbd/utilities/RowStatus';
 import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
-} from '../../../services/locationManagement/locationUtils';
-import Genders from '../../../@softbd/utilities/Genders';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
-import {youthRegistration} from '../../../services/youthManagement/YouthRegistrationService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {CheckCircle} from '@mui/icons-material';
-import PhysicalDisabilities from '../../../@softbd/utilities/PhysicalDisabilities';
-import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
-import UserNameType from '../../../@softbd/utilities/UserNameType';
+} from '../../../../services/locationManagement/locationUtils';
+import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
+import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import Genders from '../../../../@softbd/utilities/Genders';
+import PhysicalDisabilityStatus from '../../../../@softbd/utilities/PhysicalDisabilityStatus';
+import UserNameType from '../../../../@softbd/utilities/UserNameType';
+import PhysicalDisabilities from '../../../../@softbd/utilities/PhysicalDisabilities';
+
+interface PersonalInformationEditProps {
+  onClose: () => void;
+}
 
 const initialValues = {
   first_name: '',
@@ -52,19 +60,25 @@ const initialValues = {
   zip_or_postal_code: '',
 };
 
-const YouthRegistration = () => {
-  const classes = useStyles();
+const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
+  onClose: onEditPageClose,
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const {
+    data: itemData,
+    isLoading,
+    mutate: profileInfoMutate,
+  } = useFetchYouthProfile();
 
-  const [filters] = useState({});
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: skills} = useFetchYouthSkills(youthSkillsFilter);
 
+  const [divisionFilters] = useState<any>({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchDivisions(divisionFilters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -92,16 +106,16 @@ const YouthRegistration = () => {
         .string()
         .title('bn')
         .label(messages['common.last_name_bn'] as string),
-      skills: yup
-        .array()
-        .of(yup.number())
-        .min(1)
-        .label(messages['common.skills'] as string),
       date_of_birth: yup
         .string()
         .trim()
         .required()
         .label(messages['common.date_of_birth'] as string),
+      skills: yup
+        .array()
+        .of(yup.number())
+        .min(1)
+        .label(messages['common.skills'] as string),
       physical_disability_status: yup
         .string()
         .trim()
@@ -115,18 +129,24 @@ const YouthRegistration = () => {
               .min(1)
               .label(messages['common.physical_disability'] as string)
           : yup.array().of(yup.number()),
-      email: yup
-        .string()
-        .trim()
-        .required()
-        .email()
-        .label(messages['common.email'] as string),
-      mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['common.mobile'] as string),
+      email:
+        userNameType == UserNameType.EMAIL
+          ? yup.string()
+          : yup
+              .string()
+              .trim()
+              .required()
+              .email()
+              .label(messages['common.email'] as string),
+      mobile:
+        userNameType == UserNameType.MOBILE
+          ? yup.string()
+          : yup
+              .string()
+              .trim()
+              .required()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['common.mobile'] as string),
       loc_division_id: yup
         .string()
         .trim()
@@ -153,17 +173,8 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .label(messages['common.zip_or_postal_code'] as string),
-      password: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.password'] as string),
-      password_confirmation: yup
-        .string()
-        .oneOf([yup.ref('password')])
-        .label(messages['common.password'] as string),
     });
-  }, [messages]);
+  }, [messages, userNameType, disabilityStatus]);
 
   const physicalDisabilities = useMemo(
     () => [
@@ -192,19 +203,70 @@ const YouthRegistration = () => {
   );
 
   const {
-    control,
     register,
-    handleSubmit,
     reset,
+    handleSubmit,
     setError,
+    control,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    reset(initialValues);
-  }, []);
+    if (itemData) {
+      reset({
+        first_name: itemData?.first_name,
+        first_name_en: itemData?.first_name_en,
+        last_name: itemData?.last_name,
+        last_name_en: itemData?.last_name_en,
+        gender: itemData?.gender,
+        email: itemData?.email,
+        mobile: itemData?.mobile,
+        skills: getSkillIds(itemData?.skills),
+        physical_disability_status: itemData?.physical_disability_status,
+        physical_disabilities: getPhysicalDisabilityIds(
+          itemData?.physical_disabilities,
+        ),
+        date_of_birth: itemData?.date_of_birth,
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
+        loc_upazila_id: itemData?.loc_upazila_id,
+        village_or_area: itemData?.village_or_area,
+        village_or_area_en: itemData?.village_or_area_en,
+        house_n_road: itemData?.house_n_road,
+        house_n_road_en: itemData?.house_n_road_en,
+        zip_or_postal_code: itemData?.zip_or_postal_code,
+        bio: itemData?.bio,
+        bio_en: itemData?.bio_en,
+      });
+      setDisabilityStatus(itemData?.physical_disability_status);
+      setUserNameType(itemData?.user_name_type);
+      let filteredDistricts = filterDistrictsByDivisionId(
+        districts,
+        itemData?.loc_division_id,
+      );
+      setDistrictList(filteredDistricts);
+
+      let filteredUpazilas = filterUpazilasByDistrictId(
+        upazilas,
+        itemData?.loc_district_id,
+      );
+      setUpazilaList(filteredUpazilas);
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData, districts, upazilas]);
+
+  const getSkillIds = (skills: any) => {
+    return (skills || []).map((skill: any) => skill.id);
+  };
+
+  const getPhysicalDisabilityIds = (physicalDisabilities: any) => {
+    return (physicalDisabilities || []).map(
+      (physicalDisability: any) => physicalDisability.id,
+    );
+  };
 
   const onDivisionChange = useCallback(
     (divisionId: number) => {
@@ -229,42 +291,75 @@ const YouthRegistration = () => {
     setDisabilityStatus(value);
   }, []);
 
-  const handleEmailChipClick = () => {
-    setUserNameType(UserNameType.EMAIL);
-  };
-
-  const handleMobileChipClick = () => {
-    setUserNameType(UserNameType.MOBILE);
-  };
-
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    data.user_name_type = userNameType;
+  const onSubmit: SubmitHandler<YouthPersonalInfo> = async (
+    data: YouthPersonalInfo,
+  ) => {
     if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
       data.physical_disabilities = [];
     }
 
-    const response = await youthRegistration(data);
+    const response = await updateYouthPersonalInfo(data);
     if (isResponseSuccess(response)) {
-      successStack(<IntlMessages id='youth_registration.success' />);
+      successStack(
+        <IntlMessages
+          id='common.subject_updated_successfully'
+          values={{subject: <IntlMessages id='personal_info.label' />}}
+        />,
+      );
+      profileInfoMutate();
+      onEditPageClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
 
   return (
-    <Container maxWidth={'md'} className={classes.root}>
-      <Paper className={classes.PaperBox}>
-        <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-          {messages['common.registration']}
-        </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-          <Grid container spacing={3} maxWidth={'md'}>
+    <Zoom in={true}>
+      <Box>
+        <CustomHookForm
+          title={messages['personal_info_edit.label']}
+          handleSubmit={handleSubmit(onSubmit)}
+          actions={
+            <React.Fragment>
+              <CancelButton onClick={onEditPageClose} isLoading={isLoading} />
+              <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+            </React.Fragment>
+          }
+          onClose={onEditPageClose}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <Avatar
+                style={{
+                  border: '0.5px solid lightgray',
+                }}
+                alt='Travis Howard'
+                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKMjeeornJdOe6FD8JTzqih-CByVmSWpSD0g&usqp=CAU'
+                sx={{width: 100, height: 100}}
+              />
+            </Grid>
+            <Grid style={{marginTop: '20px'}} item xs={12} md={8}>
+              <input
+                type='file'
+                accept='image*'
+                style={{display: 'none'}}
+                id='contained-button-file'
+              />
+              <label htmlFor='contained-button-file'>
+                <Button variant='contained' color='primary' component='span'>
+                  <CloudUploadOutlinedIcon
+                    style={{marginRight: '5px', fontSize: 30}}
+                  />{' '}
+                  Upload new picture
+                </Button>
+              </label>
+            </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='first_name'
                 label={messages['common.first_name_bn']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -273,15 +368,16 @@ const YouthRegistration = () => {
                 label={messages['common.first_name_en']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
-
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -290,47 +386,45 @@ const YouthRegistration = () => {
                 label={messages['common.last_name_en']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
-
-            <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
-              <Chip
-                icon={<CheckCircle />}
-                label={messages['youth_registration.set_as_username']}
-                color='primary'
-                variant={
-                  userNameType == UserNameType.EMAIL ? 'filled' : 'outlined'
-                }
-                sx={{marginBottom: '2px'}}
-                onClick={handleEmailChipClick}
-              />
-              <CustomTextInput
-                id='email'
-                label={messages['common.email']}
-                register={register}
+            {itemData?.user_name_type != UserNameType.EMAIL && (
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='email'
+                  label={messages['common.email']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
+            {itemData?.user_name_type != UserNameType.MOBILE && (
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='mobile'
+                  label={messages['common.mobile']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='skills'
+                label={messages['common.select_your_skills']}
+                isLoading={false}
+                control={control}
+                options={skills}
+                multiple={true}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
+                defaultValue={[]}
               />
             </Grid>
-            <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
-              <Chip
-                icon={<CheckCircle />}
-                label={messages['youth_registration.set_as_username']}
-                color='primary'
-                variant={
-                  userNameType == UserNameType.MOBILE ? 'filled' : 'outlined'
-                }
-                sx={{marginBottom: '2px'}}
-                clickable={true}
-                onClick={handleMobileChipClick}
-              />
-              <CustomTextInput
-                id='mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
             <Grid item xs={12} md={6}>
               <FormRadioButtons
                 id='gender'
@@ -354,22 +448,6 @@ const YouthRegistration = () => {
                 isLoading={false}
               />
             </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='skills'
-                label={messages['common.select_your_skills']}
-                isLoading={false}
-                control={control}
-                options={skills}
-                multiple={true}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                defaultValue={[]}
-              />
-            </Grid>
-
             <Grid item xs={12} md={6}>
               <FormRadioButtons
                 id='physical_disability_status'
@@ -385,7 +463,7 @@ const YouthRegistration = () => {
                   },
                 ]}
                 control={control}
-                defaultValue={'0'}
+                defaultValue={String(PhysicalDisabilityStatus.NO)}
                 isLoading={false}
                 onChange={onDisabilityStatusChange}
               />
@@ -407,17 +485,7 @@ const YouthRegistration = () => {
                 />
               </Grid>
             )}
-
             <Grid item xs={12} md={6}>
-              <CustomDateTimeField
-                id='date_of_birth'
-                label={messages['common.date_of_birth']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
               <CustomFormSelect
                 id='loc_division_id'
                 label={messages['divisions.label']}
@@ -430,7 +498,7 @@ const YouthRegistration = () => {
                 onChange={onDivisionChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_district_id'
                 label={messages['districts.label']}
@@ -443,7 +511,7 @@ const YouthRegistration = () => {
                 onChange={onDistrictChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
@@ -462,6 +530,7 @@ const YouthRegistration = () => {
                 label={messages['common.village_or_area_bn']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -470,6 +539,26 @@ const YouthRegistration = () => {
                 label={messages['common.village_or_area_en']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='house_n_road'
+                label={messages['common.house_n_road_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='house_n_road_en'
+                label={messages['common.house_n_road_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
 
@@ -479,39 +568,52 @@ const YouthRegistration = () => {
                 label={messages['common.zip_or_postal_code']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
-
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='password'
-                label={messages['common.password']}
+                id='bio'
+                label={messages['common.bio_bn']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
+                multiline={true}
+                rows={3}
               />
             </Grid>
-
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='password_confirmation'
-                label={messages['common.retype_password']}
+                id='bio_en'
+                label={messages['common.bio_en']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
+                multiline={true}
+                rows={3}
               />
             </Grid>
-
-            <Grid item xs={12} sx={{textAlign: 'right'}}>
-              <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
+            <Grid item xs={8}>
+              <label htmlFor='contained-button-file'>
+                <Button variant='contained' color='primary' component='span'>
+                  <CloudUploadOutlinedIcon
+                    style={{marginRight: '20px', fontSize: 30}}
+                  />{' '}
+                  Upload CV
+                </Button>
+              </label>
+              <input
+                type='file'
+                accept='image/pdf/doc/*'
+                style={{display: 'none'}}
+                id='contained-button-file'
+              />
             </Grid>
           </Grid>
-        </form>
-        <Typography style={{marginTop: '5px', textAlign: 'right'}}>
-          {messages['common.alreadyHaveAccount']}{' '}
-          <Link>{messages['common.signInHere']}</Link>
-        </Typography>
-      </Paper>
-    </Container>
+        </CustomHookForm>
+      </Box>
+    </Zoom>
   );
 };
 
-export default YouthRegistration;
+export default PersonalInformationEdit;

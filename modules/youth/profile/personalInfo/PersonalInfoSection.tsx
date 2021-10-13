@@ -1,21 +1,22 @@
 import {
   Avatar,
+  Box,
   Card,
   CardContent,
   Divider,
   Grid,
   Typography,
 } from '@mui/material';
-import CustomParabolaButton from './component/CustomParabolaButton';
+import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BusinessCenter} from '@mui/icons-material';
-import HorizontalLine from './component/HorizontalLine';
-import SkillInfo from './SkillInfo';
-import CircularProgressWithLabel from './component/CircularProgressWithLabel';
+import HorizontalLine from '../component/HorizontalLine';
+import SkillInfo from '../SkillInfo';
+import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
-import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
+import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {useFetchYouthProfile} from '../../../../services/youthManagement/hooks';
 import PersonalInformationEdit from './PersonalInformationEdit';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
@@ -26,7 +27,10 @@ const useStyles = makeStyles((theme: CremaTheme) =>
       },
     },
     editButton: {
-      flexDirection: 'row',
+      textAlign: 'right',
+      [theme.breakpoints.only('xs')]: {
+        textAlign: 'center',
+      },
     },
 
     dividerStyle: {
@@ -49,8 +53,9 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 const PersonalInfoSection = () => {
   const {messages} = useIntl();
   const classes = useStyles();
-  const {data: youthInfo} = useFetchYouthProfile();
+  const {data: youthInfo, mutate: mutateProfile} = useFetchYouthProfile();
   console.log('profile ', youthInfo);
+
   const [
     isOpenPersonalInformationEditForm,
     setIsOpenPersonalInformationEditForm,
@@ -62,6 +67,7 @@ const PersonalInfoSection = () => {
 
   const closePersonalInformationEditForm = useCallback(() => {
     setIsOpenPersonalInformationEditForm(false);
+    mutateProfile();
   }, []);
 
   return isOpenPersonalInformationEditForm ? (
@@ -70,36 +76,37 @@ const PersonalInfoSection = () => {
     <Card>
       <CardContent>
         <Grid item container spacing={2} className={classes.aboutYouth}>
-          <Grid item sm={2}>
+          <Grid item xs={12} sm={2}>
             <Avatar
               alt='youth profile pic'
               src={'/images/userPageImages/profileImage.jpeg'}
-              sx={{height: 100, width: 100}}
+              sx={{height: 100, width: 100, margin: 'auto'}}
             />
           </Grid>
-          <Grid item sm={6}>
-            <Typography variant={'subtitle2'}>Md. Sakibul Islam</Typography>
-            <Typography variant={'overline'}>Software Engineer</Typography>
-            <Typography variant={'body1'}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad
-              amet, autem explicabo natus reiciendis rem sunt. Aut beatae
-              doloremque, est hic ipsa iste, libero officiis quis rem
-              reprehenderit tempora!
+          <Grid item xs={12} sm={10} md={10}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <Box>
+                <Typography variant={'h6'}>
+                  {youthInfo?.first_name} {youthInfo?.last_name}
+                </Typography>
+                <Typography variant={'subtitle2'}>
+                  {messages['common.email']}: {youthInfo?.email}
+                </Typography>
+                <Typography variant={'subtitle2'}>
+                  {messages['common.mobile']}: {youthInfo?.mobile}
+                </Typography>
+              </Box>
+              <Box>
+                <CustomParabolaButton
+                  title={messages['youth_profile.edit_profile'] as string}
+                  icon={<BusinessCenter />}
+                  onClick={openPersonalInformationEditForm}
+                />
+              </Box>
+            </Box>
+            <Typography variant={'body1'} mt={1}>
+              {youthInfo?.bio}
             </Typography>
-          </Grid>
-          <Grid
-            item
-            container
-            sm={4}
-            justifyContent={'flex-end'}
-            className={classes.editButton}>
-            <Grid item>
-              <CustomParabolaButton
-                title={messages['youth_profile.edit_profile'] as string}
-                icon={<BusinessCenter />}
-                onclick={openPersonalInformationEditForm}
-              />
-            </Grid>
           </Grid>
         </Grid>
 
