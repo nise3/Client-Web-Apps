@@ -4,12 +4,6 @@ import {createStyles, makeStyles} from '@mui/styles';
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
     root: {},
-    container: {
-      margin: '20px auto',
-    },
-    box: {
-      padding: 40,
-    },
     userIdPaperBox: {
       padding: '20px',
       margin: 'auto',

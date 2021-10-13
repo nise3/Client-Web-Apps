@@ -4,7 +4,15 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useStyles from './Settings.style';
 import clsx from 'clsx';
-import {Box, Container, Grid, Paper, Typography} from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  Typography,
+} from '@mui/material';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
 import SettingOptions from './SettingOptions';
 import ChangeUserIdView from './ChangeUserIdView';
@@ -40,25 +48,23 @@ const Settings = () => {
   };
 
   return (
-    <Container maxWidth={'xl'} className={classes.container}>
-      <Grid container spacing={5}>
-        <Grid item sm={4} md={4}>
+    <Container maxWidth={'xl'}>
+      <Grid container mt={{xs: 1}} spacing={{xs: 1, md: 5}}>
+        <Grid item sm={4}>
           <SideMenu />
         </Grid>
 
-        <Grid item sm={8} md={8}>
+        <Grid item sm={8}>
           {isSettingsOpened ? (
-            <Paper>
-              <Box className={classes.box}>
-                <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-                  {messages['common.settings']}
-                </Typography>
+            <Card>
+              <CardHeader title={messages['common.settings']} />
+              <CardContent>
                 <Grid container spacing={6}>
-                  <Grid item xs={12} sm={6} md={6}>
+                  <Grid item xs={12} sm={6}>
                     <Box
                       className={classes.settingBox}
                       onClick={() => showView(SettingOptions.CHANGE_USER_ID)}>
-                      <Box className={classes.boxItem + ' ' + classes.userItem}>
+                      <Box className={clsx(classes.boxItem, classes.userItem)}>
                         <PeopleAltIcon
                           fontSize={'large'}
                           className='icon'
@@ -70,8 +76,7 @@ const Settings = () => {
                       </Typography>
                     </Box>
                   </Grid>
-
-                  <Grid item xs={12} sm={6} md={6}>
+                  <Grid item xs={12} sm={6}>
                     <Box
                       className={classes.settingBox}
                       onClick={() => showView(SettingOptions.CHANGE_PASSWORD)}>
@@ -88,7 +93,7 @@ const Settings = () => {
                       </Typography>
                     </Box>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
+                  <Grid item xs={12} sm={6}>
                     <Box
                       className={classes.settingBox}
                       onClick={() => showView(SettingOptions.DELETE_ACCOUNT)}>
@@ -106,8 +111,8 @@ const Settings = () => {
                     </Box>
                   </Grid>
                 </Grid>
-              </Box>
-            </Paper>
+              </CardContent>
+            </Card>
           ) : (
             getView()
           )}
