@@ -1,9 +1,10 @@
 import React from 'react';
 import {Avatar, Box, Button, Card, LinearProgress} from '@mui/material';
 import {CremaTheme} from '../../../types/AppContextPropsType';
-import BasicInfoItemBox from '../../../@softbd/elements/YouthBasicInfoItemBox';
+import BasicInfoItemBox from './components/BasicInfoItemBox';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
+import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 const BasicInfo = () => {
   const classes: any = useStyles();
   const {messages} = useIntl();
+  const {data: youthInfo} = useFetchYouthProfile();
 
   return (
     <>
@@ -47,15 +49,15 @@ const BasicInfo = () => {
             className={classes.userImage}
           />
           <Box className={classes.userName}>
-            Md Sakibul Islam
-            <Box className={classes.designation}>UI/UX Designer</Box>
+            {youthInfo?.first_name} {youthInfo?.last_name}
+            {/*<Box className={classes.designation}>UI/UX Designer</Box>*/}
           </Box>
           <Box sx={{width: '100%'}}>
             <LinearProgress variant='determinate' value={55} />
             <Box>{messages['youth_feed.profile_progress']} 55%</Box>
           </Box>
 
-          <BasicInfoItemBox />
+          <BasicInfoItemBox youthProfile={youthInfo} />
 
           <Box style={{textAlign: 'center'}}>
             <Button

@@ -65,7 +65,6 @@ export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experiences';
 export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
-export const API_YOUTH_LANGUAGES = YOUTH_SERVICE_PATH + '/youth-languages';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
@@ -74,3 +73,7 @@ export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
   YOUTH_SERVICE_PATH + '/settings/changePassword';
 
 export const API_YOUTH_PORTFOLIOS = YOUTH_SERVICE_PATH + '/youth-portfolios';
+export const API_YOUTH_LANGUAGE_PROFICIENCIES =
+  YOUTH_SERVICE_PATH + '/youth-languages-proficiencies';
+export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
+  YOUTH_SERVICE_PATH + '/youth-change-freelance-status';

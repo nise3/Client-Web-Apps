@@ -41,6 +41,8 @@ export interface YouthPersonalInfo {
   bio_en?: string;
   photo?: string;
   cv_path?: string;
+  nid?: string;
+  bid?: string;
 }
 
 export interface YouthEducation {
@@ -101,4 +103,17 @@ export interface YouthCertificate {
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;
+}
+
+export interface YouthLanguageProficiency {
+  id: number;
+  youth_id?: number;
+  language_id: number | string;
+  language_title?: string;
+  language_title_en?: string;
+  lang_code?: string;
+  reading_proficiency_level: number | string;
+  writing_proficiency_level: number | string;
+  speaking_proficiency_level: number | string;
+  understand_proficiency_level: number | string;
 }

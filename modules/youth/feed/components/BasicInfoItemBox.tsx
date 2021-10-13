@@ -1,18 +1,15 @@
 import React from 'react';
 import {Box, Divider} from '@mui/material';
 import {AddCircle, CheckCircle} from '@mui/icons-material';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
+import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   profileItem: {
     paddingTop: 5,
     '& .itemIcon': {
-      fill: '#1c98f7',
-      float: 'right',
-    },
-    '& .itemIconAdd': {
       float: 'right',
     },
   },
@@ -26,7 +23,11 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
   },
 }));
 
-const BasicInfoItemBox = () => {
+interface BasicInfoItemBoxProps {
+  youthProfile: YouthPersonalInfo;
+}
+
+const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
   const classes: any = useStyles();
   const {messages} = useIntl();
 
@@ -34,22 +35,38 @@ const BasicInfoItemBox = () => {
     <>
       <Box className={classes.profileItem}>
         <Box className={classes.displayInline}>{messages['common.phone']}</Box>
-        <CheckCircle className='itemIcon' />
+        {youthProfile?.mobile ? (
+          <CheckCircle className='itemIcon' color={'primary'} />
+        ) : (
+          <AddCircle className='itemIcon' color={'primary'} />
+        )}
         <Divider className={classes.divider} />
       </Box>
       <Box className={classes.profileItem}>
         <Box className={classes.displayInline}>{messages['common.email']}</Box>
-        <CheckCircle className='itemIcon' />
+        {youthProfile?.email ? (
+          <CheckCircle className='itemIcon' color={'primary'} />
+        ) : (
+          <AddCircle className='itemIcon' color={'primary'} />
+        )}
         <Divider className={classes.divider} />
       </Box>
       <Box className={classes.profileItem}>
         <Box className={classes.displayInline}>{messages['common.nid']}</Box>
-        <CheckCircle className='itemIcon' />
+        {youthProfile?.nid ? (
+          <CheckCircle className='itemIcon' color={'primary'} />
+        ) : (
+          <AddCircle className='itemIcon' color={'primary'} />
+        )}
         <Divider className={classes.divider} />
       </Box>
       <Box className={classes.profileItem}>
         <Box className={classes.displayInline}>{messages['common.bid']}</Box>
-        <AddCircle className='itemIconAdd' color={'primary'} />
+        {youthProfile?.bid ? (
+          <CheckCircle className='itemIcon' color={'primary'} />
+        ) : (
+          <AddCircle className='itemIcon' color={'primary'} />
+        )}
       </Box>
     </>
   );
