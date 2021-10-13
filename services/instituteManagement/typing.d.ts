@@ -1,7 +1,7 @@
 type Institute = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   code: string;
   domain: string;
   address: string;
@@ -22,7 +22,7 @@ type Institute = {
 type Programme = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   institute_id: string | number;
   institute_title_en?: string;
   code: string;
@@ -40,7 +40,7 @@ type Course = {
   institute_id: number | string;
   institute_title_en: string;
   title_en: string;
-  title_bn: string;
+  title: string;
   course_fee: string;
   duration?: string;
   description?: string;
@@ -63,7 +63,7 @@ type Course = {
 type Branch = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   institute_id: number | string;
   institute_title_en?: string;
   address?: string;
@@ -77,7 +77,7 @@ type Branch = {
 type TrainingCenter = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   institute_id: number | string;
   branch_id?: number | string;
   address: string;

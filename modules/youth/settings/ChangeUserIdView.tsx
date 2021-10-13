@@ -1,5 +1,5 @@
 import React, {FC, useMemo} from 'react';
-import {Box, Button, Grid, Paper, Typography} from '@mui/material';
+import {Box, Button, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -57,48 +57,49 @@ const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
   };
 
   return (
-    <Paper className={classes.paperBox}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <Typography variant={'h6'} style={{fontWeight: 'bold'}}>
-              {messages['common.change_userId']}
-            </Typography>
+    <Card>
+      <CardHeader
+        title={messages['common.change_userId']}
+        fontWeight={'bold'}
+      />
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='old_email'
+                label={messages['common.old_email']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='new_email'
+                label={messages['common.new_email']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Box>
+                <Button variant={'outlined'} onClick={onBack}>
+                  <ChevronLeft /> {messages['common.back']}
+                </Button>
+                <Button
+                  variant={'contained'}
+                  color={'primary'}
+                  className={classes.button}
+                  type='submit'
+                  disabled={isSubmitting}>
+                  {messages['common.save']}
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='old_email'
-              label={messages['common.old_email']}
-              register={register}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='new_email'
-              label={messages['common.new_email']}
-              register={register}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Box>
-              <Button variant={'outlined'} onClick={onBack}>
-                <ChevronLeft /> {messages['common.back']}
-              </Button>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                className={classes.button}
-                type='submit'
-                disabled={isSubmitting}>
-                {messages['common.save']}
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 export default ChangeUserIdView;

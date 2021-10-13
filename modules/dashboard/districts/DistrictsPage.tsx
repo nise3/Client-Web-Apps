@@ -83,7 +83,7 @@ const DistrictsPage = () => {
       },
       {
         Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        accessor: 'title',
       },
       {
         Header: messages['common.bbs_code'],

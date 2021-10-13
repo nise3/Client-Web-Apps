@@ -393,7 +393,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={institutes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onInstituteChange}
           />
@@ -407,7 +407,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={branches}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onBranchChange}
           />
@@ -421,7 +421,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={programmes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -434,7 +434,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={trainingCenters}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -447,7 +447,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={courses}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>

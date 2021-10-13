@@ -84,7 +84,7 @@ const BranchPage = () => {
       },
       {
         Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        accessor: 'title',
       },
       {
         Header: messages['institute.label'],

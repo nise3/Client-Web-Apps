@@ -20,8 +20,8 @@ export const defaultUser: CommonAuthUser = {
   institute_id: 1,
   institute: {
     id: 1,
-    title_en: 'Institute 1',
-    title_bn: 'Institute 1 BN',
+    title_en: 'Institutes 1',
+    title_bn: 'Institutes 1 BN',
   },
   uid: 'RFedvhji876rfhjuecvh7',
   displayName: 'John Alex',

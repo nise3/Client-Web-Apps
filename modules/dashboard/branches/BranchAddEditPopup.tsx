@@ -36,7 +36,7 @@ interface BranchAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   institute_id: '',
   address: '',
   google_map_src: '',
@@ -66,9 +66,9 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
+        .title()
         .label(messages['common.title_bn'] as string),
       institute_id: yup.string().trim().required(),
       address: yup.string(),
@@ -91,7 +91,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         institute_id: itemData?.institute_id,
         address: itemData?.address,
         google_map_src: itemData?.google_map_src,
@@ -171,7 +171,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
+            id='title'
             label={messages['common.title_bn']}
             register={register}
             errorInstance={errors}
@@ -186,7 +186,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             control={control}
             options={institutes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
