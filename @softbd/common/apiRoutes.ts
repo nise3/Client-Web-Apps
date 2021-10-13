@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://apm.local:8243';
+export const API_BASE_URL = 'https://gateway.bus-staging.softbdltd.com';
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
