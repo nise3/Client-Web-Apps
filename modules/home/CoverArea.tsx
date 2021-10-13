@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Card,
   CardMedia,
   Container,
   Grid,
-  NativeSelect,
+  MenuItem,
+  Select,
   Typography,
 } from '@mui/material';
 import {Theme} from '@mui/material/styles';
@@ -29,19 +30,16 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: '#fff',
       padding: '0 7px 2px 12px',
-      marginTop: '13px',
-      marginBottom: '8px',
-      marginLeft: '-8px',
-      [theme.breakpoints.down('xl')]: {
-        width: '100%',
-        marginLeft: '-14px',
+      height: 40,
+      width: 150,
+      '&>div, &>div:focus': {
+        backgroundColor: 'transparent',
       },
-      [theme.breakpoints.up('md')]: {
-        width: '120px',
-        marginLeft: '-24px',
+      '&::before': {
+        display: 'none',
       },
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: '0px',
+      '&::after': {
+        display: 'none',
       },
     },
     selectOption: {
@@ -116,6 +114,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CoverArea = () => {
   const classes = useStyles();
+  const [typeValue, setTypeValue] = useState(1);
   return (
     <>
       <Grid container>
@@ -144,15 +143,22 @@ const CoverArea = () => {
             </Box>
 
             <Slide direction='up'>
-              <Grid item container>
-                <Grid item xs={3} xl={2}>
-                  <Box mt={5} zIndex={'tooltip'}>
-                    <NativeSelect disableUnderline className={classes.select}>
-                      <option className={classes.selectOption}>দক্ষতা</option>
-                      <option className={classes.selectOption}>চাকরি</option>
-                      <option className={classes.selectOption}>ব্যবসা</option>
-                      <option className={classes.selectOption}>শিক্ষা</option>
-                    </NativeSelect>
+              <Grid item container mt={2}>
+                <Grid item xs={6} md={4} lg={2} xl={2}>
+                  <Box zIndex={'tooltip'}>
+                    <Select
+                      className={classes.select}
+                      variant='filled'
+                      value={typeValue}
+                      label=''
+                      onChange={(e: any) => {
+                        setTypeValue(e?.target?.value);
+                      }}>
+                      <MenuItem value='1'>দক্ষতা</MenuItem>
+                      <MenuItem value='2'>চাকরি</MenuItem>
+                      <MenuItem value='3'>ব্যবসা</MenuItem>
+                      <MenuItem value='4'>শিক্ষা</MenuItem>
+                    </Select>
                   </Box>
                 </Grid>
               </Grid>
