@@ -94,7 +94,7 @@ declare module 'yup' {
     TContext extends AnyObject = AnyObject,
     TOut extends TType = TType,
   > extends yup.BaseSchema<TType, TContext, TOut> {
-    title(local: 'en' | 'bn'): StringSchema<TType, TContext>;
+    title(local?: 'en' | 'bn'): StringSchema<TType, TContext>;
   }
 }
 
