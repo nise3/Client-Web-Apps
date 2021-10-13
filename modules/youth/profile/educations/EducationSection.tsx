@@ -68,7 +68,7 @@ const EducationSection = () => {
         />
       }>
       <Educations
-        educations={educations}
+        educations={educations || []}
         onEditClick={openEducationAddEditForm}
         onDeleteClick={(educationId) => {
           (async () => {
