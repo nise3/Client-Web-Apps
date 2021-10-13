@@ -10,9 +10,11 @@ import SettingOptions from './SettingOptions';
 import ChangeUserIdView from './ChangeUserIdView';
 import ChangePasswordView from './ChangePasswordView';
 import DeleteAccountView from './DeleteAccountView';
+import {useIntl} from 'react-intl';
 
 const Settings = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const [isSettingsOpened, setIsSettingsOpened] = useState<boolean>(true);
   const [currentView, setCurrentView] = useState<string>('');
 
@@ -49,7 +51,7 @@ const Settings = () => {
             <Paper>
               <Box className={classes.box}>
                 <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-                  Settings
+                  {messages['common.settings']}
                 </Typography>
                 <Grid container spacing={6}>
                   <Grid item xs={12} sm={6} md={6}>
@@ -64,7 +66,7 @@ const Settings = () => {
                         />
                       </Box>
                       <Typography className='textUser'>
-                        Change User Id
+                        {messages['common.change_user_id']}
                       </Typography>
                     </Box>
                   </Grid>
@@ -82,7 +84,7 @@ const Settings = () => {
                         />
                       </Box>
                       <Typography className='textPassword'>
-                        Change Password
+                        {messages['common.change_password']}
                       </Typography>
                     </Box>
                   </Grid>
@@ -99,7 +101,7 @@ const Settings = () => {
                         />
                       </Box>
                       <Typography className='textDelete'>
-                        Delete Account
+                        {messages['common.delete_account']}
                       </Typography>
                     </Box>
                   </Grid>
