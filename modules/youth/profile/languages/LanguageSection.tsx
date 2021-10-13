@@ -7,9 +7,16 @@ import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
+import {useFetchLanguageProficiencies} from '../../../../services/youthManagement/hooks';
+import {YouthLanguageProficiency} from '../../../../services/youthManagement/typing';
+import TextPrimary from '../component/TextPrimary';
+import VerticalLine from '../component/VerticalLine';
 
 const LanguageSection = () => {
   const {messages} = useIntl();
+  const {data: languageProficiencies, isLoading} =
+    useFetchLanguageProficiencies();
+
   const [isOpenLanguageAddEditForm, setIsOpenLanguageAddEditForm] =
     useState<boolean>(false);
   const [isOpenLanguageProficiencyView, setIsOpenLanguageProficiencyView] =
@@ -37,59 +44,68 @@ const LanguageSection = () => {
     setIsOpenLanguageProficiencyView(false);
   }, []);
 
-  return isOpenLanguageAddEditForm ? (
-    isOpenLanguageProficiencyView ? (
-      <>
+  return (
+    <React.Fragment>
+      {isOpenLanguageProficiencyView && (
         <LanguageProficiencyViewPage
           onEdit={openLanguageAddEditForm}
           onClose={closeLanguageProficiencyView}
         />
+      )}
+      {isOpenLanguageAddEditForm && (
         <LanguageAddEditPage
           itemId={languageId}
           onClose={closeLanguageAddEditForm}
-          openLanguageEditForm={openLanguageAddEditForm}
         />
-      </>
-    ) : (
-      <LanguageAddEditPage
-        itemId={languageId}
-        onClose={closeLanguageAddEditForm}
-        openLanguageEditForm={openLanguageAddEditForm}
-      />
-    )
-  ) : isOpenLanguageProficiencyView ? (
-    <LanguageProficiencyViewPage
-      onEdit={openLanguageAddEditForm}
-      onClose={closeLanguageProficiencyView}
-    />
-  ) : (
-    <ContentLayout
-      title={messages['common.language']}
-      isLoading={false}
-      actions={
-        <CustomParabolaButton
-          buttonVariant={'outlined'}
-          title={messages['common.add_language'] as string}
-          icon={<BorderColor />}
-          onClick={() => openLanguageAddEditForm(null)}
-        />
-      }>
-      <HorizontalLine />
-      <Box sx={{display: 'flex'}}>
-        <Avatar>L</Avatar>
-        <Box sx={{marginLeft: '15px'}}>
-          <Typography variant={'subtitle2'}>English, Bangla, Hindi</Typography>
-          <Typography
-            variant={'caption'}
-            onClick={() => {
-              openLanguageProficiencyView();
-            }}
-            sx={{cursor: 'pointer'}}>
-            View language proficiency
-          </Typography>
-        </Box>
-      </Box>
-    </ContentLayout>
+      )}
+      {!isOpenLanguageProficiencyView && !isOpenLanguageAddEditForm && (
+        <ContentLayout
+          title={messages['language_proficiency.title']}
+          isLoading={isLoading}
+          actions={
+            <CustomParabolaButton
+              buttonVariant={'outlined'}
+              title={messages['language_proficiency.add'] as string}
+              icon={<BorderColor />}
+              onClick={() => openLanguageAddEditForm(null)}
+            />
+          }>
+          <HorizontalLine />
+          <Box sx={{display: 'flex'}}>
+            <Avatar>L</Avatar>
+            <Box sx={{marginLeft: '15px'}}>
+              {!languageProficiencies && (
+                <Typography>
+                  {messages['language_proficiency.no_data']}
+                </Typography>
+              )}
+              {languageProficiencies && (
+                <React.Fragment>
+                  <Box>
+                    {languageProficiencies.map(
+                      (language: YouthLanguageProficiency, index: number) => (
+                        <React.Fragment key={language.id}>
+                          {index != 0 && <VerticalLine />}
+                          <TextPrimary text={language.language_title} />
+                        </React.Fragment>
+                      ),
+                    )}
+                  </Box>
+                  <Typography
+                    variant={'caption'}
+                    onClick={() => {
+                      openLanguageProficiencyView();
+                    }}
+                    sx={{cursor: 'pointer'}}>
+                    {messages['language_proficiency.view']}
+                  </Typography>
+                </React.Fragment>
+              )}
+            </Box>
+          </Box>
+        </ContentLayout>
+      )}
+    </React.Fragment>
   );
 };
 

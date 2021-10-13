@@ -1,14 +1,16 @@
 import {Card, CardContent, Divider, Grid} from '@mui/material';
-import {CheckCircle} from '@mui/icons-material';
+import {AddCircle, CheckCircle} from '@mui/icons-material';
 import React from 'react';
 import {createStyles, makeStyles} from '@mui/styles';
+import {useIntl} from 'react-intl';
+import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
 
 const useStyles = makeStyles(() =>
   createStyles({
     customDivider: {
       height: '2px',
-      width: '120%',
-      marginLeft: '-20px',
+      width: 'calc(100% + 32px)',
+      marginLeft: '-16px',
       marginTop: '3px',
       marginBottom: '3px',
     },
@@ -21,42 +23,61 @@ const CustomDivider = () => {
 };
 
 const ProfileCompleteSignatureMenu = () => {
+  const {messages} = useIntl();
+  const {data: youthInfo} = useFetchYouthProfile();
+
   return (
     <Card>
       <CardContent>
         <Grid container>
           <Grid item xs={11}>
-            Phone Number
+            {messages['common.phone']}
           </Grid>
           <Grid item xs={1}>
-            <CheckCircle fontSize={'inherit'} color={'primary'} />
+            {youthInfo?.mobile ? (
+              <CheckCircle fontSize={'inherit'} color={'primary'} />
+            ) : (
+              <AddCircle fontSize={'inherit'} color={'primary'} />
+            )}
           </Grid>
         </Grid>
         <CustomDivider />
         <Grid container>
           <Grid item xs={11}>
-            Email Address
+            {messages['common.email']}
           </Grid>
           <Grid item xs={1}>
-            <CheckCircle fontSize={'inherit'} color={'primary'} />
+            {youthInfo?.email ? (
+              <CheckCircle fontSize={'inherit'} color={'primary'} />
+            ) : (
+              <AddCircle fontSize={'inherit'} color={'primary'} />
+            )}
           </Grid>
         </Grid>
         <CustomDivider />
         <Grid container>
           <Grid item xs={11}>
-            NID
+            {messages['common.nid']}
           </Grid>
           <Grid item xs={1}>
-            <CheckCircle fontSize={'inherit'} color={'primary'} />
+            {youthInfo?.nid ? (
+              <CheckCircle fontSize={'inherit'} color={'primary'} />
+            ) : (
+              <AddCircle fontSize={'inherit'} color={'primary'} />
+            )}
           </Grid>
         </Grid>
         <CustomDivider />
         <Grid container>
           <Grid item xs={11}>
-            BRN
+            {messages['common.bid']}
           </Grid>
           <Grid item xs={1}>
-            <CheckCircle fontSize={'inherit'} color={'primary'} />
+            {youthInfo?.bid ? (
+              <CheckCircle fontSize={'inherit'} color={'primary'} />
+            ) : (
+              <AddCircle fontSize={'inherit'} color={'primary'} />
+            )}
           </Grid>
         </Grid>
       </CardContent>

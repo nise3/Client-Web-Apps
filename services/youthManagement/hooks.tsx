@@ -8,7 +8,7 @@ import {
   API_YOUTH_EDUCATION,
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_CERTIFICATES,
-  API_YOUTH_LANGUAGES,
+  API_YOUTH_LANGUAGE_PROFICIENCIES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -73,6 +73,16 @@ export function useFetchPortfolio(portfolioId: number | null) {
   );
 }
 
-export function useFetchYouthLanguages(params?: any) {
-  return useAxiosSWR([API_YOUTH_LANGUAGES, params]);
+export function useFetchLanguageProficiencies() {
+  return useAxiosSWR(API_YOUTH_LANGUAGE_PROFICIENCIES);
+}
+
+export function useFetchLanguageProficiency(
+  languageProficiencyId: number | null,
+) {
+  return useAxiosSWR(
+    languageProficiencyId
+      ? API_YOUTH_LANGUAGE_PROFICIENCIES + '/' + languageProficiencyId
+      : null,
+  );
 }
