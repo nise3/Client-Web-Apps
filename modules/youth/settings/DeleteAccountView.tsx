@@ -19,6 +19,8 @@ const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
   const {messages} = useIntl();
   const classes = useStyles();
 
+  const handleClick = () => {};
+
   return (
     <Card sx={{maxWidth: 700}} className={classes.paperBox}>
       <Box sx={{backgroundColor: '#f510100f', padding: '20px'}}>
@@ -50,7 +52,8 @@ const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
           variant='contained'
           color='secondary'
           className={classes.button}
-          startIcon={<Delete />}>
+          startIcon={<Delete />}
+          onClick={handleClick}>
           {messages['common.delete']}
         </Button>
 

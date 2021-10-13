@@ -68,5 +68,9 @@ export const API_YOUTH_CERTIFICATES =
 export const API_YOUTH_LANGUAGES = YOUTH_SERVICE_PATH + '/youth-languages';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
+export const API_YOUTH_SETTINGS_CHANGE_USERID =
+  YOUTH_SERVICE_PATH + '/settings/changeUserId';
+export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
+  YOUTH_SERVICE_PATH + '/settings/changePassword';
 
 export const API_YOUTH_PORTFOLIOS = YOUTH_SERVICE_PATH + '/youth-portfolios';

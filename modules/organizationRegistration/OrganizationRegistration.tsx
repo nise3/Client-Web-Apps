@@ -119,6 +119,7 @@ const OrganizationRegistration = () => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log(data);
     const response = await organizationRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(<IntlMessages id='youth_registration.success' />);
