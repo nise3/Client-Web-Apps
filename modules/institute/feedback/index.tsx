@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {Button, Card, CardContent, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => {
 
 const InstituteFeedback = () => {
   const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>('');
   const {successStack} = useNotiStack();
+  const isLoading = false;
   const classes = useStyles();
 
   const validationSchema = useMemo(() => {
@@ -50,31 +50,12 @@ const InstituteFeedback = () => {
 
   const {
     register,
-    reset,
     handleSubmit,
     setError,
-    formState: {errors},
+    formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
-  useEffect(() => {
-    setItemData({
-      name: '',
-      phone_numbers: '',
-      email_address: '',
-      advice: '',
-    });
-  }, []);
-
-  useEffect(() => {
-    reset({
-      name: itemData.name,
-      phone_numbers: itemData.phone_numbers,
-      email_address: itemData.email_address,
-      advice: itemData.advice,
-    });
-  }, []);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const response = await createRankType(data);
@@ -82,7 +63,7 @@ const InstituteFeedback = () => {
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='feedback.institution' />}}
         />,
       );
     } else if (isValidationError(response)) {
@@ -104,55 +85,57 @@ const InstituteFeedback = () => {
         <Grid item xs={12} maxWidth='md'>
           <Card>
             <CardContent>
-              <Grid>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='name'
-                        label={messages['common.name']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <CustomTextInput
-                        id='phone_numbers'
-                        label={messages['common.phone_number']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <CustomTextInput
-                        id='email_address'
-                        label={messages['common.email']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CustomTextInput
-                        id='advice'
-                        label={messages['advice.institute']}
-                        register={register}
-                        errorInstance={errors}
-                        isLoading={false}
-                        multiline={true}
-                        rows={3}
-                      />
-                    </Grid>
-                    <Grid container justifyContent={'center'} mt={3}>
-                      <Button className={classes.buttons} variant='contained'>
-                        {messages['common.send']}
-                      </Button>
-                    </Grid>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5}>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='name'
+                      label={messages['common.name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
                   </Grid>
-                </form>
-              </Grid>
+                  <Grid item md={6} xs={12}>
+                    <CustomTextInput
+                      id='phone_numbers'
+                      label={messages['common.phone_number']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <CustomTextInput
+                      id='email_address'
+                      label={messages['common.email']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      id='advice'
+                      label={messages['advice.institute']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid container justifyContent={'center'} mt={3}>
+                    <Button
+                      type={'submit'}
+                      disabled={isSubmitting}
+                      className={classes.buttons}
+                      variant='contained'>
+                      {messages['common.send']}
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
             </CardContent>
           </Card>
         </Grid>
