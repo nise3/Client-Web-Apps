@@ -6,8 +6,8 @@ interface TConfig {
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: 'https://apm.local:9443/oauth2/authorize/',
-  clientId: 'ZWgJBhtunCNY5lnkrLCUpNejRYIa',
+  authUrl: 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  clientId: 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
   callbackUrl: '/callback',
 };
 

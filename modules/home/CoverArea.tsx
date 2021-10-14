@@ -1,20 +1,12 @@
-import React, {useState} from 'react';
-import {
-  Box,
-  Card,
-  CardMedia,
-  Container,
-  Grid,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material';
+import React from 'react';
+import {Box, Card, CardMedia, Container, Grid, Typography} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade, Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
+import {H4, H6} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: 'auto',
       [theme.breakpoints.down('xl')]: {
         marginBottom: '10px',
-        marginTop: '140px',
+        marginTop: '200px',
       },
     },
     trendSearchItem: {
@@ -114,7 +106,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CoverArea = () => {
   const classes = useStyles();
-  const [typeValue, setTypeValue] = useState(1);
   return (
     <>
       <Grid container>
@@ -122,47 +113,26 @@ const CoverArea = () => {
           <Container maxWidth='md'>
             <Box pt={6}>
               <Fade direction='up'>
-                <Typography variant='h4'>
+                <H4>
                   <Box fontWeight='fontWeightBold' mt={4}>
                     এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
                     প্রশিক্ষণ
                   </Box>
-                </Typography>
+                </H4>
               </Fade>
 
               <Fade direction='down'>
                 <Box mt={2}>
-                  <Typography variant={'h6'}>
+                  <H6>
                     আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
                     তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
                     <br />
                     অনুসারে চাকরি।
-                  </Typography>
+                  </H6>
                 </Box>
               </Fade>
             </Box>
 
-            <Slide direction='up'>
-              <Grid item container mt={2}>
-                <Grid item xs={6} md={4} lg={2} xl={2}>
-                  <Box zIndex={'tooltip'}>
-                    <Select
-                      className={classes.select}
-                      variant='filled'
-                      value={typeValue}
-                      label=''
-                      onChange={(e: any) => {
-                        setTypeValue(e?.target?.value);
-                      }}>
-                      <MenuItem value='1'>দক্ষতা</MenuItem>
-                      <MenuItem value='2'>চাকরি</MenuItem>
-                      <MenuItem value='3'>ব্যবসা</MenuItem>
-                      <MenuItem value='4'>শিক্ষা</MenuItem>
-                    </Select>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Slide>
             <SearchBox />
           </Container>
         </Grid>
