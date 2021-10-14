@@ -13,6 +13,7 @@ export const authRole = {
  * @deprecated
  */
 export const defaultUser: CommonAuthUser = {
+  isYouthUser: false,
   isInstituteUser: true,
   isOrganizationUser: false,
   isSystemUser: false,
