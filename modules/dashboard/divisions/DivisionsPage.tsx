@@ -21,9 +21,7 @@ import {styled} from '@mui/styles';
 const PREFIX = 'DivisionPage';
 const classes = {root: `${PREFIX}-root`};
 const StyledDiv = styled('div')((theme: any) => ({
-  [`&.${classes.root}`]: {
-    background: 'red',
-  },
+  [`&.${classes.root}`]: {},
 }));
 
 const DivisionsPage = () => {
