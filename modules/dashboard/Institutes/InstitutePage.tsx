@@ -81,7 +81,7 @@ const InstitutePage = () => {
         accessor: 'title_en',
       },
       {
-        Header: messages['common.title_bn'],
+        Header: messages['common.title'],
         accessor: 'title',
       },
       {

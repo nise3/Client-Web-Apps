@@ -2,7 +2,7 @@ type RankType = {
   key: number;
   id: number;
   organization_id?: number | string | undefined;
-  title: string;
+  title_en: string;
   title: string;
   description?: string;
   organization_title_en?: string;

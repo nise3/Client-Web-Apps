@@ -38,7 +38,7 @@ interface RankAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   organization_id: '',
   rank_type_id: '',
   display_order: '',
@@ -74,10 +74,10 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       organization_id:
         authUser && authUser.isSystemUser
           ? yup
@@ -121,7 +121,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         organization_id: itemData?.organization_id,
         rank_type_id: itemData?.rank_type_id,
         grade: itemData?.grade,
@@ -217,8 +217,8 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -233,7 +233,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
               control={control}
               options={organizations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
               onChange={handleOrganizationChange}
             />
@@ -247,7 +247,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
             control={control}
             options={rankTypes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>

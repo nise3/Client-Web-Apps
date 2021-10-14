@@ -17,7 +17,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionGroups} from '../../../services/userManagement/hooks';
 import {deletePermissionGroup} from '../../../services/userManagement/PermissionGroupService';
 import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {AccountTreeOutlined} from '@mui/icons-material';
@@ -103,8 +103,8 @@ const PermissionGroupPage = () => {
         accessor: 'title_en',
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['permission_group.key'],

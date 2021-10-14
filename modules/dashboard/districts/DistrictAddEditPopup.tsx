@@ -68,7 +68,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
       title: yup
         .string()
         .title()
-        .label(messages['common.title_bn'] as string),
+        .label(messages['common.title'] as string),
       bbs_code: yup
         .string()
         .trim()
@@ -188,7 +188,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
         <Grid item xs={12}>
           <CustomTextInput
             id='title'
-            label={messages['common.title_bn']}
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

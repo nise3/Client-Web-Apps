@@ -18,7 +18,7 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import Link from 'next/link';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {AccountTreeOutlined} from '@mui/icons-material';
@@ -107,8 +107,8 @@ const OrganizationUnitPage = () => {
         accessor: 'title_en',
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['organization.label'],

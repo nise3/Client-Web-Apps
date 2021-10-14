@@ -42,7 +42,7 @@ interface UserAddEditPopupProps {
 
 const initialValues = {
   name_en: '',
-  name_bn: '',
+  name: '',
   username: '',
   password: '',
   email: '',
@@ -88,10 +88,10 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.name_en'] as string),
-      name_bn: yup
+      name: yup
         .string()
-        .title('bn')
-        .label(messages['common.name_bn'] as string),
+        .title()
+        .label(messages['common.name'] as string),
       username: yup
         .string()
         .trim()
@@ -177,7 +177,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     if (itemData) {
       reset({
         name_en: itemData?.name_en,
-        name_bn: itemData?.name_bn,
+        name: itemData?.name,
         username: itemData?.username,
         password: '',
         email: itemData?.email,
@@ -300,8 +300,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='name_bn'
-            label={messages['common.name_bn']}
+            id='name'
+            label={messages['common.name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -342,7 +342,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             control={control}
             options={roles}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -355,7 +355,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               control={control}
               options={organizations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
             />
           </Grid>
@@ -369,7 +369,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               control={control}
               options={institutes}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
             />
           </Grid>

@@ -143,8 +143,8 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       domain: yup
         .string()
         .trim()
@@ -421,7 +421,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             <Grid item xs={12}>
               <CustomTextInput
                 id='title'
-                label={messages['common.title_bn']}
+                label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}

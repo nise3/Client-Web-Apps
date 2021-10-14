@@ -69,7 +69,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       title: yup
         .string()
         .title()
-        .label(messages['common.title_bn'] as string),
+        .label(messages['common.title'] as string),
       institute_id: yup.string().trim().required(),
       address: yup.string(),
       google_map_src: yup.string(),
@@ -172,7 +172,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id='title'
-            label={messages['common.title_bn']}
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

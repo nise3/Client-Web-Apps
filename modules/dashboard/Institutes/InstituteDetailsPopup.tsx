@@ -115,7 +115,7 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <DetailsInputView
-                  label={messages['common.title_bn']}
+                  label={messages['common.title']}
                   value={itemData?.title}
                   isLoading={isLoading}
                 />

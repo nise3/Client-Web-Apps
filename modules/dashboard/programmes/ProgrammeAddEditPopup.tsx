@@ -36,7 +36,7 @@ interface ProgrammeAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   institute_id: '',
   code: '',
   description: '',
@@ -66,10 +66,10 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       institute_id: yup
         .string()
         .trim()
@@ -99,7 +99,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         institute_id: itemData?.institute_id,
         code: itemData?.code,
         description: itemData?.description,
@@ -179,8 +179,8 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -194,7 +194,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             control={control}
             options={institutes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>

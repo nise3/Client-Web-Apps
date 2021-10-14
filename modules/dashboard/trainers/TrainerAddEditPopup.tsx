@@ -54,7 +54,7 @@ interface TrainerAddEditPopupProps {
 
 const initialValues = {
   trainer_name_en: '',
-  trainer_name_bn: '',
+  trainer_name: '',
   institute_id: '',
   branch_id: '',
   training_center_id: '',
@@ -145,10 +145,10 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      trainer_name_bn: yup
+      trainer_name: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       mobile: yup
         .string()
         .trim()
@@ -188,7 +188,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     if (itemData) {
       reset({
         trainer_name_en: itemData?.trainer_name_en,
-        trainer_name_bn: itemData?.trainer_name_bn,
+        trainer_name: itemData?.trainer_name,
         institute_id: itemData?.institute_id,
         branch_id: itemData?.branch_id,
         training_center_id: itemData?.training_center_id,
@@ -363,8 +363,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='trainer_name_bn'
-            label={messages['common.title_bn']}
+            id='trainer_name'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -432,7 +432,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onPresentDivisionChange}
           />
@@ -445,7 +445,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onPermanentDivisionChange}
           />
@@ -458,7 +458,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={presentDistricts}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onPresentDistrictChange}
           />
@@ -470,7 +470,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={permanentDistricts}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             isLoading={isLoading}
             onChange={onPermanentDistrictChange}
@@ -484,7 +484,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={presentUpazilas}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -496,7 +496,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={permanentUpazilas}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -592,7 +592,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={institutes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onInstituteChange}
           />
@@ -605,7 +605,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={branches}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onBranchChange}
           />
@@ -618,7 +618,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={trainingCenters}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>

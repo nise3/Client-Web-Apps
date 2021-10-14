@@ -90,7 +90,7 @@ type TrainingCenter = {
 type Trainer = {
   id: number;
   trainer_name_en: string;
-  trainer_name_bn: string;
+  trainer_name: string;
   institute_id: number | string;
   branch_id: number | string;
   training_center_id: number | string;

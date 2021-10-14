@@ -68,8 +68,8 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       organization_id: yup
         .string()
         .trim()
@@ -274,7 +274,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id='title'
-            label={messages['common.title_bn']}
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isOrganizationUnitLoading}
