@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, Grid} from '@mui/material';
+import {Button, FormControlLabel, Grid, Switch} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -27,6 +27,7 @@ import {
   useFetchInstitutes,
 } from '../../../services/instituteManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -137,6 +138,51 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [itemData]);
+
+  const [configItemsState, setConfigItemsState] = useState<any>([]);
+  const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
+
+  const configItemList = useMemo(
+    () => [
+      {
+        key: 'ethnic_group_info',
+        label: messages['batches.ethnic_group_info'],
+      },
+      {
+        key: 'freedom_fighter_info',
+        label: messages['batches.freedom_fighter_info'],
+      },
+      {
+        key: 'disability_info',
+        label: messages['batches.disability_info'],
+      },
+      {
+        key: 'ssc_passing_info',
+        label: messages['batches.ssc_passing_info'],
+      },
+      {
+        key: 'hsc_passing_status',
+        label: messages['batches.hsc_passing_status'],
+      },
+      {
+        key: 'honors_passing_info',
+        label: messages['batches.honors_passing_info'],
+      },
+      {
+        key: 'masters_passing_info',
+        label: messages['batches.masters_passing_info'],
+      },
+      {
+        key: 'occupation_info',
+        label: messages['batches.occupation_info'],
+      },
+      {
+        key: 'guardian_info',
+        label: messages['batches.guardian_info'],
+      },
+    ],
+    [messages],
+  );
 
   const onSubmit: SubmitHandler<Course> = async (data: Course) => {
     const response = itemId
@@ -348,6 +394,66 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           <Button className='btn-choose' variant='outlined' component='span'>
             Cover Image
           </Button>
+        </Grid>
+        <Grid item container xs={12}>
+          {/*/////////////////////////////*/}
+          {configItemList.map((item: any, index: any) => {
+            let states = [...configItemsState];
+            return (
+              <Grid item container xs={6} style={{minHeight: 40}} key={index}>
+                <Grid item xs={5} style={{marginTop: 5}}>
+                  <CustomCheckbox
+                    id={`dynamic_form_field[${item.key}]`}
+                    label={item.label}
+                    checked={states.includes(item.key)}
+                    isLoading={isLoading}
+                    register={register}
+                    errorInstance={errors}
+                    onChange={() => {
+                      let itemStates = [...configItemsState];
+                      if (itemStates.includes(item.key)) {
+                        itemStates = itemStates.filter(
+                          (key: any) => key != item.key,
+                        );
+                      } else {
+                        itemStates.push(item.key);
+                      }
+                      setConfigItemsState(itemStates);
+                    }}
+                  />
+                </Grid>
+
+                {states.includes(item.key) && (
+                  <Grid item xs={4}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={configRequiredItems.includes(item.key)}
+                          onChange={() => {
+                            let requiredStates = [...configRequiredItems];
+                            if (requiredStates.includes(item.key)) {
+                              requiredStates = requiredStates.filter(
+                                (key: any) => key != item.key,
+                              );
+                            } else {
+                              requiredStates.push(item.key);
+                            }
+                            setConfigRequiredItems(requiredStates);
+                          }}
+                          color='primary'
+                        />
+                      }
+                      label={
+                        configRequiredItems.includes(item.key)
+                          ? messages['common.required']
+                          : messages['common.not_required']
+                      }
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            );
+          })}
         </Grid>
       </Grid>
     </HookFormMuiModal>
