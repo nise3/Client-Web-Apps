@@ -1,13 +1,13 @@
 import asyncComponent from '../../@crema/utility/asyncComponent';
 import PageMeta from '../../@crema/core/PageMeta';
-import FrontPage from '../../@crema/hoc/FrontPage';
+import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
 const InstituteRegistrationPage = asyncComponent(
   () => import('../../modules/instituteRegistration/InstituteRegistration'),
 );
-export default FrontPage(() => {
+export default NiseFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>

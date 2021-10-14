@@ -5,6 +5,8 @@ import BasicInfoItemBox from './components/BasicInfoItemBox';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
+import {Link} from '../../../@softbd/elements/common';
+import {LINK_FRONTEND_YOUTH_ROOT} from '../../../@softbd/common/appLinks';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
@@ -40,7 +42,7 @@ const BasicInfo = () => {
 
   return (
     <>
-      <Card className={classes.root}>
+      <Card>
         <Box className={classes.topCover} />
         <Box className={classes.container}>
           <Avatar
@@ -50,7 +52,6 @@ const BasicInfo = () => {
           />
           <Box className={classes.userName}>
             {youthInfo?.first_name} {youthInfo?.last_name}
-            {/*<Box className={classes.designation}>UI/UX Designer</Box>*/}
           </Box>
           <Box sx={{width: '100%'}}>
             <LinearProgress variant='determinate' value={55} />
@@ -60,12 +61,14 @@ const BasicInfo = () => {
           <BasicInfoItemBox youthProfile={youthInfo} />
 
           <Box style={{textAlign: 'center'}}>
-            <Button
-              variant='outlined'
-              color={'primary'}
-              className={classes.completeProfile}>
-              {messages['youth_feed.complete_profile']}
-            </Button>
+            <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+              <Button
+                variant='outlined'
+                color={'primary'}
+                className={classes.completeProfile}>
+                {messages['youth_feed.complete_profile']}
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Card>

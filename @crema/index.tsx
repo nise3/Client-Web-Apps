@@ -12,4 +12,3 @@ export {default as CremaStyleProvider} from './utility/CremaStyleProvider';
 export {default as LocaleProvider} from './utility/LocaleProvider';
 export {default as AppContext} from './utility/AppContext';
 export {default as ContextProvider} from './utility/ContextProvider';
-export {default as AppLayout} from './core/AppLayout';

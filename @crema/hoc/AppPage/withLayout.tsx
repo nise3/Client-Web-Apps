@@ -1,17 +1,13 @@
-import React, {useContext} from 'react';
-import Layouts from '../../core/AppLayout/Layouts';
-import AppContext from '../../utility/AppContext';
+import React from 'react';
 import useStyles from '../../../shared/jss/common/common.style';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import StandardLayout from '../../../@softbd/layouts/backend/Standard';
 
 const withLayout = (ComposedComponent: any) => (props: any) => {
   useStyles();
-  const {navStyle} = useContext<AppContextPropsType>(AppContext);
-  const AppLayout = Layouts[navStyle];
   return (
-    <AppLayout>
+    <StandardLayout>
       <ComposedComponent {...props} />
-    </AppLayout>
+    </StandardLayout>
   );
 };
 

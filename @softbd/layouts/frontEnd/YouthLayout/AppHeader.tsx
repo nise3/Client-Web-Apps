@@ -18,7 +18,7 @@ import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
-import HorUserInfo from '../../../../@crema/core/AppLayout/HorUserInfo';
+import HorUserInfo from '../../shared/HorUserInfo';
 import {Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_YOUTH_ROOT,
