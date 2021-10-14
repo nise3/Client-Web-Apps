@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -15,9 +15,27 @@ import {setServerValidationErrors} from '../../../@softbd/utilities/validationEr
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import makeStyles from '@mui/styles/makeStyles';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import map from '../../../public/images/map.jpg';
-import Image from 'next/image';
 import {H2} from '../../../@softbd/elements/common';
+import RoomIcon from '@mui/icons-material/Room';
+
+type MapProp = {
+  text: string;
+  lat: number;
+  lng: number;
+};
+
+import GoogleMapReact from 'google-map-react';
+
+const MapComponent = ({text}: MapProp) => (
+  <div
+    style={{
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)',
+    }}>
+    <RoomIcon htmlColor={'#e80808'} />
+    {text}
+  </div>
+);
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -39,9 +57,49 @@ const useStyles = makeStyles((theme) => {
 
 const InstituteContact = () => {
   const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>('');
   const {successStack} = useNotiStack();
   const classes = useStyles();
+
+  const mapData = {
+    center: {
+      lat: 23.737328070620766,
+      lng: 90.43889115334508,
+    },
+    zoom: 11,
+  };
+
+  const locArr = [
+    {
+      lat: 23.737328070620766,
+      lng: 90.43889115334508,
+      text: 'Softbd 1',
+    },
+    {
+      lat: 23.992844983518117,
+      lng: 90.36344795305908,
+      text: 'Softbd 2',
+    },
+    {
+      lat: 23.965844983518117,
+      lng: 90.36344795305908,
+      text: 'Softbd 3',
+    },
+  ];
+
+  const [mapCenter, setMapCenter] = useState({
+    lat: 23.776488939377593,
+    lng: 90.38155009066672,
+  });
+  const [mapLocation, setMapLocation] = useState(locArr);
+
+  const APIKEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
+
+  const onChangeMapValue = (value: any) => {
+    let filterData = locArr.filter((item) => item.text === value);
+    let newArr = [...filterData];
+    setMapLocation(newArr);
+    setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
+  };
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -58,36 +116,14 @@ const InstituteContact = () => {
 
   const {
     register,
-    reset,
     handleSubmit,
     setError,
     control,
-    formState: {errors},
+    formState: {errors, isSubmitting},
+    reset,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
-  useEffect(() => {
-    setItemData({
-      recipient: '',
-      name: '',
-      phone_numbers: '',
-      email_address: '',
-      advice: '',
-      location: '',
-    });
-  }, []);
-
-  useEffect(() => {
-    reset({
-      recipient: itemData.recipient,
-      name: itemData.name,
-      phone_numbers: itemData.phone_numbers,
-      email_address: itemData.email_address,
-      advice: itemData.advice,
-      location: itemData.location,
-    });
-  }, []);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const response = await createRankType(data);
@@ -95,12 +131,13 @@ const InstituteContact = () => {
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='contact.institute' />}}
         />,
       );
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
+    reset();
   };
 
   return (
@@ -174,7 +211,11 @@ const InstituteContact = () => {
                         />
                       </Grid>
                       <Grid container justifyContent={'center'} mt={3}>
-                        <Button className={classes.buttons} variant='contained'>
+                        <Button
+                          type={'submit'}
+                          disabled={isSubmitting}
+                          className={classes.buttons}
+                          variant='contained'>
                           {messages['common.send']}
                         </Button>
                       </Grid>
@@ -187,32 +228,40 @@ const InstituteContact = () => {
           <Grid item md={6} xs={12} p={2}>
             <Card>
               <CardContent>
-                <Grid>
-                  <Typography variant={'h6'} mb={4}>
-                    {messages['find_our_location_in_map.institute']}
-                  </Typography>
-                </Grid>
-                <Grid>
-                  <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                    <Grid container spacing={5}>
-                      <Grid item xs={12}>
-                        <CustomFormSelect
-                          id='location'
-                          label={messages['common.location']}
-                          isLoading={false}
-                          control={control}
-                          optionValueProp={'id'}
-                        />
-                      </Grid>
-                      <Grid>
-                        <Image
-                          src={map}
-                          height='270'
-                          alt={'Map of Bangladesh'}
-                        />
-                      </Grid>
-                    </Grid>
-                  </form>
+                <Typography variant={'h6'} mb={4}>
+                  {messages['find_our_location_in_map.institute']}
+                </Typography>
+                <Grid container spacing={5}>
+                  <Grid item xs={12}>
+                    <CustomFormSelect
+                      id='location'
+                      label={messages['common.location']}
+                      isLoading={false}
+                      control={control}
+                      optionValueProp={'text'}
+                      options={locArr}
+                      optionTitleProp={['text']}
+                      onChange={onChangeMapValue}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{height: '100vh', width: '100%'}}>
+                      <GoogleMapReact
+                        bootstrapURLKeys={{key: APIKEY}}
+                        defaultCenter={mapData.center}
+                        defaultZoom={mapData.zoom}
+                        center={mapCenter}>
+                        {mapLocation.map((item, i) => (
+                          <MapComponent
+                            key={i}
+                            lat={item.lat}
+                            lng={item.lng}
+                            text={item.text}
+                          />
+                        ))}
+                      </GoogleMapReact>
+                    </div>
+                  </Grid>
                 </Grid>
               </CardContent>
             </Card>
