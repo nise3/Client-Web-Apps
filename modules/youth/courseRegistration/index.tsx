@@ -106,9 +106,9 @@ const YouthCourseRegistrationPage = () => {
             .string()
             .title('en')
             .label(messages['common.name_en'] as string),
-          name_bn: yup
+          name: yup
             .string()
-            .title('bn')
+            .title()
             .label(messages['common.name_bn'] as string),
           mobile: yup
             .string()

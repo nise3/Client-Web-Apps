@@ -76,7 +76,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     return yup.object().shape({
       institute_name: yup
         .string()
-        .title('bn')
+        .title()
         .label(messages['common.institute_name_bn'] as string),
       examination_id: yup
         .string()

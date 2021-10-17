@@ -117,3 +117,13 @@ export interface YouthLanguageProficiency {
   speaking_proficiency_level: number | string;
   understand_proficiency_level: number | string;
 }
+
+export interface YouthPortfolio {
+  id: number;
+  youth_id?: number;
+  title: string;
+  title_en?: string;
+  description?: string;
+  description_en?: string;
+  file_path?: string;
+}
