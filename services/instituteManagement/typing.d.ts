@@ -58,6 +58,7 @@ type Course = {
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;
+  dynamic_form_field: string | object;
 };
 
 type Branch = {
@@ -133,7 +134,6 @@ type Batch = {
   registration_end_date: string;
   batch_start_date: string;
   batch_end_date: string;
-  dynamic_form_field: string | object;
   row_status: string;
   trainers?: Array<number>;
   crated_by?: string;

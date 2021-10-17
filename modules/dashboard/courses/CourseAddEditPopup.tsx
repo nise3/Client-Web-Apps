@@ -38,7 +38,7 @@ interface CourseAddEditPopupProps {
 const initialValues = {
   id: '',
   title_en: '',
-  title_bn: '',
+  title: '',
   institute_id: '',
   code: '',
   course_fee: '',
@@ -76,10 +76,10 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
         .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .label(messages['common.title'] as string),
       institute_id: yup
         .string()
         .trim()
@@ -120,7 +120,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         institute_id: itemData?.institute_id,
         code: itemData?.code,
         course_fee: itemData?.course_fee,
@@ -134,6 +134,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         contents: itemData?.contents,
         row_status: String(itemData?.row_status),
       });
+      setValuesOfConfigs(itemData?.dynamic_form_field);
     } else {
       reset(initialValues);
     }
@@ -184,7 +185,41 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     [messages],
   );
 
+  const setValuesOfConfigs = (config: string | undefined | null) => {
+    try {
+      let configJson = JSON.parse(config || '{}');
+      let itemsState: any = [];
+      let itemsRequiredState: any = [];
+      Object.keys(configJson || {}).map((key: string) => {
+        let value = configJson[key];
+        if (value[0]) {
+          itemsState.push(key);
+        }
+        if (value[1]) {
+          itemsRequiredState.push(key);
+        }
+      });
+      setConfigItemsState(itemsState);
+      setConfigRequiredItems(itemsRequiredState);
+    } catch (e) {
+      console.log('Failed to parse config data', e);
+    }
+  };
+
+  const getConfigInfoData = (config: any) => {
+    let configJson: any = {};
+    Object.keys(config).map((key: any) => {
+      configJson[key] = [
+        configItemsState.includes(key),
+        configRequiredItems.includes(key),
+      ];
+    });
+
+    return JSON.stringify(configJson);
+  };
+
   const onSubmit: SubmitHandler<Course> = async (data: Course) => {
+    data.dynamic_form_field = getConfigInfoData(data.dynamic_form_field);
     const response = itemId
       ? await updateCourse(itemId, data)
       : await createCourse(data);
@@ -233,7 +268,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'xl'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -253,8 +287,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -268,7 +302,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             control={control}
             options={institutes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
