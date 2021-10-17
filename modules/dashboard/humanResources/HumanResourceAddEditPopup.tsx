@@ -28,7 +28,7 @@ import {
 } from '../../../services/organaizationManagement/HumanResourceService';
 import IconHumanResource from '../../../@softbd/icons/IconHumanResource';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import { Grid } from '@mui/material';
+import {Grid} from '@mui/material';
 
 interface HumanResourceAddEditPopupProps {
   itemId: number | null;
@@ -40,7 +40,7 @@ interface HumanResourceAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   organization_id: '',
   parent_id: '',
   rank_id: '',
@@ -66,10 +66,10 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       organization_id: yup
         .string()
         .trim()
@@ -125,19 +125,19 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       //edit action setup
       setOrganizationUnitId(humanResourceData.organization_unit_type_id);
       setOrganization({
-        id: humanResourceData.organization_id,
-        title_en: humanResourceData.organization_title_en,
-        title_bn: humanResourceData.organization_title_bn,
+        id: humanResourceData?.organization_id,
+        title_en: humanResourceData?.organization_title_en,
+        title: humanResourceData?.organization_title,
       });
       setOrganizationUnit({
         id: humanResourceData.organization_unit_id,
         title_en: humanResourceData.organization_unit_title_en,
-        title_bn: humanResourceData.organization_unit_title_bn,
+        title: humanResourceData.organization_unit_title,
       });
 
       reset({
         title_en: humanResourceData.title_en,
-        title_bn: humanResourceData.title_bn,
+        title: humanResourceData.title,
         organization_id: humanResourceData.organization_id,
         organization_unit_id: humanResourceData.organization_unit_id,
         parent_id: humanResourceData?.parent_id
@@ -153,12 +153,12 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       setOrganization({
         id: humanResourceData.organization_id,
         title_en: humanResourceData.organization_title_en,
-        title_bn: humanResourceData.organization_title_bn,
+        title: humanResourceData.organization_title,
       });
       setOrganizationUnit({
         id: humanResourceData.organization_unit_id,
         title_en: humanResourceData.organization_unit_title_en,
-        title_bn: humanResourceData.organization_unit_title_bn,
+        title: humanResourceData.organization_unit_title,
       });
       setOrganizationUnitId(humanResourceData.organization_unit_id);
       initialValues.organization_id = humanResourceData.organization_id;
@@ -172,12 +172,12 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       setOrganization({
         id: organizationUnitData.organization_id,
         title_en: organizationUnitData.organization_title_en,
-        title_bn: organizationUnitData.organization_title_bn,
+        title: organizationUnitData.organization_title,
       });
       setOrganizationUnit({
         id: organizationUnitData.id,
         title_en: organizationUnitData.title_en,
-        title_bn: organizationUnitData.title_bn,
+        title: organizationUnitData.title,
       });
       initialValues.organization_id = organizationUnitData.organization_id;
       initialValues.organization_unit_id = organizationUnitData.id;
@@ -273,8 +273,8 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isOrganizationUnitLoading}
@@ -290,11 +290,11 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
               {
                 id: organization?.id,
                 title_en: organization?.title_en,
-                title_bn: organization?.title_bn,
+                title: organization?.title,
               },
             ]}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             inputProps={{readOnly: true}}
           />
@@ -309,11 +309,11 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
               {
                 id: organizationUnit?.id,
                 title_en: organizationUnit?.title_en,
-                title_bn: organizationUnit?.title_bn,
+                title: organizationUnit?.title,
               },
             ]}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             inputProps={{readOnly: true}}
           />
@@ -326,7 +326,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             control={control}
             options={humanResources}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             inputProps={{readOnly: !humanResourceData?.parent_id}}
           />
@@ -339,7 +339,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             control={control}
             options={ranks}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>

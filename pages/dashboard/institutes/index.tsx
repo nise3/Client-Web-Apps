@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const InstitutePage = asyncComponent(
-  () => import('../../../modules/dashboard/Institute/InstitutePage'),
+  () => import('../../../modules/dashboard/Institutes/InstitutePage'),
 );
 export default AppPage(() => {
   const {messages} = useIntl();

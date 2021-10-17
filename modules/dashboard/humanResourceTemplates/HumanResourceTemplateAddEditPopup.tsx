@@ -38,7 +38,7 @@ interface HumanResourceTemplateAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   organization_id: '',
   parent_id: '',
   rank_id: '',
@@ -77,10 +77,10 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           .string()
           .title('en')
           .label(messages['common.title_en'] as string),
-        title_bn: yup
+        title: yup
           .string()
-          .title('bn')
-          .label(messages['common.title_bn'] as string),
+          .title()
+          .label(messages['common.title'] as string),
         organization_id: yup
           .string()
           .trim()
@@ -126,17 +126,17 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
             setOrganization({
               id: item.organization_id,
               title_en: item.organization_title_en,
-              title_bn: item.organization_title_bn,
+              title: item.organization_title,
             });
             setOrganizationUnitType({
               id: item.organization_unit_type_id,
               title_en: item.organization_unit_type_title_en,
-              title_bn: item.organization_unit_type_title_bn,
+              title: item.organization_unit_type_title,
             });
 
             reset({
               title_en: item.title_en,
-              title_bn: item.title_bn,
+              title: item.title,
               organization_id: item.organization_id,
               organization_unit_type_id: item.organization_unit_type_id,
               parent_id: item?.parent_id ? item.parent_id : '',
@@ -154,12 +154,12 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           setOrganization({
             id: item.organization_id,
             title_en: item.organization_title_en,
-            title_bn: item.organization_title_bn,
+            title: item.organization_title,
           });
           setOrganizationUnitType({
             id: item.organization_unit_type_id,
             title_en: item.organization_unit_type_title_en,
-            title_bn: item.organization_unit_type_title_bn,
+            title: item.organization_unit_type_title,
           });
           setOrganizationId(item.organization_id);
           setOrganizationUnitTypeId(item.organization_unit_type_id);
@@ -178,12 +178,12 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           setOrganization({
             id: item.organization_id,
             title_en: item.organization_title_en,
-            title_bn: item.organization_title_bn,
+            title: item.organization_title,
           });
           setOrganizationUnitType({
             id: item.id,
             title_en: item.title_en,
-            title_bn: item.title_bn,
+            title: item.title,
           });
           initialValues.organization_id = item.organization_id;
           initialValues.organization_unit_type_id = item.id;
@@ -302,8 +302,8 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='title_bn'
-              label={messages['common.title_bn']}
+              id='title'
+              label={messages['common.title']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -319,11 +319,11 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
                 {
                   id: organization?.id,
                   title_en: organization?.title_en,
-                  title_bn: organization?.title_bn,
+                  title: organization?.title,
                 },
               ]}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
               inputProps={{readOnly: true}}
             />
@@ -338,11 +338,11 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
                 {
                   id: organizationUnitType?.id,
                   title_en: organizationUnitType?.title_en,
-                  title_bn: organizationUnitType?.title_bn,
+                  title: organizationUnitType?.title,
                 },
               ]}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
               inputProps={{readOnly: true}}
             />
@@ -355,7 +355,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               control={control}
               options={humanResourceTemplates}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
               inputProps={{readOnly: !humanResourceTemplate?.parent_id}}
             />
@@ -368,7 +368,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               control={control}
               options={ranks}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
             />
           </Grid>

@@ -49,7 +49,7 @@ const RecentCourseSection = () => {
     {
       logoUrl: '/images/skill-matching-job1.jpg',
       courseTitle: 'Graphic Design Course',
-      courseProvider: 'Creative IT Institute',
+      courseProvider: 'Creative IT Institutes',
     },
     {
       logoUrl: '/images/skill-matching-job1.jpg',

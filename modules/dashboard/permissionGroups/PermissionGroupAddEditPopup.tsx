@@ -31,7 +31,7 @@ interface PermissionGroupAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   key: '',
   row_status: '1',
 };
@@ -57,10 +57,10 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       key: yup.string(),
       row_status: yup.string(),
     });
@@ -80,7 +80,7 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         key: itemData?.key,
         row_status: String(itemData?.row_status),
       });
@@ -159,8 +159,8 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

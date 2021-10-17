@@ -1,12 +1,5 @@
 import React, {FC} from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from '@mui/material';
+import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {ChevronLeft, Delete} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
@@ -22,7 +15,7 @@ const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
   const handleClick = () => {};
 
   return (
-    <Card sx={{maxWidth: 700}} className={classes.paperBox}>
+    <Card>
       <Box sx={{backgroundColor: '#f510100f', padding: '20px'}}>
         <Box style={{display: 'flex'}}>
           <DeleteIcon
@@ -41,26 +34,29 @@ const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
           {messages['common.deactivate_warning_text']}
         </Typography>
       </Box>
-      <CardContent>
-        <Typography style={{marginLeft: '30px', fontWeight: 'bold'}}>
-          {messages['common.deactivate_confirm_text']}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          style={{marginLeft: '30px'}}
-          variant='contained'
-          color='secondary'
-          className={classes.button}
-          startIcon={<Delete />}
-          onClick={handleClick}>
-          {messages['common.delete']}
-        </Button>
 
-        <Button variant={'outlined'} onClick={onBack}>
-          <ChevronLeft /> {messages['common.back']}
-        </Button>
-      </CardActions>
+      <CardContent>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography style={{marginLeft: '30px', fontWeight: 'bold'}}>
+              {messages['common.deactivate_confirm_text']}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant={'outlined'} onClick={onBack}>
+              <ChevronLeft /> {messages['common.back']}
+            </Button>
+            <Button
+              variant='contained'
+              color='primary'
+              className={classes.button}
+              startIcon={<Delete />}
+              onClick={handleClick}>
+              {messages['common.delete']}
+            </Button>
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   );
 };

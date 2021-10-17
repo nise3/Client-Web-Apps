@@ -184,7 +184,7 @@ const routesConfig: NavItemProps[] = [
 
       {
         id: 'institute_management',
-        title: 'Institute Management',
+        title: 'Institutes Management',
         messageId: 'menu.institute_management',
         type: 'collapse',
         icon: 'room',

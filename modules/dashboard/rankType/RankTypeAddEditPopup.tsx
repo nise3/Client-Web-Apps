@@ -38,7 +38,7 @@ interface RankTypeAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   organization_id: '',
   description: '',
   row_status: '1',
@@ -68,10 +68,10 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       organization_id:
         authUser && authUser.isSystemUser
           ? yup
@@ -100,7 +100,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         organization_id: itemData?.organization_id,
         description: itemData?.description,
         row_status: String(itemData?.row_status),
@@ -181,8 +181,8 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -197,7 +197,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
               control={control}
               options={organizations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
             />
           </Grid>

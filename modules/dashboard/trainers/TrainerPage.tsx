@@ -78,8 +78,8 @@ const TrainersPage = () => {
         accessor: 'trainer_name_en',
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'trainer_name_bn',
+        Header: messages['common.title'],
+        accessor: 'trainer_name',
       },
       {
         Header: messages['common.email'],

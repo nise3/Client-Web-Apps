@@ -83,8 +83,8 @@ const UsersPage = () => {
         accessor: 'name_en',
       },
       {
-        Header: messages['common.name_bn'],
-        accessor: 'name_bn',
+        Header: messages['common.name'],
+        accessor: 'name',
       },
       {
         Header: messages['common.email'],
