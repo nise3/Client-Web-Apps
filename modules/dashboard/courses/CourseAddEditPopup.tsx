@@ -78,7 +78,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title('bn')
+        .title()
         .label(messages['common.title'] as string),
       institute_id: yup
         .string()

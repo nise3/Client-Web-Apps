@@ -60,7 +60,7 @@ const LanguageProficiencyViewPage = ({
   const getLanguageProficiencyTypeCaption = (
     type: number | string | undefined,
   ) => {
-    switch (type) {
+    switch (String(type)) {
       case LanguageProficiencyType.EASILY:
         return messages['common.easily'];
       case LanguageProficiencyType.NOT_EASILY:
@@ -72,7 +72,7 @@ const LanguageProficiencyViewPage = ({
   const getLanguageProficiencySpeakingTypeCaption = (
     type: number | string | undefined,
   ) => {
-    switch (type) {
+    switch (String(type)) {
       case LanguageProficiencySpeakingType.FLUENTLY:
         return messages['common.fluent'];
       case LanguageProficiencySpeakingType.NOT_FLUENTLY:

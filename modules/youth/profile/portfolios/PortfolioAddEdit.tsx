@@ -20,6 +20,7 @@ import {
   updatePortfolio,
 } from '../../../../services/youthManagement/PortfolioService';
 import CustomHookForm from '../component/CustomHookForm';
+import {YouthPortfolio} from '../../../../services/youthManagement/typing';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -47,8 +48,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     return yup.object().shape({
       title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
     });
   }, [messages]);
 
@@ -60,14 +61,14 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<YouthPortfolio>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
     if (itemData) {
       reset({
-        title: itemData.title,
+        title: itemData?.title,
         title_en: itemData?.title_en,
         description: itemData?.description,
         description_en: itemData?.description_en,
@@ -78,7 +79,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit: SubmitHandler<any> = async (data: YouthPortfolio) => {
+    // console.log('portfolio ---- ', data);
     const response = itemId
       ? await updatePortfolio(itemId, data)
       : await createPortfolio(data);
@@ -86,7 +88,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='portfolio.label' />}}
         />,
       );
       mutatePortfolio();
@@ -95,7 +97,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
+          values={{subject: <IntlMessages id='portfolio.label' />}}
         />,
       );
       props.onClose();
@@ -124,16 +126,16 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 label={messages['common.title_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={false}
+                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
                 id='title'
-                label={messages['common.title_bn']}
+                label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
-                isLoading={false}
+                isLoading={isLoading}
               />
             </Grid>
 
@@ -143,7 +145,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 label={messages['common.description_bn']}
                 register={register}
                 errorInstance={errors}
-                isLoading={false}
+                isLoading={isLoading}
                 multiline={true}
                 rows={3}
               />
@@ -155,7 +157,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 label={messages['common.description_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={false}
+                isLoading={isLoading}
                 multiline={true}
                 rows={3}
               />
@@ -167,7 +169,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 type={'file'}
                 register={register}
                 errorInstance={errors}
-                isLoading={false}
+                isLoading={isLoading}
               />
             </Grid>
           </Grid>

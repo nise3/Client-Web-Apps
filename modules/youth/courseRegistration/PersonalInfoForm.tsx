@@ -50,7 +50,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='name_bn'
+          id='name'
           label={messages['common.name_bn']}
           register={register}
           errorInstance={errors}

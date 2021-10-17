@@ -14,8 +14,11 @@ import VerticalLine from '../component/VerticalLine';
 
 const LanguageSection = () => {
   const {messages} = useIntl();
-  const {data: languageProficiencies, isLoading} =
-    useFetchLanguageProficiencies();
+  const {
+    data: languageProficiencies,
+    isLoading,
+    mutate: mutateLanguageProfeciencies,
+  } = useFetchLanguageProficiencies();
 
   const [isOpenLanguageAddEditForm, setIsOpenLanguageAddEditForm] =
     useState<boolean>(false);
@@ -33,6 +36,7 @@ const LanguageSection = () => {
   const closeLanguageAddEditForm = useCallback(() => {
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
+    mutateLanguageProfeciencies();
   }, []);
 
   const openLanguageProficiencyView = useCallback(() => {
@@ -74,7 +78,8 @@ const LanguageSection = () => {
           <Box sx={{display: 'flex'}}>
             <Avatar>L</Avatar>
             <Box sx={{marginLeft: '15px'}}>
-              {!languageProficiencies && (
+              {(!languageProficiencies ||
+                languageProficiencies?.length == 0) && (
                 <Typography>
                   {messages['language_proficiency.no_data']}
                 </Typography>
