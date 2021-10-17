@@ -1,5 +1,5 @@
 import React from 'react';
-import AppPage from '../@crema/hoc/DefaultPage';
+import AppPage from '../@softbd/layouts/hoc/DefaultPage';
 
 import Error404 from '../modules/errorPages/Error404';
 

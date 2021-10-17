@@ -1,5 +1,5 @@
 import asyncComponent from '../../../../@crema/utility/asyncComponent';
-import AppPage from '../../../../@crema/hoc/AppPage';
+import AppPage from '../../../../@softbd/layouts/hoc/AppPage';
 import PageMeta from '../../../../@crema/core/PageMeta';
 import React from 'react';
 

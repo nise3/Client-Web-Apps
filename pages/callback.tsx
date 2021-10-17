@@ -1,4 +1,4 @@
-import AppPage from '../@crema/hoc/DefaultPage';
+import AppPage from '../@softbd/layouts/hoc/DefaultPage';
 import * as queryString from 'querystring';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';

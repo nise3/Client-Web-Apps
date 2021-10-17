@@ -1,6 +1,6 @@
 import React from 'react';
-import useStyles from '../../../shared/jss/common/common.style';
-import StandardLayout from '../../../@softbd/layouts/backend/Standard';
+import useStyles from '../../../../shared/jss/common/common.style';
+import StandardLayout from '../../backend/Standard';
 
 const withLayout = (ComposedComponent: any) => (props: any) => {
   useStyles();

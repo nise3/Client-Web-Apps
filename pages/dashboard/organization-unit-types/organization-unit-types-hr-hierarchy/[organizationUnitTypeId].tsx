@@ -1,7 +1,7 @@
 import React from 'react';
 import asyncComponent from '../../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../../@crema/core/PageMeta';
-import AppPage from '../../../../@crema/hoc/AppPage';
+import AppPage from '../../../../@softbd/layouts/hoc/AppPage';
 
 const OrganizationUnitTypeHierarchyPage = asyncComponent(
   () =>

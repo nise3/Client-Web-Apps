@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import {makeStyles} from '@mui/styles';
-import useStyles from '../../../shared/jss/common/common.style';
+import useStyles from '../../../../shared/jss/common/common.style';
 
 const useStyle = makeStyles(() => ({
   appAuth: {
