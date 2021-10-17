@@ -1,10 +1,10 @@
-import AppPage from '../@softbd/layouts/hoc/DefaultPage';
+import DefaultPage from '../@softbd/layouts/hoc/DefaultPage';
 import * as queryString from 'querystring';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 import {onSSOSignInCallback} from '../redux/actions';
 
-export default AppPage(() => {
+export default DefaultPage(() => {
   const dispatch = useDispatch();
 
   useEffect(() => {

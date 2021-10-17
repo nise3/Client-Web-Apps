@@ -1,7 +1,7 @@
 import React from 'react';
 import asyncComponent from '../../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../../@crema/core/PageMeta';
-import AppPage from '../../../../@softbd/layouts/hoc/AppPage';
+import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 
 const OrganizationUnitTypeHierarchyPage = asyncComponent(
   () =>
@@ -9,7 +9,7 @@ const OrganizationUnitTypeHierarchyPage = asyncComponent(
       '../../../../modules/dashboard/organizationUnitTypes/OrganizationUnitTypeHierarchy'
     ),
 );
-export default AppPage(() => {
+export default DashboardPage(() => {
   return (
     <>
       <PageMeta title='Organization Unit Types Chart' />
