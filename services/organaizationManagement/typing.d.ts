@@ -148,6 +148,7 @@ type HumanResourceTemplate = {
   parent?: number | string | null;
   display_order?: number | string;
   is_designation?: number | string;
+  status?: number;
   row_status?: string;
   updated_at?: string;
   crated_at?: string;

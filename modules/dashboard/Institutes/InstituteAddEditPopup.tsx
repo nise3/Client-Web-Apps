@@ -11,6 +11,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {
   DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -45,6 +46,12 @@ import {
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+
+export enum InstituteType {
+  GOVERNMENT = '1',
+  NON_GOVERNMENT = '0',
+}
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -56,6 +63,7 @@ const initialValues = {
   title_en: '',
   title: '',
   domain: '',
+  institute_type_id: '',
   code: '',
   address: '',
   primary_phone: '',
@@ -78,6 +86,20 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const instituteTypes = useMemo(
+    () => [
+      {
+        key: InstituteType.GOVERNMENT,
+        label: messages['common.government'],
+      },
+      {
+        key: InstituteType.NON_GOVERNMENT,
+        label: messages['common.non_government'],
+      },
+    ],
+    [messages],
+  );
+
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -94,13 +116,9 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
       row_status: RowStatus.ACTIVE,
     });
 
-  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
-  const [districtsFilter] = useState({
-    row_status: RowStatus.ACTIVE,
-  });
-  const [upazilasFilter] = useState({
-    row_status: RowStatus.ACTIVE,
-  });
+  const [divisionsFilter] = useState({});
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
@@ -151,6 +169,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .required()
         .matches(DOMAIN_REGEX)
         .label(messages['common.domain'] as string),
+      institute_type_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.type'] as string),
       code: yup
         .string()
         .required()
@@ -159,7 +182,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .matches(MOBILE_NUMBER_REGEX)
+        .matches(PHONE_NUMBER_REGEX)
         .label(messages['common.phone'] as string),
       phone_numbers: yup.array().of(nonRequiredValidationSchema),
       primary_mobile: yup
@@ -228,6 +251,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         domain: itemData?.domain,
+        institute_type_id: itemData?.institute_type_id,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
         phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
@@ -442,6 +466,16 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 label={messages['common.domain']}
                 register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormRadioButtons
+                id='institute_type_id'
+                label={'institute.type'}
+                radios={instituteTypes}
+                control={control}
+                defaultValue={InstituteType.NON_GOVERNMENT}
                 isLoading={isLoading}
               />
             </Grid>

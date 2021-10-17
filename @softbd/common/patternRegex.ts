@@ -1,4 +1,5 @@
 export const MOBILE_NUMBER_REGEX = new RegExp('^(?:\\+88|88)?(01[3-9]\\d{8})$');
+export const PHONE_NUMBER_REGEX = new RegExp('^(?:\\+\\d{1})?[(\\d{4}\\s)]+$');
 export const DOMAIN_REGEX = new RegExp(
   '^(http|https):\\/\\/[a-zA-Z-\\-\\.0-9]+$',
 );

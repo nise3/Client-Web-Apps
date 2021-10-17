@@ -3,10 +3,11 @@ export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
 export const YOUTH_SERVICE_PATH = '/youth';
+export const CMS_SERVICE_PATH = '/cms';
 
-export const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
-export const API_DISTRICTS = CORE_SERVICE_PATH + '/districts';
-export const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
+export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
+export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
+export const API_UPAZILAS = CMS_SERVICE_PATH + '/upazilas';
 export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
 export const API_PERMISSION_SUB_GROUPS =
   CORE_SERVICE_PATH + '/permission-sub-groups';
@@ -43,6 +44,8 @@ export const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
 export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
 export const API_SKILLS = ORGANIZATION_SERVICE_PATH + '/skills';
 
+export const API_INSTITUTE_REGISTRATION =
+  INSTITUTE_SERVICE_PATH + '//institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 export const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
 export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programmes';

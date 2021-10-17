@@ -5,7 +5,7 @@ import {
 } from '../../@softbd/common/apiRoutes';
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 
-export function useFetchDivisions(params: any) {
+export function useFetchDivisions(params: any = null) {
   return useAxiosSWR([API_DIVISIONS, params]);
 }
 

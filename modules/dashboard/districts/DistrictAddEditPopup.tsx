@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -15,7 +15,6 @@ import {
   updateDistrict,
 } from '../../../services/locationManagement/DistrictService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {
   isResponseSuccess,
@@ -25,7 +24,6 @@ import {
   useFetchDistrict,
   useFetchDivisions,
 } from '../../../services/locationManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface DistrictAddEditPopupProps {
@@ -38,7 +36,6 @@ const initialValues = {
   title_en: '',
   title: '',
   bbs_code: '',
-  row_status: '1',
   loc_division_id: '',
 };
 
@@ -55,9 +52,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
     isLoading,
     mutate: mutateDistrict,
   } = useFetchDistrict(itemId);
-  const [divisionFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: divisions, isLoading: isDivisionsLoading} =
-    useFetchDivisions(divisionFilters);
+  const {data: divisions, isLoading: isDivisionsLoading} = useFetchDivisions();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -99,7 +94,6 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         bbs_code: itemData?.bbs_code,
-        row_status: String(itemData?.row_status),
         loc_division_id: itemData?.loc_division_id,
       });
     } else {
@@ -200,14 +194,6 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
             label={messages['common.bbs_code']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>

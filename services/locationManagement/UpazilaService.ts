@@ -1,34 +1,6 @@
-import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-
-const API_UPAZILAS = CORE_SERVICE_PATH + '/upazilas';
-
-/**
- * @deprecated
- * @param params
- */
-export const getAllUpazilas = async (params = {}) => {
-  try {
-    let response: any = await apiGet(API_UPAZILAS, {params});
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-/**
- * @deprecated
- * @param upazilaId
- */
-export const getUpazila = async (upazilaId: number) => {
-  try {
-    let response: any = await apiGet(API_UPAZILAS + '/' + upazilaId);
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
+import {API_UPAZILAS} from '../../@softbd/common/apiRoutes';
 
 export const createUpazila = async (data: Upazila) => {
   try {

@@ -587,6 +587,7 @@
   "certificate.upload": "সনদপত্র ফাইলটি আপলোড করুন",
   "institute.name": "প্রতিষ্ঠানের নাম",
   "institute.name_en": "প্রতিষ্ঠানের নাম(ইংরেজি)",
+  "institute.type": "প্রতিষ্ঠানের ধরন",
   "common.verificationMessageOnMobile": "আমরা একটি যাচাই কোড পাঠিয়েছি ******** 675 এ",
   "common.sendCodeText": "আবার কোড পাঠান",
   "trainer.about": "আমার সম্পর্কে",
