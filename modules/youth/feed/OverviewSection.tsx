@@ -97,7 +97,12 @@ const OverviewSection = () => {
         <Grid item xs={12}>
           <Card className={classes.searchBox}>
             <Grid container>
-              <Grid item xs={12} sm={12} md={7}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={7}
+                sx={{display: 'flex', alignItems: 'center'}}>
                 <TextField
                   variant='outlined'
                   name='searchBox'
