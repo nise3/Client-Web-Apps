@@ -2,7 +2,7 @@ type User = {
   id: number;
   role_id: string;
   name_en: string;
-  name_bn: string;
+  name: string;
   username: string;
   user_type: string;
   email: string;
@@ -20,7 +20,7 @@ type User = {
 type Role = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   key: string;
   permission_sub_group_id: string | number | null;
   organization_id?: string | number | null;
@@ -40,7 +40,7 @@ type Permission = {
 type PermissionGroup = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   key: string;
   row_status: string;
 };
@@ -48,7 +48,7 @@ type PermissionGroup = {
 type PermissionSubGroup = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   key: string;
   permission_group_id: number;
   row_status: string;

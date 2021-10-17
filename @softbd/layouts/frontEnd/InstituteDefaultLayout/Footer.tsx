@@ -1,9 +1,18 @@
 import React from 'react';
-import {Box, Container, Grid, Link, Typography} from '@mui/material';
+import {Box, Button, Container, Grid, Link, Typography} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
+import {H6, Text} from '../../../elements/common';
+import {
+  ArrowForwardIos,
+  ArrowRightAlt,
+  Email,
+  Home,
+  LocalPhone,
+} from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +32,19 @@ const useStyles = makeStyles((theme: Theme) =>
     softbdImage: {
       width: '147px',
     },
+    button: {
+      borderRadius: 20,
+    },
+    primary: {
+      color: theme.palette.primary.main,
+    },
+    bullet: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginBottom: 15,
+    },
   }),
 );
 
@@ -32,96 +54,105 @@ const Footer = () => {
     <>
       <Grid container className={classes.root}>
         <Container maxWidth='xl' className={classes.container}>
-          <Grid item container spacing={10}>
-            <Grid item md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  আমাদের সম্পর্কে
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  আমাদের সম্পর্কে
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  শর্তাবলী এবং নীতিমালা
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  সহযোগী
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  প্রাইভেসি পলিসি
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  যোগাযোগ
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  বিডি জবস
-                </Box>
-              </Typography>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6} lg={4} p={0}>
+              <LogoCustomizable
+                instituteName='Bangladesh Industrial Technical Assistance Centre'
+                instituteLogo='/images/bitac-logo.jpg'
+              />
+              <Box mt={4}>
+                <Text>
+                  গনপ্রজাতন্ত্রী বাংলাদেশ সরকারের রূপকল্প ২০২১ বাস্তবায়নে
+                  যুবকদের আত্মকর্মসংস্থান ও স্বাবলম্বী করে তোলার লক্ষে "অনলাইনে
+                  বিভিন্ন প্রশিক্ষন কোর্সের পরিচালনা ও পর্যবেক্ষন করা"।{' '}
+                </Text>
+              </Box>
+              <Box display='flex' justifyContent='left' mt={4}>
+                <Button
+                  variant='outlined'
+                  size='large'
+                  endIcon={<ArrowRightAlt />}
+                  className={classes.button}>
+                  বিস্তারিত
+                </Button>
+              </Box>
             </Grid>
-            <Grid item md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  চাকরি প্রার্থীদের জন্য
+            <Grid item xs={12} md={6} lg={4} p={0}>
+              <H6 className={classes.primary}>যোগাযোগ</H6>
+              <Box display='flex' mt={4}>
+                <Box flex='0 0 40px'>
+                  <Home className={classes.primary} />
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  জীবনবৃত্তান্ত এডিট
+                <Box flex='1'>
+                  <Text>
+                    বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র (বিটাক) ১১৬ (খ),
+                    তেজগাঁও শিল্প এলাকা ঢাকা - ১২০৮
+                  </Text>
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  ক্যারিয়ার পরামর্শ
+              </Box>
+              <Box display='flex' mt={4}>
+                <Box flex='0 0 40px'>
+                  <Email className={classes.primary} />
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  মাই জবস
+                <Box flex='1'>
+                  <Text>ict@btac.gov.bd</Text>
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  প্রশ্নাবলী
+              </Box>
+              <Box display='flex' mt={4}>
+                <Box flex='0 0 40px'>
+                  <LocalPhone className={classes.primary} />
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  গাইডলাইন
+                <Box flex='1'>
+                  <Text>++৮৮-০২-৯৯৩৯৪৯৩, ++৮৮-০২-৮৩৮৪৮৪৮৪</Text>
                 </Box>
-              </Typography>
+              </Box>
             </Grid>
-            <Grid item md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  চাকরিদাতা
+            <Grid item xs={12} md={8} lg={4} p={0}>
+              <H6 className={classes.primary}>গুরুত্বপূর্ণ লিঙ্ক</H6>
+              <Box display='flex' mt={4} justifyContent='space-between'>
+                <Box>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> অনলাইন কোর্স
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> সংবাদ
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> ঘটনাবলী
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> আমাদের
+                    সম্পর্কে
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> যোগাযোগ
+                  </Text>
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  আমাদের সম্পর্কে
+                <Box>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> প্রয়োজনীয়
+                    প্রশ্ন এবং উত্তর
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> লগইন
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> সাইন আপ
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> শর্তাবলী
+                  </Text>
+                  <Text className={classes.bullet}>
+                    <ArrowForwardIos className={classes.primary} /> গোপনীয়তা
+                    নীতি
+                  </Text>
                 </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  শর্তাবলী এবং নীতিমালা
-                </Box>
-              </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Container>
       </Grid>
+
       <Grid container className={classes.foot}>
         <Container maxWidth='xl' className={classes.container}>
           <Grid item container spacing={10}>

@@ -56,8 +56,8 @@ const OrganizationTypeDetailsPopup = ({
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title_bn']}
-              value={itemData?.title_bn}
+              label={messages['common.title']}
+              value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>

@@ -2,7 +2,7 @@ import React, {FC, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import useStyles from './Settings.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Button, Grid, Paper, Typography} from '@mui/material';
+import {Button, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {ChevronLeft} from '@mui/icons-material';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -59,56 +59,56 @@ const ChangePasswordView: FC<ChangePasswordViewprops> = ({onBack}) => {
     }
   };
   return (
-    <Paper className={classes.paperBox}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <Typography variant={'h6'} style={{fontWeight: 'bold'}}>
-              {messages['common.change_password']}
-            </Typography>
+    <Card>
+      <CardHeader
+        title={messages['common.change_password']}
+        fontWeight={'bold'}
+      />
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='old_password'
+                label={messages['common.oldPassword']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='new_password'
+                label={messages['common.newPassword']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='confirm_new_password'
+                label={messages['common.retype_password']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant={'outlined'} color={'primary'} onClick={onBack}>
+                <ChevronLeft />
+                {messages['common.back']}
+              </Button>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                className={classes.button}
+                type='submit'
+                disabled={isSubmitting}>
+                {messages['common.save']}
+              </Button>
+            </Grid>
           </Grid>
-
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='old_password'
-              label={messages['common.oldPassword']}
-              register={register}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='new_password'
-              label={messages['common.newPassword']}
-              register={register}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='confirm_new_password'
-              label={messages['common.retype_password']}
-              register={register}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant={'outlined'} color={'primary'} onClick={onBack}>
-              <ChevronLeft />
-              {messages['common.back']}
-            </Button>
-            <Button
-              variant={'contained'}
-              color={'primary'}
-              className={classes.button}
-              type='submit'
-              disabled={isSubmitting}>
-              {messages['common.save']}
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 

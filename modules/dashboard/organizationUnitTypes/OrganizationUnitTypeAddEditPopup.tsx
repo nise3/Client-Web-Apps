@@ -37,7 +37,7 @@ interface OrganizationUnitTypeAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   organization_id: '',
   row_status: '1',
 };
@@ -63,10 +63,10 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
           .string()
           .title('en')
           .label(messages['common.title_en'] as string),
-        title_bn: yup
+        title: yup
           .string()
-          .title('bn')
-          .label(messages['common.title_bn'] as string),
+          .title('')
+          .label(messages['common.title'] as string),
         organization_id:
           authUser && authUser.isSystemUser
             ? yup
@@ -93,7 +93,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
       if (itemData) {
         reset({
           title_en: itemData?.title_en,
-          title_bn: itemData?.title_bn,
+          title: itemData?.title,
           organization_id: itemData?.organization_id,
           row_status: String(itemData?.row_status),
         });
@@ -184,8 +184,8 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
           </Grid>
           <Grid item xs={12}>
             <CustomTextInput
-              id='title_bn'
-              label={messages['common.title_bn']}
+              id='title'
+              label={messages['common.title']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -200,7 +200,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
                 control={control}
                 options={organizations}
                 optionValueProp='id'
-                optionTitleProp={['title_en', 'title_bn']}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
               />
             </Grid>

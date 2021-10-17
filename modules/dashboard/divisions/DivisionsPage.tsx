@@ -102,8 +102,8 @@ const DivisionsPage = () => {
         isVisible: false,
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['common.bbs_code'],

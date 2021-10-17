@@ -47,7 +47,7 @@ interface OrganizationAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   organization_id: '',
   organization_unit_type_id: '',
   loc_division_id: '',
@@ -116,10 +116,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
-        .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+      title: yup.string().titlee.label(messages['common.title'] as string),
       organization_id:
         authUser && authUser.isSystemUser
           ? yup
@@ -189,7 +186,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         organization_id: itemData?.organization_id,
         organization_unit_type_id: itemData?.organization_unit_type_id,
         loc_division_id: itemData?.loc_division_id,
@@ -353,8 +350,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -369,7 +366,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
               control={control}
               options={organizations}
               optionValueProp='id'
-              optionTitleProp={['title_en', 'title_bn']}
+              optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
               onChange={onOrganizationChange}
             />
@@ -383,7 +380,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={organizationUnitTypes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -395,7 +392,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onDivisionChange}
           />
@@ -408,7 +405,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={districts}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onDistrictChange}
           />
@@ -421,7 +418,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={upazilas}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -506,7 +503,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={services}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             multiple={true}
             defaultValue={initialValues.services}

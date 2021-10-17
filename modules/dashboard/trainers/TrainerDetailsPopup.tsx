@@ -53,8 +53,8 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_bn']}
-              value={itemData?.trainer_name_bn}
+              label={messages['common.title']}
+              value={itemData?.trainer_name}
               isLoading={isLoading}
             />
           </Grid>
@@ -70,7 +70,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['menu.branch']}
-              value={itemData?.branches_title_bn}
+              value={itemData?.branches_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -84,42 +84,42 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.district_title_permanent_address']}
-              value={itemData?.district_title_bn_permanent_address}
+              value={itemData?.district_title_permanent_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.district_title_present_address']}
-              value={itemData?.district_title_bn_present_address}
+              value={itemData?.district_title_present_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.division_title_permanent_address']}
-              value={itemData?.division_title_bn_permanent_address}
+              value={itemData?.division_title_permanent_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.division_title_present_address']}
-              value={itemData?.division_title_bn_present_address}
+              value={itemData?.division_title_present_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.upazila_title_permanent_address']}
-              value={itemData?.upazila_title_bn_permanent_address}
+              value={itemData?.upazila_title_permanent_address}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.upazila_title_present_address']}
-              value={itemData?.upazila_title_bn_present_address}
+              value={itemData?.upazila_title_present_address}
               isLoading={isLoading}
             />
           </Grid>
@@ -148,7 +148,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['institute.label']}
-              value={itemData?.institutes_title_bn}
+              value={itemData?.institutes_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -213,7 +213,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['training_center.label']}
-              value={itemData?.training_centers_title_bn}
+              value={itemData?.training_centers_title}
               isLoading={isLoading}
             />
           </Grid>

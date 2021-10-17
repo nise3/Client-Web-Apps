@@ -54,7 +54,7 @@ interface InstituteAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   domain: '',
   code: '',
   address: '',
@@ -141,10 +141,10 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_en'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       domain: yup
         .string()
         .trim()
@@ -226,7 +226,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         domain: itemData?.domain,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
@@ -356,7 +356,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={permissionSubGroups}
                 optionValueProp='id'
-                optionTitleProp={['title_en', 'title_bn']}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -396,7 +396,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
                 onChange={changeDivisionAction}
               />
@@ -409,7 +409,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={upazilasList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -420,8 +420,8 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <CustomTextInput
-                id='title_bn'
-                label={messages['common.title_bn']}
+                id='title'
+                label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -472,7 +472,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={districtsList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title_bn']}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
                 onChange={changeDistrictAction}
               />

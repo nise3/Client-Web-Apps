@@ -59,7 +59,7 @@ const userData = {
       exam: 'SSC',
       board: 'Dhaka',
       session: '2006',
-      institute: 'Textile Vocational Institute, Kushtia',
+      institute: 'Textile Vocational Institutes, Kushtia',
       result: 'A',
     },
   ],
@@ -68,7 +68,7 @@ const userData = {
     'Experienced in Windows 98, Windows XP, Windows 7, Windows 8 OS environment.',
     'Office Applications (MS Word, MS Excel, MS Access, MS Power Point, MS Outlook).',
     'Internet: Blogging, Website Making, SEO, SMM, Browsing & E mail literacy.',
-    'Hardware & Software Troubleshooting.\n - Trained by Path Finder Computer Training Institute, Pabna.',
+    'Hardware & Software Troubleshooting.\n - Trained by Path Finder Computer Training Institutes, Pabna.',
   ],
   languages: ['Good command over English ', 'Excellent command over Bengali'],
   jobExperiences: [
