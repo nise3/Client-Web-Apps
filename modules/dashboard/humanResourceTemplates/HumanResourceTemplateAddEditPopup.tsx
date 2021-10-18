@@ -219,6 +219,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       data: HumanResourceTemplate,
     ) => {
       data.parent_id = data.parent_id ? data.parent_id : null;
+      data.status = 1; // TODO::fix it
 
       const response =
         isEdit && itemId

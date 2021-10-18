@@ -63,13 +63,6 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
-              isLoading={isLoading}
-            />
-          </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

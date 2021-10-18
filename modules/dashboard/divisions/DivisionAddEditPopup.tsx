@@ -13,7 +13,6 @@ import {
   updateDivision,
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {
   isResponseSuccess,
@@ -33,7 +32,6 @@ const initialValues = {
   title_en: '',
   title: '',
   bbs_code: '',
-  row_status: '1',
 };
 
 const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
@@ -70,7 +68,6 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
 
   const {
     register,
-    control,
     reset,
     handleSubmit,
     setError,
@@ -85,7 +82,6 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         bbs_code: itemData?.bbs_code,
-        row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
@@ -174,14 +170,6 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
             label={messages['common.bbs_code']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>

@@ -47,7 +47,7 @@ const initialValues = {
   display_order: '',
   is_designation: '2',
   organization_unit_id: '',
-  status: '',
+  status: '1',
   row_status: '1',
 };
 
