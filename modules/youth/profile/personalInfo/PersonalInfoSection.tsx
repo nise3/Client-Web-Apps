@@ -18,12 +18,12 @@ import {createStyles, makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import PersonalInformationEdit from './PersonalInformationEdit';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../../types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
 import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import {getYouthAuthUserObject} from '../../../../redux/actions';
-import {UPDATE_AUTH_USER} from '../../../../types/actions/Auth.actions';
+import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
