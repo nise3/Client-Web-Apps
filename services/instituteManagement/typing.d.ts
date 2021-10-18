@@ -142,3 +142,27 @@ type Batch = {
   updated_at?: string;
   deleted_at?: string;
 };
+
+type Application = {
+  id: number;
+  Gender: string;
+  fullName: string;
+  course_name: string;
+  username: string;
+  user_name_type: number;
+  first_name: string;
+  last_name: string;
+  gender: number;
+  email: string;
+  mobile: string;
+  date_of_birth: string;
+  physical_disability_status: number;
+  loc_division_id: number;
+  loc_district_id: number;
+  row_status: number;
+  approval_status: string;
+  accepted: number;
+  rejected: number;
+  created_at: string;
+  updated_at: string;
+}

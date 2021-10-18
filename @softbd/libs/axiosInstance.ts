@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(
       COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
     const userAccessToken = authAccessTokenData?.access_token;
-    console.log('userAccessToken', userAccessToken);
+    /*console.log('userAccessToken', userAccessToken);*/
 
     config.headers = {
       /*Token: `Bearer ${apiAccessToken}`,*/

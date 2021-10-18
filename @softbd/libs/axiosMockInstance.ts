@@ -61,7 +61,7 @@ axiosMockInstance.interceptors.response.use(
     //console.log('axios interceptors response', response);
     return response;
   },
-  async function (error) {
+  async function(error) {
     // const originalRequest = error.config;
     // let responseStatus = error.response.status;
 
@@ -109,6 +109,31 @@ mock.onGet('institutes').reply(200, {
       title_bn: 'asdfasdf',
       title_en: 'asdfasd',
       updated_at: '2021-08-10T07:16:19.000000Z',
+    },
+  ],
+});
+
+
+/** application management */
+mock.onGet('application-management').reply(200, {
+  data: [
+    {
+      'id': 1,
+      'course_name': 'Computer Programming',
+      'username': 'enola.skiles@example.net',
+      'user_name_type': 1,
+      'first_name': 'shohanur',
+      'last_name': 'Rahman',
+      'gender': 2,
+      'email': 'enola.skiles@example.net',
+      'mobile': '01754994292',
+      'date_of_birth': '0000-00-00',
+      'physical_disability_status': 0,
+      'loc_division_id': 1,
+      'loc_district_id': 1,
+      'row_status': 1,
+      'created_at': '2021-10-10T07:23:58.000000Z',
+      'updated_at': '2021-10-10T07:23:58.000000Z',
     },
   ],
 });

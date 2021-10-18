@@ -1,4 +1,12 @@
 {
+  "applicationManagement.label": "আবেদন ব্যবস্থাপনা",
+  "applicationManagement.courseName": "কোর্সের নাম",
+  "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
+  "applicationManagement.accept": "গ্রহণ",
+  "applicationManagement.reject": "বাতিল",
+  "applicationManagement.acceptApplication": "প্রশিক্ষণার্থীর আবেদন গ্রহণ করবেন?",
+  "applicationManagement.rejectApplication": "প্রশিক্ষণার্থীর আবেদন বাতিল করবেন?",
+  "applicationManagement.accepted": "{applicant} কে সফলভাবে {course} কোর্সে যুক্ত করা হয়েছে",
   "error.comingSoonNotification": "ইমেল জমা দেওয়ার জন্য আপনাকে ধন্যবাদ!",
   "dashboard.messages": "মেসেজ",
   "common.id": "আইডি",
