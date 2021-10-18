@@ -95,8 +95,6 @@ const InstituteGallery = () => {
   };
 
   const filterVidesByInput = ({gallery_category_id, gallery_id}: any) => {
-    console.log('gallerycatid->', gallery_category_id);
-    console.log('gall id->', gallery_id);
     if (gallery_category_id?.length == 0 && gallery_id?.length == 0) {
       setFilteredGalleryItems(galleryItems);
     } else {
@@ -111,14 +109,13 @@ const InstituteGallery = () => {
   };
 
   const onSearch: SubmitHandler<any> = async (data: any) => {
-    console.log('event-->', data.title);
-    // let inputValue = event.target.value.toLowerCase();
     let filter = filteredGalleryItems?.filter((item: any) =>
       item.title.toLowerCase().includes(data.title),
     );
-    console.log('filter->', filter);
-    let newArr = [...filter];
-    setFilteredGalleryItems(newArr);
+    if (filter.length > 0) {
+      let newArr = [...filter];
+      setFilteredGalleryItems(newArr);
+    }
   };
 
   return (
@@ -126,7 +123,7 @@ const InstituteGallery = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
-            <H2 py={5}>গ্যালারি সমূহ</H2>
+            <H2 py={5}>{messages['galleries.institute']}</H2>
           </Paper>
         </Grid>
       </Grid>
@@ -140,14 +137,14 @@ const InstituteGallery = () => {
                     <FilterListIcon />
                   </Grid>
                   <Grid item md={6}>
-                    <Typography>ফিল্টার</Typography>
+                    <Typography>{messages['filter.institute']}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
                   id='gallery_category_id'
-                  label='ভিডিও ক্যাটাগরি'
+                  label={messages['gallery_category.institute']}
                   isLoading={isLoadingGalleryCategories}
                   control={control}
                   optionValueProp={'gallery_category_id'}
@@ -159,7 +156,7 @@ const InstituteGallery = () => {
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
                   id='gallery_id'
-                  label='ভিডিও সমূহ'
+                  label={messages['galleries.institute']}
                   isLoading={isLoadingGalleryItems}
                   control={control}
                   optionValueProp={'id'}
@@ -176,12 +173,11 @@ const InstituteGallery = () => {
                   Reset
                 </Button>
               </Grid>
-              {/*<form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>*/}
               <Grid item xs={12} md={4}>
                 <form onSubmit={handleSubmit(onSearch)}>
                   <CustomTextInput
                     id='title'
-                    label='অনুসন্ধান করুন'
+                    label={messages['common.search']}
                     register={register}
                   />
                   <IconButton
@@ -190,34 +186,6 @@ const InstituteGallery = () => {
                     disabled={isSubmitting}>
                     <SearchIcon />
                   </IconButton>
-                  {/*<Button
-                    type={'submit'}
-                    disabled={isSubmitting}
-                    variant='contained'>
-                    {messages['common.send']}
-                  </Button>*/}
-                  {/*<Paper
-                  component='form'
-                  sx={{
-                    p: '2px 4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: 40,
-                  }}>
-                  <TextField
-                    id='name'
-                    label='অনুসন্ধান করুন'
-                    variant='outlined'
-                    // onChange={onSearch}
-                  />
-                  <IconButton
-                    onClick={onSearch}
-                    // type='submit'
-                    sx={{p: '10px'}}
-                    aria-label='search'>
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>*/}
                 </form>
               </Grid>
             </Grid>
