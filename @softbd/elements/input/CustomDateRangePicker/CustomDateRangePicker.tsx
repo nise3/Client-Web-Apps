@@ -5,7 +5,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Box from '@mui/material/Box';
 
-export default function CustomDateRangePicker() {
+const CustomDateRangePicker: any = () => {
   const [value, setValue] = React.useState<DateRange<Date | null>>([
     null,
     null,
@@ -30,4 +30,5 @@ export default function CustomDateRangePicker() {
       />
     </LocalizationProvider>
   );
-}
+};
+export default CustomDateRangePicker;

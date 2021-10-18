@@ -26,7 +26,7 @@ import {
   LINK_FRONTEND_YOUTH_SETTINGS,
 } from '../../common/appLinks';
 
-const SideMenu = () => {
+const SideMenu: any = () => {
   const {messages} = useIntl();
 
   return (

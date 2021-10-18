@@ -1,7 +1,7 @@
 import React from 'react';
-import { Skeleton } from '@mui/material';
+import {Skeleton} from '@mui/material';
 
-const HeaderSkeleton = () => {
+const HeaderSkeleton: any = () => {
   return (
     <>
       <Skeleton variant='text' height={100} style={{margin: '5px'}} />
