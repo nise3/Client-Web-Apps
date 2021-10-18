@@ -19,6 +19,8 @@ const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 300000,
 });
+axiosInstance.defaults.headers.common['Accept'] = 'application/json';
+axiosInstance.defaults.headers.common['Content-Type'] = 'application/json';
 
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
@@ -28,8 +30,6 @@ axiosInstance.interceptors.request.use(
     const userAccessToken = authAccessTokenData?.access_token;
     console.log('userAccessToken', userAccessToken);
 
-    config.headers['Accept'] = 'application/json';
-    config.headers['Content-Type'] = 'application/json';
     if (userAccessToken) {
       config.headers['Authorization'] = `Bearer ${userAccessToken}`;
     }
