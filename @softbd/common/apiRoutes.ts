@@ -87,5 +87,5 @@ export const API_FRONT_END_GALLERY_LIST = INSTITUTE_SERVICE_PATH + '/galleries';
 
 
 /** Routes for application management */
-export const APPLICATION_MANAGEMENT = API_INSTITUTES + '/application-management';
-export const APPLICATION_PROCESSING = API_INSTITUTES + '/application-processing';
+export const API_APPLICATION_MANAGEMENT = API_INSTITUTES + '/application-management';
+export const API_APPLICATION_PROCESSING = API_INSTITUTES + '/application-processing';
