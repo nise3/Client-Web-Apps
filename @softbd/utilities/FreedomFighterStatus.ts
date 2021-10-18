@@ -1,8 +1,10 @@
+export type FreedomFighterStatusType = '1' | '2' | '3' | '4';
+
 enum FreedomFighterStatus {
-  NO = '0',
-  YES = '1',
-  CHILD = '2',
-  GRAND_CHILD = '3',
+  NO = '1',
+  YES = '2',
+  CHILD = '3',
+  GRAND_CHILD = '4',
 }
 
 export default FreedomFighterStatus;

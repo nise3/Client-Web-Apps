@@ -1,6 +1,6 @@
 export function filterDistrictsByDivisionId(
   districts: Array<District>,
-  divisionId: number | null,
+  divisionId: number | string | null | undefined,
 ) {
   if (districts && divisionId) {
     return districts.filter(
@@ -13,7 +13,7 @@ export function filterDistrictsByDivisionId(
 
 export function filterUpazilasByDistrictId(
   upazilas: Array<Upazila>,
-  districtId: number | null,
+  districtId: number | string | null | undefined,
 ) {
   if (upazilas && districtId) {
     return upazilas.filter((upazila) => upazila.loc_district_id == districtId);

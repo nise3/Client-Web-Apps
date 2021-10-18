@@ -16,8 +16,14 @@ import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {createStyles, makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
-import {useFetchYouthProfile} from '../../../../services/youthManagement/hooks';
 import PersonalInformationEdit from './PersonalInformationEdit';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../types/models/CommonAuthUser';
+import {useDispatch} from 'react-redux';
+import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import {getYouthAuthUserObject} from '../../../../redux/actions';
+import {UPDATE_AUTH_USER} from '../../../../types/actions/Auth.actions';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
   createStyles({
@@ -53,8 +59,9 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 const PersonalInfoSection = () => {
   const {messages} = useIntl();
   const classes = useStyles();
-  const {data: youthInfo, mutate: mutateProfile} = useFetchYouthProfile();
-  console.log('profile ', youthInfo);
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
+  console.log('profile ', authUser);
 
   const [
     isOpenPersonalInformationEditForm,
@@ -67,8 +74,20 @@ const PersonalInfoSection = () => {
 
   const closePersonalInformationEditForm = useCallback(() => {
     setIsOpenPersonalInformationEditForm(false);
-    mutateProfile();
+    updateProfile();
   }, []);
+
+  const updateProfile = () => {
+    (async () => {
+      const response = await getYouthProfile();
+      if (isResponseSuccess(response) && response.data) {
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getYouthAuthUserObject({...authUser, ...response.data}),
+        });
+      }
+    })();
+  };
 
   return isOpenPersonalInformationEditForm ? (
     <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
@@ -87,13 +106,13 @@ const PersonalInfoSection = () => {
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <Box>
                 <Typography variant={'h6'}>
-                  {youthInfo?.first_name} {youthInfo?.last_name}
+                  {authUser?.first_name} {authUser?.last_name}
                 </Typography>
                 <Typography variant={'subtitle2'}>
-                  {messages['common.email']}: {youthInfo?.email}
+                  {messages['common.email']}: {authUser?.email}
                 </Typography>
                 <Typography variant={'subtitle2'}>
-                  {messages['common.mobile']}: {youthInfo?.mobile}
+                  {messages['common.mobile']}: {authUser?.mobile}
                 </Typography>
               </Box>
               <Box>
@@ -105,7 +124,7 @@ const PersonalInfoSection = () => {
               </Box>
             </Box>
             <Typography variant={'body1'} mt={1}>
-              {youthInfo?.bio}
+              {authUser?.bio}
             </Typography>
           </Grid>
         </Grid>

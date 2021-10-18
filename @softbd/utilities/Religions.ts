@@ -1,3 +1,5 @@
+export type Religion = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
+
 enum Religions {
   ISLAM = '1',
   HINDUISM = '2',

@@ -86,7 +86,7 @@ const LanguageSection = () => {
               )}
               {languageProficiencies && (
                 <React.Fragment>
-                  <Box>
+                  <Box sx={{display: 'flex'}}>
                     {languageProficiencies.map(
                       (language: YouthLanguageProficiency, index: number) => (
                         <React.Fragment key={language.id}>

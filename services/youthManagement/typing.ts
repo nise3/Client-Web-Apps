@@ -1,4 +1,9 @@
 import {Gender} from '../../@softbd/utilities/Genders';
+import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
+import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
+import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
+import {Religion} from '../../@softbd/utilities/Religions';
+import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 
 export interface YouthJobExperience {
   id: number;
@@ -27,7 +32,14 @@ export interface YouthPersonalInfo {
   mobile: string;
   date_of_birth?: string;
   physical_disability_status?: string | number;
-  physical_disabilities: Array<any>;
+  physical_disabilities?: Array<any>;
+  user_name_type?: number;
+  freedom_fighter_status: FreedomFighterStatusType;
+  identity_number_type: IdentityNumberType;
+  marital_status: MaritalStatusType;
+  religion: Religion;
+  nationality?: string;
+  does_belong_to_ethnic_group: EthnicGroupStatusType;
   loc_division_id: string | number;
   loc_district_id: string | number;
   loc_upazila_id?: string | number;
