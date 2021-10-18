@@ -17,7 +17,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
       <Grid item xs={12} sm={6} md={6}>
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:{' '}
-          <Box className={classes.courseFeeStyle}>{course.fee} TK</Box>
+          <Box className={classes.courseFeeStyle}>{course?.course_fee} TK</Box>
         </Box>
         <Typography variant={'h4'} mb={8} fontWeight={'bold'}>
           {course.title}
@@ -26,7 +26,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
         {(course.tags || []).map((tag: any, index: any) => {
           return <TagChip label={tag} key={index} />;
         })}
-        {course.courseEnrolled && <TagChip label={course.courseEnrolled} />}
+        {course.total_enrolled && <TagChip label={course.total_enrolled} />}
         <Box mt={4}>
           <Button variant={'contained'} color={'primary'}>
             {messages['common.enroll_now']}

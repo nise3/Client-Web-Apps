@@ -1,54 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const SimilarCourseSection = () => {
   const {messages} = useIntl();
 
-  const courseList = [
-    {
-      id: 1,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-    {
-      id: 2,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-    {
-      id: 3,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-    {
-      id: 4,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-  ];
+  const [courseFilters] = useState({page_size: 8});
+
+  const pathVariable = '/simillar';
+  const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
 
   return (
     <Grid container spacing={5}>

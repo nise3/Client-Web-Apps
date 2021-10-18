@@ -2,6 +2,7 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
   API_BRANCHES,
+  API_COURSE_DETAILS,
   API_COURSES,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
@@ -76,6 +77,10 @@ export function useFetchCourseList(pathVariable: string, params: any) {
     pathVariable ? API_COURSES + pathVariable : API_COURSES,
     params,
   ]);
+}
+
+export function useFetchCourseDetails(courseId: number | null) {
+  return useAxiosSWR(API_COURSE_DETAILS);
 }
 
 export function useFetchBatch(batchId: number | null) {

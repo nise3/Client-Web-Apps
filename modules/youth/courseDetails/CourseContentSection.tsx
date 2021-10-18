@@ -163,21 +163,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           <Typography variant={'h6'} fontWeight={'bold'}>
             Explore how Physical Computing is Changing Tech
           </Typography>
-          <Typography sx={{paddingTop: 4}}>
-            Physical computing is the use of computers to respond to the
-            physical movement of the human body.
-            <br />
-            <br />
-            Whereas in the past computing was limited to immobile computers and
-            laptops, today microcontrollers and sensors are revolutionising the
-            tech industry and how we interact with household items.
-            <br />
-            <br />
-            On this course you'll learn what's inside the devices we all use
-            every day, like kettles, phones, and smartwatches. You'll come to
-            understand how they work, how they respond to our movements, and
-            ultimately learn to create your own physical computing prototype.
-          </Typography>
+          <Typography sx={{paddingTop: 4}}>{course?.objectives}</Typography>
         </Box>
 
         <Box ref={lessonRef} style={{marginTop: 20, marginBottom: 20}}>
@@ -276,23 +262,26 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           <Box className={classes.sectionTitleStyle}>
             {messages['course_details.trainer']}
           </Box>
-          <Box className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
-            <Avatar sx={{height: 60, width: 60}} src={course.trainer?.image} />
-            <Box className={classes.trainerNameAndAboutBox}>
-              <Box fontWeight={'bold'}>
-                {course.trainer?.firstName} {course.trainer?.lastName}
+          {course?.trainers.map((trainer: any) => (
+            <Box className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
+              <Avatar
+                sx={{height: 60, width: 60}}
+                src={course.trainer?.image}
+              />
+              <Box className={classes.trainerNameAndAboutBox}>
+                <Box fontWeight={'bold'}>
+                  {trainer?.first_name + ' ' + trainer?.last_name}
+                </Box>
+                <Typography variant={'caption'}>{trainer?.about}</Typography>
+                <Link href={'#more-courses'} style={{textDecoration: 'none'}}>
+                  <IntlMessages
+                    id='course_details.view_more_courses_by'
+                    values={{subject: trainer?.firstName}}
+                  />
+                </Link>
               </Box>
-              <Typography variant={'caption'}>
-                {course.trainer.about}
-              </Typography>
-              <Link href={'#more-courses'} style={{textDecoration: 'none'}}>
-                <IntlMessages
-                  id='course_details.view_more_courses_by'
-                  values={{subject: course.trainer?.firstName}}
-                />
-              </Link>
             </Box>
-          </Box>
+          ))}
         </Box>
       </Box>
     </TabContext>
