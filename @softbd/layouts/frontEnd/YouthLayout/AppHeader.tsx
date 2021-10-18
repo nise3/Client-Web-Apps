@@ -28,11 +28,12 @@ import {
   LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
+import {YouthAuthUser} from '../../../../types/models/CommonAuthUser';
 
 interface AppHeaderProps {}
 
 const AppHeader: React.FC<AppHeaderProps> = () => {
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<YouthAuthUser>();
   const isMDDown = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );
