@@ -1,9 +1,6 @@
-import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_INSTITUTE_REGISTRATION} from '../../@softbd/common/apiRoutes';
 import {apiPost} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-
-const API_INSTITUTE_REGISTRATION =
-  INSTITUTE_SERVICE_PATH + '/institute-registration';
 
 export const createRegistration = async (data: any) => {
   try {
