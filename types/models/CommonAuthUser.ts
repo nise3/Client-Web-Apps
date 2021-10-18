@@ -1,10 +1,9 @@
 import {AuthType} from '../../shared/constants/AppEnums';
 import {Gender} from '../../@softbd/utilities/Genders';
 
-interface AuthUser {
+export interface AuthUser {
   uid: string;
   userType: 'system' | 'institute' | 'organization' | 'youth';
-  isYouthUser: boolean;
   displayName?: string;
   email?: string;
   username: string;
@@ -25,6 +24,7 @@ export interface CommonAuthUser extends AuthUser {
 }
 
 export interface YouthAuthUser extends AuthUser {
+  isYouthUser: boolean;
   first_name: string;
   first_name_en?: string;
   last_name: string;
@@ -59,3 +59,5 @@ export interface YouthAuthUser extends AuthUser {
   certifications?: any[];
   portfolios?: any[];
 }
+
+export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {}

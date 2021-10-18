@@ -59,7 +59,7 @@ export const loadAuthUser = async (
       ssoTokenData.userType == UserTypes.YOUTH_USER
         ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile')
         : await apiGet(
-            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`,
+            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
           );
     console.log(coreResponse);
 
@@ -132,7 +132,6 @@ export const getCommonAuthUserObject = (
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
     isSystemUser: authUser?.isSystemUser,
-    isYouthUser: false,
     userType: authUser?.userType,
     institute_id: authUser?.institute_id,
     institute: authUser?.institute,
