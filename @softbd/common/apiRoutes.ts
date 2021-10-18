@@ -82,3 +82,9 @@ export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
 
 export const API_FRONT_END_GALLERY_LIST = INSTITUTE_SERVICE_PATH + '/galleries';
+export const API_FRONT_END_GALLERY_CATEGORY_LIST =
+  INSTITUTE_SERVICE_PATH + '/gallery-category';
+
+export const API_FRONT_END_VIDEOS_LIST = INSTITUTE_SERVICE_PATH + '/videos';
+export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
+  INSTITUTE_SERVICE_PATH + '/video-categories';

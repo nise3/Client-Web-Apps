@@ -22,99 +22,75 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
 import yup from '../../../@softbd/libs/yup';
 import {H2} from '../../../@softbd/elements/common';
-import {useFetchInstitutesGallery} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchInstitutesGallery,
+  useFetchInstitutesGalleryCategory,
+} from '../../../services/instituteManagement/hooks';
 
 const InstituteGallery = () => {
-  /*let cardData = [
-    {
-      id: 1,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি ১',
-      type: 'training',
-    },
-    {
-      id: 2,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি ২',
-      type: 'training',
-    },
-    {
-      id: 3,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি ৩',
-      type: 'training',
-    },
-    {
-      id: 4,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি ৪',
-      type: 'training',
-    },
-    {
-      id: 5,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি 5',
-      type: 'training non',
-    },
-    {
-      id: 6,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি 6',
-      type: 'training non',
-    },
-    {
-      id: 7,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি 7',
-      type: 'training non',
-    },
-    /!*{
-      id: 8,
-      content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি ৪',
-      type: 'training non',
-    },*!/
-  ];*/
-
-  const {data: galleryData, isLoading: isLoadingInstitutesGallery} =
-    useFetchInstitutesGallery();
-  console.log('gallery->', galleryData);
-  console.log('isLoading->', isLoadingInstitutesGallery);
-
-  const [cardsData, setCardData] = useState(galleryData);
-  console.log('cardsdata->', cardsData);
-
   const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>('');
+
+  const {data: galleryCategories, isLoading: isLoadingGalleryCategories} =
+    useFetchInstitutesGalleryCategory();
+
+  const {data: galleryItems, isLoading: isLoadingGalleryItems} =
+    useFetchInstitutesGallery();
+
+  const [filteredGalleryItems, setFilteredGalleryItems] = useState([]);
+
+  useEffect(() => {
+    setFilteredGalleryItems(galleryItems);
+  }, [galleryItems]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      video_category: yup
+      gallery_category_id: yup
         .string()
         .label(messages['recipient.institute'] as string),
-      select_video: yup.string().label(messages['common.name'] as string),
+      gallery_id: yup.string().label(messages['common.name'] as string),
     });
   }, [messages]);
 
-  const {reset, control} = useForm({
+  const {reset, control, getValues} = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    setItemData({
-      video_category: '',
-      select_video: '',
-    });
-  }, []);
+  const onResetClicked = () => {};
 
   useEffect(() => {
     reset({
-      video_category: itemData.video_category,
-      select_video: itemData.select_video,
+      gallery_category_id: '',
+      gallery_id: '',
     });
-  }, [itemData.select_video, itemData.video_category, reset]);
+  }, [reset]);
 
-  const onChangeValue = (value: number) => {
-    let filterData = cardsData?.filter((item: any) => item.id === value);
-    let newArr = [...filterData];
-    setCardData(newArr);
+  const onChangeCategory = () => {
+    reset({
+      gallery_id: '',
+    });
+
+    filterVidesByInput({
+      gallery_category_id: getValues('gallery_category_id'),
+      gallery_id: '',
+    });
   };
-  const onChangeCategory = (value: any) => {
-    let filterData = cardsData?.filter((item: any) => item.type === value);
-    let newArr = [...filterData];
-    setCardData(newArr);
+
+  const onChangeValue = () => {
+    filterVidesByInput(getValues());
+  };
+
+  const filterVidesByInput = ({gallery_category_id, gallery_id}: any) => {
+    if (gallery_category_id?.length == 0 && gallery_id?.length == 0) {
+      setFilteredGalleryItems(galleryItems);
+    } else {
+      setFilteredGalleryItems(
+        galleryItems.filter((item: any) =>
+          gallery_id
+            ? item.id == gallery_id
+            : item.gallery_category_id == gallery_category_id,
+        ),
+      );
+    }
   };
 
   return (
@@ -122,7 +98,7 @@ const InstituteGallery = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
-            <H2 py={5}>ভিডিও সমূহ</H2>
+            <H2 py={5}>গ্যালারি সমূহ</H2>
           </Paper>
         </Grid>
       </Grid>
@@ -142,30 +118,33 @@ const InstituteGallery = () => {
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
-                  id='id'
-                  label='ভিডি ক্যাটাগরি'
-                  isLoading={false}
+                  id='gallery_category_id'
+                  label='ভিডিও ক্যাটাগরি'
+                  isLoading={isLoadingGalleryCategories}
                   control={control}
                   optionValueProp={'id'}
-                  options={cardsData}
-                  optionTitleProp={['video_category']}
+                  options={galleryCategories}
+                  optionTitleProp={['gallery_category']}
                   onChange={onChangeCategory}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
-                  id='id'
+                  id='gallery_id'
                   label='ভিডিও সমূহ'
-                  isLoading={isLoadingInstitutesGallery}
+                  isLoading={isLoadingGalleryItems}
                   control={control}
                   optionValueProp={'id'}
-                  options={cardsData}
+                  options={galleryItems}
                   optionTitleProp={['content']}
                   onChange={onChangeValue}
                 />
               </Grid>
               <Grid item xs={12} md={1}>
-                <Button variant={'contained'} color={'primary'}>
+                <Button
+                  onClick={onResetClicked}
+                  variant={'contained'}
+                  color={'primary'}>
                   Reset
                 </Button>
               </Grid>
@@ -197,12 +176,16 @@ const InstituteGallery = () => {
             <Grid container>
               <Grid item xs={12}>
                 <Typography gutterBottom variant='h6'>
-                  মোট ফলাফল পাওয়া গেছে <Chip label={'15'} color={'primary'} />
+                  মোট ফলাফল পাওয়া গেছে{' '}
+                  <Chip
+                    label={filteredGalleryItems?.length}
+                    color={'primary'}
+                  />
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={5}>
-                  {cardsData?.map((data: any) => {
+                  {filteredGalleryItems?.map((data: any) => {
                     return (
                       <Grid
                         item
@@ -215,7 +198,7 @@ const InstituteGallery = () => {
                             <CardMedia
                               component='img'
                               height='140'
-                              image='https://images.unsplash.com/photo-1627625598560-1874d7f06a97?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80'
+                              image={data.image_url}
                               alt='random image'
                             />
                             <CardContent>
@@ -237,7 +220,7 @@ const InstituteGallery = () => {
           </Grid>
 
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
-            <Pagination count={4} variant='outlined' color='primary' />
+            <Pagination count={3} variant='outlined' color='primary' />
           </Grid>
         </Grid>
       </Container>
