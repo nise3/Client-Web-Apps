@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Button,
@@ -8,21 +8,70 @@ import {
   InputAdornment,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import useStyles from './index.style';
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
+import {
+  useFetchInstitutes,
+  useFetchProgrammes,
+} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+
+const SKILL_LEVELS = [
+  {id: 1, title: 'Low'},
+  {id: 2, title: 'Medium'},
+  {id: 3, title: 'High'},
+];
+
+const AVAILABILITIES = [
+  {id: 1, title: 'Running'},
+  {id: 2, title: 'Upcoming'},
+  {id: 3, title: 'Completed'},
+];
+
+const LANGUAGES = [
+  {id: 1, title: 'Bn'},
+  {id: 2, title: 'En'},
+];
 
 const CourseListHeaderSection = () => {
   const classes: any = useStyles();
   const {messages} = useIntl();
+  const [instituteFilters] = useState({});
+  const {data: institutes} = useFetchInstitutes(instituteFilters);
+  const [selectedInstituteId, setSelectedInstituteId] = useState<number | null>(
+    null,
+  );
+
+  const [selectedProgrammeId, setSelectedProgrammeId] = useState<number | null>(
+    null,
+  );
+
+  const [programmeFilters, setProgrammeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: programmes} = useFetchProgrammes(programmeFilters);
+
+  const handleInstituteFilterChange = (event: SelectChangeEvent<any>) => {
+    setSelectedInstituteId(event.target.value);
+    setProgrammeFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: selectedInstituteId,
+    });
+  };
+
+  const handleProgrammeFilterChange = (event: SelectChangeEvent<any>) => {
+    setSelectedProgrammeId(event.target.value);
+  };
 
   return (
     <Box className={classes.pageRootHeader}>
       <Container maxWidth={'xl'}>
         <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} md={7}>
+          <Grid item xs={12} md={7}>
             <Box fontSize={'16px'}>{messages['training.search_header']}</Box>
             <Card className={classes.searchBox}>
               <Grid container spacing={3}>
@@ -53,7 +102,7 @@ const CourseListHeaderSection = () => {
               </Grid>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={12} md={7}>
+          <Grid item xs={12} md={7}>
             <Grid container spacing={3}>
               <Grid item xs={6} sm={4} md={2}>
                 <Select
@@ -61,18 +110,18 @@ const CourseListHeaderSection = () => {
                   fullWidth
                   value={1}
                   variant='outlined'
-                  className={classes.selectStyle}>
-                  <MenuItem value={1}>Subject</MenuItem>
-                </Select>
-              </Grid>
-              <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='select1'
-                  fullWidth
-                  value={1}
-                  variant='outlined'
-                  className={classes.selectStyle}>
+                  className={classes.selectStyle}
+                  onChange={handleInstituteFilterChange}>
                   <MenuItem value={1}>Partner</MenuItem>
+                  <MenuItem value={2}>Partner1</MenuItem>
+                  {institutes &&
+                    institutes.map((institute: any) => {
+                      return (
+                        <MenuItem key={institute.id} value={institute.id}>
+                          {institute.title}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -81,8 +130,18 @@ const CourseListHeaderSection = () => {
                   fullWidth
                   value={1}
                   variant='outlined'
-                  className={classes.selectStyle}>
+                  className={classes.selectStyle}
+                  onChange={handleProgrammeFilterChange}>
                   <MenuItem value={1}>Program</MenuItem>
+                  {selectedInstituteId &&
+                    programmes &&
+                    programmes.map((programme: any) => {
+                      return (
+                        <MenuItem key={programme.id} value={programme.id}>
+                          {programme.title}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -92,7 +151,14 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Level</MenuItem>
+                  {SKILL_LEVELS &&
+                    SKILL_LEVELS.map((level: any) => {
+                      return (
+                        <MenuItem value={level.id} key={level.id}>
+                          {level.title}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -102,7 +168,14 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Availability</MenuItem>
+                  {AVAILABILITIES &&
+                    AVAILABILITIES.map((availability: any) => {
+                      return (
+                        <MenuItem value={availability.id}>
+                          {availability.title}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -112,7 +185,14 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Language</MenuItem>
+                  {LANGUAGES &&
+                    LANGUAGES.map((language: any) => {
+                      return (
+                        <MenuItem value={language.id}>
+                          {language.title}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </Grid>
             </Grid>

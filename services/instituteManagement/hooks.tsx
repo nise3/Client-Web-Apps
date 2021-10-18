@@ -67,8 +67,15 @@ export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
 }
 
-export function useFetchCourses(params: any) {
-  return useAxiosSWR([API_COURSES, params]);
+export function useFetchCourses(endPoint: string, params: any) {
+  return useAxiosSWR([endPoint, params]);
+}
+
+export function useFetchCourseList(pathVariable: string, params: any) {
+  return useAxiosSWR([
+    pathVariable ? API_COURSES + pathVariable : API_COURSES,
+    params,
+  ]);
 }
 
 export function useFetchBatch(batchId: number | null) {
