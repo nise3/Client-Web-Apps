@@ -77,3 +77,5 @@ export const API_YOUTH_LANGUAGE_PROFICIENCIES =
   YOUTH_SERVICE_PATH + '/youth-languages-proficiencies';
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
+
+export const API_FRONT_END_GALLERY_LIST = INSTITUTE_SERVICE_PATH + '/galleries';
