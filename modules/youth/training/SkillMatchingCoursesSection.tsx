@@ -1,56 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
+import {useFetchCourses} from '../../../services/instituteManagement/hooks';
 
 const SkillMatchingCoursesSection = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const [courseFilters] = useState(null);
 
-  const courseList = [
-    {
-      id: 1,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-    {
-      id: 2,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-    {
-      id: 3,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-    {
-      id: 4,
-      image: '/images/popular-course1.png',
-      title: 'Design a Beautiful Stationary Set in Adobe Photoshop',
-      fee: '5,000',
-      providerLogo: '/images/creative_it.jpeg',
-      providerName: 'Diane Croenwett',
-      createDate: 'Mar 19,2020',
-      tags: ['2hr, 47 min', '24 lessons'],
-    },
-  ];
+  const {data: courseList} = useFetchCourses(courseFilters);
 
   return (
     <Grid container spacing={5}>
@@ -71,13 +32,14 @@ const SkillMatchingCoursesSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={5}>
-          {courseList.map((course: any) => {
-            return (
-              <Grid item xs={12} sm={6} md={3} key={course.id}>
-                <CourseCardComponent course={course} />
-              </Grid>
-            );
-          })}
+          {courseList &&
+            courseList.map((course: any) => {
+              return (
+                <Grid item xs={12} sm={6} md={3} key={course.id}>
+                  <CourseCardComponent course={course} />
+                </Grid>
+              );
+            })}
         </Grid>
       </Grid>
     </Grid>

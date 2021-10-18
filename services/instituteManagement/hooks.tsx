@@ -52,8 +52,8 @@ export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
 }
 
-export function useFetchCourses(params: any) {
-  return useAxiosSWR([API_COURSES, params]);
+export function useFetchCourses(params: any, tag: string = '') {
+  return useAxiosSWR([tag ? API_COURSES + '?tag=' + tag : API_COURSES, params]);
 }
 
 export function useFetchBatch(batchId: number | null) {

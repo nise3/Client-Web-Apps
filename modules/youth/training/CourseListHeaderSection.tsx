@@ -62,16 +62,6 @@ const CourseListHeaderSection = () => {
                   value={1}
                   variant='outlined'
                   className={classes.selectStyle}>
-                  <MenuItem value={1}>Subject</MenuItem>
-                </Select>
-              </Grid>
-              <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='select1'
-                  fullWidth
-                  value={1}
-                  variant='outlined'
-                  className={classes.selectStyle}>
                   <MenuItem value={1}>Partner</MenuItem>
                 </Select>
               </Grid>
