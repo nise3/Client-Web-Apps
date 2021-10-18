@@ -4,7 +4,6 @@ import {
   Typography,
   Button,
   Paper,
-  IconButton,
   Card,
   CardContent,
   CardActionArea,
@@ -12,23 +11,34 @@ import {
   Pagination,
   Container,
   Chip,
-  TextField,
+  IconButton,
 } from '@mui/material';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import React, {useEffect, useMemo, useState} from 'react';
-import {useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
-import SearchIcon from '@mui/icons-material/Search';
 import yup from '../../../@softbd/libs/yup';
 import {H2} from '../../../@softbd/elements/common';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   useFetchInstitutesGallery,
   useFetchInstitutesGalleryCategory,
 } from '../../../services/instituteManagement/hooks';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import makeStyles from '@mui/styles/makeStyles';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
+
+const useStyles = makeStyles((theme: CremaTheme) => ({
+  searchIcon: {
+    position: 'absolute',
+    right: 20,
+  },
+}));
 
 const InstituteGallery = () => {
   const {messages} = useIntl();
+  const classes = useStyles();
 
   const {data: galleryCategories, isLoading: isLoadingGalleryCategories} =
     useFetchInstitutesGalleryCategory();
@@ -51,11 +61,20 @@ const InstituteGallery = () => {
     });
   }, [messages]);
 
-  const {reset, control, getValues} = useForm({
+  const {
+    reset,
+    control,
+    getValues,
+    register,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const onResetClicked = () => {};
+  const onResetClicked = () => {
+    setFilteredGalleryItems(galleryItems);
+  };
 
   useEffect(() => {
     reset({
@@ -65,10 +84,6 @@ const InstituteGallery = () => {
   }, [reset]);
 
   const onChangeCategory = () => {
-    reset({
-      gallery_id: '',
-    });
-
     filterVidesByInput({
       gallery_category_id: getValues('gallery_category_id'),
       gallery_id: '',
@@ -80,17 +95,30 @@ const InstituteGallery = () => {
   };
 
   const filterVidesByInput = ({gallery_category_id, gallery_id}: any) => {
+    console.log('gallerycatid->', gallery_category_id);
+    console.log('gall id->', gallery_id);
     if (gallery_category_id?.length == 0 && gallery_id?.length == 0) {
       setFilteredGalleryItems(galleryItems);
     } else {
       setFilteredGalleryItems(
-        galleryItems.filter((item: any) =>
+        galleryItems?.filter((item: any) =>
           gallery_id
             ? item.id == gallery_id
             : item.gallery_category_id == gallery_category_id,
         ),
       );
     }
+  };
+
+  const onSearch: SubmitHandler<any> = async (data: any) => {
+    console.log('event-->', data.title);
+    // let inputValue = event.target.value.toLowerCase();
+    let filter = filteredGalleryItems?.filter((item: any) =>
+      item.title.toLowerCase().includes(data.title),
+    );
+    console.log('filter->', filter);
+    let newArr = [...filter];
+    setFilteredGalleryItems(newArr);
   };
 
   return (
@@ -122,7 +150,7 @@ const InstituteGallery = () => {
                   label='ভিডিও ক্যাটাগরি'
                   isLoading={isLoadingGalleryCategories}
                   control={control}
-                  optionValueProp={'id'}
+                  optionValueProp={'gallery_category_id'}
                   options={galleryCategories}
                   optionTitleProp={['gallery_category']}
                   onChange={onChangeCategory}
@@ -135,7 +163,7 @@ const InstituteGallery = () => {
                   isLoading={isLoadingGalleryItems}
                   control={control}
                   optionValueProp={'id'}
-                  options={galleryItems}
+                  options={filteredGalleryItems}
                   optionTitleProp={['content']}
                   onChange={onChangeValue}
                 />
@@ -148,8 +176,27 @@ const InstituteGallery = () => {
                   Reset
                 </Button>
               </Grid>
+              {/*<form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>*/}
               <Grid item xs={12} md={4}>
-                <Paper
+                <form onSubmit={handleSubmit(onSearch)}>
+                  <CustomTextInput
+                    id='title'
+                    label='অনুসন্ধান করুন'
+                    register={register}
+                  />
+                  <IconButton
+                    className={classes.searchIcon}
+                    type={'submit'}
+                    disabled={isSubmitting}>
+                    <SearchIcon />
+                  </IconButton>
+                  {/*<Button
+                    type={'submit'}
+                    disabled={isSubmitting}
+                    variant='contained'>
+                    {messages['common.send']}
+                  </Button>*/}
+                  {/*<Paper
                   component='form'
                   sx={{
                     p: '2px 4px',
@@ -161,14 +208,17 @@ const InstituteGallery = () => {
                     id='name'
                     label='অনুসন্ধান করুন'
                     variant='outlined'
+                    // onChange={onSearch}
                   />
                   <IconButton
-                    type='submit'
+                    onClick={onSearch}
+                    // type='submit'
                     sx={{p: '10px'}}
                     aria-label='search'>
                     <SearchIcon />
                   </IconButton>
-                </Paper>
+                </Paper>*/}
+                </form>
               </Grid>
             </Grid>
           </Grid>
