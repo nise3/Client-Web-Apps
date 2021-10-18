@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Grid} from '@mui/material';
 import FeatureJobComponent from './components/FeatureJobComponent';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {useIntl} from 'react-intl';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({

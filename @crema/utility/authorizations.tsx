@@ -1,4 +1,4 @@
-import {CommonAuthUser} from '../../types/models/CommonAuthUser';
+import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
 
 export const checkPermission = (
   authUser: CommonAuthUser | null,

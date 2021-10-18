@@ -8,7 +8,7 @@ import {
   Divider,
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {BusinessCenter, Room} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';

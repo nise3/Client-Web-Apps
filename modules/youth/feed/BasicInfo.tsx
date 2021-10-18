@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Box, Button, Card, LinearProgress} from '@mui/material';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import BasicInfoItemBox from './components/BasicInfoItemBox';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';

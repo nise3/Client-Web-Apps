@@ -4,7 +4,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import thunkMiddleware, {ThunkMiddleware} from 'redux-thunk';
 import reducers from '../reducers';
 import rootReducer from '../reducers';
-import {AppActions} from '../../types';
+import {AppActions} from '../types';
 import {setAuthToken} from '../../@crema/services/auth/jwt-auth/jwt-api';
 
 let store: any;

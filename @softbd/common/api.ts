@@ -4,6 +4,7 @@ import {isDefined} from '../utilities/helpers';
 
 /** Axios catch block handler */
 const errorHandler = (error: {response: any; request?: any; message?: any}) => {
+  console.log('errorHandler', error);
   if (error.response) {
     const {response} = error;
     if (isDefined(response, 'data')) {
@@ -31,9 +32,9 @@ function apiGet(apiPath: string, config: AxiosRequestConfig = {}) {
     .catch(errorHandler);
 }
 
-function apiPost(apiPath: string, data = {}) {
+function apiPost(apiPath: string, data?: any, config: AxiosRequestConfig = {}) {
   return axiosInstance
-    .post(apiPath, data)
+    .post(apiPath, data, config)
     .then((response: AxiosResponse<any>) => response)
     .catch(errorHandler);
 }

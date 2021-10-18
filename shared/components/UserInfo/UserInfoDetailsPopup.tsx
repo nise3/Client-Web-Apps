@@ -4,7 +4,7 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import Grid from '@mui/material/Grid';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../types/models/CommonAuthUser';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useIntl} from 'react-intl';
 import Avatar from '@mui/material/Avatar';
 import makeStyles from '@mui/styles/makeStyles';

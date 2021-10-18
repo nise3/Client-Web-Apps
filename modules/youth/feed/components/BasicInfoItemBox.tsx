@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Divider} from '@mui/material';
 import {AddCircle, CheckCircle} from '@mui/icons-material';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';

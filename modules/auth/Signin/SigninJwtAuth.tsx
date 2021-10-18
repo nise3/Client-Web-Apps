@@ -10,7 +10,7 @@ import {useIntl} from 'react-intl';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {useRouter} from 'next/router';
 

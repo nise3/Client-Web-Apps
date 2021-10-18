@@ -2,7 +2,7 @@ import React, {ReactNode, useContext, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import AppContext from './AppContext';
 import {useAuthToken} from './AppHooks';
-import AppContextPropsType from '../../types/AppContextPropsType';
+import AppContextPropsType from '../../redux/types/AppContextPropsType';
 import {NavStyle, ThemeMode, ThemeStyle} from '../../shared/constants/AppEnums';
 
 interface AuthRoutesProps {

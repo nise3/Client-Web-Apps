@@ -8,8 +8,8 @@ import {
 } from '../../redux/actions';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {AppState} from '../../redux/store';
-import {USER_LOADED} from '../../types/actions/Auth.actions';
-import {AuthUser} from '../../types/models/CommonAuthUser';
+import {USER_LOADED} from '../../redux/types/actions/Auth.actions';
+import {AuthUser} from '../../redux/types/models/CommonAuthUser';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 
 export const useAuthToken = () => {

@@ -3,7 +3,7 @@ import {Avatar, Box, Button, Card, CardContent} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 interface FreelancerCardComponentProps {
   freelancer: {

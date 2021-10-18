@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import JobPostBlock from './components/JobPostBlock';
 import {useIntl} from 'react-intl';
 

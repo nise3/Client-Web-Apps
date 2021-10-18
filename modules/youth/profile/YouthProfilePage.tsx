@@ -1,5 +1,5 @@
 import React from 'react';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Container, Grid} from '@mui/material';
 import PersonalInfoSection from './personalInfo/PersonalInfoSection';

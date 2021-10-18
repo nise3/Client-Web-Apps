@@ -8,7 +8,7 @@ import AppContext from '../../utility/AppContext';
 import Box from '@mui/material/Box';
 import {RouteTransition} from '../../../shared/constants/AppEnums';
 import AppErrorBoundary from '../AppErrorBoundary';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 interface TransitionWrapperProps {
   children: any;

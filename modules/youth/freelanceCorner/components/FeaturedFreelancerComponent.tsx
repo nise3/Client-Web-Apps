@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {useIntl} from 'react-intl';
 import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({

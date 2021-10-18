@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import clsx from 'clsx';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {MessageData} from '../../services/db/messages/messages';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

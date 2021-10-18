@@ -19,7 +19,7 @@ import {
   ThemeMode,
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 interface ThemeSettingProps {
   props?: any;

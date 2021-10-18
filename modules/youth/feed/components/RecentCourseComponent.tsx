@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {Avatar, Box, Button} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 

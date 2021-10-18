@@ -1,4 +1,4 @@
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

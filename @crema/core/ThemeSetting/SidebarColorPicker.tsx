@@ -3,7 +3,7 @@ import {SketchPicker} from 'react-color';
 import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
 import AppContext from '../../utility/AppContext';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {grey} from '@mui/material/colors';
 
 interface SidebarColorPickerProps {

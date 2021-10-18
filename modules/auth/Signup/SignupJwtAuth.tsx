@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Grid from '@mui/material/Grid';
 import {GridContainer} from '../../../@crema';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

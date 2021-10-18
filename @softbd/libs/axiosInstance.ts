@@ -1,17 +1,27 @@
-import axios from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-import apiAccessToken from '../common/appToken';
+import {
+  COOKIE_KEY_APP_ACCESS_TOKEN,
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+} from '../../shared/constants/AppConst';
 import cookieInstance from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
+import {apiPost} from '../common/api';
+import {Base64} from 'js-base64';
+import SSOConfig from '../common/SSOConfig';
 
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 300000,
 });
 
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  async (config: AxiosRequestConfig) => {
     const authAccessTokenData = cookieInstance.get(
       COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
@@ -20,9 +30,9 @@ axiosInstance.interceptors.request.use(
 
     config.headers['Accept'] = 'application/json';
     config.headers['Content-Type'] = 'application/json';
-    config.headers['Authorization'] = `Bearer ${
-      userAccessToken || apiAccessToken
-    }`;
+    if (userAccessToken) {
+      config.headers['Authorization'] = `Bearer ${userAccessToken}`;
+    }
     return config;
   },
   (error) => {
@@ -30,7 +40,39 @@ axiosInstance.interceptors.request.use(
   },
 );
 
+export function loadAppAccessToken() {
+  const accessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
+  if (accessToken) {
+    axiosInstance.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${accessToken}`;
+  } else {
+    apiPost(
+      '/oauth2/token',
+      {
+        grant_type: 'client_credentials',
+      },
+      {
+        baseURL: 'https://bus-staging.softbdltd.com/',
+        headers: {
+          Authorization: `Basic ${Base64.encode(
+            SSOConfig.clientKey + ':' + SSOConfig.clientSecret,
+          )}`,
+        },
+      },
+    )
+      .then((response: AxiosResponse<any>) => {
+        console.log('/oauth2/token', response);
+        axiosInstance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${accessToken}`;
+      })
+      .catch((error: AxiosError) => {
+        console.log(error);
+      });
+  }
+}
+
 registerAxiosMockAdapter(axiosInstance);
 
 export default axiosInstance;
-// https://bus-staging.softbdltd.com/oauth2/token

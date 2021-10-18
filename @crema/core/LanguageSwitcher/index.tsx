@@ -10,7 +10,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import AppContextPropsType, {
   CremaTheme,
-} from '../../../types/AppContextPropsType';
+} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   langBtn: {

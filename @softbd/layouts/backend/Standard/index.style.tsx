@@ -4,7 +4,7 @@ import AppContext from '../../../../@crema/utility/AppContext';
 import {ThemeStyle} from '../../../../shared/constants/AppEnums';
 import AppContextPropsType, {
   CremaTheme,
-} from '../../../../types/AppContextPropsType';
+} from '../../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => {
   const {themeStyle, footer} = useContext<AppContextPropsType>(AppContext);

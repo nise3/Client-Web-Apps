@@ -18,7 +18,7 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import {green} from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   root: {},

@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import clsx from 'clsx';
 import {Chip} from '@mui/material';
 

@@ -6,7 +6,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import AppContextPropsType, {
   CremaTheme,
-} from '../../../../types/AppContextPropsType';
+} from '../../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   footer: {

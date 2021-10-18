@@ -28,7 +28,7 @@ import {
   LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
-import {YouthAuthUser} from '../../../../types/models/CommonAuthUser';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 
 interface AppHeaderProps {}
 

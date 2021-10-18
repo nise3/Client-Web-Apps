@@ -1,5 +1,5 @@
-import {AuthType} from '../../shared/constants/AppEnums';
-import {Gender} from '../../@softbd/utilities/Genders';
+import {AuthType} from '../../../shared/constants/AppEnums';
+import {Gender} from '../../../@softbd/utilities/Genders';
 
 export interface AuthUser {
   uid: string;

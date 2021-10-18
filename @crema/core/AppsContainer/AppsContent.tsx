@@ -2,7 +2,7 @@ import React, {ReactNode} from 'react';
 import Scrollbar from '../Scrollbar';
 import makeStyles from '@mui/styles/makeStyles';
 import {alpha} from '@mui/material';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 export const useAppsContentStyles = makeStyles((theme: CremaTheme) => ({
   appsContentContainer: (props: {

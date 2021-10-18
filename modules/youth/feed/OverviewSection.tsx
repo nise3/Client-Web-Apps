@@ -8,7 +8,7 @@ import {
   TextField,
 } from '@mui/material';
 import Tile from './components/Tile';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';

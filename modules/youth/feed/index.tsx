@@ -6,7 +6,7 @@ import PostSection from './PostSection';
 import RecentJobSection from './RecentJobSection';
 import RecentCourseSection from './RecentCourseSection';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Container, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 

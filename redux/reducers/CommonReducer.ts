@@ -1,4 +1,4 @@
-import {Common} from '../../types/models/Common';
+import {Common} from '../types/models/Common';
 import {
   CommonActionTypes,
   FETCH_ERROR,
@@ -7,7 +7,7 @@ import {
   HIDE_MESSAGE,
   SHOW_MESSAGE,
   TOGGLE_APP_DRAWER,
-} from '../../types/actions/Common.action';
+} from '../types/actions/Common.action';
 
 const INIT_STATE: Common = {
   error: '',

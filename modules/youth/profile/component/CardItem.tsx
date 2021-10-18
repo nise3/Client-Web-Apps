@@ -1,7 +1,7 @@
 import {Box, Card} from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {createStyles, makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme: CremaTheme) =>

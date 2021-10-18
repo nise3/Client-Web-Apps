@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Box, Button, Card, CardMedia, Grid} from '@mui/material';
 import {BusinessCenter, LocationOn, School} from '@mui/icons-material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import clsx from 'clsx';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 

@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Box from '@mui/material/Box';
 import useStyles from './AppSidebar.style';
 import {AppState} from '../../../../redux/store';
-import AppContextPropsType from '../../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {AppContext, Scrollbar} from '../../../../@crema';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import UserInfo from '../../../../shared/components/UserInfo';

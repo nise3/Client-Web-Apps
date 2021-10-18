@@ -1,14 +1,14 @@
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-import {CommonAuthUser, YouthAuthUser} from '../../types/models/CommonAuthUser';
-import {AppActions} from '../../types';
+import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
+import {AppActions} from '../types';
 import {Dispatch} from 'redux';
 import {
   SET_AUTH_ACCESS_TOKEN_DATA,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
-} from '../../types/actions/Auth.actions';
+} from '../types/actions/Auth.actions';
 import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
 import {

@@ -14,8 +14,8 @@ import Hidden from '@mui/material/Hidden';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AppContextPropsType, {
   CremaTheme,
-} from '../../../types/AppContextPropsType';
-import {CommonAuthUser} from '../../../types/models/CommonAuthUser';
+} from '../../../redux/types/AppContextPropsType';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {orange} from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: CremaTheme) => {

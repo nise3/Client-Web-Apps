@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({

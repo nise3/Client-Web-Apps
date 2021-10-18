@@ -18,7 +18,7 @@ import IntlMessages from '../../../utility/IntlMessages';
 import AppContext from '../../../utility/AppContext';
 import AppContextPropsType, {
   CremaTheme,
-} from '../../../../types/AppContextPropsType';
+} from '../../../../redux/types/AppContextPropsType';
 import ClientOnlyPortal from './ClientPortal';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {useRouter} from 'next/router';

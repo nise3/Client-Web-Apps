@@ -1,4 +1,4 @@
-import {CommonAuthUser} from '../../types/models/CommonAuthUser';
+import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
 import {AuthType} from './AppEnums';
 
 /**
@@ -13,7 +13,6 @@ export const authRole = {
  * @deprecated
  */
 export const defaultUser: CommonAuthUser = {
-  isYouthUser: false,
   isInstituteUser: true,
   isOrganizationUser: false,
   isSystemUser: false,
@@ -36,3 +35,5 @@ export const defaultUser: CommonAuthUser = {
 };
 export const initialUrl = '/'; // this url will open after login.
 export const COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA = 'auth_access_token_data';
+export const COOKIE_KEY_APP_ACCESS_TOKEN = 'app_access_token';
+export const COOKIE_KEY_APP_REFRESH_TOKEN = 'app_access_token';

@@ -1,6 +1,6 @@
 import {createStyles, makeStyles} from '@mui/styles';
 import React from 'react';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Box, Typography} from '@mui/material';
 
 const useStyles = makeStyles((theme: CremaTheme) =>

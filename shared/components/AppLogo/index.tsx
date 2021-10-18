@@ -3,7 +3,7 @@ import {Box} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import AppContext from '../../../@crema/utility/AppContext';
 import {ThemeMode} from '../../constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles(() => ({
   logoRoot: {

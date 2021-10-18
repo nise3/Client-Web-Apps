@@ -1,6 +1,6 @@
 import makeStyles from '@mui/styles/makeStyles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => {
   return {

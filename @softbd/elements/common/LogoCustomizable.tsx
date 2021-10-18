@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Box} from '@mui/material';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import AppContext from '../../../@crema/utility/AppContext';
 import makeStyles from '@mui/styles/makeStyles';
 

@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 // import AppLogo from '../../shared/components/AppLogo';
 import {Person, Login, LocalPhone, Send} from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 import {H6, Link} from '../../../elements/common';
 import {

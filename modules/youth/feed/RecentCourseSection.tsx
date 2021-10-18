@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {ChevronRight} from '@mui/icons-material';
 import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';

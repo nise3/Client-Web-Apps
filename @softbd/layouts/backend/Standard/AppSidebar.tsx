@@ -10,7 +10,7 @@ import useStyles from './AppSidebar.style';
 import Scrollbar from '../../../../@crema/core/Scrollbar';
 import AppContext from '../../../../@crema/utility/AppContext';
 import {AppState} from '../../../../redux/store';
-import AppContextPropsType from '../../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
 

@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {useIntl} from 'react-intl';
 import {Avatar, Box, Button} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   userImage: {

@@ -5,8 +5,8 @@ import {
   RouteTransition,
   ThemeMode,
   ThemeStyle,
-} from '../shared/constants/AppEnums';
-import {LanguageProps} from '../@crema/core/LanguageSwitcher/data';
+} from '../../shared/constants/AppEnums';
+import {LanguageProps} from '../../@crema/core/LanguageSwitcher/data';
 import {
   Breakpoints,
   ComponentsProps,

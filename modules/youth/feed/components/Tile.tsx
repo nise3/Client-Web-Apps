@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {Box, Typography} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 interface TileProps {
   amount: number | string;

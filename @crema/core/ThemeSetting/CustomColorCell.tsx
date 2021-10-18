@@ -5,7 +5,7 @@ import {AppContext} from '../../index';
 import CheckIcon from '@mui/icons-material/Check';
 import IntlMessages from '../../utility/IntlMessages';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 interface CustomColorCellProps {
   themeColorSet: any;

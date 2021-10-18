@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import FeaturedFreelanceSection from './FeaturedFreelanceSection';

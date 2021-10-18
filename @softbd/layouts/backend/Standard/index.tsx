@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import AppContext from '../../../../@crema/utility/AppContext';
 import AppFixedFooter from './AppFixedFooter';
 import {LayoutType} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
 

@@ -5,7 +5,7 @@ import {Box, alpha} from '@mui/material';
 import clsx from 'clsx';
 import SearchIcon from '@mui/icons-material/Search';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   root: {

@@ -1,6 +1,6 @@
 import makeStyles from '@mui/styles/makeStyles';
 import {orange} from '@mui/material/colors';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   customizerOption: {

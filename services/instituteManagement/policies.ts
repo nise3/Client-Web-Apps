@@ -1,4 +1,4 @@
-import {CommonAuthUser} from '../../types/models/CommonAuthUser';
+import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
 import {checkPermission} from '../../@crema/utility/authorizations';
 
 export const readInstitute = function (authUser: CommonAuthUser | null) {
