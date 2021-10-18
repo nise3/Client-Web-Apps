@@ -3,6 +3,7 @@ import {
   API_BATCHES,
   API_BRANCHES,
   API_COURSES,
+  API_FRONT_END_GALLERY_LIST,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_TRAINERS,
@@ -15,6 +16,10 @@ export function useFetchInstitute(instituteId: number | null) {
 
 export function useFetchInstitutes(params: any) {
   return useAxiosSWR([API_INSTITUTES, params]);
+}
+
+export function useFetchInstitutesGallery() {
+  return useAxiosSWR(API_FRONT_END_GALLERY_LIST);
 }
 
 export function useFetchBranch(branchId: number | null) {

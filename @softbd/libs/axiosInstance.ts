@@ -3,6 +3,7 @@ import {API_BASE_URL} from '../common/apiRoutes';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import apiAccessToken from '../common/appToken';
 import cookieInstance from './cookieInstance';
+import runAxiosMockAdapter from './runAxiosMockAdapter';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -33,6 +34,8 @@ axiosInstance.interceptors.request.use(
     Promise.reject(error);
   },
 );
+
+runAxiosMockAdapter(axiosInstance);
 
 export default axiosInstance;
 // https://bus-staging.softbdltd.com/oauth2/token
