@@ -62,20 +62,20 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
     <Card className={classes.trainingCardRoot}>
       <CardMedia
         className={classes.trainingCardImage}
-        image={course.image}
-        title={course.title}
+        image={course?.image}
+        title={course?.title}
       />
       <CardContent>
         <Avatar
           className={classes.providerLogo}
-          alt={course.providerName}
-          src={course.providerLogo}
+          alt={course?.providerName}
+          src={course?.providerLogo}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
-          <Box className={classes.courseFeeStyle}>{course.fee} TK</Box>
+          <Box className={classes.courseFeeStyle}>{course?.fee} TK</Box>
         </Box>
-        <Box fontWeight={'bold'}>{course.title}</Box>
+        <Box fontWeight={'bold'}>{course?.title}</Box>
         {/*<Link
           className={classes.courseTitle}
           href={'./course-details/' + course.id}
@@ -83,22 +83,22 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           {course.title}
         </Link>*/}
         <Box marginTop={'5px'}>
-          By: {course.providerName} &#8226; {course.createDate}
+          By: {course?.providerName} &#8226; {course?.createDate}
         </Box>
 
         <Box className={classes.tagBox}>
-          {(course.tags || []).map((tag: any, index: any) => {
+          {(course?.tags || []).map((tag: any, index: any) => {
             return <TagChip label={tag} key={index} />;
           })}
         </Box>
 
-        {course.progress && (
+        {course?.progress && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
-            <LinearProgress variant='determinate' value={course.progress} />
+            <LinearProgress variant='determinate' value={course?.progress} />
             <Box>
               <IntlMessages
                 id='course_card.complete'
-                values={{subject: course.progress + '%'}}
+                values={{subject: course?.progress + '%'}}
               />
             </Box>
           </Box>

@@ -1,5 +1,9 @@
 import {addDecorator} from '@storybook/react';
-import {LocaleProvider} from '../@crema';
+import {
+  CremaStyleProvider,
+  CremaThemeProvider,
+  LocaleProvider,
+} from '../@crema';
 
 export const parameters = {
   actions: {argTypesRegex: '^on[A-Z].*'},
@@ -11,5 +15,12 @@ export const parameters = {
   },
 };
 
-export const Decorator = (story) => <LocaleProvider>{story()}</LocaleProvider>;
+export const Decorator = (story) => (
+  <CremaThemeProvider>
+    <CremaStyleProvider>
+      <LocaleProvider>{story()}</LocaleProvider>
+    </CremaStyleProvider>
+  </CremaThemeProvider>
+);
+
 addDecorator((story) => Decorator(story));

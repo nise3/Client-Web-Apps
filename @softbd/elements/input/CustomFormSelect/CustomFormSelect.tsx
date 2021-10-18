@@ -111,14 +111,14 @@ const CustomFormSelect = ({
             </Select>
             {errorInstance?.[id] && (
               <FormHelperText>
-                {errorInstance[id].message ? (
-                  errorInstance[id].message.hasOwnProperty('key') ? (
+                {errorInstance?.[id].message ? (
+                  errorInstance?.[id].message.hasOwnProperty('key') ? (
                     <IntlMessages
-                      id={errorInstance[id].message.key}
-                      values={errorInstance[id].message?.values || {}}
+                      id={errorInstance?.[id].message.key}
+                      values={errorInstance?.[id].message?.values || {}}
                     />
                   ) : (
-                    errorInstance[id].message
+                    errorInstance?.[id].message
                   )
                 ) : (
                   ''

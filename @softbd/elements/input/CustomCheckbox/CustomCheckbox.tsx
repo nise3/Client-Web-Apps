@@ -26,7 +26,7 @@ const CustomCheckbox = ({
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <Typography color={errorInstance[id] ? 'error' : 'inherit'}>
+    <Typography color={errorInstance?.[id] ? 'error' : 'inherit'}>
       <Checkbox
         color='primary'
         {...register(id)}
