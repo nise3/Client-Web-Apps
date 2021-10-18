@@ -7,7 +7,6 @@ import runAxiosMockAdapter from './runAxiosMockAdapter';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  //withCredentials: true,
   timeout: 300000,
 });
 
@@ -19,12 +18,8 @@ axiosInstance.interceptors.request.use(
     const userAccessToken = authAccessTokenData?.access_token;
     console.log('userAccessToken', userAccessToken);
 
-    config.headers = {
-      /*Token: `Bearer ${apiAccessToken}`,*/
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-
+    config.headers['Accept'] = 'application/json';
+    config.headers['Content-Type'] = 'application/json';
     config.headers['Authorization'] = `Bearer ${
       userAccessToken || apiAccessToken
     }`;
