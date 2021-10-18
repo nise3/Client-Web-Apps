@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -17,34 +17,23 @@ import IntlMessages from '../../@crema/utility/IntlMessages';
 import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
+import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
 const OrganizationRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isLoading = false;
-  const organizationTypes = useMemo(
-    () => [
-      {
-        id: 1,
-        label: 'private',
-      },
-      {
-        id: 2,
-        label: 'Govt',
-      },
-    ],
-    [],
+  const [organizationTypesFilter] = useState({});
+  const {data: organizationTypes} = useFetchOrganizationTypes(
+    organizationTypesFilter,
   );
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       organization_type_id: yup
         .string()
         .trim()
@@ -77,11 +66,6 @@ const OrganizationRegistration = () => {
         .trim()
         .required()
         .label(messages['common.address_bn'] as string),
-      address_en: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.address_en'] as string),
       contact_person_designation: yup
         .string()
         .trim()
@@ -109,7 +93,7 @@ const OrganizationRegistration = () => {
         .required()
         .label(messages['common.retype_password'] as string),
     });
-  }, [messages]);
+  }, []);
   const {
     control,
     register,
@@ -153,7 +137,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='title'
-                label={messages['common.title_bn']}
+                label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
               />
@@ -167,7 +151,7 @@ const OrganizationRegistration = () => {
                 control={control}
                 options={organizationTypes}
                 optionValueProp={'id'}
-                optionTitleProp={['label']}
+                optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
               />
             </Grid>
