@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-interface DeleteButtonProps extends ButtonProps {
+interface RejectButtonProps extends ButtonProps {
   rejectAction: () => void;
   rejectTitle: string;
   className?: string;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({
+const RejectButton: React.FC<RejectButtonProps> = ({
                                                      rejectAction,
                                                      rejectTitle,
                                                      className,
@@ -65,4 +65,4 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   );
 };
 
-export default React.memo(DeleteButton);
+export default React.memo(RejectButton);

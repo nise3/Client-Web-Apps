@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-interface DeleteButtonProps extends ButtonProps {
+interface ApproveButtonProps extends ButtonProps {
   acceptAction: () => void;
   acceptTitle: string;
   className?: string;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({
+const ApproveButton: React.FC<ApproveButtonProps> = ({
                                                      acceptAction,
                                                      acceptTitle,
                                                      className,
@@ -65,4 +65,4 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   );
 };
 
-export default React.memo(DeleteButton);
+export default React.memo(ApproveButton);

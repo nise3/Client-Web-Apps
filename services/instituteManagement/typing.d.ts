@@ -146,7 +146,7 @@ type Batch = {
 type Application = {
   id: number;
   Gender: string;
-  fullName: string;
+  full_name: string;
   course_name: string;
   username: string;
   user_name_type: number;

@@ -16,6 +16,56 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import ApproveButton from './ApproveButton';
 import {applicationProcess} from '../../../services/instituteManagement/RegistrationService';
 
+
+/** dummy data for course application */
+const data = [
+  {
+    'id': 1,
+    'course_name': 'Computer Programming',
+    'username': 'enola.skiles@example.net',
+    'user_name_type': 1,
+    'first_name': 'shohanur',
+    'last_name': 'Rahman',
+    'gender': 2,
+    'email': 'enola.skiles@example.net',
+    'mobile': '01754994292',
+    'date_of_birth': '0000-00-00',
+    'physical_disability_status': 0,
+    'loc_division_id': 1,
+    'loc_district_id': 1,
+    'row_status': 1,
+    'approval_status': 'pending',
+    'accepted': 0,
+    'rejected': 0,
+    'created_at': '2021-10-10T07:23:58.000000Z',
+    'updated_at': '2021-10-10T07:23:58.000000Z',
+  },
+  {
+    'id': 2,
+    'course_name': 'Computer learning',
+    'username': 'enola.skiles@example.net',
+    'user_name_type': 1,
+    'first_name': 'Abdur',
+    'last_name': 'Razzak',
+    'gender': 2,
+    'email': 'enola.skiles@example.net',
+    'mobile': '01754994292',
+    'date_of_birth': '0000-00-00',
+    'physical_disability_status': 0,
+    'loc_division_id': 1,
+    'loc_district_id': 1,
+    'row_status': 1,
+    'approval_status': 'pending',
+    'accepted': 0,
+    'rejected': 0,
+    'created_at': '2021-10-10T07:23:58.000000Z',
+    'updated_at': '2021-10-10T07:23:58.000000Z',
+  },
+];
+const loading = false;
+const pageCount = 1;
+const totalCount = 1;
+
 const ApplicationManagementPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -28,7 +78,7 @@ const ApplicationManagementPage = () => {
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
     },
-    [selectedItemId],
+    [],
   );
 
   const closeDetailsModal = useCallback(() => {
@@ -47,7 +97,7 @@ const ApplicationManagementPage = () => {
       successStack(
         <IntlMessages
           id='applicationManagement.accepted'
-          values={{applicant: <IntlMessages values={filteredData.fullName} />, course: <IntlMessages values={filteredData.course_name} />}}
+          values={{applicant: <IntlMessages values={filteredData.full_name} />, course: <IntlMessages values={filteredData.course_name} />}}
         />,
       );
     }
@@ -73,7 +123,7 @@ const ApplicationManagementPage = () => {
       },
       {
         Header: messages['youth.fullName'],
-        accessor: 'fullName',
+        accessor: 'full_name',
       },
       {
         Header: messages['youth.mobile'],
@@ -118,51 +168,6 @@ const ApplicationManagementPage = () => {
       urlPath: API_YOUTH_LIST,
     });*/
 
-  /** dummy data for course application */
-  let data = [
-    {
-      'id': 1,
-      'course_name': 'Computer Programming',
-      'username': 'enola.skiles@example.net',
-      'user_name_type': 1,
-      'first_name': 'shohanur',
-      'last_name': 'Rahman',
-      'gender': 2,
-      'email': 'enola.skiles@example.net',
-      'mobile': '01754994292',
-      'date_of_birth': '0000-00-00',
-      'physical_disability_status': 0,
-      'loc_division_id': 1,
-      'loc_district_id': 1,
-      'row_status': 1,
-      'approval_status': 'pending',
-      'accepted': 0,
-      'rejected': 0,
-      'created_at': '2021-10-10T07:23:58.000000Z',
-      'updated_at': '2021-10-10T07:23:58.000000Z',
-    },
-    {
-      'id': 2,
-      'course_name': 'Computer learning',
-      'username': 'enola.skiles@example.net',
-      'user_name_type': 1,
-      'first_name': 'Abdur',
-      'last_name': 'Razzak',
-      'gender': 2,
-      'email': 'enola.skiles@example.net',
-      'mobile': '01754994292',
-      'date_of_birth': '0000-00-00',
-      'physical_disability_status': 0,
-      'loc_division_id': 1,
-      'loc_district_id': 1,
-      'row_status': 1,
-      'approval_status': 'pending',
-      'accepted': 0,
-      'rejected': 0,
-      'created_at': '2021-10-10T07:23:58.000000Z',
-      'updated_at': '2021-10-10T07:23:58.000000Z',
-    },
-  ];
 
   let filteredData = data.map(youth => {
     let Gender: string = '';
@@ -173,12 +178,8 @@ const ApplicationManagementPage = () => {
     } else {
       Gender = 'Others';
     }
-    return {...youth, Gender, fullName: youth.first_name + ' ' + youth.last_name};
+    return {...youth, Gender, full_name: youth.first_name + ' ' + youth.last_name};
   });
-
-  const loading = false;
-  const pageCount = 1;
-  const totalCount = 1;
 
   return (
     <>
