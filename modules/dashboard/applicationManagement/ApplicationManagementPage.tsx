@@ -62,6 +62,7 @@ const data = [
     'updated_at': '2021-10-10T07:23:58.000000Z',
   },
 ];
+
 const loading = false;
 const pageCount = 1;
 const totalCount = 1;
