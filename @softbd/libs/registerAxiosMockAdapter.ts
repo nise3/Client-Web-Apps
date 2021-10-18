@@ -1,6 +1,10 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
-import {API_COURSES, API_FRONT_END_GALLERY_LIST} from '../common/apiRoutes';
+import {
+  API_COURSE_DETAILS,
+  API_COURSES,
+  API_FRONT_END_GALLERY_LIST,
+} from '../common/apiRoutes';
 import videos from '../mock-db/videos';
 import courses from '../mock-db/courses';
 import myCourses from '../mock-db/myCourses';
@@ -15,5 +19,6 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(API_COURSES + '/trending').reply(200, {data: courses});
   mock.onGet(API_COURSES + '/nearby').reply(200, {data: courses});
   mock.onGet(API_COURSES + '/my-courses').reply(200, {data: myCourses});
+  mock.onGet(API_COURSE_DETAILS + '/1').reply(200, {data: myCourses});
   mock.onAny().passThrough();
 }
