@@ -1,3 +1,5 @@
+export type MaritalStatusType = '1' | '2' | '3' | '4';
+
 enum MaritalStatus {
   SINGLE = '1',
   MARRIED = '2',

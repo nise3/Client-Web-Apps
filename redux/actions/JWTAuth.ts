@@ -18,6 +18,11 @@ import {
 import UserTypes from '../../@softbd/utilities/UserTypes';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 import {Gender} from '../../@softbd/utilities/Genders';
+import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
+import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
+import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
+import {Religion} from '../../@softbd/utilities/Religions';
+import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -69,8 +74,8 @@ export const loadAuthUser = async (
       type: UPDATE_AUTH_USER,
       payload:
         ssoTokenData.userType == UserTypes.YOUTH_USER
-          ? getYouthAuthUserObject({...data, ...ssoTokenData})
-          : getCommonAuthUserObject({...data, ...ssoTokenData}),
+          ? getYouthAuthUserObject({...ssoTokenData, ...data})
+          : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
@@ -123,6 +128,36 @@ type TYouthAuthUserSSOResponse = {
   last_name: string;
   last_name_en?: string;
   mobile: string;
+  user_name_type: number;
+  freedom_fighter_status: FreedomFighterStatusType;
+  identity_number_type: IdentityNumberType;
+  identity_number?: string;
+  marital_status: MaritalStatusType;
+  religion: Religion;
+  nationality?: string;
+  does_belong_to_ethnic_group: EthnicGroupStatusType;
+  first_name_en?: string;
+  physical_disability_status: number;
+  loc_division_id?: string;
+  loc_division_title_en?: string;
+  loc_division_title?: string;
+  loc_district_id?: string;
+  loc_district_title_en?: string;
+  loc_district_title?: string;
+  loc_upazila_id?: string;
+  loc_upazila_title_en?: string;
+  loc_upazila_title?: string;
+  village_or_area?: string;
+  village_or_area_en?: string;
+  house_n_road?: string;
+  house_n_road_en?: string;
+  zip_or_postal_code?: string;
+  bio?: string;
+  bio_en?: string;
+  photo?: string;
+  cv_path?: string;
+  physical_disabilities?: any[];
+  skills?: any[];
 };
 
 export const getCommonAuthUserObject = (
@@ -157,14 +192,44 @@ export const getYouthAuthUserObject = (
     authType: AuthType.AUTH2,
     displayName: authUser?.displayName,
     email: authUser?.email,
-    uid: authUser.sub,
-    username: authUser.username,
-    date_of_birth: authUser.date_of_birth,
-    first_name: authUser.first_name,
-    gender: authUser.gender,
-    last_name: authUser.last_name,
+    uid: authUser?.sub,
+    username: authUser?.username,
+    date_of_birth: authUser?.date_of_birth,
+    first_name: authUser?.first_name,
+    gender: authUser?.gender,
+    freedom_fighter_status: authUser?.freedom_fighter_status,
+    identity_number_type: authUser?.identity_number_type,
+    identity_number: authUser?.identity_number,
+    marital_status: authUser?.marital_status,
+    religion: authUser?.religion,
+    nationality: authUser?.nationality,
+    does_belong_to_ethnic_group: authUser?.does_belong_to_ethnic_group,
+    last_name: authUser?.last_name,
     last_name_en: authUser?.last_name_en,
-    mobile: authUser.mobile,
+    mobile: authUser?.mobile,
+    user_name_type: authUser?.user_name_type,
+    first_name_en: authUser?.first_name_en,
+    physical_disability_status: authUser?.physical_disability_status,
+    loc_division_id: authUser?.loc_division_id,
+    loc_division_title_en: authUser?.loc_division_title_en,
+    loc_division_title: authUser?.loc_division_title,
+    loc_district_id: authUser?.loc_district_id,
+    loc_district_title_en: authUser?.loc_district_title_en,
+    loc_district_title: authUser?.loc_district_title,
+    loc_upazila_id: authUser?.loc_upazila_id,
+    loc_upazila_title_en: authUser?.loc_upazila_title_en,
+    loc_upazila_title: authUser?.loc_upazila_title,
+    village_or_area: authUser?.village_or_area,
+    village_or_area_en: authUser?.village_or_area_en,
+    house_n_road: authUser?.house_n_road,
+    house_n_road_en: authUser?.house_n_road_en,
+    zip_or_postal_code: authUser?.zip_or_postal_code,
+    bio: authUser?.bio,
+    bio_en: authUser?.bio_en,
+    photo: authUser?.photo,
+    cv_path: authUser?.cv_path,
+    physical_disabilities: authUser?.physical_disabilities,
+    skills: authUser?.skills,
   };
 };
 

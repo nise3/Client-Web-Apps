@@ -8,4 +8,6 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   const mock = new MockAdapter(axiosInstance);
 
   mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: videos});
+
+  mock.onAny().passThrough();
 }

@@ -1,5 +1,10 @@
 import {AuthType} from '../../shared/constants/AppEnums';
 import {Gender} from '../../@softbd/utilities/Genders';
+import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
+import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
+import {Religion} from '../../@softbd/utilities/Religions';
+import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
+import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 
 export interface AuthUser {
   uid: string;
@@ -31,8 +36,16 @@ export interface YouthAuthUser extends AuthUser {
   last_name_en?: string;
   gender: Gender;
   mobile: string;
+  user_name_type: number;
   date_of_birth: string;
-  physical_disability_status?: boolean;
+  physical_disability_status: number;
+  marital_status: MaritalStatusType;
+  freedom_fighter_status: FreedomFighterStatusType;
+  religion: Religion;
+  nationality?: string | number;
+  identity_number_type: IdentityNumberType;
+  identity_number?: string;
+  does_belong_to_ethnic_group?: EthnicGroupStatusType;
   loc_division_id?: string;
   loc_division_title_en?: string;
   loc_division_title?: string;

@@ -40,6 +40,7 @@ import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatu
 import Religions from '../../../@softbd/utilities/Religions';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
+import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 
 const initialValues = {
   first_name: '',
@@ -54,8 +55,9 @@ const initialValues = {
   freedom_fighter_status: FreedomFighterStatus.NO,
   religion: Religions.ISLAM,
   nationality: '',
+  identity_number_type: IdentityNumberTypes.NID,
   identity_number: '',
-  does_belong_to_ethnic_group: '0',
+  does_belong_to_ethnic_group: EthnicGroupStatus.NO,
   skills: [],
   loc_division_id: '',
   loc_district_id: '',
@@ -176,6 +178,21 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .label(messages['districts.label'] as string),
+      nationality: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.nationality'] as string),
+      freedom_fighter_status: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.freedom_fighter_status'] as string),
+      does_belong_to_ethnic_group: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['youth_registration.ethnic_group'] as string),
       /*village_or_area: yup
         .string()
         .nullable()
@@ -378,8 +395,11 @@ const YouthRegistration = () => {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     data.user_name_type = userNameType;
     if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
-      data.physical_disabilities = [];
+      delete data.physical_disabilities;
     }
+    data.does_belong_to_ethnic_group = isBelongToEthnicGroup
+      ? EthnicGroupStatus.YES
+      : EthnicGroupStatus.NO;
 
     const response = await youthRegistration(data);
     if (isResponseSuccess(response)) {

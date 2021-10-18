@@ -4,6 +4,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
+  getMomentDateFormat,
   isResponseSuccess,
   isValidationError,
 } from '../../../../@softbd/utilities/helpers';
@@ -17,10 +18,7 @@ import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelec
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomHookForm from '../component/CustomHookForm';
-import {
-  useFetchYouthProfile,
-  useFetchYouthSkills,
-} from '../../../../services/youthManagement/hooks';
+import {useFetchYouthSkills} from '../../../../services/youthManagement/hooks';
 import {updateYouthPersonalInfo} from '../../../../services/youthManagement/YouthService';
 import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 import {
@@ -45,6 +43,9 @@ import Religions from '../../../../@softbd/utilities/Religions';
 import IdentityNumberTypes from '../../../../@softbd/utilities/IdentityNumberTypes';
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../types/models/CommonAuthUser';
+import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -64,7 +65,7 @@ const initialValues = {
   religion: Religions.ISLAM,
   nationality: '',
   identity_number: '',
-  does_belong_to_ethnic_group: '0',
+  does_belong_to_ethnic_group: EthnicGroupStatus.NO,
   skills: [],
   loc_division_id: '',
   loc_district_id: '',
@@ -100,11 +101,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {
-    data: itemData,
-    isLoading,
-    mutate: profileInfoMutate,
-  } = useFetchYouthProfile();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -339,49 +336,61 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   });
 
   useEffect(() => {
-    if (itemData) {
+    if (authUser) {
       reset({
-        first_name: itemData?.first_name,
-        first_name_en: itemData?.first_name_en,
-        last_name: itemData?.last_name,
-        last_name_en: itemData?.last_name_en,
-        gender: itemData?.gender,
-        email: itemData?.email,
-        mobile: itemData?.mobile,
-        skills: getSkillIds(itemData?.skills),
-        physical_disability_status: itemData?.physical_disability_status,
+        first_name: authUser?.first_name,
+        first_name_en: authUser?.first_name_en,
+        last_name: authUser?.last_name,
+        last_name_en: authUser?.last_name_en,
+        gender: authUser?.gender,
+        email: authUser?.email,
+        mobile: authUser?.mobile,
+        skills: getSkillIds(authUser?.skills),
+        physical_disability_status: authUser?.physical_disability_status,
         physical_disabilities: getPhysicalDisabilityIds(
-          itemData?.physical_disabilities,
+          authUser?.physical_disabilities,
         ),
-        date_of_birth: itemData?.date_of_birth,
-        loc_division_id: itemData?.loc_division_id,
-        loc_district_id: itemData?.loc_district_id,
-        loc_upazila_id: itemData?.loc_upazila_id,
-        village_or_area: itemData?.village_or_area,
-        village_or_area_en: itemData?.village_or_area_en,
-        house_n_road: itemData?.house_n_road,
-        house_n_road_en: itemData?.house_n_road_en,
-        zip_or_postal_code: itemData?.zip_or_postal_code,
-        bio: itemData?.bio,
-        bio_en: itemData?.bio_en,
+        freedom_fighter_status: authUser?.freedom_fighter_status,
+        identity_number_type: authUser?.identity_number_type,
+        identity_number: authUser?.identity_number,
+        marital_status: authUser?.marital_status,
+        religion: authUser?.religion,
+        nationality: authUser?.nationality,
+        date_of_birth: getMomentDateFormat(
+          authUser?.date_of_birth,
+          'YYYY-MM-DD',
+        ),
+        loc_division_id: authUser?.loc_division_id,
+        loc_district_id: authUser?.loc_district_id,
+        loc_upazila_id: authUser?.loc_upazila_id,
+        village_or_area: authUser?.village_or_area,
+        village_or_area_en: authUser?.village_or_area_en,
+        house_n_road: authUser?.house_n_road,
+        house_n_road_en: authUser?.house_n_road_en,
+        zip_or_postal_code: authUser?.zip_or_postal_code,
+        bio: authUser?.bio,
+        bio_en: authUser?.bio_en,
       });
-      setDisabilityStatus(itemData?.physical_disability_status);
-      setUserNameType(itemData?.user_name_type);
+      setIsBelongToEthnicGroup(
+        authUser?.does_belong_to_ethnic_group == EthnicGroupStatus.YES,
+      );
+      setDisabilityStatus(authUser?.physical_disability_status);
+      setUserNameType(authUser?.user_name_type);
       let filteredDistricts = filterDistrictsByDivisionId(
         districts,
-        itemData?.loc_division_id,
+        authUser?.loc_division_id,
       );
       setDistrictList(filteredDistricts);
 
       let filteredUpazilas = filterUpazilasByDistrictId(
         upazilas,
-        itemData?.loc_district_id,
+        authUser?.loc_district_id,
       );
       setUpazilaList(filteredUpazilas);
     } else {
       reset(initialValues);
     }
-  }, [itemData, districts, upazilas]);
+  }, [authUser, districts, upazilas]);
 
   const getSkillIds = (skills: any) => {
     return (skills || []).map((skill: any) => skill.id);
@@ -437,8 +446,11 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     data: YouthPersonalInfo,
   ) => {
     if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
-      data.physical_disabilities = [];
+      delete data.physical_disabilities;
     }
+    data.does_belong_to_ethnic_group = isBelongToEthnicGroup
+      ? EthnicGroupStatus.YES
+      : EthnicGroupStatus.NO;
 
     const response = await updateYouthPersonalInfo(data);
     if (isResponseSuccess(response)) {
@@ -448,7 +460,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
           values={{subject: <IntlMessages id='personal_info.label' />}}
         />,
       );
-      profileInfoMutate();
       onEditPageClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
@@ -463,8 +474,8 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
           handleSubmit={handleSubmit(onSubmit)}
           actions={
             <React.Fragment>
-              <CancelButton onClick={onEditPageClose} isLoading={isLoading} />
-              <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+              <CancelButton onClick={onEditPageClose} isLoading={false} />
+              <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
             </React.Fragment>
           }
           onClose={onEditPageClose}>
@@ -501,7 +512,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.first_name_bn']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -510,7 +521,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.first_name_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -519,7 +530,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.last_name_bn']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -528,28 +539,28 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.last_name_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
-            {itemData?.user_name_type != UserNameType.EMAIL && (
+            {authUser?.user_name_type != UserNameType.EMAIL && (
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='email'
                   label={messages['common.email']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={isLoading}
+                  isLoading={false}
                 />
               </Grid>
             )}
-            {itemData?.user_name_type != UserNameType.MOBILE && (
+            {authUser?.user_name_type != UserNameType.MOBILE && (
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='mobile'
                   label={messages['common.mobile']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={isLoading}
+                  isLoading={false}
                 />
               </Grid>
             )}
@@ -598,7 +609,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomTextInput
                 id='identity_number'
                 label={getIdentityNumberFieldCaption()}
-                isLoading={isLoading}
+                isLoading={false}
                 register={register}
                 errorInstance={errors}
               />
@@ -624,7 +635,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 ]}
                 control={control}
                 defaultValue={Genders.MALE}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -632,7 +643,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomDateTimeField
                 id='date_of_birth'
                 label={messages['common.date_of_birth']}
-                isLoading={isLoading}
+                isLoading={false}
                 register={register}
                 errorInstance={errors}
               />
@@ -642,7 +653,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomFormSelect
                 id='marital_status'
                 label={messages['common.marital_status']}
-                isLoading={isLoading}
+                isLoading={false}
                 control={control}
                 options={maritalStatus}
                 optionValueProp={'id'}
@@ -655,7 +666,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomFormSelect
                 id='religion'
                 label={messages['common.religion']}
-                isLoading={isLoading}
+                isLoading={false}
                 control={control}
                 options={religions}
                 optionValueProp={'id'}
@@ -668,7 +679,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomFormSelect
                 id='freedom_fighter_status'
                 label={messages['common.freedom_fighter_status']}
-                isLoading={isLoading}
+                isLoading={false}
                 control={control}
                 options={freedomFighterStatus}
                 optionValueProp={'id'}
@@ -693,7 +704,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 ]}
                 control={control}
                 defaultValue={String(PhysicalDisabilityStatus.NO)}
-                isLoading={isLoading}
+                isLoading={false}
                 onChange={onDisabilityStatusChange}
               />
             </Grid>
@@ -703,7 +714,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 <CustomFormSelect
                   id='physical_disabilities'
                   label={messages['common.physical_disability_title']}
-                  isLoading={isLoading}
+                  isLoading={false}
                   control={control}
                   options={physicalDisabilities}
                   optionValueProp={'id'}
@@ -719,7 +730,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomFormSelect
                 id='nationality'
                 label={messages['common.nationality']}
-                isLoading={isLoading}
+                isLoading={false}
                 control={control}
                 options={nationalities}
                 optionValueProp={'id'}
@@ -773,7 +784,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.village_or_area_bn']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -782,7 +793,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.village_or_area_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -792,7 +803,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.house_n_road_bn']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -801,7 +812,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.house_n_road_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -811,7 +822,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.zip_or_postal_code']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -820,7 +831,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.bio_bn']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
                 multiline={true}
                 rows={3}
               />
@@ -831,7 +842,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 label={messages['common.bio_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
                 multiline={true}
                 rows={3}
               />
@@ -846,7 +857,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 onChange={() => {
                   setIsBelongToEthnicGroup((prev) => !prev);
                 }}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
