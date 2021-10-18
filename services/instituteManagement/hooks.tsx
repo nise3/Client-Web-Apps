@@ -3,7 +3,10 @@ import {
   API_BATCHES,
   API_BRANCHES,
   API_COURSES,
+  API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
+  API_FRONT_END_VIDEOS_CATEGORY_LIST,
+  API_FRONT_END_VIDEOS_LIST,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_TRAINERS,
@@ -20,6 +23,18 @@ export function useFetchInstitutes(params: any) {
 
 export function useFetchInstitutesGallery() {
   return useAxiosSWR(API_FRONT_END_GALLERY_LIST);
+}
+
+export function useFetchInstitutesGalleryCategory() {
+  return useAxiosSWR(API_FRONT_END_GALLERY_CATEGORY_LIST);
+}
+
+export function useFetchInstitutesVideos() {
+  return useAxiosSWR(API_FRONT_END_VIDEOS_LIST);
+}
+
+export function useFetchInstitutesVideoCategory() {
+  return useAxiosSWR(API_FRONT_END_VIDEOS_CATEGORY_LIST);
 }
 
 export function useFetchBranch(branchId: number | null) {

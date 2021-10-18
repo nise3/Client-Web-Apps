@@ -1,8 +1,15 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
-import {API_FRONT_END_GALLERY_LIST, API_APPLICATION_MANAGEMENT} from '../common/apiRoutes';
-import videos from '../mock-db/videos';
 import applicationManagement from '../mock-db/applicationManagement/application-management';
+import {
+  API_APPLICATION_MANAGEMENT,
+  API_FRONT_END_GALLERY_CATEGORY_LIST,
+  API_FRONT_END_GALLERY_LIST,
+  API_FRONT_END_VIDEOS_CATEGORY_LIST,
+  API_FRONT_END_VIDEOS_LIST,
+} from '../common/apiRoutes';
+import videos, {videosCategories} from '../mock-db/videos';
+import galleries, {galleryCategories} from '../mock-db/gallery';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -11,5 +18,16 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: videos});
   mock.onGet(API_APPLICATION_MANAGEMENT).reply(200, {data: applicationManagement});
 
+  mock.onGet(API_FRONT_END_VIDEOS_LIST).reply(200, {data: videos});
+  mock
+    .onGet(API_FRONT_END_VIDEOS_CATEGORY_LIST)
+    .reply(200, {data: videosCategories});
+
+  mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: galleries});
+  mock
+    .onGet(API_FRONT_END_GALLERY_CATEGORY_LIST)
+    .reply(200, {data: galleryCategories});
+
+  //Put it on the bottom of that function
   mock.onAny().passThrough();
 }
