@@ -84,3 +84,8 @@ export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
 
 export const API_FRONT_END_GALLERY_LIST = INSTITUTE_SERVICE_PATH + '/galleries';
+
+
+/** Routes for application management */
+export const APPLICATION_MANAGEMENT = API_INSTITUTES + '/application-management';
+export const APPLICATION_PROCESSING = API_INSTITUTES + '/application-processing';
