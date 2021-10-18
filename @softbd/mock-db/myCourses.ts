@@ -1,4 +1,4 @@
-const courses: Array<any> = [
+const myCourses: Array<any> = [
   {
     id: 1,
     providerName: 'John doe',
@@ -41,6 +41,7 @@ const courses: Array<any> = [
     row_status: 1,
     created_at: '2021-10-13',
     updated_at: '2021-10-13T08:48:10.000000Z',
+    progress: '80',
   },
   {
     id: 2,
@@ -84,7 +85,8 @@ const courses: Array<any> = [
     row_status: 1,
     created_at: '2021-10-13',
     updated_at: '2021-10-13',
+    progress: '90',
   },
 ];
 
-export default courses;
+export default myCourses;

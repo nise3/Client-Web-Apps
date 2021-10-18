@@ -99,7 +99,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
         {course.progress && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
-            <LinearProgress variant='determinate' value={course.progress} />
+            <LinearProgress variant='determinate' value={course.id} />
             <Box>
               <IntlMessages
                 id='course_card.complete'

@@ -7,6 +7,7 @@ import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseSectionRoot: {
     marginTop: 0,
@@ -45,59 +46,44 @@ const RecentCourseSection = () => {
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState('recent');
   const URL = `/youth/course-list/${selectedValue}`;
-  const items = [
-    {
-      logoUrl: '/images/skill-matching-job1.jpg',
-      courseTitle: 'Graphic Design Course',
-      courseProvider: 'Creative IT Institutes',
-    },
-    {
-      logoUrl: '/images/skill-matching-job1.jpg',
-      courseTitle: 'Learning Photography',
-      courseProvider: 'Jesmin Rahman',
-    },
-    {
-      logoUrl: '/images/skill-matching-job1.jpg',
-      courseTitle: 'Javascript Course',
-      courseProvider: 'Imtiaz Ahmed',
-    },
-  ];
 
-  const onSelectChange = useCallback((event: any) => {
+  const [courseFilters] = useState({page_size: 3});
+  const {data: courses} = useFetchCourseList(
+    '/' + selectedValue,
+    courseFilters,
+  );
+
+  const handleCourseCategoryChange = useCallback((event: any) => {
     setSelectedValue(event.target.value);
   }, []);
 
   return (
     <Card>
       <Grid container className={classes.recentCourseSectionRoot}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} md={12}>
           <Select
             id='recentCourses'
             autoWidth
             defaultValue={selectedValue}
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
-            onChange={onSelectChange}>
+            onChange={handleCourseCategoryChange}>
             <MenuItem value={'recent'}>Recent Courses</MenuItem>
             <MenuItem value={'popular'}>Popular Courses</MenuItem>
             <MenuItem value={'nearby'}>Nearby Courses</MenuItem>
+            <MenuItem value={'trending'}>Nearby Courses</MenuItem>
           </Select>
         </Grid>
-        {items.map((course: any, index: number) => {
-          return (
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              key={index}
-              className={classes.courseItem}>
-              {index != 0 && <Divider className={classes.divider} />}
-              <RecentCourseComponent data={course} />
-            </Grid>
-          );
-        })}
-        <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
+        {courses &&
+          courses.map((course: any, index: number) => {
+            return (
+              <Grid item xs={12} key={course.id} className={classes.courseItem}>
+                {index != 0 && <Divider className={classes.divider} />}
+                <RecentCourseComponent data={course} />
+              </Grid>
+            );
+          })}
+        <Grid item xs={12} style={{paddingLeft: 15}}>
           <Link href={URL} passHref>
             <Button
               variant={'text'}

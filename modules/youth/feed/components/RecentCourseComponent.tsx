@@ -1,9 +1,10 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {Avatar, Box, Button} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
+import Link from 'next/link';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseCompRoot: {
@@ -23,15 +24,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
   },
 }));
 
-interface RecentCourseProps {
-  data: {
-    logoUrl: string;
-    courseTitle: string;
-    courseProvider: string;
-  };
-}
-
-const RecentCourseComponent: FC<RecentCourseProps> = ({data}) => {
+const RecentCourseComponent = ({data: course}: any) => {
   const classes = useStyle();
   const {messages} = useIntl();
 
@@ -41,19 +34,27 @@ const RecentCourseComponent: FC<RecentCourseProps> = ({data}) => {
         <Box>
           <Avatar
             alt='provider image'
-            src={data.logoUrl}
+            src={course.logoUrl}
             className={classes.courseProviderImage}
           />
         </Box>
         <Box marginLeft={'10px'}>
-          <Box className={classes.courseTitle}>{data.courseTitle}</Box>
+          <Box className={classes.courseTitle}>{course.title}</Box>
           <Box className={classes.courseProviderName}>
-            {data.courseProvider}
+            {course?.institute_title}
           </Box>
+
           <Box>
-            <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
-              {messages['common.details']}
-            </Button>
+            <Link
+              href={'../../youth/course-details/__'.replace('__', course.id)}
+              passHref>
+              <Button
+                variant='contained'
+                size={'small'}
+                style={{marginLeft: 10}}>
+                {messages['common.details']}
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Box>

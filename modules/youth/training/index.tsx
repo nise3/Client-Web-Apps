@@ -15,16 +15,16 @@ const CourseListPage = () => {
       <CourseListHeaderSection />
       <Container maxWidth={'xl'} className={classes.mainContent}>
         <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12}>
             <SkillMatchingCoursesSection />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12}>
             <NearbyTrainingCenterSection />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12}>
             <PopularCoursesSection />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12}>
             <TrendingCoursesSection />
           </Grid>
         </Grid>

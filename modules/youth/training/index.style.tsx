@@ -25,11 +25,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   searchInputBorderHide: {
+    padding: 0,
     '& fieldset': {
       border: 'none',
     },
     '& input': {
-      padding: '14px 0px',
+      display: 'flex',
+      alignItems: 'center',
+      // padding: '14px 0px',
     },
   },
   selectStyle: {

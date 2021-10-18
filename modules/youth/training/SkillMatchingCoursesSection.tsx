@@ -4,14 +4,16 @@ import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourses} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import Link from 'next/link';
 
 const SkillMatchingCoursesSection = () => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const [courseFilters] = useState(null);
+  const [courseFilters] = useState({page_size: 4});
 
-  const {data: courseList} = useFetchCourses(courseFilters);
+  const {data: courseList} = useFetchCourseList('/skill', courseFilters);
+  const URL = '/../../youth/course-list/skill';
 
   return (
     <Grid container spacing={5}>
@@ -23,10 +25,12 @@ const SkillMatchingCoursesSection = () => {
             </Typography>
           </Grid>
           <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Button variant={'outlined'} size={'medium'} color={'primary'}>
-              {messages['common.see_all']}
-              <ChevronRight />
-            </Button>
+            <Link href={URL} passHref>
+              <Button variant={'outlined'} size={'medium'} color={'primary'}>
+                {messages['common.see_all']}
+                <ChevronRight />
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Grid>
