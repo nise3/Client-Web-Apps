@@ -65,14 +65,6 @@ const InstituteContact = () => {
 
   const {data: mapsData} = useFetchInstitutesContactMap();
 
-  const defaultMapData = {
-    center: {
-      lat: 23.776488939377593,
-      lng: 90.38155009066672,
-    },
-    zoom: 11,
-  };
-
   const [mapCenter, setMapCenter] = useState({
     lat: 23.776488939377593,
     lng: 90.38155009066672,
@@ -241,8 +233,8 @@ const InstituteContact = () => {
                     <div style={{height: '100vh', width: '100%'}}>
                       <GoogleMapReact
                         bootstrapURLKeys={{key: APIKEY}}
-                        defaultCenter={defaultMapData.center}
-                        defaultZoom={defaultMapData.zoom}
+                        defaultCenter={mapCenter}
+                        defaultZoom={11}
                         center={mapCenter}>
                         {mapLocations?.map((item: any, i: number) => (
                           <MapComponent
