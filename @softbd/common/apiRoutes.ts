@@ -55,8 +55,9 @@ export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 
-export const API_YOUTH_REGISTRATION =
-  YOUTH_SERVICE_PATH + '/youth-registration';
+
+/** Youths end-points */
+export const API_YOUTH_REGISTRATION = YOUTH_SERVICE_PATH + '/youth-registration';
 export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
@@ -68,6 +69,7 @@ export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experiences';
 export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
+export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
