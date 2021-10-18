@@ -606,8 +606,7 @@
   "common.marital_status_divorced": "তালাকপ্রাপ্ত",
   "common.identity_type_nid": "জাতীয় পরিচয় নম্বর",
   "common.identity_type_birth_cert": "জন্ম সনদ নম্বর",
-  "common.identity_type_passport": "পাসপোর্ট নম্বর"
-  "common.total_cgpa": "মোট সিজিপিএ",
+  "common.identity_type_passport": "পাসপোর্ট নম্বর",
   "youth.edit_education": "Edit Education",
   "youth.label": "ইয়োথ",
   "youth.username": "ইউজারনেম",
