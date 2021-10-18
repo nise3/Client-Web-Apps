@@ -14,6 +14,7 @@ import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {apiPost} from '../common/api';
 import {Base64} from 'js-base64';
 import SSOConfig from '../common/SSOConfig';
+import apiAccessToken from '../common/appToken';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -30,8 +31,10 @@ axiosInstance.interceptors.request.use(
     const userAccessToken = authAccessTokenData?.access_token;
     console.log('userAccessToken', userAccessToken);
 
-    if (userAccessToken) {
-      config.headers['Authorization'] = `Bearer ${userAccessToken}`;
+    if (userAccessToken || apiAccessToken) {
+      config.headers['Authorization'] = `Bearer ${
+        userAccessToken || apiAccessToken
+      }`;
     }
     return config;
   },

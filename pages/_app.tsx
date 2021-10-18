@@ -17,15 +17,12 @@ import '../styles/index.css';
 import '../@crema/services/index';
 import {SWRConfig} from 'swr';
 import {CookiesProvider} from 'react-cookie';
-import {loadAppAccessToken} from '../@softbd/libs/axiosInstance';
 
 const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
   ({Component, pageProps}: any) => {
     const store = useStore(pageProps.initialReduxState);
 
     React.useEffect(() => {
-      loadAppAccessToken();
-      
       // Remove the server-side injected CSS.
       const jssStyles = document.querySelector('#jss-server-side');
       if (jssStyles) {
