@@ -32,13 +32,14 @@ const SimilarCourseSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={5}>
-          {courseList.map((course: any) => {
-            return (
-              <Grid item xs={12} sm={4} md={3} key={course.id}>
-                <CourseCardComponent course={course} />
-              </Grid>
-            );
-          })}
+          {courseList &&
+            courseList.map((course: any) => {
+              return (
+                <Grid item xs={12} sm={4} md={3} key={course.id}>
+                  <CourseCardComponent course={course} />
+                </Grid>
+              );
+            })}
         </Grid>
       </Grid>
     </Grid>

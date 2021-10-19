@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemIcon,
   ListItemText,
   Tab,
   Typography,
@@ -29,6 +28,25 @@ import CourseDetailsTabs from './CourseDetailsTabs';
 interface CourseContentProps {
   course: any;
 }
+
+const lessonsList = [
+  {
+    name: 'Introduction',
+    duration: '6.22',
+  },
+  {
+    name: 'Started with python',
+    duration: '6.22',
+  },
+  {
+    name: 'Data Types',
+    duration: '6.22',
+  },
+  {
+    name: 'Operation with data types',
+    duration: '6.22',
+  },
+];
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const classes = useStyle();
@@ -160,9 +178,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           <Box className={classes.sectionTitleStyle}>
             {messages['course_details.overview']}
           </Box>
-          <Typography variant={'h6'} fontWeight={'bold'}>
-            Explore how Physical Computing is Changing Tech
-          </Typography>
+
           <Typography sx={{paddingTop: 4}}>{course?.objectives}</Typography>
         </Box>
 
@@ -171,19 +187,16 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             {messages['course_details.lesson']}
           </Box>
           <Box style={{display: 'flex', alignItems: 'center'}}>
-            {(course.tags || []).map((tag: any, index: any) => {
-              return index == 0 ? (
-                <Typography key={index}> {tag} </Typography>
-              ) : (
-                <Typography key={index}>&nbsp;&#8226; {tag}</Typography>
-              );
-            })}
+            {course?.duration && <Typography> {course?.duration}, </Typography>}
+            {course?.total_enrolled && (
+              <Typography> {course?.total_enrolled} </Typography>
+            )}
           </Box>
 
           <Grid container>
             <Grid item xs={12} sm={8} md={7} className={classes.lessonBox}>
               <List dense={false} className={classes.listStyle}>
-                {(course.lessonsList || []).map((lesson: any, index: any) => {
+                {(lessonsList || []).map((lesson: any, index: any) => {
                   return (
                     <React.Fragment key={index}>
                       {index != 0 && <Divider />}
@@ -209,20 +222,22 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             <Box className={classes.sectionTitleStyle}>
               {messages['course_details.assisment_method']}
             </Box>
-            <List className={classes.ulList}>
-              <ListItem className='list-item'>
-                <ListItemIcon className='list-item-bullet-large'>
-                  &#8226;
-                </ListItemIcon>
-                <ListItemText primary={'Lesson Quiz'} />
-              </ListItem>
-              <ListItem className='list-item'>
-                <ListItemIcon className='list-item-bullet-large'>
-                  &#8226;
-                </ListItemIcon>
-                <ListItemText primary={'Online MCQ 50 Marks'} />
-              </ListItem>
-            </List>
+            <Typography>{course?.evaluation_system}</Typography>
+
+            {/*<List className={classes.ulList}>*/}
+            {/*  <ListItem className='list-item'>*/}
+            {/*    <ListItemIcon className='list-item-bullet-large'>*/}
+            {/*      &#8226;*/}
+            {/*    </ListItemIcon>*/}
+            {/*    <ListItemText primary={'Lesson Quiz'} />*/}
+            {/*  </ListItem>*/}
+            {/*  <ListItem className='list-item'>*/}
+            {/*    <ListItemIcon className='list-item-bullet-large'>*/}
+            {/*      &#8226;*/}
+            {/*    </ListItemIcon>*/}
+            {/*    <ListItemText primary={'Online MCQ 50 Marks'} />*/}
+            {/*  </ListItem>*/}
+            {/*</List>*/}
           </Box>
         </Box>
 
@@ -231,30 +246,31 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             {messages['course_details.requirements']}
           </Box>
           <Box>
-            <List className={classes.ulList}>
-              <ListItem className='list-item'>
-                <ListItemIcon className='list-item-bullet-small'>
-                  &#8226;
-                </ListItemIcon>
-                <ListItemText primary={'A Computer Windows, Mac , or Linux'} />
-              </ListItem>
-              <ListItem className='list-item'>
-                <ListItemIcon className='list-item-bullet-small'>
-                  &#8226;
-                </ListItemIcon>
-                <ListItemText
-                  primary={'No prior knowledge of Python is required'}
-                />
-              </ListItem>
-              <ListItem className='list-item'>
-                <ListItemIcon className='list-item-bullet-small'>
-                  &#8226;
-                </ListItemIcon>
-                <ListItemText
-                  primary={'No previous programming experience needed'}
-                />
-              </ListItem>
-            </List>
+            <Typography>{course?.prerequisite}</Typography>
+            {/*<List className={classes.ulList}>*/}
+            {/*  <ListItem className='list-item'>*/}
+            {/*    <ListItemIcon className='list-item-bullet-small'>*/}
+            {/*      &#8226;*/}
+            {/*    </ListItemIcon>*/}
+            {/*    <ListItemText primary={'A Computer Windows, Mac , or Linux'} />*/}
+            {/*  </ListItem>*/}
+            {/*  <ListItem className='list-item'>*/}
+            {/*    <ListItemIcon className='list-item-bullet-small'>*/}
+            {/*      &#8226;*/}
+            {/*    </ListItemIcon>*/}
+            {/*    <ListItemText*/}
+            {/*      primary={'No prior knowledge of Python is required'}*/}
+            {/*    />*/}
+            {/*  </ListItem>*/}
+            {/*  <ListItem className='list-item'>*/}
+            {/*    <ListItemIcon className='list-item-bullet-small'>*/}
+            {/*      &#8226;*/}
+            {/*    </ListItemIcon>*/}
+            {/*    <ListItemText*/}
+            {/*      primary={'No previous programming experience needed'}*/}
+            {/*    />*/}
+            {/*  </ListItem>*/}
+            {/*</List>*/}
           </Box>
         </Box>
 
@@ -262,26 +278,28 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           <Box className={classes.sectionTitleStyle}>
             {messages['course_details.trainer']}
           </Box>
-          {course?.trainers.map((trainer: any) => (
-            <Box className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
-              <Avatar
-                sx={{height: 60, width: 60}}
-                src={course.trainer?.image}
-              />
-              <Box className={classes.trainerNameAndAboutBox}>
-                <Box fontWeight={'bold'}>
-                  {trainer?.first_name + ' ' + trainer?.last_name}
+          {course?.trainers &&
+            course.trainers.map((trainer: any) => (
+              <Box
+                className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
+                <Avatar
+                  sx={{height: 60, width: 60}}
+                  src={course.trainer?.image}
+                />
+                <Box className={classes.trainerNameAndAboutBox}>
+                  <Box fontWeight={'bold'}>
+                    {trainer?.first_name + ' ' + trainer?.last_name}
+                  </Box>
+                  <Typography variant={'caption'}>{trainer?.about}</Typography>
+                  <Link href={'#more-courses'} style={{textDecoration: 'none'}}>
+                    <IntlMessages
+                      id='course_details.view_more_courses_by'
+                      values={{subject: trainer?.firstName}}
+                    />
+                  </Link>
                 </Box>
-                <Typography variant={'caption'}>{trainer?.about}</Typography>
-                <Link href={'#more-courses'} style={{textDecoration: 'none'}}>
-                  <IntlMessages
-                    id='course_details.view_more_courses_by'
-                    values={{subject: trainer?.firstName}}
-                  />
-                </Link>
               </Box>
-            </Box>
-          ))}
+            ))}
         </Box>
       </Box>
     </TabContext>

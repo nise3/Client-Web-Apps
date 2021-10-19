@@ -8,6 +8,19 @@ interface CourseDetailsHeaderProps {
   course: any;
 }
 
+const courseDuration = (duration: number) => {
+  let dh = 0;
+  let dm = 0;
+
+  if (duration / 60 < 1) {
+    return duration + 'min';
+  } else {
+    dm = duration % 60;
+    dh = duration / 60;
+    return dh + 'hr, ' + dm + 'min';
+  }
+};
+
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const classes: any = useStyle();
   const {messages} = useIntl();
@@ -17,16 +30,18 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
       <Grid item xs={12} sm={6} md={6}>
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:{' '}
-          <Box className={classes.courseFeeStyle}>{course?.course_fee} TK</Box>
+          <Box className={classes.courseFeeStyle}>{course?.course_fee}</Box>
         </Box>
         <Typography variant={'h4'} mb={8} fontWeight={'bold'}>
-          {course.title}
+          {course?.title}
         </Typography>
+        {course?.duration && (
+          <TagChip label={courseDuration(course.duration)} />
+        )}
+        {course?.total_enrolled && (
+          <TagChip label={course?.total_enrolled + ' Enrolled'} />
+        )}
 
-        {(course.tags || []).map((tag: any, index: any) => {
-          return <TagChip label={tag} key={index} />;
-        })}
-        {course.total_enrolled && <TagChip label={course.total_enrolled} />}
         <Box mt={4}>
           <Button variant={'contained'} color={'primary'}>
             {messages['common.enroll_now']}
@@ -34,7 +49,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} md={6}>
-        <CardMedia image={course.logo} sx={{height: 300, width: '100%'}} />
+        <CardMedia image={course?.logo} sx={{height: 300, width: '100%'}} />
       </Grid>
     </Grid>
   );
