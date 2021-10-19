@@ -14,7 +14,7 @@ import {
   IconButton,
 } from '@mui/material';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import React, {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -112,10 +112,8 @@ const InstituteGallery = () => {
     let filter = filteredGalleryItems?.filter((item: any) =>
       item.title.toLowerCase().includes(data.title),
     );
-    if (filter.length > 0) {
-      let newArr = [...filter];
-      setFilteredGalleryItems(newArr);
-    }
+    let newArr = [...filter];
+    setFilteredGalleryItems(newArr);
   };
 
   return (
@@ -190,53 +188,60 @@ const InstituteGallery = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={12} mt={{xs: 4, md: 5}}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography gutterBottom variant='h6'>
-                  মোট ফলাফল পাওয়া গেছে{' '}
-                  <Chip
-                    label={filteredGalleryItems?.length}
-                    color={'primary'}
-                  />
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={5}>
-                  {filteredGalleryItems?.map((data: any) => {
-                    return (
-                      <Grid
-                        item
-                        md={3}
-                        justifyContent={'center'}
-                        mt={3}
-                        key={data.id}>
-                        <Card>
-                          <CardActionArea>
-                            <CardMedia
-                              component='img'
-                              height='140'
-                              image={data.image_url}
-                              alt='random image'
-                            />
-                            <CardContent>
-                              <Typography
-                                gutterBottom
-                                variant='body1'
-                                component='div'>
-                                {data?.content}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
-                      </Grid>
-                    );
-                  })}
+          {filteredGalleryItems?.length > 0 ? (
+            <Grid item md={12} mt={{xs: 4, md: 5}}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography gutterBottom variant='h6'>
+                    মোট ফলাফল পাওয়া গেছে{' '}
+                    <Chip
+                      label={filteredGalleryItems?.length}
+                      color={'primary'}
+                    />
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container spacing={5}>
+                    {filteredGalleryItems?.map((data: any) => {
+                      return (
+                        <Grid
+                          item
+                          md={3}
+                          justifyContent={'center'}
+                          mt={3}
+                          key={data.id}>
+                          <Card>
+                            <CardActionArea>
+                              <CardMedia
+                                component='img'
+                                height='140'
+                                image={data.image_url}
+                                alt='random image'
+                              />
+                              <CardContent>
+                                <Typography
+                                  gutterBottom
+                                  variant='body1'
+                                  component='div'>
+                                  {data?.content}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-
+          ) : (
+            <Grid container>
+              <Grid item>
+                <H2 py={5}>{messages['common.no_data_found']}</H2>
+              </Grid>
+            </Grid>
+          )}
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
             <Pagination count={3} variant='outlined' color='primary' />
           </Grid>

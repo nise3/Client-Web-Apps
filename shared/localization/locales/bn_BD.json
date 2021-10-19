@@ -561,7 +561,6 @@
   "physical_disability.intellectual": "বুদ্ধিবৃত্তিক অক্ষমতা",
   "physical_disability.social": "সামাজিক অক্ষমতা",
   "contact.institute": "যোগাযোগ",
-  "videos.institute": "ভিডিও সমূহ",
   "common.name_of_the_office_head": "অফিস প্রধানের নাম",
   "common.name_of_the_office_head_designation": "অফিস প্রধানের পদবি",
   "common.password_must_match": "পাসওয়ার্ড অবশ্যই মিলতে হবে",
@@ -644,6 +643,7 @@
   "galleries.institute": "গ্যালারি সমূহ",
   "filter.institute": "ফিল্টার",
   "gallery_category.institute": "গ্যালারি ক্যাটাগরি",
-  "total_result.institute": "মোট ফলাফল পাওয়া গেছে"
-
+  "total_result.institute": "মোট ফলাফল পাওয়া গেছে",
+  "videos.institute": "ভিডিও সমূহ",
+  "video_category.institute": "ভিডিও ক্যাটাগরি"
 }

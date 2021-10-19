@@ -4,7 +4,6 @@ import {
   Typography,
   Button,
   Paper,
-  IconButton,
   Card,
   CardContent,
   CardActionArea,
@@ -12,91 +11,109 @@ import {
   Pagination,
   Container,
   Chip,
-  TextField,
+  IconButton,
 } from '@mui/material';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import React, {useEffect, useMemo, useState} from 'react';
-import {useForm} from 'react-hook-form';
+import {useEffect, useMemo, useState} from 'react';
+import {useForm, SubmitHandler} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
 import yup from '../../../@softbd/libs/yup';
 import {H2} from '../../../@softbd/elements/common';
-import {useFetchInstitutesVideos} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchInstitutesVideoCategory,
+  useFetchInstitutesVideos,
+} from '../../../services/instituteManagement/hooks';
+import makeStyles from '@mui/styles/makeStyles';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+
+const useStyles = makeStyles((theme: CremaTheme) => ({
+  searchIcon: {
+    position: 'absolute',
+    right: 20,
+  },
+}));
 
 const InstituteVideos = () => {
-  const {data: videoData, isLoading: isLoadingInstitutesVideo} =
+  const {messages} = useIntl();
+  const classes = useStyles();
+
+  const {data: videoItems, isLoading: isLoadingInstitutesVideo} =
     useFetchInstitutesVideos();
 
-  const [filteringData, setFilteringData] = useState([]);
-  const [cardsData, setCardData] = useState(videoData);
+  const {data: videoCategoryData, isLoading: isLoadingVideoCategory} =
+    useFetchInstitutesVideoCategory();
 
-  const {messages} = useIntl();
-  const [itemData, setItemData] = useState<any>('');
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [filteredVideoItems, setFilteredVideoItems] = useState([]);
+
+  useEffect(() => {
+    setFilteredVideoItems(videoItems);
+  }, [videoItems]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      video_category: yup
+      video_category_id: yup
         .string()
         .label(messages['recipient.institute'] as string),
-      select_video: yup.string().label(messages['common.name'] as string),
+      video_id: yup.string().label(messages['common.name'] as string),
     });
   }, [messages]);
 
-  const {reset, control} = useForm({
+  const {
+    reset,
+    control,
+    getValues,
+    register,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const onResetClicked = () => {
-    setCardData(videoData);
+    setFilteredVideoItems(videoItems);
   };
-
-  useEffect(() => {
-    setCardData(videoData);
-  }, [videoData]);
-
-  useEffect(() => {
-    setFilteringData(videoData);
-  }, [videoData, isFiltered]);
-
-  useEffect(() => {
-    setItemData({
-      video_category: '',
-      select_video: '',
-    });
-  }, []);
 
   useEffect(() => {
     reset({
-      video_category: itemData.video_category,
-      select_video: itemData.select_video,
+      video_category_id: '',
+      video_id: '',
     });
-  }, [itemData.select_video, itemData.video_category, reset]);
+  }, [reset]);
+
+  const filterVideosByInput = ({video_category_id, video_id}: any) => {
+    if (video_category_id?.length == 0 && video_id?.length == 0) {
+      setFilteredVideoItems(videoItems);
+    } else {
+      setFilteredVideoItems(
+        videoItems?.filter((item: any) =>
+          video_id
+            ? item.id == video_id
+            : item.video_category_id == video_category_id,
+        ),
+      );
+    }
+  };
+
+  const onChangeCategory = () => {
+    filterVideosByInput({
+      video_category_id: getValues('video_category_id'),
+      video_id: '',
+    });
+  };
 
   const onChangeValue = (value: number) => {
-    let filterData = filteringData?.filter((item: any) => item.id === value);
-    let newArr = [...filterData];
-    setCardData(newArr);
-    setIsFiltered((prevCheck) => !prevCheck);
-  };
-  const onChangeCategory = (value: any) => {
-    let filterData = filteringData?.filter(
-      (item: any) => item.video_category === value,
-    );
-    let newArr = [...filterData];
-    setCardData(newArr);
-    setIsFiltered((prevCheck) => !prevCheck);
+    filterVideosByInput(getValues());
   };
 
-  const searchData = (event: any) => {
-    let filters = event.target.value.toLowerCase();
-    let filterData = filteringData?.filter((item: any) =>
-      item.title.toLowerCase().includes(filters),
+  const onSearch: SubmitHandler<any> = async (data: any) => {
+    let filter = filteredVideoItems?.filter((item: any) =>
+      item.title.toLowerCase().includes(data.title),
     );
-    let newArr = [...filterData];
-    setCardData(newArr);
-    setIsFiltered((prevCheck) => !prevCheck);
+    let newArr = [...filter];
+    setFilteredVideoItems(newArr);
   };
 
   return (
@@ -104,7 +121,7 @@ const InstituteVideos = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
-            <H2 py={5}>ভিডিও সমূহ</H2>
+            <H2 py={5}>{messages['videos.institute']}</H2>
           </Paper>
         </Grid>
       </Grid>
@@ -118,30 +135,30 @@ const InstituteVideos = () => {
                     <FilterListIcon />
                   </Grid>
                   <Grid item md={6}>
-                    <Typography>ফিল্টার</Typography>
+                    <Typography>{messages['filter.institute']}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
-                  id='id'
-                  label='ভিডি ক্যাটাগরি'
-                  isLoading={isLoadingInstitutesVideo}
+                  id='video_category_id'
+                  label={messages['video_category.institute']}
+                  isLoading={isLoadingVideoCategory}
                   control={control}
-                  optionValueProp={'video_category'}
-                  options={filteringData}
+                  optionValueProp={'video_category_id'}
+                  options={videoCategoryData}
                   optionTitleProp={['video_category']}
                   onChange={onChangeCategory}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
-                  id='id'
-                  label='ভিডিও সমূহ'
+                  id='video_id'
+                  label={messages['videos.institute']}
                   isLoading={isLoadingInstitutesVideo}
                   control={control}
                   optionValueProp={'id'}
-                  options={filteringData}
+                  options={filteredVideoItems}
                   optionTitleProp={['content']}
                   onChange={onChangeValue}
                 />
@@ -155,80 +172,79 @@ const InstituteVideos = () => {
                 </Button>
               </Grid>
               <Grid item xs={12} md={4}>
-                <Paper
-                  component='form'
-                  sx={{
-                    p: '2px 4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: 40,
-                  }}>
-                  <TextField
-                    id='name'
-                    label='অনুসন্ধান করুন'
-                    variant='outlined'
-                    onChange={searchData}
+                <form onSubmit={handleSubmit(onSearch)}>
+                  <CustomTextInput
+                    id='title'
+                    label={messages['common.search']}
+                    register={register}
                   />
                   <IconButton
-                    type='submit'
-                    sx={{p: '10px'}}
-                    aria-label='search'>
+                    className={classes.searchIcon}
+                    type={'submit'}
+                    disabled={isSubmitting}>
                     <SearchIcon />
                   </IconButton>
-                </Paper>
+                </form>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={12} mt={{xs: 4, md: 5}}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography gutterBottom variant='h6'>
-                  মোট ফলাফল পাওয়া গেছে{' '}
-                  <Chip label={cardsData?.length} color={'primary'} />
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={5}>
-                  {cardsData?.map((data: any) => {
-                    return (
-                      <Grid
-                        item
-                        md={3}
-                        justifyContent={'center'}
-                        mt={3}
-                        key={data.id}>
-                        <Card>
-                          <CardActionArea>
-                            <CardMedia
-                              component='img'
-                              height='140'
-                              image={data.image_url}
-                              alt='random image'
-                            />
-                            <CardContent>
-                              <Typography
-                                gutterBottom
-                                variant='body1'
-                                component='div'>
-                                {data?.content}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
-                      </Grid>
-                    );
-                  })}
+          {filteredVideoItems?.length > 0 ? (
+            <Grid item md={12} mt={{xs: 4, md: 5}}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography gutterBottom variant='h6'>
+                    মোট ফলাফল পাওয়া গেছে{' '}
+                    <Chip
+                      label={filteredVideoItems?.length}
+                      color={'primary'}
+                    />
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container spacing={5}>
+                    {filteredVideoItems?.map((data: any) => {
+                      return (
+                        <Grid
+                          item
+                          md={3}
+                          justifyContent={'center'}
+                          mt={3}
+                          key={data.id}>
+                          <Card>
+                            <CardActionArea>
+                              <CardMedia
+                                component='img'
+                                height='140'
+                                image={data.image_url}
+                                alt='random image'
+                              />
+                              <CardContent>
+                                <Typography
+                                  gutterBottom
+                                  variant='body1'
+                                  component='div'>
+                                  {data?.content}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          ) : (
+            <Grid container>
+              <Grid item>
+                <H2 py={5}>{messages['common.no_data_found']}</H2>
+              </Grid>
+            </Grid>
+          )}
 
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
-            <Pagination
-              count={Math.ceil(cardsData?.length / 4)}
-              variant='outlined'
-              color='primary'
-            />
+            <Pagination count={3} variant='outlined' color='primary' />
           </Grid>
         </Grid>
       </Container>
