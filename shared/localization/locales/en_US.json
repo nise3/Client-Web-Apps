@@ -516,7 +516,6 @@
   "common.about_me": "About Me",
   "common.user_id": "User Id",
   "common.change_user_id": "Change user Id",
-  "common.change_password": "Change password",
   "common.delete_account": "Delete account",
   "common.settings": "Settings",
   "common.year": "Year",
@@ -637,5 +636,9 @@
   "common.marital_status_divorced": "Divorced",
   "common.identity_type_nid": "National Identity No",
   "common.identity_type_birth_cert": "Birth Certificate No",
-  "common.identity_type_passport": "Passport No"
+  "common.identity_type_passport": "Passport No",
+  "guardian.title": "Guardian",
+  "guardian.add": "Add Guardian",
+  "guardian.no_data": "No Guardian added yet",
+  "guardian.view": "View Guardians"
 }

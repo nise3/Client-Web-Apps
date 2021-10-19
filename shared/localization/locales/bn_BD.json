@@ -640,5 +640,9 @@
   "youth_feed.see_more_courses": "আরও কোর্স দেখুন",
   "youth_sidebar_menu.personal_information": "বাক্তিগত তথ্য",
   "youth_registration.success": "নিবন্ধন সফল হয়েছে",
-  "youth_registration.set_as_username": "ব্যবহারকারীর নাম হিসাবে সেট করুন"
+  "youth_registration.set_as_username": "ব্যবহারকারীর নাম হিসাবে সেট করুন",
+  "guardian.title": "অভিভাবক",
+  "guardian.add": "অভিভাবক যোগ করুন",
+  "guardian.no_data": "এখনো কোন অভিভাবক যোগ করা হয়নি",
+  "guardian.view": "অভিভাবক দেখুন"
 }

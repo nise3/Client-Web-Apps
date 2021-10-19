@@ -139,3 +139,16 @@ export interface YouthPortfolio {
   description_en?: string;
   file_path?: string;
 }
+
+export interface Guardian {
+  id: number;
+  name: string;
+  name_en?: string;
+  nid?: string;
+  mobile?: string;
+  date_of_birth?: string;
+  relationship_type?: number;
+  relationship_title?: string;
+  relationship_title_en?: string
+
+}

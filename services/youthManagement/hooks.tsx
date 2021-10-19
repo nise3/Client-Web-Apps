@@ -9,6 +9,7 @@ import {
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_CERTIFICATES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
+  API_YOUTH_GUARDIANS_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -75,6 +76,11 @@ export function useFetchPortfolio(portfolioId: number | null) {
 
 export function useFetchLanguageProficiencies() {
   return useAxiosSWR(API_YOUTH_LANGUAGE_PROFICIENCIES);
+}
+
+/** fetches guardians list of the youth */
+export function useFetchGuardians() {
+  return useAxiosSWR(API_YOUTH_GUARDIANS_LIST);
 }
 
 export function useFetchLanguageProficiency(
