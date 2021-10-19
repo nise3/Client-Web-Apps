@@ -12,7 +12,6 @@ const CourseDetails = () => {
   let {courseId} = router.query;
 
   const {data: courseDetails} = useFetchCourseDetails(1);
-  console.log('course details', courseDetails);
 
   return (
     <Container maxWidth={'xl'} sx={{marginTop: 5, marginBottom: 5}}>
