@@ -6,13 +6,7 @@ import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 interface FreelancerCardComponentProps {
-  freelancer: {
-    image: string;
-    name: string;
-    designation: string;
-    description?: string;
-    skills: string[];
-  };
+  freelancer: any;
 }
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -47,8 +41,12 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
                 justifyContent: 'center',
                 marginLeft: 2,
               }}>
-              <Box className={classes.titleStyle}>{freelancer.name}</Box>
-              <Box className={classes.colorGray}>{freelancer.designation}</Box>
+              <Box className={classes.titleStyle}>
+                {freelancer?.first_name + freelancer?.last_name}
+              </Box>
+              <Box className={classes.colorGray}>
+                {'freelancer.designation'}
+              </Box>
             </Box>
           </Box>
           <Box>

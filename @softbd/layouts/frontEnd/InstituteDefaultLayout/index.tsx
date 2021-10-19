@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       width: '100%',
       color: theme.palette.text.primary,
-      // maxWidth: theme.breakpoints.values.xl,
       marginRight: 'auto',
       marginLeft: 'auto',
     },

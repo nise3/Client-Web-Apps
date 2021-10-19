@@ -10,6 +10,7 @@ import {
   API_YOUTH_CERTIFICATES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
   API_YOUTH_GUARDIANS_LIST,
+  API_YOUTH_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -81,6 +82,10 @@ export function useFetchLanguageProficiencies() {
 /** fetches guardians list of the youth */
 export function useFetchGuardians() {
   return useAxiosSWR(API_YOUTH_GUARDIANS_LIST);
+}
+
+export function useFetchYouths() {
+  return useAxiosSWR(API_YOUTH_LIST);
 }
 
 export function useFetchLanguageProficiency(
