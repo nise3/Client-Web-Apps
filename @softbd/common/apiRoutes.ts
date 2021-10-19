@@ -84,10 +84,12 @@ export const API_YOUTH_LANGUAGE_PROFICIENCIES =
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
 
+/** Routes for gallery page map */
 export const API_FRONT_END_GALLERY_LIST = INSTITUTE_SERVICE_PATH + '/galleries';
 export const API_FRONT_END_GALLERY_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/gallery-category';
 
+/** Routes for video page map */
 export const API_FRONT_END_VIDEOS_LIST = INSTITUTE_SERVICE_PATH + '/videos';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
@@ -96,3 +98,6 @@ export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
 /** Routes for application management */
 export const API_APPLICATION_MANAGEMENT = API_INSTITUTES + '/application-management';
 export const API_APPLICATION_PROCESSING = API_INSTITUTES + '/application-processing';
+
+/** Routes for contact page map */
+export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';

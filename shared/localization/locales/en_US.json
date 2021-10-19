@@ -637,5 +637,10 @@
   "common.marital_status_divorced": "Divorced",
   "common.identity_type_nid": "National Identity No",
   "common.identity_type_birth_cert": "Birth Certificate No",
-  "common.identity_type_passport": "Passport No"
+  "common.identity_type_passport": "Passport No",
+  "galleries.institute": "Galleries",
+  "filter.institute": "Filter",
+  "gallery_category.institute": "Gallery Category",
+  "total_result.institute": "Total Results",
+  "video_category.institute": "Video Category"
 }

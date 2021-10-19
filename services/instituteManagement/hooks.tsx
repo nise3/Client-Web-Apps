@@ -2,7 +2,7 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
   API_BRANCHES,
-  API_COURSES,
+  API_COURSES, API_FONT_END_CONTACT_MAP,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
@@ -92,4 +92,8 @@ export function useFetchTrainer(trainerId: number | null) {
 
 export function useFetchTrainers(params: any) {
   return useAxiosSWR([API_TRAINERS, params]);
+}
+
+export function useFetchInstitutesContactMap() {
+  return useAxiosSWR([API_FONT_END_CONTACT_MAP]);
 }

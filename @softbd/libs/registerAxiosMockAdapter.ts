@@ -8,12 +8,13 @@ import {
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_END_VIDEOS_LIST,
   API_COURSE_DETAILS,
-  API_COURSES,
+  API_COURSES, API_FONT_END_CONTACT_MAP,
 } from '../common/apiRoutes';
 import videos, {videosCategories} from '../mock-db/videos';
 import galleries, {galleryCategories} from '../mock-db/gallery';
 import courses from '../mock-db/courses';
 import myCourses from '../mock-db/myCourses';
+import contactMapData from '../mock-db/contactMap';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -30,6 +31,8 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock
     .onGet(API_FRONT_END_GALLERY_CATEGORY_LIST)
     .reply(200, {data: galleryCategories});
+
+  mock.onGet(API_FONT_END_CONTACT_MAP).reply(200, {data: contactMapData});
 
   mock.onGet(API_COURSES + '/skill').reply(200, {data: courses});
   mock.onGet(API_COURSES + '/recent').reply(200, {data: courses});

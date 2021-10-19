@@ -23,7 +23,7 @@ const galleries: Array<any> = [
     image_url:
       'https://images.pexels.com/photos/5686103/pexels-photo-5686103.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
     content: 'বিটাক টেইনিং নিলে টেইনিং শেষই মিলবে চাকরি 3',
-    gallery_category_id: '3',
+    gallery_category_id: '2',
     updated_at: '2021-08-10T07:16:19.000000Z',
   },
 ];
@@ -41,7 +41,7 @@ export const galleryCategories = [
   },
   {
     id: 3,
-    gallery_category_id: '3',
+    gallery_category_id: '2',
     gallery_category: 'course',
   },
 ];

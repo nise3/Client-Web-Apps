@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -17,14 +17,17 @@ import makeStyles from '@mui/styles/makeStyles';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
+import GoogleMapReact from 'google-map-react';
+import {
+  useFetchInstitutesContactMap,
+} from '../../../services/instituteManagement/hooks';
+
 
 type MapProp = {
   text: string;
   lat: number;
   lng: number;
 };
-
-import GoogleMapReact from 'google-map-react';
 
 const MapComponent = ({text}: MapProp) => (
   <div
@@ -60,44 +63,26 @@ const InstituteContact = () => {
   const {successStack} = useNotiStack();
   const classes = useStyles();
 
-  const mapData = {
-    center: {
-      lat: 23.737328070620766,
-      lng: 90.43889115334508,
-    },
-    zoom: 11,
-  };
-
-  const locArr = [
-    {
-      lat: 23.737328070620766,
-      lng: 90.43889115334508,
-      text: 'Softbd 1',
-    },
-    {
-      lat: 23.992844983518117,
-      lng: 90.36344795305908,
-      text: 'Softbd 2',
-    },
-    {
-      lat: 23.965844983518117,
-      lng: 90.36344795305908,
-      text: 'Softbd 3',
-    },
-  ];
+  const {data: mapsData} = useFetchInstitutesContactMap();
 
   const [mapCenter, setMapCenter] = useState({
     lat: 23.776488939377593,
     lng: 90.38155009066672,
   });
-  const [mapLocation, setMapLocation] = useState(locArr);
+
+  const [mapLocations, setMapLocations] = useState([]);
+
+
+  useEffect(() => {
+    setMapLocations(mapsData);
+  }, [mapsData]);
 
   const APIKEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
 
   const onChangeMapValue = (value: any) => {
-    let filterData = locArr.filter((item) => item.text === value);
-    let newArr = [...filterData];
-    setMapLocation(newArr);
+    let filterData = mapsData?.filter((item: any) => item.title === value);
+    let newArr: any = [...filterData];
+    setMapLocations(newArr);
     setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
   };
 
@@ -234,13 +219,13 @@ const InstituteContact = () => {
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
                     <CustomFormSelect
-                      id='location'
+                      id='title'
                       label={messages['common.location']}
                       isLoading={false}
                       control={control}
-                      optionValueProp={'text'}
-                      options={locArr}
-                      optionTitleProp={['text']}
+                      optionValueProp={'title'}
+                      options={mapsData}
+                      optionTitleProp={['title']}
                       onChange={onChangeMapValue}
                     />
                   </Grid>
@@ -248,15 +233,15 @@ const InstituteContact = () => {
                     <div style={{height: '100vh', width: '100%'}}>
                       <GoogleMapReact
                         bootstrapURLKeys={{key: APIKEY}}
-                        defaultCenter={mapData.center}
-                        defaultZoom={mapData.zoom}
+                        defaultCenter={mapCenter}
+                        defaultZoom={11}
                         center={mapCenter}>
-                        {mapLocation.map((item, i) => (
+                        {mapLocations?.map((item: any, i: number) => (
                           <MapComponent
                             key={i}
                             lat={item.lat}
                             lng={item.lng}
-                            text={item.text}
+                            text={item.title}
                           />
                         ))}
                       </GoogleMapReact>
