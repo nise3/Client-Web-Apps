@@ -3,7 +3,8 @@ import {AddCircle, CheckCircle} from '@mui/icons-material';
 import React from 'react';
 import {createStyles, makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
-import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -24,7 +25,7 @@ const CustomDivider = () => {
 
 const ProfileCompleteSignatureMenu = () => {
   const {messages} = useIntl();
-  const {data: youthInfo} = useFetchYouthProfile();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   return (
     <Card>
@@ -34,7 +35,7 @@ const ProfileCompleteSignatureMenu = () => {
             {messages['common.phone']}
           </Grid>
           <Grid item xs={1}>
-            {youthInfo?.mobile ? (
+            {authUser?.mobile ? (
               <CheckCircle fontSize={'inherit'} color={'primary'} />
             ) : (
               <AddCircle fontSize={'inherit'} color={'primary'} />
@@ -47,7 +48,7 @@ const ProfileCompleteSignatureMenu = () => {
             {messages['common.email']}
           </Grid>
           <Grid item xs={1}>
-            {youthInfo?.email ? (
+            {authUser?.email ? (
               <CheckCircle fontSize={'inherit'} color={'primary'} />
             ) : (
               <AddCircle fontSize={'inherit'} color={'primary'} />
@@ -60,7 +61,7 @@ const ProfileCompleteSignatureMenu = () => {
             {messages['common.nid']}
           </Grid>
           <Grid item xs={1}>
-            {youthInfo?.nid ? (
+            {authUser?.identity_number ? (
               <CheckCircle fontSize={'inherit'} color={'primary'} />
             ) : (
               <AddCircle fontSize={'inherit'} color={'primary'} />
@@ -73,7 +74,7 @@ const ProfileCompleteSignatureMenu = () => {
             {messages['common.bid']}
           </Grid>
           <Grid item xs={1}>
-            {youthInfo?.bid ? (
+            {authUser?.identity_number ? (
               <CheckCircle fontSize={'inherit'} color={'primary'} />
             ) : (
               <AddCircle fontSize={'inherit'} color={'primary'} />

@@ -193,22 +193,6 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .label(messages['youth_registration.ethnic_group'] as string),
-      /*village_or_area: yup
-        .string()
-        .nullable()
-        .notRequired()
-        .when('village_or_area', {
-          is: (value: any) => value && value.length > 0,
-          then: (rule: any) =>
-            rule
-              .matches(MOBILE_NUMBER_REGEX)
-              .label(messages['common.village_or_area_bn'] as string),
-        }),*/
-      zip_or_postal_code: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.zip_or_postal_code'] as string),
       password: yup
         .string()
         .trim()

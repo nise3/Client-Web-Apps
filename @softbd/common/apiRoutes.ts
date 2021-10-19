@@ -8,6 +8,7 @@ export const CMS_SERVICE_PATH = '/cms';
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CMS_SERVICE_PATH + '/upazilas';
+export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
 export const API_PERMISSION_SUB_GROUPS =
   CORE_SERVICE_PATH + '/permission-sub-groups';

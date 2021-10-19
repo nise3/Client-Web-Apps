@@ -46,6 +46,7 @@ export interface YouthAuthUser extends AuthUser {
   identity_number_type: IdentityNumberType;
   identity_number?: string;
   does_belong_to_ethnic_group?: EthnicGroupStatusType;
+  is_freelance_profile: number;
   loc_division_id?: string;
   loc_division_title_en?: string;
   loc_division_title?: string;

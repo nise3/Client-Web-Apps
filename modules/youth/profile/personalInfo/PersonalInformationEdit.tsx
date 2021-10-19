@@ -197,22 +197,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      /*village_or_area: yup
-        .string()
-        .nullable()
-        .notRequired()
-        .when('village_or_area', {
-          is: (value: any) => value && value.length > 0,
-          then: (rule: any) =>
-            rule
-              .matches(MOBILE_NUMBER_REGEX)
-              .label(messages['common.village_or_area_bn'] as string),
-        }),*/
-      zip_or_postal_code: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.zip_or_postal_code'] as string),
     });
   }, [messages, userNameType, disabilityStatus]);
 
@@ -664,6 +648,19 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={6}>
               <CustomFormSelect
+                id='nationality'
+                label={messages['common.nationality']}
+                isLoading={false}
+                control={control}
+                options={nationalities}
+                optionValueProp={'id'}
+                optionTitleProp={['title', 'title_en']}
+                errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <CustomFormSelect
                 id='religion'
                 label={messages['common.religion']}
                 isLoading={false}
@@ -726,19 +723,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               </Grid>
             )}
 
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='nationality'
-                label={messages['common.nationality']}
-                isLoading={false}
-                control={control}
-                options={nationalities}
-                optionValueProp={'id'}
-                optionTitleProp={['title', 'title_en']}
-                errorInstance={errors}
-              />
-            </Grid>
-
             <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_division_id'
@@ -775,54 +759,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 optionValueProp={'id'}
                 optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='village_or_area'
-                label={messages['common.village_or_area_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='village_or_area_en'
-                label={messages['common.village_or_area_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='house_n_road'
-                label={messages['common.house_n_road_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='house_n_road_en'
-                label={messages['common.house_n_road_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='zip_or_postal_code'
-                label={messages['common.zip_or_postal_code']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>

@@ -4,7 +4,7 @@ import {AddCircle, CheckCircle} from '@mui/icons-material';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
-import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   profileItem: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 }));
 
 interface BasicInfoItemBoxProps {
-  youthProfile: YouthPersonalInfo;
+  youthProfile: YouthAuthUser | null;
 }
 
 const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
@@ -53,7 +53,7 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
       </Box>
       <Box className={classes.profileItem}>
         <Box className={classes.displayInline}>{messages['common.nid']}</Box>
-        {youthProfile?.nid ? (
+        {youthProfile?.identity_number ? (
           <CheckCircle className='itemIcon' color={'primary'} />
         ) : (
           <AddCircle className='itemIcon' color={'primary'} />
@@ -62,7 +62,7 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
       </Box>
       <Box className={classes.profileItem}>
         <Box className={classes.displayInline}>{messages['common.bid']}</Box>
-        {youthProfile?.bid ? (
+        {youthProfile?.identity_number ? (
           <CheckCircle className='itemIcon' color={'primary'} />
         ) : (
           <AddCircle className='itemIcon' color={'primary'} />

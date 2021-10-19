@@ -11,21 +11,22 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {updateYouthFreelanceProfileStatus} from '../../../services/youthManagement/YouthService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const FreelanceProfileSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {data: youthProfile} = useFetchYouthProfile();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   const [freelanceProfileStatus, setFreelanceProfileStatus] =
     useState<number>(0);
 
   useEffect(() => {
-    if (youthProfile) {
-      setFreelanceProfileStatus(youthProfile.is_freelance_profile);
+    if (authUser) {
+      setFreelanceProfileStatus(authUser.is_freelance_profile);
     }
-  }, [youthProfile]);
+  }, [authUser]);
 
   const handleFreelanceProfileStatusChange = useCallback(async (event: any) => {
     const status = event.target.checked ? 1 : 0;
