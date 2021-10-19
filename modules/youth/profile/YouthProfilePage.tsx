@@ -7,6 +7,7 @@ import JobExperienceSection from './jobExperiences/JobExperienceSection';
 import EducationSection from './educations/EducationSection';
 import CertificationSection from './certifications/CertificationSection';
 import LanguageSection from './languages/LanguageSection';
+import GuardianSection from './guardians/GuardianSection';
 import ReferenceSection from './references/ReferenceSection';
 import PortfolioSection from './portfolios/PortfolioSection';
 import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
@@ -50,6 +51,9 @@ const YouthProfile = () => {
               </Grid>
               <Grid item xs={12} md={12}>
                 <PortfolioSection />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <GuardianSection />
               </Grid>
             </Grid>
           </Grid>

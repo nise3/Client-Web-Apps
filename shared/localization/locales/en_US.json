@@ -515,7 +515,6 @@
   "common.about_me": "About Me",
   "common.user_id": "User Id",
   "common.change_user_id": "Change user Id",
-  "common.change_password": "Change password",
   "common.delete_account": "Delete account",
   "common.settings": "Settings",
   "common.year": "Year",
@@ -641,5 +640,9 @@
   "filter.institute": "Filter",
   "gallery_category.institute": "Gallery Category",
   "total_result.institute": "Total Results",
-  "video_category.institute": "Video Category"
+  "video_category.institute": "Video Category",
+  "guardian.title": "Guardian",
+  "guardian.add": "Add Guardian",
+  "guardian.no_data": "No Guardian added yet",
+  "guardian.view": "View Guardians"
 }
