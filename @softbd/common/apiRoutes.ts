@@ -59,7 +59,6 @@ export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 /** Youths end-points */
 export const API_YOUTH_REGISTRATION =
   YOUTH_SERVICE_PATH + '/youth-registration';
-export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-personal-info-update';
@@ -84,8 +83,9 @@ export const API_YOUTH_LANGUAGE_PROFICIENCIES =
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
 
-export const API_YOUTH_GUARDIANS_LIST =
-  YOUTH_SERVICE_PATH + '/youth-guardians';
+export const API_YOUTH_GUARDIANS_LIST = YOUTH_SERVICE_PATH + '/youth-guardians';
+
+export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 
 /** Routes for gallery page map */
 export const API_FRONT_END_GALLERY_LIST = INSTITUTE_SERVICE_PATH + '/galleries';

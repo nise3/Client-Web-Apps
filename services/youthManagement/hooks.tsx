@@ -84,8 +84,8 @@ export function useFetchGuardians() {
   return useAxiosSWR(API_YOUTH_GUARDIANS_LIST);
 }
 
-export function useFetchYouths() {
-  return useAxiosSWR(API_YOUTH_LIST);
+export function useFetchYouths(params: any) {
+  return useAxiosSWR([API_YOUTH_LIST, params]);
 }
 
 export function useFetchLanguageProficiency(
