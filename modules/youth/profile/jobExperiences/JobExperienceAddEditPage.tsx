@@ -38,8 +38,8 @@ const initialValues = {
   employment_type_id: '',
   location: '',
   location_en: '',
-  job_description: '',
-  job_description_en: '',
+  job_responsibilities: '',
+  job_responsibilities_en: '',
   start_date: '',
   end_date: '',
   is_currently_work: 0,
@@ -55,7 +55,6 @@ const employmentTypes = [
 const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   itemId,
   onClose: closeJobExperienceAddEditPage,
-  ...props
 }: JobExperienceAddEditProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -66,18 +65,10 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .required()
         .label(messages['common.company_name_bn'] as string),
-      company_name_en: yup
-        .string()
-        .nullable()
-        .label(messages['common.company_name_en'] as string),
       position: yup
         .string()
         .required()
         .label(messages['common.position_bn'] as string),
-      position_en: yup
-        .string()
-        .nullable()
-        .label(messages['common.position_en'] as string),
       employment_type_id: yup
         .string()
         .required()
@@ -86,18 +77,10 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .required()
         .label(messages['common.location_bn'] as string),
-      location_en: yup
-        .string()
-        .nullable()
-        .label(messages['common.location_en'] as string),
       start_date: yup
         .string()
         .required()
         .label(messages['common.start_date'] as string),
-      end_date: yup
-        .string()
-        .nullable()
-        .label(messages['common.end_date'] as string),
     });
   }, [messages]);
 
@@ -130,13 +113,13 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         position_en: itemData?.position_en,
         location: itemData.location,
         location_en: itemData?.location_en,
-        job_description: itemData?.job_description,
-        job_description_en: itemData?.job_description_en,
+        job_responsibilities: itemData?.job_responsibilities,
+        job_responsibilities_en: itemData?.job_responsibilities_en,
         start_date: itemData.start_date,
         end_date: itemData?.end_date,
         employment_type_id: itemData?.employment_type_id,
       });
-      setCurrentWorkStatus(itemData?.is_currently_work);
+      setCurrentWorkStatus(itemData?.is_currently_working);
     } else {
       reset(initialValues);
       setCurrentWorkStatus(initialValues.is_currently_work);
@@ -146,7 +129,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   const onSubmit: SubmitHandler<YouthJobExperience> = async (
     data: YouthJobExperience,
   ) => {
-    data.is_currently_work = currentWorkStatus;
+    data.is_currently_working = currentWorkStatus;
 
     const response = itemId
       ? await updateJobExperience(itemId, data)
@@ -281,8 +264,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='job_description'
-                label={messages['common.job_description_bn']}
+                id='job_responsibilities'
+                label={messages['common.job_responsibilities_bn']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -292,8 +275,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='job_description_en'
-                label={messages['common.job_description_en']}
+                id='job_responsibilities_en'
+                label={messages['common.job_responsibilities_en']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}

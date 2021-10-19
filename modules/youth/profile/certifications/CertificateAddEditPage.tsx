@@ -52,38 +52,18 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         .string()
         .required()
         .label(messages['certification.label'] as string),
-      certification_name_en: yup
-        .string()
-        .nullable()
-        .label(messages['certification.label'] as string),
       institute_name: yup
         .string()
         .required()
         .label(messages['common.institute_name_bn'] as string),
-      institute_name_en: yup
-        .string()
-        .nullable()
-        .label(messages['common.institute_name_en'] as string),
       location: yup
         .string()
         .required()
         .label(messages['common.location_bn'] as string),
-      location_en: yup
-        .string()
-        .nullable()
-        .label(messages['common.location_en'] as string),
-      start_date: yup
-        .string()
-        .nullable()
-        .label(messages['common.start_date'] as string),
-      end_date: yup
-        .string()
-        .nullable()
-        .label(messages['common.end_date'] as string),
-      certificate_file_path: yup
+      /*certificate_file_path: yup
         .string()
         .required(messages['certificate.upload'] as string)
-        .label(messages['certificate.upload'] as string),
+        .label(messages['certificate.upload'] as string),*/
     });
   }, [messages]);
 
@@ -125,8 +105,8 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthCertificate> = async (
     data: YouthCertificate,
   ) => {
-    /* data.certificate_file_path =
-       'https://image.freepik.com/free-vector/elegant-blue-gold-diploma-certificate-template_1017-17257.jpg';*/
+    data.certificate_file_path =
+      'https://image.freepik.com/free-vector/elegant-blue-gold-diploma-certificate-template_1017-17257.jpg';
     const response = itemId
       ? await updateCertificate(itemId, data)
       : await createCertificate(data);

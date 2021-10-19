@@ -59,37 +59,22 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      referrer_first_name_en: yup
-        .string()
-        .label(messages['common.first_name_en'] as string),
       referrer_first_name: yup
         .string()
         .title()
         .label(messages['common.first_name_bn'] as string),
-      referrer_last_name_en: yup
-        .string()
-        .label(messages['common.last_name_en'] as string),
       referrer_last_name: yup
         .string()
         .title()
         .label(messages['common.last_name_bn'] as string),
-      referrer_organization_name_en: yup
-        .string()
-        .label(messages['common.organization_en'] as string),
       referrer_organization_name: yup
         .string()
         .title()
         .label(messages['common.organization_bn'] as string),
-      referrer_designation_en: yup
-        .string()
-        .label(messages['common.designation_en'] as string),
       referrer_designation: yup
         .string()
         .title()
         .label(messages['common.designation_bn'] as string),
-      referrer_address_en: yup
-        .string()
-        .label(messages['common.address_en'] as string),
       referrer_address: yup
         .string()
         .title()
@@ -106,9 +91,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
         .required()
         .email()
         .label(messages['common.email'] as string),
-      referrer_relation_en: yup
-        .string()
-        .label(messages['common.relation_en'] as string),
       referrer_relation: yup
         .string()
         .title()

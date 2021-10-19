@@ -55,7 +55,7 @@ const JobExperiences = ({
                           'DD MMM, YYYY',
                         ) +
                         ' - ' +
-                        (jobExperience.is_currently_work == 1
+                        (jobExperience.is_currently_working == 1
                           ? 'Present'
                           : jobExperience?.end_date
                           ? getMomentDateFormat(
@@ -96,7 +96,7 @@ const JobExperiences = ({
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Typography>{jobExperience?.job_description}</Typography>
+              <Typography>{jobExperience?.job_responsibilities}</Typography>
             </Grid>
           </Grid>
         </React.Fragment>

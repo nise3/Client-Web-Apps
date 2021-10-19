@@ -44,7 +44,7 @@ import IdentityNumberTypes from '../../../../@softbd/utilities/IdentityNumberTyp
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../../types/models/CommonAuthUser';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 
 interface PersonalInformationEditProps {
