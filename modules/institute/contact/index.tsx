@@ -18,10 +18,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
-import {
-  useFetchInstitutesContactMap,
-} from '../../../services/instituteManagement/hooks';
-
+import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
 
 type MapProp = {
   text: string;
@@ -72,7 +69,6 @@ const InstituteContact = () => {
 
   const [mapLocations, setMapLocations] = useState([]);
 
-
   useEffect(() => {
     setMapLocations(mapsData);
   }, [mapsData]);
@@ -83,7 +79,9 @@ const InstituteContact = () => {
     let filterData = mapsData?.filter((item: any) => item.title === value);
     let newArr: any = [...filterData];
     setMapLocations(newArr);
-    setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
+    if (newArr.length > 0) {
+      setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
+    }
   };
 
   const validationSchema = useMemo(() => {
