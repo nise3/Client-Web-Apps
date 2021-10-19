@@ -25,6 +25,11 @@ import FeaturedFreelanceSection from './FeaturedFreelanceSection';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import AllFreelancerListSection from './AllFreelancerListSection';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {
+  useFetchUpazila,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
@@ -64,6 +69,11 @@ const FreelanceCorner = () => {
   const searchTextField = useRef<any>();
 
   const {data: skills} = useFetchYouthSkills(skillFilters);
+  const {
+    data: upazilas,
+    isLoading: isLoadingUpazilas,
+    error,
+  } = useFetchUpazilas();
 
   const handleSearchAction = useCallback(() => {
     setSearchInputText(searchTextField.current?.value);
@@ -135,14 +145,15 @@ const FreelanceCorner = () => {
                   <Box sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
-                  <TextField
-                    variant='outlined'
-                    name='location'
-                    placeholder={
-                      messages['freelance_corner.add_location'] as string
-                    }
-                    fullWidth
-                    size={'small'}
+                  <CustomFormSelect
+                    id='location'
+                    control={true}
+                    label={messages['upazilas.label']}
+                    isLoading={isLoadingUpazilas}
+                    options={upazilas}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title_en', 'title']}
+                    errorInstance={error}
                   />
                 </CardContent>
               </Card>
