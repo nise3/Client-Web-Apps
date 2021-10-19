@@ -45,7 +45,7 @@ export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
 export const API_SKILLS = ORGANIZATION_SERVICE_PATH + '/skills';
 
 export const API_INSTITUTE_REGISTRATION =
-  INSTITUTE_SERVICE_PATH + '//institute-open-registration';
+  INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 export const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
 export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programmes';
@@ -94,11 +94,9 @@ export const API_FRONT_END_VIDEOS_LIST = INSTITUTE_SERVICE_PATH + '/videos';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
 
-/** Routes for application management */
+/** Routes for contact page map */
+export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
 export const API_APPLICATION_MANAGEMENT =
   API_INSTITUTES + '/application-management';
 export const API_APPLICATION_PROCESSING =
   API_INSTITUTES + '/application-processing';
-
-/** Routes for contact page map */
-export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';

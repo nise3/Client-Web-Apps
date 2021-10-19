@@ -1,18 +1,10 @@
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Grid,
-  Typography,
-} from '@mui/material';
+import {Box, Button, Card, Container, Grid, Typography} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import SectionTitle from './SectionTitle';
 import Image from 'next/image';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -20,6 +12,17 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       marginTop: '50px',
       backgroundColor: '#fff',
+    },
+    title: {
+      color: '#682988',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    vBar: {
+      height: '40px',
+      width: '5px',
+      background: 'linear-gradient(45deg, #ec5c17,#5affab)',
+      marginRight: '10px',
     },
     courseItem: {
       position: 'relative',
@@ -133,7 +136,15 @@ const PopularCourse = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
-        <SectionTitle title='জনপ্রিয় কোর্স' center={true}></SectionTitle>
+        <Typography variant='h5'>
+          <Box
+            style={{marginBottom: '50px', marginTop: '50px'}}
+            className={classes.title}
+            justifyContent={'center'}>
+            <Box className={classes.vBar}></Box>
+            <Box fontWeight='fontWeightBold'>জনপ্রিয় কোর্স</Box>
+          </Box>
+        </Typography>
         <Box mb={2}>
           <CustomCarousel>
             {items.map((item: any, key: number) => cardItem(item, key))}
@@ -143,7 +154,8 @@ const PopularCourse = () => {
           <Button
             variant='outlined'
             color='primary'
-            endIcon={<ArrowRightAlt />}>
+            endIcon={<ArrowRightAlt />}
+            style={{marginTop: '15px', marginBottom: '15px'}}>
             আরো দেখুন
           </Button>
         </Grid>

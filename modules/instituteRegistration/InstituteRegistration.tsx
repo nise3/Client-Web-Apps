@@ -6,10 +6,7 @@ import {Container, Grid, Link, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
-import {
-  MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_BANGLA_ONLY,
-} from '../../@softbd/common/patternRegex';
+import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   isResponseSuccess,
@@ -33,17 +30,10 @@ const InstituteRegistration = () => {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .trim()
-        .required()
-        .matches(TEXT_REGEX_BANGLA_ONLY)
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       institute_type_id: yup
         .string()
         .trim()
@@ -55,7 +45,7 @@ const InstituteRegistration = () => {
         .required()
         .email()
         .label(messages['common.email'] as string),
-      mobile: yup
+      primary_mobile: yup
         .string()
         .trim()
         .required()
@@ -63,13 +53,8 @@ const InstituteRegistration = () => {
       name_of_the_office_head: yup
         .string()
         .trim()
+        .required()
         .label(messages['common.name_of_the_office_head'] as string),
-      name_of_the_office_head_designation: yup
-        .string()
-        .trim()
-        .label(
-          messages['common.name_of_the_office_head_designation'] as string,
-        ),
       address: yup
         .string()
         .trim()
@@ -104,6 +89,7 @@ const InstituteRegistration = () => {
       password_confirmation: yup
         .string()
         .trim()
+        .required()
         .oneOf(
           [yup.ref('password'), null],
           messages['common.password_must_match'] as string,
@@ -122,6 +108,7 @@ const InstituteRegistration = () => {
   const {successStack} = useNotiStack();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log(data);
     const response = await createRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(
@@ -163,7 +150,7 @@ const InstituteRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='title'
-                label={messages['common.title_bn']}
+                label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
               />
@@ -175,12 +162,12 @@ const InstituteRegistration = () => {
                 label={'common.institute_type'}
                 radios={[
                   {
-                    key: '1',
-                    label: messages['common.government'],
+                    key: '0',
+                    label: messages['common.non_government'],
                   },
                   {
-                    key: '2',
-                    label: messages['common.non_government'],
+                    key: '1',
+                    label: messages['common.government'],
                   },
                 ]}
                 control={control}
@@ -199,7 +186,7 @@ const InstituteRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='mobile'
+                id='primary_mobile'
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
