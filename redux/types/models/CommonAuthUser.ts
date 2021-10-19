@@ -13,6 +13,7 @@ export interface AuthUser {
   email?: string;
   username: string;
   authType: AuthType;
+  photoURL?: string;
 }
 
 export interface CommonAuthUser extends AuthUser {
@@ -25,7 +26,6 @@ export interface CommonAuthUser extends AuthUser {
   organization?: Organization | any;
   role: Role | any;
   permissions: string[];
-  photoURL?: string;
 }
 
 export interface YouthAuthUser extends AuthUser {
@@ -73,4 +73,5 @@ export interface YouthAuthUser extends AuthUser {
   portfolios?: any[];
 }
 
-export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {}
+export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {
+}

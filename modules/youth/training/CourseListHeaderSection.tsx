@@ -46,6 +46,7 @@ const CourseListHeaderSection = () => {
     null,
   );
 
+  // @ts-ignore
   const [selectedProgrammeId, setSelectedProgrammeId] = useState<number | null>(
     null,
   );

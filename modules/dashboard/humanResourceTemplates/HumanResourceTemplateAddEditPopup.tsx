@@ -108,7 +108,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       setError,
       handleSubmit,
       formState: {errors, isSubmitting},
-    } = useForm<HumanResourceTemplate>({
+    } = useForm<any>({
       resolver: yupResolver(validationSchema),
     });
 

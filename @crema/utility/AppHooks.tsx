@@ -9,7 +9,10 @@ import {
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../redux/types/actions/Auth.actions';
-import {AuthUser} from '../../redux/types/models/CommonAuthUser';
+import {
+  AuthUser,
+  CommonAuthUser,
+} from '../../redux/types/models/CommonAuthUser';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 
 export const useAuthToken = () => {
@@ -51,7 +54,9 @@ export const useAuthToken = () => {
   return [loading, user];
 };
 
-export const useAuthUser = <T extends AuthUser>(): T | null => {
+export const useAuthUser = <
+  T extends AuthUser = CommonAuthUser,
+>(): T | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {

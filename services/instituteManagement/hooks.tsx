@@ -2,7 +2,8 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
   API_BRANCHES,
-  API_COURSES, API_FONT_END_CONTACT_MAP,
+  API_COURSES,
+  API_FONT_END_CONTACT_MAP,
   API_COURSE_DETAILS,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
@@ -68,8 +69,8 @@ export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
 }
 
-export function useFetchCourses(endPoint: string, params: any) {
-  return useAxiosSWR([endPoint, params]);
+export function useFetchCourses(params: any) {
+  return useAxiosSWR([API_COURSES, params]);
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {

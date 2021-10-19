@@ -38,6 +38,7 @@ import {
 } from '../../../services/locationManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -70,7 +71,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;

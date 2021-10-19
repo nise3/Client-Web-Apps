@@ -65,7 +65,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
           .label(messages['common.title_en'] as string),
         title: yup
           .string()
-          .title('')
+          .title()
           .label(messages['common.title'] as string),
         organization_id:
           authUser && authUser.isSystemUser

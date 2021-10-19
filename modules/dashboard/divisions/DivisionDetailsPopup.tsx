@@ -6,7 +6,6 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
 
