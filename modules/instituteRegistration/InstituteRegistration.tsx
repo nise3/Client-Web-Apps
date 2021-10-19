@@ -89,6 +89,7 @@ const InstituteRegistration = () => {
       password_confirmation: yup
         .string()
         .trim()
+        .required()
         .oneOf(
           [yup.ref('password'), null],
           messages['common.password_must_match'] as string,
@@ -107,6 +108,7 @@ const InstituteRegistration = () => {
   const {successStack} = useNotiStack();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log(data);
     const response = await createRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(
@@ -160,12 +162,12 @@ const InstituteRegistration = () => {
                 label={'common.institute_type'}
                 radios={[
                   {
-                    key: '1',
-                    label: messages['common.government'],
-                  },
-                  {
                     key: '0',
                     label: messages['common.non_government'],
+                  },
+                  {
+                    key: '1',
+                    label: messages['common.government'],
                   },
                 ]}
                 control={control}

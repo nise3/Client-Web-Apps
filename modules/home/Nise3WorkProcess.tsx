@@ -1,5 +1,5 @@
 import React from 'react';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
@@ -63,7 +63,7 @@ const Nise3WorkProcess = () => {
             <Fade direction='down'>
               <Typography variant='h4' gutterBottom={true}>
                 <Box fontWeight='fontWeightBold' mb={6}>
-                  নাইস-থ্রি কিভাবে কাজ করে ?
+                  নাইস-থ্রি কিভাবে কাজ করে?
                 </Box>
               </Typography>
             </Fade>

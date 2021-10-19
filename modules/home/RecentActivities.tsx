@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {ArrowRightAlt, DateRangeOutlined} from '@mui/icons-material';
@@ -174,7 +174,8 @@ const RecentActivities = () => {
           <Button
             variant='outlined'
             color='primary'
-            endIcon={<ArrowRightAlt />}>
+            endIcon={<ArrowRightAlt />}
+            style={{marginTop: '10px'}}>
             আরো দেখুন
           </Button>
         </Grid>
