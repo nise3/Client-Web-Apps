@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '40%',
       },
 
-      [theme.breakpoints.down('xl')]: {
+      [theme.breakpoints.down('md')]: {
         marginTop: '13px',
         marginBottom: '10px',
         width: '100%',

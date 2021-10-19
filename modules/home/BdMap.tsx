@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       border: '1px solid #eee',
       borderRadius: '2px',
-      marginTop: '40px',
       backgroundColor: '#fff',
     },
 
@@ -60,7 +59,7 @@ const BdMap = () => {
             xs={12}
             sm={6}
             md={5}
-            mb={5}
+            mb={2}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
