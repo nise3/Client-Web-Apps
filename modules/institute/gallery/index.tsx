@@ -145,7 +145,7 @@ const InstituteGallery = () => {
                   label={messages['gallery_category.institute']}
                   isLoading={isLoadingGalleryCategories}
                   control={control}
-                  optionValueProp={'gallery_category_id'}
+                  optionValueProp={'id'}
                   options={galleryCategories}
                   optionTitleProp={['gallery_category']}
                   onChange={onChangeCategory}

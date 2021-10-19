@@ -31,18 +31,15 @@ const galleries: Array<any> = [
 export const galleryCategories = [
   {
     id: 1,
-    gallery_category_id: '1',
-    gallery_category: 'training',
+    gallery_category: 'Training 1',
   },
   {
     id: 2,
-    gallery_category_id: '2',
-    gallery_category: 'course',
+    gallery_category: 'Course 1',
   },
   {
     id: 3,
-    gallery_category_id: '2',
-    gallery_category: 'course',
+    gallery_category: 'Batch 1',
   },
 ];
 

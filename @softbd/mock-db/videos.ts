@@ -31,18 +31,15 @@ const videos: Array<any> = [
 export const videosCategories = [
   {
     id: 1,
-    video_category_id: '1',
-    video_category: 'training',
+    video_category: 'Training 1',
   },
   {
     id: 2,
-    video_category_id: '2',
-    video_category: 'course',
+    video_category: 'Course 1',
   },
   {
     id: 3,
-    video_category_id: '2',
-    video_category: 'course',
+    video_category: 'Batch 1',
   },
 ];
 

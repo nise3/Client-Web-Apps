@@ -145,7 +145,7 @@ const InstituteVideos = () => {
                   label={messages['video_category.institute']}
                   isLoading={isLoadingVideoCategory}
                   control={control}
-                  optionValueProp={'video_category_id'}
+                  optionValueProp={'id'}
                   options={videoCategoryData}
                   optionTitleProp={['video_category']}
                   onChange={onChangeCategory}
