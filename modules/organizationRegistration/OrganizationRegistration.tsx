@@ -293,7 +293,10 @@ const OrganizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+              style={{display: 'flex', justifyContent: 'flex-end'}}>
               <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
             </Grid>
           </Grid>
