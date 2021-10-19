@@ -100,3 +100,12 @@ export const API_APPLICATION_MANAGEMENT =
   API_INSTITUTES + '/application-management';
 export const API_APPLICATION_PROCESSING =
   API_INSTITUTES + '/application-processing';
+
+/** Routes for recent-activities page map */
+export const API_FRONT_END_RECENT_ACTIVITY_LIST =
+  INSTITUTE_SERVICE_PATH + '/recent-activities';
+export const API_FRONT_END_ALL_ACTIVITY_LIST =
+  INSTITUTE_SERVICE_PATH + '/all-activities';
+
+export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
+  INSTITUTE_SERVICE_PATH + '/recent-activity-details';

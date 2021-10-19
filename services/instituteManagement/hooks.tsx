@@ -2,7 +2,8 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
   API_BRANCHES,
-  API_COURSES, API_FONT_END_CONTACT_MAP,
+  API_COURSES,
+  API_FONT_END_CONTACT_MAP,
   API_COURSE_DETAILS,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
@@ -12,6 +13,8 @@ import {
   API_PROGRAMMES,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_FRONT_END_RECENT_ACTIVITY_LIST,
+  API_FRONT_END_ALL_ACTIVITY_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -101,4 +104,12 @@ export function useFetchTrainers(params: any) {
 
 export function useFetchInstitutesContactMap() {
   return useAxiosSWR([API_FONT_END_CONTACT_MAP]);
+}
+
+export function useFetchInstitutesRecentActivity() {
+  return useAxiosSWR([API_FRONT_END_RECENT_ACTIVITY_LIST]);
+}
+
+export function useFetchInstitutesAllActivity() {
+  return useAxiosSWR([API_FRONT_END_ALL_ACTIVITY_LIST]);
 }

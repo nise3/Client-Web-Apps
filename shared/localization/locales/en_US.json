@@ -641,5 +641,7 @@
   "filter.institute": "Filter",
   "gallery_category.institute": "Gallery Category",
   "total_result.institute": "Total Results",
-  "video_category.institute": "Video Category"
+  "video_category.institute": "Video Category",
+  "recent_activities.institute": "Recent Activities",
+  "all_activities.institute": "All Activities"
 }

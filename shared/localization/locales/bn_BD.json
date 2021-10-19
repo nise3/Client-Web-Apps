@@ -644,5 +644,7 @@
   "gallery_category.institute": "গ্যালারি ক্যাটাগরি",
   "total_result.institute": "মোট ফলাফল পাওয়া গেছে",
   "videos.institute": "ভিডিও সমূহ",
-  "video_category.institute": "ভিডিও ক্যাটাগরি"
+  "video_category.institute": "ভিডিও ক্যাটাগরি",
+  "recent_activities.institute": "সাম্প্রতিক কার্যক্রম",
+  "all_activities.institute": "সকল কার্যক্রম"
 }
