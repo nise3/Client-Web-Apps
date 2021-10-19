@@ -1,10 +1,10 @@
-import {AuthType} from '../../shared/constants/AppEnums';
-import {Gender} from '../../@softbd/utilities/Genders';
-import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
-import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
-import {Religion} from '../../@softbd/utilities/Religions';
-import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
-import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
+import {AuthType} from '../../../shared/constants/AppEnums';
+import {Gender} from '../../../@softbd/utilities/Genders';
+import {MaritalStatusType} from '../../../@softbd/utilities/MaritalStatus';
+import {FreedomFighterStatusType} from '../../../@softbd/utilities/FreedomFighterStatus';
+import {Religion} from '../../../@softbd/utilities/Religions';
+import {IdentityNumberType} from '../../../@softbd/utilities/IdentityNumberTypes';
+import {EthnicGroupStatusType} from '../../../@softbd/utilities/EthnicGroupStatus';
 
 export interface AuthUser {
   uid: string;

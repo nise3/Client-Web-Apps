@@ -30,7 +30,7 @@ const References = ({
           <HorizontalLine />
 
           <Grid container justifyContent={'space-between'}>
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={9}>
               <Grid container>
                 <Grid item xs={4} md={2}>
                   <Avatar
@@ -39,7 +39,7 @@ const References = ({
                     sx={{height: 80, width: 80}}
                   />
                 </Grid>
-                <Grid item xs={8} md={8}>
+                <Grid item xs={8} md={10}>
                   <Box>
                     <Typography variant={'subtitle2'}>
                       {reference?.referrer_first_name}{' '}
@@ -79,7 +79,7 @@ const References = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid item xs={12} md={3}>
               <Grid container spacing={2} justifyContent={'flex-end'}>
                 <Box mt={2}>
                   <CustomParabolaButton

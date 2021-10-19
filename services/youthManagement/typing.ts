@@ -17,9 +17,9 @@ export interface YouthJobExperience {
   end_date?: string;
   location: string;
   location_en?: string;
-  job_description?: string;
-  job_description_en?: string;
-  is_currently_work?: number;
+  job_responsibilities?: string;
+  job_responsibilities_en?: string;
+  is_currently_working?: number;
 }
 
 export interface YouthPersonalInfo {
