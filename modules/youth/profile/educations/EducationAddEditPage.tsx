@@ -62,6 +62,21 @@ const divisionResultCodes = [
 const gradeCode = 'GRADE';
 const educationLevelCodePHD = 'PHD';
 
+const educationLevelCodeWithGroup = [
+  'PSC_5_PASS',
+  'JSC_JDC_8_PASS',
+  'SECONDARY',
+  'HIGHER_SECONDARY',
+  'DIPLOMA',
+];
+
+const educationLevelCodeWithBoard = [
+  'PSC_5_PASS',
+  'JSC_JDC_8_PASS',
+  'SECONDARY',
+  'HIGHER_SECONDARY',
+];
+
 const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   itemId,
   onClose: onEducationEditPageClose,
@@ -96,15 +111,31 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
       education_level_id: yup
         .string()
         .required()
-        .label(messages['education.exam'] as string),
+        .label(messages['education.education_level'] as string),
+      edu_board_id:
+        selectedEducationLevel &&
+        educationLevelCodeWithBoard.includes(selectedEducationLevel.code)
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.board'] as string)
+          : yup.string(),
+      edu_group_id:
+        selectedEducationLevel &&
+        educationLevelCodeWithGroup.includes(selectedEducationLevel.code)
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.group'] as string)
+          : yup.string(),
       result: yup
         .string()
         .required()
-        .label(messages['education.exam'] as string),
+        .label(messages['education.result'] as string),
       year_of_passing: yup
         .string()
         .required()
-        .label(messages['education.exam'] as string),
+        .label(messages['education.passing_year'] as string),
     });
   }, [messages]);
 
@@ -126,7 +157,23 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
       reset({
         institute_name: itemData?.institute_name,
         institute_name_en: itemData?.institute_name_en,
+        education_level_id: itemData?.education_level_id,
+        exam_degree_id: itemData?.exam_degree_id,
+        major_or_concentration: itemData?.major_or_concentration,
+        major_or_concentration_en: itemData?.major_or_concentration_en,
+        edu_board_id: itemData?.edu_board_id,
+        edu_group_id: itemData?.edu_group_id,
+        foreign_institute_country_id: itemData?.foreign_institute_country_id,
+        result: itemData?.result,
+        marks_in_percentage: itemData?.marks_in_percentage,
+        cgpa_scale: itemData?.cgpa_scale,
+        cgpa: itemData?.cgpa,
+        year_of_passing: itemData?.year_of_passing,
+        duration: itemData?.duration,
+        achievements: itemData?.achievements,
+        achievements_en: itemData?.achievements_en,
       });
+      setIsForeignInstitute(itemData?.is_foreign_institute == 1);
     } else {
       reset(initialValues);
     }
@@ -167,6 +214,12 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthEducation> = async (
     data: YouthEducation,
   ) => {
+    data.is_foreign_institute = 1;
+    if (!isForeignInstitute) {
+      data.is_foreign_institute = 0;
+      delete data.foreign_institute_country_id;
+    }
+
     const response = itemId
       ? await updateEducation(itemId, data)
       : await createEducation(data);
