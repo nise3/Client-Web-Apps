@@ -648,5 +648,13 @@
   "guardian.title": "অভিভাবক",
   "guardian.add": "অভিভাবক যোগ করুন",
   "guardian.no_data": "এখনো কোন অভিভাবক যোগ করা হয়নি",
-  "guardian.view": "অভিভাবক দেখুন"
+  "guardian.view": "অভিভাবক দেখুন",
+  "guardian.name": "নাম",
+  "guardian.name_en": "নাম (ইংরেজী)",
+  "guardian.nid": "জাতীয় পরিচয়পত্রের নাম্বার",
+  "guardian.mobile": "মোবাইল নং",
+  "guardian.date_of_birth": "জন্মতারিখ",
+  "guardian.relationship_type": "অভিভাবকের সাথে সম্পর্ক",
+  "guardian.relationship_title": "সম্পর্কের ধরণ",
+  "guardian.relationship_title_en": "সম্পর্কের ধরণ (ইংরেজী)"
 }

@@ -1,6 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {
   isResponseSuccess,
   isValidationError,
@@ -12,20 +12,19 @@ import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {Grid, Zoom, Box} from '@mui/material';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import {useFetchGuardian} from '../../../../services/youthManagement/hooks';
+import {Guardian} from '../../../../services/youthManagement/typing';
 import {
-  LanguageProficiencySpeakingType,
-  LanguageProficiencyType,
-} from '../utilities/LanguageProficiencyType';
-import {useFetchLanguageProficiency} from '../../../../services/youthManagement/hooks';
-import {YouthLanguageProficiency} from '../../../../services/youthManagement/typing';
-import {
-  createLanguageProficiency,
-  updateLanguageProficiency,
-} from '../../../../services/youthManagement/LanguageProficiencyService';
+  createGuardian,
+  updateGuardian,
+} from '../../../../services/youthManagement/GuardianService';
 import CustomHookForm from '../component/CustomHookForm';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -39,81 +38,51 @@ const relationship_type = [
   {id: 4, title: 'Aunt'},
   {id: 5, title: 'Other'},
 ];
+
 const initialValues = {
-  language_id: '',
-  reading_proficiency_level: LanguageProficiencyType.EASILY,
-  writing_proficiency_level: LanguageProficiencyType.EASILY,
-  speaking_proficiency_level: LanguageProficiencySpeakingType.FLUENTLY,
-  understand_proficiency_level: LanguageProficiencyType.EASILY,
+  name: '',
+  name_en: '',
+  nid: '',
+  mobile: '',
+  date_of_birth: '',
+  relationship_type: 1,
+  relationship_title: '',
+  relationship_title_en: '',
 };
 
 const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
-                                                             itemId,
-                                                             onClose: onLanguageAddEditFormClose,
-                                                             ...props
-                                                           }) => {
+  itemId,
+  onClose: onGuardianAddEditFormClose,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateLanguageProficiency,
-  } = useFetchLanguageProficiency(itemId);
+  const authUser = useAuthUser<YouthAuthUser>();
+  const [showOther, setShowOther] = useState(1);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      language_id: yup
+      name: yup
         .string()
         .required()
-        .label(messages['language.label'] as string),
-      reading_proficiency_level: yup
+        .label(messages['guardian.name'] as string),
+      relationship_type: yup
         .string()
         .required()
-        .label(messages['language.read'] as string),
-      writing_proficiency_level: yup
-        .string()
-        .required()
-        .label(messages['language.write'] as string),
-      speaking_proficiency_level: yup
-        .string()
-        .required()
-        .label(messages['language.speak'] as string),
-      understand_proficiency_level: yup
-        .string()
-        .required()
-        .label(messages['language.understand'] as string),
+        .label(messages['guardian.relationship_type'] as string),
+      relationship_title:
+        showOther === 5
+          ? yup
+              .string()
+              .required()
+              .label(messages['guardian.relationship_title'] as string)
+          : yup.string(),
     });
-  }, [messages]);
-
-  const languageProficiencyTypes = useMemo(
-    () => [
-      {
-        key: LanguageProficiencyType.EASILY,
-        label: messages['common.easily'],
-      },
-      {
-        key: LanguageProficiencyType.NOT_EASILY,
-        label: messages['common.not_easily'],
-      },
-    ],
-    [messages],
-  );
-  const languageProficiencySpeakingTypes = useMemo(
-    () => [
-      {
-        key: LanguageProficiencySpeakingType.FLUENTLY,
-        label: messages['common.fluent'],
-      },
-      {
-        key: LanguageProficiencySpeakingType.NOT_FLUENTLY,
-        label: messages['common.not_fluent'],
-      },
-    ],
-    [messages],
-  );
+  }, [messages, showOther]);
 
   const {
     control,
+    register,
     reset,
     handleSubmit,
     setError,
@@ -123,44 +92,58 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
   });
 
   const isEdit = itemId != null;
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateGuardian,
+  } = useFetchGuardian(itemId);
 
   useEffect(() => {
     if (itemData) {
       reset({
-        language_id: itemData?.language_id,
-        reading_proficiency_level: itemData?.reading_proficiency_level,
-        writing_proficiency_level: itemData?.writing_proficiency_level,
-        speaking_proficiency_level: itemData?.speaking_proficiency_level,
-        understand_proficiency_level: itemData?.understand_proficiency_level,
+        name: itemData.name,
+        name_en: itemData?.name_en,
+        nid: itemData?.nid,
+        mobile: itemData?.mobile,
+        date_of_birth: itemData?.date_of_birth,
+        relationship_type:
+          itemData.relationship_type === 5
+            ? (setShowOther(5), itemData.relationship_type)
+            : (setShowOther(itemData.relationship_type),
+              itemData.relationship_type),
+        relationship_title: itemData?.relationship_title,
+        relationship_title_en: itemData?.relationship_title_en,
       });
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<YouthLanguageProficiency> = async (
-    data: YouthLanguageProficiency,
-  ) => {
+  const onSubmit: SubmitHandler<Guardian> = async (data: Guardian) => {
+    if (authUser) {
+      data.youth_id = authUser.uid;
+    }
+
     const response = itemId
-      ? await updateLanguageProficiency(itemId, data)
-      : await createLanguageProficiency(data);
+      ? await updateGuardian(itemId, data)
+      : await createGuardian(data);
     if (isResponseSuccess(response) && isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='language_proficiency.title' />}}
+          values={{subject: <IntlMessages id='guardian.title' />}}
         />,
       );
-      mutateLanguageProficiency();
-      onLanguageAddEditFormClose();
+      mutateGuardian();
+      onGuardianAddEditFormClose();
     } else if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='language_proficiency.title' />}}
+          values={{subject: <IntlMessages id='guardian.title' />}}
         />,
       );
-      onLanguageAddEditFormClose();
+      onGuardianAddEditFormClose();
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -170,72 +153,102 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
     <Zoom in={true}>
       <Box>
         <CustomHookForm
-          title={messages['language_proficiency.title']}
+          title={messages['guardian.title']}
           handleSubmit={handleSubmit(onSubmit)}
           actions={
             <React.Fragment>
               <CancelButton
-                onClick={onLanguageAddEditFormClose}
+                onClick={onGuardianAddEditFormClose}
                 isLoading={isLoading}
               />
               <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
             </React.Fragment>
           }
-          onClose={onLanguageAddEditFormClose}>
+          onClose={onGuardianAddEditFormClose}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='name'
+                label={messages['guardian.name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='name_en'
+                label={messages['guardian.name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='nid'
+                label={messages['guardian.nid']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='mobile'
+                label={messages['guardian.mobile']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomDateTimeField
+                id='date_of_birth'
+                label={messages['guardian.date_of_birth']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
             <Grid item xs={12}>
               <CustomFormSelect
-                id='language_id'
+                id='relationship_type'
                 isLoading={isLoading}
                 control={control}
                 options={relationship_type}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
+                onChange={(value: number) => setShowOther(value)}
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='reading_proficiency_level'
-                label={'language.read'}
-                radios={languageProficiencyTypes}
-                control={control}
-                defaultValue={LanguageProficiencyType.EASILY}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='writing_proficiency_level'
-                label={'language.write'}
-                radios={languageProficiencyTypes}
-                control={control}
-                defaultValue={LanguageProficiencyType.EASILY}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='speaking_proficiency_level'
-                label={'language.speak'}
-                radios={languageProficiencySpeakingTypes}
-                control={control}
-                defaultValue={LanguageProficiencySpeakingType.FLUENTLY}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='understand_proficiency_level'
-                label={'language.understand'}
-                radios={languageProficiencyTypes}
-                control={control}
-                defaultValue={LanguageProficiencyType.EASILY}
-                isLoading={isLoading}
-              />
-            </Grid>
+            {showOther === 5 ? (
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='relationship_title'
+                  label={messages['guardian.relationship_title']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            ) : (
+              ''
+            )}
+            {showOther === 5 ? (
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='relationship_title_en'
+                  label={messages['guardian.relationship_title_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            ) : (
+              ''
+            )}
           </Grid>
         </CustomHookForm>
       </Box>

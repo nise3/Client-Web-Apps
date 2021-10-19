@@ -644,5 +644,13 @@
   "guardian.title": "Guardian",
   "guardian.add": "Add Guardian",
   "guardian.no_data": "No Guardian added yet",
-  "guardian.view": "View Guardians"
+  "guardian.view": "View Guardians",
+  "guardian.name": "Guardian's Name",
+  "guardian.name_en": "Guardian's Name (English)",
+  "guardian.nid": "Guardian's NID Number",
+  "guardian.mobile": "Guardian's Mobile Number",
+  "guardian.date_of_birth": "Guardian's Birthday",
+  "guardian.relationship_type": "Relation with Guardian",
+  "guardian.relationship_title": "Type of relation (Bangla)",
+  "guardian.relationship_title_en": "Type of relation (English)"
 }
