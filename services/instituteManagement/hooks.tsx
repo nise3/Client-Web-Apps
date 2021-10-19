@@ -3,6 +3,7 @@ import {
   API_BATCHES,
   API_BRANCHES,
   API_COURSES, API_FONT_END_CONTACT_MAP,
+  API_COURSE_DETAILS,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
@@ -76,6 +77,10 @@ export function useFetchCourseList(pathVariable: string, params: any) {
     pathVariable ? API_COURSES + pathVariable : API_COURSES,
     params,
   ]);
+}
+
+export function useFetchCourseDetails(courseId: number | null) {
+  return useAxiosSWR(API_COURSE_DETAILS);
 }
 
 export function useFetchBatch(batchId: number | null) {

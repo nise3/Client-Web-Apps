@@ -56,9 +56,9 @@ export const API_COURSE_DETAILS = INSTITUTE_SERVICE_PATH + '/course-details';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 
-
 /** Youths end-points */
-export const API_YOUTH_REGISTRATION = YOUTH_SERVICE_PATH + '/youth-registration';
+export const API_YOUTH_REGISTRATION =
+  YOUTH_SERVICE_PATH + '/youth-registration';
 export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
@@ -94,10 +94,11 @@ export const API_FRONT_END_VIDEOS_LIST = INSTITUTE_SERVICE_PATH + '/videos';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
 
-
 /** Routes for application management */
-export const API_APPLICATION_MANAGEMENT = API_INSTITUTES + '/application-management';
-export const API_APPLICATION_PROCESSING = API_INSTITUTES + '/application-processing';
+export const API_APPLICATION_MANAGEMENT =
+  API_INSTITUTES + '/application-management';
+export const API_APPLICATION_PROCESSING =
+  API_INSTITUTES + '/application-processing';
 
 /** Routes for contact page map */
 export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
