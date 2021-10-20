@@ -17,11 +17,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 }));
 
 interface NearbyFreelancerComponentProps {
-  freelanceUser: {
-    image: string;
-    name: string;
-    designation: string;
-  };
+  freelanceUser: any;
 }
 
 const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
@@ -34,14 +30,16 @@ const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
     <Box display={'flex'}>
       <Box>
         <Avatar
-          alt='user image'
-          src={freelanceUser.image}
+          alt='youth image'
+          src={freelanceUser?.photo}
           className={classes.userImage}
         />
       </Box>
       <Box marginLeft={'10px'}>
-        <Box fontWeight={'bold'}>{freelanceUser.name}</Box>
-        <Box className={classes.designation}>{freelanceUser.designation}</Box>
+        <Box fontWeight={'bold'}>
+          {freelanceUser?.first_name + ' ' + freelanceUser?.last_name}
+        </Box>
+        <Box className={classes.designation}>{freelanceUser?.youth_bio}</Box>
         <Box>
           <Button variant='contained' color='primary' size={'small'}>
             {messages['common.contact']}

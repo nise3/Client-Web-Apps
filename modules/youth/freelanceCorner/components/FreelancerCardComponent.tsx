@@ -52,7 +52,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
             </Button>
           </Box>
         </Box>
-        <Box sx={{margin: '15px 0px'}}>{freelancer?.bio}</Box>
+        <Box sx={{margin: '15px 0px'}}>{freelancer?.youth_bio}</Box>
         <Box>
           {(freelancer?.skills || []).map((skill: any, index: any) => {
             return <TagChip label={skill.title} key={index} />;

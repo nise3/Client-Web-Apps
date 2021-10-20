@@ -14,7 +14,7 @@ import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import {useFetchYouths} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
@@ -39,12 +39,12 @@ const NearbySkilledYouthSection = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const [youthListFilters] = useState<any>({
-    division_id: authUser?.division_id,
-    upazila_id: authUser?.upazila_id,
+    district_id: authUser?.loc_district_id,
+    upazila_id: authUser?.loc_upazila_id,
     page_size: 4,
   });
 
-  const {data: nearbySkilledYouths} = useFetchYouthSkills(youthListFilters);
+  const {data: nearbySkilledYouths} = useFetchYouths(youthListFilters);
 
   const NEARBY_YOUTH_URL = '/../../youth/course-list/nearby'; //TODO:: will be nearby youth, not exist now
   return (
