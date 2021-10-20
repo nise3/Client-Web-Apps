@@ -180,8 +180,7 @@ const RecentActivities = () => {
                             <DateRangeOutlined />
                             <Typography>{data.date}</Typography>
                           </Box>
-                          <Link
-                            href={`/institute/recent-activities/${data.id}`}>
+                          <Link href={`${path}/${data.id}`}>
                             <Typography
                               style={{fontWeight: 'bold'}}
                               variant='subtitle2'
