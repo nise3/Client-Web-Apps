@@ -22,8 +22,7 @@ const GuardianSection = () => {
 
   const [isOpenGuardianAddEditForm, setIsOpenGuardianAddEditForm] =
     useState<boolean>(false);
-  const [isOpenGuardianView, setIsOpenGuardianView] =
-    useState<boolean>(false);
+  const [isOpenGuardianView, setIsOpenGuardianView] = useState<boolean>(false);
   const [guardianId, setGuardianId] = useState<number | null>(null);
 
   const openGuardianAddEditForm = useCallback(
