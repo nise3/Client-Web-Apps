@@ -22,9 +22,8 @@ import {
 } from '../../../../services/youthManagement/GuardianService';
 import CustomHookForm from '../component/CustomHookForm';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
+import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -45,7 +44,7 @@ const initialValues = {
   nid: '',
   mobile: '',
   date_of_birth: '',
-  relationship_type: 1,
+  relationship_type: '1',
   relationship_title: '',
   relationship_title_en: '',
 };
@@ -53,11 +52,9 @@ const initialValues = {
 const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
   itemId,
   onClose: onGuardianAddEditFormClose,
-  ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<YouthAuthUser>();
   const [showOther, setShowOther] = useState(1);
 
   const validationSchema = useMemo(() => {
@@ -71,12 +68,17 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
         .required()
         .label(messages['guardian.relationship_type'] as string),
       relationship_title:
-        showOther === 5
+        showOther == 5
           ? yup
               .string()
               .required()
               .label(messages['guardian.relationship_title'] as string)
           : yup.string(),
+      mobile: yup
+        .string()
+        .nullable()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
     });
   }, [messages, showOther]);
 
@@ -120,10 +122,6 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Guardian> = async (data: Guardian) => {
-    if (authUser) {
-      data.youth_id = authUser.uid;
-    }
-
     const response = itemId
       ? await updateGuardian(itemId, data)
       : await createGuardian(data);
