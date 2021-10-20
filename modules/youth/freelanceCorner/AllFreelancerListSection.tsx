@@ -12,6 +12,7 @@ interface AllFreelancerListSectionProps {
 const AllFreelancerListSection = ({
   skillIds,
   searchText,
+  upazila_id,
 }: AllFreelancerListSectionProps) => {
   const {messages} = useIntl();
   const [filters, setFilters] = useState<any>({
@@ -24,8 +25,8 @@ const AllFreelancerListSection = ({
       is_freelancer_profile: 1,
       skills: skillIds,
       search_text: searchText,
+      upazila_id: upazila_id,
     });
-    console.log('skill ids: ', skillIds);
   }, [skillIds, searchText]);
 
   return (

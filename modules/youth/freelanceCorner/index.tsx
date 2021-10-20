@@ -13,6 +13,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Switch,
   TextField,
   Typography,
@@ -25,11 +28,7 @@ import FeaturedFreelanceSection from './FeaturedFreelanceSection';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import AllFreelancerListSection from './AllFreelancerListSection';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {
-  useFetchUpazila,
-  useFetchUpazilas,
-} from '../../../services/locationManagement/hooks';
+import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
@@ -56,6 +55,12 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       padding: '14px 0px',
     },
   },
+  selectStyle: {
+    background: '#fff',
+    '& .MuiSelect-select': {
+      padding: '10px 30px 10px 15px',
+    },
+  },
 }));
 
 const FreelanceCorner = () => {
@@ -65,29 +70,29 @@ const FreelanceCorner = () => {
   const [selectedSkills, setSelectedSkills] = useState<Array<number>>([]);
   const [freelancerFilters, setFreelancerFilters] = useState<Array<number>>([]);
   const [searchInputText, setSearchInputText] = useState<string>('');
+  const [selectedUpazilaId, setSelectedUpazilaId] = useState<number | null>(
+    null,
+  );
   const [skillFilters] = useState<any>({});
   const searchTextField = useRef<any>();
 
   const {data: skills} = useFetchYouthSkills(skillFilters);
-  const {
-    data: upazilas,
-    isLoading: isLoadingUpazilas,
-    error,
-  } = useFetchUpazilas();
+  const [upazilaFilters] = useState<any>({});
+  const {data: upazilas} = useFetchUpazilas(upazilaFilters);
 
   const handleSearchAction = useCallback(() => {
     setSearchInputText(searchTextField.current?.value);
+  }, []);
+
+  const handleUpazilaChange = useCallback((event: SelectChangeEvent<any>) => {
+    console.log('up eventL', event);
+    setSelectedUpazilaId(event.target.value);
   }, []);
 
   const handleToggle = useCallback(
     (value: number) => () => {
       const currentIndex = selectedSkills.indexOf(value);
       const newChecked = [...selectedSkills];
-
-      console.log('checked array: ', selectedSkills);
-      console.log('checked index: ', currentIndex);
-      console.log('new arr: ', newChecked);
-      console.log('new val: ', value);
 
       if (currentIndex < 0) {
         newChecked.push(value);
@@ -145,16 +150,26 @@ const FreelanceCorner = () => {
                   <Box sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
-                  <CustomFormSelect
-                    id='location'
-                    control={true}
-                    label={messages['upazilas.label']}
-                    isLoading={isLoadingUpazilas}
-                    options={upazilas}
-                    optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
-                    errorInstance={error}
-                  />
+
+                  <Select
+                    id='select1'
+                    fullWidth
+                    value={1}
+                    variant='outlined'
+                    className={classes.selectStyle}
+                    onChange={handleUpazilaChange}>
+                    <MenuItem value=''>
+                      <em>None</em>
+                    </MenuItem>
+                    {upazilas &&
+                      upazilas.map((upazila: any) => {
+                        return (
+                          <MenuItem key={upazila.id} value={upazila.id}>
+                            {upazila.title}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
                 </CardContent>
               </Card>
             </Grid>
@@ -201,6 +216,7 @@ const FreelanceCorner = () => {
               <AllFreelancerListSection
                 skillIds={freelancerFilters}
                 searchText={searchInputText}
+                upazila_id={selectedUpazilaId}
               />
             </Grid>
           </Grid>
