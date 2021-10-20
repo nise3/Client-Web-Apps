@@ -22,11 +22,12 @@ const InstituteRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const isLoading = false;
-  const instituteInfoText = messages['common.instituteInfoText'];
-  const userInfoText = messages['common.userInfoText'];
-  const instituteRegistration = messages['common.institute_registration'];
-  const alreadyHaveAccount = messages['common.alreadyHaveAccount'];
-  const signInHere = messages['common.signInHere'];
+
+  const instituteType = {
+    GOVT: '1',
+    NON_GOVT: '2',
+    OTHERS: '3',
+  };
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -34,11 +35,6 @@ const InstituteRegistration = () => {
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_type_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.institute_type'] as string),
       email: yup
         .string()
         .trim()
@@ -49,6 +45,7 @@ const InstituteRegistration = () => {
         .string()
         .trim()
         .required()
+        .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
       name_of_the_office_head: yup
         .string()
@@ -84,6 +81,7 @@ const InstituteRegistration = () => {
       password: yup
         .string()
         .trim()
+        .min(6)
         .required()
         .label(messages['common.password'] as string),
       password_confirmation: yup
@@ -108,7 +106,7 @@ const InstituteRegistration = () => {
   const {successStack} = useNotiStack();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log(data);
+    console.log('data--', data);
     const response = await createRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(
@@ -124,6 +122,8 @@ const InstituteRegistration = () => {
     }
   };
 
+  console.log('Error', errors);
+
   return (
     <Container maxWidth={'md'} style={{marginTop: '50px'}}>
       <Paper className={classes.PaperBox}>
@@ -131,10 +131,10 @@ const InstituteRegistration = () => {
           align={'center'}
           variant={'h6'}
           style={{marginBottom: '10px'}}>
-          {instituteRegistration}
+          {messages['common.institute_registration']}
         </Typography>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-          {instituteInfoText}
+          {messages['common.instituteInfoText']}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3} maxWidth={'md'}>
@@ -162,16 +162,20 @@ const InstituteRegistration = () => {
                 label={'common.institute_type'}
                 radios={[
                   {
-                    key: '0',
+                    key: instituteType.GOVT,
+                    label: messages['common.government'],
+                  },
+                  {
+                    key: instituteType.NON_GOVT,
                     label: messages['common.non_government'],
                   },
                   {
-                    key: '1',
-                    label: messages['common.government'],
+                    key: instituteType.OTHERS,
+                    label: messages['common.others'],
                   },
                 ]}
                 control={control}
-                defaultValue={'1'}
+                defaultValue={instituteType.GOVT}
                 isLoading={isLoading}
               />
             </Grid>
@@ -219,7 +223,9 @@ const InstituteRegistration = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Typography variant={'h6'}>{userInfoText}</Typography>
+              <Typography variant={'h6'}>
+                {messages['common.userInfoText']}
+              </Typography>
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -270,18 +276,17 @@ const InstituteRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Grid container justifyContent={'flex-end'}>
-                <SubmitButton
-                  isSubmitting={isSubmitting}
-                  isLoading={isLoading}
-                />
-              </Grid>
+            <Grid
+              item
+              xs={12}
+              style={{display: 'flex', justifyContent: 'flex-end'}}>
+              <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
             </Grid>
           </Grid>
         </form>
         <Typography style={{marginTop: '5px'}}>
-          {alreadyHaveAccount} <Link>{signInHere}</Link>
+          {messages['common.alreadyHaveAccount']}{' '}
+          <Link>{messages['common.signInHere']}</Link>
         </Typography>
       </Paper>
     </Container>
