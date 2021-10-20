@@ -7,6 +7,7 @@ import {useFetchYouths} from '../../../services/youthManagement/hooks';
 interface AllFreelancerListSectionProps {
   skillIds?: Array<number>;
   searchText?: string;
+  upazila_id?: number;
 }
 
 const AllFreelancerListSection = ({
@@ -27,7 +28,7 @@ const AllFreelancerListSection = ({
       search_text: searchText,
       upazila_id: upazila_id,
     });
-  }, [skillIds, searchText]);
+  }, [skillIds, searchText, upazila_id]);
 
   return (
     <Grid container spacing={5}>

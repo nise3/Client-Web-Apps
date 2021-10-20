@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   searchButton: {
     color: '#fff',
-    padding: '8px 14px',
+    padding: '13px 14px',
     width: '100%',
     height: '100%',
   },
@@ -85,7 +85,6 @@ const FreelanceCorner = () => {
   }, []);
 
   const handleUpazilaChange = useCallback((event: SelectChangeEvent<any>) => {
-    console.log('up eventL', event);
     setSelectedUpazilaId(event.target.value);
   }, []);
 
@@ -152,9 +151,8 @@ const FreelanceCorner = () => {
                   </Box>
 
                   <Select
-                    id='select1'
+                    id='upazila_id'
                     fullWidth
-                    value={1}
                     variant='outlined'
                     className={classes.selectStyle}
                     onChange={handleUpazilaChange}>
@@ -162,9 +160,9 @@ const FreelanceCorner = () => {
                       <em>None</em>
                     </MenuItem>
                     {upazilas &&
-                      upazilas.map((upazila: any) => {
+                      upazilas.map((upazila: any, index: number) => {
                         return (
-                          <MenuItem key={upazila.id} value={upazila.id}>
+                          <MenuItem key={index} value={upazila.id}>
                             {upazila.title}
                           </MenuItem>
                         );
@@ -180,7 +178,7 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card sx={{padding: '10px', alignItems: 'center'}}>
                 <Grid container spacing={1} sx={{alignItems: 'center'}}>
-                  <Grid item xs={9} sm={10}>
+                  <Grid item xs={8} sm={9}>
                     <TextField
                       inputRef={searchTextField}
                       variant='outlined'
@@ -197,7 +195,7 @@ const FreelanceCorner = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={3} sm={2}>
+                  <Grid item xs={4} sm={3}>
                     <Button
                       variant='contained'
                       color={'primary'}
@@ -216,7 +214,7 @@ const FreelanceCorner = () => {
               <AllFreelancerListSection
                 skillIds={freelancerFilters}
                 searchText={searchInputText}
-                upazila_id={selectedUpazilaId}
+                upazila_id={Number(selectedUpazilaId)}
               />
             </Grid>
           </Grid>
