@@ -11,7 +11,7 @@ import GuardianSection from './guardians/GuardianSection';
 import ReferenceSection from './references/ReferenceSection';
 import PortfolioSection from './portfolios/PortfolioSection';
 import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
-import FreelanceProfileSection from './FreelanceProfileSection';
+import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import MyCVSection from './MyCVSection';
 
 const useStyles = makeStyles((theme: CremaTheme) =>
@@ -63,7 +63,7 @@ const YouthProfile = () => {
                 <ProfileCompleteSignatureMenu />
               </Grid>
               <Grid item xs={12} md={12}>
-                <FreelanceProfileSection />
+                <FreelanceProfileComponent />
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
                 <MyCVSection />
