@@ -20,6 +20,7 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 
 function srcset(image: string, size: number, rows = 1, cols = 1) {
   return {
@@ -84,6 +85,8 @@ const useStyles = makeStyles((theme) => {
 const RecentActivities = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const router = useRouter();
+  const path = router.pathname;
 
   const {items} = usePagination({
     count: 3,
@@ -127,9 +130,7 @@ const RecentActivities = () => {
                       <DateRangeOutlined />
                       <Typography>{item.date}</Typography>
                     </Box>
-                    <Link
-                      href={`/institute/recent-activities/${item.id}`}
-                      passHref>
+                    <Link href={`${path}/${item.id}`} passHref>
                       <Typography
                         style={{
                           fontWeight: 'bold',
