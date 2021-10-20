@@ -103,16 +103,16 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        name: itemData.name,
+        name: itemData?.name,
         name_en: itemData?.name_en,
         nid: itemData?.nid,
         mobile: itemData?.mobile,
         date_of_birth: itemData?.date_of_birth,
         relationship_type:
-          itemData.relationship_type === 5
-            ? (setShowOther(5), itemData.relationship_type)
-            : (setShowOther(itemData.relationship_type),
-              itemData.relationship_type),
+          itemData?.relationship_type === 5
+            ? (setShowOther(5), itemData?.relationship_type)
+            : (setShowOther(itemData?.relationship_type),
+              itemData?.relationship_type),
         relationship_title: itemData?.relationship_title,
         relationship_title_en: itemData?.relationship_title_en,
       });
