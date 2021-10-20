@@ -100,8 +100,6 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     useState<any>(null);
   const [selectedResult, setSelectedResult] = useState<any>(null);
 
-  console.log('edu', educationsData);
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       institute_name: yup
@@ -137,7 +135,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
         .required()
         .label(messages['education.passing_year'] as string),
     });
-  }, [messages]);
+  }, [messages, selectedEducationLevel]);
 
   const {
     control,

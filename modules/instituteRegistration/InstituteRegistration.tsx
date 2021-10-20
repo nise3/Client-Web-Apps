@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import useStyles from '../youth/registration/Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Container, Grid, Link, Paper, Typography} from '@mui/material';
+import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
@@ -284,10 +284,6 @@ const InstituteRegistration = () => {
             </Grid>
           </Grid>
         </form>
-        <Typography style={{marginTop: '5px'}}>
-          {messages['common.alreadyHaveAccount']}{' '}
-          <Link>{messages['common.signInHere']}</Link>
-        </Typography>
       </Paper>
     </Container>
   );

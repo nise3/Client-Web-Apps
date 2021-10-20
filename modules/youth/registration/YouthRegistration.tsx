@@ -4,7 +4,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useStyles from './Registration.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Chip, Container, Grid, Link, Paper, Typography} from '@mui/material';
+import {Chip, Container, Grid, Paper, Typography} from '@mui/material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {useIntl} from 'react-intl';
 import yup from '../../../@softbd/libs/yup';
@@ -41,6 +41,8 @@ import Religions from '../../../@softbd/utilities/Religions';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
+import {useRouter} from 'next/router';
+import {LINK_YOUTH_REGISTRATION_VERIFICATION} from '../../../@softbd/common/appLinks';
 
 const initialValues = {
   first_name: '',
@@ -92,6 +94,7 @@ const YouthRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const router = useRouter();
 
   const [filters] = useState({});
   const [youthSkillsFilter] = useState<any>({
@@ -377,6 +380,11 @@ const YouthRegistration = () => {
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    const queryParam =
+      userNameType == UserNameType.MOBILE
+        ? {mobile: data.mobile}
+        : {email: data.email};
+
     data.user_name_type = userNameType;
     if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
       delete data.physical_disabilities;
@@ -388,6 +396,12 @@ const YouthRegistration = () => {
     const response = await youthRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(<IntlMessages id='youth_registration.success' />);
+      router
+        .push({
+          pathname: LINK_YOUTH_REGISTRATION_VERIFICATION,
+          query: queryParam,
+        })
+        .then((r) => {});
     } else if (isValidationError(response)) {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
@@ -746,10 +760,6 @@ const YouthRegistration = () => {
             </Grid>
           </Grid>
         </form>
-        <Typography style={{marginTop: '5px', textAlign: 'right'}}>
-          {messages['common.alreadyHaveAccount']}{' '}
-          <Link>{messages['common.signInHere']}</Link>
-        </Typography>
       </Paper>
     </Container>
   );

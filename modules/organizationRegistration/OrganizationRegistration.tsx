@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Container, Grid, Link, Paper, Typography} from '@mui/material';
+import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -18,6 +18,7 @@ import {setServerValidationErrors} from '../../@softbd/utilities/validationError
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
 import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
+
 const OrganizationRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -301,10 +302,6 @@ const OrganizationRegistration = () => {
             </Grid>
           </Grid>
         </form>
-        <Typography style={{marginTop: '5px'}}>
-          {messages['common.alreadyHaveAccount']}{' '}
-          <Link>{messages['common.signInHere']}</Link>
-        </Typography>
       </Paper>
     </Container>
   );

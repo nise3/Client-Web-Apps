@@ -4,16 +4,15 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import DefaultPage from '../../@softbd/layouts/hoc/DefaultPage';
 
-const OrganizationRegistrationPage = asyncComponent(
-  () =>
-    import('../../modules/organizationRegistration/OrganizationRegistration'),
+const YouthRegistrationPage = asyncComponent(
+  () => import('../../modules/signup'),
 );
 export default DefaultPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.registration'] as string} />
-      <OrganizationRegistrationPage />
+      <PageMeta title={messages['common.signup'] as string} />
+      <YouthRegistrationPage />
     </>
   );
 });

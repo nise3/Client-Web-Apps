@@ -209,7 +209,7 @@ const SignupJwtAuth: React.FC<{}> = () => {
                   color='text.secondary'
                   fontSize={15}>
                   <Box className={classes.textGrey} component='span' mr={1}>
-                    <IntlMessages id='common.alreadyHaveAccount' />
+                    <IntlMessages id='common.already_have_account' />
                   </Box>
                   <Box component='span'>
                     <Link href='/signin'>
