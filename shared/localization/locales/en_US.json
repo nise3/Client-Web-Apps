@@ -644,5 +644,7 @@
   "guardian.title": "Guardian",
   "guardian.add": "Add Guardian",
   "guardian.no_data": "No Guardian added yet",
-  "guardian.view": "View Guardians"
+  "guardian.view": "View Guardians",
+  "recent_activities.institute": "Recent Activities",
+  "all_activities.institute": "All Activities"
 }

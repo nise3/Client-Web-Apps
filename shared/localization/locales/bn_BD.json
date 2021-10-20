@@ -648,5 +648,7 @@
   "guardian.title": "অভিভাবক",
   "guardian.add": "অভিভাবক যোগ করুন",
   "guardian.no_data": "এখনো কোন অভিভাবক যোগ করা হয়নি",
-  "guardian.view": "অভিভাবক দেখুন"
+  "guardian.view": "অভিভাবক দেখুন",
+  "recent_activities.institute": "সাম্প্রতিক কার্যক্রম",
+  "all_activities.institute": "সকল কার্যক্রম"
 }
