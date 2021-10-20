@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchButton: {
     color: '#fff',
-    padding: '8px 14px',
+    padding: '16px 14px',
     width: '100%',
     height: '100%',
   },

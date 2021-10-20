@@ -4,6 +4,7 @@ export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
+export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
 
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
@@ -49,7 +50,7 @@ export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 export const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
-export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programmes';
+export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programs';
 export const API_TRAINING_CENTERS =
   INSTITUTE_SERVICE_PATH + '/training-centers';
 export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
@@ -115,3 +116,5 @@ export const API_FRONT_END_ALL_ACTIVITY_LIST =
 
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';
+
+export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';

@@ -4,20 +4,25 @@ import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const SkillMatchingCoursesSection = () => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const [courseFilters] = useState({page_size: 4});
+  const authUser = useAuthUser<YouthAuthUser>();
 
-  const {data: courseList} = useFetchCourseList('/skill', courseFilters);
-  const URL = '/../../youth/course-list/skill';
+  const [courseFilters] = useState({skill_ids: [1, 2, 3], page_size: 4});
+
+  const pathValue = '/skill-matching';
+  const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
+  const URL = '/../../youth/course-list' + pathValue;
 
   return (
     <Grid container spacing={5}>
-      <Grid item xs={12} sm={12} md={12}>
+      <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
             <Typography variant={'h5'} className={classes.sectionTitle}>

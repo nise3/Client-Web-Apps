@@ -11,6 +11,7 @@ import {
   API_YOUTH_LANGUAGE_PROFICIENCIES,
   API_YOUTH_GUARDIANS,
   API_YOUTH_LIST,
+  API_PUBLIC_COURSE_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -103,4 +104,13 @@ export function useFetchLanguageProficiency(
       ? API_YOUTH_LANGUAGE_PROFICIENCIES + '/' + languageProficiencyId
       : null,
   );
+}
+
+export function useFetchCourseList(pathVariable: string, params: any) {
+  return useAxiosSWR([
+    pathVariable
+      ? API_PUBLIC_COURSE_LIST + pathVariable
+      : API_PUBLIC_COURSE_LIST,
+    params,
+  ]);
 }

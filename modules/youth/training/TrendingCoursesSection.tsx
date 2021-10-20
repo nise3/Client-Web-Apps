@@ -4,7 +4,7 @@ import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
 
 const TrendingCoursesSection = () => {

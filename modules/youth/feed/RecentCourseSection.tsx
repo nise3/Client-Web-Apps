@@ -7,7 +7,7 @@ import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseSectionRoot: {
     marginTop: 0,

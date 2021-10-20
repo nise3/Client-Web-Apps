@@ -21,9 +21,9 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const SKILL_LEVELS = [
-  {id: 1, title: 'Low'},
-  {id: 2, title: 'Medium'},
-  {id: 3, title: 'High'},
+  {id: 1, title: 'Beginner'},
+  {id: 2, title: 'Intermediate'},
+  {id: 3, title: 'Expert'},
 ];
 
 const AVAILABILITIES = [
@@ -51,6 +51,8 @@ const CourseListHeaderSection = () => {
     null,
   );
 
+  const [filters, setFilters] = useState<any>({});
+
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -64,12 +66,21 @@ const CourseListHeaderSection = () => {
         institute_id: selectedInstituteId,
       });
     },
-    [],
+    [selectedInstituteId],
   );
 
   const handleProgrammeFilterChange = useCallback(
     (event: SelectChangeEvent<any>) => {
       setSelectedProgrammeId(event.target.value);
+    },
+    [],
+  );
+
+  const filterCourseTraining = useCallback(
+    (filterField: string, filterValue: number | null) => {
+      let currentFilters = filters;
+      currentFilters[filterField] = filterValue;
+      setFilters(currentFilters);
     },
     [],
   );
@@ -80,9 +91,9 @@ const CourseListHeaderSection = () => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={7}>
             <Box fontSize={'16px'}>{messages['training.search_header']}</Box>
-            <Card className={classes.searchBox}>
-              <Grid container spacing={3}>
-                <Grid item xs={9} sm={10} md={10}>
+            <Card sx={{padding: '10px', alignItems: 'center'}}>
+              <Grid container spacing={3} sx={{alignItems: 'center'}}>
+                <Grid item xs={8} sm={9}>
                   <TextField
                     variant='outlined'
                     name='searchBox'
@@ -98,7 +109,7 @@ const CourseListHeaderSection = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={3} sm={2} md={2}>
+                <Grid item xs={4} sm={3}>
                   <Button
                     variant='contained'
                     color={'primary'}
@@ -119,8 +130,9 @@ const CourseListHeaderSection = () => {
                   variant='outlined'
                   className={classes.selectStyle}
                   onChange={handleInstituteFilterChange}>
-                  <MenuItem value={1}>Partner</MenuItem>
-                  <MenuItem value={2}>Partner1</MenuItem>
+                  <MenuItem value={''}>
+                    <em>None</em>
+                  </MenuItem>
                   {institutes &&
                     institutes.map((institute: any) => {
                       return (
@@ -178,7 +190,7 @@ const CourseListHeaderSection = () => {
                   {AVAILABILITIES &&
                     AVAILABILITIES.map((availability: any) => {
                       return (
-                        <MenuItem value={availability.id}>
+                        <MenuItem value={availability.id} key={availability.id}>
                           {availability.title}
                         </MenuItem>
                       );
