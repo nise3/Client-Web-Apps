@@ -107,7 +107,7 @@ export const API_APPLICATION_MANAGEMENT =
 export const API_APPLICATION_PROCESSING =
   API_INSTITUTES + '/application-processing';
 
-/** Routes for recent-activities page map */
+/** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/recent-activities';
 export const API_FRONT_END_ALL_ACTIVITY_LIST =
@@ -115,3 +115,9 @@ export const API_FRONT_END_ALL_ACTIVITY_LIST =
 
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';
+
+/** Routes for faq page */
+export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
+
+/** Routes for faq page */
+export const API_FRONT_SC = '/sc';

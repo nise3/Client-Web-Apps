@@ -13,6 +13,8 @@ import {
   API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_RECENT_ACTIVITY_DETAIL,
+  API_FRONT_END_FAQ,
+  API_FRONT_SC,
 } from '../common/apiRoutes';
 import videos, {videosCategories} from '../mock-db/videos';
 import galleries, {galleryCategories} from '../mock-db/gallery';
@@ -22,6 +24,8 @@ import contactMapData from '../mock-db/contactMap';
 import courseDetails from '../mock-db/courseDetails';
 import allActivityItems, {recentActivityItems} from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
+import faqData from '../mock-db/faq';
+import staticContent from '../mock-db/staticContent';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -63,6 +67,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock
     .onGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL)
     .reply(200, {data: recentActivityDetails[0]});
+
+  mock.onGet(API_FRONT_END_FAQ).reply(200, {data: faqData});
+
+  mock.onGet(API_FRONT_SC).reply(200, {data: staticContent[0]});
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();

@@ -96,7 +96,7 @@ const RecentActivities = () => {
   const {data: allActivitiesItems} = useFetchInstitutesAllActivity();
 
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth={'xl'}>
       <Grid container>
         <Grid item md={12} mt={8}>
           <Typography
@@ -180,7 +180,7 @@ const RecentActivities = () => {
                             <DateRangeOutlined />
                             <Typography>{data.date}</Typography>
                           </Box>
-                          <Link href={`${path}/${data.id}`}>
+                          <Link href={`${path}/${data.id}`} passHref>
                             <Typography
                               style={{fontWeight: 'bold'}}
                               variant='subtitle2'

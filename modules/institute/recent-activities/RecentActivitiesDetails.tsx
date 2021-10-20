@@ -27,8 +27,8 @@ const RecentActivitiesDetails = ({data}: any) => {
 
   return (
     <Container maxWidth={'xl'}>
-      <Grid container spacing={3} padding={10}>
-        <Grid item xs={12}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} mt={3}>
           <Grid container>
             <Grid item xs={6}>
               <Box className={classes.date}>
@@ -89,7 +89,7 @@ const RecentActivitiesDetails = ({data}: any) => {
           />
         </Grid>
         <Grid item xs={12}>
-          {data.content}
+          <div dangerouslySetInnerHTML={{__html: data.content}} />
         </Grid>
       </Grid>
     </Container>

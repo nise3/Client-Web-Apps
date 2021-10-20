@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Button, Container, Grid, Link, Typography} from '@mui/material';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
-import {H6, Text} from '../../../elements/common';
+import {H6, Text, Link} from '../../../elements/common';
 import {
   ArrowForwardIos,
   ArrowRightAlt,
@@ -120,32 +120,34 @@ const Footer = () => {
                   <Text className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> ঘটনাবলী
                   </Text>
-                  <Text className={classes.bullet}>
+                  <Link href={'/sc/about-us'} className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> আমাদের
                     সম্পর্কে
-                  </Text>
-                  <Text className={classes.bullet}>
+                  </Link>
+                  <Link href={'/institute/contact'} className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> যোগাযোগ
-                  </Text>
+                  </Link>
                 </Box>
                 <Box>
-                  <Text className={classes.bullet}>
+                  <Link href={'/institute/faq'} className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> প্রয়োজনীয়
                     প্রশ্ন এবং উত্তর
-                  </Text>
+                  </Link>
                   <Text className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> লগইন
                   </Text>
                   <Text className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> সাইন আপ
                   </Text>
-                  <Text className={classes.bullet}>
+                  <Link
+                    href={'/sc/terms-and-conditions'}
+                    className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> শর্তাবলী
-                  </Text>
-                  <Text className={classes.bullet}>
+                  </Link>
+                  <Link href={'/sc/privacy-policy'} className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> গোপনীয়তা
                     নীতি
-                  </Text>
+                  </Link>
                 </Box>
               </Box>
             </Grid>
@@ -164,7 +166,7 @@ const Footer = () => {
               </Typography>
               <Box component={'span'}>
                 <img
-                  src='/images/footer-img-white.png'
+                  src={'/images/footer-img-white.png'}
                   alt='crema-logo'
                   className={classes.footerImage}
                 />
