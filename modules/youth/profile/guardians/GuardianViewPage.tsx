@@ -28,7 +28,7 @@ type GuardianViewPageProps = {
   onClose: () => void;
 };
 
-const relationship_type = {
+const relationship_type: any = {
   1: 'Father',
   2: 'Mother',
   3: 'Uncle',
@@ -74,14 +74,9 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
               <TableHead>
                 <TableRow>
                   <TableCell>{messages['guardian.name']}</TableCell>
-                  <TableCell>{messages['guardian.nid']}</TableCell>
                   <TableCell>{messages['guardian.mobile']}</TableCell>
-                  <TableCell>{messages['guardian.date_of_birth']}</TableCell>
                   <TableCell>
                     {messages['guardian.relationship_type']}
-                  </TableCell>
-                  <TableCell>
-                    {messages['guardian.relationship_title']}
                   </TableCell>
                   <TableCell>{messages['common.actions']}</TableCell>
                 </TableRow>
@@ -90,13 +85,13 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
                 {(guardians || []).map((guardian: Guardian, index: number) => (
                   <TableRow key={index}>
                     <TableCell component='th'>{guardian?.name}</TableCell>
-                    <TableCell>{guardian?.nid}</TableCell>
                     <TableCell>{guardian?.mobile}</TableCell>
-                    <TableCell>{guardian?.date_of_birth}</TableCell>
                     <TableCell>
-                      {relationship_type[guardian?.relationship_type]}
+                      {relationship_type[guardian?.relationship_type] +
+                        (guardian?.relationship_title
+                          ? ' (' + guardian?.relationship_title + ')'
+                          : '')}
                     </TableCell>
-                    <TableCell>{guardian?.relationship_title}</TableCell>
                     <TableCell>
                       <EditButton
                         size={'small'}
@@ -104,7 +99,7 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
                       />
                       <DeleteButton
                         deleteAction={() => deleteGuardianItem(guardian.id)}
-                        deleteTitle={'Delete language'}
+                        deleteTitle={'Delete Guardian'}
                       />
                     </TableCell>
                   </TableRow>

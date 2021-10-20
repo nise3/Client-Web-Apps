@@ -151,7 +151,7 @@ export interface Guardian {
   nid?: string;
   mobile?: string;
   date_of_birth?: string;
-  relationship_type: number;
+  relationship_type: any;
   relationship_title?: string;
   relationship_title_en?: string;
   created_at?: string;

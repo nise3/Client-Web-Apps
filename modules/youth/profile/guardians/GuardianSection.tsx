@@ -76,25 +76,20 @@ const GuardianSection = () => {
           }>
           <HorizontalLine />
           <Box sx={{display: 'flex'}}>
-            <Avatar>L</Avatar>
+            <Avatar>G</Avatar>
             <Box sx={{marginLeft: '15px'}}>
-              {(!guardians ||
-                guardians?.length == 0) && (
-                <Typography>
-                  {messages['guardian.no_data']}
-                </Typography>
+              {(!guardians || guardians?.length == 0) && (
+                <Typography>{messages['guardian.no_data']}</Typography>
               )}
               {guardians && (
                 <React.Fragment>
                   <Box sx={{display: 'flex'}}>
-                    {guardians.map(
-                      (guardian: Guardian, index: number) => (
-                        <React.Fragment key={guardian.id}>
-                          {index != 0 && <VerticalLine />}
-                          <TextPrimary text={guardian.name} />
-                        </React.Fragment>
-                      ),
-                    )}
+                    {guardians.map((guardian: Guardian, index: number) => (
+                      <React.Fragment key={guardian.id}>
+                        {index != 0 && <VerticalLine />}
+                        <TextPrimary text={guardian.name} />
+                      </React.Fragment>
+                    ))}
                   </Box>
                   <Typography
                     variant={'caption'}

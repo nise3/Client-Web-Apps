@@ -13,7 +13,6 @@ export const createGuardian = async (data: Guardian) => {
 };
 
 export const updateGuardian = async (guardianId: number, data: Guardian) => {
-  console.log('update call: ', guardianId, data);
   try {
     let response: any = await apiPut(
       API_YOUTH_GUARDIANS + '/' + guardianId,
