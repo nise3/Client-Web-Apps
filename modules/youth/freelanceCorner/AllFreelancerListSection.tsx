@@ -1,79 +1,45 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import FreelancerCardComponent from './components/FreelancerCardComponent';
+import {useFetchYouths} from '../../../services/youthManagement/hooks';
 
-const AllFreelancerListSection = () => {
+interface AllFreelancerListSectionProps {
+  skillIds?: Array<number>;
+  searchText?: string;
+}
+
+const AllFreelancerListSection = ({
+  skillIds,
+  searchText,
+  upazila_id,
+}: AllFreelancerListSectionProps) => {
   const {messages} = useIntl();
+  const [filters, setFilters] = useState<any>({
+    is_freelancer_profile: 1,
+  });
+  const {data: freelancerLists} = useFetchYouths(filters);
 
-  const freelancerList = [
-    {
-      id: 1,
-      image: '/images/userPageImages/profileImage.jpeg',
-      name: 'Rakibul Islam',
-      designation: 'Graphic Designer',
-      description:
-        'UX designer measure and potimise applications to improve cse of use experience by exploring many different approaches to solve end-user problems',
-      skills: ['Graphic Design', 'Logo Design', 'Photoshop', 'Illustrator'],
-    },
-    {
-      id: 2,
-      image: '/images/userPageImages/profileImage.jpeg',
-      name: 'Rakibul Islam',
-      designation: 'Graphic Designer',
-      description:
-        'UX designer measure and potimise applications to improve cse of use experience by exploring many different approaches to solve end-user problems',
-      skills: ['Graphic Design', 'Logo Design', 'Photoshop', 'Illustrator'],
-    },
-    {
-      id: 3,
-      image: '/images/userPageImages/profileImage.jpeg',
-      name: 'Rakibul Islam',
-      designation: 'Graphic Designer',
-      description:
-        'UX designer measure and potimise applications to improve cse of use experience by exploring many different approaches to solve end-user problems',
-      skills: ['Graphic Design', 'Logo Design', 'Photoshop', 'Illustrator'],
-    },
-    {
-      id: 4,
-      image: '/images/userPageImages/profileImage.jpeg',
-      name: 'Rakibul Islam',
-      designation: 'Graphic Designer',
-      description:
-        'UX designer measure and potimise applications to improve cse of use experience by exploring many different approaches to solve end-user problems',
-      skills: ['Graphic Design', 'Logo Design', 'Photoshop', 'Illustrator'],
-    },
-    {
-      id: 5,
-      image: '/images/userPageImages/profileImage.jpeg',
-      name: 'Rakibul Islam',
-      designation: 'Graphic Designer',
-      description:
-        'UX designer measure and potimise applications to improve cse of use experience by exploring many different approaches to solve end-user problems',
-      skills: ['Graphic Design', 'Logo Design', 'Photoshop', 'Illustrator'],
-    },
-    {
-      id: 6,
-      image: '/images/userPageImages/profileImage.jpeg',
-      name: 'Rakibul Islam',
-      designation: 'Graphic Designer',
-      description:
-        'UX designer measure and potimise applications to improve cse of use experience by exploring many different approaches to solve end-user problems',
-      skills: ['Graphic Design', 'Logo Design', 'Photoshop', 'Illustrator'],
-    },
-  ];
+  useEffect(() => {
+    setFilters({
+      is_freelancer_profile: 1,
+      skills: skillIds,
+      search_text: searchText,
+      upazila_id: upazila_id,
+    });
+  }, [skillIds, searchText]);
 
   return (
     <Grid container spacing={5}>
-      <Grid item xs={12} sm={12} md={12}>
+      <Grid item xs={12}>
         <Box sx={{fontSize: 17, fontWeight: 'bold'}}>
           {messages['common.all']}
         </Box>
       </Grid>
 
-      {freelancerList.map((freelancer: any, index) => {
+      {freelancerLists?.map((freelancer: any) => {
         return (
-          <Grid item xs={12} sm={12} md={12} key={index}>
+          <Grid item xs={12} sm={12} md={12} key={freelancer.id}>
             <FreelancerCardComponent freelancer={freelancer} />
           </Grid>
         );

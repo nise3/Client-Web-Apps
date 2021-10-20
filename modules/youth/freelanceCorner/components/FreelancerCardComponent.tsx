@@ -6,13 +6,7 @@ import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 interface FreelancerCardComponentProps {
-  freelancer: {
-    image: string;
-    name: string;
-    designation: string;
-    description?: string;
-    skills: string[];
-  };
+  freelancer: any;
 }
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -37,7 +31,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
         <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
           <Box sx={{display: 'flex'}}>
             <Avatar
-              src={freelancer.image}
+              src={freelancer?.photo}
               sx={{width: '60px', height: '60px'}}
             />
             <Box
@@ -47,20 +41,21 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
                 justifyContent: 'center',
                 marginLeft: 2,
               }}>
-              <Box className={classes.titleStyle}>{freelancer.name}</Box>
-              <Box className={classes.colorGray}>{freelancer.designation}</Box>
+              <Box className={classes.titleStyle}>
+                {freelancer?.first_name + freelancer?.last_name}
+              </Box>
             </Box>
           </Box>
           <Box>
             <Button variant={'contained'} color={'primary'}>
-              {messages['common.contact_now']}
+              {messages['common.contact']}
             </Button>
           </Box>
         </Box>
-        <Box sx={{margin: '15px 0px'}}>{freelancer.description}</Box>
+        <Box sx={{margin: '15px 0px'}}>{freelancer?.bio}</Box>
         <Box>
-          {(freelancer.skills || []).map((skill: any, index: any) => {
-            return <TagChip label={skill} key={index} />;
+          {(freelancer?.skills || []).map((skill: any, index: any) => {
+            return <TagChip label={skill.title} key={index} />;
           })}
         </Box>
       </CardContent>

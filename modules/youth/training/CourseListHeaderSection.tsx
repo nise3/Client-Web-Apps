@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Box,
   Button,
@@ -56,17 +56,23 @@ const CourseListHeaderSection = () => {
   });
   const {data: programmes} = useFetchProgrammes(programmeFilters);
 
-  const handleInstituteFilterChange = (event: SelectChangeEvent<any>) => {
-    setSelectedInstituteId(event.target.value);
-    setProgrammeFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: selectedInstituteId,
-    });
-  };
+  const handleInstituteFilterChange = useCallback(
+    (event: SelectChangeEvent<any>) => {
+      setSelectedInstituteId(event.target.value);
+      setProgrammeFilters({
+        row_status: RowStatus.ACTIVE,
+        institute_id: selectedInstituteId,
+      });
+    },
+    [],
+  );
 
-  const handleProgrammeFilterChange = (event: SelectChangeEvent<any>) => {
-    setSelectedProgrammeId(event.target.value);
-  };
+  const handleProgrammeFilterChange = useCallback(
+    (event: SelectChangeEvent<any>) => {
+      setSelectedProgrammeId(event.target.value);
+    },
+    [],
+  );
 
   return (
     <Box className={classes.pageRootHeader}>

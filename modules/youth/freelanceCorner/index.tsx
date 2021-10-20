@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   Box,
   Button,
@@ -13,6 +13,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Switch,
   TextField,
   Typography,
@@ -24,6 +27,8 @@ import {useIntl} from 'react-intl';
 import FeaturedFreelanceSection from './FeaturedFreelanceSection';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import AllFreelancerListSection from './AllFreelancerListSection';
+import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
@@ -50,54 +55,55 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       padding: '14px 0px',
     },
   },
+  selectStyle: {
+    background: '#fff',
+    '& .MuiSelect-select': {
+      padding: '10px 30px 10px 15px',
+    },
+  },
 }));
 
 const FreelanceCorner = () => {
   const classes = useStyles();
   const {messages} = useIntl();
 
-  const [checked, setChecked] = useState([0]);
+  const [selectedSkills, setSelectedSkills] = useState<Array<number>>([]);
+  const [freelancerFilters, setFreelancerFilters] = useState<Array<number>>([]);
+  const [searchInputText, setSearchInputText] = useState<string>('');
+  const [selectedUpazilaId, setSelectedUpazilaId] = useState<number | null>(
+    null,
+  );
+  const [skillFilters] = useState<any>({});
+  const searchTextField = useRef<any>();
+
+  const {data: skills} = useFetchYouthSkills(skillFilters);
+  const [upazilaFilters] = useState<any>({});
+  const {data: upazilas} = useFetchUpazilas(upazilaFilters);
+
+  const handleSearchAction = useCallback(() => {
+    setSearchInputText(searchTextField.current?.value);
+  }, []);
+
+  const handleUpazilaChange = useCallback((event: SelectChangeEvent<any>) => {
+    console.log('up eventL', event);
+    setSelectedUpazilaId(event.target.value);
+  }, []);
 
   const handleToggle = useCallback(
     (value: number) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
+      const currentIndex = selectedSkills.indexOf(value);
+      const newChecked = [...selectedSkills];
 
-      if (currentIndex === -1) {
+      if (currentIndex < 0) {
         newChecked.push(value);
       } else {
         newChecked.splice(currentIndex, 1);
       }
 
-      setChecked(newChecked);
+      setSelectedSkills(newChecked);
+      setFreelancerFilters(newChecked);
     },
-    [],
-  );
-
-  const checkItems = useMemo(
-    () => [
-      {
-        id: 1,
-        label: messages['freelance_corner.web_design'],
-      },
-      {
-        id: 2,
-        label: messages['freelance_corner.graphic_design'],
-      },
-      {
-        id: 3,
-        label: messages['freelance_corner.ux_design'],
-      },
-      {
-        id: 4,
-        label: messages['freelance_corner.ui_design'],
-      },
-      {
-        id: 5,
-        label: messages['freelance_corner.java_developer'],
-      },
-    ],
-    [messages],
+    [selectedSkills],
   );
 
   return (
@@ -116,40 +122,54 @@ const FreelanceCorner = () => {
                       width: '100%',
                       padding: '0px',
                     }}>
-                    {checkItems.map((item: any) => {
-                      const labelId = `checkbox-list-label-${item.id}`;
+                    {skills &&
+                      skills.map((item: any) => {
+                        const labelId = `checkbox-list-label-${item.id}`;
 
-                      return (
-                        <ListItem key={item.id} disablePadding>
-                          <ListItemButton onClick={handleToggle(item.id)} dense>
-                            <ListItemIcon sx={{minWidth: '20px'}}>
-                              <Checkbox
-                                edge='start'
-                                checked={checked.indexOf(item.id) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                                inputProps={{'aria-labelledby': labelId}}
-                                sx={{paddingTop: 0, paddingBottom: 0}}
-                              />
-                            </ListItemIcon>
-                            <ListItemText id={labelId} primary={item.label} />
-                          </ListItemButton>
-                        </ListItem>
-                      );
-                    })}
+                        return (
+                          <ListItem key={item.id} disablePadding>
+                            <ListItemButton
+                              onClick={handleToggle(item.id)}
+                              dense>
+                              <ListItemIcon sx={{minWidth: '20px'}}>
+                                <Checkbox
+                                  edge='start'
+                                  checked={selectedSkills.includes(item.id)}
+                                  tabIndex={-1}
+                                  disableRipple
+                                  inputProps={{'aria-labelledby': labelId}}
+                                  sx={{paddingTop: 0, paddingBottom: 0}}
+                                />
+                              </ListItemIcon>
+                              <ListItemText id={labelId} primary={item.title} />
+                            </ListItemButton>
+                          </ListItem>
+                        );
+                      })}
                   </List>
                   <Box sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
-                  <TextField
-                    variant='outlined'
-                    name='location'
-                    placeholder={
-                      messages['freelance_corner.add_location'] as string
-                    }
+
+                  <Select
+                    id='select1'
                     fullWidth
-                    size={'small'}
-                  />
+                    value={1}
+                    variant='outlined'
+                    className={classes.selectStyle}
+                    onChange={handleUpazilaChange}>
+                    <MenuItem value=''>
+                      <em>None</em>
+                    </MenuItem>
+                    {upazilas &&
+                      upazilas.map((upazila: any) => {
+                        return (
+                          <MenuItem key={upazila.id} value={upazila.id}>
+                            {upazila.title}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
                 </CardContent>
               </Card>
             </Grid>
@@ -160,8 +180,9 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card sx={{padding: '10px', alignItems: 'center'}}>
                 <Grid container spacing={1} sx={{alignItems: 'center'}}>
-                  <Grid item xs={9} sm={10} md={10}>
+                  <Grid item xs={9} sm={10}>
                     <TextField
+                      inputRef={searchTextField}
                       variant='outlined'
                       name='searchBox'
                       placeholder={messages['common.searchHere'] as string}
@@ -176,10 +197,11 @@ const FreelanceCorner = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={3} sm={2} md={2}>
+                  <Grid item xs={3} sm={2}>
                     <Button
                       variant='contained'
                       color={'primary'}
+                      onClick={handleSearchAction}
                       className={classes.searchButton}>
                       {messages['common.search']}
                     </Button>
@@ -191,7 +213,11 @@ const FreelanceCorner = () => {
               <FeaturedFreelanceSection />
             </Grid>
             <Grid item xs={12}>
-              <AllFreelancerListSection />
+              <AllFreelancerListSection
+                skillIds={freelancerFilters}
+                searchText={searchInputText}
+                upazila_id={selectedUpazilaId}
+              />
             </Grid>
           </Grid>
         </Grid>

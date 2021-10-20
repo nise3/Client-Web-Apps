@@ -30,6 +30,7 @@ axiosInstance.interceptors.request.use(
     );
     const userAccessToken = authAccessTokenData?.access_token;
     console.log('userAccessToken', userAccessToken);
+    console.log('apiAccessToken', apiAccessToken);
 
     if (userAccessToken || apiAccessToken) {
       config.headers['Authorization'] = `Bearer ${
