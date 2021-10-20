@@ -20,73 +20,49 @@ import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {Close as CloseIcon} from '@mui/icons-material';
 import {useFetchGuardians} from '../../../../services/youthManagement/hooks';
 import ContentLayout from '../component/ContentLayout';
-import {deleteLanguageProficiency} from '../../../../services/youthManagement/LanguageProficiencyService';
-import {YouthLanguageProficiency} from '../../../../services/youthManagement/typing';
-import {
-  LanguageProficiencySpeakingType,
-  LanguageProficiencyType,
-} from '../utilities/LanguageProficiencyType';
+import {deleteGuardian} from '../../../../services/youthManagement/GuardianService';
+import {Guardian} from '../../../../services/youthManagement/typing';
 
-type LanguageProficiencyViewPageProps = {
+type GuardianViewPageProps = {
   onEdit: (itemId: number) => void;
   onClose: () => void;
 };
 
-const GuardianViewPage = ({
-                                       onEdit,
-                                       onClose,
-                                     }: LanguageProficiencyViewPageProps) => {
+const relationship_type = {
+  1: 'Father',
+  2: 'Mother',
+  3: 'Uncle',
+  4: 'Aunt',
+  5: 'Other',
+};
+
+const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const {
     data: guardians,
     isLoading,
-    mutate: mutateLanguageProficiencies,
+    mutate: mutateGuardians,
   } = useFetchGuardians();
 
-  const deleteLanguageProficiencyItem = useCallback(async (itemId: number) => {
-    let response = await deleteLanguageProficiency(itemId);
+  const deleteGuardianItem = useCallback(async (itemId: number) => {
+    let response = await deleteGuardian(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='language_proficiency.title' />}}
+          values={{subject: <IntlMessages id='guardian.title' />}}
         />,
       );
-      mutateLanguageProficiencies();
+      mutateGuardians();
     }
   }, []);
-
-  const getLanguageProficiencyTypeCaption = (
-    type: number | string | undefined,
-  ) => {
-    switch (String(type)) {
-      case LanguageProficiencyType.EASILY:
-        return messages['common.easily'];
-      case LanguageProficiencyType.NOT_EASILY:
-        return messages['common.not_easily'];
-      default:
-        return messages['common.easily'];
-    }
-  };
-  const getLanguageProficiencySpeakingTypeCaption = (
-    type: number | string | undefined,
-  ) => {
-    switch (String(type)) {
-      case LanguageProficiencySpeakingType.FLUENTLY:
-        return messages['common.fluent'];
-      case LanguageProficiencySpeakingType.NOT_FLUENTLY:
-        return messages['common.not_fluent'];
-      default:
-        return messages['common.fluent'];
-    }
-  };
 
   return (
     <Zoom in={true}>
       <Box>
         <ContentLayout
-          title={messages['language_proficiency.title']}
+          title={messages['guardian.title']}
           isLoading={isLoading}
           actions={
             <IconButton aria-label='close' onClick={onClose} size='large'>
@@ -94,59 +70,45 @@ const GuardianViewPage = ({
             </IconButton>
           }>
           <TableContainer component={Paper}>
-            <Table size={'small'} aria-label='Language proficiency table'>
+            <Table size={'small'} aria-label="Guardian's table">
               <TableHead>
                 <TableRow>
-                  <TableCell>{messages['language.label']}</TableCell>
-                  <TableCell>{messages['language.read']}</TableCell>
-                  <TableCell>{messages['language.write']}</TableCell>
-                  <TableCell>{messages['language.speak']}</TableCell>
-                  <TableCell>{messages['language.understand']}</TableCell>
+                  <TableCell>{messages['guardian.name']}</TableCell>
+                  <TableCell>{messages['guardian.nid']}</TableCell>
+                  <TableCell>{messages['guardian.mobile']}</TableCell>
+                  <TableCell>{messages['guardian.date_of_birth']}</TableCell>
+                  <TableCell>
+                    {messages['guardian.relationship_type']}
+                  </TableCell>
+                  <TableCell>
+                    {messages['guardian.relationship_title']}
+                  </TableCell>
                   <TableCell>{messages['common.actions']}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {(guardians || []).map(
-                  (language: YouthLanguageProficiency, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell component='th' scope='language'>
-                        {language?.language_title}
-                      </TableCell>
-                      <TableCell>
-                        {getLanguageProficiencyTypeCaption(
-                          language?.reading_proficiency_level,
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {getLanguageProficiencyTypeCaption(
-                          language?.writing_proficiency_level,
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {getLanguageProficiencySpeakingTypeCaption(
-                          language?.speaking_proficiency_level,
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {getLanguageProficiencyTypeCaption(
-                          language?.understand_proficiency_level,
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <EditButton
-                          size={'small'}
-                          onClick={() => onEdit(language.id)}
-                        />
-                        <DeleteButton
-                          deleteAction={() =>
-                            deleteLanguageProficiencyItem(language.id)
-                          }
-                          deleteTitle={'Delete language'}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ),
-                )}
+                {(guardians || []).map((guardian: Guardian, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell component='th'>{guardian?.name}</TableCell>
+                    <TableCell>{guardian?.nid}</TableCell>
+                    <TableCell>{guardian?.mobile}</TableCell>
+                    <TableCell>{guardian?.date_of_birth}</TableCell>
+                    <TableCell>
+                      {relationship_type[guardian?.relationship_type]}
+                    </TableCell>
+                    <TableCell>{guardian?.relationship_title}</TableCell>
+                    <TableCell>
+                      <EditButton
+                        size={'small'}
+                        onClick={() => onEdit(guardian.id)}
+                      />
+                      <DeleteButton
+                        deleteAction={() => deleteGuardianItem(guardian.id)}
+                        deleteTitle={'Delete language'}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>

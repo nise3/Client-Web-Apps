@@ -145,13 +145,16 @@ export interface YouthPortfolio {
 
 export interface Guardian {
   id: number;
+  youth_id: string;
   name: string;
   name_en?: string;
   nid?: string;
   mobile?: string;
   date_of_birth?: string;
-  relationship_type?: number;
+  relationship_type: number;
   relationship_title?: string;
-  relationship_title_en?: string
-
+  relationship_title_en?: string;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
 }
