@@ -4,9 +4,10 @@ import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import BasicInfoItemBox from './components/BasicInfoItemBox';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
-import {useFetchYouthProfile} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_ROOT} from '../../../@softbd/common/appLinks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 const BasicInfo = () => {
   const classes: any = useStyles();
   const {messages} = useIntl();
-  const {data: youthInfo} = useFetchYouthProfile();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   return (
     <>
@@ -51,14 +52,14 @@ const BasicInfo = () => {
             className={classes.userImage}
           />
           <Box className={classes.userName}>
-            {youthInfo?.first_name} {youthInfo?.last_name}
+            {authUser?.first_name} {authUser?.last_name}
           </Box>
           <Box sx={{width: '100%'}}>
             <LinearProgress variant='determinate' value={55} />
             <Box>{messages['youth_feed.profile_progress']} 55%</Box>
           </Box>
 
-          <BasicInfoItemBox youthProfile={youthInfo} />
+          <BasicInfoItemBox youthProfile={authUser} />
 
           <Box style={{textAlign: 'center'}}>
             <Link href={LINK_FRONTEND_YOUTH_ROOT}>

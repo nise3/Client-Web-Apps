@@ -1,6 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
   isResponseSuccess,
@@ -25,7 +25,8 @@ import {
   createEducation,
   updateEducation,
 } from '../../../../services/youthManagement/EducationService';
-import ResultType from '../utilities/ResultType';
+import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {useFetchCountries} from '../../../../services/locationManagement/hooks';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -41,25 +42,44 @@ const passingYears = () => {
 };
 
 const initialValues = {
+  education_level_id: '',
   institute_name: '',
-  institute_name_en: '',
-  examination_id: '',
-  board_id: '',
+  is_foreign_institute: false,
+  exam_degree_id: '',
+  edu_board_id: '',
   edu_group_id: '',
-  major_or_subject_id: '',
-  roll_number: '',
-  registration_number: '',
-  result_type: ResultType.DIVISION,
-  division_type_result: '',
-  cgpa_gpa_max_value: '',
-  received_cgpa_gpa: '',
-  passing_year: '',
+  foreign_institute_country_id: '',
+  result: '',
+  year_of_passing: '',
 };
+
+const divisionResultCodes = [
+  'FIRST_DIVISION',
+  'SECOND_DIVISION',
+  'THIRD_DIVISION',
+];
+
+const gradeCode = 'GRADE';
+const educationLevelCodePHD = 'PHD';
+
+const educationLevelCodeWithGroup = [
+  'PSC_5_PASS',
+  'JSC_JDC_8_PASS',
+  'SECONDARY',
+  'HIGHER_SECONDARY',
+  'DIPLOMA',
+];
+
+const educationLevelCodeWithBoard = [
+  'PSC_5_PASS',
+  'JSC_JDC_8_PASS',
+  'SECONDARY',
+  'HIGHER_SECONDARY',
+];
 
 const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   itemId,
   onClose: onEducationEditPageClose,
-  ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -70,7 +90,17 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   } = useFetchEducation(itemId);
   const {data: educationsData, isLoading: isLoadingEducationsData} =
     useFetchEducationExamsBoardsEduGroupsAndSubjects();
-  const [resultType, setResultType] = useState<string>(ResultType.DIVISION);
+
+  const [countryFilters] = useState<any>({});
+  const {data: countries, isLoading: isLoadingCountries} =
+    useFetchCountries(countryFilters);
+
+  const [isForeignInstitute, setIsForeignInstitute] = useState<boolean>(false);
+  const [selectedEducationLevel, setSelectedEducationLevel] =
+    useState<any>(null);
+  const [selectedResult, setSelectedResult] = useState<any>(null);
+
+  console.log('edu', educationsData);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -78,38 +108,36 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
         .string()
         .title()
         .label(messages['common.institute_name_bn'] as string),
-      examination_id: yup
+      education_level_id: yup
         .string()
         .required()
-        .label(messages['education.exam'] as string),
-      roll_number: yup
+        .label(messages['education.education_level'] as string),
+      edu_board_id:
+        selectedEducationLevel &&
+        educationLevelCodeWithBoard.includes(selectedEducationLevel.code)
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.board'] as string)
+          : yup.string(),
+      edu_group_id:
+        selectedEducationLevel &&
+        educationLevelCodeWithGroup.includes(selectedEducationLevel.code)
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.group'] as string)
+          : yup.string(),
+      result: yup
         .string()
         .required()
-        .label(messages['education.roll_no'] as string),
-      registration_number: yup
+        .label(messages['education.result'] as string),
+      year_of_passing: yup
         .string()
         .required()
-        .label(messages['education.reg_no'] as string),
-      result_type: yup
-        .string()
-        .required()
-        .label(messages['education.result_type'] as string),
+        .label(messages['education.passing_year'] as string),
     });
   }, [messages]);
-
-  const resultTypes = useMemo(
-    () => [
-      {
-        id: ResultType.DIVISION,
-        label: messages['common.result_type_division'],
-      },
-      {
-        id: ResultType.GRADE_POINT,
-        label: messages['common.result_type_grade'],
-      },
-    ],
-    [messages],
-  );
 
   const {
     control,
@@ -129,26 +157,69 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
       reset({
         institute_name: itemData?.institute_name,
         institute_name_en: itemData?.institute_name_en,
-        examination_id: itemData?.examination_id,
-        board_id: itemData?.board_id,
+        education_level_id: itemData?.education_level_id,
+        exam_degree_id: itemData?.exam_degree_id,
+        major_or_concentration: itemData?.major_or_concentration,
+        major_or_concentration_en: itemData?.major_or_concentration_en,
+        edu_board_id: itemData?.edu_board_id,
         edu_group_id: itemData?.edu_group_id,
-        major_or_subject_id: itemData?.major_or_subject_id,
-        roll_number: itemData?.roll_number,
-        registration_number: itemData?.registration_number,
-        result_type: itemData?.result_type,
-        division_type_result: itemData?.division_type_result,
-        cgpa_gpa_max_value: itemData?.cgpa_gpa_max_value,
-        received_cgpa_gpa: itemData?.received_cgpa_gpa,
-        passing_year: itemData?.passing_year,
+        foreign_institute_country_id: itemData?.foreign_institute_country_id,
+        result: itemData?.result,
+        marks_in_percentage: itemData?.marks_in_percentage,
+        cgpa_scale: itemData?.cgpa_scale,
+        cgpa: itemData?.cgpa,
+        year_of_passing: itemData?.year_of_passing,
+        duration: itemData?.duration,
+        achievements: itemData?.achievements,
+        achievements_en: itemData?.achievements_en,
       });
+      setIsForeignInstitute(itemData?.is_foreign_institute == 1);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
+  const onEducationLevelChange = useCallback(
+    (eduLevelId: number) => {
+      if (eduLevelId) {
+        const educationLevel =
+          educationsData?.education_level_with_degrees.filter(
+            (educationLevel: any) => educationLevel.id == eduLevelId,
+          );
+
+        setSelectedEducationLevel(
+          Array.isArray(educationLevel) ? educationLevel[0] : educationLevel,
+        );
+      } else {
+        setSelectedEducationLevel(null);
+      }
+    },
+    [educationsData],
+  );
+
+  const onResultChange = useCallback(
+    (resultId: number) => {
+      if (resultId) {
+        const result = educationsData?.result.filter(
+          (res: any) => res.id == resultId,
+        );
+        setSelectedResult(Array.isArray(result) ? result[0] : result);
+      } else {
+        setSelectedResult(null);
+      }
+    },
+    [educationsData],
+  );
+
   const onSubmit: SubmitHandler<YouthEducation> = async (
     data: YouthEducation,
   ) => {
+    data.is_foreign_institute = 1;
+    if (!isForeignInstitute) {
+      data.is_foreign_institute = 0;
+      delete data.foreign_institute_country_id;
+    }
+
     const response = itemId
       ? await updateEducation(itemId, data)
       : await createEducation(data);
@@ -192,42 +263,91 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           onClose={onEducationEditPageClose}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='institute_name'
-                label={messages['common.institute_name_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='institute_name_en'
-                label={messages['common.institute_name_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
               <CustomFormSelect
-                id='examination_id'
-                label={messages['education.exam']}
+                id='education_level_id'
+                label={messages['education.education_level']}
                 isLoading={isLoadingEducationsData}
                 control={control}
-                options={educationsData?.examinations}
+                options={educationsData?.education_level_with_degrees}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
+                onChange={onEducationLevelChange}
               />
             </Grid>
+
+            {selectedEducationLevel &&
+              selectedEducationLevel.code != educationLevelCodePHD && (
+                <Grid item xs={12} md={6}>
+                  <CustomFormSelect
+                    id='exam_degree_id'
+                    label={messages['education.education_exam_degree']}
+                    isLoading={isLoadingEducationsData}
+                    control={control}
+                    options={selectedEducationLevel?.exam_degrees}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title']}
+                    errorInstance={errors}
+                  />
+                </Grid>
+              )}
+
+            {selectedEducationLevel &&
+              selectedEducationLevel.code == educationLevelCodePHD && (
+                <React.Fragment>
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='exam_degree_name'
+                      label={
+                        messages['education.education_exam_degree_name_bn']
+                      }
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <CustomTextInput
+                      id='exam_degree_name_en'
+                      label={
+                        messages['education.education_exam_degree_name_en']
+                      }
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                </React.Fragment>
+              )}
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='major_or_concentration'
+                label={messages['education.major_group_name_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='major_or_concentration_en'
+                label={messages['education.major_group_name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomFormSelect
-                id='board_id'
+                id='edu_board_id'
                 label={messages['education.board']}
                 isLoading={isLoadingEducationsData}
                 control={control}
-                options={educationsData?.boards}
+                options={educationsData?.edu_boards}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
@@ -245,22 +365,11 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='major_or_subject_id'
-                label={messages['education.major_subject']}
-                isLoading={isLoadingEducationsData}
-                control={control}
-                options={educationsData?.major_subjects}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-              />
-            </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='roll_number'
-                label={messages['education.roll_no']}
+                id='institute_name'
+                label={messages['common.institute_name_bn']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -268,46 +377,77 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='registration_number'
-                label={messages['education.reg_no']}
+                id='institute_name_en'
+                label={messages['common.institute_name_en']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='result_type'
-                label={messages['education.result_type']}
-                isLoading={isLoading}
-                control={control}
-                options={resultTypes}
-                optionValueProp={'id'}
-                optionTitleProp={['label']}
+
+            <Grid item xs={12}>
+              <CustomCheckbox
+                id='is_foreign_institute'
+                label={messages['education.is_foreign_institute']}
+                register={register}
                 errorInstance={errors}
-                onChange={(type: string) => {
-                  setResultType(type);
+                checked={isForeignInstitute}
+                onChange={() => {
+                  setIsForeignInstitute((prev) => !prev);
                 }}
+                isLoading={false}
               />
             </Grid>
-            {resultType == ResultType.DIVISION && (
+
+            {isForeignInstitute && (
               <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='division_type_result'
-                  label={messages['education.result']}
-                  register={register}
+                <CustomFormSelect
+                  id='foreign_institute_country_id'
+                  label={messages['education.foreign_institute_country']}
+                  isLoading={isLoadingCountries}
+                  control={control}
+                  options={countries}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
-                  isLoading={isLoading}
                 />
               </Grid>
             )}
-            {resultType == ResultType.GRADE_POINT && (
+
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='result'
+                label={messages['education.result']}
+                isLoading={isLoadingCountries}
+                control={control}
+                options={educationsData?.result}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={onResultChange}
+              />
+            </Grid>
+
+            {selectedResult &&
+              divisionResultCodes.includes(selectedResult.code) && (
+                <Grid item xs={12} md={6}>
+                  <CustomTextInput
+                    id='marks_in_percentage'
+                    label={messages['education.marks']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              )}
+
+            {selectedResult && selectedResult.code == gradeCode && (
               <Grid item xs={12} md={6}>
                 <Grid container spacing={3}>
                   <Grid item xs={6} md={6}>
                     <CustomTextInput
-                      id='cgpa_gpa_max_value'
-                      label={messages['common.total_cgpa']}
+                      id='cgpa_scale'
+                      label={messages['education.cgpa_scale']}
                       register={register}
                       errorInstance={errors}
                       isLoading={isLoading}
@@ -315,8 +455,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                   </Grid>
                   <Grid item xs={6} md={6}>
                     <CustomTextInput
-                      id='received_cgpa_gpa'
-                      label={messages['common.earned_cgpa']}
+                      id='cgpa'
+                      label={messages['education.cgpa']}
                       register={register}
                       errorInstance={errors}
                       isLoading={isLoading}
@@ -325,9 +465,10 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 </Grid>
               </Grid>
             )}
+
             <Grid item xs={12} md={6}>
               <CustomFormSelect
-                id='passing_year'
+                id='year_of_passing'
                 label={messages['education.passing_year']}
                 isLoading={isLoading}
                 control={control}
@@ -335,6 +476,35 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 optionValueProp={'year'}
                 optionTitleProp={['year']}
                 errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='duration'
+                label={messages['education.duration']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='achievements'
+                label={messages['education.achievements_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='achievements_en'
+                label={messages['education.achievements_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
           </Grid>

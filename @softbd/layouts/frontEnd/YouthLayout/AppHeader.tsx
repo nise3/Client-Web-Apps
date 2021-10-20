@@ -18,7 +18,6 @@ import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
-import HorUserInfo from '../../shared/HorUserInfo';
 import {Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_YOUTH_ROOT,
@@ -26,9 +25,11 @@ import {
   LINK_FRONTEND_YOUTH_JOBS,
   LINK_FRONTEND_YOUTH_NOTICE_BOARD,
   LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
+  LINK_FRONTEND_YOUTH_FEED,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import YouthProfileMenu from './YouthProfileMenu';
 
 interface AppHeaderProps {}
 
@@ -69,7 +70,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+        <Link href={LINK_FRONTEND_YOUTH_FEED}>
           <Badge className={classes.menuIcons} /> মাই লাইফ
         </Link>
       </MenuItem>
@@ -121,7 +122,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+                  <Link href={LINK_FRONTEND_YOUTH_FEED}>
                     <Badge className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
                     মাই লাইফ
                   </Link>
@@ -167,7 +168,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               </Box>
 
               {authUser ? (
-                <HorUserInfo />
+                <YouthProfileMenu />
               ) : (
                 <Button
                   variant='contained'

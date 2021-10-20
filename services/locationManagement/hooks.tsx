@@ -1,4 +1,5 @@
 import {
+  API_COUNTRIES,
   API_DISTRICTS,
   API_DIVISIONS,
   API_UPAZILAS,
@@ -27,4 +28,8 @@ export function useFetchUpazilas(params: any) {
 
 export function useFetchUpazila(upazilaId: number | null) {
   return useAxiosSWR(upazilaId ? API_UPAZILAS + '/' + upazilaId : null);
+}
+
+export function useFetchCountries(params: any) {
+  return useAxiosSWR([API_COUNTRIES, params]);
 }

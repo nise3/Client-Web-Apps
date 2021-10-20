@@ -42,6 +42,7 @@ export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR =
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/youth';
+export const LINK_FRONTEND_YOUTH_FEED = '/youth/feed';
 export const LINK_FRONTEND_YOUTH_TRAINING = '/youth/training';
 export const LINK_FRONTEND_YOUTH_JOBS = '/youth/jobs';
 export const LINK_FRONTEND_YOUTH_NOTICE_BOARD = '/youth/notice-board';

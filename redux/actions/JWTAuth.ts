@@ -136,6 +136,7 @@ type TYouthAuthUserSSOResponse = {
   religion: Religion;
   nationality?: string;
   does_belong_to_ethnic_group: EthnicGroupStatusType;
+  is_freelance_profile: number;
   first_name_en?: string;
   physical_disability_status: number;
   loc_division_id?: string;
@@ -204,6 +205,7 @@ export const getYouthAuthUserObject = (
     religion: authUser?.religion,
     nationality: authUser?.nationality,
     does_belong_to_ethnic_group: authUser?.does_belong_to_ethnic_group,
+    is_freelance_profile: authUser?.is_freelance_profile,
     last_name: authUser?.last_name,
     last_name_en: authUser?.last_name_en,
     mobile: authUser?.mobile,
