@@ -14,7 +14,7 @@ import {YouthEducation} from '../../../../services/youthManagement/typing';
 import {useIntl} from 'react-intl';
 import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
-import {ResultCodeGrade} from '../utilities/EducationEnums';
+import {ResultCodeAppeared, ResultCodeGrade} from '../utilities/EducationEnums';
 
 interface EducationsProps {
   educations: Array<YouthEducation> | any[];
@@ -75,9 +75,24 @@ const Educations: FC<EducationsProps> = ({
                     {messages['education.result']}:{' '}
                     <b>{getResult(education)}</b>
                   </Typography>
+                  {!education?.edu_board_id &&
+                    !education?.edu_group_id &&
+                    education?.year_of_passing && (
+                      <Typography variant={'subtitle2'}>
+                        {messages['education.passing_year']}:{' '}
+                        <b>{education?.year_of_passing}</b>
+                      </Typography>
+                    )}
+                  {education.result?.code == ResultCodeAppeared && (
+                    <Typography variant={'subtitle2'}>
+                      {messages['education.expected_passing_year']}:{' '}
+                      <b>{education?.expected_year_of_passing}</b>
+                    </Typography>
+                  )}
                   {education.duration && (
                     <Typography variant={'subtitle2'}>
-                      {messages['education.duration']}: {education.duration}
+                      {messages['education.duration']}:{' '}
+                      <b>{education.duration}</b>
                     </Typography>
                   )}
                 </Box>
@@ -108,19 +123,19 @@ const Educations: FC<EducationsProps> = ({
                       </Grid>
                     </React.Fragment>
                   )}
-                  {(education?.edu_board_id || education?.edu_group_id) && (
-                    <VerticalLine />
-                  )}
-                  <Grid item sx={{display: 'flex'}}>
-                    <AccessTime color={'primary'} sx={{marginRight: '5px'}} />
-                    <TextPrimary
-                      text={
-                        education.year_of_passing
-                          ? education?.year_of_passing
-                          : education.expected_year_of_passing
-                      }
-                    />
-                  </Grid>
+                  {(education?.edu_board_id || education?.edu_group_id) &&
+                    education?.year_of_passing && (
+                      <React.Fragment>
+                        <VerticalLine />
+                        <Grid item sx={{display: 'flex'}}>
+                          <AccessTime
+                            color={'primary'}
+                            sx={{marginRight: '5px'}}
+                          />
+                          <TextPrimary text={education.year_of_passing} />
+                        </Grid>
+                      </React.Fragment>
+                    )}
                 </Grid>
               </Box>
 
