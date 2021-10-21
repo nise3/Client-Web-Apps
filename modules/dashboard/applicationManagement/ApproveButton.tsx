@@ -23,11 +23,11 @@ interface ApproveButtonProps extends ButtonProps {
 }
 
 const ApproveButton: React.FC<ApproveButtonProps> = ({
-                                                     acceptAction,
-                                                     acceptTitle,
-                                                     className,
-                                                     ...extra
-                                                   }) => {
+  acceptAction,
+  acceptTitle,
+  className,
+  ...extra
+}) => {
   const [isAcceptDialogOpen, setAcceptDialogOpen] = useState(false);
   const classes = useStyles();
 
@@ -44,7 +44,7 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
     <>
       <Tooltip title={<IntlMessages id='applicationManagement.accept' />}>
         <Button
-          startIcon={<FiUserCheck />}
+          startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
           onClick={() => setAcceptDialogOpen(true)}
           className={clsx(classes.button, className)}
           {...extra}>
@@ -58,7 +58,9 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
           onDeny={onDeny}
           onConfirm={onConfirm}
           title={acceptTitle}
-          dialogTitle={<IntlMessages id='applicationManagement.acceptApplication' />}
+          dialogTitle={
+            <IntlMessages id='applicationManagement.acceptApplication' />
+          }
         />
       ) : null}
     </>

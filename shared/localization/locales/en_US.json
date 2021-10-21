@@ -2,7 +2,7 @@
   "applicationManagement.label": "Application Management",
   "applicationManagement.courseName": "Course Name",
   "applicationManagement.traineeDetails": "Trainee Details",
-  "applicationManagement.accept": "Accept",
+  "applicationManagement.accept": "Assign Batch",
   "applicationManagement.reject": "Reject",
   "applicationManagement.acceptApplication": "Accept Trainee Application?",
   "applicationManagement.rejectApplication": "Reject Trainee Application?",

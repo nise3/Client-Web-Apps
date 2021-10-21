@@ -2,7 +2,7 @@
   "applicationManagement.label": "আবেদন ব্যবস্থাপনা",
   "applicationManagement.courseName": "কোর্সের নাম",
   "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
-  "applicationManagement.accept": "গ্রহণ",
+  "applicationManagement.accept": "ব্যাচ বরাদ্দ",
   "applicationManagement.reject": "বাতিল",
   "applicationManagement.acceptApplication": "প্রশিক্ষণার্থীর আবেদন গ্রহণ করবেন?",
   "applicationManagement.rejectApplication": "প্রশিক্ষণার্থীর আবেদন বাতিল করবেন?",
