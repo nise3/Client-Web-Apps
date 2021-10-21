@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
@@ -6,21 +6,46 @@ import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
-const SkillMatchingCoursesSection = () => {
+interface skillMatchingCoursesSectionProps {
+  filters?: any;
+}
+
+const SkillMatchingCoursesSection = ({
+  filters,
+}: skillMatchingCoursesSectionProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
 
-  const [courseFilters] = useState({skill_ids: [1, 2, 3], page_size: 4});
+  console.log('filters', filters);
+
+  const [youthSkillIds, setYouthSkillIds] = useState<Array<number>>([]);
+
+  useEffect(() => {
+    let skillIDs: Array<number> = [];
+    authUser?.skills?.map((skill: any) => {
+      skillIDs.push(skill.id);
+    });
+    setYouthSkillIds(skillIDs);
+  }, []);
+
+  const [courseFilters, setCourseFilters] = useState<any>({
+    skill_ids: youthSkillIds,
+    page_size: 5,
+  });
+
+  useEffect(() => {
+    setCourseFilters({...filters, ...courseFilters});
+  }, [filters]);
 
   const pathValue = '/skill-matching';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
   const URL = '/../../youth/course-list' + pathValue;
 
-  return (
+  return courseList && courseList.length ? (
     <Grid container spacing={5}>
       <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>
@@ -52,6 +77,8 @@ const SkillMatchingCoursesSection = () => {
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <></>
   );
 };
 
