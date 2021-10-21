@@ -15,6 +15,7 @@ import {
   API_TRAINING_CENTERS,
   API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_FRONT_END_ALL_ACTIVITY_LIST,
+  API_FRONT_END_FAQ,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -112,4 +113,8 @@ export function useFetchInstitutesRecentActivity() {
 
 export function useFetchInstitutesAllActivity() {
   return useAxiosSWR([API_FRONT_END_ALL_ACTIVITY_LIST]);
+}
+
+export function useFetchInstitutesFAQ() {
+  return useAxiosSWR([API_FRONT_END_FAQ]);
 }

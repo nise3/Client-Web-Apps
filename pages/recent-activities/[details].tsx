@@ -14,8 +14,11 @@ export default NiseFrontPage(({data, id}: any) => {
 });
 
 export async function getServerSideProps(context: any) {
-  const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL);
-  let id = context.params.details;
-
-  return {props: {data: res.data.data, id}};
+  try {
+    const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL);
+    let id = context.params.details;
+    return {props: {data: res.data.data, id}};
+  } catch (e) {
+    return {props: {data: undefined}};
+  }
 }
