@@ -9,6 +9,7 @@ import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import makeStyles from '@mui/styles/makeStyles';
 import {H2} from '../../../@softbd/elements/common';
+import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -30,28 +31,12 @@ const InstituteFAQ = () => {
   const {messages} = useIntl();
   const classes = useStyles();
 
+  const {data: faqItems} = useFetchInstitutesFAQ();
+
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-
-  const data = [
-    {
-      id: '1',
-      question: 'প্রশ্ন ০১ঃ কেন্দ্র ভিত্তিক প্রশিক্ষণ সমূহ কি কি?',
-      answer: 'উত্তরঃ দয়া করে সমূহের পাতায় দেখুন',
-    },
-    {
-      id: '2',
-      question: 'প্রশ্ন ০২ঃ কেন্দ্র ভিত্তিক প্রশিক্ষণ সমূহ কি কি?',
-      answer: 'উত্তরঃ দয়া করে সমূহের পাতায় দেখুন',
-    },
-    {
-      id: '3',
-      question: 'প্রশ্ন ০৩ঃ কেন্দ্র ভিত্তিক প্রশিক্ষণ সমূহ কি কি?',
-      answer: 'উত্তরঃ দয়া করে সমূহের পাতায় দেখুন',
-    },
-  ];
 
   return (
     <Grid sx={{maxWidth: '100%'}}>
@@ -61,12 +46,12 @@ const InstituteFAQ = () => {
       <Container maxWidth='xl'>
         <Grid container>
           <Grid item xs={12} my={4}>
-            {data.map((item, i) => (
+            {faqItems?.map((item: any) => (
               <Accordion
                 className={classes.accordion}
                 expanded={expanded === item.id}
                 onChange={handleChange(item.id)}
-                key={i}>
+                key={item.id}>
                 <AccordionSummary
                   expandIcon={
                     expanded === item.id ? <RemoveIcon /> : <AddIcon />

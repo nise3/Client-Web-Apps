@@ -6,7 +6,7 @@ enum RowStatus {
 }
 
 export const getRowStatusLabel = (key: number | string): string => {
-  const messages = appIntl();
+  const {messages} = appIntl();
   switch (key) {
     case RowStatus.ACTIVE:
       return messages['common.active'] as string;
