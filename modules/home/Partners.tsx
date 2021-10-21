@@ -1,10 +1,9 @@
-import {Box, Button, Card, Container, Grid, Typography} from '@mui/material';
+import {Box, Card, Container, Grid, Typography} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import {ArrowRightAlt} from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,7 +73,7 @@ const Partners = () => {
             style={{marginBottom: '50px', marginTop: '50px'}}
             className={classes.title}
             justifyContent={'center'}>
-            <Box className={classes.vBar}></Box>
+            <Box className={classes.vBar} />
             <Box fontWeight='fontWeightBold'>পার্টনার সমূহ</Box>
           </Box>
         </Typography>
@@ -83,14 +82,14 @@ const Partners = () => {
             {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
-        <Grid item container justifyContent='center'>
+        {/*<Grid item container justifyContent='center'>
           <Button
             variant='outlined'
             color='primary'
             endIcon={<ArrowRightAlt />}>
             আরো দেখুন
           </Button>
-        </Grid>
+        </Grid>*/}
       </Container>
     </Grid>
   );

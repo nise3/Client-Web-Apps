@@ -141,7 +141,7 @@ const PopularCourse = () => {
             style={{marginBottom: '50px', marginTop: '50px'}}
             className={classes.title}
             justifyContent={'center'}>
-            <Box className={classes.vBar}></Box>
+            <Box className={classes.vBar} />
             <Box fontWeight='fontWeightBold'>জনপ্রিয় কোর্স</Box>
           </Box>
         </Typography>

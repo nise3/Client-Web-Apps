@@ -1,186 +1,91 @@
 import React from 'react';
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
+import {Button, Container, Grid, Typography} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import {ArrowRightAlt, DateRangeOutlined} from '@mui/icons-material';
-import SectionTitle from './SectionTitle';
-import {Fade} from 'react-awesome-reveal';
-import Image from 'next/image';
-import recentActivitiesOne from '../../public/images/recent-activities1.png';
-import recentActivitiesTwo from '../../public/images/recent-activities2.png';
-import recentActivitiesThree from '../../public/images/recent-activities3.png';
+import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
+import {useIntl} from 'react-intl';
+import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
+import {ArrowRightAlt} from '@mui/icons-material';
+import {Link} from '../../@softbd/elements/common';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginTop: '50px',
+const useStyles = makeStyles((theme) => {
+  return {
+    typographyNumber: {
+      color: theme.palette.primary.dark,
+      marginLeft: '5px',
+      backgroundColor: theme.palette.primary.light,
+      padding: '0 5px',
     },
-    image1: {
-      width: '100%',
-      height: '100%',
-      borderRadius: '5px',
+    cardMainGrid: {
+      marginRight: 'auto',
+      marginLeft: 'auto',
     },
-    image2: {
-      width: '100%',
-      height: '100%',
-      borderRadius: '5px',
-    },
-    image3: {
-      width: '100%',
-      height: '100%',
-      borderRadius: '5px',
-    },
-    imgInfo: {
-      position: 'absolute',
-      bottom: ' 5px',
-      padding: '5px',
-      background: '#2b1f1f82',
-      color: '#fff',
-      width: '100%',
-    },
-    imgWrapper: {
-      position: 'relative',
+    filterMainGrid: {
+      marginRight: 'auto',
+      marginLeft: 'auto',
+      justifyContent: 'space-between',
     },
     dateInfo: {
-      background: '#fff',
-      color: '#000',
+      background: theme.palette.common.white,
+      color: theme.palette.primary.light,
       display: 'flex',
       padding: '4px',
       width: '130px',
       borderRadius: '5px',
       marginBottom: '10px',
     },
-    dateInfo2: {
+    titleTypography: {
+      color: theme.palette.primary.dark,
+    },
+    pagination: {
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    },
+    image: {
+      overflow: 'hidden',
+    },
+    imageTexts: {
       position: 'absolute',
-      zIndex: 99,
-      left: '0',
-      top: '0',
-      background: '#fff',
-      color: '#000',
-      display: 'flex',
-      padding: '4px',
-      width: '130px',
-      borderRadius: '5px',
-      marginBottom: '10px',
+      bottom: '5%',
+      left: '4%',
     },
-  }),
-);
+  };
+});
 
 const RecentActivities = () => {
   const classes = useStyles();
+  const {data: recentActivitiesItems} = useFetchInstitutesRecentActivity();
+  const {messages} = useIntl();
 
   return (
-    <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
-        <SectionTitle title='সাম্প্রতিক কার্যক্রম' />
-        <Fade cascade duration={4000}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={6}>
-              <Box className={classes.imgWrapper}>
-                <Image
-                  src={recentActivitiesOne}
-                  alt={'activities one'}
-                  className={classes.image1}
-                  height={1530}
-                />
-                <Box className={classes.imgInfo}>
-                  <Box className={classes.dateInfo}>
-                    <DateRangeOutlined />
-                    <Typography>১২ জুন ২০২১</Typography>
-                  </Box>
-                  <Typography variant='subtitle2'>
-                    <Box fontWeight='fontWeightBold' m={1}>
-                      চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
-                      ফ্রি হেলথ ইনস্যুরেন্স
-                    </Box>
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Grid container>
-                <Grid item xs={12} md={12}>
-                  <Box
-                    className={classes.imgWrapper}
-                    sx={{position: 'relative'}}>
-                    <Image
-                      src={recentActivitiesTwo}
-                      alt={'activities two'}
-                      className={classes.image2}
-                    />
-
-                    <Box className={classes.dateInfo2}>
-                      <DateRangeOutlined />
-                      <Typography>১২ জুন ২০২১</Typography>
-                    </Box>
-                    <Box className={classes.imgInfo}>
-                      <Typography variant='subtitle2'>
-                        <Box fontWeight='fontWeightBold' m={1}>
-                          শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়ে
-                          শিক্ষার্থীদের ল্যাপটপ বিতরণ অনুষ্ঠান
-                        </Box>
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <Box className={classes.imgWrapper}>
-                    <Image
-                      src={recentActivitiesThree}
-                      alt={'activities Three'}
-                      className={classes.image3}
-                    />
-                    <Box className={classes.imgInfo}>
-                      <Box className={classes.dateInfo}>
-                        <DateRangeOutlined />
-                        <Typography>১২ জুন ২০২১</Typography>
-                      </Box>
-                      <Typography variant='subtitle2'>
-                        <Box fontWeight='fontWeightBold' m={1}>
-                          চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
-                          ফ্রি হেলথ ইনস্যুরেন্স
-                        </Box>
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <Box className={classes.imgWrapper}>
-                    <Image
-                      src={recentActivitiesThree}
-                      alt={'activities Three'}
-                      className={classes.image3}
-                    />
-                    <Box className={classes.imgInfo}>
-                      <Box className={classes.dateInfo}>
-                        <DateRangeOutlined />
-                        <Typography>১২ জুন ২০২১</Typography>
-                      </Box>
-                      <Typography variant='subtitle2'>
-                        <Box fontWeight='fontWeightBold' m={1}>
-                          চট্টগ্রাম জেলার জাতীয় বিশ্ববিদ্যালয়ের ছাত্র ছাত্রী দের
-                          ফ্রি হেলথ ইনস্যুরেন্স
-                        </Box>
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Fade>
-        <Grid container justifyContent='flex-end'>
+    <Container maxWidth={'md'}>
+      <Grid container>
+        <Grid item md={12} mt={8}>
+          <Typography
+            className={classes.titleTypography}
+            gutterBottom
+            variant='h4'
+            component='div'
+            display={'flex'}>
+            {messages['recent_activities.institute']}
+          </Typography>
+          {recentActivitiesItems && (
+            <RecentActivityMasonryGroupView
+              items={recentActivitiesItems.slice(0, 4)}
+            />
+          )}
+        </Grid>
+      </Grid>
+      <Grid container justifyContent='flex-end'>
+        <Link href={'/recent-activities'}>
           <Button
             variant='outlined'
             color='primary'
-            endIcon={<ArrowRightAlt />}
-            style={{marginTop: '10px'}}>
+            endIcon={<ArrowRightAlt />}>
             আরো দেখুন
           </Button>
-        </Grid>
-      </Container>
-    </Grid>
+        </Link>
+      </Grid>
+    </Container>
   );
 };
 export default RecentActivities;

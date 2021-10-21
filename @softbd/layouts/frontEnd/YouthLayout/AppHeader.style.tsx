@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 0,
+    paddingRight: 0,
     [theme.breakpoints.up('lg')]: {
       maxWidth: 1140,
     },
