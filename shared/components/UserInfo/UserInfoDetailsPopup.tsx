@@ -21,11 +21,7 @@ type Props = {
   openEditModal: () => void;
 };
 
-export default function UserInfoDetailsPopup({
-  onClose,
-  openEditModal,
-  ...props
-}: Props) {
+export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
   const user: CommonAuthUser | null = useAuthUser();
   const {messages} = useIntl();
   const classes = useStyles();
@@ -74,11 +70,14 @@ export default function UserInfoDetailsPopup({
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['common.mobile']}
-            value={'0180384888'}
+            value={user?.mobile}
           />
         </Grid>
         <Grid item xs={6}>
-          <DetailsInputView label={messages['role.label']} value={user?.role} />
+          <DetailsInputView
+            label={messages['role.label']}
+            value={user?.role?.title}
+          />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView label={messages['institute.label']} value={'xyz'} />
