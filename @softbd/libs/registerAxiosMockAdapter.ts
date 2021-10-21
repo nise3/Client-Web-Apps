@@ -47,13 +47,13 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
 
   mock.onGet(API_FONT_END_CONTACT_MAP).reply(200, {data: contactMapData});
 
-  mock.onGet(API_COURSES + '/skill').reply(200, {data: courses});
-  mock.onGet(API_COURSES + '/recent').reply(200, {data: courses});
-  mock.onGet(API_COURSES + '/popular').reply(200, {data: courses});
-  mock.onGet(API_COURSES + '/trending').reply(200, {data: courses});
-  mock.onGet(API_COURSES + '/nearby').reply(200, {data: courses});
-  mock.onGet(API_COURSES + '/simillar').reply(200, {data: courses});
-  mock.onGet(API_COURSES + '/my-courses').reply(200, {data: myCourses});
+  // mock.onGet(API_COURSES + '/skill').reply(200, {data: courses});
+  // mock.onGet(API_COURSES + '/recent').reply(200, {data: courses});
+  // mock.onGet(API_COURSES + '/popular').reply(200, {data: courses});
+  // mock.onGet(API_COURSES + '/trending').reply(200, {data: courses});
+  // mock.onGet(API_COURSES + '/nearby').reply(200, {data: courses});
+  // mock.onGet(API_COURSES + '/simillar').reply(200, {data: courses});
+  // mock.onGet(API_COURSES + '/my-courses').reply(200, {data: myCourses});
 
   mock.onGet(API_COURSE_DETAILS).reply(200, {data: courseDetails});
 

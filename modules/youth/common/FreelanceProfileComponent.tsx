@@ -14,7 +14,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
-const FreelanceProfileSection = () => {
+const FreelanceProfileComponent = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<YouthAuthUser>();
@@ -69,4 +69,4 @@ const FreelanceProfileSection = () => {
   );
 };
 
-export default FreelanceProfileSection;
+export default FreelanceProfileComponent;

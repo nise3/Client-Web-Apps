@@ -3,17 +3,17 @@ import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 
 const SimilarCourseSection = () => {
   const {messages} = useIntl();
 
   const [courseFilters] = useState({page_size: 8});
 
-  const pathVariable = '/simillar';
+  const pathVariable = '/skill-matching';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
 
-  return (
+  return courseList && courseList.length ? (
     <Grid container spacing={5}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
@@ -43,6 +43,8 @@ const SimilarCourseSection = () => {
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <></>
   );
 };
 

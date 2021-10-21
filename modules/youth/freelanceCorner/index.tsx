@@ -16,19 +16,18 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  Switch,
   TextField,
-  Typography,
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import FeaturedFreelanceSection from './FeaturedFreelanceSection';
-import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import AllFreelancerListSection from './AllFreelancerListSection';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
+import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
@@ -70,9 +69,9 @@ const FreelanceCorner = () => {
   const [selectedSkills, setSelectedSkills] = useState<Array<number>>([]);
   const [freelancerFilters, setFreelancerFilters] = useState<Array<number>>([]);
   const [searchInputText, setSearchInputText] = useState<string>('');
-  const [selectedUpazilaId, setSelectedUpazilaId] = useState<number | null>(
-    null,
-  );
+  const [selectedUpazilaId, setSelectedUpazilaId] = useState<
+    number | null | undefined
+  >(null);
   const [skillFilters] = useState<any>({});
   const searchTextField = useRef<any>();
 
@@ -153,6 +152,7 @@ const FreelanceCorner = () => {
                   <Select
                     id='upazila_id'
                     fullWidth
+                    value={'1'}
                     variant='outlined'
                     className={classes.selectStyle}
                     onChange={handleUpazilaChange}>
@@ -214,25 +214,16 @@ const FreelanceCorner = () => {
               <AllFreelancerListSection
                 skillIds={freelancerFilters}
                 searchText={searchInputText}
-                upazila_id={Number(selectedUpazilaId)}
+                upazila_id={selectedUpazilaId}
               />
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item xs={12} md={3}>
           <Grid container spacing={5}>
             <Grid item xs={12}>
-              <Card>
-                <CardContent>
-                  <Typography variant={'h6'}>
-                    {messages['common.freelance_profile']}
-                  </Typography>
-                  <Typography variant={'body2'}>
-                    {messages['youth_profile.freelance_profile_turing_on_hint']}
-                  </Typography>
-                  <Switch color={'primary'} defaultChecked />
-                </CardContent>
-              </Card>
+              <FreelanceProfileComponent />
             </Grid>
             <Grid item xs={12}>
               <NearbySkilledYouthSection />

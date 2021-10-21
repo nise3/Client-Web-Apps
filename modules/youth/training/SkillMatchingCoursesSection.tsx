@@ -1,23 +1,53 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
-const SkillMatchingCoursesSection = () => {
+interface skillMatchingCoursesSectionProps {
+  filters?: any;
+}
+
+const SkillMatchingCoursesSection = ({
+  filters,
+}: skillMatchingCoursesSectionProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const [courseFilters] = useState({page_size: 4});
+  const authUser = useAuthUser<YouthAuthUser>();
 
-  const {data: courseList} = useFetchCourseList('/skill', courseFilters);
-  const URL = '/../../youth/course-list/skill';
+  console.log('filters', filters);
 
-  return (
+  const [youthSkillIds, setYouthSkillIds] = useState<Array<number>>([]);
+
+  useEffect(() => {
+    let skillIDs: Array<number> = [];
+    authUser?.skills?.map((skill: any) => {
+      skillIDs.push(skill.id);
+    });
+    setYouthSkillIds(skillIDs);
+  }, []);
+
+  const [courseFilters, setCourseFilters] = useState<any>({
+    skill_ids: youthSkillIds,
+    page_size: 5,
+  });
+
+  useEffect(() => {
+    setCourseFilters({...filters, ...courseFilters});
+  }, [filters]);
+
+  const pathValue = '/skill-matching';
+  const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
+  const URL = '/../../youth/course-list' + pathValue;
+
+  return courseList && courseList.length ? (
     <Grid container spacing={5}>
-      <Grid item xs={12} sm={12} md={12}>
+      <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={8} sm={9} md={10}>
             <Typography variant={'h5'} className={classes.sectionTitle}>
@@ -47,6 +77,8 @@ const SkillMatchingCoursesSection = () => {
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <></>
   );
 };
 

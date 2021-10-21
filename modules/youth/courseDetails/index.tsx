@@ -5,11 +5,11 @@ import CourseContentSection from './CourseContentSection';
 import SimilarCourseSection from './SimilarCourseSection';
 import CourseDetailsSkillMatchingJobSection from './CourseDetailsSkillMatchingJobSection';
 import {useFetchCourseDetails} from '../../../services/instituteManagement/hooks';
-// import {useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 
 const CourseDetails = () => {
-  // const router = useRouter();
-  // let {courseId} = router.query;
+  const router = useRouter();
+  let {courseId} = router.query;
 
   const {data: courseDetails} = useFetchCourseDetails(Number(courseId));
 

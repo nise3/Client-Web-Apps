@@ -5,7 +5,7 @@ import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 
 const CourseList = () => {
   const {messages} = useIntl();
@@ -22,7 +22,7 @@ const CourseList = () => {
 
   const getMessageId = (category: any) => {
     switch (category) {
-      case 'skill':
+      case 'skill-matching':
         return 'common.skill_courses';
       case 'trending':
         return 'common.trending_courses';

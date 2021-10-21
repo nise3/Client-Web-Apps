@@ -7,7 +7,7 @@ import {useFetchYouths} from '../../../services/youthManagement/hooks';
 interface AllFreelancerListSectionProps {
   skillIds?: Array<number>;
   searchText?: string;
-  upazila_id?: number;
+  upazila_id?: number | null;
 }
 
 const AllFreelancerListSection = ({
