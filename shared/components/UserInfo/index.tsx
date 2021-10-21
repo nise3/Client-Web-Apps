@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const UserInfo: React.FC<{}> = () => {
+const UserInfo: React.FC = () => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -141,7 +141,7 @@ const UserInfo: React.FC<{}> = () => {
               </Menu>
             </Box>
           </Box>
-          <Box className={classes.designation}>System Manager</Box>
+          <Box className={classes.designation}>{user?.userType}</Box>
         </Box>
       </Box>
       {isOpenDetailsModal && (
