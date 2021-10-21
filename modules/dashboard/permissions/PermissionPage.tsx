@@ -1,4 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
+import {isUndefined as lodashIsUndefined} from 'lodash';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -15,6 +16,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissions} from '../../../services/userManagement/hooks';
 import IconPermission from '../../../@softbd/icons/IconPermission';
 import {deletePermission} from '../../../services/userManagement/PermissionService';
+import PermissionMethodsLabelByKey from '../../../@softbd/utilities/Permission';
 
 const PermissionPage = () => {
   const {messages} = useIntl();
@@ -82,7 +84,7 @@ const PermissionPage = () => {
       },
       {
         Header: messages['common.name'],
-        accessor: 'name',
+        accessor: 'title',
       },
       {
         Header: messages['permission.module'],
@@ -95,6 +97,13 @@ const PermissionPage = () => {
       {
         Header: messages['permission.method'],
         accessor: 'method',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            !lodashIsUndefined(PermissionMethodsLabelByKey[data.method + '']) &&
+            PermissionMethodsLabelByKey[data.method + '']
+          );
+        },
       },
       {
         Header: messages['common.actions'],

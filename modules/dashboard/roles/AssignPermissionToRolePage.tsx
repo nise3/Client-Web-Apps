@@ -4,8 +4,10 @@ import {
   map as lodashMap,
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
+  startCase as lodashStartCase,
+  toLower as lodashToLower,
 } from 'lodash';
-import { Box, Checkbox, Divider, Grid } from '@mui/material';
+import {Box, Checkbox, Divider, Grid} from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {makeStyles} from '@mui/styles';
@@ -185,7 +187,7 @@ const AssignPermissionToRolePage = () => {
                     handleCheckAllPermissions(e.target.checked, module)
                   }
                 />
-                {module}
+                {lodashStartCase(lodashToLower(module))}
               </label>
               <Divider />
               {permissions[module].map((permission: any) => {
@@ -198,7 +200,7 @@ const AssignPermissionToRolePage = () => {
                         handlePermissionCheck(permission.id, module)
                       }
                     />
-                    {permission.name}
+                    {lodashStartCase(permission.title)}
                   </label>
                 );
               })}
