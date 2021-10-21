@@ -77,6 +77,16 @@ const initialValues = {
   google_map_src: '',
   email: '',
   row_status: '1',
+  name_of_the_office_head: '',
+  name_of_the_office_head_en: '',
+  name_of_the_office_head_designation: '',
+  name_of_the_office_head_designation_en: '',
+  contact_person_name: '',
+  contact_person_name_en: '',
+  contact_person_designation: '',
+  contact_person_designation_en: '',
+  contact_person_email: '',
+  contact_person_mobile: '',
 };
 
 const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
@@ -222,6 +232,40 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['upazilas.label'] as string),
+      name_of_the_office_head: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.name_of_the_office_head'] as string),
+      name_of_the_office_head_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(
+          messages['institute.name_of_the_office_head_designation'] as string,
+        ),
+      contact_person_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_name'] as string),
+      contact_person_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_designation'] as string),
+      contact_person_email: yup
+        .string()
+        .trim()
+        .required()
+        .email()
+        .label(messages['common.contact_person_email'] as string),
+      contact_person_mobile: yup
+        .string()
+        .trim()
+        .matches(MOBILE_NUMBER_REGEX)
+        .required()
+        .label(messages['common.contact_person_mobile'] as string),
     });
   }, [messages]);
 
@@ -263,6 +307,18 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         address: itemData?.address,
         google_map_src: itemData?.google_map_src,
         email: itemData?.email,
+        name_of_the_office_head: itemData?.name_of_the_office_head,
+        name_of_the_office_head_en: itemData?.name_of_the_office_head_en,
+        name_of_the_office_head_designation:
+          itemData?.name_of_the_office_head_designation,
+        name_of_the_office_head_designation_en:
+          itemData?.name_of_the_office_head_designation_en,
+        contact_person_name: itemData?.contact_person_name,
+        contact_person_name_en: itemData?.contact_person_name_en,
+        contact_person_designation: itemData?.contact_person_designation,
+        contact_person_designation_en: itemData?.contact_person_designation_en,
+        contact_person_email: itemData?.contact_person_email,
+        contact_person_mobile: itemData?.contact_person_mobile,
         row_status: String(itemData?.row_status),
       });
 
@@ -437,6 +493,55 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 errorInstance={errors}
               />
             </Grid>
+
+            {/** working */}
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='name_of_the_office_head'
+                label={messages['institute.name_of_the_office_head']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='name_of_the_office_head_designation'
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='contact_person_name'
+                label={messages['common.contact_person_name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='contact_person_designation'
+                label={messages['common.contact_person_designation']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='contact_person_email'
+                label={messages['common.contact_person_email']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
           </Grid>
         </Grid>
 
@@ -515,6 +620,55 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               <CustomTextInput
                 id='google_map_src'
                 label={messages['common.google_map_src']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            {/** working */}
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='name_of_the_office_head_en'
+                label={messages['institute.name_of_the_office_head_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='name_of_the_office_head_designation_en'
+                label={
+                  messages['institute.name_of_the_office_head_designation_en']
+                }
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='contact_person_name_en'
+                label={messages['common.contact_person_name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='contact_person_designation_en'
+                label={messages['common.contact_person_designation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='contact_person_mobile'
+                label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
