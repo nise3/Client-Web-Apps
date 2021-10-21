@@ -1,5 +1,10 @@
 export const LINK_LOGIN = '/signin';
-export const LINK_SIGNUP = '/signup';
+export const LINK_SIGNUP = '/sign-up';
+export const LINK_YOUTH_SIGNUP = '/youth-registration';
+export const LINK_INSTITUTE_SIGNUP = '/institute-registration';
+export const LINK_ORGANIZATION_SIGNUP = '/organization-registration';
+export const LINK_YOUTH_REGISTRATION_VERIFICATION =
+  '/registration-verification';
 
 /**  User Role Permission links */
 export const LINK_PERMISSION = '/dashboard/permissions';

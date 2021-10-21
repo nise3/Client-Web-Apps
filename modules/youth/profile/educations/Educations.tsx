@@ -4,10 +4,8 @@ import {
   AccessTime,
   BorderColor,
   CheckCircle,
-  Grade,
   Verified,
 } from '@mui/icons-material';
-import ResultType from '../utilities/ResultType';
 import TextPrimary from '../component/TextPrimary';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CustomParabolaButton from '../component/CustomParabolaButton';
@@ -16,6 +14,7 @@ import {YouthEducation} from '../../../../services/youthManagement/typing';
 import {useIntl} from 'react-intl';
 import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
+import {ResultCodeAppeared, ResultCodeGrade} from '../utilities/EducationEnums';
 
 interface EducationsProps {
   educations: Array<YouthEducation> | any[];
@@ -30,6 +29,20 @@ const Educations: FC<EducationsProps> = ({
 }) => {
   const {messages} = useIntl();
 
+  const getResult = (education: YouthEducation) => {
+    if (education.result?.code == ResultCodeGrade) {
+      return education.cgpa + ' out of ' + education.cgpa_scale;
+    } else {
+      return (
+        education.result?.title +
+        ' ' +
+        (education.marks_in_percentage
+          ? messages['education.marks'] + ': ' + education.marks_in_percentage
+          : '')
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       {educations.map((education: YouthEducation) => (
@@ -42,56 +55,96 @@ const Educations: FC<EducationsProps> = ({
                   <Verified />
                 </Avatar>
                 <Box sx={{marginLeft: '15px'}}>
-                  <Typography variant={'subtitle2'}>
-                    {education.examination_title}
+                  <Typography variant={'subtitle2'} fontWeight={'bold'}>
+                    {education?.education_level_title}
+                    {' ('}
+                    {education?.exam_degree_id
+                      ? education?.exam_degree_title
+                      : education?.exam_degree_name}
+                    {')'}
                   </Typography>
+                  {education?.major_or_concentration && (
+                    <Typography variant={'subtitle2'}>
+                      {education.major_or_concentration}
+                    </Typography>
+                  )}
                   <Typography variant={'caption'}>
-                    {education.institute_name}
+                    {education?.institute_name}
                   </Typography>
+                  <Typography variant={'subtitle2'}>
+                    {messages['education.result']}:{' '}
+                    <b>{getResult(education)}</b>
+                  </Typography>
+                  {!education?.edu_board_id &&
+                    !education?.edu_group_id &&
+                    education?.year_of_passing && (
+                      <Typography variant={'subtitle2'}>
+                        {messages['education.passing_year']}:{' '}
+                        <b>{education?.year_of_passing}</b>
+                      </Typography>
+                    )}
+                  {education.result?.code == ResultCodeAppeared && (
+                    <Typography variant={'subtitle2'}>
+                      {messages['education.expected_passing_year']}:{' '}
+                      <b>{education?.expected_year_of_passing}</b>
+                    </Typography>
+                  )}
+                  {education.duration && (
+                    <Typography variant={'subtitle2'}>
+                      {messages['education.duration']}:{' '}
+                      <b>{education.duration}</b>
+                    </Typography>
+                  )}
                 </Box>
               </Box>
               <Box>
                 <Grid container sx={{marginTop: '10px'}}>
-                  <Grid item sx={{display: 'flex'}}>
-                    <Grade color={'primary'} sx={{marginRight: '5px'}} />
-                    {education.result_type == ResultType.GRADE_POINT ? (
-                      <TextPrimary
-                        text={
-                          education.received_cgpa_gpa +
-                          ' out of ' +
-                          education.cgpa_gpa_max_value
-                        }
-                      />
-                    ) : (
-                      <TextPrimary
-                        text={
-                          education.division_type_result +
-                          ' ' +
-                          messages['common.result_type_division']
-                        }
-                      />
+                  {education?.edu_group_id && (
+                    <React.Fragment>
+                      <Grid item sx={{display: 'flex'}}>
+                        <CheckCircle
+                          color={'primary'}
+                          sx={{marginRight: '5px'}}
+                        />
+                        <TextPrimary text={education?.edu_group_title} />
+                      </Grid>
+                    </React.Fragment>
+                  )}
+                  {education?.edu_board_id && (
+                    <React.Fragment>
+                      {education?.edu_group_id && <VerticalLine />}
+
+                      <Grid item sx={{display: 'flex'}}>
+                        <LocationOnIcon
+                          color={'primary'}
+                          sx={{marginRight: '5px'}}
+                        />
+                        <TextPrimary text={education.board_title} />
+                      </Grid>
+                    </React.Fragment>
+                  )}
+                  {(education?.edu_board_id || education?.edu_group_id) &&
+                    education?.year_of_passing && (
+                      <React.Fragment>
+                        <VerticalLine />
+                        <Grid item sx={{display: 'flex'}}>
+                          <AccessTime
+                            color={'primary'}
+                            sx={{marginRight: '5px'}}
+                          />
+                          <TextPrimary text={education.year_of_passing} />
+                        </Grid>
+                      </React.Fragment>
                     )}
-                  </Grid>
-                  <VerticalLine />
-                  <Grid item sx={{display: 'flex'}}>
-                    <CheckCircle color={'primary'} sx={{marginRight: '5px'}} />
-                    <TextPrimary text={education.edu_group_title} />
-                  </Grid>
-                  <VerticalLine />
-                  <Grid item sx={{display: 'flex'}}>
-                    <LocationOnIcon
-                      color={'primary'}
-                      sx={{marginRight: '5px'}}
-                    />
-                    <TextPrimary text={education.board_title} />
-                  </Grid>
-                  <VerticalLine />
-                  <Grid item sx={{display: 'flex'}}>
-                    <AccessTime color={'primary'} sx={{marginRight: '5px'}} />
-                    <TextPrimary text={education.passing_year} />
-                  </Grid>
                 </Grid>
               </Box>
+
+              {education.achievements && (
+                <Box>
+                  <Typography>{messages['common.achievements']}</Typography>
+                  <Typography>{education.achievements}</Typography>
+                </Box>
+              )}
             </Grid>
             <Grid item xs={12} sm={4} md={3}>
               <Box sx={{display: 'flex'}}>

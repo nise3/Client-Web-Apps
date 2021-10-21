@@ -8,7 +8,7 @@ const useStyle = makeStyles(() => ({
     flex: 1,
     display: 'flex',
     position: 'relative',
-    height: '100vh',
+    minHeight: '100vh',
     backgroundColor: '#f3f4f6',
     background: `url(/images/auth-background.jpg) no-repeat center center`,
     backgroundSize: 'cover',
@@ -29,7 +29,7 @@ const useStyle = makeStyles(() => ({
 }));
 
 interface AuthLayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({children}) => {

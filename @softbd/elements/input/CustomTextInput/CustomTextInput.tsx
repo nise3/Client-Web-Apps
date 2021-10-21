@@ -18,6 +18,7 @@ type Props = {
   type?: string;
   defaultValue?: string;
   inputProps?: any;
+  [x: string]: any;
 };
 
 const CustomTextInput = ({
@@ -34,6 +35,7 @@ const CustomTextInput = ({
   type,
   defaultValue,
   inputProps,
+  ...rest
 }: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
@@ -63,10 +65,10 @@ const CustomTextInput = ({
           ''
         )
       }
-      //InputLabelProps={{shrink: true}}
       defaultValue={defaultValue}
       {...register(id)}
       inputProps={inputProps}
+      {...rest}
     />
   );
 };

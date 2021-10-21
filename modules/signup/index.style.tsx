@@ -1,19 +1,10 @@
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
+import {CremaTheme} from '../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
-  rootContainer: {
-    display: 'flex',
-    height: 'calc(100vh - 70px)',
-  },
   paperBox: {
     margin: 'auto',
-    // maxHeight: '250px',
-    // height: '100%',
-  },
-  boxContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
+    padding: '20px',
   },
   iconBoxYouth: {
     background: '#0069bc',
@@ -25,22 +16,28 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     background: '#e67f22',
   },
   icon: {
-    height: '100px',
-    width: '110px',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    padding: '35px',
     alignItems: 'center',
     borderRadius: '10px',
     cursor: 'pointer',
+    height: '140px',
+    width: '140px',
     [theme.breakpoints.down('sm')]: {
+      padding: '20px',
       margin: 'auto',
+      height: '100px',
+      width: '100px',
     },
   },
   text: {
-    color: '#ebdada',
-    fontSize: '12px',
+    color: theme.palette.grey['300'],
+    whiteSpace: 'nowrap',
     marginTop: '10px',
+  },
+  signInStyle: {
+    color: theme.palette.primary.main,
   },
 }));
 

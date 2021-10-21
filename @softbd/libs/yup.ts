@@ -17,7 +17,7 @@ yup.setLocale({
       key: 'yup_validation_not_one_of',
       values: {path, values},
     }),
-    notType: 'not_type', //TODO: see packages example for real implementation.
+    notType: '', //TODO: see packages example for real implementation.
     defined: ({path}: any) => ({key: 'yup_validation_defined', values: {path}}),
   },
   string: {

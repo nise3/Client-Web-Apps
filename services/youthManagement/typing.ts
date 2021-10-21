@@ -60,12 +60,18 @@ export interface YouthPersonalInfo {
 export interface YouthEducation {
   id: number;
   education_level_id: string | number;
+  education_level_title?: string;
+  education_level_title_en?: string;
   exam_degree_id?: string | number;
+  exam_degree_title?: string;
+  exam_degree_title_en?: string;
+  exam_degree_name?: string;
+  exam_degree_name_en?: string;
   major_or_concentration?: string;
   major_or_concentration_en?: string;
   edu_board_id?: string | number;
-  edu_board_title?: string;
-  edu_board_title_en?: string;
+  board_title?: string;
+  board_title_en?: string;
   edu_group_id?: string | number;
   edu_group_title?: string;
   edu_group_title_en?: string;
@@ -73,11 +79,17 @@ export interface YouthEducation {
   institute_name_en?: string;
   is_foreign_institute: number;
   foreign_institute_country_id?: string | number;
-  result: string | number;
+  result: {
+    id: number;
+    code: string;
+    title: string;
+    title_en: string;
+  };
   marks_in_percentage?: string | number;
   cgpa_scale?: string | number;
   cgpa?: string | number;
-  year_of_passing: string | number;
+  year_of_passing?: string | number;
+  expected_year_of_passing?: string | number;
   duration?: string | number;
   achievements?: string;
   achievements_en?: string;

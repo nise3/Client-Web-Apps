@@ -53,8 +53,6 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     });
   }, [messages]);
 
-  console.log(itemData);
-  console.log(itemId);
   const {
     register,
     reset,
@@ -80,7 +78,6 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: YouthPortfolio) => {
-    // console.log('portfolio ---- ', data);
     const response = itemId
       ? await updatePortfolio(itemId, data)
       : await createPortfolio(data);

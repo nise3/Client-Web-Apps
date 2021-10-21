@@ -136,7 +136,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthReference> = async (
     data: YouthReference,
   ) => {
-    console.log('data--', data);
     const response = itemId
       ? await updateReference(itemId, data)
       : await createReference(data);

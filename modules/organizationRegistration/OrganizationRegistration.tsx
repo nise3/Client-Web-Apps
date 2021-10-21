@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Container, Grid, Link, Paper, Typography} from '@mui/material';
+import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -18,6 +18,7 @@ import {setServerValidationErrors} from '../../@softbd/utilities/validationError
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
 import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
+
 const OrganizationRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -103,7 +104,6 @@ const OrganizationRegistration = () => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log(data);
     const response = await organizationRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(<IntlMessages id='youth_registration.success' />);
@@ -280,6 +280,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password'
+                type={'password'}
                 label={messages['common.password']}
                 register={register}
                 errorInstance={errors}
@@ -288,6 +289,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password_confirmation'
+                type={'password'}
                 label={messages['common.retype_password']}
                 register={register}
                 errorInstance={errors}
@@ -301,10 +303,6 @@ const OrganizationRegistration = () => {
             </Grid>
           </Grid>
         </form>
-        <Typography style={{marginTop: '5px'}}>
-          {messages['common.alreadyHaveAccount']}{' '}
-          <Link>{messages['common.signInHere']}</Link>
-        </Typography>
       </Paper>
     </Container>
   );

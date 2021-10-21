@@ -2,5 +2,5 @@ import React from 'react';
 import DefaultPage from '../@softbd/layouts/hoc/DefaultPage';
 import asyncComponent from '../@crema/utility/asyncComponent';
 
-const SignUP = asyncComponent(() => import('../modules/auth/Signup'));
-export default DefaultPage(() => <SignUP/>);
+const Signin_backup = asyncComponent(() => import('../modules/auth/Signin'));
+export default DefaultPage(() => <Signin_backup />);

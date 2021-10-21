@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import useStyles from '../youth/registration/Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Container, Grid, Link, Paper, Typography} from '@mui/material';
+import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
@@ -106,7 +106,6 @@ const InstituteRegistration = () => {
   const {successStack} = useNotiStack();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('data--', data);
     const response = await createRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(
@@ -122,10 +121,8 @@ const InstituteRegistration = () => {
     }
   };
 
-  console.log('Error', errors);
-
   return (
-    <Container maxWidth={'md'} style={{marginTop: '50px'}}>
+    <Container maxWidth={'md'}>
       <Paper className={classes.PaperBox}>
         <Typography
           align={'center'}
@@ -263,6 +260,7 @@ const InstituteRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password'
+                type={'password'}
                 label={messages['common.password']}
                 register={register}
                 errorInstance={errors}
@@ -271,6 +269,7 @@ const InstituteRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password_confirmation'
+                type={'password'}
                 label={messages['common.retype_password']}
                 register={register}
                 errorInstance={errors}
@@ -284,10 +283,6 @@ const InstituteRegistration = () => {
             </Grid>
           </Grid>
         </form>
-        <Typography style={{marginTop: '5px'}}>
-          {messages['common.alreadyHaveAccount']}{' '}
-          <Link>{messages['common.signInHere']}</Link>
-        </Typography>
       </Paper>
     </Container>
   );
