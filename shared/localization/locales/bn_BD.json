@@ -2,7 +2,7 @@
   "applicationManagement.label": "আবেদন ব্যবস্থাপনা",
   "applicationManagement.courseName": "কোর্সের নাম",
   "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
-  "applicationManagement.accept": "গ্রহণ",
+  "applicationManagement.accept": "ব্যাচ বরাদ্দ",
   "applicationManagement.reject": "বাতিল",
   "applicationManagement.acceptApplication": "প্রশিক্ষণার্থীর আবেদন গ্রহণ করবেন?",
   "applicationManagement.rejectApplication": "প্রশিক্ষণার্থীর আবেদন বাতিল করবেন?",
@@ -677,5 +677,9 @@
   "guardian.date_of_birth": "জন্মতারিখ",
   "guardian.relationship_type": "অভিভাবকের সাথে সম্পর্ক",
   "guardian.relationship_title": "সম্পর্কের ধরণ",
-  "guardian.relationship_title_en": "সম্পর্কের ধরণ (ইংরেজী)"
+  "guardian.relationship_title_en": "সম্পর্কের ধরণ (ইংরেজী)",
+  "institute.name_of_the_office_head": "অফিস প্রধানের নাম",
+  "institute.name_of_the_office_head_en": "অফিস প্রধানের নাম (ইংরেজী)",
+  "institute.name_of_the_office_head_designation": "অফিস প্রধানের পদবী",
+  "institute.name_of_the_office_head_designation_en": "অফিস প্রধানের পদবী (ইংরেজী)"
 }

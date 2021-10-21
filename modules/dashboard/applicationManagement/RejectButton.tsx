@@ -23,11 +23,11 @@ interface RejectButtonProps extends ButtonProps {
 }
 
 const RejectButton: React.FC<RejectButtonProps> = ({
-                                                     rejectAction,
-                                                     rejectTitle,
-                                                     className,
-                                                     ...extra
-                                                   }) => {
+  rejectAction,
+  rejectTitle,
+  className,
+  ...extra
+}) => {
   const [isRejectDialogOpen, setRejectDialogOpen] = useState(false);
   const classes = useStyles();
 
@@ -44,7 +44,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
     <>
       <Tooltip title={<IntlMessages id='applicationManagement.reject' />}>
         <Button
-          startIcon={<FiUserX />}
+          startIcon={<FiUserX style={{marginLeft: '5px'}} />}
           onClick={() => setRejectDialogOpen(true)}
           className={clsx(classes.button, className)}
           {...extra}>
@@ -58,7 +58,9 @@ const RejectButton: React.FC<RejectButtonProps> = ({
           onDeny={onDeny}
           onConfirm={onConfirm}
           title={rejectTitle}
-          dialogTitle={<IntlMessages id='applicationManagement.rejectApplication' />}
+          dialogTitle={
+            <IntlMessages id='applicationManagement.rejectApplication' />
+          }
         />
       ) : null}
     </>

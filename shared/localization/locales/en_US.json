@@ -2,7 +2,7 @@
   "applicationManagement.label": "Application Management",
   "applicationManagement.courseName": "Course Name",
   "applicationManagement.traineeDetails": "Trainee Details",
-  "applicationManagement.accept": "Accept",
+  "applicationManagement.accept": "Assign Batch",
   "applicationManagement.reject": "Reject",
   "applicationManagement.acceptApplication": "Accept Trainee Application?",
   "applicationManagement.rejectApplication": "Reject Trainee Application?",
@@ -672,5 +672,9 @@
   "guardian.date_of_birth": "Guardian's Birthday",
   "guardian.relationship_type": "Relation with Guardian",
   "guardian.relationship_title": "Type of relation (Bangla)",
-  "guardian.relationship_title_en": "Type of relation (English)"
+  "guardian.relationship_title_en": "Type of relation (English)",
+  "institute.name_of_the_office_head": "Name of the office head",
+  "institute.name_of_the_office_head_en": "Name of the office head (English)",
+  "institute.name_of_the_office_head_designation": "Office head designation",
+  "institute.name_of_the_office_head_designation_en": "Office head designation (English)"
 }
