@@ -3,10 +3,18 @@ import {
   API_BATCHES,
   API_BRANCHES,
   API_COURSES,
+  API_FONT_END_CONTACT_MAP,
+  API_COURSE_DETAILS,
+  API_FRONT_END_GALLERY_CATEGORY_LIST,
+  API_FRONT_END_GALLERY_LIST,
+  API_FRONT_END_VIDEOS_CATEGORY_LIST,
+  API_FRONT_END_VIDEOS_LIST,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_FRONT_END_RECENT_ACTIVITY_LIST,
+  API_FRONT_END_ALL_ACTIVITY_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -15,6 +23,22 @@ export function useFetchInstitute(instituteId: number | null) {
 
 export function useFetchInstitutes(params: any) {
   return useAxiosSWR([API_INSTITUTES, params]);
+}
+
+export function useFetchInstitutesGallery() {
+  return useAxiosSWR(API_FRONT_END_GALLERY_LIST);
+}
+
+export function useFetchInstitutesGalleryCategory() {
+  return useAxiosSWR(API_FRONT_END_GALLERY_CATEGORY_LIST);
+}
+
+export function useFetchInstitutesVideos() {
+  return useAxiosSWR(API_FRONT_END_VIDEOS_LIST);
+}
+
+export function useFetchInstitutesVideoCategory() {
+  return useAxiosSWR(API_FRONT_END_VIDEOS_CATEGORY_LIST);
 }
 
 export function useFetchBranch(branchId: number | null) {
@@ -51,6 +75,17 @@ export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
 }
 
+export function useFetchCourseList(pathVariable: string, params: any) {
+  return useAxiosSWR([
+    pathVariable ? API_COURSES + pathVariable : API_COURSES,
+    params,
+  ]);
+}
+
+export function useFetchCourseDetails(courseId: number | null) {
+  return useAxiosSWR(API_COURSE_DETAILS);
+}
+
 export function useFetchBatch(batchId: number | null) {
   return useAxiosSWR(batchId ? API_BATCHES + '/' + batchId : null);
 }
@@ -65,4 +100,16 @@ export function useFetchTrainer(trainerId: number | null) {
 
 export function useFetchTrainers(params: any) {
   return useAxiosSWR([API_TRAINERS, params]);
+}
+
+export function useFetchInstitutesContactMap() {
+  return useAxiosSWR([API_FONT_END_CONTACT_MAP]);
+}
+
+export function useFetchInstitutesRecentActivity() {
+  return useAxiosSWR([API_FRONT_END_RECENT_ACTIVITY_LIST]);
+}
+
+export function useFetchInstitutesAllActivity() {
+  return useAxiosSWR([API_FRONT_END_ALL_ACTIVITY_LIST]);
 }

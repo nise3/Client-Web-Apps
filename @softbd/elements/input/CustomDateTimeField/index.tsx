@@ -45,16 +45,16 @@ const CustomDateTimeField = ({
       InputLabelProps={{
         shrink: true,
       }}
-      error={errorInstance[id] && Boolean(errorInstance[id])}
+      error={errorInstance?.[id] && Boolean(errorInstance?.[id])}
       helperText={
-        errorInstance[id] && errorInstance[id].message ? (
-          errorInstance[id].message.hasOwnProperty('key') ? (
+        errorInstance?.[id] && errorInstance?.[id].message ? (
+          errorInstance?.[id].message.hasOwnProperty('key') ? (
             <IntlMessages
-              id={errorInstance[id].message.key}
-              values={errorInstance[id].message?.values || {}}
+              id={errorInstance?.[id].message.key}
+              values={errorInstance?.[id].message?.values || {}}
             />
           ) : (
-            errorInstance[id].message
+            errorInstance?.[id].message
           )
         ) : (
           ''

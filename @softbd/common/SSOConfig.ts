@@ -1,13 +1,15 @@
 // @ts-ignore
 interface TConfig {
   authUrl: string;
-  clientId: string;
+  clientKey: string;
+  clientSecret: string;
   callbackUrl: string;
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: 'https://apm.local:9443/oauth2/authorize/',
-  clientId: 'ZWgJBhtunCNY5lnkrLCUpNejRYIa',
+  authUrl: 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  clientKey: 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
+  clientSecret: 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
   callbackUrl: '/callback',
 };
 
@@ -20,7 +22,7 @@ export const getSSOLoginUrl = () => {
   return (
     SSO_CONFIG.authUrl +
     '?response_type=id_token token&client_id=' +
-    SSO_CONFIG.clientId +
+    SSO_CONFIG.clientKey +
     '&scope=openid email&nonce=13e2312637dg136e1&' +
     'redirect_uri=' +
     origin +

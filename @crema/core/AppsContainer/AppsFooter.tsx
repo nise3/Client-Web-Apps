@@ -2,7 +2,7 @@ import React, {ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import makeStyles from '@mui/styles/makeStyles';
 import {grey} from '@mui/material/colors';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   paginationRoot: {

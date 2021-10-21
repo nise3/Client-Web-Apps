@@ -7,29 +7,19 @@ import SecondaryColorPicker from './SecondaryColorPicker';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import SidebarColorPicker from './SidebarColorPicker';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Switch from '@mui/material/Switch';
-import {layoutTypes, navStyles} from '../../services/db/navigationStyle';
 import clsx from 'clsx';
 import {Scrollbar} from '../../index';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../utility/IntlMessages';
 import useStyles from './index.style';
-import CheckIcon from '@mui/icons-material/Check';
 import themeColorSets from '../../../shared/constants/ColorSets';
 import CustomColorCell from './CustomColorCell';
 import {
-  FooterType,
   LayoutType,
-  NavStyle,
-  RouteTransition,
   ThemeMode,
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 interface ThemeSettingProps {
   props?: any;
@@ -44,17 +34,8 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
     themeStyle,
     updateThemeStyle,
     updateTheme,
-    footer,
-    footerType,
-    setFooter,
-    setFooterType,
     theme,
-    rtAnim,
-    changeRTAnim,
-    navStyle,
     layoutType,
-    updateLayoutStyle,
-    changeNavStyle,
   } = useContext<AppContextPropsType>(AppContext);
   const onStyleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -77,13 +58,6 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
     color: any,
   ) => {
     if (color) setThemeColor(color);
-  };
-
-  const onLayoutChange = (layoutType: LayoutType) => {
-    updateLayoutStyle?.(layoutType);
-  };
-  const onNavStyleChange = (navStyle: NavStyle) => {
-    changeNavStyle?.(navStyle);
   };
 
   const updateThemeColors = (colorSet: any) => {
@@ -237,135 +211,6 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
                   </Box>
                 </Box>
               )}
-            </Box>
-
-            <Box pb={1} className={clsx(classes.customizerItem)}>
-              <Box component='h4' mb={{xs: 2, xl: 3}}>
-                <IntlMessages id='customizer.navigationStyles' />
-              </Box>
-              <Box className={classes.navOption}>
-                {navStyles.map((navLayout) => {
-                  return (
-                    <Box className={classes.navOptionItem} key={navLayout.id}>
-                      <Box
-                        className={classes.navOptionContent}
-                        onClick={() => onNavStyleChange(navLayout.alias)}>
-                        <img src={navLayout.image} alt='nav' />
-                        {navStyle === navLayout.alias ? (
-                          <span className={classes.navOptionRightIcon}>
-                            <CheckIcon className={classes.textWhite}>
-                              <IntlMessages id='customizer.checked' />
-                            </CheckIcon>
-                          </span>
-                        ) : null}
-                      </Box>
-                    </Box>
-                  );
-                })}
-              </Box>
-            </Box>
-
-            <Box pb={1} className={clsx(classes.customizerItem)}>
-              <Box component='h4' mb={{xs: 2, xl: 3}}>
-                <IntlMessages id='customizer.layoutTypes' />
-              </Box>
-              <Box className={classes.navOption}>
-                {layoutTypes.map((layout) => {
-                  return (
-                    <Box className={classes.navOptionItem} key={layout.id}>
-                      <Box
-                        className={classes.navOptionContent}
-                        onClick={() => onLayoutChange(layout.alias)}>
-                        <img src={layout.image} alt='nav' />
-                        {layoutType === layout.alias ? (
-                          <span className={classes.navOptionRightIcon}>
-                            <CheckIcon className={classes.textWhite}>
-                              <IntlMessages id='customizer.checked' />
-                            </CheckIcon>
-                          </span>
-                        ) : null}
-                      </Box>
-                    </Box>
-                  );
-                })}
-              </Box>
-            </Box>
-
-            <Box className={classes.customizerItem}>
-              <Box display='flex' alignItems='center'>
-                <Box component='h4'>Footer</Box>
-                <Box component='span' ml='auto'>
-                  <Switch
-                    checked={footer}
-                    onChange={() => setFooter?.(!footer)}
-                    value='checkedA'
-                    inputProps={{'aria-label': 'secondary checkbox'}}
-                  />
-                </Box>
-              </Box>
-            </Box>
-            <Box className={classes.customizerItem}>
-              <Box component='h4' mb={{xs: 2, xl: 3}}>
-                Footer Type
-              </Box>
-              <FormControl variant='outlined' className={classes.wFull}>
-                <InputLabel htmlFor='outlined-rt'>Footer Type</InputLabel>
-                <Select
-                  className={classes.selectBox}
-                  value={footerType}
-                  autoWidth={true}
-                  onChange={(e) =>
-                    setFooterType?.(e.target.value as FooterType)
-                  }
-                  inputProps={{
-                    name: 'rt',
-                    id: 'outlined-rt',
-                  }}>
-                  <MenuItem value={FooterType.FIXED}>Fixed</MenuItem>
-                  <MenuItem value={FooterType.FLUID}>Fluid</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-
-            <Box className={classes.customizerItem}>
-              <Box component='h4' mb={{xs: 2, xl: 3}}>
-                <IntlMessages id='customizer.routeTransition' />
-              </Box>
-              <FormControl variant='outlined' className={classes.wFull}>
-                <InputLabel htmlFor='outlined-rt'>
-                  <IntlMessages id='customizer.routeTransition' />
-                </InputLabel>
-                <Select
-                  className={classes.selectBox}
-                  value={rtAnim}
-                  autoWidth={true}
-                  onChange={(e) =>
-                    changeRTAnim?.(e.target.value as RouteTransition)
-                  }
-                  inputProps={{
-                    name: 'rt',
-                    id: 'outlined-rt',
-                  }}>
-                  <MenuItem value={RouteTransition.NONE}>
-                    <IntlMessages id='common.none' />
-                  </MenuItem>
-                  <MenuItem value={RouteTransition.FADE}>
-                    <IntlMessages id='customizer.fade' />
-                  </MenuItem>
-                  <MenuItem value={RouteTransition.SLIDE_LEFT}>
-                    <IntlMessages id='customizer.slideLeft' />
-                  </MenuItem>
-                  <MenuItem value={RouteTransition.SLIDE_RIGHT}>
-                    <IntlMessages id='customizer.slideRight' />
-                  </MenuItem>
-                  <MenuItem value={RouteTransition.SLIDE_UP}>
-                    <IntlMessages id='customizer.slideUp' />
-                  </MenuItem>
-                  <MenuItem value={RouteTransition.SLIDE_DOWN}>
-                    <IntlMessages id='customizer.slideDown' />
-                  </MenuItem>
-                </Select>
-              </FormControl>
             </Box>
           </Box>
         </Scrollbar>

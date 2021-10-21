@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  Box,
-  Card,
-  CardMedia,
-  Container,
-  Grid,
-  NativeSelect,
-  Typography,
-} from '@mui/material';
+import {Box, Card, CardMedia, Container, Grid, Typography} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade, Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
+import {H4, H6} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,19 +22,16 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: '#fff',
       padding: '0 7px 2px 12px',
-      marginTop: '13px',
-      marginBottom: '8px',
-      marginLeft: '-8px',
-      [theme.breakpoints.down('xl')]: {
-        width: '100%',
-        marginLeft: '-14px',
+      height: 40,
+      width: 150,
+      '&>div, &>div:focus': {
+        backgroundColor: 'transparent',
       },
-      [theme.breakpoints.up('md')]: {
-        width: '120px',
-        marginLeft: '-24px',
+      '&::before': {
+        display: 'none',
       },
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: '0px',
+      '&::after': {
+        display: 'none',
       },
     },
     selectOption: {
@@ -60,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: 'auto',
       [theme.breakpoints.down('xl')]: {
         marginBottom: '10px',
-        marginTop: '140px',
+        marginTop: '200px',
       },
     },
     trendSearchItem: {
@@ -82,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '40%',
       },
 
-      [theme.breakpoints.down('xl')]: {
+      [theme.breakpoints.down('md')]: {
         marginTop: '13px',
         marginBottom: '10px',
         width: '100%',
@@ -123,40 +113,26 @@ const CoverArea = () => {
           <Container maxWidth='md'>
             <Box pt={6}>
               <Fade direction='up'>
-                <Typography variant='h4'>
+                <H4>
                   <Box fontWeight='fontWeightBold' mt={4}>
                     এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
                     প্রশিক্ষণ
                   </Box>
-                </Typography>
+                </H4>
               </Fade>
 
               <Fade direction='down'>
                 <Box mt={2}>
-                  <Typography variant={'h6'}>
+                  <H6>
                     আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
                     তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
                     <br />
                     অনুসারে চাকরি।
-                  </Typography>
+                  </H6>
                 </Box>
               </Fade>
             </Box>
 
-            <Slide direction='up'>
-              <Grid item container>
-                <Grid item xs={3} xl={2}>
-                  <Box mt={5} zIndex={'tooltip'}>
-                    <NativeSelect disableUnderline className={classes.select}>
-                      <option className={classes.selectOption}>দক্ষতা</option>
-                      <option className={classes.selectOption}>চাকরি</option>
-                      <option className={classes.selectOption}>ব্যবসা</option>
-                      <option className={classes.selectOption}>শিক্ষা</option>
-                    </NativeSelect>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Slide>
             <SearchBox />
           </Container>
         </Grid>

@@ -66,8 +66,8 @@ const ServicesPage = () => {
     mutateServices();
   }, [mutateServices]);
 
-  const columns = useMemo(
-    () => [
+  const columns = useMemo(() => {
+    return [
       {
         Header: messages['common.id'],
         accessor: 'id',
@@ -79,8 +79,8 @@ const ServicesPage = () => {
         accessor: 'title_en',
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['common.status'],
@@ -108,9 +108,8 @@ const ServicesPage = () => {
         },
         sortable: false,
       },
-    ],
-    [messages],
-  );
+    ];
+  }, [messages]);
   return (
     <>
       <PageBlock

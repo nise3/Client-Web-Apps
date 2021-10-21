@@ -13,7 +13,6 @@ import {
   updateDivision,
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {
   isResponseSuccess,
@@ -31,9 +30,8 @@ interface DivisionAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   bbs_code: '',
-  row_status: '1',
 };
 
 const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
@@ -56,10 +54,10 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       bbs_code: yup
         .string()
         .trim()
@@ -70,7 +68,6 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
 
   const {
     register,
-    control,
     reset,
     handleSubmit,
     setError,
@@ -83,9 +80,8 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
     if (itemId && itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         bbs_code: itemData?.bbs_code,
-        row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
@@ -161,8 +157,8 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -174,14 +170,6 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
             label={messages['common.bbs_code']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>

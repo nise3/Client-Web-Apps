@@ -1,34 +1,6 @@
-import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-
-const API_DIVISIONS = CORE_SERVICE_PATH + '/divisions';
-
-/**
- * @deprecated
- * @param params
- */
-export const getAllDivisions = async (params = {}) => {
-  try {
-    let response: any = await apiGet(API_DIVISIONS, {params});
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-/**
- * @deprecated
- * @param divisionId
- */
-export const getDivision = async (divisionId: number) => {
-  try {
-    let response: any = await apiGet(API_DIVISIONS + '/' + divisionId);
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
+import {API_DIVISIONS} from '../../@softbd/common/apiRoutes';
 
 export const createDivision = async (data: Division) => {
   try {

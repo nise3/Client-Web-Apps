@@ -21,9 +21,7 @@ import {styled} from '@mui/styles';
 const PREFIX = 'DivisionPage';
 const classes = {root: `${PREFIX}-root`};
 const StyledDiv = styled('div')((theme: any) => ({
-  [`&.${classes.root}`]: {
-    background: 'red',
-  },
+  [`&.${classes.root}`]: {},
 }));
 
 const DivisionsPage = () => {
@@ -104,8 +102,8 @@ const DivisionsPage = () => {
         isVisible: false,
       },
       {
-        Header: messages['common.title_bn'],
-        accessor: 'title_bn',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['common.bbs_code'],

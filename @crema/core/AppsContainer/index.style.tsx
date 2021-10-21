@@ -1,6 +1,6 @@
 import makeStyles from '@mui/styles/makeStyles';
 import {NavStyle} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const getHeaderHeight = (navStyle: NavStyle, screenSize: number) => {
   if (

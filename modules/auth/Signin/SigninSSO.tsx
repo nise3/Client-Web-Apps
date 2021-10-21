@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Button from '@mui/material/Button';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';

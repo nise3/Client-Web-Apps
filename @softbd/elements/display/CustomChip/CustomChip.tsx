@@ -18,7 +18,12 @@ type Props = {
   variant?: 'filled' | 'outlined';
 };
 
-const CustomChip = ({color, label, icon, variant = 'outlined'}: Props) => {
+const CustomChip = ({
+  color = 'default',
+  label,
+  icon,
+  variant = 'outlined',
+}: Props) => {
   const classes = useStyles();
   return (
     <Chip

@@ -3,7 +3,7 @@ type RankType = {
   id: number;
   organization_id?: number | string | undefined;
   title_en: string;
-  title_bn: string;
+  title: string;
   description?: string;
   organization_title_en?: string;
   row_status?: number | string;
@@ -13,7 +13,7 @@ type Rank = {
   key: string | number;
   id: number;
   title_en?: string;
-  title_bn?: string;
+  title?: string;
   organization_id?: number | string;
   organization_title_en: string;
   rank_type_id: string;
@@ -28,7 +28,7 @@ type Rank = {
 type OrganizationType = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   is_government: boolean;
   row_status: number | string;
   created_at?: string;
@@ -38,7 +38,7 @@ type OrganizationType = {
 type Organization = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   contact_person_designation: string;
   contact_person_email: string;
   contact_person_mobile: string;
@@ -64,7 +64,7 @@ type Service = {
   key: number;
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   row_status: number | string;
   updated_at?: string;
   crated_at?: string;
@@ -73,7 +73,7 @@ type Service = {
 type JobSector = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   row_status: number | string;
   updated_at?: string;
   crated_at?: string;
@@ -82,7 +82,7 @@ type JobSector = {
 type Occupation = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   job_sector_id: number | string;
   row_status: number | string;
   updated_at?: string;
@@ -92,7 +92,7 @@ type Occupation = {
 type OrganizationUnit = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   organization_id: number;
   organization_unit_type_id: number;
   loc_division_id: number;
@@ -116,7 +116,7 @@ type OrganizationUnit = {
 type OrganizationUnitType = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   organization_id: number;
   row_status: number | string;
   updated_at?: string;
@@ -126,7 +126,7 @@ type OrganizationUnitType = {
 type Skill = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   description: string;
   row_status?: number | string;
   updated_at?: string;
@@ -136,18 +136,19 @@ type Skill = {
 type HumanResourceTemplate = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   organization_id: number | string;
   organization_title_en: string;
-  organization_title_bn: string;
+  organization_title: string;
   organization_unit_type_id: number | string;
   organization_unit_type_title_en: string;
-  organization_unit_type_title_bn: string;
+  organization_unit_type_title: string;
   rank_id?: number | string;
   parent_id?: number | string | null;
   parent?: number | string | null;
   display_order?: number | string;
   is_designation?: number | string;
+  status?: number;
   row_status?: string;
   updated_at?: string;
   crated_at?: string;
@@ -156,13 +157,13 @@ type HumanResourceTemplate = {
 type HumanResource = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   organization_id: number | string;
   organization_title_en: string;
-  organization_title_bn: string;
+  organization_title: string;
   organization_unit_id: number | string;
   organization_unit_title_en: string;
-  organization_unit_title_bn: string;
+  organization_unit_title: string;
   display_order?: number | string;
   is_designation?: number | string;
   parent_id?: number | string | null;

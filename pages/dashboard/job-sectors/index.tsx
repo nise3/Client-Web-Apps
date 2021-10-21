@@ -1,13 +1,13 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
-import AppPage from '../../../@crema/hoc/AppPage';
+import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
 const JobSectorPage = asyncComponent(
-  () => import('../../../modules/dashboard/job-sectors/JobSectorPage'),
+  () => import('../../../modules/dashboard/jobSectors/JobSectorPage'),
 );
-export default AppPage(() => {
+export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>

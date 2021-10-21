@@ -28,3 +28,33 @@ export const LINK_INSTITUTES = '/dashboard/institutes';
 export const LINK_BRANCHES = '/dashboard/branches';
 export const LINK_PROGRAMMES = '/dashboard/programmes';
 export const LINK_COURSES = '/dashboard/courses';
+
+/** institute links  */
+export const LINK_FRONTEND_INSTITUTE_ROOT = '/institute';
+export const LINK_FRONTEND_INSTITUTE_COURSES = '/institute/courses';
+export const LINK_FRONTEND_INSTITUTE_VIDEOS = '/institute/videos';
+export const LINK_FRONTEND_INSTITUTE_GALLERY = '/institute/gallery';
+export const LINK_FRONTEND_INSTITUTE_FEEDBACK = '/institute/feedback';
+export const LINK_FRONTEND_INSTITUTE_FAQ = '/institute/faq';
+export const LINK_FRONTEND_INSTITUTE_CONTACT = '/institute/contact';
+export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR =
+  '/institute/training-calendar';
+
+/** youth links  */
+export const LINK_FRONTEND_YOUTH_ROOT = '/youth';
+export const LINK_FRONTEND_YOUTH_FEED = '/youth/feed';
+export const LINK_FRONTEND_YOUTH_TRAINING = '/youth/training';
+export const LINK_FRONTEND_YOUTH_JOBS = '/youth/jobs';
+export const LINK_FRONTEND_YOUTH_NOTICE_BOARD = '/youth/notice-board';
+export const LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES = '/youth/recent-activities';
+export const LINK_FRONTEND_YOUTH_MY_CV = '/youth/my-cv';
+export const LINK_FRONTEND_YOUTH_MY_COURSES = '/youth/my-courses';
+export const LINK_FRONTEND_YOUTH_SETTINGS = '/youth/settings';
+export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/youth/freelance-corner';
+
+/** nise links  */
+export const LINK_FRONTEND_NISE_ROOT = '/';
+export const LINK_FRONTEND_NISE_TRAINING = '/training';
+export const LINK_FRONTEND_NISE_JOBS = '/jobs';
+export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
+export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';

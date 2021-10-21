@@ -1,59 +1,82 @@
-import axios from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
-// import token from '../common/appToken';
+import {
+  COOKIE_KEY_APP_ACCESS_TOKEN,
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+} from '../../shared/constants/AppConst';
+import cookieInstance from './cookieInstance';
+import registerAxiosMockAdapter from './registerAxiosMockAdapter';
+import {apiPost} from '../common/api';
+import {Base64} from 'js-base64';
+import SSOConfig from '../common/SSOConfig';
+import apiAccessToken from '../common/appToken';
 
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  //withCredentials: true,
   timeout: 300000,
 });
+axiosInstance.defaults.headers.common['Accept'] = 'application/json';
+axiosInstance.defaults.headers.common['Content-Type'] = 'application/json';
 
 axiosInstance.interceptors.request.use(
-  async (config) => {
-    // const cookies = new Cookies();
-    // const authAccessTokenData = cookies.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-    // const accessToken = authAccessTokenData?.access_token;
-    // console.log('accessToken', accessToken);
-    // let apiToken = '';
-    /**
-     * For development purpose. It should be commented in production mode
-     */
+  async (config: AxiosRequestConfig) => {
+    const authAccessTokenData = cookieInstance.get(
+      COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+    );
+    const userAccessToken = authAccessTokenData?.access_token;
+    console.log('userAccessToken', userAccessToken);
+    console.log('apiAccessToken', apiAccessToken);
 
-    let urlPath = config.url?.split('/')[1];
-
-    // export const CORE_SERVICE_PATH = ':8008/core/api/v1';
-    // export const ORGANIZATION_SERVICE_PATH = ':8010/org/api/v1';
-    // export const INSTITUTE_SERVICE_PATH = ':8009/institute/api/v1';
-    if (urlPath == 'institute') {
-      config.baseURL = API_BASE_URL + ':8009';
-      config.url = config.url?.replace('/institute', '');
-    } else if (urlPath == 'core') {
-      config.baseURL = API_BASE_URL + ':8008';
-      config.url = config.url?.replace('/core', '');
-    } else if (urlPath == 'org') {
-      config.baseURL = API_BASE_URL + ':8010';
-      config.url = config.url?.replace('/org', '');
+    if (userAccessToken || apiAccessToken) {
+      config.headers['Authorization'] = `Bearer ${
+        userAccessToken || apiAccessToken
+      }`;
     }
-
-    config.headers = {
-      /*Token: `Bearer ${apiToken}`,*/
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-
-    // if (accessToken) {
-    //   delete config.headers['Token'];
-    //   config.headers['Authorization'] = `Bearer ${accessToken}`;
-    // } else {
-    //   config.headers['Token'] = `Bearer ${apiToken}`;
-    //   delete config.headers['Authorization'];
-    // }
-
     return config;
   },
   (error) => {
     Promise.reject(error);
   },
 );
+
+export function loadAppAccessToken() {
+  const accessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
+  if (accessToken) {
+    axiosInstance.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${accessToken}`;
+  } else {
+    apiPost(
+      '/oauth2/token',
+      {
+        grant_type: 'client_credentials',
+      },
+      {
+        baseURL: 'https://bus-staging.softbdltd.com/',
+        headers: {
+          Authorization: `Basic ${Base64.encode(
+            SSOConfig.clientKey + ':' + SSOConfig.clientSecret,
+          )}`,
+        },
+      },
+    )
+      .then((response: AxiosResponse<any>) => {
+        console.log('/oauth2/token', response);
+        axiosInstance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${accessToken}`;
+      })
+      .catch((error: AxiosError) => {
+        console.log(error);
+      });
+  }
+}
+
+registerAxiosMockAdapter(axiosInstance);
 
 export default axiosInstance;

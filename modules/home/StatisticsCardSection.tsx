@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Card, Container, Grid, Typography} from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
@@ -12,15 +12,16 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '50px',
       backgroundColor: '#eee',
       paddingTop: '20px',
-      [theme.breakpoints.down('xl')]: {
-        paddingBottom: '120px',
-      },
-      [theme.breakpoints.up('sm')]: {
-        paddingBottom: '120px',
-      },
-      [theme.breakpoints.up('md')]: {
-        paddingBottom: '130px',
-      },
+      paddingBottom: '80px',
+      // [theme.breakpoints.down('xl')]: {
+      //   paddingBottom: '120px',
+      // },
+      // [theme.breakpoints.up('sm')]: {
+      //   paddingBottom: '120px',
+      // },
+      // [theme.breakpoints.up('md')]: {
+      //   paddingBottom: '130px',
+      // },
     },
     cardColor1: {
       background: '#661687',
@@ -93,7 +94,7 @@ const StatisticsCardSection = () => {
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='md' disableGutters>
         <Fade direction='down'>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} style={{marginTop: '40px'}}>
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor1}>
                 <Typography variant='h5' gutterBottom={true}>

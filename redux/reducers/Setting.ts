@@ -1,10 +1,10 @@
-import {Setting} from '../../types/models/Setting';
+import {Setting} from '../types/models/Setting';
 import {
   ROUTE_CHANGE,
   SET_INITIAL_PATH,
   SettingsActionTypes,
   TOGGLE_NAV_COLLAPSED,
-} from '../../types/actions/Settings.action';
+} from '../types/actions/Settings.action';
 
 const initialSettings: Setting = {
   navCollapsed: false,

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import SigninSSO from './SigninSSO';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({

@@ -1,4 +1,4 @@
-import {useIntl} from 'react-intl';
+import {appIntl} from '../../@crema/utility/Utils';
 
 enum RowStatus {
   ACTIVE = '1',
@@ -6,7 +6,7 @@ enum RowStatus {
 }
 
 export const getRowStatusLabel = (key: number | string): string => {
-  const {messages} = useIntl();
+  const messages = appIntl();
   switch (key) {
     case RowStatus.ACTIVE:
       return messages['common.active'] as string;

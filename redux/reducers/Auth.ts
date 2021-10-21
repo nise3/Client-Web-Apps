@@ -1,15 +1,15 @@
-import {AppActions} from '../../types';
+import {AppActions} from '../types';
 import {
   SET_AUTH_ACCESS_TOKEN_DATA,
   SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
   USER_LOADED,
-} from '../../types/actions/Auth.actions';
-import {AuthUser} from '../../types/models/AuthUser';
+} from '../types/actions/Auth.actions';
+import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 
 const INIT_STATE: {
-  user: AuthUser | null;
+  user: CommonAuthUser | YouthAuthUser | null;
   token: string | null;
   authAccessTokenData: string | null;
   loading: boolean;

@@ -1,7 +1,7 @@
-import { Skeleton } from '@mui/material';
+import {Skeleton} from '@mui/material';
 import React from 'react';
 
-const TextInputSkeleton = () => {
+const TextInputSkeleton: any = () => {
   return (
     <>
       <Skeleton variant='text' height={50} />

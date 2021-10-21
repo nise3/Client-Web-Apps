@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../types/AppContextPropsType';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import Link from 'next/link';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   trainingCardRoot: {
@@ -62,28 +63,39 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
     <Card className={classes.trainingCardRoot}>
       <CardMedia
         className={classes.trainingCardImage}
-        image={course.image}
+        image={course.cover_image}
         title={course.title}
       />
       <CardContent>
         <Avatar
           className={classes.providerLogo}
-          alt={course.providerName}
+          alt={course?.institute_name}
           src={course.providerLogo}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
-          <Box className={classes.courseFeeStyle}>{course.fee} TK</Box>
+          <Box className={classes.courseFeeStyle}>{course.course_fee} TK</Box>
         </Box>
-        <Box fontWeight={'bold'}>{course.title}</Box>
+
         {/*<Link
           className={classes.courseTitle}
           href={'./course-details/' + course.id}
           fontWeight={'bold'}>
           {course.title}
         </Link>*/}
+        <Link
+          href={'../../youth/course-details/__'.replace('__', course.id)}
+          passHref>
+          <Box fontWeight={'bold'}>{course.title}</Box>
+        </Link>
+
         <Box marginTop={'5px'}>
-          By: {course.providerName} &#8226; {course.createDate}
+          By: {course.institute_title} &#8226; {course.created_at}
+        </Box>
+
+        <Box className={classes.tagBox}>
+          {course?.duration && <TagChip label={course.duration} />}
+          <TagChip label={'22 lessons'} />
         </Box>
 
         <Box className={classes.tagBox}>
@@ -94,7 +106,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
         {course.progress && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
-            <LinearProgress variant='determinate' value={course.progress} />
+            <LinearProgress variant='determinate' value={course.id} />
             <Box>
               <IntlMessages
                 id='course_card.complete'

@@ -2,7 +2,7 @@ import React, {useCallback, useReducer} from 'react';
 import defaultConfig from './defaultConfig';
 import AppContext from '../AppContext';
 import {contextReducer, ThemeSetting} from './ContextReducer';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {
   FooterType,
   HeaderType,

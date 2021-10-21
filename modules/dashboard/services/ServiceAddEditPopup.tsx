@@ -31,7 +31,7 @@ interface ServiceAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   row_status: '1',
 };
 
@@ -55,10 +55,10 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
     });
   }, [messages]);
   const {
@@ -76,7 +76,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         row_status: itemData?.row_status
           ? String(itemData.row_status)
           : initialValues.row_status,
@@ -154,8 +154,8 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

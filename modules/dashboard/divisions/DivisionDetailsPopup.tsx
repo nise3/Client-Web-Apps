@@ -6,7 +6,6 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
 
@@ -51,8 +50,8 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title_bn']}
-              value={itemData?.title_bn}
+              label={messages['common.title']}
+              value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
@@ -60,13 +59,6 @@ const DivisionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.bbs_code']}
               value={itemData?.bbs_code}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
               isLoading={isLoading}
             />
           </Grid>

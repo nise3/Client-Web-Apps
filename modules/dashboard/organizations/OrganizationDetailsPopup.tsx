@@ -51,8 +51,8 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_bn']}
-              value={itemData?.title_bn}
+              label={messages['common.title']}
+              value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>

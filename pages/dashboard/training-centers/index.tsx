@@ -1,14 +1,14 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
-import AppPage from '../../../@crema/hoc/AppPage';
+import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
 const TrainingCenterPage = asyncComponent(
   () =>
-    import('../../../modules/dashboard/training-centers/TrainingCenterPage'),
+    import('../../../modules/dashboard/trainingCenters/TrainingCenterPage'),
 );
-export default AppPage(() => {
+export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>

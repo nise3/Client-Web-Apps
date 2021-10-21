@@ -14,7 +14,7 @@ import IntlMessages from '../../utility/IntlMessages';
 import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   crPopover: {

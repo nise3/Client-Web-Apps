@@ -1,14 +1,14 @@
 import React, {ReactNode, useContext} from 'react';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';import {useRouter} from 'next/router';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import {useRouter} from 'next/router';
 
 import {AppSuspense} from '../../index';
 import Scrollbar from '../Scrollbar';
 import AppContext from '../../utility/AppContext';
-import AppFooter from '../AppLayout/AppFooter';
 import Box from '@mui/material/Box';
 import {RouteTransition} from '../../../shared/constants/AppEnums';
 import AppErrorBoundary from '../AppErrorBoundary';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 interface TransitionWrapperProps {
   children: any;
@@ -52,7 +52,6 @@ const ContentView: React.FC<ContentViewProps> = (props) => {
           </AppErrorBoundary>
         </AppSuspense>
       </Box>
-      <AppFooter />
     </Scrollbar>
   );
 };

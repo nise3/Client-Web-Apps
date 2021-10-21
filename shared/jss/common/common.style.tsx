@@ -1,7 +1,7 @@
 import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../constants/AppEnums';
 import {alpha} from '@mui/material';
-import {CremaTheme} from '../../../types/AppContextPropsType';
+import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   '@global': {

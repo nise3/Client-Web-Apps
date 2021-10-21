@@ -3,7 +3,7 @@ import {IntlProvider} from 'react-intl';
 
 import AppLocale from '../../shared/localization';
 import AppContext from './AppContext';
-import AppContextPropsType from '../../types/AppContextPropsType';
+import AppContextPropsType from '../../redux/types/AppContextPropsType';
 import {IntlGlobalProvider} from './Utils';
 
 interface LocaleProviderProps {

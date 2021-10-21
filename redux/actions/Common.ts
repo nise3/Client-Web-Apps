@@ -6,7 +6,7 @@ import {
   HIDE_MESSAGE,
   SHOW_MESSAGE,
   TOGGLE_APP_DRAWER,
-} from '../../types/actions/Common.action';
+} from '../types/actions/Common.action';
 
 export const fetchStart = (): CommonActionTypes => ({type: FETCH_START});
 

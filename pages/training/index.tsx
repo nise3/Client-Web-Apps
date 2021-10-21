@@ -1,12 +1,12 @@
 import asyncComponent from '../../@crema/utility/asyncComponent';
 import PageMeta from '../../@crema/core/PageMeta';
-import FrontPage from '../../@crema/hoc/FrontPage';
 import React from 'react';
+import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
 
 const YouthTrainingPage = asyncComponent(
-  () => import('../../modules/youthTraining'),
+  () => import('../../modules/youth/training'),
 );
-export default FrontPage(() => {
+export default NiseFrontPage(() => {
   return (
     <>
       <PageMeta title={'Training'} />

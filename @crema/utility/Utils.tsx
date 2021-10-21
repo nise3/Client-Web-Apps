@@ -1,6 +1,6 @@
 import { createTheme, useTheme, Breakpoint } from '@mui/material/styles';
 import {useMediaQuery} from '@mui/material';
-import {CremaTheme} from '../../types/AppContextPropsType';
+import {CremaTheme} from '../../redux/types/AppContextPropsType';
 import moment from 'moment';
 import {useIntl} from 'react-intl';
 

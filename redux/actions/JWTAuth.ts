@@ -1,87 +1,28 @@
-import jwtAxios from '../../@crema/services/auth/jwt-auth/jwt-api';
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-import {AuthUser} from '../../types/models/AuthUser';
-import {AppActions} from '../../types';
+import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
+import {AppActions} from '../types';
 import {Dispatch} from 'redux';
 import {
   SET_AUTH_ACCESS_TOKEN_DATA,
-  SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
-} from '../../types/actions/Auth.actions';
-import {Cookies} from 'react-cookie';
+} from '../types/actions/Auth.actions';
 import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
-import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-
-const authUserMockData: TAuthUserSSOResponse = {
-  role: undefined,
-  family_name: 'System',
-  given_name: 'Admin',
-  sub: '4679687976547984545',
-  upn: '5496846497949654989',
-  isInstituteUser: false,
-  isOrganizationUser: false,
-  isSystemUser: true,
-  permissions: [],
-  userType: 'system',
-  username: 'system_admin',
-  email: 'admin@gmail.com',
-  displayName: 'System Admin',
-};
-
-/**
- * @deprecated
- * @param body
- */
-export const onJwtUserSignUp = (body: {
-  email: string;
-  password: string;
-  name: string;
-}) => {
-  return async (dispatch: Dispatch<AppActions>) => {
-    dispatch(fetchStart());
-    try {
-      const res = await jwtAxios.post('users', body);
-      const cookies = new Cookies();
-      cookies.set('token', res.data.token, {path: '/'});
-      dispatch(setJWTToken(res.data.token));
-      // await loadJWTUser(dispatch);
-    } catch (err: any) {
-      console.log('error!!!!', err.response.data.error);
-      dispatch(fetchError(err.response.data.error));
-    }
-  };
-};
-
-/**
- * @deprecated
- * @param body
- */
-export const onJwtSignIn = (body: {email: string; password: string}) => {
-  return async (dispatch: Dispatch<AppActions>) => {
-    dispatch(fetchStart());
-    try {
-      // const res = await jwtAxios.post('auth', body);
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY0ZjE5ZWNjN2Y5ZGEwMDE3ZDg1YmFkIn0sImlhdCI6MTU5OTA3MDc3MCwiZXhwIjoxNTk5NTAyNzcwfQ.fK3L6ZmU8S7I-i21kJj_0sA212JOPgFaTWeSeAUaORQ';
-      const res = {
-        data: {
-          token: token,
-        },
-      };
-      const cookies = new Cookies();
-      cookies.set('token', res.data.token, {path: '/'});
-      dispatch(setJWTToken(res.data.token));
-      // await loadJWTUser(dispatch);
-    } catch (err: any) {
-      console.log('error!!!!', err.response.data.error);
-      dispatch(fetchError(err.response.data.error));
-    }
-  };
-};
+import {
+  CORE_SERVICE_PATH,
+  YOUTH_SERVICE_PATH,
+} from '../../@softbd/common/apiRoutes';
+import UserTypes from '../../@softbd/utilities/UserTypes';
+import cookieInstance from '../../@softbd/libs/cookieInstance';
+import {Gender} from '../../@softbd/utilities/Genders';
+import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
+import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
+import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
+import {Religion} from '../../@softbd/utilities/Religions';
+import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -93,8 +34,7 @@ type TOnSSOSignInCallback = {
 export const onSSOSignInCallback = (tokenData: TOnSSOSignInCallback) => {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      const cookies = new Cookies();
-      cookies.set(
+      cookieInstance.set(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify(tokenData),
         {
@@ -120,35 +60,28 @@ export const loadAuthUser = async (
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
     console.log(ssoTokenData);
-    const coreResponse = await apiGet(
-      CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`,
-    );
-    //use for test purpose
-    // const coreResponse = await apiGet(
-    //   `/core/api/v1/users/10df9adb-b6de-457e-9878-ad4dfc0c00b8/permissions`,
-    // );
+    const coreResponse =
+      ssoTokenData.userType == UserTypes.YOUTH_USER
+        ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile')
+        : await apiGet(
+            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+          );
+    console.log(coreResponse);
+
     const {data} = coreResponse.data;
     dispatch(fetchSuccess());
-    // console.log('res.data', data);
     dispatch({
       type: UPDATE_AUTH_USER,
-      // payload: getUserObject(authUserMockData),
-      payload: getUserObject({...data, ...ssoTokenData}),
+      payload:
+        ssoTokenData.userType == UserTypes.YOUTH_USER
+          ? getYouthAuthUserObject({...ssoTokenData, ...data})
+          : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
   } catch (err: any) {
     console.log('error!!!!', err);
     dispatch(fetchError(err));
   }
 };
-
-/**
- * @deprecated
- * @param token
- */
-export const setJWTToken = (token: string | null): AppActions | any => ({
-  type: SET_AUTH_TOKEN,
-  payload: token,
-});
 
 export const setAuthAccessTokenData = (
   data: TOnSSOSignInCallback,
@@ -162,7 +95,7 @@ type TAuthUserSSOResponse = {
   upn: string;
   given_name: string;
   family_name: string;
-  userType: 'system' | 'institute' | 'organization';
+  userType: 'system' | 'institute' | 'organization' | 'youth';
   isSystemUser: boolean;
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
@@ -170,7 +103,6 @@ type TAuthUserSSOResponse = {
   organization_id?: string | number;
   institute?: Institute;
   organization?: Organization;
-  // role: Role;
   role?: Role;
   displayName?: string;
   email?: string;
@@ -178,7 +110,60 @@ type TAuthUserSSOResponse = {
   permissions: string[];
   photoURL?: string;
 };
-export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
+
+type TYouthAuthUserSSOResponse = {
+  sub: string;
+  upn: string;
+  given_name: string;
+  family_name: string;
+  userType: 'youth';
+  displayName?: string;
+  email?: string;
+  username: string;
+  permissions: string[];
+  photoURL?: string;
+  date_of_birth: string;
+  first_name: string;
+  gender: Gender;
+  last_name: string;
+  last_name_en?: string;
+  mobile: string;
+  user_name_type: number;
+  freedom_fighter_status: FreedomFighterStatusType;
+  identity_number_type: IdentityNumberType;
+  identity_number?: string;
+  marital_status: MaritalStatusType;
+  religion: Religion;
+  nationality?: string;
+  does_belong_to_ethnic_group: EthnicGroupStatusType;
+  is_freelance_profile: number;
+  first_name_en?: string;
+  physical_disability_status: number;
+  loc_division_id?: string;
+  loc_division_title_en?: string;
+  loc_division_title?: string;
+  loc_district_id?: string;
+  loc_district_title_en?: string;
+  loc_district_title?: string;
+  loc_upazila_id?: string;
+  loc_upazila_title_en?: string;
+  loc_upazila_title?: string;
+  village_or_area?: string;
+  village_or_area_en?: string;
+  house_n_road?: string;
+  house_n_road_en?: string;
+  zip_or_postal_code?: string;
+  bio?: string;
+  bio_en?: string;
+  photo?: string;
+  cv_path?: string;
+  physical_disabilities?: any[];
+  skills?: any[];
+};
+
+export const getCommonAuthUserObject = (
+  authUser: TAuthUserSSOResponse,
+): CommonAuthUser => {
   return {
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
@@ -199,6 +184,57 @@ export const getUserObject = (authUser: TAuthUserSSOResponse): AuthUser => {
   };
 };
 
+export const getYouthAuthUserObject = (
+  authUser: TYouthAuthUserSSOResponse,
+): YouthAuthUser => {
+  return {
+    isYouthUser: true,
+    userType: authUser?.userType,
+    authType: AuthType.AUTH2,
+    displayName: authUser?.displayName,
+    email: authUser?.email,
+    uid: authUser?.sub,
+    username: authUser?.username,
+    date_of_birth: authUser?.date_of_birth,
+    first_name: authUser?.first_name,
+    gender: authUser?.gender,
+    freedom_fighter_status: authUser?.freedom_fighter_status,
+    identity_number_type: authUser?.identity_number_type,
+    identity_number: authUser?.identity_number,
+    marital_status: authUser?.marital_status,
+    religion: authUser?.religion,
+    nationality: authUser?.nationality,
+    does_belong_to_ethnic_group: authUser?.does_belong_to_ethnic_group,
+    is_freelance_profile: authUser?.is_freelance_profile,
+    last_name: authUser?.last_name,
+    last_name_en: authUser?.last_name_en,
+    mobile: authUser?.mobile,
+    user_name_type: authUser?.user_name_type,
+    first_name_en: authUser?.first_name_en,
+    physical_disability_status: authUser?.physical_disability_status,
+    loc_division_id: authUser?.loc_division_id,
+    loc_division_title_en: authUser?.loc_division_title_en,
+    loc_division_title: authUser?.loc_division_title,
+    loc_district_id: authUser?.loc_district_id,
+    loc_district_title_en: authUser?.loc_district_title_en,
+    loc_district_title: authUser?.loc_district_title,
+    loc_upazila_id: authUser?.loc_upazila_id,
+    loc_upazila_title_en: authUser?.loc_upazila_title_en,
+    loc_upazila_title: authUser?.loc_upazila_title,
+    village_or_area: authUser?.village_or_area,
+    village_or_area_en: authUser?.village_or_area_en,
+    house_n_road: authUser?.house_n_road,
+    house_n_road_en: authUser?.house_n_road_en,
+    zip_or_postal_code: authUser?.zip_or_postal_code,
+    bio: authUser?.bio,
+    bio_en: authUser?.bio_en,
+    photo: authUser?.photo,
+    cv_path: authUser?.cv_path,
+    physical_disabilities: authUser?.physical_disabilities,
+    skills: authUser?.skills,
+  };
+};
+
 /**
  * @deprecated
  */
@@ -208,8 +244,7 @@ export const onJWTAuthSignout = () => {
     setTimeout(() => {
       dispatch({type: SIGNOUT_AUTH_SUCCESS});
       dispatch(fetchSuccess());
-      const cookies = new Cookies();
-      cookies.remove('token');
+      cookieInstance.remove('token');
     }, 500);
   };
 };

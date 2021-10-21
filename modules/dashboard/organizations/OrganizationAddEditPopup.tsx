@@ -45,7 +45,7 @@ interface OrganizationAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   domain: '',
   email: '',
   mobile: '',
@@ -101,10 +101,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       domain: yup
         .string()
         .trim()
@@ -190,7 +190,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         domain: itemData?.domain,
         email: itemData?.email,
         mobile: itemData?.mobile,
@@ -277,8 +277,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -292,7 +292,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={permissionSubGroups}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -304,7 +304,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={organizationTypes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title_bn']}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>

@@ -79,11 +79,11 @@ yup.setLocale({
   },
 });
 
-function defaultTitleValidation(this: any, local: 'en' | 'bn') {
+function defaultTitleValidation(this: any, local?: 'en' | 'bn') {
   // console.log(appIntl());
   return this.trim()
     .required()
-    .matches(local === 'bn' ? TEXT_REGEX_BANGLA_ONLY : TEXT_REGEX_ENGLISH_ONLY);
+    .matches(local === 'en' ? TEXT_REGEX_ENGLISH_ONLY : TEXT_REGEX_BANGLA_ONLY);
 }
 
 yup.addMethod<yup.StringSchema>(yup.string, 'title', defaultTitleValidation);
@@ -94,7 +94,7 @@ declare module 'yup' {
     TContext extends AnyObject = AnyObject,
     TOut extends TType = TType,
   > extends yup.BaseSchema<TType, TContext, TOut> {
-    title(local: 'en' | 'bn'): StringSchema<TType, TContext>;
+    title(local?: 'en' | 'bn'): StringSchema<TType, TContext>;
   }
 }
 

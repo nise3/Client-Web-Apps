@@ -31,7 +31,7 @@ interface SkillAddEditPopupProps {
 
 const initialValues = {
   title_en: '',
-  title_bn: '',
+  title: '',
   description: '',
   row_status: '1',
 };
@@ -56,10 +56,10 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
         .string()
         .title('en')
         .label(messages['common.title_en'] as string),
-      title_bn: yup
+      title: yup
         .string()
-        .title('bn')
-        .label(messages['common.title_bn'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       description: yup.string(),
       row_status: yup.string(),
     });
@@ -80,7 +80,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
-        title_bn: itemData?.title_bn,
+        title: itemData?.title,
         description: itemData?.description,
         row_status: String(itemData?.row_status),
       });
@@ -157,8 +157,8 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

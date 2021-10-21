@@ -12,8 +12,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import {orange} from '@mui/material/colors';
 import {Fonts, ThemeMode} from '../../constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
-import {AuthUser} from '../../../types/models/AuthUser';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
 
@@ -67,7 +67,7 @@ const UserInfo: React.FC<{}> = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const dispatch = useDispatch();
-  const user: AuthUser | null = useAuthUser();
+  const user: CommonAuthUser | null = useAuthUser();
 
   const closeEditModal = useCallback(() => {
     setIsOpenEditModal(false);

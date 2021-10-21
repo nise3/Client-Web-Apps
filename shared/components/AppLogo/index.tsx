@@ -3,29 +3,25 @@ import {Box} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import AppContext from '../../../@crema/utility/AppContext';
 import {ThemeMode} from '../../constants/AppEnums';
-import AppContextPropsType from '../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
-const AppLogo = () => {
+const useStyles = makeStyles(() => ({
+  logoRoot: {
+    display: 'flex',
+    flexDirection: 'row',
+    cursor: 'pointer',
+    alignItems: 'center',
+  },
+}));
+
+const AppLogo = ({height = 40}) => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
-  const useStyles = makeStyles(() => ({
-    logoRoot: {
-      display: 'flex',
-      flexDirection: 'row',
-      cursor: 'pointer',
-      alignItems: 'center',
-    },
-    logo: {
-      height: 36,
-      marginRight: 10,
-    },
-  }));
-
   const classes = useStyles();
   return (
     <Box className={classes.logoRoot}>
       <Box sx={{display: {md: 'none', sm: 'block'}}}>
         <img
-          className={classes.logo}
+          style={{height}}
           src={
             themeMode === ThemeMode.DARK
               ? '/images/logo-white.png'
@@ -36,7 +32,7 @@ const AppLogo = () => {
       </Box>
       <Box sx={{display: {xs: 'none', md: 'block'}}}>
         <img
-          className={classes.logo}
+          style={{height}}
           src={
             themeMode === ThemeMode.DARK
               ? '/images/logo-white-with-name.png'

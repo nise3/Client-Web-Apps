@@ -1,7 +1,7 @@
 type Institute = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   code: string;
   domain: string;
   address: string;
@@ -22,7 +22,7 @@ type Institute = {
 type Programme = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   institute_id: string | number;
   institute_title_en?: string;
   code: string;
@@ -40,7 +40,7 @@ type Course = {
   institute_id: number | string;
   institute_title_en: string;
   title_en: string;
-  title_bn: string;
+  title: string;
   course_fee: string;
   duration?: string;
   description?: string;
@@ -58,12 +58,13 @@ type Course = {
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;
+  dynamic_form_field: string | object;
 };
 
 type Branch = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   institute_id: number | string;
   institute_title_en?: string;
   address?: string;
@@ -77,7 +78,7 @@ type Branch = {
 type TrainingCenter = {
   id: number;
   title_en: string;
-  title_bn: string;
+  title: string;
   institute_id: number | string;
   branch_id?: number | string;
   address: string;
@@ -90,7 +91,7 @@ type TrainingCenter = {
 type Trainer = {
   id: number;
   trainer_name_en: string;
-  trainer_name_bn: string;
+  trainer_name: string;
   institute_id: number | string;
   branch_id: number | string;
   training_center_id: number | string;
@@ -133,7 +134,6 @@ type Batch = {
   registration_end_date: string;
   batch_start_date: string;
   batch_end_date: string;
-  dynamic_form_field: string | object;
   row_status: string;
   trainers?: Array<number>;
   crated_by?: string;
@@ -142,3 +142,27 @@ type Batch = {
   updated_at?: string;
   deleted_at?: string;
 };
+
+type Application = {
+  id: number;
+  Gender: string;
+  full_name: string;
+  course_name: string;
+  username: string;
+  user_name_type: number;
+  first_name: string;
+  last_name: string;
+  gender: number;
+  email: string;
+  mobile: string;
+  date_of_birth: string;
+  physical_disability_status: number;
+  loc_division_id: number;
+  loc_district_id: number;
+  row_status: number;
+  approval_status: string;
+  accepted: number;
+  rejected: number;
+  created_at: string;
+  updated_at: string;
+}

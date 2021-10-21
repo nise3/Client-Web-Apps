@@ -60,6 +60,7 @@ const FormRadioButtons = ({
         )}
         name={id}
         control={control}
+        defaultValue={defaultValue}
       />
     </FormControl>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Button, Container, Grid} from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import SectionTitle from './SectionTitle';
@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       border: '1px solid #eee',
       borderRadius: '2px',
-      marginTop: '40px',
       backgroundColor: '#fff',
     },
 
@@ -55,27 +54,27 @@ const BdMap = () => {
             alignItems: 'center',
           }}>
           <Grid
-            item
             container
             spacing={2}
             xs={12}
             sm={6}
             md={5}
+            mb={2}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
-            <Grid item xs={3} md={2}>
+            <Grid item xs={3} md={2} mb={2}>
               <Button variant='contained' className={classes.skillButton}>
                 দক্ষতা
               </Button>
             </Grid>
-            <Grid item xs={3} md={2}>
+            <Grid item xs={3} md={2} mb={2}>
               <Button variant='text'>চাকরি</Button>
             </Grid>
-            <Grid item xs={3} md={2}>
+            <Grid item xs={3} md={2} mb={2}>
               <Button variant='text'>ব্যবসা</Button>
             </Grid>
-            <Grid item xs={3} md={2}>
+            <Grid item xs={3} md={2} mb={2}>
               <Button variant='text'>শিক্ষা</Button>
             </Grid>
           </Grid>

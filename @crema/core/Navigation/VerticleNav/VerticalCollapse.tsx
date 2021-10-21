@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import useStyles from './VerticalCollapase.style';
 import {useRouter} from 'next/router';
-import AppContextPropsType from '../../../../types/AppContextPropsType';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {NavItemProps} from '../../../../modules/routesConfig';
 
 const needsToBeOpened = (pathname: string, item: NavItemProps): boolean => {
