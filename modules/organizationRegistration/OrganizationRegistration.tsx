@@ -104,7 +104,6 @@ const OrganizationRegistration = () => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log(data);
     const response = await organizationRegistration(data);
     if (isResponseSuccess(response)) {
       successStack(<IntlMessages id='youth_registration.success' />);
@@ -281,6 +280,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password'
+                type={'password'}
                 label={messages['common.password']}
                 register={register}
                 errorInstance={errors}
@@ -289,6 +289,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='password_confirmation'
+                type={'password'}
                 label={messages['common.retype_password']}
                 register={register}
                 errorInstance={errors}

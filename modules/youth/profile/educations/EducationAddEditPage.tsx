@@ -27,6 +27,14 @@ import {
 } from '../../../../services/youthManagement/EducationService';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {useFetchCountries} from '../../../../services/locationManagement/hooks';
+import {
+  ResultCodeGrade,
+  ResultCodeAppeared,
+  ResultCodeDivisions,
+  EducationLevelCodePHD,
+  EducationLevelCodeWithBoard,
+  EducationLevelCodeWithGroup,
+} from '../utilities/EducationEnums';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -46,36 +54,14 @@ const initialValues = {
   institute_name: '',
   is_foreign_institute: false,
   exam_degree_id: '',
+  exam_degree_name: '',
   edu_board_id: '',
   edu_group_id: '',
   foreign_institute_country_id: '',
   result: '',
   year_of_passing: '',
+  expected_year_of_passing: '',
 };
-
-const divisionResultCodes = [
-  'FIRST_DIVISION',
-  'SECOND_DIVISION',
-  'THIRD_DIVISION',
-];
-
-const gradeCode = 'GRADE';
-const educationLevelCodePHD = 'PHD';
-
-const educationLevelCodeWithGroup = [
-  'PSC_5_PASS',
-  'JSC_JDC_8_PASS',
-  'SECONDARY',
-  'HIGHER_SECONDARY',
-  'DIPLOMA',
-];
-
-const educationLevelCodeWithBoard = [
-  'PSC_5_PASS',
-  'JSC_JDC_8_PASS',
-  'SECONDARY',
-  'HIGHER_SECONDARY',
-];
 
 const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   itemId,
@@ -110,32 +96,84 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
         .string()
         .required()
         .label(messages['education.education_level'] as string),
+      exam_degree_id:
+        selectedEducationLevel &&
+        selectedEducationLevel.code != EducationLevelCodePHD
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.education_exam_degree'] as string)
+          : yup.string().nullable(),
+      exam_degree_name:
+        selectedEducationLevel &&
+        selectedEducationLevel.code == EducationLevelCodePHD
+          ? yup
+              .string()
+              .title()
+              .label(
+                messages['education.education_exam_degree_name_bn'] as string,
+              )
+          : yup.string().nullable(),
       edu_board_id:
         selectedEducationLevel &&
-        educationLevelCodeWithBoard.includes(selectedEducationLevel.code)
+        EducationLevelCodeWithBoard.includes(selectedEducationLevel.code)
           ? yup
               .string()
               .required()
               .label(messages['education.board'] as string)
-          : yup.string(),
+          : yup.string().nullable(),
       edu_group_id:
         selectedEducationLevel &&
-        educationLevelCodeWithGroup.includes(selectedEducationLevel.code)
+        EducationLevelCodeWithGroup.includes(selectedEducationLevel.code)
           ? yup
               .string()
               .required()
               .label(messages['education.group'] as string)
-          : yup.string(),
+          : yup.string().nullable(),
       result: yup
         .string()
         .required()
         .label(messages['education.result'] as string),
-      year_of_passing: yup
-        .string()
-        .required()
-        .label(messages['education.passing_year'] as string),
+      marks_in_percentage:
+        selectedResult && ResultCodeDivisions.includes(selectedResult.code)
+          ? yup
+              .number()
+              .required()
+              .max(100)
+              .label(messages['education.marks'] as string)
+          : yup.string().nullable(),
+      cgpa_scale:
+        selectedResult && selectedResult.code == ResultCodeGrade
+          ? yup
+              .number()
+              .required()
+              .max(5)
+              .label(messages['education.cgpa_scale'] as string)
+          : yup.string().nullable(),
+      cgpa:
+        selectedResult && selectedResult.code == ResultCodeGrade
+          ? yup
+              .number()
+              .required()
+              .lessThan(6)
+              .label(messages['education.cgpa'] as string)
+          : yup.string().nullable(),
+      year_of_passing:
+        selectedResult && selectedResult.code != ResultCodeAppeared
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.passing_year'] as string)
+          : yup.string().nullable(),
+      expected_year_of_passing:
+        selectedResult && selectedResult.code == ResultCodeAppeared
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.expected_passing_year'] as string)
+          : yup.string().nullable(),
     });
-  }, [messages, selectedEducationLevel]);
+  }, [messages, selectedEducationLevel, selectedResult]);
 
   const {
     control,
@@ -157,28 +195,46 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
         institute_name_en: itemData?.institute_name_en,
         education_level_id: itemData?.education_level_id,
         exam_degree_id: itemData?.exam_degree_id,
+        exam_degree_name: itemData?.exam_degree_name,
+        exam_degree_name_en: itemData?.exam_degree_name_en,
         major_or_concentration: itemData?.major_or_concentration,
         major_or_concentration_en: itemData?.major_or_concentration_en,
         edu_board_id: itemData?.edu_board_id,
         edu_group_id: itemData?.edu_group_id,
         foreign_institute_country_id: itemData?.foreign_institute_country_id,
-        result: itemData?.result,
+        result: itemData?.result?.id,
         marks_in_percentage: itemData?.marks_in_percentage,
         cgpa_scale: itemData?.cgpa_scale,
         cgpa: itemData?.cgpa,
         year_of_passing: itemData?.year_of_passing,
+        expected_year_of_passing: itemData?.expected_year_of_passing,
         duration: itemData?.duration,
         achievements: itemData?.achievements,
         achievements_en: itemData?.achievements_en,
       });
+      setEducationLevel(itemData?.education_level_id);
+      setSelectedResult(itemData?.result);
       setIsForeignInstitute(itemData?.is_foreign_institute == 1);
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, educationsData]);
+
+  const setEducationLevel = (eduLevelId: number | undefined) => {
+    if (eduLevelId) {
+      const educationLevel =
+        educationsData?.education_level_with_degrees.filter(
+          (educationLevel: any) => educationLevel.id == eduLevelId,
+        );
+
+      setSelectedEducationLevel(
+        Array.isArray(educationLevel) ? educationLevel[0] : educationLevel,
+      );
+    }
+  };
 
   const onEducationLevelChange = useCallback(
-    (eduLevelId: number) => {
+    (eduLevelId: number | undefined) => {
       if (eduLevelId) {
         const educationLevel =
           educationsData?.education_level_with_degrees.filter(
@@ -196,7 +252,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   );
 
   const onResultChange = useCallback(
-    (resultId: number) => {
+    (resultId: number | undefined) => {
       if (resultId) {
         const result = educationsData?.result.filter(
           (res: any) => res.id == resultId,
@@ -216,6 +272,24 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     if (!isForeignInstitute) {
       data.is_foreign_institute = 0;
       delete data.foreign_institute_country_id;
+    }
+    if (selectedEducationLevel.code == EducationLevelCodePHD) {
+      delete data.exam_degree_id;
+    }
+    if (!EducationLevelCodeWithGroup.includes(selectedEducationLevel.code)) {
+      delete data.edu_group_id;
+    }
+    if (!EducationLevelCodeWithBoard.includes(selectedEducationLevel.code)) {
+      delete data.edu_board_id;
+    }
+
+    if (selectedResult.code == ResultCodeAppeared) {
+      delete data.year_of_passing;
+    } else if (selectedResult.code == ResultCodeGrade) {
+      delete data.marks_in_percentage;
+    } else if (ResultCodeDivisions.includes(selectedResult.code)) {
+      delete data.cgpa;
+      delete data.cgpa_scale;
     }
 
     const response = itemId
@@ -275,7 +349,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
             </Grid>
 
             {selectedEducationLevel &&
-              selectedEducationLevel.code != educationLevelCodePHD && (
+              selectedEducationLevel.code != EducationLevelCodePHD && (
                 <Grid item xs={12} md={6}>
                   <CustomFormSelect
                     id='exam_degree_id'
@@ -291,7 +365,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               )}
 
             {selectedEducationLevel &&
-              selectedEducationLevel.code == educationLevelCodePHD && (
+              selectedEducationLevel.code == EducationLevelCodePHD && (
                 <React.Fragment>
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
@@ -339,30 +413,40 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='edu_board_id'
-                label={messages['education.board']}
-                isLoading={isLoadingEducationsData}
-                control={control}
-                options={educationsData?.edu_boards}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='edu_group_id'
-                label={messages['education.group']}
-                isLoading={isLoadingEducationsData}
-                control={control}
-                options={educationsData?.edu_groups}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-              />
-            </Grid>
+            {selectedEducationLevel &&
+              EducationLevelCodeWithBoard.includes(
+                selectedEducationLevel.code,
+              ) && (
+                <Grid item xs={12} md={6}>
+                  <CustomFormSelect
+                    id='edu_board_id'
+                    label={messages['education.board']}
+                    isLoading={isLoadingEducationsData}
+                    control={control}
+                    options={educationsData?.edu_boards}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title']}
+                    errorInstance={errors}
+                  />
+                </Grid>
+              )}
+            {selectedEducationLevel &&
+              EducationLevelCodeWithGroup.includes(
+                selectedEducationLevel.code,
+              ) && (
+                <Grid item xs={12} md={6}>
+                  <CustomFormSelect
+                    id='edu_group_id'
+                    label={messages['education.group']}
+                    isLoading={isLoadingEducationsData}
+                    control={control}
+                    options={educationsData?.edu_groups}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title']}
+                    errorInstance={errors}
+                  />
+                </Grid>
+              )}
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
@@ -427,10 +511,11 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
             </Grid>
 
             {selectedResult &&
-              divisionResultCodes.includes(selectedResult.code) && (
+              ResultCodeDivisions.includes(selectedResult.code) && (
                 <Grid item xs={12} md={6}>
                   <CustomTextInput
                     id='marks_in_percentage'
+                    type={'number'}
                     label={messages['education.marks']}
                     register={register}
                     errorInstance={errors}
@@ -439,12 +524,16 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 </Grid>
               )}
 
-            {selectedResult && selectedResult.code == gradeCode && (
+            {selectedResult && selectedResult.code == ResultCodeGrade && (
               <Grid item xs={12} md={6}>
                 <Grid container spacing={3}>
                   <Grid item xs={6} md={6}>
                     <CustomTextInput
                       id='cgpa_scale'
+                      type={'number'}
+                      inputProps={{
+                        step: 0.01,
+                      }}
                       label={messages['education.cgpa_scale']}
                       register={register}
                       errorInstance={errors}
@@ -454,6 +543,10 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                   <Grid item xs={6} md={6}>
                     <CustomTextInput
                       id='cgpa'
+                      type={'number'}
+                      inputProps={{
+                        step: 0.01,
+                      }}
                       label={messages['education.cgpa']}
                       register={register}
                       errorInstance={errors}
@@ -464,18 +557,35 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               </Grid>
             )}
 
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='year_of_passing'
-                label={messages['education.passing_year']}
-                isLoading={isLoading}
-                control={control}
-                options={passingYears()}
-                optionValueProp={'year'}
-                optionTitleProp={['year']}
-                errorInstance={errors}
-              />
-            </Grid>
+            {selectedResult && selectedResult.code != ResultCodeAppeared && (
+              <Grid item xs={12} md={6}>
+                <CustomFormSelect
+                  id='year_of_passing'
+                  label={messages['education.passing_year']}
+                  isLoading={isLoading}
+                  control={control}
+                  options={passingYears()}
+                  optionValueProp={'year'}
+                  optionTitleProp={['year']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+
+            {selectedResult && selectedResult.code == ResultCodeAppeared && (
+              <Grid item xs={12} md={6}>
+                <CustomFormSelect
+                  id='expected_year_of_passing'
+                  label={messages['education.expected_passing_year']}
+                  isLoading={isLoading}
+                  control={control}
+                  options={passingYears()}
+                  optionValueProp={'year'}
+                  optionTitleProp={['year']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
 
             <Grid item xs={12} md={6}>
               <CustomTextInput

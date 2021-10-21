@@ -730,6 +730,7 @@ const YouthRegistration = () => {
                 label={messages['common.password']}
                 register={register}
                 errorInstance={errors}
+                type={'password'}
               />
             </Grid>
 
@@ -739,6 +740,7 @@ const YouthRegistration = () => {
                 label={messages['common.retype_password']}
                 register={register}
                 errorInstance={errors}
+                type={'password'}
               />
             </Grid>
             <Grid item xs={12}>

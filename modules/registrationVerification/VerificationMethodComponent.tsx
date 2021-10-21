@@ -50,7 +50,7 @@ const VerificationMethodComponent: FC<VerificationMethodComponentProps> = ({
               .required()
               .matches(MOBILE_NUMBER_REGEX)
               .label(messages['common.mobile'] as string)
-          : yup.string(),
+          : yup.string().nullable(),
       email:
         selectedMethod && selectedMethod == VERIFICATION_METHOD.EMAIL
           ? yup
@@ -59,7 +59,7 @@ const VerificationMethodComponent: FC<VerificationMethodComponentProps> = ({
               .required()
               .email()
               .label(messages['common.email'] as string)
-          : yup.string(),
+          : yup.string().nullable(),
     });
   }, [messages, selectedMethod]);
 

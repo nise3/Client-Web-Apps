@@ -73,7 +73,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
               .string()
               .required()
               .label(messages['guardian.relationship_title'] as string)
-          : yup.string(),
+          : yup.string().nullable(),
       mobile: yup
         .string()
         .nullable()
