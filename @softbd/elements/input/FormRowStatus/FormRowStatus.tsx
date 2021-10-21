@@ -50,7 +50,7 @@ const FormRowStatus = ({
                 key={status.key}
                 value={status.key}
                 control={<Radio />}
-                label={status.label}
+                label={status?.label}
               />
             ))}
           </RadioGroup>
