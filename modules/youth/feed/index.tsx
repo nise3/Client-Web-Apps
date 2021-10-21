@@ -4,7 +4,7 @@ import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
 import PostSection from './PostSection';
 import RecentJobSection from './RecentJobSection';
-import RecentCourseSection from './RecentCourseSection';
+import CourseListSection from './CourseListSection';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Container, Grid} from '@mui/material';
@@ -57,7 +57,7 @@ const YouthFeedPage = () => {
               <RecentJobSection />
             </Grid>
             <Grid item xs={12}>
-              <RecentCourseSection />
+              <CourseListSection />
             </Grid>
           </Grid>
         </Grid>

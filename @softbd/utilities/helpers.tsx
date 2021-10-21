@@ -309,10 +309,25 @@ export const getUserType = (user: CommonAuthUser | null) => {
   else return 1;
 };
 
-export const isNeedToSelectOrganization = (user: CommonAuthUser | null): boolean => {
+export const isNeedToSelectOrganization = (
+  user: CommonAuthUser | null,
+): boolean => {
   // if user is organization user no need to select organization
   if (user?.isOrganizationUser) {
     return false;
   }
   return true;
+};
+
+export const courseDuration = (duration: number) => {
+  let dh = 0;
+  let dm = 0;
+
+  if (duration / 60 < 1) {
+    return duration + 'min';
+  } else {
+    dm = duration % 60;
+    dh = duration / 60;
+    return dh + 'hr, ' + dm + 'min';
+  }
 };

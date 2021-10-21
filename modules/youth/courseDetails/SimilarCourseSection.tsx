@@ -10,10 +10,10 @@ const SimilarCourseSection = () => {
 
   const [courseFilters] = useState({page_size: 8});
 
-  const pathVariable = '/simillar';
+  const pathVariable = '/skill-matching';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
 
-  return (
+  return courseList && courseList.length ? (
     <Grid container spacing={5}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
@@ -43,6 +43,8 @@ const SimilarCourseSection = () => {
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <></>
   );
 };
 

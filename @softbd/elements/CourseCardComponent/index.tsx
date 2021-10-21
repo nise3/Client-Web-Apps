@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   LinearProgress,
+  Typography,
 } from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {makeStyles} from '@mui/styles';
@@ -13,6 +14,8 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import Link from 'next/link';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
+import {courseDuration} from '../../utilities/helpers';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   trainingCardRoot: {
@@ -58,6 +61,9 @@ interface CourseCardComponentProps {
 const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const router = useRouter();
+  const pathname = router.pathname;
+  const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
 
   return (
     <Card className={classes.trainingCardRoot}>
@@ -94,9 +100,15 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         </Box>
 
         <Box className={classes.tagBox}>
-          {course?.duration && <TagChip label={course.duration} />}
-          <TagChip label={'22 lessons'} />
+          {course?.duration && (
+            <TagChip label={courseDuration(course?.duration)} />
+          )}
+          <TagChip label={Math.floor(Math.random() * 10 + 6) + ' lessons'} />
         </Box>
+
+        {isMyCoursePage && course?.total_enroll && (
+          <Typography>{course?.total_enroll + ' Student'}</Typography>
+        )}
 
         <Box className={classes.tagBox}>
           {(course.tags || []).map((tag: any, index: any) => {

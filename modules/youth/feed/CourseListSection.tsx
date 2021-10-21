@@ -41,7 +41,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
   },
 }));
 
-const RecentCourseSection = () => {
+const CourseListSection = () => {
   const classes = useStyle();
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState('recent');
@@ -71,7 +71,7 @@ const RecentCourseSection = () => {
             <MenuItem value={'recent'}>Recent Courses</MenuItem>
             <MenuItem value={'popular'}>Popular Courses</MenuItem>
             <MenuItem value={'nearby'}>Nearby Courses</MenuItem>
-            <MenuItem value={'trending'}>Nearby Courses</MenuItem>
+            <MenuItem value={'trending'}>Trending Courses</MenuItem>
           </Select>
         </Grid>
         {courses &&
@@ -100,4 +100,4 @@ const RecentCourseSection = () => {
   );
 };
 
-export default RecentCourseSection;
+export default CourseListSection;

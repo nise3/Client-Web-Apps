@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Container, Grid, Typography} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 
 const MyCoursePage = () => {
   const {messages} = useIntl();
@@ -12,7 +12,7 @@ const MyCoursePage = () => {
   const pathVariable = '/my-courses';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
 
-  return (
+  return courseList?.length ? (
     <Container maxWidth={'xl'} sx={{padding: 5}}>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={12} md={12}>
@@ -34,6 +34,10 @@ const MyCoursePage = () => {
         </Grid>
       </Grid>
     </Container>
+  ) : (
+    <Grid container sx={{justifyContent: 'center', marginTop: 5}}>
+      <Typography variant={'h4'}>No Course Found</Typography>
+    </Grid>
   );
 };
 

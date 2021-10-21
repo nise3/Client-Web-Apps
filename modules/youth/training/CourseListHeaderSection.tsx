@@ -192,7 +192,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   variant='outlined'
                   className={classes.selectStyle}
                   onChange={handleProgrammeFilterChange}>
-                  <MenuItem value={1}>Program</MenuItem>
+                  <MenuItem value={''}>None</MenuItem>
                   {selectedInstituteId &&
                     programmes &&
                     programmes.map((programme: any) => {
@@ -212,6 +212,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   variant='outlined'
                   className={classes.selectStyle}
                   onChange={handleSkillLevelChange}>
+                  <MenuItem value={''}>None</MenuItem>
                   {SKILL_LEVELS &&
                     SKILL_LEVELS.map((level: any) => {
                       return (
@@ -231,6 +232,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   label={'course type'}
                   className={classes.selectStyle}
                   onChange={handleCourseTypeChange}>
+                  <MenuItem value={''}>None</MenuItem>
                   {COURSE_TYPES &&
                     COURSE_TYPES.map((courseType: any) => {
                       return (
@@ -249,6 +251,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   variant='outlined'
                   className={classes.selectStyle}
                   onChange={handleAvailabilityChange}>
+                  <MenuItem value={''}>None</MenuItem>
                   {AVAILABILITIES &&
                     AVAILABILITIES.map((availability: any) => {
                       return (
@@ -267,6 +270,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   value={selectedLanguageId}
                   onChange={handleLanguageChange}
                   className={classes.selectStyle}>
+                  <MenuItem value={''}>None</MenuItem>
                   {LANGUAGES &&
                     LANGUAGES.map((language: any) => {
                       return (
