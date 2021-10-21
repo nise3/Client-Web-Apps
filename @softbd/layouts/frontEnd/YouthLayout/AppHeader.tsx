@@ -9,20 +9,20 @@ import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import useStyles from './AppHeader.style';
 import {Badge, CastForEducation, ExitToApp, Home} from '@mui/icons-material';
-import WorkIcon from '@mui/icons-material/Work';
+// import WorkIcon from '@mui/icons-material/Work';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import {Button, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
-import Notifications from '../../../../@crema/core/Notifications';
+// import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
 import {Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_YOUTH_ROOT,
   LINK_FRONTEND_YOUTH_TRAINING,
-  LINK_FRONTEND_YOUTH_JOBS,
+  // LINK_FRONTEND_YOUTH_JOBS,
   LINK_FRONTEND_YOUTH_NOTICE_BOARD,
   LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
   LINK_FRONTEND_YOUTH_FEED,
@@ -79,11 +79,11 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
         </Link>
       </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
+      {/*<MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_YOUTH_JOBS}>
           <WorkIcon className={classes.menuIcons} /> চাকরি
         </Link>
-      </MenuItem>
+      </MenuItem>*/}
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
           <ListAltIcon className={classes.menuIcons} /> নোটিশ
@@ -96,7 +96,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem className={classes.menuItemRoot}>
-        <Notifications />
+        {/*<Notifications />*/}
       </MenuItem>
       <LanguageSwitcher />
     </Menu>
@@ -136,7 +136,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     প্রশিক্ষণ
                   </Link>
                 </Box>
-                <Box component='span' className={classes.menuItem}>
+                {/*<Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_YOUTH_JOBS}>
                     <WorkIcon
                       className={classes.menuIcons}
@@ -144,7 +144,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     />{' '}
                     চাকরি
                   </Link>
-                </Box>
+                </Box>*/}
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
                     <ListAltIcon
@@ -163,7 +163,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     সাম্প্রতিক কার্যক্রম
                   </Link>
                 </Box>
-                <Notifications />
+                {/*<Notifications />*/}
                 <LanguageSwitcher />
               </Box>
 

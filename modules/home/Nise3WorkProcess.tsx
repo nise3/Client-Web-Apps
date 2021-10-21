@@ -4,6 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
+import {Link} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     detailsButton: {
       background: '#fff',
       color: '#682988',
+      '&:hover, &:focus': {
+        color: theme.palette.common.white,
+      },
     },
     assessmentImage: {
       height: '340px',
@@ -79,9 +83,11 @@ const Nise3WorkProcess = () => {
               </Typography>
             </Fade>
             <Fade direction='down'>
-              <Button variant='contained' className={classes.detailsButton}>
-                বিস্তারিত পড়ুন
-              </Button>
+              <Link href={'/sc/how-nise3-works'}>
+                <Button variant='contained' className={classes.detailsButton}>
+                  বিস্তারিত পড়ুন
+                </Button>
+              </Link>
             </Fade>
           </Grid>
           <Grid item xs={12} md={4}>

@@ -4,15 +4,12 @@ export const recentActivityItems = [
     img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     date: '১৬ জুন ২০২১',
-    rows: 2,
-    cols: 2,
   },
   {
     id: 2,
     img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     date: '১৬ জুন ২০২১',
-    cols: 2,
   },
   {
     id: 3,
@@ -22,6 +19,12 @@ export const recentActivityItems = [
   },
   {
     id: 4,
+    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+    title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
+    date: '১৬ জুন ২০২১',
+  },
+  {
+    id: 5,
     img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     date: '১৬ জুন ২০২১',

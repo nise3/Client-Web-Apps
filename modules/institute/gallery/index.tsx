@@ -4,10 +4,6 @@ import {
   Typography,
   Button,
   Paper,
-  Card,
-  CardContent,
-  CardActionArea,
-  CardMedia,
   Pagination,
   Container,
   Chip,
@@ -28,6 +24,7 @@ import {
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
+import GalleryItemCardView from './GalleryItemCardView';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   searchIcon: {
@@ -202,35 +199,16 @@ const InstituteGallery = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container spacing={5}>
-                    {filteredGalleryItems?.map((data: any) => {
-                      return (
-                        <Grid
-                          item
-                          md={3}
-                          justifyContent={'center'}
-                          mt={3}
-                          key={data.id}>
-                          <Card>
-                            <CardActionArea>
-                              <CardMedia
-                                component='img'
-                                height='140'
-                                image={data.image_url}
-                                alt='random image'
-                              />
-                              <CardContent>
-                                <Typography
-                                  gutterBottom
-                                  variant='body1'
-                                  component='div'>
-                                  {data?.content}
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                          </Card>
-                        </Grid>
-                      );
-                    })}
+                    {filteredGalleryItems?.map((data: any) => (
+                      <Grid
+                        item
+                        md={3}
+                        justifyContent={'center'}
+                        mt={3}
+                        key={data.id}>
+                        <GalleryItemCardView item={data} />
+                      </Grid>
+                    ))}
                   </Grid>
                 </Grid>
               </Grid>

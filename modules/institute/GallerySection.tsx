@@ -1,12 +1,13 @@
-import React from 'react';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from './UnderlinedHeading';
 import Carousel from 'react-multi-carousel';
+import {useFetchInstitutesGallery} from '../../services/instituteManagement/hooks';
+import GalleryItemCardView from './gallery/GalleryItemCardView';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,11 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const img =
-  'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60';
-
 const GallerySection = () => {
   const classes = useStyles();
+  const {data: galleryItems} = useFetchInstitutesGallery();
 
   return (
     <Grid container xl={12} className={classes.root}>
@@ -113,12 +112,9 @@ const GallerySection = () => {
             sliderClass=''
             slidesToSlide={1}
             swipeable>
-            {[1, 2, 3, 4, 5, 6].map((v, i) => (
+            {galleryItems?.map((v: any, i: number) => (
               <Box key={i} className={classes.boxItem}>
-                <img src={img} alt={''} className={classes.image} />
-                <Typography variant='h6' gutterBottom={true}>
-                  কোর্স ম্যানেজমেন্ট সিস্টেমের পরিসংখ্যান {v}
-                </Typography>
+                <GalleryItemCardView item={v} />
               </Box>
             ))}
           </Carousel>

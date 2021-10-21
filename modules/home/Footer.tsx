@@ -1,9 +1,10 @@
 import React from 'react';
-import {Box, Container, Grid, Link, Typography} from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import {Box, Container, Grid, Typography} from '@mui/material';
+import {Theme} from '@mui/material/styles';
 
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
+import {Link} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,14 +36,17 @@ const Footer = () => {
                 </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
+                <Link href={'/sc/about-us'} component={'span'} mt={2}>
                   আমাদের সম্পর্কে
-                </Box>
+                </Link>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
+                <Link
+                  href={'/sc/terms-and-conditions'}
+                  component={'span'}
+                  mt={2}>
                   শর্তাবলী এবং নীতিমালা
-                </Box>
+                </Link>
               </Typography>
               <Typography gutterBottom={true}>
                 <Box component={'span'} mt={2}>
@@ -50,19 +54,22 @@ const Footer = () => {
                 </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
+                <Link href={'/sc/privacy-policy'} component={'span'} mt={2}>
                   প্রাইভেসি পলিসি
-                </Box>
+                </Link>
               </Typography>
-              <Typography gutterBottom={true}>
+              {/*<Typography gutterBottom={true}>
                 <Box component={'span'} mt={2}>
                   যোগাযোগ
                 </Box>
-              </Typography>
+              </Typography>*/}
               <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
+                <Link
+                  href={'https://www.bdjobs.com/'}
+                  component={'span'}
+                  mt={2}>
                   বিডি জবস
-                </Box>
+                </Link>
               </Typography>
             </Grid>
             <Grid item md={2}>
@@ -122,7 +129,7 @@ const Footer = () => {
               </Typography>
               <Box component={'span'}>
                 <img
-                  src='/images/footer-img.png'
+                  src={'/images/footer-img.png'}
                   alt='crema-logo'
                   className={classes.footerImage}
                 />
@@ -137,7 +144,7 @@ const Footer = () => {
               <Link href={'https://softbdltd.com/'}>
                 <Box component={'span'}>
                   <img
-                    src='/images/softbd.png'
+                    src={'/images/softbd.png'}
                     alt='crema-logo'
                     className={classes.softbdImage}
                   />
