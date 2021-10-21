@@ -1,8 +1,5 @@
 import * as yup from 'yup';
-import {
-  TEXT_REGEX_BANGLA_ONLY,
-  TEXT_REGEX_ENGLISH_ONLY,
-} from '../common/patternRegex';
+import {TEXT_REGEX_ENGLISH_ONLY} from '../common/patternRegex';
 import {AnyObject, Maybe} from 'yup/lib/types';
 
 yup.setLocale({
@@ -81,9 +78,14 @@ yup.setLocale({
 
 function defaultTitleValidation(this: any, local?: 'en' | 'bn') {
   // console.log(appIntl());
-  return this.trim()
-    .required()
-    .matches(local === 'en' ? TEXT_REGEX_ENGLISH_ONLY : TEXT_REGEX_BANGLA_ONLY);
+  const validator = this.trim().required();
+  if (local === 'en') {
+    validator.matches(TEXT_REGEX_ENGLISH_ONLY);
+  }
+
+  return validator;
+
+  // .matches(local === 'en' ? TEXT_REGEX_ENGLISH_ONLY : TEXT_REGEX_BANGLA_ONLY);
 }
 
 yup.addMethod<yup.StringSchema>(yup.string, 'title', defaultTitleValidation);
