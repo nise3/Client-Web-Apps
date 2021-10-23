@@ -50,7 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: 'auto',
       [theme.breakpoints.down('xl')]: {
         marginBottom: '10px',
-        // marginTop: '200px',
+      },
+      [theme.breakpoints.down('md')]: {
+        marginTop: '70px',
+      },
+      [theme.breakpoints.only('sm')]: {
+        marginTop: '160px',
       },
     },
     trendSearchItem: {

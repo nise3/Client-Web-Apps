@@ -159,6 +159,7 @@ type TYouthAuthUserSSOResponse = {
   cv_path?: string;
   physical_disabilities?: any[];
   skills?: any[];
+  youth_certifications?: any[];
 };
 
 export const getCommonAuthUserObject = (
@@ -232,6 +233,7 @@ export const getYouthAuthUserObject = (
     cv_path: authUser?.cv_path,
     physical_disabilities: authUser?.physical_disabilities,
     skills: authUser?.skills,
+    total_certificates: authUser?.youth_certifications?.length,
   };
 };
 

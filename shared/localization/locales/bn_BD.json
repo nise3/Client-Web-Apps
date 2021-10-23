@@ -681,5 +681,6 @@
   "institute.name_of_the_office_head": "অফিস প্রধানের নাম",
   "institute.name_of_the_office_head_en": "অফিস প্রধানের নাম (ইংরেজী)",
   "institute.name_of_the_office_head_designation": "অফিস প্রধানের পদবী",
-  "institute.name_of_the_office_head_designation_en": "অফিস প্রধানের পদবী (ইংরেজী)"
+  "institute.name_of_the_office_head_designation_en": "অফিস প্রধানের পদবী (ইংরেজী)",
+  "common.registration_username_note": "কন্টাক্ট পারসনের মোবাইল নাম্বারটি ইউজারনেম হিসেবে ব্যবহার করা হবে"
 }
