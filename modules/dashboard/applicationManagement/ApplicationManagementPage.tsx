@@ -10,7 +10,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
-import YouthDetailsPopup from '../youths/YouthDetailsPopup';
+import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import ApproveButton from './ApproveButton';
@@ -79,20 +79,44 @@ const ApplicationManagementPage = () => {
         },
       },
       {
-        Header: messages['applicationManagement.courseName'],
-        accessor: 'course_name',
+        Header: messages['applicationManagement.programTitle'],
+        accessor: 'program_title',
       },
       {
-        Header: messages['common.status'],
-        accessor: 'approval_status',
+        Header: messages['applicationManagement.courseTitle'],
+        accessor: 'course_title',
       },
       {
-        Header: messages['youth.fullName'],
+        Header: messages['applicationManagement.applicantFullName'],
         accessor: 'full_name',
+        isVisible: true,
       },
       {
-        Header: messages['youth.mobile'],
-        accessor: 'mobile',
+        Header: messages['common.paymentStatus'],
+        accessor: 'payment_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data.payment_status === 0) {
+            return <p>Unpaid</p>;
+          } else {
+            return <p>Paid</p>;
+          }
+        },
+      },
+      {
+        Header: messages['applicationManagement.status'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data.row_status === 0) {
+            return <p>Inactive</p>;
+          } else if (data.row_status === 1) {
+            return <p>Approved</p>;
+          } else if (data.row_status === 2) {
+            return <p>Pending</p>;
+          } else {
+            return <p>Rejected</p>;
+          }
+        },
       },
       {
         Header: messages['applicationManagement.traineeDetails'],
@@ -167,7 +191,6 @@ const ApplicationManagementPage = () => {
             <IconCourse /> <IntlMessages id='applicationManagement.label' />
           </>
         }>
-        {/*extra : if authuser admin and institute condition here*/}
         <ReactTable
           columns={columns}
           data={filteredData}
@@ -177,7 +200,7 @@ const ApplicationManagementPage = () => {
           totalCount={totalCount}
         />
         {isOpenDetailsModal && selectedItemId && (
-          <YouthDetailsPopup
+          <ApplicationDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}

@@ -132,8 +132,10 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
   );
@@ -220,6 +222,16 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .required()
         .email()
         .label(messages['common.contact_person_email'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
       contact_person_mobile: yup
         .string()
         .trim()
