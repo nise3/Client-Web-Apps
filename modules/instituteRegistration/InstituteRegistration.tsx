@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import useStyles from '../youth/registration/Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -17,11 +17,37 @@ import {setServerValidationErrors} from '../../@softbd/utilities/validationError
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {createRegistration} from '../../services/instituteManagement/RegistrationService';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../services/locationManagement/hooks';
+import RowStatus from '../../@softbd/utilities/RowStatus';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../services/locationManagement/locationUtils';
 
 const InstituteRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const isLoading = false;
+  const [filters] = useState({});
+  const {data: divisions, isLoading: isLoadingDivisions}: any =
+    useFetchDivisions(filters);
+
+  const [districtsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: districts} = useFetchDistricts(districtsFilter);
+
+  const [upazilasFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const [districtList, setDistrictList] = useState<Array<District> | []>([]);
+  const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
 
   const instituteType = {
     GOVT: '1',
@@ -57,6 +83,16 @@ const InstituteRegistration = () => {
         .trim()
         .required()
         .label(messages['common.institute_address'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
       contact_person_name: yup
         .string()
         .trim()
@@ -81,7 +117,7 @@ const InstituteRegistration = () => {
       password: yup
         .string()
         .trim()
-        .min(6)
+        .min(8)
         .required()
         .label(messages['common.password'] as string),
       password_confirmation: yup
@@ -120,6 +156,25 @@ const InstituteRegistration = () => {
       setServerValidationErrors(response.errors, setError, validationSchema);
     }
   };
+
+  const onDivisionChange = useCallback(
+    (divisionId: number) => {
+      let filteredDistricts = filterDistrictsByDivisionId(
+        districts,
+        divisionId,
+      );
+      setDistrictList(filteredDistricts);
+    },
+    [districts],
+  );
+
+  const onDistrictChange = useCallback(
+    (districtId: number) => {
+      let filteredUpazilas = filterUpazilasByDistrictId(upazilas, districtId);
+      setUpazilaList(filteredUpazilas);
+    },
+    [upazilas],
+  );
 
   return (
     <Container maxWidth={'md'}>
@@ -219,9 +274,57 @@ const InstituteRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_division_id'
+                label={messages['divisions.label']}
+                isLoading={isLoadingDivisions}
+                control={control}
+                options={divisions}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onDivisionChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_district_id'
+                label={messages['districts.label']}
+                isLoading={false}
+                control={control}
+                options={districtList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onDistrictChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_upazila_id'
+                label={messages['upazilas.label']}
+                isLoading={false}
+                control={control}
+                options={upazilaList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
             <Grid item xs={12}>
               <Typography variant={'h6'}>
                 {messages['common.userInfoText']}
+                <Typography
+                  sx={{
+                    color: 'red',
+                    marginLeft: '10px',
+                    fontStyle: 'italic',
+                    verticalAlign: 'middle',
+                  }}
+                  variant={'caption'}>
+                  *({messages['common.registration_username_note']})
+                </Typography>
               </Typography>
             </Grid>
 

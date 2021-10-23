@@ -1,6 +1,7 @@
 {
   "applicationManagement.label": "আবেদন ব্যবস্থাপনা",
-  "applicationManagement.courseName": "কোর্সের নাম",
+  "applicationManagement.programTitle": "প্রোগ্রামের টাইটেল",
+  "applicationManagement.courseTitle": "কোর্সের টাইটেল",
   "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
   "applicationManagement.accept": "ব্যাচ বরাদ্দ",
   "applicationManagement.reject": "বাতিল",
@@ -8,8 +9,12 @@
   "applicationManagement.rejectApplication": "প্রশিক্ষণার্থীর আবেদন বাতিল করবেন?",
   "applicationManagement.accepted": "{applicant} কে সফলভাবে {course} কোর্সে যুক্ত করা হয়েছে",
   "applicationManagement.rejected": "{applicant} কে সফলভাবে {course} কোর্সে থেকে বাতিল করা হয়েছে",
+  "applicationManagement.applicantFullName": "প্রশিক্ষণার্থীর পুরো নাম",
+  "applicationManagement.details": "আবেদনের বিস্তারিত",
+  "applicationManagement.status": "আবেদনের অবস্থা",
   "error.comingSoonNotification": "ইমেল জমা দেওয়ার জন্য আপনাকে ধন্যবাদ!",
   "dashboard.messages": "মেসেজ",
+  "common.paymentStatus": "পেমেন্টের অবস্থা",
   "common.id": "আইডি",
   "common.send": "পাঠান",
   "common.receive": "রিসিভ করুন",
@@ -625,7 +630,7 @@
   "common.identity_type_birth_cert": "জন্ম সনদ নম্বর",
   "common.identity_type_passport": "পাসপোর্ট নম্বর",
   "youth.edit_education": "Edit Education",
-  "youth.label": "ইয়োথ এর তালিকা",
+  "youth.label": "ইউথ এর তালিকা",
   "youth.username": "ইউজারনেম",
   "youth.fullName": "পুরো নাম",
   "youth.gender": "লিঙ্গ",
@@ -681,5 +686,8 @@
   "institute.name_of_the_office_head": "অফিস প্রধানের নাম",
   "institute.name_of_the_office_head_en": "অফিস প্রধানের নাম (ইংরেজী)",
   "institute.name_of_the_office_head_designation": "অফিস প্রধানের পদবী",
-  "institute.name_of_the_office_head_designation_en": "অফিস প্রধানের পদবী (ইংরেজী)"
+  "institute.name_of_the_office_head_designation_en": "অফিস প্রধানের পদবী (ইংরেজী)",
+  "common.registration_username_note": "কন্টাক্ট পারসনের মোবাইল নাম্বারটি ইউজারনেম হিসেবে ব্যবহার করা হবে",
+  "common.registration_login": "রেজিস্ট্রেশন/লগইন",
+  "institute.youth_login": "ইউথ লগইন"
 }

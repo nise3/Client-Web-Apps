@@ -57,6 +57,8 @@ export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_COURSE_DETAILS = INSTITUTE_SERVICE_PATH + '/course-details';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
+export const API_ENROLLED_COURSES =
+  INSTITUTE_SERVICE_PATH + '/course-enrollments';
 
 /** Youths end-points */
 export const API_YOUTH_REGISTRATION =
@@ -105,10 +107,12 @@ export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
 
 /** Routes for contact page map */
 export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
-export const API_APPLICATION_MANAGEMENT =
-  API_INSTITUTES + '/application-management';
+
+/** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
+export const API_COURSE_ENROLLMENTS =
+  INSTITUTE_SERVICE_PATH + '/course-enrollments';
 export const API_APPLICATION_PROCESSING =
-  API_INSTITUTES + '/application-processing';
+  INSTITUTE_SERVICE_PATH + '/application-processing';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
@@ -125,4 +129,4 @@ export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 /** Routes for faq page */
 export const API_FRONT_SC = '/sc';
 
-export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
+export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';

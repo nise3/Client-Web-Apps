@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconUser from '../../../@softbd/icons/IconUser';
-import {useFetchCourse} from '../../../services/instituteManagement/hooks';
+import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -16,7 +16,7 @@ type Props = {
 
 const YouthDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchCourse(itemId);
+  const {data: itemData, isLoading} = useFetchYouthDetails(itemId);
 
   return (
     <>

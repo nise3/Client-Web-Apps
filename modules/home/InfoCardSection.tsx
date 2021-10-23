@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Card, Container, Grid, Typography} from '@mui/material';
 import {Accessibility, Build, HomeWork} from '@mui/icons-material';
-import { Theme } from '@mui/material/styles';
+import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
@@ -65,7 +65,7 @@ const InfoCardSection = () => {
                   <Box fontWeight='fontWeightBold'> যুব </Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
-                  আপনি যদি চাকরি প্রাথি হয়ে থাকেন, তাহলে খুঁজে নিন।
+                  আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।
                 </Typography>
               </Card>
             </Grid>
@@ -76,7 +76,7 @@ const InfoCardSection = () => {
                   <Box fontWeight='fontWeightBold'> দক্ষতা উন্নয়ন</Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
-                  আপনি যদি চাকরি প্রাথি হয়ে থাকেন, তাহলে খুঁজে নিন।
+                  আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।
                 </Typography>
               </Card>
             </Grid>
@@ -87,7 +87,7 @@ const InfoCardSection = () => {
                   <Box fontWeight='fontWeightBold'>শিল্প প্রতিষ্ঠান</Box>
                 </Typography>
                 <Typography variant='subtitle1' gutterBottom={true}>
-                  আপনি যদি চাকরি প্রাথি হয়ে থাকেন, তাহলে খুঁজে নিন।
+                  আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।
                 </Typography>
               </Card>
             </Grid>

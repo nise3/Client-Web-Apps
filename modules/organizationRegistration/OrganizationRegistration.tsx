@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -18,16 +18,42 @@ import {setServerValidationErrors} from '../../@softbd/utilities/validationError
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
 import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../services/locationManagement/locationUtils';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../services/locationManagement/hooks';
+import RowStatus from '../../@softbd/utilities/RowStatus';
 
 const OrganizationRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isLoading = false;
+  const [filters] = useState({});
+  const {data: divisions, isLoading: isLoadingDivisions}: any =
+    useFetchDivisions(filters);
+
+  const [districtsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: districts} = useFetchDistricts(districtsFilter);
+
+  const [upazilasFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const [organizationTypesFilter] = useState({});
   const {data: organizationTypes} = useFetchOrganizationTypes(
     organizationTypesFilter,
   );
+
+  const [districtList, setDistrictList] = useState<Array<District> | []>([]);
+  const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -67,6 +93,16 @@ const OrganizationRegistration = () => {
         .trim()
         .required()
         .label(messages['common.address_bn'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
       contact_person_designation: yup
         .string()
         .trim()
@@ -86,6 +122,7 @@ const OrganizationRegistration = () => {
       password: yup
         .string()
         .trim()
+        .min(8)
         .required()
         .label(messages['common.password'] as string),
       password_confirmation: yup
@@ -112,8 +149,27 @@ const OrganizationRegistration = () => {
     }
   };
 
+  const onDivisionChange = useCallback(
+    (divisionId: number) => {
+      let filteredDistricts = filterDistrictsByDivisionId(
+        districts,
+        divisionId,
+      );
+      setDistrictList(filteredDistricts);
+    },
+    [districts],
+  );
+
+  const onDistrictChange = useCallback(
+    (districtId: number) => {
+      let filteredUpazilas = filterUpazilasByDistrictId(upazilas, districtId);
+      setUpazilaList(filteredUpazilas);
+    },
+    [upazilas],
+  );
+
   return (
-    <Container maxWidth={'md'} style={{marginTop: '50px'}}>
+    <Container maxWidth={'md'}>
       <Paper className={classes.PaperBox}>
         <Typography
           align={'center'}
@@ -223,9 +279,57 @@ const OrganizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_division_id'
+                label={messages['divisions.label']}
+                isLoading={isLoadingDivisions}
+                control={control}
+                options={divisions}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onDivisionChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_district_id'
+                label={messages['districts.label']}
+                isLoading={false}
+                control={control}
+                options={districtList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onDistrictChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_upazila_id'
+                label={messages['upazilas.label']}
+                isLoading={false}
+                control={control}
+                options={upazilaList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
             <Grid item xs={12}>
               <Typography variant={'h6'}>
                 {messages['common.userInfoText']}
+                <Typography
+                  sx={{
+                    color: 'red',
+                    marginLeft: '10px',
+                    fontStyle: 'italic',
+                    verticalAlign: 'middle',
+                  }}
+                  variant={'caption'}>
+                  *({messages['common.registration_username_note']})
+                </Typography>
               </Typography>
             </Grid>
 

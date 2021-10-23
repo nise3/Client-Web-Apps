@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   headerMainFlex: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'right',
     width: '100%',
   },
   headerFixedHeight: {

@@ -72,6 +72,7 @@ export interface YouthAuthUser extends AuthUser {
   educations?: any[];
   job_experiences?: any[];
   certifications?: any[];
+  total_certificates?: number;
   portfolios?: any[];
 }
 

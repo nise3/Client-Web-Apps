@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Button, FormControlLabel, Grid, Switch} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -23,8 +23,10 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
+  useFetchBranches,
   useFetchCourse,
   useFetchInstitutes,
+  useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -69,6 +71,17 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: institutes, isLoading: isLoadingInstitutes} =
     useFetchInstitutes(instituteFilters);
+  const [branchFilters, setBranchFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const [programmeFilters, setProgrammeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: programmes, isLoading: isLoadingProgrammes} =
+    useFetchProgrammes(programmeFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -134,7 +147,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         contents: itemData?.contents,
         row_status: String(itemData?.row_status),
       });
-      setValuesOfConfigs(itemData?.dynamic_form_field);
+      setValuesOfConfigs(itemData?.application_form_settings);
     } else {
       reset(initialValues);
     }
@@ -218,8 +231,21 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     return JSON.stringify(configJson);
   };
 
+  const onInstituteChange = useCallback((instituteId: number) => {
+    setBranchFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
+    setProgrammeFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
+  }, []);
+
   const onSubmit: SubmitHandler<Course> = async (data: Course) => {
-    data.dynamic_form_field = getConfigInfoData(data.dynamic_form_field);
+    data.application_form_settings = getConfigInfoData(
+      data.application_form_settings,
+    );
     const response = itemId
       ? await updateCourse(itemId, data)
       : await createCourse(data);
@@ -278,8 +304,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -287,8 +313,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title'
-            label={messages['common.title']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -304,8 +330,35 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
+            onChange={onInstituteChange}
           />
         </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='branch_id'
+            label={messages['branch.label']}
+            isLoading={isLoadingBranches}
+            control={control}
+            options={branches}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='programme_id'
+            label={messages['programme.label']}
+            isLoading={isLoadingProgrammes}
+            control={control}
+            options={programmes}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
         <Grid item xs={6}>
           <CustomTextInput
             id='code'
@@ -437,7 +490,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
               <Grid item container xs={6} style={{minHeight: 40}} key={index}>
                 <Grid item xs={5} style={{marginTop: 5}}>
                   <CustomCheckbox
-                    id={`dynamic_form_field[${item.key}]`}
+                    id={`application_form_settings[${item.key}]`}
                     label={item.label}
                     checked={states.includes(item.key)}
                     isLoading={isLoading}

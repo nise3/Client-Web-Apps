@@ -12,6 +12,7 @@ import {
   API_YOUTH_GUARDIANS,
   API_YOUTH_LIST,
   API_PUBLIC_COURSE_LIST,
+  API_ENROLLED_COURSES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -92,6 +93,12 @@ export function useFetchGuardian(guardianId: number | null) {
   );
 }
 
+/** fetches a single youth's details */
+export function useFetchYouthDetails(youthId: number | null) {
+  const youth = useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
+  return youth;
+}
+
 export function useFetchYouths(params: any) {
   return useAxiosSWR([API_YOUTH_LIST, params]);
 }
@@ -113,4 +120,8 @@ export function useFetchCourseList(pathVariable: string, params: any) {
       : API_PUBLIC_COURSE_LIST,
     params,
   ]);
+}
+
+export function useFetchYouthCourses(params: any) {
+  return useAxiosSWR([API_ENROLLED_COURSES, params]);
 }

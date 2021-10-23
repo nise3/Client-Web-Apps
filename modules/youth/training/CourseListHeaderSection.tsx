@@ -20,6 +20,7 @@ import {
   useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const SKILL_LEVELS = [
   {id: 1, title: 'Beginner'},
@@ -44,10 +45,10 @@ const COURSE_TYPES = [
 ];
 
 interface CourseListHeaderSection {
-  filterAction: (filterKey: string, filterValue: number | null) => void;
+  addFilterKey: (filterKey: string, filterValue: number | null) => void;
 }
 
-const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
+const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const classes: any = useStyles();
   const {messages} = useIntl();
   const [instituteFilters] = useState({});
@@ -68,12 +69,15 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
 
   const handleInstituteFilterChange = useCallback(
     (event: SelectChangeEvent<any>) => {
-      setSelectedInstituteId(event.target.value);
-      setProgrammeFilters({
-        row_status: RowStatus.ACTIVE,
-        institute_id: selectedInstituteId,
-      });
-      filterAction('institute_id', event.target.value);
+      const instituteId = event.target.value;
+      setSelectedInstituteId(instituteId);
+      setProgrammeFilters(
+        objectFilter({
+          row_status: RowStatus.ACTIVE,
+          institute_id: instituteId,
+        }),
+      );
+      addFilterKey('institute_id', instituteId);
     },
     [selectedInstituteId],
   );
@@ -81,7 +85,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
   const handleProgrammeFilterChange = useCallback(
     (event: SelectChangeEvent<any>) => {
       setSelectedProgrammeId(event.target.value);
-      filterAction('program_id', event.target.value);
+      addFilterKey('program_id', event.target.value);
     },
     [selectedProgrammeId],
   );
@@ -89,7 +93,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
   const handleLanguageChange = useCallback(
     (event: SelectChangeEvent<any>) => {
       setSelectedLanguageId(event.target.value);
-      filterAction('language_medium', event.target.value);
+      addFilterKey('language_medium', event.target.value);
     },
     [selectedLanguageId],
   );
@@ -97,7 +101,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
   const handleAvailabilityChange = useCallback(
     (event: SelectChangeEvent<any>) => {
       setSelectedAvailability(event.target.value);
-      filterAction('availability', event.target.value);
+      addFilterKey('availability', event.target.value);
     },
     [selectedAvailability],
   );
@@ -105,7 +109,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
   const handleCourseTypeChange = useCallback(
     (event: SelectChangeEvent<any>) => {
       setSelectedcourseTypeId(event.target.value);
-      filterAction('course_type', event.target.value);
+      addFilterKey('course_type', event.target.value);
     },
     [],
   );
@@ -113,7 +117,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
   const handleSkillLevelChange = useCallback(
     (event: SelectChangeEvent<any>) => {
       setSelectedSkillLevel(event.target.value);
-      filterAction('level', event.target.value);
+      addFilterKey('level', event.target.value);
     },
     [],
   );
@@ -149,7 +153,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                     color={'primary'}
                     className={classes.searchButton}
                     onClick={useCallback(() => {
-                      filterAction(
+                      addFilterKey(
                         'search_text',
                         searchTextField.current.value,
                       );
@@ -171,7 +175,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   label={<Typography>choose institute...</Typography>}
                   className={classes.selectStyle}
                   onChange={handleInstituteFilterChange}>
-                  <MenuItem value={''}>
+                  <MenuItem value=''>
                     <em>None</em>
                   </MenuItem>
                   {institutes &&
@@ -192,7 +196,7 @@ const CourseListHeaderSection = ({filterAction}: CourseListHeaderSection) => {
                   variant='outlined'
                   className={classes.selectStyle}
                   onChange={handleProgrammeFilterChange}>
-                  <MenuItem value={''}>None</MenuItem>
+                  <MenuItem>None</MenuItem>
                   {selectedInstituteId &&
                     programmes &&
                     programmes.map((programme: any) => {

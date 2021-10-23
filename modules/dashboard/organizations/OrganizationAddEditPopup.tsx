@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
@@ -36,6 +36,15 @@ import {
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -56,6 +65,9 @@ const initialValues = {
   contact_person_designation: '',
   organization_type_id: '',
   permission_sub_group_id: '',
+  loc_division_id: '',
+  loc_district_id: '',
+  loc_upazila_id: '',
   address: '',
   description: '',
   row_status: '1',
@@ -81,6 +93,18 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     useState<any>({
       row_status: RowStatus.ACTIVE,
     });
+
+  const [divisionsFilter] = useState({});
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
+
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
+
   const {
     data: itemData,
     isLoading,
@@ -88,6 +112,9 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   } = useFetchOrganization(itemId);
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
     useFetchOrganizationTypes(organizationTypeFilters);
+
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
@@ -158,6 +185,16 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.address'] as string),
+      loc_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
       row_status: yup
         .string()
         .trim()
@@ -200,14 +237,40 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         contact_person_email: itemData?.contact_person_email,
         contact_person_designation: itemData?.contact_person_designation,
         organization_type_id: itemData?.organization_type_id,
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
+        loc_upazila_id: itemData?.loc_upazila_id,
         address: itemData?.address,
         description: itemData?.description,
         row_status: String(itemData?.row_status),
       });
+
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
+      );
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
+
+  /** Methods called on changing the division and districts in dropdown */
+  const changeDivisionAction = useCallback(
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
+    },
+    [districts],
+  );
+
+  const changeDistrictAction = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
     const response = itemId
@@ -400,6 +463,45 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
             multiline={true}
             rows={4}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoadingDivisions}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDivisionAction}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoadingDistricts}
+            control={control}
+            options={districtsList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDistrictAction}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            id='loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={isLoadingUpazilas}
+            control={control}
+            options={upazilasList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
           />
         </Grid>
 

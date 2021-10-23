@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -14,7 +14,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import {Button, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {getSSOLoginUrl} from '../../../common/SSOConfig';
+// import {getSSOLoginUrl} from '../../../common/SSOConfig';
 // import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
@@ -26,8 +26,10 @@ import {
   // LINK_FRONTEND_NISE_JOBS,
   LINK_FRONTEND_NISE_NOTICE_BOARD,
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
+  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
+import {useIntl} from 'react-intl';
 
 interface AppHeaderProps {}
 
@@ -37,12 +39,13 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
     theme.breakpoints.down('md'),
   );
   const classes = useStyles();
+  const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
 
-  const redirectToSSO = useCallback(() => {
+  /*const redirectToSSO = useCallback(() => {
     window.location.href = getSSOLoginUrl();
-  }, []);
+  }, []);*/
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -88,9 +91,9 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           কার্যক্রম
         </Link>
       </MenuItem>
-      <MenuItem className={classes.menuItemRoot}>
-        {/*<Notifications />*/}
-      </MenuItem>
+      {/*<MenuItem className={classes.menuItemRoot}>*/}
+      {/*  <Notifications />*/}
+      {/*</MenuItem>*/}
       <LanguageSwitcher />
     </Menu>
   );
@@ -158,10 +161,10 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               ) : (
                 <Button
                   variant='contained'
-                  onClick={redirectToSSO}
+                  href={LINK_SIGNUP}
                   className={classes.signinButton}
-                  endIcon={<ExitToApp />}>
-                  প্রবেশ করুন
+                  startIcon={<ExitToApp />}>
+                  {messages['common.registration_login']}
                 </Button>
               )}
               <Box ml={1} className={classes.sectionMobile}>

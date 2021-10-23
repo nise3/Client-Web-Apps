@@ -2,9 +2,9 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
   API_BRANCHES,
+  API_COURSE_DETAILS,
   API_COURSES,
   API_FONT_END_CONTACT_MAP,
-  API_COURSE_DETAILS,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_GALLERY_LIST,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
@@ -16,6 +16,8 @@ import {
   API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_FAQ,
+  API_PUBLIC_COURSE_LIST,
+  API_COURSE_ENROLLMENTS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -78,7 +80,9 @@ export function useFetchCourses(params: any) {
 
 export function useFetchCourseList(pathVariable: string, params: any) {
   return useAxiosSWR([
-    pathVariable ? API_COURSES + pathVariable : API_COURSES,
+    pathVariable
+      ? API_PUBLIC_COURSE_LIST + pathVariable
+      : API_PUBLIC_COURSE_LIST,
     params,
   ]);
 }
@@ -117,4 +121,11 @@ export function useFetchInstitutesAllActivity() {
 
 export function useFetchInstitutesFAQ() {
   return useAxiosSWR([API_FRONT_END_FAQ]);
+}
+
+/** fetches a single application's details */
+export function useFetchApplicationDetails(applicationId: number | null) {
+  return useAxiosSWR(
+    applicationId ? API_COURSE_ENROLLMENTS + '/' + applicationId : null,
+  );
 }

@@ -68,13 +68,15 @@ const Footer = () => {
                 </Text>
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
-                <Button
-                  variant='outlined'
-                  size='large'
-                  endIcon={<ArrowRightAlt />}
-                  className={classes.button}>
-                  বিস্তারিত
-                </Button>
+                <Link href={'/sc/about-us'}>
+                  <Button
+                    variant='outlined'
+                    size='large'
+                    endIcon={<ArrowRightAlt />}
+                    className={classes.button}>
+                    বিস্তারিত
+                  </Button>
+                </Link>
               </Box>
             </Grid>
             <Grid item xs={12} md={6} lg={4} p={0}>

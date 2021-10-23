@@ -59,6 +59,7 @@ type Course = {
   updated_at?: string;
   deleted_at?: string;
   dynamic_form_field: string | object;
+  application_form_settings: string | object;
 };
 
 type Branch = {
@@ -165,4 +166,4 @@ type Application = {
   rejected: number;
   created_at: string;
   updated_at: string;
-}
+};

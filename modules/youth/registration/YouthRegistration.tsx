@@ -199,6 +199,7 @@ const YouthRegistration = () => {
       password: yup
         .string()
         .trim()
+        .min(8)
         .required()
         .label(messages['common.password'] as string),
       password_confirmation: yup

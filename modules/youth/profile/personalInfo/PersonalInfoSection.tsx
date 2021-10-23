@@ -157,19 +157,27 @@ const PersonalInfoSection = () => {
               />
             </Grid>
 
-            <Divider
-              orientation='vertical'
-              flexItem
-              className={classes.dividerStyle}
-            />
+            {authUser?.total_certificates && (
+              <React.Fragment>
+                <Divider
+                  orientation='vertical'
+                  flexItem
+                  className={classes.dividerStyle}
+                />
 
-            <Grid item>
-              <SkillInfo
-                icon={<BusinessCenter />}
-                text1={5 + ' ' + (messages['common.certificate'] as string)}
-                text2={messages['common.achieved'] as string}
-              />
-            </Grid>
+                <Grid item>
+                  <SkillInfo
+                    icon={<BusinessCenter />}
+                    text1={
+                      authUser?.total_certificates +
+                      ' ' +
+                      (messages['common.certificate'] as string)
+                    }
+                    text2={messages['common.achieved'] as string}
+                  />
+                </Grid>
+              </React.Fragment>
+            )}
           </Grid>
         </Grid>
       </CardContent>
