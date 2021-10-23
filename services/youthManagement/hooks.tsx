@@ -92,6 +92,13 @@ export function useFetchGuardian(guardianId: number | null) {
   );
 }
 
+/** fetches a single youth's details */
+export function useFetchYouthDetails(youthId: number | null) {
+  const youth = useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
+  console.log('youth dtails: ', youth);
+  return youth;
+}
+
 export function useFetchYouths(params: any) {
   return useAxiosSWR([API_YOUTH_LIST, params]);
 }
