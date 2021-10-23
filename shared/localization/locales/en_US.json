@@ -677,5 +677,8 @@
   "institute.name_of_the_office_head_en": "Name of the office head (English)",
   "institute.name_of_the_office_head_designation": "Office head designation",
   "institute.name_of_the_office_head_designation_en": "Office head designation (English)",
-  "common.registration_username_note": "Contact person mobile will be used as username"
+  "common.registration_username_note": "Contact person mobile will be used as username",
+  "common.registration_login": "Registration/Login",
+  "institute.youth_login": "Youth Login"
+
 }
