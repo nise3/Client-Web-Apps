@@ -6,7 +6,7 @@ import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 
-interface JobPostBlockProps {
+interface CourseInfoBlockProps {
   course: any;
 }
 
@@ -52,7 +52,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     background: '#e4e4e4',
     marginRight: 8,
   },
-  tagChips: {
+  enrollButton: {
     display: 'flex',
     alignItems: 'flex-end',
     flexDirection: 'column',
@@ -61,9 +61,12 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     marginTop: 15,
     marginBottom: 15,
   },
+  tagChip: {
+    marginBottom: 0,
+  },
 }));
 
-const CourseInfoBlock: FC<JobPostBlockProps> = ({course}) => {
+const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const classes = useStyle();
   const {messages} = useIntl();
 
@@ -118,8 +121,8 @@ const CourseInfoBlock: FC<JobPostBlockProps> = ({course}) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Grid container>
-                <Grid item xs={8}>
+              <Grid container sx={{alignItems: 'flex-end'}}>
+                <Grid item xs={8} className={classes.tagChip}>
                   <TagChip
                     label={courseDuration(course?.duration)}
                     key={course.id}
@@ -129,7 +132,7 @@ const CourseInfoBlock: FC<JobPostBlockProps> = ({course}) => {
                     key={course.id}
                   />
                 </Grid>
-                <Grid item xs={4} className={classes.tagChips}>
+                <Grid item xs={4} className={classes.enrollButton}>
                   <Button
                     variant={'contained'}
                     color={'primary'}

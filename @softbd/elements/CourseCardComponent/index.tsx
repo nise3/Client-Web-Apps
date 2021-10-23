@@ -109,12 +109,6 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           <Typography>{course?.total_enroll + ' Student'}</Typography>
         )}
 
-        <Box className={classes.tagBox}>
-          {(course.tags || []).map((tag: any, index: any) => {
-            return <TagChip label={tag} key={index} />;
-          })}
-        </Box>
-
         {course.progress && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
             <LinearProgress variant='determinate' value={course.progress} />
