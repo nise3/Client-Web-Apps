@@ -107,10 +107,12 @@ export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
 
 /** Routes for contact page map */
 export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
-export const API_APPLICATION_MANAGEMENT =
-  API_INSTITUTES + '/application-management';
+
+/** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
+export const API_COURSE_ENROLLMENTS =
+  INSTITUTE_SERVICE_PATH + '/course-enrollments';
 export const API_APPLICATION_PROCESSING =
-  API_INSTITUTES + '/application-processing';
+  INSTITUTE_SERVICE_PATH + '/application-processing';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
