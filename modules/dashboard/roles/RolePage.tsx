@@ -69,11 +69,11 @@ const RolePage = () => {
 
   useEffect(() => {
     if (authUser) {
-      if (authUser.institute_id) {
+      if (authUser.isInstituteUser && authUser.institute_id) {
         setRoleFilters({
           institute_id: authUser.institute_id,
         });
-      } else if (authUser.organization_id) {
+      } else if (authUser.isOrganizationUser && authUser.organization_id) {
         setRoleFilters({
           organization_id: authUser.organization_id,
         });

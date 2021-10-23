@@ -8,11 +8,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  DOMAIN_REGEX,
-  MOBILE_NUMBER_REGEX,
-  PHONE_NUMBER_REGEX,
-} from '../../../@softbd/common/patternRegex';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -165,35 +161,15 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
         .label(messages['common.title'] as string),
-      domain: yup
-        .string()
-        .trim()
-        .required()
-        .matches(DOMAIN_REGEX)
-        .label(messages['common.domain'] as string),
       institute_type_id: yup
         .string()
         .trim()
         .required()
         .label(messages['institute.type'] as string),
-      code: yup
-        .string()
-        .required()
-        .label(messages['common.code'] as string),
-      primary_phone: yup
-        .string()
-        .trim()
-        .required()
-        .matches(PHONE_NUMBER_REGEX)
-        .label(messages['common.phone'] as string),
       phone_numbers: yup.array().of(nonRequiredValidationSchema),
       primary_mobile: yup
         .string()
@@ -207,7 +183,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.address'] as string),
-      google_map_src: yup.string(),
       email: yup
         .string()
         .required()
@@ -217,21 +192,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['permission_sub_group.label'] as string),
-      loc_division_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['divisions.label'] as string),
-      loc_district_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['districts.label'] as string),
-      loc_upazila_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['upazilas.label'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
