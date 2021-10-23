@@ -56,14 +56,13 @@ export const LINK_FRONTEND_YOUTH_MY_CV = '/youth/my-cv';
 export const LINK_FRONTEND_YOUTH_MY_COURSES = '/youth/my-courses';
 export const LINK_FRONTEND_YOUTH_SETTINGS = '/youth/settings';
 export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/youth/freelance-corner';
+
 export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =
-  '/youth/course-list/skill-matching';
-export const LINK_FRONTEND_YOUTH_POPULAR_COURSELIST =
-  '/youth/course-list/popular';
-export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST =
-  '/youth/course-list/recent';
+  '/youth/training/skill-matching';
+export const LINK_FRONTEND_YOUTH_POPULAR_COURSELIST = '/youth/training/popular';
+export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST = '/youth/training/recent';
 export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST =
-  '/youth/course-list/trending';
+  '/youth/training/trending';
 
 /** nise links  */
 export const LINK_FRONTEND_NISE_ROOT = '/';

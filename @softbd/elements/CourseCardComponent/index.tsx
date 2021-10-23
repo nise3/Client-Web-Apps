@@ -101,7 +101,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
         <Box className={classes.tagBox}>
           {course?.duration && (
-            <TagChip label={courseDuration(course?.duration)} />
+            <TagChip label={courseDuration(course.duration)} />
           )}
           <TagChip label={Math.floor(Math.random() * 10 + 6) + ' lessons'} />
         </Box>
