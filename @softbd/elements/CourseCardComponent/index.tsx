@@ -16,6 +16,7 @@ import Link from 'next/link';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {courseDuration} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../common/appLinks';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   trainingCardRoot: {
@@ -89,9 +90,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           fontWeight={'bold'}>
           {course.title}
         </Link>*/}
-        <Link
-          href={'../../youth/course-details/__'.replace('__', course.id)}
-          passHref>
+        <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id} passHref>
           <Box fontWeight={'bold'}>{course.title}</Box>
         </Link>
 
@@ -118,7 +117,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
         {course.progress && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
-            <LinearProgress variant='determinate' value={course.id} />
+            <LinearProgress variant='determinate' value={course.progress} />
             <Box>
               <IntlMessages
                 id='course_card.complete'

@@ -2,7 +2,7 @@ import React from 'react';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
-import PostSection from './PostSection';
+import FeaturedCourseSection from './FeaturedCourseSection';
 import RecentJobSection from './RecentJobSection';
 import CourseListSection from './CourseListSection';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
@@ -47,7 +47,7 @@ const YouthFeedPage = () => {
               <FeatureJobSection />
             </Grid>
             <Grid item xs={12}>
-              <PostSection />
+              <FeaturedCourseSection />
             </Grid>
           </Grid>
         </Grid>
