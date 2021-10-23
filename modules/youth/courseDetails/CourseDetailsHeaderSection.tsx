@@ -3,23 +3,11 @@ import useStyle from './index.style';
 import {Box, Button, CardMedia, Grid, Typography} from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
+import {courseDuration} from '../../../@softbd/utilities/helpers';
 
 interface CourseDetailsHeaderProps {
   course: any;
 }
-
-const courseDuration = (duration: number) => {
-  let dh = 0;
-  let dm = 0;
-
-  if (duration / 60 < 1) {
-    return duration + 'min';
-  } else {
-    dm = duration % 60;
-    dh = duration / 60;
-    return dh + 'hr, ' + dm + 'min';
-  }
-};
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const classes: any = useStyle();

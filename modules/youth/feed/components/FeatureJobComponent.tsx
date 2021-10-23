@@ -13,7 +13,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     padding: '10px 5px',
   },
   jobProviderImage: {
-    marginLeft: 10,
+    marginLeft: 6,
     border: '1px solid ' + theme.palette.grey['300'],
   },
   tagStyle: {
@@ -48,28 +48,26 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
   const {messages} = useIntl();
 
   return (
-    <>
-      <Card className={classes.featureJobRoot}>
-        <Grid container spacing={1} alignItems={'center'}>
-          <Grid item xs={2} sm={2} md={2}>
-            <Avatar
-              className={classes.jobProviderImage}
-              alt='provider image'
-              src={data.imageUrl}
-            />
-          </Grid>
-          <Grid item xs={8} sm={8} md={8}>
-            <Box className={classes.jobTitle}>{data.jobTitle}</Box>
-            <Box>{data.jobProviderName}</Box>
-          </Grid>
-          <Chip
-            variant='outlined'
-            label={messages['common.featured']}
-            className={classes.tagStyle}
+    <Card className={classes.featureJobRoot}>
+      <Grid container spacing={1} alignItems={'center'}>
+        <Grid item xs={2}>
+          <Avatar
+            className={classes.jobProviderImage}
+            alt='provider image'
+            src={data.imageUrl}
           />
         </Grid>
-      </Card>
-    </>
+        <Grid item xs={8}>
+          <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+          <Box>{data.jobProviderName}</Box>
+        </Grid>
+        <Chip
+          variant='outlined'
+          label={messages['common.featured']}
+          className={classes.tagStyle}
+        />
+      </Grid>
+    </Card>
   );
 };
 

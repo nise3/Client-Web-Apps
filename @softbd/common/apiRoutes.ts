@@ -57,6 +57,8 @@ export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_COURSE_DETAILS = INSTITUTE_SERVICE_PATH + '/course-details';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
+export const API_ENROLLED_COURSES =
+  INSTITUTE_SERVICE_PATH + '/course-enrollments';
 
 /** Youths end-points */
 export const API_YOUTH_REGISTRATION =

@@ -6,23 +6,30 @@ import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
+import {LINK_FRONTEND_YOUTH_POPULAR_COURSELIST} from '../../../@softbd/common/appLinks';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 interface PopularCoursesSectionProps {
   filters?: any;
+  page_size?: number;
 }
-const PopularCoursesSection = ({filters}: PopularCoursesSectionProps) => {
+const PopularCoursesSection = ({
+  filters,
+  page_size,
+}: PopularCoursesSectionProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
 
-  const [courseFilters, setCourseFilters] = useState<any>({page_size: 4});
+  const [courseFilters, setCourseFilters] = useState<any>({
+    page_size: page_size ? page_size : null,
+  });
 
   useEffect(() => {
-    setCourseFilters({...filters, ...courseFilters});
+    setCourseFilters(objectFilter({...courseFilters, ...filters}));
   }, [filters]);
 
   const pathVariable = '/popular';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
-  const URL = '/../../youth/course-list' + pathVariable;
 
   return courseList && courseList.length ? (
     <Grid container spacing={5}>
@@ -34,7 +41,7 @@ const PopularCoursesSection = ({filters}: PopularCoursesSectionProps) => {
             </Typography>
           </Grid>
           <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Link href={URL} passHref>
+            <Link href={LINK_FRONTEND_YOUTH_POPULAR_COURSELIST} passHref>
               <Button variant={'outlined'} size={'medium'} color={'primary'}>
                 {messages['common.see_all']}
                 <ChevronRight />

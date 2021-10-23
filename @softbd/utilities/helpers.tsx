@@ -327,7 +327,17 @@ export const courseDuration = (duration: number) => {
     return duration + 'min';
   } else {
     dm = duration % 60;
-    dh = duration / 60;
+    dh = Math.floor(duration / 60);
     return dh + 'hr, ' + dm + 'min';
   }
+};
+
+export const objectFilter = (object: any) => {
+  Object.keys(object).forEach((key) => {
+    if (!object[key]) {
+      delete object[key];
+    }
+  });
+
+  return object;
 };

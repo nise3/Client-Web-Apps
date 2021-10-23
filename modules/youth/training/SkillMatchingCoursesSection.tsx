@@ -8,19 +8,21 @@ import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import Link from 'next/link';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST} from '../../../@softbd/common/appLinks';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 interface skillMatchingCoursesSectionProps {
   filters?: any;
+  page_size?: number;
 }
 
 const SkillMatchingCoursesSection = ({
   filters,
+  page_size,
 }: skillMatchingCoursesSectionProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
-
-  console.log('filters', filters);
 
   const [youthSkillIds, setYouthSkillIds] = useState<Array<number>>([]);
 
@@ -34,17 +36,15 @@ const SkillMatchingCoursesSection = ({
 
   const [courseFilters, setCourseFilters] = useState<any>({
     skill_ids: youthSkillIds,
-    page_size: 5,
+    page_size: page_size ? page_size : null,
   });
 
   useEffect(() => {
-    setCourseFilters({...filters, ...courseFilters});
+    setCourseFilters(objectFilter({...courseFilters, ...filters}));
   }, [filters]);
 
   const pathValue = '/skill-matching';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
-  const URL = '/../../youth/course-list' + pathValue;
-
   return courseList && courseList.length ? (
     <Grid container spacing={5}>
       <Grid item xs={12} sm={12}>
@@ -54,14 +54,18 @@ const SkillMatchingCoursesSection = ({
               {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
-          <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Link href={URL} passHref>
-              <Button variant={'outlined'} size={'medium'} color={'primary'}>
-                {messages['common.see_all']}
-                <ChevronRight />
-              </Button>
-            </Link>
-          </Grid>
+          {page_size && (
+            <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
+              <Link
+                href={LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST}
+                passHref>
+                <Button variant={'outlined'} size={'medium'} color={'primary'}>
+                  {messages['common.see_all']}
+                  <ChevronRight />
+                </Button>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
