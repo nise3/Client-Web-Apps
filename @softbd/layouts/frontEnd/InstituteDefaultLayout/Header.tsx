@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -18,20 +18,28 @@ import {
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_CONTACT,
   LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR,
+  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import useStyles from './Header.style';
+import {useIntl} from 'react-intl';
+import {Button} from '@mui/material';
+import {getSSOLoginUrl} from '../../../common/SSOConfig';
 
-interface AppHeaderProps {
-}
+interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
   }
+
+  const redirectToSSO = useCallback(() => {
+    window.location.href = getSSOLoginUrl();
+  }, []);
 
   function handleMobileMenuOpen(event: React.MouseEvent<HTMLElement>) {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -69,10 +77,16 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Link href={LINK_FRONTEND_INSTITUTE_CONTACT}>যোগাযোগ</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Person className={classes.menuIcons} /> ইউথ লগইন
+        <Link onClick={redirectToSSO}>
+          <Person className={classes.menuIcons} />
+          {messages['institute.youth_login']}
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Login className={classes.menuIcons} /> রেজিস্ট্রেশন
+        <Link href={LINK_SIGNUP}>
+          <Login className={classes.menuIcons} />
+          {messages['common.registration_login']}
+        </Link>
       </MenuItem>
     </Menu>
   );
@@ -158,15 +172,15 @@ const Header: React.FC<AppHeaderProps> = () => {
                   </Link>
                 </Box>
                 <Box className={classes.headerMenuGroup}>
+                  <Button onClick={redirectToSSO} className={classes.menuItem}>
+                    <Person className={classes.menuIcons} />
+                    {messages['institute.youth_login']}
+                  </Button>
                   <Link
-                    href={LINK_FRONTEND_INSTITUTE_ROOT}
-                    className={classes.menuItem}>
-                    <Person className={classes.menuIcons} /> ইউথ লগইন
-                  </Link>
-                  <Link
-                    href='/'
+                    href={LINK_SIGNUP}
                     className={clsx(classes.menuItem, classes.menuItemAction)}>
-                    <Login className={classes.menuIcons} /> রেজিস্ট্রেশন
+                    <Login className={classes.menuIcons} />
+                    {messages['common.registration_login']}
                   </Link>
                 </Box>
               </Box>
