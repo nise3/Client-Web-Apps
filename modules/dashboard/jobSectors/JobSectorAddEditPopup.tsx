@@ -50,10 +50,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   } = useFetchJobSector(itemId);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
+      title_en: yup.string().label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()

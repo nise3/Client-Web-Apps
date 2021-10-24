@@ -5,7 +5,7 @@ type RankType = {
   title_en: string;
   title: string;
   description?: string;
-  organization_title_en?: string;
+  description_en?: string;
   row_status?: number | string;
 };
 
@@ -27,9 +27,9 @@ type Rank = {
 
 type OrganizationType = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
-  is_government: boolean;
+  is_government?: boolean | number;
   row_status: number | string;
   created_at?: string;
   updated_at?: string;
@@ -37,25 +37,39 @@ type OrganizationType = {
 
 type Organization = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
+  permission_sub_group: number | string;
   contact_person_designation: string;
+  contact_person_designation_en?: string;
   contact_person_email: string;
   contact_person_mobile: string;
   contact_person_name: string;
+  contact_person_name_en?: string;
+  name_of_the_office_head?: string;
+  name_of_the_office_head_en?: string;
+  name_of_the_office_head_designation?: string;
+  name_of_the_office_head_designation_en?: string;
   description?: string;
+  description_en?: string;
   domain?: string;
   email?: string;
   fax_no?: string;
   loc_district_id?: number | string;
   loc_division_id?: number | string;
   loc_upazila_id?: number | string;
+  location_latitude?: number | string;
+  location_longitude?: number | string;
+  google_map_src?: number | string;
   logo?: string;
   address?: string;
+  address_en?: string;
+  country?: string;
+  phone_code?: string | number;
   mobile?: string;
   organization_types_title?: string;
   organization_type_id: number | string;
-  row_status: number | string;
+  row_status?: number | string;
   created_at?: string;
   updated_at?: string;
 };
@@ -72,9 +86,9 @@ type Service = {
 
 type JobSector = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
-  row_status: number | string;
+  row_status?: number | string;
   updated_at?: string;
   crated_at?: string;
 };
@@ -115,10 +129,10 @@ type OrganizationUnit = {
 
 type OrganizationUnitType = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
   organization_id: number;
-  row_status: number | string;
+  row_status?: number | string;
   updated_at?: string;
   crated_at?: string;
 };

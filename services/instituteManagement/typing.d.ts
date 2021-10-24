@@ -21,13 +21,14 @@ type Institute = {
 
 type Programme = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
   institute_id: string | number;
   institute_title_en?: string;
-  code: string;
-  logo: string;
+  code?: string;
+  logo?: string;
   description?: string;
+  description_en?: string;
   row_status: string;
   created_at?: string;
   updated_at?: string;
@@ -80,11 +81,15 @@ type Course = {
 
 type Branch = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
   institute_id: number | string;
   institute_title_en?: string;
   address?: string;
+  address_en?: string;
+  loc_division_id: number | string;
+  loc_district_id: number | string;
+  loc_upazila_id: number | string;
   google_map_src?: string;
   row_status: string;
   created_at?: string;
@@ -94,12 +99,19 @@ type Branch = {
 
 type TrainingCenter = {
   id: number;
-  title_en: string;
+  title_en?: string;
   title: string;
   institute_id: number | string;
   branch_id?: number | string;
-  address: string;
-  google_map_src: string;
+  loc_division_id?: number | string;
+  loc_district_id?: number | string;
+  loc_upazila_id?: number | string;
+  location_latitude?: string;
+  location_longitude?: string;
+  address_en?: string;
+  center_location_type?: number | string;
+  address?: string;
+  google_map_src?: string;
   row_status: string;
   created_at?: string;
   updated_at?: string;
@@ -107,33 +119,40 @@ type TrainingCenter = {
 };
 type Trainer = {
   id: number;
-  trainer_name_en: string;
-  trainer_name: string;
   institute_id: number | string;
-  branch_id: number | string;
-  training_center_id: number | string;
+  trainer_name_en?: string;
+  trainer_name: string;
+  branch_id?: number | string;
+  training_center_id?: number | string;
   trainer_registration_number: number | string;
   email: string;
   mobile: string;
   date_of_birth: string;
-  about_me: string;
+  about_me?: string;
+  about_me_en?: string;
   gender: number | string;
   marital_status: number | string;
-  religion: number | string;
+  religion?: number | string;
   nationality: string;
-  nid: string;
-  passport_number: string;
-  present_address_division_id: number | string;
-  present_address_district_id: number | string;
-  present_address_upazila_id: number | string;
-  permanent_address_district_id: number | string;
-  permanent_address_upazila_id: number | string;
-  permanent_address_division_id: number | string;
-  present_house_address: string;
-  permanent_house_address: string;
-  educational_qualification: string;
-  skills: string;
-  row_status: string;
+  nid?: string;
+  passport_number?: string;
+  present_address_division_id?: number | string;
+  present_address_district_id?: number | string;
+  present_address_upazila_id?: number | string;
+  permanent_address_district_id?: number | string;
+  permanent_address_upazila_id?: number | string;
+  permanent_address_division_id?: number | string;
+  present_house_address?: string;
+  present_house_address_en?: string;
+  permanent_house_address?: string;
+  permanent_house_address_en?: string;
+  educational_qualification?: string;
+  educational_qualification_en?: string;
+  photo?: string;
+  signature?: string;
+  skills?: string;
+  skills_en?: string;
+  row_status?: string;
   updated_at?: string;
   crated_at?: string;
 };
