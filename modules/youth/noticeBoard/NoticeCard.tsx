@@ -16,6 +16,8 @@ interface NoticeCardProps {
   notice: any;
 }
 
+const logo = '/images/creativeIt.png';
+
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -26,7 +28,8 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
         <Grid container spacing={3}>
           <Grid item xs={3} md={3}>
             <Box className={classes.avatar}>
-              <Avatar src={notice.logo} className={classes.avatarImage} />
+              {/*Todo: logo have to implement after real api ready*/}
+              <Avatar src={logo} className={classes.avatarImage} />
             </Box>
           </Grid>
           <Grid item xs={9} md={9}>

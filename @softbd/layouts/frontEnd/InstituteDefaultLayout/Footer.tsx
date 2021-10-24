@@ -116,12 +116,16 @@ const Footer = () => {
                   <Text className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> অনলাইন কোর্স
                   </Text>
-                  <Text className={classes.bullet}>
+                  <Link
+                    href={'/institute/notice-board'}
+                    className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> সংবাদ
-                  </Text>
-                  <Text className={classes.bullet}>
+                  </Link>
+                  <Link
+                    href={'/institute/recent-activities'}
+                    className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> ঘটনাবলী
-                  </Text>
+                  </Link>
                   <Link href={'/sc/about-us'} className={classes.bullet}>
                     <ArrowForwardIos className={classes.primary} /> আমাদের
                     সম্পর্কে

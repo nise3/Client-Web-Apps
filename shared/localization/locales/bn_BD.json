@@ -689,5 +689,9 @@
   "institute.name_of_the_office_head_designation_en": "অফিস প্রধানের পদবী (ইংরেজী)",
   "common.registration_username_note": "কন্টাক্ট পারসনের মোবাইল নাম্বারটি ইউজারনেম হিসেবে ব্যবহার করা হবে",
   "common.registration_login": "রেজিস্ট্রেশন/লগইন",
-  "institute.youth_login": "ইউথ লগইন"
+  "institute.youth_login": "ইউথ লগইন",
+  "common.courses": "কোর্স সমূহ",
+  "common.running_courses": "চলমান কোর্স",
+  "common.up_coming_courses": "আসন্ন কোর্স",
+  "common.see_more": "আরও দেখুন"
 }
