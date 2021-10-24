@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import {
   createTrainer,
   updateTrainer,
@@ -62,6 +62,7 @@ const initialValues = {
   email: '',
   mobile: '',
   about_me: '',
+  about_me_en: '',
   gender: '',
   marital_status: '',
   religion: '',
@@ -75,9 +76,15 @@ const initialValues = {
   permanent_address_district_id: '',
   permanent_address_upazila_id: '',
   present_house_address: '',
+  present_house_address_en: '',
   permanent_house_address: '',
+  permanent_house_address_en: '',
   educational_qualification: '',
+  educational_qualification_en: '',
+  photo: '',
+  signature: '',
   skills: '',
+  skills_en: '',
   date_of_birth: '',
   row_status: '1',
 };
@@ -141,10 +148,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      trainer_name_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
+      trainer_name_en: yup.string(),
       trainer_name: yup
         .string()
         .title()
@@ -160,6 +164,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .required()
         .email()
         .label(messages['common.email'] as string),
+      gender: yup
+        .string()
+        .required()
+        .label(messages['common.gender'] as string),
+      marital_status: yup
+        .string()
+        .required()
+        .label(messages['common.marital_status'] as string),
       institute_id: yup
         .string()
         .trim()
@@ -170,6 +182,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.nationality'] as string),
+      trainer_registration_number: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['trainer.trainer_registration_number'] as string),
+      date_of_birth: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.date_of_birth'] as string),
     });
   }, [messages]);
 
@@ -196,6 +218,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         email: itemData?.email,
         mobile: itemData?.mobile,
         about_me: itemData?.about_me,
+        about_me_en: itemData?.about_me_en,
         gender: itemData?.gender,
         marital_status: itemData?.marital_status,
         religion: itemData?.religion,
@@ -212,9 +235,15 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         permanent_address_district_id: itemData?.permanent_address_district_id,
         permanent_address_upazila_id: itemData?.permanent_address_upazila_id,
         present_house_address: itemData?.present_house_address,
+        present_house_address_en: itemData?.present_house_address_en,
         permanent_house_address: itemData?.permanent_house_address,
+        permanent_house_address_en: itemData?.permanent_house_address_en,
         educational_qualification: itemData?.educational_qualification,
+        educational_qualification_en: itemData?.educational_qualification_en,
+        photo: itemData?.photo,
+        signature: itemData?.signature,
         skills: itemData?.skills,
+        skills_en: itemData?.skills_en,
         row_status: String(itemData?.row_status),
       });
 
@@ -355,7 +384,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id='trainer_name_en'
-            label={messages['common.title_en']}
+            label={messages['trainer.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -364,7 +393,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id='trainer_name'
-            label={messages['common.title']}
+            label={messages['trainer.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -383,6 +412,15 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomTextInput
             id='about_me'
             label={messages['common.about_me']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='about_me_en'
+            label={messages['common.about_me_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -417,8 +455,26 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            id='present_house_address_en'
+            label={messages['common.present_house_address_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
             id='permanent_house_address'
             label={messages['common.permanent_house_address']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='permanent_house_address_en'
+            label={messages['common.permanent_house_address_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -558,6 +614,15 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            id='educational_qualification_en'
+            label={messages['common.educational_qualification_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
             id='trainer_registration_number'
             label={messages['common.registration_number']}
             register={register}
@@ -569,6 +634,15 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomTextInput
             id='skills'
             label={messages['menu.skill']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='skills_en'
+            label={messages['menu.skills_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -630,6 +704,26 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='signature'
+            label={messages['common.signature']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <input
+            id='photo'
+            name='btn-upload'
+            style={{display: 'none'}}
+            type='file'
+          />
+          <Button className='btn-choose' variant='outlined' component='span'>
+            Photo
+          </Button>
         </Grid>
         <Grid item xs={6}>
           <FormRowStatus
