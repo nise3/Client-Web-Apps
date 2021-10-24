@@ -197,6 +197,11 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
+      identity_number: yup
+        .string()
+        .trim()
+        .min(11)
+        .label(messages['common.nid'] as string),
     });
   }, [messages, userNameType, disabilityStatus]);
 

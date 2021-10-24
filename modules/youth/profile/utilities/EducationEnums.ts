@@ -20,3 +20,10 @@ export const EducationLevelCodeWithBoard = [
   'SECONDARY',
   'HIGHER_SECONDARY',
 ];
+
+export const EducationLevelForMajorGroup = [
+  'DIPLOMA',
+  'BACHELOR',
+  'MASTERS',
+  'PHD',
+];

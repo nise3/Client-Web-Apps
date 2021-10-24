@@ -10,6 +10,8 @@ import ReferenceAddEditPage from './ReferenceAddEditPage';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
 import {BorderColor} from '@mui/icons-material';
+import HorizontalLine from '../component/HorizontalLine';
+import {Avatar, Box, Typography} from '@mui/material';
 
 const ReferenceSection = () => {
   const {messages} = useIntl();
@@ -67,11 +69,23 @@ const ReferenceSection = () => {
           onClick={() => openReferenceAddEditForm(null)}
         />
       }>
-      <References
-        references={references}
-        openReferenceAddEditForm={openReferenceAddEditForm}
-        onDeleteReference={deleteReferenceItem}
-      />
+      {!references || references?.length == 0 ? (
+        <>
+          <HorizontalLine />
+          <Box sx={{display: 'flex'}}>
+            <Avatar>C</Avatar>
+            <Typography style={{marginLeft: '15px'}}>
+              {messages['common.no_data_found']}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <References
+          references={references}
+          openReferenceAddEditForm={openReferenceAddEditForm}
+          onDeleteReference={deleteReferenceItem}
+        />
+      )}
     </ContentLayout>
   );
 };

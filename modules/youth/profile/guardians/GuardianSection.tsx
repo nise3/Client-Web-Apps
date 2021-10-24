@@ -77,10 +77,9 @@ const GuardianSection = () => {
           <Box sx={{display: 'flex'}}>
             <Avatar>G</Avatar>
             <Box sx={{marginLeft: '15px'}}>
-              {(!guardians || guardians?.length == 0) && (
-                <Typography>{messages['guardian.no_data']}</Typography>
-              )}
-              {guardians && (
+              {!guardians || guardians?.length == 0 ? (
+                <Typography>{messages['common.no_data_found']}</Typography>
+              ) : (
                 <React.Fragment>
                   <Box sx={{display: 'flex'}}>
                     {guardians.map((guardian: Guardian, index: number) => (
