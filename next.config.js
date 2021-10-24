@@ -41,7 +41,7 @@ module.exports = (phase) => {
   const webpack = (config) => {
     config.module.rules.push({
       test: /\.cv.svg$/,
-      use: 'raw-loader',
+      type: 'asset/source',
     });
     return config;
   };
