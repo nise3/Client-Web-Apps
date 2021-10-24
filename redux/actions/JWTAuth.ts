@@ -140,14 +140,14 @@ type TYouthAuthUserSSOResponse = {
   first_name_en?: string;
   physical_disability_status: number;
   loc_division_id?: string;
-  loc_division_title_en?: string;
-  loc_division_title?: string;
+  division_title_en?: string;
+  division_title?: string;
   loc_district_id?: string;
-  loc_district_title_en?: string;
-  loc_district_title?: string;
+  district_title_en?: string;
+  district_title?: string;
   loc_upazila_id?: string;
-  loc_upazila_title_en?: string;
-  loc_upazila_title?: string;
+  upazila_title_en?: string;
+  upazila_title?: string;
   village_or_area?: string;
   village_or_area_en?: string;
   house_n_road?: string;
@@ -213,14 +213,14 @@ export const getYouthAuthUserObject = (
     first_name_en: authUser?.first_name_en,
     physical_disability_status: authUser?.physical_disability_status,
     loc_division_id: authUser?.loc_division_id,
-    loc_division_title_en: authUser?.loc_division_title_en,
-    loc_division_title: authUser?.loc_division_title,
+    loc_division_title_en: authUser?.division_title_en,
+    loc_division_title: authUser?.division_title,
     loc_district_id: authUser?.loc_district_id,
-    loc_district_title_en: authUser?.loc_district_title_en,
-    loc_district_title: authUser?.loc_district_title,
+    loc_district_title_en: authUser?.district_title_en,
+    loc_district_title: authUser?.district_title,
     loc_upazila_id: authUser?.loc_upazila_id,
-    loc_upazila_title_en: authUser?.loc_upazila_title_en,
-    loc_upazila_title: authUser?.loc_upazila_title,
+    loc_upazila_title_en: authUser?.upazila_title_en,
+    loc_upazila_title: authUser?.upazila_title,
     village_or_area: authUser?.village_or_area,
     village_or_area_en: authUser?.village_or_area_en,
     house_n_road: authUser?.house_n_road,

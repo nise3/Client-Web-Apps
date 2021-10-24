@@ -7,6 +7,8 @@ import ClassicTemplate from './templates/ClassicTemplate';
 import ModernTemplate from './templates/ModernTemplate';
 import ColorfulTemplate from './templates/ColorfulTemplate';
 import CVTemplateKeys from './CVTemplateKeys';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const resumeTemplates = [
   {
@@ -26,7 +28,7 @@ const resumeTemplates = [
   },*/
 ];
 
-const userData = {
+const userDatax = {
   name: 'MD. Jubaer Sayed',
   cellNo: '01929257784',
   email: 'rrridoy18@gmail.com',
@@ -104,6 +106,8 @@ const userData = {
 };
 
 const MyCVPage = () => {
+  const userData = useAuthUser<YouthAuthUser>();
+  console.log('YouthAuthUser', userData);
   const classes: any = useStyles();
   const {messages} = useIntl();
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
@@ -121,9 +125,9 @@ const MyCVPage = () => {
       case CVTemplateKeys.MODERN:
         return <ModernTemplate userData={userData} />;
       case CVTemplateKeys.COLORFUL:
-        return <ColorfulTemplate userData={userData} />;
+        return <ColorfulTemplate userData={userDatax} />;
       default:
-        return <ClassicTemplate userData={userData} />;
+        return <ClassicTemplate userData={userDatax} />;
     }
   };
 

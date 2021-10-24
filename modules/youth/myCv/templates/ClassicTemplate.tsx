@@ -1,183 +1,71 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import useStyles from '../index.style';
-import {
-  Box,
-  CardMedia,
-  Container,
-  Divider,
-  Slide,
-  Typography,
-} from '@mui/material';
+import {Box, Slide, Typography} from '@mui/material';
+import pageSVG from '../../../../public/images/cv/CV_Temp_Classic.cv.svg';
+import {setAreaText} from '../../../../@softbd/common/svg-utils';
 
 interface ClassicTemplateProps {
   userData: any;
 }
 
+const getEducationItem = (
+  caption: string,
+  text: string,
+  isBold: boolean,
+  classes: any,
+) => {
+  return (
+    <Box className={classes.classicEducationItem} mt={isBold ? 2 : 0}>
+      <Typography variant={'caption'} className='caption'>
+        {caption}
+      </Typography>
+      :
+      <Typography
+        variant={'caption'}
+        fontWeight={isBold ? 'bold' : 'normal'}
+        className='text'>
+        {text}
+      </Typography>
+    </Box>
+  );
+};
+
 const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
   const classes: any = useStyles();
 
-  const getEducationItem = (caption: string, text: string, isBold: boolean) => {
-    return (
-      <Box className={classes.classicEducationItem} mt={isBold ? 2 : 0}>
-        <Typography variant={'caption'} className='caption'>
-          {caption}
-        </Typography>
-        :
-        <Typography
-          variant={'caption'}
-          fontWeight={isBold ? 'bold' : 'normal'}
-          className='text'>
-          {text}
-        </Typography>
-      </Box>
+  const theCB = useCallback((node) => {
+    if (!node || node.children.length > 0) return;
+    const div = document.createElement('div');
+    div.innerHTML = pageSVG;
+    node.appendChild(div);
+    const svgNode = div.children[0];
+    const rects = svgNode.querySelectorAll('g[id]>text');
+    for (let r = 0; r < rects.length; r++)
+      rects[r].previousElementSibling.setAttribute('fill', 'transparent');
+    // setAreaText(svgNode, 'image', userData.image);
+    setAreaText(
+      svgNode,
+      'name',
+      userData.first_name_en + ' ' + userData.last_name_en,
+      'lt',
     );
-  };
+    setAreaText(svgNode, 'phone', userData.mobile, 'lt');
+    setAreaText(svgNode, 'email', userData.email, 'lt');
+    // setAreaText(svgNode, 'address', userData.address);
+    // setAreaText(svgNode, 'education', userData.educations);
+    // setAreaText(svgNode, 'language', userData.languages);
+    setAreaText(svgNode, 'objective', userData.bio_en);
+    // setAreaText(svgNode, 'experience', userData.jobExperiences);
+    // setAreaText(svgNode, 'computerskill', userData.skills);
+  }, []);
 
   return (
     <Slide direction={'right'} in={true}>
-      <Container className={classes.classicRoot}>
-        <Typography
-          className={classes.classicBoldUnderline}
-          variant={'h5'}
-          align={'center'}>
-          Curriculum Vitae
-        </Typography>
-        <Box className={classes.classicPersonalInfoBox}>
-          <CardMedia
-            component={'img'}
-            image={userData.image}
-            className={classes.classicUserImage}
-          />
-          <Box className={classes.classicPersonalInfo}>
-            <Typography
-              className={classes.classicBoldUnderline}
-              variant={'subtitle2'}>
-              {userData.name}
-            </Typography>
-            <Typography className={classes.classicBoldUnderline}>
-              Contact & Address:{' '}
-            </Typography>
-            <Typography>Cell no: {userData.cellNo}</Typography>
-            <Typography>E-mail: {userData.email}</Typography>
-            <Typography>Address: {userData.address}</Typography>
-          </Box>
-        </Box>
-        <Divider orientation={'horizontal'} className={classes.divider} />
-        <Typography variant={'subtitle2'} fontWeight={'bold'} mt={6}>
-          Objective
-        </Typography>
-        <Divider orientation={'horizontal'} className={classes.divider} />
-        <Typography mt={2} sx={{whiteSpace: 'break-spaces'}}>
-          {userData.objective}
-        </Typography>
-        <Typography variant={'subtitle2'} fontWeight={'bold'} mt={6}>
-          Job Experience
-        </Typography>
-        <Divider orientation={'horizontal'} className={classes.divider} />
-
-        {(userData.jobExperiences || []).map(
-          (experience: any, index: number) => {
-            return (
-              <Box key={index} className={classes.classicJobItem}>
-                <Typography
-                  variant={'caption'}
-                  fontWeight={'bold'}
-                  className='text'>
-                  {experience.companyName}
-                </Typography>
-                <Typography variant={'caption'} className='text'>
-                  <Typography variant={'caption'} fontWeight={'bold'}>
-                    Designation:
-                  </Typography>{' '}
-                  {experience.designation}
-                </Typography>
-                <Typography variant={'caption'} className='text'>
-                  <Typography variant={'caption'} fontWeight={'bold'}>
-                    Working year:
-                  </Typography>
-                  {experience.joiningDate +
-                    (experience.leavingDate
-                      ? ' to ' + experience.leavingDate
-                      : 'til now')}
-                </Typography>
-                <Typography variant={'caption'} className='text'>
-                  <Typography variant={'caption'} fontWeight={'bold'}>
-                    Company Phone:
-                  </Typography>
-                  {experience.companyPhone}
-                </Typography>
-                <Typography variant={'caption'} className='text'>
-                  <Typography variant={'caption'} fontWeight={'bold'}>
-                    Company Email:
-                  </Typography>
-                  {experience.companyEmail}
-                </Typography>
-                <Typography variant={'caption'} className='text'>
-                  <Typography variant={'caption'} fontWeight={'bold'}>
-                    Company Website:
-                  </Typography>
-                  {experience.companyWebsite}
-                </Typography>
-                <Typography variant={'caption'} className='text'>
-                  <Typography variant={'caption'} fontWeight={'bold'}>
-                    Description:
-                  </Typography>
-                  {experience.description}
-                </Typography>
-              </Box>
-            );
-          },
-        )}
-
-        <Typography variant={'subtitle2'} fontWeight={'bold'} mt={6}>
-          Education
-        </Typography>
-        <Divider orientation={'horizontal'} className={classes.divider} />
-
-        {(userData.educations || []).map((education: any, index: number) => {
-          return (
-            <React.Fragment key={index}>
-              {education.exam && getEducationItem('Exam', education.exam, true)}
-              {education.board &&
-                getEducationItem('Board', education.board, false)}
-              {education.session &&
-                getEducationItem('Session', education.session, false)}
-              {education.institute &&
-                getEducationItem('Institute', education.institute, false)}
-              {education.result &&
-                getEducationItem('Result', education.result, false)}
-              {education.status &&
-                getEducationItem('Status', education.status, false)}
-            </React.Fragment>
-          );
-        })}
-
-        <Typography variant={'subtitle2'} fontWeight={'bold'} mt={6}>
-          Computer Skill
-        </Typography>
-        <Divider orientation={'horizontal'} className={classes.divider} />
-
-        <Box mt={2}>
-          {(userData.skills || []).map((skill: any, index: number) => {
-            return (
-              <Box key={index} sx={{display: 'flex'}}>
-                #&nbsp;&nbsp;
-                <Typography>{skill}</Typography>
-              </Box>
-            );
-          })}
-        </Box>
-
-        <Typography variant={'subtitle2'} fontWeight={'bold'} mt={6}>
-          Language Proficiency
-        </Typography>
-        <Divider orientation={'horizontal'} className={classes.divider} />
-        <Box mt={2}>
-          {(userData.languages || []).map((language: any, index: number) => {
-            return <Typography key={index}>{language}</Typography>;
-          })}
-        </Box>
-      </Container>
+      <Box
+        className={classes.classicRoot}
+        sx={{padding: '0 !important'}}
+        ref={theCB}
+      />
     </Slide>
   );
 };

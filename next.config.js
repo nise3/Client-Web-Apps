@@ -30,9 +30,18 @@ module.exports = (phase) => {
     ];
   };
 
+  const webpack = (config) => {
+    config.module.rules.push({
+      test: /\.cv.svg$/,
+      use: 'raw-loader',
+    });
+    return config;
+  };
+
   return {
     env,
     images,
     rewrite,
+    webpack,
   };
 };
