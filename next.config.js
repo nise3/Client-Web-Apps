@@ -30,6 +30,14 @@ module.exports = (phase) => {
     ];
   };
 
+  const typescript = {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  };
+
   const webpack = (config) => {
     config.module.rules.push({
       test: /\.cv.svg$/,
@@ -42,6 +50,7 @@ module.exports = (phase) => {
     env,
     images,
     rewrite,
+    typescript,
     webpack,
   };
 };
