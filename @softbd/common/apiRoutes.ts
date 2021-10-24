@@ -44,7 +44,7 @@ export const API_ORGANIZATION_UNIT_HIERARCHY = (organizationUnitId: number) => {
 
 export const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
 export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
-export const API_SKILLS = ORGANIZATION_SERVICE_PATH + '/skills';
+export const API_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 
 export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';

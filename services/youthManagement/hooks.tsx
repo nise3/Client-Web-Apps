@@ -1,18 +1,18 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_YOUTH_JOB_EXPERIENCES,
-  API_YOUTH_PROFILE,
-  API_YOUTH_SKILLS,
-  API_YOUTH_REFERENCES,
-  API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
-  API_YOUTH_EDUCATION,
-  API_YOUTH_PORTFOLIOS,
-  API_YOUTH_CERTIFICATES,
-  API_YOUTH_LANGUAGE_PROFICIENCIES,
-  API_YOUTH_GUARDIANS,
-  API_YOUTH_LIST,
-  API_PUBLIC_COURSE_LIST,
   API_ENROLLED_COURSES,
+  API_PUBLIC_COURSE_LIST,
+  API_YOUTH_CERTIFICATES,
+  API_YOUTH_EDUCATION,
+  API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
+  API_YOUTH_GUARDIANS,
+  API_YOUTH_JOB_EXPERIENCES,
+  API_YOUTH_LANGUAGE_PROFICIENCIES,
+  API_YOUTH_LIST,
+  API_YOUTH_PORTFOLIOS,
+  API_YOUTH_PROFILE,
+  API_YOUTH_REFERENCES,
+  API_YOUTH_SKILLS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -95,8 +95,7 @@ export function useFetchGuardian(guardianId: number | null) {
 
 /** fetches a single youth's details */
 export function useFetchYouthDetails(youthId: number | null) {
-  const youth = useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
-  return youth;
+  return useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
 }
 
 export function useFetchYouths(params: any) {

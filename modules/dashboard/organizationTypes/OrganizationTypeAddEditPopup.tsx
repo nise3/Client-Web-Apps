@@ -33,7 +33,7 @@ interface OrganizationTypeAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  is_government: false,
+  is_government: 0,
   row_status: '1',
 };
 
@@ -55,10 +55,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
+      title_en: yup.string(),
       title: yup
         .string()
         .title()
