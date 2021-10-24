@@ -5,7 +5,7 @@ type RankType = {
   title_en: string;
   title: string;
   description?: string;
-  organization_title_en?: string;
+  description_en?: string;
   row_status?: number | string;
 };
 

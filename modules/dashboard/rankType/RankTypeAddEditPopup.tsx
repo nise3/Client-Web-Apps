@@ -41,6 +41,7 @@ const initialValues = {
   title: '',
   organization_id: '',
   description: '',
+  description_en: '',
   row_status: '1',
 };
 
@@ -64,10 +65,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
+      title_en: yup.string(),
       title: yup
         .string()
         .title()
@@ -103,6 +101,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
         title: itemData?.title,
         organization_id: itemData?.organization_id,
         description: itemData?.description,
+        description_en: itemData?.description_en,
         row_status: String(itemData?.row_status),
       });
     } else {
@@ -189,7 +188,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           />
         </Grid>
         {authUser && isNeedToSelectOrganization(authUser) && (
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomFormSelect
               id='organization_id'
               label={messages['organization.label']}
@@ -207,6 +206,17 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           <CustomTextInput
             id='description'
             label={messages['common.description']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='description_en'
+            label={messages['common.description_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

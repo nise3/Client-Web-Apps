@@ -28,6 +28,15 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -35,11 +44,24 @@ interface ProgrammeAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
+const center_location_type = [
+  {id: 1, title: 'On Institute Premises'},
+  {id: 2, title: 'On Branch Premises'},
+  {id: 3, title: 'On Training Center Premises'},
+];
+
 const initialValues = {
   title_en: '',
   title: '',
   institute_id: '',
   branch_id: '',
+  loc_division_id: '',
+  loc_district_id: '',
+  loc_upazila_id: '',
+  location_latitude: '',
+  location_longitude: '',
+  address_en: '',
+  center_location_type: '',
   address: '',
   google_map_src: '',
   row_status: '1',
@@ -53,6 +75,18 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
+
+  const [divisionsFilter] = useState({});
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
+
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
+
   const {
     data: itemData,
     isLoading,
@@ -67,12 +101,11 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {data: branches, isLoading: isLoadingBranches} =
     useFetchBranches(branchFilters);
 
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -107,10 +140,24 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         branch_id: itemData?.branch_id,
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
+        loc_upazila_id: itemData?.loc_upazila_id,
+        location_latitude: itemData?.location_latitude,
+        location_longitude: itemData?.location_longitude,
+        address_en: itemData?.address_en,
+        center_location_type: itemData?.center_location_type,
         address: itemData?.address,
         google_map_src: itemData?.google_map_src,
         row_status: String(itemData?.row_status),
       });
+
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
+      );
 
       setBranchFilters({
         institute_id: itemData?.institute_id,
@@ -119,7 +166,23 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
+
+  /** Methods called on changing the division and districts in dropdown */
+  const changeDivisionAction = useCallback(
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
+    },
+    [districts],
+  );
+
+  const changeDistrictAction = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
 
   const handleInstituteChange = useCallback((instituteId: number) => {
     setBranchFilters({
@@ -231,12 +294,71 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
+          <CustomFormSelect
+            id='center_location_type'
+            label={messages['training_center.centerLocationType']}
+            isLoading={isLoading}
+            control={control}
+            options={center_location_type}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <CustomTextInput
             id='address'
             label={messages['common.address']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='address_en'
+            label={messages['common.address_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoadingDivisions}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDivisionAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoadingDistricts}
+            control={control}
+            options={districtsList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDistrictAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={isLoadingUpazilas}
+            control={control}
+            options={upazilasList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={6}>

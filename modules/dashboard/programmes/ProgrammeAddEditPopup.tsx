@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -38,6 +38,8 @@ const initialValues = {
   title_en: '',
   title: '',
   institute_id: '',
+  description_en: '',
+  logo: '',
   code: '',
   description: '',
   row_status: '1',
@@ -62,10 +64,6 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -75,10 +73,6 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['institute.label'] as string),
-      code: yup
-        .string()
-        .required()
-        .label(messages['common.code'] as string),
       logo: yup.string(),
       row_status: yup.string(),
     });
@@ -216,7 +210,27 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='description_en'
+            label={messages['common.description_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <input
+            id='logo'
+            name='btn-upload'
+            style={{display: 'none'}}
+            type='file'
+          />
+          <Button className='btn-choose' variant='outlined' component='span'>
+            Logo
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
           <FormRowStatus
             id='row_status'
             control={control}

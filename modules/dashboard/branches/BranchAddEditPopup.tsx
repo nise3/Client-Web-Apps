@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState, useCallback} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -27,6 +27,15 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -39,6 +48,9 @@ const initialValues = {
   title: '',
   institute_id: '',
   address: '',
+  loc_division_id: '',
+  loc_district_id: '',
+  loc_upazila_id: '',
   google_map_src: '',
   row_status: '1',
 };
@@ -51,6 +63,18 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const isEdit = itemId != null;
+
+  const [divisionsFilter] = useState({});
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
+
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
+
   const {
     data: itemData,
     isLoading,
@@ -60,12 +84,11 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const {data: institutes, isLoading: isLoadingInstitutes} =
     useFetchInstitutes(instituteFilters);
 
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -94,13 +117,40 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         address: itemData?.address,
+        address_en: itemData?.address_en,
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
+        loc_upazila_id: itemData?.loc_upazila_id,
         google_map_src: itemData?.google_map_src,
         row_status: String(itemData?.row_status),
       });
+
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
+      );
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
+
+  /** Methods called on changing the division and districts in dropdown */
+  const changeDivisionAction = useCallback(
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
+    },
+    [districts],
+  );
+
+  const changeDistrictAction = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
 
   const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
     const response = itemId
@@ -200,6 +250,53 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
+          <CustomTextInput
+            id='address_en'
+            label={messages['common.address_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoadingDivisions}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDivisionAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoadingDistricts}
+            control={control}
+            options={districtsList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDistrictAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={isLoadingUpazilas}
+            control={control}
+            options={upazilasList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12}>
           <CustomTextInput
             id='google_map_src'
             label={messages['common.google_map_src']}
