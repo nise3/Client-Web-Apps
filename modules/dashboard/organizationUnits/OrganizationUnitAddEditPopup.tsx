@@ -3,7 +3,6 @@ import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -39,6 +38,10 @@ import {
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -88,10 +91,10 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     });
   const [serviceFilters] = useState({row_status: RowStatus.ACTIVE});
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
-  const [districtsFilter, setDistrictsFilter] = useState<any>({
+  const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const [upazilasFilter, setUpazilasFilter] = useState<any>({
+  const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: organizations, isLoading: isLoadingOrganization} =
@@ -111,15 +114,14 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const {data: services, isLoading: isLoadingServices} =
     useFetchOrganizationServices(serviceFilters);
 
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title('bn')
+        .title()
         .label(messages['common.title'] as string),
       organization_id:
         authUser && authUser.isSystemUser
@@ -133,40 +135,6 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['organization_unit_type.label'] as string),
-      email: yup
-        .string()
-        .email()
-        .trim()
-        .required()
-        .label(messages['common.email'] as string),
-      mobile: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.mobile'] as string)
-        .matches(MOBILE_NUMBER_REGEX),
-      contact_person_name: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.contact_person_name'] as string),
-      contact_person_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.contact_person_mobile'] as string)
-        .matches(MOBILE_NUMBER_REGEX),
-      contact_person_email: yup
-        .string()
-        .email()
-        .trim()
-        .required()
-        .label(messages['common.contact_person_email'] as string),
-      contact_person_designation: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.contact_person_designation'] as string),
       employee_size: yup
         .string()
         .trim()
@@ -196,25 +164,32 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         loc_division_id: itemData?.loc_division_id,
         loc_district_id: itemData?.loc_district_id,
         loc_upazila_id: itemData?.loc_upazila_id,
+        address: itemData?.address,
+        address_en: itemData?.address_en,
+        location_latitude: itemData?.location_latitude,
+        location_longitude: itemData?.location_longitude,
+        google_map_src: itemData?.google_map_src,
         email: itemData?.email,
         mobile: itemData?.mobile,
         fax_no: itemData?.fax_no,
         contact_person_name: itemData?.contact_person_name,
+        contact_person_name_en: itemData?.contact_person_name_en,
         contact_person_mobile: itemData?.contact_person_mobile,
         contact_person_email: itemData?.contact_person_email,
         contact_person_designation: itemData?.contact_person_designation,
+        contact_person_designation_en: itemData?.contact_person_designation_en,
         employee_size: itemData?.employee_size,
         services: getServiceIds(itemData?.services),
         row_status: String(itemData?.row_status),
       });
-      setDistrictsFilter({
-        division_id: itemData?.loc_division_id,
-        row_status: RowStatus.ACTIVE,
-      });
-      setUpazilasFilter({
-        district_id: itemData?.loc_district_id,
-        row_status: RowStatus.ACTIVE,
-      });
+
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
+      );
+
       setOrganizationUnitTypeFilters({
         organization_id: itemData?.organization_id,
         row_status: RowStatus.ACTIVE,
@@ -228,7 +203,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       }
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
   const onOrganizationChange = useCallback(
     (organizationId: number | null) => {
@@ -240,25 +215,21 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     [organizationFilters],
   );
 
+  /** Methods called on changing the division and districts in dropdown */
   const onDivisionChange = useCallback(
-    (divisionId: number | null) => {
-      if (divisionId) {
-        setDistrictsFilter({
-          division_id: divisionId,
-          row_status: RowStatus.ACTIVE,
-        });
-      } else {
-      }
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
     },
-    [districtsFilter],
+    [districts],
   );
 
-  const onDistrictChange = useCallback((districtId: number | null) => {
-    setUpazilasFilter({
-      district_id: itemData?.loc_district_id,
-      row_status: RowStatus.ACTIVE,
-    });
-  }, []);
+  const onDistrictChange = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
 
   const getServiceIds = (services: Array<Service>) => {
     return services.map((item: Service) => item.id);
@@ -345,8 +316,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -354,8 +325,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title'
-            label={messages['common.title']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -389,6 +360,33 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
+          <CustomTextInput
+            id='email'
+            label={messages['common.email']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='mobile'
+            label={messages['common.mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='fax_no'
+            label={messages['common.fax_no']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <CustomFormSelect
             id='loc_division_id'
             label={messages['divisions.label']}
@@ -407,7 +405,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             label={messages['districts.label']}
             isLoading={isLoadingDistricts}
             control={control}
-            options={districts}
+            options={districtsList}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
@@ -420,7 +418,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             label={messages['upazilas.label']}
             isLoading={isLoadingUpazilas}
             control={control}
-            options={upazilas}
+            options={upazilasList}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
@@ -428,8 +426,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='email'
-            label={messages['common.email']}
+            id='address'
+            label={messages['common.address']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -437,8 +435,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='fax_no'
-            label={messages['common.fax_no']}
+            id='address_en'
+            label={messages['common.address_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -446,8 +444,17 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='mobile'
-            label={messages['common.mobile']}
+            id='location_latitude'
+            label={messages['common.location_latitude']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='location_longitude'
+            label={messages['common.location_longitude']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -457,6 +464,15 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           <CustomTextInput
             id='contact_person_name'
             label={messages['common.contact_person_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='contact_person_name_en'
+            label={messages['common.contact_person_name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -491,10 +507,28 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            id='contact_person_designation_en'
+            label={messages['common.contact_person_designation_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
             id='employee_size'
             label={messages['organization_unit.employee_size']}
             register={register}
             type='number'
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='google_map_src'
+            label={messages['common.google_map_src']}
+            register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />

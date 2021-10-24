@@ -1,8 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-
-const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programmes';
+import {API_PROGRAMMES} from '../../@softbd/common/apiRoutes';
 
 export const getAllProgrammes = async (params = {}) => {
   try {

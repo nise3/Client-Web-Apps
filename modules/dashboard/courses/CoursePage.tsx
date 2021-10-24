@@ -88,7 +88,7 @@ const CoursePage = () => {
       },
       {
         Header: messages['institute.label'],
-        accessor: 'institute_title_en',
+        accessor: 'institute_title',
       },
       {
         Header: messages['course.fee'],

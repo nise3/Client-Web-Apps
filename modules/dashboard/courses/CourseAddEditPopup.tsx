@@ -30,6 +30,8 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
+import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -38,20 +40,16 @@ interface CourseAddEditPopupProps {
 }
 
 const initialValues = {
-  id: '',
-  title_en: '',
   title: '',
   institute_id: '',
+  branch_id: '',
+  programme_id: '',
+  level: '',
+  language_medium: '',
   code: '',
   course_fee: '',
   duration: '',
-  description: '',
-  objectives: '',
-  target_group: '',
-  eligibility: '',
-  prerequisite: '',
-  training_methodology: '',
-  contents: '',
+  skills: [],
   row_status: '1',
 };
 
@@ -83,12 +81,17 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {data: programmes, isLoading: isLoadingProgrammes} =
     useFetchProgrammes(programmeFilters);
 
+  const [youthSkillsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: skills, isLoading: isLoadingSkills} =
+    useFetchYouthSkills(youthSkillsFilter);
+
+  const [configItemsState, setConfigItemsState] = useState<any>([]);
+  const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -107,17 +110,98 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['course.fee'] as string),
-      duration: yup.string(),
-      description: yup.string(),
-      target_group: yup.string(),
-      objectives: yup.string(),
-      training_methodology: yup.string(),
-      evaluation_system: yup.string(),
-      prerequisite: yup.string(),
-      eligibility: yup.string(),
-      cover_image: yup.string(),
+      level: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['course.course_level'] as string),
+      language_medium: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['course.language_medium'] as string),
+      skills: yup
+        .array()
+        .of(yup.number())
+        .min(1)
+        .label(messages['common.skills'] as string),
     });
   }, [messages]);
+
+  const configItemList = useMemo(
+    () => [
+      {
+        key: 'ethnic_group_info',
+        label: messages['course.ethnic_group_info'],
+      },
+      {
+        key: 'freedom_fighter_info',
+        label: messages['course.freedom_fighter_info'],
+      },
+      {
+        key: 'disability_info',
+        label: messages['course.disability_info'],
+      },
+      {
+        key: 'ssc_passing_info',
+        label: messages['course.ssc_passing_info'],
+      },
+      {
+        key: 'hsc_passing_status',
+        label: messages['course.hsc_passing_status'],
+      },
+      {
+        key: 'honors_passing_info',
+        label: messages['course.honors_passing_info'],
+      },
+      {
+        key: 'masters_passing_info',
+        label: messages['course.masters_passing_info'],
+      },
+      {
+        key: 'occupation_info',
+        label: messages['course.occupation_info'],
+      },
+      {
+        key: 'guardian_info',
+        label: messages['course.guardian_info'],
+      },
+    ],
+    [messages],
+  );
+
+  const levels = useMemo(
+    () => [
+      {
+        id: LEVEL.BEGINNER,
+        label: messages['level.beginner'],
+      },
+      {
+        id: LEVEL.INTERMEDIATE,
+        label: messages['level.intermediate'],
+      },
+      {
+        id: LEVEL.EXPERT,
+        label: messages['level.expert'],
+      },
+    ],
+    [messages],
+  );
+
+  const languageMedium = useMemo(
+    () => [
+      {
+        id: LANGUAGE_MEDIUM.BN,
+        label: messages['language.bn'],
+      },
+      {
+        id: LANGUAGE_MEDIUM.EN,
+        label: messages['language.en'],
+      },
+    ],
+    [messages],
+  );
+
   const {
     control,
     register,
@@ -134,18 +218,30 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        institute_id: itemData?.institute_id,
         code: itemData?.code,
+        institute_id: itemData?.institute_id,
+        branch_id: itemData?.branch_id,
+        program_id: itemData?.program_id,
+        level: itemData?.level,
+        language_medium: itemData?.language_medium,
         course_fee: itemData?.course_fee,
         duration: itemData?.duration,
-        description: itemData?.description,
+        overview: itemData?.overview,
+        overview_en: itemData?.overview_en,
         objectives: itemData?.objectives,
+        objectives_en: itemData?.objectives_en,
         target_group: itemData?.target_group,
-        eligibility: itemData?.eligibility,
-        prerequisite: itemData?.prerequisite,
+        target_group_en: itemData?.target_group_en,
         training_methodology: itemData?.training_methodology,
-        contents: itemData?.contents,
+        training_methodology_en: itemData?.training_methodology_en,
+        evaluation_system: itemData?.evaluation_system,
+        evaluation_system_en: itemData?.evaluation_system_en,
+        eligibility: itemData?.eligibility,
+        eligibility_en: itemData?.eligibility_en,
+        prerequisite: itemData?.prerequisite,
+        prerequisite_en: itemData?.prerequisite_en,
         row_status: String(itemData?.row_status),
+        skills: getSkillIds(itemData?.skills),
       });
       setValuesOfConfigs(itemData?.application_form_settings);
     } else {
@@ -153,50 +249,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const [configItemsState, setConfigItemsState] = useState<any>([]);
-  const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
-
-  const configItemList = useMemo(
-    () => [
-      {
-        key: 'ethnic_group_info',
-        label: messages['batches.ethnic_group_info'],
-      },
-      {
-        key: 'freedom_fighter_info',
-        label: messages['batches.freedom_fighter_info'],
-      },
-      {
-        key: 'disability_info',
-        label: messages['batches.disability_info'],
-      },
-      {
-        key: 'ssc_passing_info',
-        label: messages['batches.ssc_passing_info'],
-      },
-      {
-        key: 'hsc_passing_status',
-        label: messages['batches.hsc_passing_status'],
-      },
-      {
-        key: 'honors_passing_info',
-        label: messages['batches.honors_passing_info'],
-      },
-      {
-        key: 'masters_passing_info',
-        label: messages['batches.masters_passing_info'],
-      },
-      {
-        key: 'occupation_info',
-        label: messages['batches.occupation_info'],
-      },
-      {
-        key: 'guardian_info',
-        label: messages['batches.guardian_info'],
-      },
-    ],
-    [messages],
-  );
+  const getSkillIds = (skills: any) => {
+    return skills.map((item: any) => item.id);
+  };
 
   const setValuesOfConfigs = (config: string | undefined | null) => {
     try {
@@ -302,7 +357,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -311,7 +366,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='title_en'
             label={messages['common.title_en']}
@@ -320,7 +375,34 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='code'
+            label={messages['course.code']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3} md={3}>
+          <CustomTextInput
+            id='course_fee'
+            label={messages['course.fee']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3} md={3}>
+          <CustomTextInput
+            id='duration'
+            label={messages['course.duration']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
@@ -333,7 +415,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             onChange={onInstituteChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
@@ -346,7 +428,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='programme_id'
             label={messages['programme.label']}
@@ -359,34 +441,71 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomFormSelect
+            id='skills'
+            label={messages['common.select_your_skills']}
+            isLoading={isLoadingSkills}
+            control={control}
+            options={skills}
+            multiple={true}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            defaultValue={[]}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomFormSelect
+            id='level'
+            label={messages['course.course_level']}
+            isLoading={false}
+            control={control}
+            options={levels}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomFormSelect
+            id='language_medium'
+            label={messages['course.language_medium']}
+            isLoading={false}
+            control={control}
+            options={languageMedium}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
-            id='code'
-            label={messages['course.code']}
+            id='overview'
+            label={messages['course.overview']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
-            id='course_fee'
-            label={messages['course.fee']}
+            id='overview_en'
+            label={messages['course.overview_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='duration'
-            label={messages['course.duration']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='target_group'
             label={messages['course.target_group']}
@@ -397,7 +516,19 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='target_group_en'
+            label={messages['course.target_group_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='objectives'
             label={messages['course.objectives']}
@@ -408,10 +539,11 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
-            id='contents'
-            label={messages['course.contents']}
+            id='objectives_en'
+            label={messages['course.objectives_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -419,7 +551,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='training_methodology'
             label={messages['course.training_methodology']}
@@ -430,7 +563,44 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='training_methodology_en'
+            label={messages['course.training_methodology_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='evaluation_system'
+            label={messages['course.evaluation_system']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='evaluation_system_en'
+            label={messages['course.evaluation_system_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='prerequisite'
             label={messages['course.prerequisite']}
@@ -441,7 +611,20 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='prerequisite_en'
+            label={messages['course.prerequisite_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='eligibility'
             label={messages['course.eligibility']}
@@ -452,10 +635,11 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
-            id='description'
-            label={messages['common.description']}
+            id='eligibility_en'
+            label={messages['course.eligibility_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -463,7 +647,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <FormRowStatus
             id='row_status'
             control={control}
@@ -483,7 +667,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           </Button>
         </Grid>
         <Grid item container xs={12}>
-          {/*/////////////////////////////*/}
           {configItemList.map((item: any, index: any) => {
             let states = [...configItemsState];
             return (

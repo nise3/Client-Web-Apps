@@ -29,6 +29,7 @@ import {
 import IconHumanResource from '../../../@softbd/icons/IconHumanResource';
 import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {Grid} from '@mui/material';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface HumanResourceAddEditPopupProps {
   itemId: number | null;
@@ -54,18 +55,15 @@ const initialValues = {
 const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
+  isEdit,
+  organizationUnitId: orgUnitId,
   ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const isEdit = props.isEdit;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -75,19 +73,18 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['organization.label'] as string),
-      parent_id: yup.string(),
-      rank_id: yup.string(),
-      display_order: yup.string(),
-      is_designation: yup
-        .string()
-        .required()
-        .label(messages['human_resource_template.is_designation'] as string),
       organization_unit_id: yup
         .string()
         .required()
         .label(messages['organization_unit_type.label'] as string),
-      status: yup.string(),
-      row_status: yup.string(),
+      display_order: yup
+        .string()
+        .required()
+        .label(messages['organization.label'] as string),
+      is_designation: yup
+        .string()
+        .required()
+        .label(messages['human_resource_template.is_designation'] as string),
     });
   }, [messages]);
   const {
@@ -113,9 +110,13 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   } = useFetchHumanResource(itemId);
 
   const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
-    useFetchOrganizationUnit(props.organizationUnitId);
-  const [rankFilter] = useState({});
-  const [humanResourceFilter] = useState({});
+    useFetchOrganizationUnit(orgUnitId);
+  const [rankFilter] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+  const [humanResourceFilter] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
   const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
   const {data: humanResources, isLoading: isHumanResourcesLoading} =
     useFetchHumanResources(humanResourceFilter);
@@ -166,7 +167,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         humanResourceData.organization_unit_id;
       initialValues.parent_id = humanResourceData.id;
       reset(initialValues);
-    } else if (props.organizationUnitId && organizationUnitData) {
+    } else if (orgUnitId && organizationUnitData) {
       // when hierarchy tree is empty
       setOrganizationUnitId(organizationUnitId);
       setOrganization({
@@ -184,7 +185,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       initialValues.parent_id = '';
       reset(initialValues);
     }
-  }, [itemId]);
+  }, [itemId, humanResourceData, organizationUnitData]);
 
   const onSubmit: SubmitHandler<HumanResource> = async (
     data: HumanResource,
@@ -339,7 +340,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             control={control}
             options={ranks}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title', 'title_en']}
             errorInstance={errors}
           />
         </Grid>
