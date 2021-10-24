@@ -85,7 +85,7 @@ const PopularCourse = () => {
   const classes = useStyles();
   const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={6} key={key}>
+      <Box mr={1} key={key}>
         <Card className={classes.courseItem}>
           <Typography>
             <Box
@@ -135,7 +135,7 @@ const PopularCourse = () => {
   };
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
+      <Container maxWidth='lg'>
         <Typography variant='h5'>
           <Box
             style={{marginBottom: '50px', marginTop: '50px'}}

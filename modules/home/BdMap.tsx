@@ -44,7 +44,7 @@ const BdMap = () => {
 
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
+      <Container maxWidth='lg' disableGutters>
         <SectionTitle title='ম্যাপ' center={true}></SectionTitle>
 
         <Box

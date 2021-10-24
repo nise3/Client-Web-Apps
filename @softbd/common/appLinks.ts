@@ -6,6 +6,8 @@ export const LINK_ORGANIZATION_SIGNUP = '/organization-registration';
 export const LINK_YOUTH_REGISTRATION_VERIFICATION =
   '/registration-verification';
 
+export const LINK_DASHBOARD = '/dashboard';
+
 /**  User Role Permission links */
 export const LINK_PERMISSION = '/dashboard/permissions';
 export const LINK_PERMISSION_GROUP = '/dashboard/permission-groups';

@@ -9,7 +9,6 @@ import {Link} from '../../@softbd/elements/common';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      position: 'relative',
       padding: '50px',
       background: '#682988',
       color: '#fff',
@@ -57,12 +56,8 @@ const Nise3WorkProcess = () => {
   const classes = useStyles();
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='md' disableGutters>
-        <Grid
-          container
-          spacing={4}
-          justifyContent='space-around'
-          alignItems='center'>
+      <Container maxWidth='lg' style={{position: 'relative'}}>
+        <Grid container spacing={4} justifyContent='space-between'>
           <Grid item xs={12} md={6}>
             <Fade direction='down'>
               <Typography variant='h4' gutterBottom={true}>
@@ -90,6 +85,7 @@ const Nise3WorkProcess = () => {
               </Link>
             </Fade>
           </Grid>
+
           <Grid item xs={12} md={4}>
             <iframe
               className={classes.youtubePlayerMobileView}

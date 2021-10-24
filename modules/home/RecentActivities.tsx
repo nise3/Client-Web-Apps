@@ -57,7 +57,7 @@ const RecentActivities = () => {
   const {messages} = useIntl();
 
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth={'lg'}>
       <Grid container>
         <Grid item md={12} mt={8}>
           <Typography

@@ -12,13 +12,12 @@ import {CastForEducation, ExitToApp, Home} from '@mui/icons-material';
 // import WorkIcon from '@mui/icons-material/Work';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import {Button, useMediaQuery} from '@mui/material';
+import {Button, Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
 // import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
-import HorUserInfo from '../../shared/HorUserInfo';
 import {Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_NISE_ROOT,
@@ -30,6 +29,8 @@ import {
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
 import {useIntl} from 'react-intl';
+import Hidden from '../../../elements/Hidden';
+import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 
 interface AppHeaderProps {}
 
@@ -105,7 +106,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
         <Toolbar className={classes.headerMain}>
-          <Box className={classes.headerContainer}>
+          <Container maxWidth={'lg'}>
             <Box className={classes.headerMainFlex}>
               <AppLogo height={isMDDown ? 40 : 60} />
               <Box className={classes.grow} />
@@ -157,7 +158,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               </Box>
 
               {authUser ? (
-                <HorUserInfo />
+                <GotoDashboardButton />
               ) : (
                 <Button
                   variant='contained'
@@ -167,19 +168,21 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   {messages['common.registration_login']}
                 </Button>
               )}
-              <Box ml={1} className={classes.sectionMobile}>
-                <IconButton
-                  aria-label='show more'
-                  aria-controls={mobileMenuId}
-                  aria-haspopup='true'
-                  onClick={handleMobileMenuOpen}
-                  color='inherit'
-                  size='large'>
-                  <MoreIcon />
-                </IconButton>
-              </Box>
+              <Hidden mdUp>
+                <Box className={classes.sectionMobile}>
+                  <IconButton
+                    aria-label='show more'
+                    aria-controls={mobileMenuId}
+                    aria-haspopup='true'
+                    onClick={handleMobileMenuOpen}
+                    color='inherit'
+                    size='large'>
+                    <MoreIcon />
+                  </IconButton>
+                </Box>
+              </Hidden>
             </Box>
-          </Box>
+          </Container>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

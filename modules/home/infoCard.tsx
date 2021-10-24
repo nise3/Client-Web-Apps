@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '-18px',
       backgroundColor: '#fff',
       padding: '30px 5px 5px 5px',
+      boxShadow: '1px 1px 10px #dfdfdf',
     },
     logo: {
       height: '20px',

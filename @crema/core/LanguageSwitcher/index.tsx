@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     height: 56,
     fontSize: 16,
     borderRadius: 0,
-    paddingLeft: '0.45rem',
-    paddingRight: '1rem',
     paddingTop: '0.25rem',
     paddingBottom: '0.25rem',
     marginTop: '-10px',
@@ -46,14 +44,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
     [theme.breakpoints.up('lg')]: {
       fontSize: 14,
-      paddingLeft: '0.75rem',
-      paddingRight: '1.5rem',
       paddingTop: '0.75rem',
       paddingBottom: '0.75rem',
-    },
-    [theme.breakpoints.up('xl')]: {
-      paddingLeft: '1.25rem',
-      paddingRight: '2.5rem',
     },
     '&.langIconOnly': {
       paddingLeft: '0.8rem',
@@ -92,13 +84,10 @@ interface LanguageSwitcherProps {
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   iconOnly = false,
 }) => {
-  const {changeLocale, rtlLocale, locale, setRTL} = useContext<
-    AppContextPropsType
-  >(AppContext);
-  const [
-    anchorElLng,
-    setAnchorElLng,
-  ] = React.useState<HTMLButtonElement | null>(null);
+  const {changeLocale, rtlLocale, locale, setRTL} =
+    useContext<AppContextPropsType>(AppContext);
+  const [anchorElLng, setAnchorElLng] =
+    React.useState<HTMLButtonElement | null>(null);
 
   const onClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElLng(event.currentTarget);
@@ -130,14 +119,13 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         aria-haspopup='true'
         onClick={onClickMenu}
         color='inherit'
-        size="large">
+        size='large'>
         {!iconOnly ? (
           <>
             <Box
               component='span'
-              mr={{xs: 2, md: 3}}
+              mr={{xs: 2}}
               height={48}
-              width={48}
               display='flex'
               alignItems='center'
               justifyContent='center'
@@ -168,16 +156,11 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         onClose={() => setAnchorElLng(null)}>
         {languageData.map((language: LanguageProps, index) => (
           <MenuItem key={index} onClick={() => changeLanguage(language)}>
-            <Box
-              width={160}
-              display='flex'
-              flexDirection='row'
-              alignItems='center'>
+            <Box display='flex' flexDirection='row' alignItems='center'>
               <i className={`flag flag-24 flag-${language.icon}`} />
               <Box
                 component='h4'
-                ml={4}
-                mb={0}
+                ml={2}
                 fontSize={{xs: 14, xl: 16}}
                 fontWeight={Fonts.MEDIUM}>
                 {language.name}

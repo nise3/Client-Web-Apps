@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Card, CardMedia, Container, Grid, Typography} from '@mui/material';
+import {Box, Card, CardMedia, Container, Grid} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -115,7 +115,7 @@ const CoverArea = () => {
     <>
       <Grid container>
         <Grid item xs={12} className={classes.root}>
-          <Container maxWidth='md'>
+          <Container maxWidth='lg'>
             <Box pt={6}>
               <Fade direction='up'>
                 <H4>
@@ -142,47 +142,36 @@ const CoverArea = () => {
           </Container>
         </Grid>
         <Grid container className={classes.trendWrapper}>
-          <Container maxWidth='md'>
+          <Grid item xs={12}>
             <Slide direction='down'>
-              <Grid item container xs={12} md={8} spacing={2}>
-                <Grid item xs={12} md={2}>
-                  <Box>
-                    <Typography variant='h6' gutterBottom={true}>
-                      ট্রেন্ড সার্চ
-                    </Typography>
-                  </Box>
+              <Container maxWidth={'lg'}>
+                <Grid item xs={12}>
+                  <H6 my={2}>ট্রেন্ড সার্চ</H6>
                 </Grid>
-                <TrendSearchItemList
-                  searchItems={[
-                    'গ্রাফিক্স ডিজাইন',
-                    'ওয়েব ডিজাইন',
-                    'ইউ-আই/এক্স',
-                    'হেলথ কেয়ার জব',
-                  ]}
-                />
-              </Grid>
+                <Grid item xs={12}>
+                  <TrendSearchItemList
+                    searchItems={[
+                      'গ্রাফিক্স ডিজাইন',
+                      'ওয়েব ডিজাইন',
+                      'ইউ-আই/এক্স',
+                      'হেলথ কেয়ার জব',
+                    ]}
+                  />
+                </Grid>
+              </Container>
             </Slide>
-          </Container>
-
-          <Card>
-            <CardMedia
-              component='img'
-              alt='green iguana'
-              height='140'
-              image='/images/cover-area.png'
-              className={classes.coverImage}
-            />
-          </Card>
-
-          {/*<Grid item container md={4} sm={12}>*/}
-          {/*  /!*<Zoom>*!/*/}
-          {/*  <img*/}
-          {/*    src='/images/cover-area.png'*/}
-          {/*    alt='crema-logo'*/}
-          {/*    // className={classes.coverImage}*/}
-          {/*  />*/}
-          {/*  /!*</Zoom>*!/*/}
-          {/*</Grid>*/}
+          </Grid>
+          <Grid item xs={12} mt={5}>
+            <Card>
+              <CardMedia
+                component='img'
+                alt='green iguana'
+                height='140'
+                image='/images/cover-area.png'
+                className={classes.coverImage}
+              />
+            </Card>
+          </Grid>
         </Grid>
       </Grid>
     </>

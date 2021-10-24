@@ -14,12 +14,13 @@ export interface AuthUser {
   username: string;
   authType: AuthType;
   photoURL?: string;
-}
-
-export interface CommonAuthUser extends AuthUser {
+  isYouthUser: boolean;
   isSystemUser: boolean;
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
+}
+
+export interface CommonAuthUser extends AuthUser {
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: Institute | any;
@@ -30,7 +31,6 @@ export interface CommonAuthUser extends AuthUser {
 }
 
 export interface YouthAuthUser extends AuthUser {
-  isYouthUser: boolean;
   first_name: string;
   first_name_en?: string;
   last_name: string;
