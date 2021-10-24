@@ -28,7 +28,7 @@ const PopularCoursesSection = ({
     setCourseFilters(objectFilter({...courseFilters, ...filters}));
   }, [filters]);
 
-  const pathVariable = '/popular';
+  const pathVariable = 'popular';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
 
   return courseList && courseList.length ? (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   Button,
   Card,
@@ -8,12 +8,12 @@ import {
   TextField,
 } from '@mui/material';
 import Tile from './components/Tile';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {makeStyles} from '@mui/styles';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
+import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
-const useStyles = makeStyles((theme: CremaTheme): any => ({
+const useStyles = makeStyles((): any => ({
   searchBox: {
     padding: '10px',
     alignItems: 'center',
@@ -38,9 +38,16 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
   },
 }));
 
-const OverviewSection = () => {
+interface OverviewSectionProps {
+  addFilter: (filterKey: string, filterValue: number) => void;
+}
+const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const classes: any = useStyles();
   const {messages} = useIntl();
+  const [selectedUpazilaId, setSelectedUpazilaId] = useState<any>('');
+  const [upazilasFilter] = useState({});
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const searchTextField = useRef<any>();
 
   const overviewItems = [
     {
@@ -75,6 +82,14 @@ const OverviewSection = () => {
     },
   ];
 
+  const handleUpazilaChange = useCallback(
+    (event: any) => {
+      setSelectedUpazilaId(event.target.value);
+      addFilter('upazila_id', event.target.value);
+    },
+    [selectedUpazilaId],
+  );
+
   return (
     <>
       <Grid container spacing={5}>
@@ -104,6 +119,7 @@ const OverviewSection = () => {
                 md={7}
                 sx={{display: 'flex', alignItems: 'center'}}>
                 <TextField
+                  inputRef={searchTextField}
                   variant='outlined'
                   name='searchBox'
                   placeholder={messages['common.searchHere'] as string}
@@ -124,15 +140,23 @@ const OverviewSection = () => {
                   disableUnderline
                   className='selectColor'
                   style={{width: 'calc(100% - 40px)'}}
-                  color={'primary'}>
-                  <option>{messages['common.location']}</option>
+                  color={'primary'}
+                  onChange={handleUpazilaChange}>
+                  <option value={''}>{messages['common.location']}</option>
+                  {upazilas &&
+                    upazilas.map((upazila: any) => (
+                      <option value={upazila.id}>{upazila.title}</option>
+                    ))}
                 </NativeSelect>
               </Grid>
               <Grid item xs={6} sm={6} md={2}>
                 <Button
                   variant='contained'
                   color={'primary'}
-                  className={classes.searchButton}>
+                  className={classes.searchButton}
+                  onClick={useCallback(() => {
+                    addFilter('search_text', searchTextField.current.value);
+                  }, [])}>
                   {messages['common.search']}
                 </Button>
               </Grid>

@@ -43,7 +43,7 @@ const SkillMatchingCoursesSection = ({
     setCourseFilters(objectFilter({...courseFilters, ...filters}));
   }, [filters]);
 
-  const pathValue = '/skill-matching';
+  const pathValue = 'skill-matching';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
   return courseList && courseList.length ? (
     <Grid container spacing={5}>

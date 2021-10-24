@@ -5,6 +5,8 @@ import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
+import Link from 'next/link';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../../@softbd/common/appLinks';
 
 interface CourseInfoBlockProps {
   course: any;
@@ -47,11 +49,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     color: theme.palette.grey['600'],
     display: 'inline',
   },
-  chipStyle: {
-    borderRadius: 4,
-    background: '#e4e4e4',
-    marginRight: 8,
-  },
+
   enrollButton: {
     display: 'flex',
     alignItems: 'flex-end',
@@ -61,7 +59,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     marginTop: 15,
     marginBottom: 15,
   },
-  tagChip: {
+  tagChipStyle: {
     marginBottom: 0,
   },
 }));
@@ -122,23 +120,27 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
 
             <Grid item xs={12}>
               <Grid container sx={{alignItems: 'flex-end'}}>
-                <Grid item xs={8} className={classes.tagChip}>
+                <Grid item xs={8}>
                   <TagChip
                     label={courseDuration(course?.duration)}
-                    key={course.id}
+                    className={classes.tagChipStyle}
                   />
                   <TagChip
                     label={Math.floor(Math.random() * 10 + 6) + ' lessons'}
-                    key={course.id}
+                    className={classes.tagChipStyle}
                   />
                 </Grid>
                 <Grid item xs={4} className={classes.enrollButton}>
-                  <Button
-                    variant={'contained'}
-                    color={'primary'}
-                    size={'medium'}>
-                    Enroll Now
-                  </Button>
+                  <Link
+                    href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}
+                    passHref>
+                    <Button
+                      variant={'contained'}
+                      color={'primary'}
+                      size={'medium'}>
+                      Enroll Now
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>

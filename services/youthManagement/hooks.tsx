@@ -13,6 +13,7 @@ import {
   API_YOUTH_LIST,
   API_PUBLIC_COURSE_LIST,
   API_ENROLLED_COURSES,
+  API_PUBLIC_ALL_COURSE_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -120,6 +121,10 @@ export function useFetchCourseList(pathVariable: string, params: any) {
       : API_PUBLIC_COURSE_LIST,
     params,
   ]);
+}
+
+export function useFetchAllCourseList(params: any) {
+  return useAxiosSWR([API_PUBLIC_ALL_COURSE_LIST, params]);
 }
 
 export function useFetchYouthCourses(params: any) {

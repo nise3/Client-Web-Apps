@@ -25,7 +25,7 @@ const TrendingCoursesSection = ({
     page_size: page_size ? page_size : null,
   });
 
-  const pathVariable = '/trending';
+  const pathVariable = 'trending';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
 
   useEffect(() => {
