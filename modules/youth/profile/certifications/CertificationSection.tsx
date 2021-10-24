@@ -10,6 +10,8 @@ import {useFetchYouthCertificates} from '../../../../services/youthManagement/ho
 import ContentLayout from '../component/ContentLayout';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import Certifications from './Certifications';
+import HorizontalLine from '../component/HorizontalLine';
+import {Avatar, Box, Typography} from '@mui/material';
 
 const CertificationSection = () => {
   const {messages} = useIntl();
@@ -70,11 +72,23 @@ const CertificationSection = () => {
           onClick={() => openCertificateAddEditForm(null)}
         />
       }>
-      <Certifications
-        certificates={certificates}
-        onEditClick={openCertificateAddEditForm}
-        onDeleteClick={deleteCertificationItem}
-      />
+      {!certificates || certificates?.length == 0 ? (
+        <>
+          <HorizontalLine />
+          <Box sx={{display: 'flex'}}>
+            <Avatar>C</Avatar>
+            <Typography style={{marginLeft: '15px'}}>
+              {messages['common.no_data_found']}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <Certifications
+          certificates={certificates}
+          onEditClick={openCertificateAddEditForm}
+          onDeleteClick={deleteCertificationItem}
+        />
+      )}
     </ContentLayout>
   );
 };

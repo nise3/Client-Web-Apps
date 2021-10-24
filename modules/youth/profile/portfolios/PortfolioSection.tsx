@@ -1,4 +1,4 @@
-import {Box} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import {BorderColor} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import CustomCarousel from '../../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
@@ -47,27 +47,37 @@ const PortfolioSection = () => {
       actions={
         <CustomParabolaButton
           buttonVariant={'outlined'}
-          title={messages['common.add_new_portfolio'] as string}
+          title={messages['common.no_data_found'] as string}
           icon={<BorderColor />}
           onClick={() => openPortfolioAddEditForm(null)}
         />
       }
       contentSkeleton={<BoxContentSkeleton />}>
       <HorizontalLine />
-      <Box>
-        <CustomCarousel>
-          {(portfolios || []).map((portfolio: any) => {
-            return (
-              <React.Fragment key={portfolio?.id}>
-                <CardItemWithButton
-                  portfolio={portfolio}
-                  onClick={() => openPortfolioAddEditForm(portfolio?.id)}
-                />
-              </React.Fragment>
-            );
-          })}
-        </CustomCarousel>
-      </Box>
+      {!portfolios || portfolios?.length == 0 ? (
+        <>
+          <Box sx={{display: 'flex'}}>
+            <Typography style={{marginLeft: '15px'}}>
+              {messages['common.no_data_found']}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <Box>
+          <CustomCarousel>
+            {(portfolios || []).map((portfolio: any) => {
+              return (
+                <React.Fragment key={portfolio?.id}>
+                  <CardItemWithButton
+                    portfolio={portfolio}
+                    onClick={() => openPortfolioAddEditForm(portfolio?.id)}
+                  />
+                </React.Fragment>
+              );
+            })}
+          </CustomCarousel>
+        </Box>
+      )}
     </ContentLayout>
   );
 };

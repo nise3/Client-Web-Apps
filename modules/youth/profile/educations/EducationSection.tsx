@@ -10,7 +10,8 @@ import {deleteEducation} from '../../../../services/youthManagement/EducationSer
 import Educations from './Educations';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
-
+import HorizontalLine from '../component/HorizontalLine';
+import {Avatar, Box, Typography} from '@mui/material';
 const EducationSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -67,15 +68,27 @@ const EducationSection = () => {
           onClick={() => openEducationAddEditForm(null)}
         />
       }>
-      <Educations
-        educations={educations || []}
-        onEditClick={openEducationAddEditForm}
-        onDeleteClick={(educationId) => {
-          (async () => {
-            await deleteEducationItem(educationId);
-          })();
-        }}
-      />
+      {!educations || educations?.length == 0 ? (
+        <>
+          <HorizontalLine />
+          <Box sx={{display: 'flex'}}>
+            <Avatar>C</Avatar>
+            <Typography style={{marginLeft: '15px'}}>
+              {messages['common.no_data_found']}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <Educations
+          educations={educations || []}
+          onEditClick={openEducationAddEditForm}
+          onDeleteClick={(educationId) => {
+            (async () => {
+              await deleteEducationItem(educationId);
+            })();
+          }}
+        />
+      )}
     </ContentLayout>
   );
 };

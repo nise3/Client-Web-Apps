@@ -80,9 +80,7 @@ const LanguageSection = () => {
             <Box sx={{marginLeft: '15px'}}>
               {(!languageProficiencies ||
                 languageProficiencies?.length == 0) && (
-                <Typography>
-                  {messages['language_proficiency.no_data']}
-                </Typography>
+                <Typography>{messages['common.no_data_found']}</Typography>
               )}
               {languageProficiencies && (
                 <React.Fragment>

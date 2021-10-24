@@ -9,6 +9,9 @@ import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useFetchYouthJobExperiences} from '../../../../services/youthManagement/hooks';
 import JobExperienceAddEditPage from './JobExperienceAddEditPage';
 import ContentLayout from '../component/ContentLayout';
+import HorizontalLine from '../component/HorizontalLine';
+import {Avatar, Box, Typography} from '@mui/material';
+import {deleteJobExperience} from '../../../../services/youthManagement/JobExperienceService';
 
 const JobExperienceSection = () => {
   const {messages} = useIntl();
@@ -38,7 +41,7 @@ const JobExperienceSection = () => {
   }, []);
 
   const deleteJobExperienceItem = useCallback(async (itemId: number) => {
-    let response = await deleteJobExperienceItem(itemId);
+    let response = await deleteJobExperience(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -67,11 +70,23 @@ const JobExperienceSection = () => {
           onClick={() => openJobExperienceAddEditForm(null)}
         />
       }>
-      <JobExperiences
-        jobExperiences={jobExperiences || []}
-        onOpenAddEditForm={openJobExperienceAddEditForm}
-        onDeleteJobExperience={deleteJobExperienceItem}
-      />
+      {!jobExperiences || jobExperiences?.length == 0 ? (
+        <>
+          <HorizontalLine />
+          <Box sx={{display: 'flex'}}>
+            <Avatar>C</Avatar>
+            <Typography style={{marginLeft: '15px'}}>
+              {messages['common.no_data_found']}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <JobExperiences
+          jobExperiences={jobExperiences || []}
+          onOpenAddEditForm={openJobExperienceAddEditForm}
+          onDeleteJobExperience={deleteJobExperienceItem}
+        />
+      )}
     </ContentLayout>
   );
 };

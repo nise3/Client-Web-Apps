@@ -34,6 +34,7 @@ import {
   EducationLevelCodePHD,
   EducationLevelCodeWithBoard,
   EducationLevelCodeWithGroup,
+  EducationLevelForMajorGroup,
 } from '../utilities/EducationEnums';
 
 interface EducationAddEditPageProps {
@@ -113,6 +114,14 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               .label(
                 messages['education.education_exam_degree_name_bn'] as string,
               )
+          : yup.string().nullable(),
+      major_or_concentration:
+        selectedEducationLevel &&
+        EducationLevelForMajorGroup.includes(selectedEducationLevel.code)
+          ? yup
+              .string()
+              .required()
+              .label(messages['education.major_group_name_bn'] as string)
           : yup.string().nullable(),
       edu_board_id:
         selectedEducationLevel &&
