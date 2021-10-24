@@ -2,17 +2,44 @@ import React, {useState} from 'react';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import {Box, Button, Container, Grid} from '@mui/material';
-import {ArrowRightAlt} from '@mui/icons-material';
-import {Fade} from 'react-awesome-reveal';
+import {Box, Container, Grid, Tabs, Tab} from '@mui/material';
 import UnderlinedHeading from './UnderlinedHeading';
-// import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
-import Carousel from 'react-multi-carousel';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
-import {getMomentDateFormat} from '../../@softbd/utilities/helpers';
-import {Link} from '../../@softbd/elements/common';
-import {useRouter} from 'next/router';
+import {useIntl} from 'react-intl';
+import Typography from '@mui/material/Typography';
+import CourseSectionCarousel from './courseSectionCarousel';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+const TabPanel = (props: TabPanelProps) => {
+  const {children, value, index, ...other} = props;
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}>
+      {value === index && (
+        <Box sx={{pt: 3}}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+};
+
+const indexProps = (index: number) => {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,27 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
         // marginTop: '200px',
       },
     },
-    subheading: {
-      textAlign: 'center',
-      marginBottom: 48,
-    },
-    boxItem: {
-      background: theme.palette.background.paper,
-      borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-      padding: '20px 10px 60px 10px',
-      margin: 0,
-    },
-    icon: {
-      fontSize: '72px',
-      color: theme.palette.primary.main,
-    },
-    desc: {
-      color: theme.palette.primary.dark,
-    },
-    button: {
-      borderRadius: 20,
-    },
-
     rootMobileView: {
       [theme.breakpoints.down('xl')]: {
         marginTop: '80px',
@@ -53,26 +59,28 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const img =
-  'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60';
-/*const sample = {
-  image: img,
-  title: 'Hello World!',
-  providerName: 'Diane Croenwett',
-  providerLogo: img,
-  fee: '3000',
-  createDate: 'Mar 19,2020',
-  progress: 60,
-};*/
-
 const CoursesSection = () => {
   const classes = useStyles();
-  const router = useRouter();
-  const path = router.pathname;
+  const {messages} = useIntl();
 
-  const [coursesFilters] = useState<any>({page_size: 10});
+  // const [runningCoursesFilters] = useState<any>({page_size: 10, availability: 1});
+  const [upcomingCoursesFilter] = useState<any>({
+    page_size: 10,
+    availability: 2,
+  });
 
-  const {data: courses} = useFetchCourseList('recent', coursesFilters);
+  // Todo: data is not coming for running form api, have to implement
+  // const {data: runningCourses} = useFetchCourseList('recent', runningCoursesFilters);
+  const {data: upComingCourses} = useFetchCourseList(
+    'recent',
+    upcomingCoursesFilter,
+  );
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   return (
     <Grid container xl={12} className={classes.root}>
@@ -80,93 +88,38 @@ const CoursesSection = () => {
         maxWidth='lg'
         className={classes.rootMobileView}
         disableGutters>
-        <Fade direction='up'>
-          <UnderlinedHeading>কোর্স সমূহ</UnderlinedHeading>
+        <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
+        <Box sx={{width: '100%'}}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor='secondary'
+            indicatorColor='secondary'
+            aria-label='secondary tabs example'>
+            <Tab
+              label={messages['common.running_courses']}
+              {...indexProps(0)}
+            />
+            <Tab
+              label={messages['common.up_coming_courses']}
+              {...indexProps(1)}
+            />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
           <Box>
-            {courses && courses.length && (
-              <Carousel
-                additionalTransfrom={0}
-                arrows
-                autoPlay={true}
-                autoPlaySpeed={3000}
-                centerMode={false}
-                className=''
-                containerClass='container-with-dots'
-                dotListClass=''
-                draggable
-                focusOnSelect={false}
-                infinite
-                itemClass=''
-                keyBoardControl
-                minimumTouchDrag={80}
-                renderButtonGroupOutside={false}
-                renderDotsOutside={false}
-                responsive={{
-                  desktop: {
-                    breakpoint: {
-                      max: 3000,
-                      min: 1024,
-                    },
-                    items: 4,
-                    partialVisibilityGutter: 40,
-                  },
-                  mobile: {
-                    breakpoint: {
-                      max: 464,
-                      min: 0,
-                    },
-                    items: 1,
-                    partialVisibilityGutter: 30,
-                  },
-                  tablet: {
-                    breakpoint: {
-                      max: 1024,
-                      min: 464,
-                    },
-                    items: 2,
-                    partialVisibilityGutter: 30,
-                  },
-                }}
-                showDots
-                sliderClass=''
-                slidesToSlide={1}
-                swipeable>
-                {courses.map((item: any) => (
-                  <Box key={item.id} className={classes.boxItem}>
-                    <Link href={`/institute/course-details/${item.id}`}>
-                      <CourseCardComponent
-                        course={{
-                          id: item.id,
-                          cover_image: img,
-                          title: item.title,
-                          institute_title: item.institute_title,
-                          course_fee: item.course_fee,
-                          created_at: getMomentDateFormat(
-                            item.created_at,
-                            'DD MMM, YYYY',
-                          ),
-                          duration: item.duration,
-                          total_enroll: item.total_enroll,
-                        }}
-                      />
-                    </Link>
-                  </Box>
-                ))}
-              </Carousel>
+            {upComingCourses && upComingCourses.length > 0 && (
+              <CourseSectionCarousel courses={upComingCourses} />
             )}
           </Box>
-          <Box display='flex' justifyContent='center' mt={8}>
-            <Link href={`${path}/courses`}>
-              <Button
-                variant='outlined'
-                size='large'
-                endIcon={<ArrowRightAlt />}
-                className={classes.button}>
-                আরও দেখুন
-              </Button>
-            </Link>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Box>
+            {upComingCourses && upComingCourses.length > 0 && (
+              <CourseSectionCarousel courses={upComingCourses} />
+            )}
           </Box>
-        </Fade>
+        </TabPanel>
       </Container>
     </Grid>
   );

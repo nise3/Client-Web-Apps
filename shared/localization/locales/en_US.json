@@ -684,6 +684,10 @@
   "institute.name_of_the_office_head_designation_en": "Office head designation (English)",
   "common.registration_username_note": "Contact person mobile will be used as username",
   "common.registration_login": "Registration/Login",
-  "institute.youth_login": "Youth Login"
+  "institute.youth_login": "Youth Login",
+  "common.courses": "Courses",
+  "common.running_courses": "Running Courses",
+  "common.up_coming_courses": "Upcoming Courses",
+  "common.see_more": "See More"
 
 }
