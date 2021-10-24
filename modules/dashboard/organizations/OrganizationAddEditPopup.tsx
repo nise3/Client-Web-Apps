@@ -72,8 +72,6 @@ const initialValues = {
   google_map_src: '',
   address: '',
   address_en: '',
-  country: '',
-  phone_code: '',
   name_of_the_office_head: '',
   name_of_the_office_head_en: '',
   name_of_the_office_head_designation: '',
@@ -258,8 +256,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         google_map_src: itemData?.google_map_src,
         address: itemData?.address,
         address_en: itemData?.address_en,
-        country: itemData?.country,
-        phone_code: itemData?.phone_code,
         logo: itemData?.logo,
         description: itemData?.description,
         description_en: itemData?.description_en,
@@ -563,7 +559,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomFormSelect
             id='loc_division_id'
             label={messages['divisions.label']}
@@ -576,7 +572,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             onChange={changeDivisionAction}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomFormSelect
             id='loc_district_id'
             label={messages['districts.label']}
@@ -589,7 +585,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             onChange={changeDistrictAction}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomFormSelect
             id='loc_upazila_id'
             label={messages['upazilas.label']}
@@ -631,26 +627,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             multiline={true}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='country'
-            label={messages['common.country']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            multiline={true}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='phone_code'
-            label={messages['common.phone_code']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            multiline={true}
-          />
-        </Grid>
 
         <Grid item xs={6}>
           <input
@@ -663,7 +639,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             Logo
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <FormRowStatus
             id='row_status'
             control={control}
