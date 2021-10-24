@@ -3,6 +3,8 @@ import {Box, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import FreelancerCardComponent from './components/FreelancerCardComponent';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 
 interface AllFreelancerListSectionProps {
   skillIds?: Array<number>;
@@ -16,18 +18,20 @@ const AllFreelancerListSection = ({
   upazila_id,
 }: AllFreelancerListSectionProps) => {
   const {messages} = useIntl();
-  const [filters, setFilters] = useState<any>({
+  const [freelancerFilters, setFreelancerFilters] = useState<any>({
     is_freelancer_profile: 1,
   });
-  const {data: freelancerLists} = useFetchYouths(filters);
+
+  const {data: freelancerLists, isLoading: isLoadingFreelancers} =
+    useFetchYouths(freelancerFilters);
 
   useEffect(() => {
-    setFilters({
-      is_freelancer_profile: 1,
+    let filters = {
       skills: skillIds,
       search_text: searchText,
       upazila_id: upazila_id,
-    });
+    };
+    setFreelancerFilters(objectFilter({...freelancerFilters, ...filters}));
   }, [skillIds, searchText, upazila_id]);
 
   return (
@@ -38,13 +42,17 @@ const AllFreelancerListSection = ({
         </Box>
       </Grid>
 
-      {freelancerLists?.map((freelancer: any) => {
-        return (
-          <Grid item xs={12} sm={12} md={12} key={freelancer.id}>
-            <FreelancerCardComponent freelancer={freelancer} />
-          </Grid>
-        );
-      })}
+      {isLoadingFreelancers ? (
+        <PostLoadingSkeleton />
+      ) : (
+        freelancerLists?.map((freelancer: any) => {
+          return (
+            <Grid item xs={12} sm={12} md={12} key={freelancer.id}>
+              <FreelancerCardComponent freelancer={freelancer} />
+            </Grid>
+          );
+        })
+      )}
     </Grid>
   );
 };

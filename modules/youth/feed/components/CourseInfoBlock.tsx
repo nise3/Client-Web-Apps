@@ -22,10 +22,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     width: 60,
     border: '1px solid ' + theme.palette.grey['300'],
   },
-  titleBox: {
-    marginLeft: 10,
-    paddingTop: 5,
-  },
+
   totalEnrolled: {
     alignItems: 'flex-end',
     display: 'flex',
@@ -35,16 +32,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     color: theme.palette.primary.main,
     fontWeight: 'bold',
   },
-  locationStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  locationIcon: {
-    height: 18,
-    width: 18,
-    margin: '0px 5px',
-  },
+
   colorGray: {
     color: theme.palette.grey['600'],
     display: 'inline',
@@ -138,7 +126,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       variant={'contained'}
                       color={'primary'}
                       size={'medium'}>
-                      Enroll Now
+                      {messages['common.enroll_now']}
                     </Button>
                   </Link>
                 </Grid>

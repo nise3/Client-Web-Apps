@@ -57,8 +57,7 @@ export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_COURSE_DETAILS = INSTITUTE_SERVICE_PATH + '/course-details';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
-export const API_ENROLLED_COURSES =
-  INSTITUTE_SERVICE_PATH + '/course-enrollments';
+export const API_YOUTH_COURSES = YOUTH_SERVICE_PATH + '/youth-my-courses';
 
 /** Youths end-points */
 export const API_YOUTH_REGISTRATION =
@@ -131,3 +130,7 @@ export const API_FRONT_SC = '/sc';
 
 export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
 export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
+export const API_PUBLIC_TRAINING_CENTERS =
+  PUBLIC_SERVICE_PATH + '/training-centers';
+export const API_YOUTH_FEED_STATISTICS =
+  YOUTH_SERVICE_PATH + '/youth-feed-statistics';

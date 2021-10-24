@@ -6,7 +6,7 @@ import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
 import {useFetchAllCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import ContentWithImageSkeleton from '../profile/component/ContentWithImageSkeleton';
+import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   featuredCourseSectionTitle: {
@@ -38,9 +38,7 @@ const PostSection = ({filters}: PostSectionProps) => {
       </Grid>
 
       {isLoadingCourses ? (
-        <Grid item xs={12}>
-          <ContentWithImageSkeleton />
-        </Grid>
+        <PostLoadingSkeleton />
       ) : (
         courseList &&
         courseList.map((course: any) => {

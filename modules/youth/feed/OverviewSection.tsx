@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   Button,
   Card,
@@ -12,6 +12,7 @@ import {makeStyles} from '@mui/styles';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
 
 const useStyles = makeStyles((): any => ({
   searchBox: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((): any => ({
 interface OverviewSectionProps {
   addFilter: (filterKey: string, filterValue: number) => void;
 }
+
 const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const classes: any = useStyles();
   const {messages} = useIntl();
@@ -49,38 +51,43 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const searchTextField = useRef<any>();
 
-  const overviewItems = [
-    {
-      amount: 5,
-      text: messages['youth_feed.course_enrolled'],
-      color: '#c865e7',
-    },
-    {
-      amount: 50,
-      text: messages['common.skill_matching_course'],
-      color: '#5477f0',
-    },
-    {
-      amount: 550,
-      text: messages['youth_feed.total_course'],
-      color: '#20d5c9',
-    },
-    {
-      amount: 320,
-      text: messages['youth_feed.job_apply'],
-      color: '#32be7e',
-    },
-    {
-      amount: 2500,
-      text: messages['youth_feed.total_jobs'],
-      color: '#e52d84',
-    },
-    {
-      amount: 100,
-      text: messages['common.skill_matching_job'],
-      color: '#fd9157',
-    },
-  ];
+  const {data: youthStatisticsData} = useFetchYouthFeedStatistics();
+
+  const overviewItems = useMemo(
+    () => [
+      {
+        amount: youthStatisticsData?.enrolled_courses,
+        text: messages['youth_feed.course_enrolled'],
+        color: '#c865e7',
+      },
+      {
+        amount: youthStatisticsData?.skill_matching_courses,
+        text: messages['common.skill_matching_course'],
+        color: '#5477f0',
+      },
+      {
+        amount: youthStatisticsData?.total_courses,
+        text: messages['youth_feed.total_course'],
+        color: '#20d5c9',
+      },
+      {
+        amount: youthStatisticsData?.jobs_apply,
+        text: messages['youth_feed.job_apply'],
+        color: '#32be7e',
+      },
+      {
+        amount: youthStatisticsData?.total_jobs,
+        text: messages['youth_feed.total_jobs'],
+        color: '#e52d84',
+      },
+      {
+        amount: youthStatisticsData?.skill_matching_jobs,
+        text: messages['common.skill_matching_job'],
+        color: '#fd9157',
+      },
+    ],
+    [youthStatisticsData, messages],
+  );
 
   const handleUpazilaChange = useCallback(
     (event: any) => {
