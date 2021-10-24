@@ -22,33 +22,9 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchBatch(itemId);
 
   const getTrainersName = useCallback((trainers: any = []) => {
-    let namesArray = trainers.map((item: Trainer) => item.trainer_name_en);
+    let namesArray = trainers.map((item: Trainer) => item.trainer_name);
     return namesArray.join(', ');
   }, []);
-
-  const getConfigs = (config: string | undefined | null) => {
-    let text = '';
-    try {
-      let configJson = JSON.parse(config || '{}');
-
-      Object.keys(configJson || {}).map((key: string) => {
-        let value = configJson[key];
-        if (value[0]) {
-          if (text) text += ', ';
-          text +=
-            messages['batches.' + key] +
-            '(' +
-            (value[1]
-              ? messages['common.required']
-              : messages['common.not_required']) +
-            ')';
-        }
-      });
-    } catch (e) {
-      console.log('Failed to parse config data', e);
-    }
-    return text;
-  };
 
   return (
     <>
@@ -83,13 +59,6 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['branch.label']}
               value={itemData?.branch_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['programme.label']}
-              value={itemData?.programme_title_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -153,14 +122,6 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['trainers.label']}
               value={getTrainersName(itemData?.trainers)}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['batches.configs']}
-              value={getConfigs(itemData?.dynamic_form_field)}
               isLoading={isLoading}
             />
           </Grid>

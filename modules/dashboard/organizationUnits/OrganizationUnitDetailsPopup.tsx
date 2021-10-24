@@ -26,7 +26,7 @@ const OrganizationUnitDetailsPopup = ({
 
   const getServicesName = useCallback(
     (services: any = []) => {
-      let namesArray = services.map((item: Service) => item.title_en);
+      let namesArray = services.map((item: Service) => item.title);
       return namesArray.join();
     },
     [itemId],
@@ -70,50 +70,8 @@ const OrganizationUnitDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['organization.label']}
-              value={itemData?.organization_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['organization_unit_type.label']}
-              value={itemData?.organization_unit_type_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['divisions.label']}
-              value={itemData?.loc_division_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['districts.label']}
-              value={itemData?.loc_district_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['upazilas.label']}
-              value={itemData?.loc_upazila_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.email']}
               value={itemData?.email}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.fax_no']}
-              value={itemData?.fax_no}
               isLoading={isLoading}
             />
           </Grid>
@@ -123,11 +81,88 @@ const OrganizationUnitDetailsPopup = ({
               value={itemData?.mobile}
               isLoading={isLoading}
             />
+          </Grid>{' '}
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.fax_no']}
+              value={itemData?.fax_no}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['organization.label']}
+              value={itemData?.organization_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['organization_unit_type.label']}
+              value={itemData?.organization_unit_type_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['divisions.label']}
+              value={itemData?.loc_division_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['districts.label']}
+              value={itemData?.loc_district_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['upazilas.label']}
+              value={itemData?.loc_upazila_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.address']}
+              value={itemData?.address}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.address_en']}
+              value={itemData?.address_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.location_latitude']}
+              value={itemData?.location_latitude}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.location_longitude']}
+              value={itemData?.location_longitude}
+              isLoading={isLoading}
+            />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.contact_person_name']}
               value={itemData?.contact_person_name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_name_en']}
+              value={itemData?.contact_person_name_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -154,8 +189,22 @@ const OrganizationUnitDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['common.contact_person_designation_en']}
+              value={itemData?.contact_person_designation_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['organization_unit.employee_size']}
               value={itemData?.employee_size}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.google_map_src']}
+              value={itemData?.google_map_src}
               isLoading={isLoading}
             />
           </Grid>

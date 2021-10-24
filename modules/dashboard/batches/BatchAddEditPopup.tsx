@@ -29,7 +29,6 @@ import {
   useFetchBranches,
   useFetchCourses,
   useFetchInstitutes,
-  useFetchProgrammes,
   useFetchTrainers,
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
@@ -55,7 +54,6 @@ const initialValues = {
   number_of_seats: '',
   available_seats: '',
   row_status: '1',
-  dynamic_form_field: {},
   trainers: [],
 };
 
@@ -84,12 +82,6 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const {data: branches, isLoading: isLoadingBranches} =
     useFetchBranches(branchFilters);
 
-  const [programmeFilters, setProgrammeFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
-  const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchProgrammes(programmeFilters);
-
   const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -108,6 +100,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      institute_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.label'] as string),
       course_id: yup
         .string()
         .trim()
@@ -123,6 +120,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['batches.total_seat'] as string),
+      available_seats: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['batches.available_seat'] as string),
       registration_start_date: yup
         .string()
         .trim()
@@ -160,7 +162,6 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     if (itemData) {
       reset({
         course_id: itemData?.course_id,
-        programme_id: itemData?.programme_id,
         institute_id: itemData?.institute_id,
         branch_id: itemData?.branch_id,
         training_center_id: itemData?.training_center_id,
@@ -183,10 +184,6 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       });
 
       setBranchFilters({
-        row_status: RowStatus.ACTIVE,
-        institute_id: itemData?.institute_id,
-      });
-      setProgrammeFilters({
         row_status: RowStatus.ACTIVE,
         institute_id: itemData?.institute_id,
       });
@@ -214,11 +211,6 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
     });
-    setProgrammeFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
-
     setCoursesFilters({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
@@ -330,19 +322,6 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
             onChange={onBranchChange}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='programme_id'
-            label={messages['programme.label']}
-            isLoading={isLoadingProgrammes}
-            control={control}
-            options={programmes}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
           />
         </Grid>
 
