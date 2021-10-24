@@ -32,13 +32,13 @@ const CourseListPage = () => {
             <SkillMatchingCoursesSection filters={filters} page_size={4} />
           </Grid>
           <Grid item xs={12}>
-            <NearbyTrainingCenterSection />
-          </Grid>
-          <Grid item xs={12}>
             <PopularCoursesSection filters={filters} page_size={4} />
           </Grid>
           <Grid item xs={12}>
             <TrendingCoursesSection filters={filters} page_size={4} />
+          </Grid>
+          <Grid item xs={12}>
+            <NearbyTrainingCenterSection />
           </Grid>
         </Grid>
       </Container>

@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
+import {useFetchAllCourseList} from '../../../services/youthManagement/hooks';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   featuredCourseSectionTitle: {
@@ -13,11 +15,19 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
   },
 }));
 
-const FeaturedCourseSection = () => {
+interface PostSectionProps {
+  filters?: any;
+}
+const PostSection = ({filters}: PostSectionProps) => {
   const classes = useStyle();
   const {messages} = useIntl();
-  const [courseFilter] = useState({});
-  const {data: courseList} = useFetchCourseList('', courseFilter);
+  const [courseFilters, setCourseFilters] = useState({});
+  const {data: courseList, isLoading: isLoadingCourses} =
+    useFetchAllCourseList(courseFilters);
+
+  useEffect(() => {
+    setCourseFilters(objectFilter({...courseFilters, ...filters}));
+  }, [filters]);
 
   return (
     <Grid container spacing={5}>
@@ -27,16 +37,20 @@ const FeaturedCourseSection = () => {
         </Box>
       </Grid>
 
-      {courseList &&
+      {isLoadingCourses ? (
+        <PostLoadingSkeleton />
+      ) : (
+        courseList &&
         courseList.map((course: any) => {
           return (
             <Grid item xs={12} key={course.id}>
-              {<CourseInfoBlock key={course.id} course={course} />}
+              {<CourseInfoBlock course={course} />}
             </Grid>
           );
-        })}
+        })
+      )}
     </Grid>
   );
 };
 
-export default FeaturedCourseSection;
+export default PostSection;

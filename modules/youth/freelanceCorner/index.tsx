@@ -152,7 +152,7 @@ const FreelanceCorner = () => {
                   <Select
                     id='upazila_id'
                     fullWidth
-                    value={'1'}
+                    value={selectedUpazilaId}
                     variant='outlined'
                     className={classes.selectStyle}
                     onChange={handleUpazilaChange}>

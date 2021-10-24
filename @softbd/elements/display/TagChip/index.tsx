@@ -18,14 +18,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 interface TagChipProps {
   icon?: any;
   label: string;
+  className?: string;
 }
 
-const TagChip = ({icon, label}: TagChipProps) => {
+const TagChip = ({icon, label, className}: TagChipProps) => {
   const classes = useStyles();
 
   return (
     <Chip
-      className={clsx(classes.chipStyle, classes.colorGray)}
+      className={clsx(classes.chipStyle, classes.colorGray, className)}
       icon={icon}
       label={label}
     />

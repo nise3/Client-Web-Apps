@@ -48,10 +48,7 @@ const CourseListSection = () => {
   const URL = `/youth/course-list/${selectedValue}`;
 
   const [courseFilters] = useState({page_size: 3});
-  const {data: courses} = useFetchCourseList(
-    '/' + selectedValue,
-    courseFilters,
-  );
+  const {data: courses} = useFetchCourseList(selectedValue, courseFilters);
 
   const handleCourseCategoryChange = useCallback((event: any) => {
     setSelectedValue(event.target.value);
@@ -77,7 +74,7 @@ const CourseListSection = () => {
         {courses &&
           courses.map((course: any, index: number) => {
             return (
-              <Grid item xs={12} key={course.id} className={classes.courseItem}>
+              <Grid item xs={12} key={index} className={classes.courseItem}>
                 {index != 0 && <Divider className={classes.divider} />}
                 <RecentCourseComponent data={course} />
               </Grid>

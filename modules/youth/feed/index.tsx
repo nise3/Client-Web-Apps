@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
-import FeaturedCourseSection from './FeaturedCourseSection';
+import PostSection from './PostSection';
 import RecentJobSection from './RecentJobSection';
 import CourseListSection from './CourseListSection';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
@@ -25,6 +25,21 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 
 const YouthFeedPage = () => {
   const classes: any = useStyles();
+
+  const [filters, setFilters] = useState<any>({});
+
+  const filterPost = useCallback(
+    (filterKey: string, filterValue: number | null) => {
+      const newFilter: any = {};
+      newFilter[filterKey] = filterValue;
+
+      setFilters((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   return (
     <Container maxWidth={'xl'} className={classes.container}>
       <Grid container spacing={5} className={classes.root}>
@@ -41,13 +56,13 @@ const YouthFeedPage = () => {
         <Grid item xs={12} md={6}>
           <Grid container spacing={5}>
             <Grid item xs={12}>
-              <OverviewSection />
+              <OverviewSection addFilter={filterPost} />
             </Grid>
             <Grid item xs={12}>
               <FeatureJobSection />
             </Grid>
             <Grid item xs={12}>
-              <FeaturedCourseSection />
+              <PostSection filters={filters} />
             </Grid>
           </Grid>
         </Grid>

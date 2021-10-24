@@ -43,8 +43,12 @@ const SkillMatchingCoursesSection = ({
     setCourseFilters(objectFilter({...courseFilters, ...filters}));
   }, [filters]);
 
-  const pathValue = '/skill-matching';
-  const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
+  const pathValue = 'skill-matching';
+  const {data: courseList, metaData: courseListMetaData} = useFetchCourseList(
+    pathValue,
+    courseFilters,
+  );
+
   return courseList && courseList.length ? (
     <Grid container spacing={5}>
       <Grid item xs={12} sm={12}>
@@ -54,7 +58,7 @@ const SkillMatchingCoursesSection = ({
               {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
-          {page_size && (
+          {page_size && courseListMetaData?.total_page > 1 && (
             <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link
                 href={LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST}

@@ -1,72 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
-import TrainingCenterCardComponent from './conponents/TrainingCenterCardComponent';
 import {useIntl} from 'react-intl';
+import TrainingCenterCard from './conponents/TrainingCenterCard';
+import {useFetchTrainingCenters} from '../../../services/youthManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const NearbyTrainingCenterSection = () => {
   const classes = useStyles();
   const {messages} = useIntl();
 
-  const trainingCenterList = [
-    {
-      id: 1,
-      image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
-      logo: '/images/creative_it.jpeg',
-      address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
-      tags: [
-        'Graphic Design',
-        'Web Design',
-        'UX',
-        'Motion Graphic',
-        'Programming',
-      ],
-    },
-    {
-      id: 2,
-      image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
-      logo: '/images/creative_it.jpeg',
-      address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
-      tags: [
-        'Graphic Design',
-        'Web Design',
-        'UX',
-        'Motion Graphic',
-        'Programming',
-      ],
-    },
-    {
-      id: 3,
-      image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
-      logo: '/images/creative_it.jpeg',
-      address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
-      tags: [
-        'Graphic Design',
-        'Web Design',
-        'UX',
-        'Motion Graphic',
-        'Programming',
-      ],
-    },
-    {
-      id: 4,
-      image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
-      logo: '/images/creative_it.jpeg',
-      address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
-      tags: [
-        'Graphic Design',
-        'Web Design',
-        'UX',
-        'Motion Graphic',
-        'Programming',
-      ],
-    },
-  ];
+  const authUser = useAuthUser<YouthAuthUser>();
+  const [nearbyTrainingCenterFilters] = useState<any>({
+    district_id: authUser?.loc_district_id,
+    upazila_id: authUser?.loc_upazila_id,
+    page_size: 4,
+  });
+
+  const {data: nearbyTrainingCenters} = useFetchTrainingCenters(
+    nearbyTrainingCenterFilters,
+  );
 
   return (
     <Grid container spacing={5}>
@@ -87,13 +42,14 @@ const NearbyTrainingCenterSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={5}>
-          {trainingCenterList.map((trainingCenter: any) => {
-            return (
-              <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>
-                <TrainingCenterCardComponent trainingCenter={trainingCenter} />
-              </Grid>
-            );
-          })}
+          {nearbyTrainingCenters &&
+            nearbyTrainingCenters.map((trainingCenter: any) => {
+              return (
+                <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>
+                  <TrainingCenterCard trainingCenter={trainingCenter} />
+                </Grid>
+              );
+            })}
         </Grid>
       </Grid>
     </Grid>

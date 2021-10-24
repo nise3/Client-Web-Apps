@@ -6,11 +6,8 @@ import {
   Container,
   Grid,
   InputAdornment,
-  MenuItem,
-  Select,
   SelectChangeEvent,
   TextField,
-  Typography,
 } from '@mui/material';
 import useStyles from './index.style';
 import {Search} from '@mui/icons-material';
@@ -21,6 +18,7 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import CustomSelectForFilter from './conponents/CustomSelectForFilter';
 
 const SKILL_LEVELS = [
   {id: 1, title: 'Beginner'},
@@ -167,123 +165,65 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
           <Grid item xs={12} md={12}>
             <Grid container spacing={3}>
               <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='institute_id'
-                  fullWidth
-                  value={selectedInstituteId}
-                  variant='outlined'
-                  label={<Typography>choose institute...</Typography>}
-                  className={classes.selectStyle}
-                  onChange={handleInstituteFilterChange}>
-                  <MenuItem value=''>
-                    <em>None</em>
-                  </MenuItem>
-                  {institutes &&
-                    institutes.map((institute: any) => {
-                      return (
-                        <MenuItem key={institute.id} value={institute.id}>
-                          {institute.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
+                <CustomSelectForFilter
+                  id={'institute_id'}
+                  labelId={'select-institute'}
+                  selectedOptionId={selectedInstituteId}
+                  defaultLabel={'select institute'}
+                  onChangeCallback={handleInstituteFilterChange}
+                  options={institutes}
+                />
+              </Grid>
+
+              <Grid item xs={6} sm={4} md={2}>
+                <CustomSelectForFilter
+                  id={'program_id'}
+                  labelId={'select-program'}
+                  selectedOptionId={selectedProgrammeId}
+                  defaultLabel={'select program'}
+                  onChangeCallback={handleProgrammeFilterChange}
+                  options={programmes}
+                />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='programme_id'
-                  fullWidth
-                  value={selectedProgrammeId}
-                  variant='outlined'
-                  className={classes.selectStyle}
-                  onChange={handleProgrammeFilterChange}>
-                  <MenuItem>None</MenuItem>
-                  {selectedInstituteId &&
-                    programmes &&
-                    programmes.map((programme: any) => {
-                      return (
-                        <MenuItem key={programme.id} value={programme.id}>
-                          {programme.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
+                <CustomSelectForFilter
+                  id={'level'}
+                  labelId={'select-skill-level'}
+                  selectedOptionId={selectedSkillLevel}
+                  defaultLabel={'select skill level'}
+                  onChangeCallback={handleSkillLevelChange}
+                  options={SKILL_LEVELS}
+                />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='level'
-                  fullWidth
-                  value={selectedSkillLevel}
-                  variant='outlined'
-                  className={classes.selectStyle}
-                  onChange={handleSkillLevelChange}>
-                  <MenuItem value={''}>None</MenuItem>
-                  {SKILL_LEVELS &&
-                    SKILL_LEVELS.map((level: any) => {
-                      return (
-                        <MenuItem value={level.id} key={level.id}>
-                          {level.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
+                <CustomSelectForFilter
+                  id={'course_type'}
+                  labelId={'select-course-type'}
+                  selectedOptionId={selectedcourseTypeId}
+                  defaultLabel={'select course type'}
+                  onChangeCallback={handleCourseTypeChange}
+                  options={COURSE_TYPES}
+                />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='course_type'
-                  fullWidth
-                  value={selectedcourseTypeId}
-                  variant='outlined'
-                  label={'course type'}
-                  className={classes.selectStyle}
-                  onChange={handleCourseTypeChange}>
-                  <MenuItem value={''}>None</MenuItem>
-                  {COURSE_TYPES &&
-                    COURSE_TYPES.map((courseType: any) => {
-                      return (
-                        <MenuItem value={courseType.id} key={courseType.id}>
-                          {courseType.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
+                <CustomSelectForFilter
+                  id={'availability'}
+                  labelId={'select-availability'}
+                  selectedOptionId={selectedAvailability}
+                  defaultLabel={'select availability'}
+                  onChangeCallback={handleAvailabilityChange}
+                  options={AVAILABILITIES}
+                />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='availability'
-                  fullWidth
-                  value={selectedAvailability}
-                  variant='outlined'
-                  className={classes.selectStyle}
-                  onChange={handleAvailabilityChange}>
-                  <MenuItem value={''}>None</MenuItem>
-                  {AVAILABILITIES &&
-                    AVAILABILITIES.map((availability: any) => {
-                      return (
-                        <MenuItem value={availability.id} key={availability.id}>
-                          {availability.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </Grid>
-              <Grid item xs={6} sm={4} md={2}>
-                <Select
-                  id='language_id'
-                  fullWidth
-                  variant='outlined'
-                  value={selectedLanguageId}
-                  onChange={handleLanguageChange}
-                  className={classes.selectStyle}>
-                  <MenuItem value={''}>None</MenuItem>
-                  {LANGUAGES &&
-                    LANGUAGES.map((language: any) => {
-                      return (
-                        <MenuItem key={language.id} value={language.id}>
-                          {language.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
+                <CustomSelectForFilter
+                  id={'language'}
+                  labelId={'select-language-medium'}
+                  selectedOptionId={selectedLanguageId}
+                  defaultLabel={'language medium'}
+                  onChangeCallback={handleLanguageChange}
+                  options={LANGUAGES}
+                />
               </Grid>
             </Grid>
           </Grid>

@@ -1,10 +1,13 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_ENROLLED_COURSES,
   API_PUBLIC_COURSE_LIST,
+  API_PUBLIC_ALL_COURSE_LIST,
+  API_PUBLIC_TRAINING_CENTERS,
   API_YOUTH_CERTIFICATES,
   API_YOUTH_EDUCATION,
   API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
+  API_YOUTH_COURSES,
+  API_YOUTH_FEED_STATISTICS,
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
@@ -121,6 +124,18 @@ export function useFetchCourseList(pathVariable: string, params: any) {
   ]);
 }
 
+export function useFetchAllCourseList(params: any) {
+  return useAxiosSWR([API_PUBLIC_ALL_COURSE_LIST, params]);
+}
+
 export function useFetchYouthCourses(params: any) {
-  return useAxiosSWR([API_ENROLLED_COURSES, params]);
+  return useAxiosSWR([API_YOUTH_COURSES, params]);
+}
+
+export function useFetchTrainingCenters(params: any) {
+  return useAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
+}
+
+export function useFetchYouthFeedStatistics() {
+  return useAxiosSWR([API_YOUTH_FEED_STATISTICS]);
 }
