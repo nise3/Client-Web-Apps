@@ -26,7 +26,10 @@ const TrendingCoursesSection = ({
   });
 
   const pathVariable = 'trending';
-  const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
+  const {data: courseList, metaData: courseListMetaData} = useFetchCourseList(
+    pathVariable,
+    courseFilters,
+  );
 
   useEffect(() => {
     setCourseFilters(objectFilter({...courseFilters, ...filters}));
@@ -41,7 +44,7 @@ const TrendingCoursesSection = ({
               {messages['common.trending_courses']}
             </Typography>
           </Grid>
-          {page_size && (
+          {page_size && courseListMetaData?.total_page > 1 && (
             <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link href={LINK_FRONTEND_YOUTH_TRENDING_COURSELIST} passHref>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>

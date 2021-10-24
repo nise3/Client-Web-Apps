@@ -4,12 +4,8 @@ import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
-import {
-  useFetchAllCourseList,
-  useFetchCourseList,
-} from '../../../services/youthManagement/hooks';
+import {useFetchAllCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import BoxContentSkeleton from '../profile/component/BoxContentSkeleton';
 import ContentWithImageSkeleton from '../profile/component/ContentWithImageSkeleton';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({

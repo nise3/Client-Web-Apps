@@ -29,7 +29,8 @@ const PopularCoursesSection = ({
   }, [filters]);
 
   const pathVariable = 'popular';
-  const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
+  const {data: courseList, metaData: popularCoursesMetaData} =
+    useFetchCourseList(pathVariable, courseFilters);
 
   return courseList && courseList.length ? (
     <Grid container spacing={5}>
@@ -40,14 +41,17 @@ const PopularCoursesSection = ({
               {messages['common.popular_courses']}
             </Typography>
           </Grid>
-          <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Link href={LINK_FRONTEND_YOUTH_POPULAR_COURSELIST} passHref>
-              <Button variant={'outlined'} size={'medium'} color={'primary'}>
-                {messages['common.see_all']}
-                <ChevronRight />
-              </Button>
-            </Link>
-          </Grid>
+
+          {page_size && popularCoursesMetaData?.total_page > 1 && (
+            <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
+              <Link href={LINK_FRONTEND_YOUTH_POPULAR_COURSELIST} passHref>
+                <Button variant={'outlined'} size={'medium'} color={'primary'}>
+                  {messages['common.see_all']}
+                  <ChevronRight />
+                </Button>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>

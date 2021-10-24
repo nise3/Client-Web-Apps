@@ -2,8 +2,8 @@ import React from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
-import TrainingCenterCardComponent from './conponents/TrainingCenterCardComponent';
 import {useIntl} from 'react-intl';
+import TrainingCenterCard from './conponents/TrainingCenterCard';
 
 const NearbyTrainingCenterSection = () => {
   const classes = useStyles();
@@ -13,7 +13,7 @@ const NearbyTrainingCenterSection = () => {
     {
       id: 1,
       image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
+      title: 'Creative IT Institute',
       logo: '/images/creative_it.jpeg',
       address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
       tags: [
@@ -27,7 +27,7 @@ const NearbyTrainingCenterSection = () => {
     {
       id: 2,
       image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
+      title: 'Creative IT Institute',
       logo: '/images/creative_it.jpeg',
       address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
       tags: [
@@ -41,7 +41,7 @@ const NearbyTrainingCenterSection = () => {
     {
       id: 3,
       image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
+      title: 'Creative IT Institute',
       logo: '/images/creative_it.jpeg',
       address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
       tags: [
@@ -55,7 +55,7 @@ const NearbyTrainingCenterSection = () => {
     {
       id: 4,
       image: '/images/popular-course1.png',
-      name: 'Creative IT Institute',
+      title: 'Creative IT Institute',
       logo: '/images/creative_it.jpeg',
       address: '9 NO, Kapasgola Road, Chawk Bazar Telpotti More, Chattogram',
       tags: [
@@ -90,7 +90,7 @@ const NearbyTrainingCenterSection = () => {
           {trainingCenterList.map((trainingCenter: any) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>
-                <TrainingCenterCardComponent trainingCenter={trainingCenter} />
+                <TrainingCenterCard trainingCenter={trainingCenter} />
               </Grid>
             );
           })}
