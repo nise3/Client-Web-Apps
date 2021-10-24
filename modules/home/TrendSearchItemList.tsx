@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       border: '1px solid #fff',
       borderRadius: '6px',
-      padding: '1px 30px',
-      marginRight: '10px',
+      padding: '5px 8px',
+      marginRight: '8px',
     },
   }),
 );
@@ -22,7 +22,7 @@ const SearchItemList = ({searchItems}: any) => {
   const classes = useStyles();
   const listItems = searchItems.map((item: any, index: number) => (
     <Box className={classes.trendSearchKey} key={index}>
-      <p>{item}</p>
+      {item}
     </Box>
   ));
 

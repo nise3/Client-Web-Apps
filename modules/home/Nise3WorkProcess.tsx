@@ -2,9 +2,10 @@ import React from 'react';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Button, Container, Grid, Typography} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
-import {Link} from '../../@softbd/elements/common';
+import {H4, Link} from '../../@softbd/elements/common';
+import {ArrowRight} from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,13 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('xl')]: {
         marginTop: '30px',
-      },
-    },
-    detailsButton: {
-      background: '#fff',
-      color: '#682988',
-      '&:hover, &:focus': {
-        color: theme.palette.common.white,
       },
     },
     assessmentImage: {
@@ -57,30 +51,17 @@ const Nise3WorkProcess = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg' style={{position: 'relative'}}>
-        <Grid container spacing={4} justifyContent='space-between'>
-          <Grid item xs={12} md={6}>
+        <Grid container justifyContent='space-between'>
+          <Grid item xs={12} md={6} py={{xs: 3, md: 5}}>
             <Fade direction='down'>
-              <Typography variant='h4' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold' mb={6}>
-                  নাইস-থ্রি কিভাবে কাজ করে?
-                </Box>
+              <H4>নাইস-থ্রি কিভাবে কাজ করে?</H4>
+              <Typography variant='subtitle1' my={{xs: 4}}>
+                যুবকদের স্কিলিং এবং চাকরির সুযোগ করার জন্য আমাদের সম্মিলিত
+                প্রয়াসে নাইস-থ্রি পোর্টাল যথেষ্ট গুরুত্ব দেয়।
               </Typography>
-            </Fade>
-
-            <Fade direction='up'>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                <Grid item xs={12}>
-                  <Box mb={8}>
-                    যুবকদের স্কিলিং এবং চাকরির সুযোগ করার জন্য আমাদের সম্মিলিত
-                    প্রয়াসে নাইস-থ্রি পোর্টাল যথেষ্ট গুরুত্ব দেয়।
-                  </Box>
-                </Grid>
-              </Typography>
-            </Fade>
-            <Fade direction='down'>
               <Link href={'/sc/how-nise3-works'}>
-                <Button variant='contained' className={classes.detailsButton}>
-                  বিস্তারিত পড়ুন
+                <Button variant='contained' color={'info'}>
+                  বিস্তারিত পড়ুন <ArrowRight />
                 </Button>
               </Link>
             </Fade>

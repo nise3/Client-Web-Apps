@@ -44,8 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     trendWrapper: {
       position: 'relative',
-      // height: '200px',
-      padding: '18px',
+      padding: '100px 0',
       background: '#ddd',
       paddingBottom: 'auto',
       [theme.breakpoints.down('xl')]: {
@@ -53,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('md')]: {
         marginTop: '70px',
+        padding: '48px 5px',
       },
       [theme.breakpoints.only('sm')]: {
         marginTop: '160px',
@@ -61,9 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
     trendSearchItem: {
       background: '#fff',
       textAlign: 'center',
-      padding: '10px',
       borderRadius: '6px',
-      marginTop: '42px',
     },
 
     coverImage: {
@@ -94,9 +92,6 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       borderRadius: '6px',
       padding: '1px',
-    },
-    trendSearchText: {
-      marginTop: '5px',
     },
     noBorder: {
       border: 'none',
@@ -141,37 +136,35 @@ const CoverArea = () => {
             <SearchBox />
           </Container>
         </Grid>
-        <Grid container className={classes.trendWrapper}>
-          <Grid item xs={12}>
-            <Slide direction='down'>
-              <Container maxWidth={'lg'}>
-                <Grid item xs={12}>
-                  <H6 my={2}>ট্রেন্ড সার্চ</H6>
-                </Grid>
-                <Grid item xs={12}>
-                  <TrendSearchItemList
-                    searchItems={[
-                      'গ্রাফিক্স ডিজাইন',
-                      'ওয়েব ডিজাইন',
-                      'ইউ-আই/এক্স',
-                      'হেলথ কেয়ার জব',
-                    ]}
-                  />
-                </Grid>
-              </Container>
-            </Slide>
-          </Grid>
-          <Grid item xs={12} mt={5}>
-            <Card>
-              <CardMedia
-                component='img'
-                alt='green iguana'
-                height='140'
-                image='/images/cover-area.png'
-                className={classes.coverImage}
-              />
-            </Card>
-          </Grid>
+      </Grid>
+      <Grid container className={classes.trendWrapper}>
+        <Grid item xs={12}>
+          <Slide direction='down'>
+            <Container maxWidth={'lg'}>
+              <Grid container display={'flex'} alignItems={'center'}>
+                <H6 mr={2}>ট্রেন্ড সার্চ</H6>
+                <TrendSearchItemList
+                  searchItems={[
+                    'গ্রাফিক্স ডিজাইন',
+                    'ওয়েব ডিজাইন',
+                    'ইউ-আই/এক্স',
+                    'হেলথ কেয়ার জব',
+                  ]}
+                />
+              </Grid>
+            </Container>
+          </Slide>
+        </Grid>
+        <Grid item xs={12} mt={{xs: 5, md: 0}}>
+          <Card>
+            <CardMedia
+              component='img'
+              alt='green iguana'
+              height='140'
+              image='/images/cover-area.png'
+              className={classes.coverImage}
+            />
+          </Card>
         </Grid>
       </Grid>
     </>

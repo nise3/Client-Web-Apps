@@ -9,8 +9,8 @@ const palette: PaletteOptions = {
   },
   primary: {
     main: '#671688',
-    light: '#7C4DFF',
-    dark: '#6200EA',
+    light: '#7703A6',
+    dark: '#480962',
     contrastText: '#fff',
   },
   secondary: {
