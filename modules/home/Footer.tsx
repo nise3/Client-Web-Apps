@@ -9,9 +9,10 @@ import {Link} from '../../@softbd/elements/common';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: '50px',
+      marginTop: '100px',
       background: '#F7F7F7',
-      padding: '20px',
+      paddingTop: '100px',
+      paddingBottom: '100px',
     },
     footerImage: {
       width: '280px',
@@ -28,7 +29,7 @@ const Footer = () => {
     <>
       <Grid container className={classes.root}>
         <Container maxWidth='lg'>
-          <Grid item container spacing={10}>
+          <Grid item container>
             <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
@@ -135,7 +136,7 @@ const Footer = () => {
                 />
               </Box>
             </Grid>
-            <Grid item md={2}>
+            <Grid item md={2} textAlign={'right'}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
                   কারিগরি সহায়তায়
