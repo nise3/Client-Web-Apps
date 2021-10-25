@@ -1,9 +1,10 @@
 import {Grid, Zoom, Box} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
+  getMomentDateFormat,
   isResponseSuccess,
   isValidationError,
 } from '../../../../@softbd/utilities/helpers';
@@ -41,10 +42,19 @@ const initialValues = {
 const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   itemId,
   onClose: onCertificationAddEditPageClose,
-  ...props
 }) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+
+  const isEdit = itemId != null;
+  const {
+    data: itemData,
+    mutate: certificateMutate,
+    isLoading,
+  } = useFetchYouthCertificate(itemId);
+
+  const [isStartOrEndDateGiven, setIsStartOrEndDateGiven] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -60,29 +70,37 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         .string()
         .required()
         .label(messages['common.location_bn'] as string),
+      start_date: isStartOrEndDateGiven
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.start_date'] as string)
+        : yup.string(),
+      end_date: isStartOrEndDateGiven
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.end_date'] as string)
+        : yup.string(),
       /*certificate_file_path: yup
         .string()
         .required(messages['certificate.upload'] as string)
         .label(messages['certificate.upload'] as string),*/
     });
-  }, [messages]);
+  }, [messages, isStartOrEndDateGiven]);
 
   const {
     register,
     reset,
     handleSubmit,
     setError,
+    watch,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const isEdit = itemId != null;
-  const {
-    data: itemData,
-    mutate: certificateMutate,
-    isLoading,
-  } = useFetchYouthCertificate(itemId);
+  const watchStartDate: any = watch(['start_date', 'end_date']);
 
   useEffect(() => {
     if (itemData) {
@@ -93,8 +111,12 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         institute_name_en: itemData?.institute_name_en,
         location: itemData?.location,
         location_en: itemData?.location_en,
-        start_date: itemData?.start_date,
-        end_date: itemData?.end_date,
+        start_date: itemData?.start_date
+          ? getMomentDateFormat(itemData.start_date, 'YYYY-MM-DD')
+          : '',
+        end_date: itemData?.end_date
+          ? getMomentDateFormat(itemData?.end_date, 'YYYY-MM-DD')
+          : '',
         certificate_file_path: itemData.certification_file_path,
       });
     } else {
@@ -102,11 +124,22 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
     }
   }, [itemData]);
 
+  useEffect(() => {
+    if (watchStartDate[0] || watchStartDate[0]) {
+      setIsStartOrEndDateGiven(true);
+    } else {
+      setIsStartOrEndDateGiven(false);
+    }
+  }, [watchStartDate]);
+
   const onSubmit: SubmitHandler<YouthCertificate> = async (
     data: YouthCertificate,
   ) => {
-    data.certificate_file_path =
-      'https://image.freepik.com/free-vector/elegant-blue-gold-diploma-certificate-template_1017-17257.jpg';
+    //demo certificate url
+    data.certificate_file_path = 'http://lorempixel.com/400/200/';
+
+    console.log('data', data);
+
     const response = itemId
       ? await updateCertificate(itemId, data)
       : await createCertificate(data);

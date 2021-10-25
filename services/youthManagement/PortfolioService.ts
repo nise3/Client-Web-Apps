@@ -17,7 +17,7 @@ export const updatePortfolio = async (
   data: YouthPortfolio,
 ) => {
   try {
-    let response = await apiPut(API_YOUTH_PORTFOLIOS + '/' + portfolioId);
+    let response = await apiPut(API_YOUTH_PORTFOLIOS + '/' + portfolioId, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

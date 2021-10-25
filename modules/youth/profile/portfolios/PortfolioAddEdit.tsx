@@ -78,6 +78,9 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: YouthPortfolio) => {
+    //demo file url
+    data.file_path = 'http://lorempixel.com/400/200/';
+
     const response = itemId
       ? await updatePortfolio(itemId, data)
       : await createPortfolio(data);
