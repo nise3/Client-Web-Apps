@@ -1,34 +1,12 @@
 import React, {FC, useCallback} from 'react';
 import useStyles from '../index.style';
-import {Box, Slide, Typography} from '@mui/material';
-import pageSVG from '../../../../public/images/cv/CV_Temp_Classic.cv.svg';
+import {Box, Slide} from '@mui/material';
+import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
 
 interface ClassicTemplateProps {
   userData: any;
 }
-
-const getEducationItem = (
-  caption: string,
-  text: string,
-  isBold: boolean,
-  classes: any,
-) => {
-  return (
-    <Box className={classes.classicEducationItem} mt={isBold ? 2 : 0}>
-      <Typography variant={'caption'} className='caption'>
-        {caption}
-      </Typography>
-      :
-      <Typography
-        variant={'caption'}
-        fontWeight={isBold ? 'bold' : 'normal'}
-        className='text'>
-        {text}
-      </Typography>
-    </Box>
-  );
-};
 
 const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
   const classes: any = useStyles();
@@ -37,6 +15,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     if (!node || node.children.length > 0) return;
     const div = document.createElement('div');
     div.innerHTML = pageSVG;
+    console.log('PAGE >> ', pageSVG);
     node.appendChild(div);
     const svgNode = div.children[0];
     const rects = svgNode.querySelectorAll('g[id]>text');
