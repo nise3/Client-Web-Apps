@@ -5,6 +5,7 @@ import {
   FormControl,
   FormHelperText,
   InputLabel,
+  ListSubheader,
   MenuItem,
   Select,
 } from '@mui/material';
@@ -27,6 +28,9 @@ type Props = {
   multiple?: boolean;
   inputProps?: any;
   isDisabled?: boolean;
+  isGroupData?: boolean;
+  optionGroupTitleProp?: Array<string>;
+  groupDataKey?: string;
 };
 
 const CustomFormSelect = ({
@@ -45,6 +49,9 @@ const CustomFormSelect = ({
   onChange: onChangeCallback,
   inputProps,
   isDisabled = false,
+  isGroupData = false,
+  optionGroupTitleProp,
+  groupDataKey,
 }: Props) => {
   const getTitle = (
     option: any,
@@ -100,13 +107,40 @@ const CustomFormSelect = ({
                 <em>None</em>
               </MenuItem>
               {(options || []).map((option: any, index: number) => {
-                let value = option[optionValueProp] && option[optionValueProp];
-                let title = getTitle(option, optionTitleProp);
-                return (
-                  <MenuItem key={index} value={value}>
-                    {title}
-                  </MenuItem>
-                );
+                if (!isGroupData) {
+                  let value =
+                    option[optionValueProp] && option[optionValueProp];
+                  let title = getTitle(option, optionTitleProp);
+                  return (
+                    <MenuItem key={index} value={value}>
+                      {title}
+                    </MenuItem>
+                  );
+                } else {
+                  /*let groupTitle = getTitle(option, optionTitleProp);
+
+                  <ListSubheader sx={{fontWeight: 'bold', fontSize: '17px'}}>
+                    {groupTitle}
+                  </ListSubheader>*/
+
+                  return (
+                    (groupDataKey &&
+                      optionGroupTitleProp &&
+                      option[groupDataKey]) ||
+                    []
+                  ).map((item: any, idx: number) => {
+                    let value = item[optionValueProp] && item[optionValueProp];
+                    let title = getTitle(item, optionGroupTitleProp);
+                    return (
+                      <MenuItem
+                        key={idx}
+                        value={value}
+                        sx={{textIndent: '20px'}}>
+                        {title}
+                      </MenuItem>
+                    );
+                  });
+                }
               })}
             </Select>
             {errorInstance?.[id] && (

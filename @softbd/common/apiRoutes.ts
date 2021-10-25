@@ -128,6 +128,8 @@ export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 /** Routes for faq page */
 export const API_FRONT_SC = '/sc';
 
+export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
+
 export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
 export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_TRAINING_CENTERS =

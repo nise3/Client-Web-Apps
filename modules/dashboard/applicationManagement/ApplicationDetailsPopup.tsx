@@ -80,6 +80,13 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['applicationManagement.assignedBatch']}
+              value={itemData?.batch_id}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.paymentStatus']}
               value={itemData?.payment_status}
               isLoading={isLoading}
