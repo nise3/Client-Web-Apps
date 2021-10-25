@@ -56,32 +56,32 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const overviewItems = useMemo(
     () => [
       {
-        amount: youthStatisticsData?.enrolled_courses,
+        amount: youthStatisticsData?.enrolled_courses ?? 0,
         text: messages['youth_feed.course_enrolled'],
         color: '#c865e7',
       },
       {
-        amount: youthStatisticsData?.skill_matching_courses,
+        amount: youthStatisticsData?.skill_matching_courses ?? 0,
         text: messages['common.skill_matching_course'],
         color: '#5477f0',
       },
       {
-        amount: youthStatisticsData?.total_courses,
+        amount: youthStatisticsData?.total_courses ?? 0,
         text: messages['youth_feed.total_course'],
         color: '#20d5c9',
       },
       {
-        amount: youthStatisticsData?.jobs_apply,
+        amount: youthStatisticsData?.jobs_apply ?? 0,
         text: messages['youth_feed.job_apply'],
         color: '#32be7e',
       },
       {
-        amount: youthStatisticsData?.total_jobs,
+        amount: youthStatisticsData?.total_jobs ?? 0,
         text: messages['youth_feed.total_jobs'],
         color: '#e52d84',
       },
       {
-        amount: youthStatisticsData?.skill_matching_jobs,
+        amount: youthStatisticsData?.skill_matching_jobs ?? 0,
         text: messages['common.skill_matching_job'],
         color: '#fd9157',
       },

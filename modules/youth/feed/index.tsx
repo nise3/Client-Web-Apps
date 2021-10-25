@@ -9,16 +9,40 @@ import SideMenu from '../../../@softbd/elements/YouthSideMenu';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Container, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
+import Scrollbar from '../../../@crema/core/Scrollbar';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
-    marginTop: 20,
-    marginBottom: 20,
+    height: '81.5vh',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    marginTop: '40px',
   },
   root: {
     [theme.breakpoints.down('md')]: {
       alignItems: 'center',
       flexDirection: 'column',
+    },
+  },
+  scrollBarStyle: {
+    height: '82.5vh',
+    overflowY: 'hidden',
+    '&:hover': {
+      overflowY: 'auto',
+    },
+  },
+
+  rootScrollBar: {
+    overflowY: 'hidden',
+  },
+
+  scrollBar: {
+    height: '82.5vh',
+    overflowY: 'hidden',
+    '&:hover': {
+      $rootScrollBar: {
+        overflowY: 'auto',
+      },
     },
   },
 }));
@@ -41,55 +65,51 @@ const YouthFeedPage = () => {
   );
 
   return (
-    <Container maxWidth={'xl'} className={classes.container}>
-      <Grid
-        container
-        spacing={5}
-        className={classes.root}
-        sx={{
-          height: '100%',
-          border: '1px solid green',
-          overflow: 'hidden',
-        }}>
-        <Grid
-          item
-          xs={12}
-          md={3}
-          sx={{height: '200px', overflow: 'auto', border: '1px solid red'}}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <BasicInfo />
-            </Grid>
-            <Grid item xs={12}>
-              <SideMenu />
-            </Grid>
+    <Scrollbar className={classes.rootScrollBar}>
+      <Container maxWidth={'lg'} className={classes.container}>
+        <Grid container spacing={5}>
+          <Grid item xs={12} md={3}>
+            <Scrollbar className={classes.scrollBarStyle}>
+              <Grid container spacing={5}>
+                <Grid item xs={12}>
+                  <BasicInfo />
+                </Grid>
+                <Grid item xs={12}>
+                  <SideMenu />
+                </Grid>
+              </Grid>
+            </Scrollbar>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Scrollbar className={classes.scrollBar}>
+              <Grid container spacing={5}>
+                <Grid item xs={12}>
+                  <OverviewSection addFilter={filterPost} />
+                </Grid>
+                <Grid item xs={12}>
+                  <FeatureJobSection />
+                </Grid>
+                <Grid item xs={12}>
+                  <PostSection filters={filters} />
+                </Grid>
+              </Grid>
+            </Scrollbar>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Scrollbar className={classes.scrollBarStyle}>
+              <Grid container spacing={5}>
+                <Grid item xs={12}>
+                  <RecentJobSection />
+                </Grid>
+                <Grid item xs={12}>
+                  <CourseListSection />
+                </Grid>
+              </Grid>
+            </Scrollbar>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <OverviewSection addFilter={filterPost} />
-            </Grid>
-            <Grid item xs={12}>
-              <FeatureJobSection />
-            </Grid>
-            <Grid item xs={12}>
-              <PostSection filters={filters} />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <RecentJobSection />
-            </Grid>
-            <Grid item xs={12}>
-              <CourseListSection />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Scrollbar>
   );
 };
 
