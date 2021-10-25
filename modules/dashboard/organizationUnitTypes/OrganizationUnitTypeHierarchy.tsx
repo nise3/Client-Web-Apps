@@ -110,6 +110,7 @@ const OrganizationUnitTypeHierarchy = () => {
       console.log('item', item);
     }
   };
+
   function treeColoring(root: any, step: number) {
     let heading = root.getElementsByClassName('oc-heading')[0];
     if (heading) {
@@ -207,7 +208,9 @@ const OrganizationUnitTypeHierarchy = () => {
   }, []);
 
   const handleNodeClick = (event: any) => {
-    setAnchorEl(event.id);
+    const el = document.getElementById(event.id);
+    setAnchorEl(el ? el : event.id);
+
     const itemId = event.id
       .toString()
       .replace(HIERARCHY_NODE_ID_PREFIX_STRING, '');

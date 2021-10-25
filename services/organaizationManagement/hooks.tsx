@@ -127,6 +127,10 @@ export function useFetchHumanResourceTemplate(
   );
 }
 
+export function useFetchHumanResourceTemplates(params: any) {
+  return useAxiosSWR([API_HUMAN_RESOURCE_TEMPLATES, params]);
+}
+
 export function useFetchHumanResource(humanResourceId: number | null) {
   return useAxiosSWR(
     humanResourceId ? API_HUMAN_RESOURCES + '/' + humanResourceId : null,

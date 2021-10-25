@@ -190,10 +190,12 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .required()
         .email()
         .label(messages['common.email'] as string),
-      permission_sub_group_id: yup
-        .string()
-        .required()
-        .label(messages['permission_sub_group.label'] as string),
+      permission_sub_group_id: isEdit
+        ? yup.string().nullable()
+        : yup
+            .string()
+            .required()
+            .label(messages['permission_sub_group.label'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
@@ -400,18 +402,20 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='permission_sub_group_id'
-                label={messages['permission_sub_group.label']}
-                isLoading={isLoadingPermissionSubGroups}
-                control={control}
-                options={permissionSubGroups}
-                optionValueProp='id'
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
+            {!isEdit && (
+              <Grid item xs={12}>
+                <CustomFormSelect
+                  id='permission_sub_group_id'
+                  label={messages['permission_sub_group.label']}
+                  isLoading={isLoadingPermissionSubGroups}
+                  control={control}
+                  options={permissionSubGroups}
+                  optionValueProp='id'
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
             <Grid item xs={12}>
               <CustomTextInput
                 id='primary_phone'
