@@ -722,5 +722,7 @@
   "institute.type": "Institute Type",
   "education.major_subject": "Major Subject",
   "common.location_latitude": "Latitude",
-  "common.location_longitude": "Longitude"
+  "common.location_longitude": "Longitude",
+  "common.short_min" : "min",
+  "common.short_hour" : "hr"
 }

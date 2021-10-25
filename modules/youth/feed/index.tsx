@@ -42,8 +42,20 @@ const YouthFeedPage = () => {
 
   return (
     <Container maxWidth={'xl'} className={classes.container}>
-      <Grid container spacing={5} className={classes.root}>
-        <Grid item xs={12} md={3}>
+      <Grid
+        container
+        spacing={5}
+        className={classes.root}
+        sx={{
+          height: '100%',
+          border: '1px solid green',
+          overflow: 'hidden',
+        }}>
+        <Grid
+          item
+          xs={12}
+          md={3}
+          sx={{height: '200px', overflow: 'auto', border: '1px solid red'}}>
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <BasicInfo />

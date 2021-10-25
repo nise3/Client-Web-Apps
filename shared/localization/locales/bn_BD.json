@@ -724,5 +724,7 @@
   "level.intermediate": "মধ্যবর্তী",
   "level.expert": "বিশেষজ্ঞ",
   "common.location_latitude" : "অক্ষাংশ",
-  "common.location_longitude" : "দ্রাঘিমাংশ"
+  "common.location_longitude" : "দ্রাঘিমাংশ",
+  "common.short_min" : "মিনিট",
+  "common.short_hour" : "ঘন্টা"
 }

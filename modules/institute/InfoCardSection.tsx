@@ -55,10 +55,7 @@ const InfoCardSection = () => {
 
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container
-        maxWidth='lg'
-        className={classes.rootMobileView}
-        disableGutters>
+      <Container maxWidth='lg' className={classes.rootMobileView}>
         <Fade direction='up'>
           <UnderlinedHeading>একনজরে</UnderlinedHeading>
           <H5 gutterBottom={true} className={classes.subheading}>

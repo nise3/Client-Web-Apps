@@ -1,5 +1,7 @@
+import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
+import {useIntl} from 'react-intl';
 
 export const genders = [
   {
@@ -218,76 +220,18 @@ export const getValuesFromObjectArray = (objectArray: any) => {
 };
 
 export function camelToWords(str: string) {
-  let newKey = '';
-  let index = 0;
-  let code;
-  let wasPrevNumber = true;
-  let wasPrevUppercase = true;
-
-  while (index < str.length) {
-    code = str.charCodeAt(index);
-    if (index === 0) {
-      newKey += str[index].toUpperCase();
-    } else if (
-      (!wasPrevUppercase && code >= 65 && code <= 90) ||
-      (!wasPrevNumber && code >= 48 && code <= 57)
-    ) {
-      newKey += ' ';
-      newKey += str[index].toUpperCase();
-    } else {
-      newKey += str[index].toLowerCase();
-    }
-    wasPrevNumber = code >= 48 && code <= 57;
-    wasPrevUppercase = code >= 65 && code <= 90;
-    index++;
-  }
-
-  return newKey;
+  return lodashStartCase(str);
 }
 
-function camelToSnake(str: string) {
-  let newKey = '';
-  let index = 0;
-  let code;
-  let wasPrevNumber = true;
-  let wasPrevUppercase = true;
-
-  while (index < str.length) {
-    code = str.charCodeAt(index);
-    if (
-      (!wasPrevUppercase && code >= 65 && code <= 90) ||
-      (!wasPrevNumber && code >= 48 && code <= 57)
-    ) {
-      newKey += '_';
-      newKey += str[index].toLowerCase();
-    } else {
-      newKey += str[index].toLowerCase();
-    }
-    wasPrevNumber = code >= 48 && code <= 57;
-    wasPrevUppercase = code >= 65 && code <= 90;
-    index++;
-  }
-
-  return newKey;
-}
+// function toSnakeCase(str: string) {
+//   return snakeCase(str);
+// }
 
 function snakeToCamel(str: string) {
   const parts = str.split('_');
   return parts.reduce(function (p, c) {
     return p + c.charAt(0).toUpperCase() + c.slice(1);
   }, parts.shift()!);
-}
-
-export function toSnakeCase(object: any, exceptions: string[] = []) {
-  if (typeof object !== 'object' || object === null) {
-    return object;
-  }
-
-  return Object.keys(object).reduce((p: {[key: string]: any}, key: string) => {
-    const newKey = exceptions.indexOf(key) === -1 ? camelToSnake(key) : key;
-    p[newKey] = toSnakeCase(object[key]);
-    return p;
-  }, {});
 }
 
 export function toCamelCase(object: any, exceptions: string[] = []) {
@@ -322,13 +266,20 @@ export const isNeedToSelectOrganization = (
 export const courseDuration = (duration: number) => {
   let dh = 0;
   let dm = 0;
+  const {messages} = useIntl();
 
   if (duration / 60 < 1) {
-    return duration + 'min';
+    return duration + (messages['common.short_min'] as string);
   } else {
     dm = duration % 60;
     dh = Math.floor(duration / 60);
-    return dh + 'hr, ' + dm + 'min';
+    return (
+      dh +
+      (messages['common.short_hour'] as string) +
+      ',' +
+      dm +
+      (messages['common.short_min'] as string)
+    );
   }
 };
 

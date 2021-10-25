@@ -99,6 +99,12 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     padding: '20px 10px',
     color: theme.palette.primary.contrastText,
   },
+  firstMenuItem: {
+    ...headerFixedHeight,
+    padding: '20px 10px',
+    paddingLeft: 0,
+    color: theme.palette.primary.contrastText,
+  },
   menuItemActive: {
     backgroundColor: theme.palette.primary.light,
   },

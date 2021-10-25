@@ -24,7 +24,7 @@ const CustomSelectForFilter = ({
   return (
     <FormControl fullWidth>
       <InputLabel sx={{marginTop: -1}} id={labelId}>
-        {selectedOptionId ? '' : defaultLabel}
+        {defaultLabel}
       </InputLabel>
       <Select
         id={id}
