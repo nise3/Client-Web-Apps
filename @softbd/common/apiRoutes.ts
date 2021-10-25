@@ -110,8 +110,8 @@ export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
 /** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
-export const API_APPLICATION_PROCESSING =
-  INSTITUTE_SERVICE_PATH + '/application-processing';
+export const API_REJECT_COURSE_ENROLLMENT =
+  INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =

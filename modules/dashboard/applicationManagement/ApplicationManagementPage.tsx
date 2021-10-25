@@ -13,8 +13,8 @@ import Genders from '../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import ApproveButton from './ApproveButton';
-import {applicationProcess} from '../../../services/instituteManagement/RegistrationService';
+/*import ApproveButton from './ApproveButton';*/
+import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const ApplicationManagementPage = () => {
@@ -24,6 +24,7 @@ const ApplicationManagementPage = () => {
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
@@ -34,7 +35,21 @@ const ApplicationManagementPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const processIndividualApplication = async (
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, [isToggleTable]);
+
+  const rejectCourseEnrollment = async (enrollment_id: number) => {
+    let response = await rejectEnrollment(enrollment_id);
+    if (isResponseSuccess(response)) {
+      {
+        successStack(<IntlMessages id='applicationManagement.rejected' />);
+      }
+      refreshDataTable();
+    }
+  };
+
+  /*  const processIndividualApplication = async (
     filteredData: Application,
     application_status: string,
   ) => {
@@ -66,7 +81,7 @@ const ApplicationManagementPage = () => {
             );
       }
     }
-  };
+  };*/
 
   const columns = useMemo(
     () => [
@@ -136,22 +151,22 @@ const ApplicationManagementPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ApproveButton
-                acceptAction={() =>
-                  processIndividualApplication(data, 'accepted')
-                }
+              {/*<ApproveButton
+                acceptAction={() => processIndividualApplication(data.id)}
                 acceptTitle={messages['common.delete_confirm'] as string}
-              />
-              <RejectButton
-                rejectAction={() =>
-                  processIndividualApplication(data, 'rejected')
-                }
-                rejectTitle={messages['common.delete_confirm'] as string}
-              />
+              />*/}
+
+              {data.row_status !== 3 ? (
+                <RejectButton
+                  rejectAction={() => rejectCourseEnrollment(data.id)}
+                  rejectTitle={messages['common.delete_confirm'] as string}
+                />
+              ) : (
+                ''
+              )}
             </DatatableButtonGroup>
           );
         },
-        sortable: false,
       },
     ],
     [messages],
@@ -198,6 +213,7 @@ const ApplicationManagementPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
         {isOpenDetailsModal && selectedItemId && (
           <ApplicationDetailsPopup

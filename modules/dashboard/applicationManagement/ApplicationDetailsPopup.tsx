@@ -39,14 +39,14 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['programme.label']}
-              value={itemData?.program_title_en}
+              value={itemData?.program_title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['programme.label']}
-              value={itemData?.program_title}
+              label={messages['programme.label_en']}
+              value={itemData?.program_title_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -59,7 +59,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['course.label']}
+              label={messages['course.label_en']}
               value={itemData?.course_title}
               isLoading={isLoading}
             />
@@ -73,7 +73,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['training_center.label']}
+              label={messages['training_center.label_en']}
               value={itemData?.training_center_title_en}
               isLoading={isLoading}
             />
