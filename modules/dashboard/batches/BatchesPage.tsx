@@ -80,8 +80,8 @@ const BatchesPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['course.label'],
-        accessor: 'course_title_en',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['batches.total_and_available_seat'],

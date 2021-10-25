@@ -189,7 +189,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       initialValues.parent_id = '';
       reset(initialValues);
     }
-  }, [itemId, humanResourceData, organizationUnitData]);
+  }, [itemId, humanResourceData, organizationUnitData, reset]);
 
   useEffect(() => {
     if (humanResourceData && humanResources) {
