@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_JOB_SECTORS} from '../../@softbd/common/apiRoutes';
 
-const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
-
+/**
+ * @deprecated
+ */
 export const getAllJobSectors = async (params = {}) => {
   try {
     let response: any = await apiGet(API_JOB_SECTORS, {params});
@@ -13,6 +14,9 @@ export const getAllJobSectors = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getJobSector = async (jobSectorId: number) => {
   try {
     let response: any = await apiGet(API_JOB_SECTORS + '/' + jobSectorId);

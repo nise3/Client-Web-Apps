@@ -1,8 +1,5 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-
-export const API_HUMAN_RESOURCES =
-  ORGANIZATION_SERVICE_PATH + '/human-resources';
+import {API_HUMAN_RESOURCES} from '../../@softbd/common/apiRoutes';
 
 export const getAllHumanResources = async (params = {}) => {
   try {

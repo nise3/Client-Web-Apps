@@ -1,8 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {CORE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
-
-const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
+import {API_PERMISSION_GROUPS} from '../../@softbd/common/apiRoutes';
 
 /**
  * @deprecated

@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_RANK_TYPES} from '../../@softbd/common/apiRoutes';
 
-const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
-
+/**
+ * @deprecated
+ */
 export const getAllRankTypes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_RANK_TYPES, {params});
@@ -13,6 +14,9 @@ export const getAllRankTypes = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getRankType = async (RankTypeId: number) => {
   try {
     let response: any = await apiGet(API_RANK_TYPES + '/' + RankTypeId);

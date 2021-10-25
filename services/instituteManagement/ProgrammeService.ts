@@ -2,6 +2,9 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PROGRAMMES} from '../../@softbd/common/apiRoutes';
 
+/**
+ * @deprecated
+ */
 export const getAllProgrammes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_PROGRAMMES, {params});
@@ -11,6 +14,9 @@ export const getAllProgrammes = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getProgramme = async (programmeId: number) => {
   try {
     let response: any = await apiGet(API_PROGRAMMES + '/' + programmeId);

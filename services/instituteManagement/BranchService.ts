@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_BRANCHES} from '../../@softbd/common/apiRoutes';
 
-const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
-
+/**
+ * @deprecated
+ */
 export const getAllBranches = async (params = {}) => {
   try {
     let response: any = await apiGet(API_BRANCHES, {params});
@@ -13,6 +14,9 @@ export const getAllBranches = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getBranchesByInstitute = async (instituteId: number) => {
   try {
     let response: any = await apiGet(
@@ -24,6 +28,9 @@ export const getBranchesByInstitute = async (instituteId: number) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getBranch = async (branchId: number) => {
   try {
     let response: any = await apiGet(API_BRANCHES + '/' + branchId);

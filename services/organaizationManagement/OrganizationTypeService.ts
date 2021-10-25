@@ -1,10 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_ORGANIZATION_TYPES} from '../../@softbd/common/apiRoutes';
 
-const API_ORGANIZATION_TYPES =
-  ORGANIZATION_SERVICE_PATH + '/organization-types';
-
+/**
+ * @deprecated
+ */
 export const getAllOrganizationTypes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATION_TYPES, {params});

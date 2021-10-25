@@ -1,9 +1,10 @@
-import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
+import {API_INSTITUTES} from '../../@softbd/common/apiRoutes';
 
-const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
-
+/**
+ * @deprecated
+ */
 export const getAllInstitutes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_INSTITUTES, {params});
@@ -14,6 +15,9 @@ export const getAllInstitutes = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getInstitute = async (InstituteId: number) => {
   try {
     let response: any = await apiGet(API_INSTITUTES + '/' + InstituteId);
