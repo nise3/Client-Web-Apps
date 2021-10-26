@@ -68,25 +68,19 @@ const RoleDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['permission_sub_group.label']}
+              label={messages['common.description']}
               value={itemData?.permission_sub_group_title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['organization.label']}
-              value={itemData?.organization_title_en}
+              label={messages['permission_sub_group.label']}
+              value={itemData?.description}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['institute.label']}
-              value={itemData?.institute_title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
+
           <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}

@@ -25,14 +25,17 @@ type Role = {
   permission_sub_group_id: string | number | null;
   organization_id?: string | number | null;
   institute_id?: string | number | null;
+  description?: string | null;
   row_status?: string;
 };
 
 type Permission = {
   id: number;
-  name: string;
+  title: string;
+  title_en: string;
   uri: string;
-  method: string;
+  key: string;
+  method: number | string;
   module: string;
   method_name?: string;
 };

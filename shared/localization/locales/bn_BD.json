@@ -402,6 +402,7 @@
   "permissions.sync_permission": "Sync Permission",
   "common.assign_permission": "Assign Permission",
   "permission.module": "মডিউলের নাম",
+  "permission.key": "কী(Key)",
   "common.settings": "সেটিংস",
   "common.delete_account": "একাউন্ট মুছে ফেলুন",
   "common.change_user_id": "ইউজার আইডি পরিবর্তন",

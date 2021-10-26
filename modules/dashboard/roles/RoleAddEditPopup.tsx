@@ -39,6 +39,7 @@ const initialValues = {
   title: '',
   key: '',
   permission_sub_group_id: '',
+  description: '',
   /*organization_id: '',
   institute_id: '',*/
   row_status: '1',
@@ -51,7 +52,6 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
@@ -88,15 +88,6 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.key'] as string),
-      permission_sub_group_id: authUser?.isSystemUser
-        ? yup
-            .string()
-            .required()
-            .label(messages['permission_sub_group.label'] as string)
-        : yup.string().label(messages['permission_sub_group.label'] as string),
-      /*institute_id: yup.string().nullable(),
-      organization_id: yup.string().nullable(),*/
-      row_status: yup.string(),
     });
   }, [messages]);
   const {
@@ -183,15 +174,6 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -201,13 +183,33 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='key'
-            label={messages['role.unique_value']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='key'
+            label={messages['common.key']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='description'
+            label={messages['common.description']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         {authUser?.isSystemUser && (
           <Grid item xs={6}>
             <CustomFormSelect

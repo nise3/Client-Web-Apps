@@ -26,10 +26,12 @@ interface PermissionGroupAddEditPopupProps {
 }
 
 const initialValues = {
-  name: '',
+  title: '',
+  title_en: '',
   uri: '',
   method: '',
   module: '',
+  key: '',
 };
 
 const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
@@ -49,19 +51,30 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   } = useFetchPermission(itemId);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      name: yup
+      title: yup
         .string()
         .trim()
         .required()
-        .label(messages['common.name'] as string),
+        .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title_en'] as string),
+      key: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['permission.key'] as string),
       uri: yup
         .string()
         .required()
         .label('URI')
         .label(messages['permission.uri'] as string),
       method: yup
-        .string()
+        .number()
         .required()
+        .max(5)
         .label(messages['permission.method'] as string),
       module: yup
         .string()
@@ -82,7 +95,8 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        name: itemData?.name,
+        title_en: itemData?.title_en,
+        title: itemData?.title,
         uri: itemData?.uri,
         method: itemData?.method,
         module: itemData?.module,
@@ -145,8 +159,26 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='name'
-            label={messages['common.name']}
+            id='title'
+            label={messages['common.title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='key'
+            label={messages['permission.key']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

@@ -51,18 +51,19 @@ const PermissionGroupDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['permission_group.key']}
