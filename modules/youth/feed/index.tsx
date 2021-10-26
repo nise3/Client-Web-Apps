@@ -70,11 +70,11 @@ const YouthFeedPage = () => {
     (filterKey: string, filterValue: number | null) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
-      console.log('filters', filters);
 
       setFilters((prev: any) => {
         return {...prev, ...newFilter};
       });
+      console.log('filters', filters);
     },
     [filters],
   );
