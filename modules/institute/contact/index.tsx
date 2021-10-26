@@ -6,12 +6,8 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
 import {createRankType} from '../../../services/organaizationManagement/RankTypeService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import makeStyles from '@mui/styles/makeStyles';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -57,7 +53,7 @@ const useStyles = makeStyles((theme) => {
 
 const InstituteContact = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const classes = useStyles();
 
   const {data: mapsData} = useFetchInstitutesContactMap();
@@ -109,18 +105,18 @@ const InstituteContact = () => {
   });
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    const response = await createRankType(data);
-    if (isResponseSuccess(response)) {
+    try {
+      await createRankType(data);
       successStack(
         <IntlMessages
           id='common.subject_updated_successfully'
           values={{subject: <IntlMessages id='contact.institute' />}}
         />,
       );
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+      reset();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
-    reset();
   };
 
   return (

@@ -21,14 +21,11 @@ import {
   useFetchRankType,
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {
-  isNeedToSelectOrganization,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {isNeedToSelectOrganization} from '../../../@softbd/utilities/helpers';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../@softbd/libs/yup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -52,7 +49,8 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
 }) => {
   const authUser = useAuthUser();
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -113,30 +111,19 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     if (authUser?.isOrganizationUser && authUser.organization?.id) {
       data.organization_id = authUser.organization.id;
     }
-    const response = itemId
-      ? await updateRankType(itemId, data)
-      : await createRankType(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
-        />,
-      );
-      mutateRankType();
+    try {
+      if (itemId) {
+        await updateRankType(itemId, data);
+        updateSuccessMessage('rank_types.label');
+        mutateRankType();
+      } else {
+        await createRankType(data);
+        createSuccessMessage('rank_types.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='rank_types.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

@@ -16,17 +16,13 @@ import {
   createBranch,
   updateBranch,
 } from '../../../services/instituteManagement/BranchService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {
   useFetchBranch,
   useFetchInstitutes,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -36,6 +32,8 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -61,13 +59,13 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
   const [divisionsFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
-
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
@@ -153,31 +151,19 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
-    const response = itemId
-      ? await updateBranch(itemId, data)
-      : await createBranch(data);
-
-    if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='branch.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateBranch(itemId, data);
+        updateSuccessMessage('branch.label');
+        mutateBranch();
+      } else {
+        await createBranch(data);
+        createSuccessMessage('branch.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='branch.label' />}}
-        />,
-      );
-      mutateBranch();
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

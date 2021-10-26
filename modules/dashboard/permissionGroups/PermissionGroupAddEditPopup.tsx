@@ -12,16 +12,13 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionGroup} from '../../../services/userManagement/hooks';
 import {
   createPermissionGroup,
   updatePermissionGroup,
 } from '../../../services/userManagement/PermissionGroupService';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -42,7 +39,8 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
 
   const {
@@ -92,30 +90,19 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<PermissionGroup> = async (
     data: PermissionGroup,
   ) => {
-    const response = itemId
-      ? await updatePermissionGroup(itemId, data)
-      : await createPermissionGroup(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='permission_group.label' />}}
-        />,
-      );
-      mutatePermissionGroup();
+    try {
+      if (itemId) {
+        await updatePermissionGroup(itemId, data);
+        updateSuccessMessage('permission_group.label');
+        mutatePermissionGroup();
+      } else {
+        await createPermissionGroup(data);
+        createSuccessMessage('permission_group.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='permission_group.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

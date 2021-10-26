@@ -15,13 +15,10 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
 import {useIntl} from 'react-intl';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -41,7 +38,8 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -82,31 +80,19 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
-    const response = itemId
-      ? await updateJobSector(itemId, data)
-      : await createJobSector(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
-        />,
-      );
-      mutateJobSector();
+    try {
+      if (itemId) {
+        await updateJobSector(itemId, data);
+        updateSuccessMessage('job_sectors.label');
+        mutateJobSector();
+      } else {
+        await createJobSector(data);
+        createSuccessMessage('job_sectors.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

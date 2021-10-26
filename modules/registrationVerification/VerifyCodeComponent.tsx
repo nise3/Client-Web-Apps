@@ -8,12 +8,8 @@ import yup from '../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {youthRegistrationVerification} from '../../services/youthManagement/YouthRegistrationService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../@softbd/utilities/helpers';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 
@@ -71,24 +67,23 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    let requestData: any = {};
-    requestData.verification_code =
-      data.code1 + data.code2 + data.code3 + data.code4;
+    try {
+      let requestData: any = {};
+      requestData.verification_code =
+        data.code1 + data.code2 + data.code3 + data.code4;
 
-    if (userEmailAndMobile?.mobile)
-      requestData.mobile = userEmailAndMobile.mobile;
-    if (userEmailAndMobile?.email) requestData.email = userEmailAndMobile.email;
+      if (userEmailAndMobile?.mobile)
+        requestData.mobile = userEmailAndMobile.mobile;
+      if (userEmailAndMobile?.email)
+        requestData.email = userEmailAndMobile.email;
 
-    const response = await youthRegistrationVerification(requestData);
-    if (isResponseSuccess(response)) {
+      await youthRegistrationVerification(requestData);
       successStack(
         <IntlMessages id='youth_registration.verification_success' />,
       );
       redirectToSSO();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
-    } else {
-      errorStack(<IntlMessages id='youth_registration.verification_failed' />);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
   return (

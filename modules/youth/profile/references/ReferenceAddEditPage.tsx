@@ -1,18 +1,13 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Grid, Zoom, Box} from '@mui/material';
+import {Box, Grid, Zoom} from '@mui/material';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
 import {useFetchReference} from '../../../../services/youthManagement/hooks';
@@ -22,6 +17,7 @@ import {
 } from '../../../../services/youthManagement/ReferenceService';
 import {YouthReference} from '../../../../services/youthManagement/typing';
 import CustomHookForm from '../component/CustomHookForm';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface ReferenceAddEditPageProps {
   itemId: number | null;
@@ -50,7 +46,8 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   ...props
 }: ReferenceAddEditPageProps) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
     mutate: mutateReference,
@@ -108,8 +105,6 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const isEdit = itemId != null;
-
   useEffect(() => {
     if (itemData) {
       reset({
@@ -136,29 +131,18 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthReference> = async (
     data: YouthReference,
   ) => {
-    const response = itemId
-      ? await updateReference(itemId, data)
-      : await createReference(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='common.reference' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateReference(itemId, data);
+        updateSuccessMessage('common.reference');
+      } else {
+        await createReference(data);
+        createSuccessMessage('common.reference');
+      }
       mutateReference();
       props.onClose();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='common.reference' />}}
-        />,
-      );
-      mutateReference();
-      props.onClose();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

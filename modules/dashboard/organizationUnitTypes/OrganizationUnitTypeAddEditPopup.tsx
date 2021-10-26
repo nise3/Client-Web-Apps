@@ -19,15 +19,12 @@ import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUni
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {
   useFetchOrganizations,
   useFetchOrganizationUnitType,
 } from '../../../services/organaizationManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
@@ -46,7 +43,8 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
   ({itemId, refreshDataTable, ...props}) => {
     const authUser = useAuthUser();
     const {messages} = useIntl();
-    const {successStack} = useNotiStack();
+    const {errorStack} = useNotiStack();
+    const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
     const isEdit = itemId != null;
     const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
     const {
@@ -106,34 +104,24 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
         data.organization_id = authUser.organization.id;
       }
 
-      const response = itemId
-        ? await updateOrganizationUnitType(itemId, data)
-        : await createOrganizationUnitType(data);
-      if (isResponseSuccess(response) && isEdit) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{
-              subject: <IntlMessages id='organization_unit_type.label' />,
-            }}
-          />,
-        );
-        mutateOrganizationUnitType();
+      try {
+        if (itemId) {
+          await updateOrganizationUnitType(itemId, data);
+          updateSuccessMessage('organization_unit_type.label');
+          mutateOrganizationUnitType();
+        } else {
+          await createOrganizationUnitType(data);
+          createSuccessMessage('organization_unit_type.label');
+        }
         props.onClose();
         refreshDataTable();
-      } else if (isResponseSuccess(response) && !isEdit) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{
-              subject: <IntlMessages id='organization_unit_type.label' />,
-            }}
-          />,
-        );
-        props.onClose();
-        refreshDataTable();
-      } else if (isValidationError(response)) {
-        setServerValidationErrors(response.errors, setError, validationSchema);
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          setError,
+          validationSchema,
+          errorStack,
+        });
       }
     };
 

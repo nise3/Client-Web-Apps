@@ -16,12 +16,9 @@ import {
   createSkill,
   updateSkill,
 } from '../../../services/organaizationManagement/SkillService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
@@ -42,8 +39,9 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
     isLoading,
@@ -90,30 +88,19 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Skill> = async (data: Skill) => {
-    const response = itemId
-      ? await updateSkill(itemId, data)
-      : await createSkill(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='skill.label' />}}
-        />,
-      );
-      mutateSkill();
+    try {
+      if (itemId) {
+        await updateSkill(itemId, data);
+        updateSuccessMessage('skill.label');
+        mutateSkill();
+      } else {
+        await createSkill(data);
+        createSuccessMessage('skill.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='skill.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

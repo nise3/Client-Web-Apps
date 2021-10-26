@@ -3,12 +3,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
@@ -21,6 +16,7 @@ import {
 } from '../../../../services/youthManagement/PortfolioService';
 import CustomHookForm from '../component/CustomHookForm';
 import {YouthPortfolio} from '../../../../services/youthManagement/typing';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -37,8 +33,8 @@ const initialValues = {
 
 const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
-  const isEdit = itemId != null;
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
     mutate: mutatePortfolio,
@@ -81,28 +77,18 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     //demo file url
     data.file_path = 'http://lorempixel.com/400/200/';
 
-    const response = itemId
-      ? await updatePortfolio(itemId, data)
-      : await createPortfolio(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='portfolio.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updatePortfolio(itemId, data);
+        updateSuccessMessage('portfolio.label');
+      } else {
+        await createPortfolio(data);
+        createSuccessMessage('portfolio.label');
+      }
       mutatePortfolio();
       props.onClose();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='portfolio.label' />}}
-        />,
-      );
-      props.onClose();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

@@ -1,16 +1,11 @@
-import {Grid, Zoom, Box} from '@mui/material';
+import {Box, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  getMomentDateFormat,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
+import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
@@ -24,6 +19,7 @@ import {
 } from '../../../../services/youthManagement/CertificateService';
 import {useFetchYouthCertificate} from '../../../../services/youthManagement/hooks';
 import CustomHookForm from '../component/CustomHookForm';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -44,9 +40,9 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   onClose: onCertificationAddEditPageClose,
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  const isEdit = itemId != null;
   const {
     data: itemData,
     mutate: certificateMutate,
@@ -135,34 +131,19 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthCertificate> = async (
     data: YouthCertificate,
   ) => {
-    //demo certificate url
     data.certificate_file_path = 'http://lorempixel.com/400/200/';
-
-    console.log('data', data);
-
-    const response = itemId
-      ? await updateCertificate(itemId, data)
-      : await createCertificate(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='certificate.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateCertificate(itemId, data);
+        updateSuccessMessage('certificate.label');
+      } else {
+        await createCertificate(data);
+        createSuccessMessage('certificate.label');
+      }
       certificateMutate();
       onCertificationAddEditPageClose();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='certificate.label' />}}
-        />,
-      );
-      certificateMutate();
-      onCertificationAddEditPageClose();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

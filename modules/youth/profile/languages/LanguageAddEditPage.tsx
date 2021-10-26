@@ -1,19 +1,14 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {Grid, Zoom, Box} from '@mui/material';
+import {Box, Grid, Zoom} from '@mui/material';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   LanguageProficiencySpeakingType,
@@ -26,6 +21,7 @@ import {
   updateLanguageProficiency,
 } from '../../../../services/youthManagement/LanguageProficiencyService';
 import CustomHookForm from '../component/CustomHookForm';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface LanguageAddEditPageProps {
   itemId: number | null;
@@ -52,7 +48,8 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
     isLoading,
@@ -121,8 +118,6 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const isEdit = itemId != null;
-
   useEffect(() => {
     if (itemData) {
       reset({
@@ -140,28 +135,18 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthLanguageProficiency> = async (
     data: YouthLanguageProficiency,
   ) => {
-    const response = itemId
-      ? await updateLanguageProficiency(itemId, data)
-      : await createLanguageProficiency(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='language_proficiency.title' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateLanguageProficiency(itemId, data);
+        updateSuccessMessage('language_proficiency.label');
+      } else {
+        await createLanguageProficiency(data);
+        createSuccessMessage('language_proficiency.label');
+      }
       mutateLanguageProficiency();
       onLanguageAddEditFormClose();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='language_proficiency.title' />}}
-        />,
-      );
-      onLanguageAddEditFormClose();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

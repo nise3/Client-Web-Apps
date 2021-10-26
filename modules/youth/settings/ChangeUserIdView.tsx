@@ -8,13 +8,10 @@ import {ChevronLeft} from '@mui/icons-material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
 import {changeUserId} from '../../../services/youthManagement/SettingsService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+
 interface ChangeUserIdProps {
   onBack: () => void;
 }
@@ -22,7 +19,7 @@ interface ChangeUserIdProps {
 const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
   const {messages} = useIntl();
   const classes = useStyles();
-  const {successStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       old_email: yup
@@ -48,11 +45,12 @@ const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
-    let response = await changeUserId(data);
-    if (isResponseSuccess(response)) {
+
+    try {
+      await changeUserId(data);
       successStack(<IntlMessages id='youth_registration.success' />);
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

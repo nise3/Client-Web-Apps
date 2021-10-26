@@ -16,8 +16,6 @@ import {useIntl} from 'react-intl';
 import {
   getObjectArrayFromValueArray,
   getValuesFromObjectArray,
-  isResponseSuccess,
-  isValidationError,
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
@@ -36,13 +34,14 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 export enum InstituteType {
   GOVERNMENT = '1',
@@ -91,7 +90,8 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const instituteTypes = useMemo(
     () => [
       {
@@ -323,34 +323,22 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<Institute> = async (data: Institute) => {
-    data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
-    data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
+    try {
+      data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
+      data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
 
-    const response = itemId
-      ? await updateInstitute(itemId, data)
-      : await createInstitute(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='institute.label' />}}
-        />,
-      );
-      mutateInstitute();
+      if (itemId) {
+        await updateInstitute(itemId, data);
+        updateSuccessMessage('institute.label');
+        mutateInstitute();
+      } else {
+        await createInstitute(data);
+        createSuccessMessage('institute.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='institute.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

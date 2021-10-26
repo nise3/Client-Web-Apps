@@ -24,13 +24,9 @@ import Genders from '../../../@softbd/utilities/Genders';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import {youthRegistration} from '../../../services/youthManagement/YouthRegistrationService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {CheckCircle} from '@mui/icons-material';
 import PhysicalDisabilities from '../../../@softbd/utilities/PhysicalDisabilities';
 import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
@@ -93,7 +89,7 @@ const nationalities = [
 const YouthRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
   const router = useRouter();
 
   const [filters] = useState({});
@@ -381,21 +377,21 @@ const YouthRegistration = () => {
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    const queryParam =
-      userNameType == UserNameType.MOBILE
-        ? {mobile: data.mobile}
-        : {email: data.email};
+    try {
+      const queryParam =
+        userNameType == UserNameType.MOBILE
+          ? {mobile: data.mobile}
+          : {email: data.email};
 
-    data.user_name_type = userNameType;
-    if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
-      delete data.physical_disabilities;
-    }
-    data.does_belong_to_ethnic_group = isBelongToEthnicGroup
-      ? EthnicGroupStatus.YES
-      : EthnicGroupStatus.NO;
+      data.user_name_type = userNameType;
+      if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
+        delete data.physical_disabilities;
+      }
+      data.does_belong_to_ethnic_group = isBelongToEthnicGroup
+        ? EthnicGroupStatus.YES
+        : EthnicGroupStatus.NO;
 
-    const response = await youthRegistration(data);
-    if (isResponseSuccess(response)) {
+      await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       router
         .push({
@@ -403,8 +399,8 @@ const YouthRegistration = () => {
           query: queryParam,
         })
         .then((r) => {});
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

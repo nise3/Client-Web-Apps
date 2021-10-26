@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {
-  map as lodashMap,
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
+  map as lodashMap,
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
@@ -15,13 +15,13 @@ import {Theme} from '@mui/material/styles';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import {assignPermissions} from '../../../services/userManagement/RoleService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   useFetchPermissionSubGroup,
   useFetchRole,
 } from '../../../services/userManagement/hooks';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +41,8 @@ const AssignPermissionToRolePage = () => {
   const classes = useStyles();
   const router = useRouter();
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {updateSuccessMessage} = useSuccessMessage();
   const {roleId} = router.query;
 
   const [permissions, setPermissions] = useState<any>({});
@@ -149,17 +150,11 @@ const AssignPermissionToRolePage = () => {
   );
   const syncPermissionAction = useCallback(async () => {
     setIsSubmitting(true);
-    const response = await assignPermissions(
-      Number(roleId),
-      Array.from(checkedPermissions),
-    );
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='permission.label' />}}
-        />,
-      );
+    try {
+      await assignPermissions(Number(roleId), Array.from(checkedPermissions));
+      updateSuccessMessage('permission.label');
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
     }
     setIsSubmitting(false);
   }, [roleId, checkedPermissions]);

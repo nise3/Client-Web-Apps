@@ -17,16 +17,13 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchJobSectors,
   useFetchOccupation,
 } from '../../../services/organaizationManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
@@ -47,7 +44,9 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -98,30 +97,20 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
-    const response = itemId
-      ? await updateOccupation(itemId, data)
-      : await createOccupation(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='occupations.label' />}}
-        />,
-      );
-      mutateOccupation();
+    try {
+      if (itemId) {
+        await updateOccupation(itemId, data);
+        updateSuccessMessage('occupations.label');
+        mutateOccupation();
+      } else {
+        await createOccupation(data);
+        createSuccessMessage('occupations.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='occupations.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      // setServerValidationErrors(response.errors, setError, validationSchema);
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

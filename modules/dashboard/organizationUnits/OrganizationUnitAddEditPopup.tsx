@@ -19,11 +19,7 @@ import {
   createOrganizationUnit,
   updateOrganizationUnit,
 } from '../../../services/organaizationManagement/OrganizationUnitService';
-import {
-  isNeedToSelectOrganization,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
+import {isNeedToSelectOrganization} from '../../../@softbd/utilities/helpers';
 import {
   useFetchOrganizations,
   useFetchOrganizationServices,
@@ -35,13 +31,14 @@ import {
   useFetchDivisions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -76,7 +73,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
 }) => {
   const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -242,47 +240,27 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       data.organization_id = authUser.organization.id;
     }
 
-    const response = itemId
-      ? await updateOrganizationUnit(itemId, data)
-      : await createOrganizationUnit(data);
-    let assignServicesResponse;
-    if (itemId && isEdit) {
-      assignServicesResponse = await assignServiceToOrganizationUnit(
-        itemId,
-        data.services,
-      );
-    } else if (response && response.data) {
-      assignServicesResponse = await assignServiceToOrganizationUnit(
-        response.data.id,
-        data.services,
-      );
-    }
+    try {
+      const response = itemId
+        ? await updateOrganizationUnit(itemId, data)
+        : await createOrganizationUnit(data);
 
-    if (isResponseSuccess(response) && assignServicesResponse && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='organization_unit.label' />}}
-        />,
+      await assignServiceToOrganizationUnit(
+        itemId || response.data.id,
+        data.services,
       );
-      mutateOrganizationUnit();
+
+      if (itemId) {
+        updateSuccessMessage('organization_unit.label');
+        mutateOrganizationUnit();
+      } else {
+        createSuccessMessage('organization_unit.label');
+      }
+
       props.onClose();
       refreshDataTable();
-    } else if (
-      isResponseSuccess(response) &&
-      assignServicesResponse &&
-      !isEdit
-    ) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='organization_unit.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, validationSchema, setError, errorStack});
     }
   };
 

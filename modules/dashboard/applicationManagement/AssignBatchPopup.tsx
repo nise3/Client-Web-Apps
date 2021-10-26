@@ -11,11 +11,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchApplicationDetails,
   useFetchBatchesToAssign,
@@ -40,7 +36,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const isEdit = itemId != null;
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
 
@@ -78,19 +74,20 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<BatchAssign> = async (data: BatchAssign) => {
-    const response = await assignBatch(data, itemId);
-
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='applicationManagement.batchAssigned'
-          values={{subject: <IntlMessages id='common.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await assignBatch(data, itemId);
+        successStack(
+          <IntlMessages
+            id='applicationManagement.batchAssigned'
+            values={{subject: <IntlMessages id='common.label' />}}
+          />,
+        );
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, validationSchema, setError, errorStack});
     }
   };
 

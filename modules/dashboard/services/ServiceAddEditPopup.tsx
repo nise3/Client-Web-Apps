@@ -17,11 +17,8 @@ import {
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IconService from '../../../@softbd/icons/IconService';
 import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;
@@ -41,7 +38,8 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -84,30 +82,19 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Service> = async (data: Service) => {
-    const response = itemId
-      ? await updateService(itemId, data)
-      : await createService(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='services.label' />}}
-        />,
-      );
-      mutateService();
+    try {
+      if (itemId) {
+        await updateService(itemId, data);
+        updateSuccessMessage('services.label');
+        mutateService();
+      } else {
+        await createService(data);
+        createSuccessMessage('services.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='services.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

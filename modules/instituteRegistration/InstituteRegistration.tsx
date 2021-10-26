@@ -8,12 +8,8 @@ import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButto
 import yup from '../../@softbd/libs/yup';
 import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../@softbd/utilities/helpers';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {createRegistration} from '../../services/instituteManagement/RegistrationService';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
@@ -32,6 +28,7 @@ import {
 const InstituteRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
   const isLoading = false;
   const [filters] = useState({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
@@ -142,8 +139,8 @@ const InstituteRegistration = () => {
   const {successStack} = useNotiStack();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    const response = await createRegistration(data);
-    if (isResponseSuccess(response)) {
+    try {
+      await createRegistration(data);
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
@@ -152,8 +149,8 @@ const InstituteRegistration = () => {
           }}
         />,
       );
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

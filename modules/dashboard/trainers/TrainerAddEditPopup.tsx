@@ -15,20 +15,18 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import {
+  genders,
   getMomentDateFormat,
-  isResponseSuccess,
-  isValidationError,
+  marital_status,
+  religions,
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-import {genders} from '../../../@softbd/utilities/helpers';
-import {religions} from '../../../@softbd/utilities/helpers';
-import {marital_status} from '../../../@softbd/utilities/helpers';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 import {
   useFetchBranches,
@@ -42,9 +40,10 @@ import {
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
-  filterUpazilasByDistrictId,
   filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -95,7 +94,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
 
   const {
@@ -326,30 +326,19 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
-    const response = itemId
-      ? await updateTrainer(itemId, data)
-      : await createTrainer(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='trainers.label' />}}
-        />,
-      );
-      mutateTrainer();
+    try {
+      if (itemId) {
+        await updateTrainer(itemId, data);
+        updateSuccessMessage('trainers.label');
+        mutateTrainer();
+      } else {
+        await createTrainer(data);
+        createSuccessMessage('trainers.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='trainers.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

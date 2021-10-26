@@ -14,13 +14,11 @@ import {
 } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
 import IconDivision from '../../../@softbd/icons/IconDivision';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
@@ -40,7 +38,8 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -89,31 +88,19 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Division> = async (data: Division) => {
-    const response = itemId
-      ? await updateDivision(itemId, data)
-      : await createDivision(data);
-
-    if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='divisions.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateDivision(itemId, data);
+        updateSuccessMessage('divisions.label');
+        mutateDivision();
+      } else {
+        await createDivision(data);
+        createSuccessMessage('divisions.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='divisions.label' />}}
-        />,
-      );
-      mutateDivision();
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
