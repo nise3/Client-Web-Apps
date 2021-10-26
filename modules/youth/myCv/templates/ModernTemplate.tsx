@@ -1,15 +1,12 @@
 import React, {FC, useCallback} from 'react';
-import {Box, Slide, Typography} from '@mui/material';
+import {Box, Slide} from '@mui/material';
 import useStyles from '../index.style';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
-import pageSVG from '../../../../public/images/cv/CV_Temp_Modern.cv.svg';
+import pageSVG from '../../../../public/images/cv/CV_Temp_Modern';
 
 interface ModernTemplateProps {
   userData: any;
 }
-
-// const pageSVG
-// const FD = {}
 
 const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
   const classes: any = useStyles();
@@ -39,17 +36,6 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
     // setAreaText(svgNode, 'experience', userData.jobExperiences);
     // setAreaText(svgNode, 'computerskill', userData.skills);
   }, []);
-
-  const getModernEducationItem = (text: string, isBold: boolean) => {
-    return (
-      <Typography
-        variant={'caption'}
-        fontWeight={isBold ? 'bold' : 'normal'}
-        className='text'>
-        {text}
-      </Typography>
-    );
-  };
 
   return (
     <Slide direction={'right'} in={true}>

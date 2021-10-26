@@ -38,19 +38,10 @@ module.exports = (phase) => {
     ignoreBuildErrors: true,
   };
 
-  const webpack = (config) => {
-    config.module.rules.push({
-      test: /\.cv.svg$/,
-      type: 'asset/source',
-    });
-    return config;
-  };
-
   return {
     env,
     images,
     rewrite,
     typescript,
-    webpack,
   };
 };

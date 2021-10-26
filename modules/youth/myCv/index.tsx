@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {CardMedia, Container, Grid, Typography} from '@mui/material';
+import React, {useCallback, useRef, useState} from 'react';
+import {Button, CardMedia, Container, Grid, Typography} from '@mui/material';
 import useStyles from './index.style';
 import {useIntl} from 'react-intl';
 import clsx from 'clsx';
@@ -118,6 +118,36 @@ const MyCVPage = () => {
     setSelectedTemplateKey(key);
   }, []);
 
+  const refer = useRef(null);
+  const printCB = useCallback(() => {
+    if (refer && refer.current) {
+    } else return;
+    // @ts-ignore
+    const svg = refer.current.querySelector('svg');
+    if (svg && svg.outerHTML) {
+      const html = svg.outerHTML;
+      const frameName = 'printIframe';
+      // @ts-ignore
+      let doc: any = window.frames[frameName];
+      if (!doc) {
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('name', frameName);
+        iframe.setAttribute('frameborder', '0');
+        iframe.style.opacity = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.bottom = '0';
+        iframe.style.position = 'fixed';
+        iframe.style.pointerEvents = 'none';
+        document.body.appendChild(iframe);
+        // @ts-ignore
+        doc = window.frames[frameName];
+      }
+      doc.document.body.innerHTML = html;
+      doc.window.print();
+    }
+  }, []);
+
   const getTemplate = () => {
     switch (selectedTemplateKey) {
       case CVTemplateKeys.CLASSIC:
@@ -133,9 +163,21 @@ const MyCVPage = () => {
 
   return (
     <Container maxWidth={'xl'} className={classes.root}>
-      <Typography variant={'h5'} fontWeight={'bold'}>
-        {messages['common.my_cv']}
-      </Typography>
+      <Grid container spacing={5}>
+        <Grid item xs={10} sm={10} md={6}>
+          <Typography variant={'h5'} fontWeight={'bold'}>
+            {messages['common.my_cv']}
+          </Typography>
+        </Grid>
+        <Grid item xs={2} sm={2} md={2}>
+          <Button
+            variant='contained'
+            onClick={printCB}
+            style={{float: 'right'}}>
+            Print
+          </Button>
+        </Grid>
+      </Grid>
 
       <Grid container spacing={5} className={classes.rootContent}>
         <Grid item xs={12} sm={12} md={4}>
@@ -165,7 +207,7 @@ const MyCVPage = () => {
             })}
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={8}>
+        <Grid item xs={12} sm={12} md={8} ref={refer}>
           {getTemplate()}
         </Grid>
       </Grid>
