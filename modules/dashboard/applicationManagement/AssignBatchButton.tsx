@@ -21,6 +21,7 @@ interface Props extends ButtonProps {
   className?: string;
   variant?: 'text' | 'outlined' | 'contained' | undefined;
   color?: 'inherit' | 'primary' | 'secondary';
+  btnText?: string;
 }
 
 const AssignBatchButton = ({
@@ -28,6 +29,7 @@ const AssignBatchButton = ({
   isLoading,
   className,
   variant = 'contained',
+  btnText,
   ...extra
 }: Props) => {
   const classes = useStyles();
@@ -42,7 +44,7 @@ const AssignBatchButton = ({
       color={extra?.color || 'secondary'}
       variant={variant}
       {...extra}>
-      <IntlMessages id='applicationManagement.assignBatch' />
+      <IntlMessages id={btnText} />
     </Button>
   );
 };

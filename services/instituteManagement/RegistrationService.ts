@@ -43,15 +43,3 @@ export const assignBatch = async (
     catchBlockHandler(error);
   }
 };
-
-/** assigns a batch to a trainee application */
-/*need to work*/
-export const assignBatchEdit = async (data: BatchAssign) => {
-  alert('api called, we will work later');
-  /*try {
-    let response: any = await apiPost(API_RANKS, data);
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }*/
-};

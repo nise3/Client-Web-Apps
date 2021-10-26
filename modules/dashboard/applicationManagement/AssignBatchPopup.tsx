@@ -2,18 +2,11 @@ import React, {FC, useEffect, useMemo} from 'react';
 import yup from '../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {Controller, SubmitHandler, useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {
-  FormControl,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  ListSubheader,
-  Select,
-} from '@mui/material';
+import {Grid} from '@mui/material';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -28,7 +21,6 @@ import {
   useFetchBatchesToAssign,
 } from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
-import MenuItem from '@mui/material/MenuItem';
 
 interface AssignBatchPopup {
   itemId: number | null;

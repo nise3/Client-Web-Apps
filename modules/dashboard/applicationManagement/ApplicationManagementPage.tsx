@@ -141,6 +141,7 @@ const ApplicationManagementPage = () => {
             <DatatableButtonGroup>
               <AssignBatchButton
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
+                btnText='applicationManagement.assignBatch'
               />
 
               {data.row_status !== 3 ? (
