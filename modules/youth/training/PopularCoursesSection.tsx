@@ -5,14 +5,18 @@ import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
-import Link from 'next/link';
-import {LINK_FRONTEND_YOUTH_POPULAR_COURSELIST} from '../../../@softbd/common/appLinks';
+import {
+  LINK_FRONTEND_YOUTH_COURSE_DETAILS,
+  LINK_FRONTEND_YOUTH_POPULAR_COURSELIST,
+} from '../../../@softbd/common/appLinks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {Link} from '../../../@softbd/elements/common';
 
 interface PopularCoursesSectionProps {
   filters?: any;
   page_size?: number;
 }
+
 const PopularCoursesSection = ({
   filters,
   page_size,
@@ -44,7 +48,7 @@ const PopularCoursesSection = ({
 
           {page_size && popularCoursesMetaData?.total_page > 1 && (
             <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={LINK_FRONTEND_YOUTH_POPULAR_COURSELIST} passHref>
+              <Link href={LINK_FRONTEND_YOUTH_POPULAR_COURSELIST}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />
@@ -60,7 +64,9 @@ const PopularCoursesSection = ({
             courseList.map((course: any) => {
               return (
                 <Grid item xs={12} sm={6} md={3} key={course.id}>
-                  <CourseCardComponent course={course} />
+                  <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                    <CourseCardComponent course={course} />
+                  </Link>
                 </Grid>
               );
             })}

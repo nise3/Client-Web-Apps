@@ -88,7 +88,7 @@ export function useFetchCourseList(pathVariable: string, params: any) {
 }
 
 export function useFetchCourseDetails(courseId: number | null) {
-  return useAxiosSWR(API_COURSE_DETAILS);
+  return useAxiosSWR(courseId ? API_COURSE_DETAILS + '/' + courseId : null);
 }
 
 export function useFetchBatch(batchId: number | null) {

@@ -4,6 +4,8 @@ import {Box, Button, CardMedia, Grid, Typography} from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import {courseDuration} from '../../../@softbd/utilities/helpers';
+import {Link} from '../../../@softbd/elements/common';
+import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../@softbd/common/appLinks';
 
 interface CourseDetailsHeaderProps {
   course: any;
@@ -31,13 +33,18 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
         )}
 
         <Box mt={4}>
-          <Button variant={'contained'} color={'primary'}>
-            {messages['common.enroll_now']}
-          </Button>
+          <Link href={LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id}>
+            <Button variant={'contained'} color={'primary'}>
+              {messages['common.enroll_now']}
+            </Button>
+          </Link>
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} md={6}>
-        <CardMedia image={course?.logo} sx={{height: 300, width: '100%'}} />
+        <CardMedia
+          image={'http://lorempixel.com/400/200?id=' + course?.id}
+          sx={{height: 300, width: '100%'}}
+        />
       </Grid>
     </Grid>
   );

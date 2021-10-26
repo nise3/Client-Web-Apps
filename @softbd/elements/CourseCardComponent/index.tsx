@@ -12,11 +12,9 @@ import TagChip from '../../../@softbd/elements/display/TagChip';
 import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import Link from 'next/link';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {courseDuration} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../common/appLinks';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   trainingCardRoot: {
@@ -70,29 +68,21 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
     <Card className={classes.trainingCardRoot}>
       <CardMedia
         className={classes.trainingCardImage}
-        image={course.cover_image}
+        image={'http://lorempixel.com/400/200?id=' + course?.id}
         title={course.title}
       />
       <CardContent>
         <Avatar
           className={classes.providerLogo}
           alt={course?.institute_name}
-          src={course.providerLogo}
+          src={'http://lorempixel.com/400/200?id=1' + course?.id}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
           <Box className={classes.courseFeeStyle}>{course.course_fee} TK</Box>
         </Box>
 
-        {/*<Link
-          className={classes.courseTitle}
-          href={'./course-details/' + course.id}
-          fontWeight={'bold'}>
-          {course.title}
-        </Link>*/}
-        <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id} passHref>
-          <Box fontWeight={'bold'}>{course.title}</Box>
-        </Link>
+        <Box fontWeight={'bold'}>{course.title}</Box>
 
         <Box marginTop={'5px'}>
           By: {course.institute_title} &#8226; {course.created_at}

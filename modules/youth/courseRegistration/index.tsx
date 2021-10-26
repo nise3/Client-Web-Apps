@@ -21,10 +21,18 @@ import GuardiansInfoForm from './GuardiansInfoForm';
 import OtherInfoForm from './OtherInfoForm';
 import {useIntl} from 'react-intl';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {useRouter} from 'next/router';
+import {useFetchCourseDetails} from '../../../services/instituteManagement/hooks';
 
 const YouthCourseRegistrationPage = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const router = useRouter();
+  let {courseId} = router.query;
+  const {data: course} = useFetchCourseDetails(Number(courseId));
+
+  const [activeStep, setActiveStep] = useState(0);
+
   const steps = useMemo(
     () => [
       messages['common.personal_information'],
@@ -36,8 +44,6 @@ const YouthCourseRegistrationPage = () => {
     ],
     [messages],
   );
-
-  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

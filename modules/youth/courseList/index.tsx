@@ -6,6 +6,8 @@ import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
+import {Link} from '../../../@softbd/elements/common';
 
 const CourseList = () => {
   const {messages} = useIntl();
@@ -59,7 +61,9 @@ const CourseList = () => {
           courseList.map((course: any) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={course.id}>
-                <CourseCardComponent course={course} />
+                <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                  <CourseCardComponent course={course} />
+                </Link>
               </Grid>
             );
           })}

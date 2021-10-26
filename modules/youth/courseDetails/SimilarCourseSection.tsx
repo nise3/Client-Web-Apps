@@ -1,17 +1,28 @@
-import React, {useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
+import {Link} from '../../../@softbd/elements/common';
 
-const SimilarCourseSection = () => {
+interface SimilarCourseSectionProps {
+  skillIds: Array<number>;
+}
+
+const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
   const {messages} = useIntl();
 
-  const [courseFilters] = useState({page_size: 8});
-
-  const pathVariable = '/skill-matching';
+  const [courseFilters, setCourseFilters] = useState<any>({page_size: 8});
+  const pathVariable = 'skill-matching';
   const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
+
+  useEffect(() => {
+    if (skillIds) {
+      setCourseFilters({skill_ids: skillIds, page_size: 8});
+    }
+  }, [skillIds]);
 
   return courseList && courseList.length ? (
     <Grid container spacing={5}>
@@ -36,7 +47,9 @@ const SimilarCourseSection = () => {
             courseList.map((course: any) => {
               return (
                 <Grid item xs={12} sm={4} md={3} key={course.id}>
-                  <CourseCardComponent course={course} />
+                  <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                    <CourseCardComponent course={course} />
+                  </Link>
                 </Grid>
               );
             })}

@@ -11,6 +11,7 @@ import {
 import {styled} from '@mui/styles';
 import {Link} from '../../../elements/common';
 import {
+  LINK_FRONTEND_YOUTH_FREELANCE_CORNER,
   LINK_FRONTEND_YOUTH_MY_COURSES,
   LINK_FRONTEND_YOUTH_MY_CV,
   LINK_FRONTEND_YOUTH_ROOT,
@@ -22,9 +23,12 @@ import {
   Logout,
   Person,
   Receipt,
+  Score,
   Settings,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
+import {useDispatch} from 'react-redux';
+import {onJWTAuthSignout} from '../../../../redux/actions';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -58,6 +62,7 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -122,6 +127,17 @@ const YouthProfileMenu = () => {
           </MenuItem>
         </Link>
         <Divider />
+        <Link href={LINK_FRONTEND_YOUTH_FREELANCE_CORNER}>
+          <MenuItem>
+            <ListItemIcon>
+              <Score />
+            </ListItemIcon>
+            <ListItemText>
+              {messages['youth_feed_menu.freelance_corner']}
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <Divider />
         <Link href={LINK_FRONTEND_YOUTH_SETTINGS}>
           <MenuItem>
             <ListItemIcon>
@@ -131,7 +147,7 @@ const YouthProfileMenu = () => {
           </MenuItem>
         </Link>
         <Divider />
-        <MenuItem onClick={() => {}}>
+        <MenuItem onClick={() => dispatch(onJWTAuthSignout())}>
           <ListItemIcon>
             <Logout />
           </ListItemIcon>
