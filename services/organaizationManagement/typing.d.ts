@@ -187,3 +187,7 @@ type HumanResource = {
   updated_at?: string;
   crated_at?: string;
 };
+
+type BatchAssign = {
+  batch_id?: number | string | null;
+};

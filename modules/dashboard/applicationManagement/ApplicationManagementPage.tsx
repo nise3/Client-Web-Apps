@@ -13,9 +13,10 @@ import Genders from '../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import ApproveButton from './ApproveButton';
-import {applicationProcess} from '../../../services/instituteManagement/RegistrationService';
+import AssignBatchButton from './AssignBatchButton';
+import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import AssignBatchPopup from './AssignBatchPopup';
 
 const ApplicationManagementPage = () => {
   const authUser = useAuthUser();
@@ -23,8 +24,12 @@ const ApplicationManagementPage = () => {
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isOpenBatchAssignModal, setIsOpenBatchAssignModal] = useState(false);
 
+  /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
@@ -34,37 +39,35 @@ const ApplicationManagementPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const processIndividualApplication = async (
-    filteredData: Application,
-    application_status: string,
-  ) => {
-    let putData = {
-      status: application_status,
-    };
+  /** Assign Batch Modal */
+  const openAssignBatchModal = useCallback(
+    (itemId: number | null = null, courseId: number | null = null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenBatchAssignModal(true);
+      setSelectedItemId(itemId);
+      setSelectedCourseId(courseId);
+    },
+    [],
+  );
 
-    let response = await applicationProcess(filteredData.id, putData);
+  const closeAssignBatchModal = useCallback(() => {
+    setIsOpenBatchAssignModal(false);
+    setSelectedItemId(null);
+    setSelectedCourseId(null);
+  }, []);
+
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, [isToggleTable]);
+
+  /** Method called to reject an application */
+  const rejectCourseEnrollment = async (enrollment_id: number) => {
+    let response = await rejectEnrollment(enrollment_id);
     if (isResponseSuccess(response)) {
       {
-        application_status === 'accepted'
-          ? successStack(
-              <IntlMessages
-                id='applicationManagement.accepted'
-                values={{
-                  applicant: <IntlMessages values={filteredData.full_name} />,
-                  course: <IntlMessages values={filteredData.course_name} />,
-                }}
-              />,
-            )
-          : successStack(
-              <IntlMessages
-                id='applicationManagement.rejected'
-                values={{
-                  applicant: <IntlMessages values={filteredData.full_name} />,
-                  course: <IntlMessages values={filteredData.course_name} />,
-                }}
-              />,
-            );
+        successStack(<IntlMessages id='applicationManagement.rejected' />);
       }
+      refreshDataTable();
     }
   };
 
@@ -136,22 +139,22 @@ const ApplicationManagementPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ApproveButton
-                acceptAction={() =>
-                  processIndividualApplication(data, 'accepted')
-                }
-                acceptTitle={messages['common.delete_confirm'] as string}
+              <AssignBatchButton
+                onClick={() => openAssignBatchModal(data.id, data.course_id)}
+                btnText='applicationManagement.assignBatch'
               />
-              <RejectButton
-                rejectAction={() =>
-                  processIndividualApplication(data, 'rejected')
-                }
-                rejectTitle={messages['common.delete_confirm'] as string}
-              />
+
+              {data.row_status !== 3 ? (
+                <RejectButton
+                  rejectAction={() => rejectCourseEnrollment(data.id)}
+                  rejectTitle={messages['common.delete_confirm'] as string}
+                />
+              ) : (
+                ''
+              )}
             </DatatableButtonGroup>
           );
         },
-        sortable: false,
       },
     ],
     [messages],
@@ -198,7 +201,17 @@ const ApplicationManagementPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
+        {isOpenBatchAssignModal && (
+          <AssignBatchPopup
+            key={1}
+            onClose={closeAssignBatchModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+            courseId={selectedCourseId}
+          />
+        )}
         {isOpenDetailsModal && selectedItemId && (
           <ApplicationDetailsPopup
             key={1}

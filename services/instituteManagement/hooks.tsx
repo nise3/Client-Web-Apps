@@ -129,3 +129,12 @@ export function useFetchApplicationDetails(applicationId: number | null) {
     applicationId ? API_COURSE_ENROLLMENTS + '/' + applicationId : null,
   );
 }
+
+/** Fetches the batches available for a course */
+export function useFetchBatchesToAssign(courseId: number | null) {
+  return useAxiosSWR(
+    courseId
+      ? API_COURSES + '/' + courseId + '/' + 'training_centers/batches'
+      : null,
+  );
+}

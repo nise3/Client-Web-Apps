@@ -110,8 +110,8 @@ export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
 /** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
-export const API_APPLICATION_PROCESSING =
-  INSTITUTE_SERVICE_PATH + '/application-processing';
+export const API_REJECT_COURSE_ENROLLMENT =
+  INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
@@ -127,6 +127,8 @@ export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 
 /** Routes for faq page */
 export const API_FRONT_SC = '/sc';
+
+export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
 export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
 export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';

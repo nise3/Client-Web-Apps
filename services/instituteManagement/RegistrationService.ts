@@ -1,5 +1,9 @@
-import {API_INSTITUTE_REGISTRATION, API_APPLICATION_PROCESSING} from '../../@softbd/common/apiRoutes';
-import {apiPost, apiPut} from '../../@softbd/common/api';
+import {
+  API_ASSIGN_BATCH,
+  API_INSTITUTE_REGISTRATION,
+  API_REJECT_COURSE_ENROLLMENT,
+} from '../../@softbd/common/apiRoutes';
+import {apiPost} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 export const createRegistration = async (data: any) => {
@@ -11,11 +15,29 @@ export const createRegistration = async (data: any) => {
   }
 };
 
-/** method called to accept or reject the application of a trainee to join to a course from dashboard/application-management */
-export const applicationProcess = async (applicantId: number, data: any) => {
-  console.log('accept and reject request: ', applicantId, data);
+/** method called to reject the application of a trainee to join to a course from dashboard/application-management */
+export const rejectEnrollment = async (enrollment_id: number) => {
   try {
-    let response: any = await apiPut(API_APPLICATION_PROCESSING + '/' + applicantId, data);
+    let response: any = await apiPost(API_REJECT_COURSE_ENROLLMENT, {
+      enrollment_id: enrollment_id,
+    });
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+/** assigns a batch to a trainee application */
+export const assignBatch = async (
+  data: BatchAssign,
+  enrollment_id: number | null,
+) => {
+  const submittedData = {
+    ...data,
+    enrollment_id: enrollment_id,
+  };
+  try {
+    let response: any = await apiPost(API_ASSIGN_BATCH, submittedData);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
