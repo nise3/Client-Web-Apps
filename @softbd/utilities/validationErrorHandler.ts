@@ -1,3 +1,5 @@
+import {AxiosError} from 'axios';
+
 const ERRORS: any = {
   61000: 'yup_validation_exist',
   49000: 'yup_validation_required_field',
@@ -8,20 +10,72 @@ const ERRORS: any = {
   39003: 'yup_validation_text_length',
 };
 
-export const setServerValidationErrors = (
-  errors: any,
-  setError: any,
-  validationSchema?: any,
-) => {
-  return Object.keys(errors).forEach((key) => {
-    errors[key].forEach(({code}: any) => {
-      let label = validationSchema?.fields[key]?.spec?.label;
-      setError(key, {
-        type: code,
-        message: ERRORS[code]
-          ? {key: ERRORS[code], values: {path: label ? label : key}}
-          : {key: 'yup_validation_unknown_error'},
-      });
+interface TProcessServerSideErrors {
+  error: AxiosError;
+  validationSchema: any; //Yup Validation Schema
+  setError: any; // React hook form setError method
+  errorStack: any;
+}
+
+export const processServerSideErrors = ({
+  error,
+  validationSchema,
+  setError,
+  errorStack,
+}: TProcessServerSideErrors) => {
+  const {response: {data: {errors}} = {}} = error;
+
+  const validationFields = validationSchema.hasOwnProperty('fields')
+    ? Object.keys(validationSchema.fields)
+    : [];
+  const serversideErrorFields = (errors && Object.keys(errors)) || [];
+
+  const shouldShowOnFields = serversideErrorFields.filter((v: any) =>
+    validationFields.includes(v),
+  );
+  console.log('shouldShowOnFields', shouldShowOnFields);
+  const shouldShowOnStack = serversideErrorFields.filter(
+    (v: any) => !validationFields.includes(v),
+  );
+  console.log('shouldShowOnStack', shouldShowOnStack);
+
+  shouldShowOnFields.forEach((key: string) => {
+    errors[key].forEach((error: any) => {
+      const match = error.match(/\[([0-9]+)]$/i);
+
+      let label = validationSchema.fields[key].spec.label;
+
+      if (match && match[1] && ERRORS[match[1]]) {
+        setError(key, {
+          message: {key: ERRORS[match[1]], values: {path: label ? label : key}},
+        });
+      } else {
+        setError(key, {
+          message: {key: 'yup_validation_unknown_error'},
+        });
+      }
     });
+  });
+
+  const notistackErrors = shouldShowOnStack.reduce(
+    (previousValue: any, currentValue: any) => {
+      if (currentValue in errors) {
+        errors[currentValue]?.forEach((error: string) => {
+          const match = error.match(/\[([0-9]+)]$/i);
+          if (match && match[1]) {
+            error = error.replace('[' + match[1] + ']', '');
+          }
+
+          previousValue.push(error);
+        });
+      }
+
+      return previousValue;
+    },
+    [],
+  );
+
+  notistackErrors.forEach((value: string) => {
+    errorStack(value);
   });
 };
