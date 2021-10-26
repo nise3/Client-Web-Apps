@@ -102,9 +102,9 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
       <Grid container spacing={5}>
         <Grid item xs={12} md={12}>
           <Grid container spacing={3}>
-            {overviewItems.map((overview: any, index) => {
+            {overviewItems.map((overview: any) => {
               return (
-                <Grid item xs={12} sm={6} md={4} key={index}>
+                <Grid item xs={12} sm={6} md={4} key={overview.text}>
                   <Tile
                     amount={overview.amount}
                     label={overview.text}
