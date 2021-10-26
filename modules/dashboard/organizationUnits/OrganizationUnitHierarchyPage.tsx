@@ -192,7 +192,9 @@ const OrganizationUnitHierarchyPage = () => {
   }, []);
 
   const handleNodeClick = (event: any) => {
-    setAnchorEl(event.id);
+    const el = document.getElementById(event.id);
+    setAnchorEl(el ? el : event.id);
+
     const itemId = event.id
       .toString()
       .replace(HIERARCHY_NODE_ID_PREFIX_STRING, '');

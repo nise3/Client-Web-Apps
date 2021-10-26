@@ -47,7 +47,7 @@ const PortfolioSection = () => {
       actions={
         <CustomParabolaButton
           buttonVariant={'outlined'}
-          title={messages['common.no_data_found'] as string}
+          title={messages['common.add_new_portfolio'] as string}
           icon={<BorderColor />}
           onClick={() => openPortfolioAddEditForm(null)}
         />

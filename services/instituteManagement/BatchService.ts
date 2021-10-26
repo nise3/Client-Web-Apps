@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {INSTITUTE_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_BATCHES} from '../../@softbd/common/apiRoutes';
 
-const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
-
+/**
+ * @deprecated
+ */
 export const getAllBatches = async (params = {}) => {
   try {
     let response: any = await apiGet(API_BATCHES, {params});
@@ -13,6 +14,9 @@ export const getAllBatches = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getBatch = async (batchId: number) => {
   try {
     let response: any = await apiGet(API_BATCHES + '/' + batchId);

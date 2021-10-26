@@ -62,6 +62,32 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
+  const {
+    data: humanResourceData,
+    isLoading: isHumanResourceLoading,
+    mutate: mutateHumanResource,
+  } = useFetchHumanResource(itemId);
+
+  const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
+    useFetchOrganizationUnit(orgUnitId);
+  const [rankFilter] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+  const [humanResourceFilter] = useState({
+    row_status: RowStatus.ACTIVE,
+    organization_unit_id: orgUnitId,
+  });
+  const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
+  const {data: humanResources, isLoading: isHumanResourcesLoading} =
+    useFetchHumanResources(humanResourceFilter);
+
+  const [organization, setOrganization] = useState<any | {}>({});
+  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
+  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
+    null,
+  );
+  const [humanResourceList, setHumanResourceList] = useState<any>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -87,6 +113,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
         .label(messages['human_resource_template.is_designation'] as string),
     });
   }, [messages]);
+
   const {
     control,
     register,
@@ -97,29 +124,6 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   } = useForm<HumanResource>({
     resolver: yupResolver(validationSchema),
   });
-
-  const [organization, setOrganization] = useState<any | {}>({});
-  const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
-  const [organizationUnitId, setOrganizationUnitId] = useState<number | null>(
-    null,
-  );
-  const {
-    data: humanResourceData,
-    isLoading: isHumanResourceLoading,
-    mutate: mutateHumanResource,
-  } = useFetchHumanResource(itemId);
-
-  const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
-    useFetchOrganizationUnit(orgUnitId);
-  const [rankFilter] = useState({
-    row_status: RowStatus.ACTIVE,
-  });
-  const [humanResourceFilter] = useState({
-    row_status: RowStatus.ACTIVE,
-  });
-  const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
-  const {data: humanResources, isLoading: isHumanResourcesLoading} =
-    useFetchHumanResources(humanResourceFilter);
 
   useEffect(() => {
     if (isEdit && humanResourceData) {
@@ -137,10 +141,10 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       });
 
       reset({
-        title_en: humanResourceData.title_en,
-        title: humanResourceData.title,
-        organization_id: humanResourceData.organization_id,
-        organization_unit_id: humanResourceData.organization_unit_id,
+        title_en: humanResourceData?.title_en,
+        title: humanResourceData?.title,
+        organization_id: humanResourceData?.organization_id,
+        organization_unit_id: humanResourceData?.organization_unit_id,
         parent_id: humanResourceData?.parent_id
           ? humanResourceData.parent_id
           : '',
@@ -185,7 +189,18 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
       initialValues.parent_id = '';
       reset(initialValues);
     }
-  }, [itemId, humanResourceData, organizationUnitData]);
+  }, [itemId, humanResourceData, organizationUnitData, reset]);
+
+  useEffect(() => {
+    if (humanResourceData && humanResources) {
+      const filteredData = isEdit
+        ? humanResources.filter(
+            (humanRes: any) => humanRes.id != humanResourceData.id,
+          )
+        : humanResources;
+      setHumanResourceList(filteredData);
+    }
+  }, [humanResourceData, humanResources]);
 
   const onSubmit: SubmitHandler<HumanResource> = async (
     data: HumanResource,
@@ -325,7 +340,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             label={messages['human_resource_template.parent']}
             isLoading={isHumanResourcesLoading}
             control={control}
-            options={humanResources}
+            options={humanResourceList}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}

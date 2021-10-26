@@ -2,6 +2,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import {
+  getMomentDateFormat,
   isResponseSuccess,
   isValidationError,
 } from '../../../../@softbd/utilities/helpers';
@@ -107,7 +108,9 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
         name_en: itemData?.name_en,
         nid: itemData?.nid,
         mobile: itemData?.mobile,
-        date_of_birth: itemData?.date_of_birth,
+        date_of_birth: itemData?.date_of_birth
+          ? getMomentDateFormat(itemData.date_of_birth, 'YYYY-MM-DD')
+          : '',
         relationship_type:
           itemData?.relationship_type === 5
             ? (setShowOther(5), itemData?.relationship_type)

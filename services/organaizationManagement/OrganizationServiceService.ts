@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_ORGANIZATION_SERVICES} from '../../@softbd/common/apiRoutes';
 
-const API_ORGANIZATION_SERVICES = ORGANIZATION_SERVICE_PATH + '/services';
-
+/**
+ * @deprecated
+ */
 export const getAllServices = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATION_SERVICES, {params});
@@ -13,6 +14,9 @@ export const getAllServices = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getService = async (serviceId: number) => {
   try {
     let response: any = await apiGet(

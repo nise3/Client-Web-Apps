@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_OCCUPATIONS} from '../../@softbd/common/apiRoutes';
 
-const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
-
+/**
+ * @deprecated
+ */
 export const getAllOccupations = async (params = {}) => {
   try {
     let response: any = await apiGet(API_OCCUPATIONS, {params});
@@ -13,6 +14,9 @@ export const getAllOccupations = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getOccupation = async (occupationId: number) => {
   try {
     let response: any = await apiGet(API_OCCUPATIONS + '/' + occupationId);

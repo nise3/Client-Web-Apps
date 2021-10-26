@@ -251,7 +251,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         itemId,
         data.services,
       );
-    } else {
+    } else if (response && response.data) {
       assignServicesResponse = await assignServiceToOrganizationUnit(
         response.data.id,
         data.services,

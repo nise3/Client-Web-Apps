@@ -159,6 +159,8 @@ type Trainer = {
 
 type Batch = {
   id: number;
+  title_en?: string;
+  title: string;
   institute_id: number | string;
   course_id: number | string;
   training_center_id: number | string;

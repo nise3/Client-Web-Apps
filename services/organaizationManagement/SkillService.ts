@@ -1,9 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ORGANIZATION_SERVICE_PATH} from '../../@softbd/common/apiRoutes';
+import {API_SKILLS} from '../../@softbd/common/apiRoutes';
 
-const API_SKILLS = ORGANIZATION_SERVICE_PATH + '/skills';
-
+/**
+ * @deprecated
+ */
 export const getAllSkills = async (params = {}) => {
   try {
     let response: any = await apiGet(API_SKILLS, {params});
@@ -13,6 +14,9 @@ export const getAllSkills = async (params = {}) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const getSkill = async (SkillId: number) => {
   try {
     let response: any = await apiGet(API_SKILLS + '/' + SkillId);

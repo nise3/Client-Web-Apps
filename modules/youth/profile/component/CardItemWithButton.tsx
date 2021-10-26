@@ -1,5 +1,4 @@
-import {Box, Button, Card} from '@mui/material';
-import Image from 'next/image';
+import {Box, Button, Card, CardMedia} from '@mui/material';
 import {createStyles, makeStyles} from '@mui/styles';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
@@ -8,7 +7,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     image: {
       width: '100%',
-      height: '200px',
+      height: '150px',
     },
     buttons: {
       position: 'absolute',
@@ -57,16 +56,28 @@ const CardItemWithButton = ({
               {messages['common.edit_btn']}
             </Button>
           </div>
-          <Image
+          <CardMedia
+            component='img'
+            alt='port folio'
+            className={classes.image}
+            image={
+              portfolio?.file_path
+                ? portfolio.file_path + '?id=' + portfolio.id
+                : '/images/youth/portfolio.jpeg'
+            }
+          />
+          {/*<Image
             className={classes.image}
             src={
-              portfolio?.img ? portfolio.img : '/images/youth/portfolio.jpeg'
+              portfolio?.file_path
+                ? portfolio.file_path
+                : '/images/youth/portfolio.jpeg'
             }
             alt='crema-logo'
             height={50}
             width={'100%'}
             layout={'responsive'}
-          />
+          />*/}
         </Box>
       </Card>
     </Box>

@@ -182,10 +182,12 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.organization_type'] as string),
-      permission_sub_group_id: yup
-        .string()
-        .required()
-        .label(messages['permission_sub_group.label'] as string),
+      permission_sub_group_id: isEdit
+        ? yup.string().nullable()
+        : yup
+            .string()
+            .required()
+            .label(messages['permission_sub_group.label'] as string),
       address: yup
         .string()
         .trim()
@@ -234,7 +236,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         email: itemData?.email,
         mobile: itemData?.mobile,
         fax_no: itemData?.fax_no,
-        permission_sub_group: itemData?.permission_sub_group,
         contact_person_name: itemData?.contact_person_name,
         contact_person_name_en: itemData?.contact_person_name_en,
         contact_person_mobile: itemData?.contact_person_mobile,
@@ -364,18 +365,20 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='permission_sub_group_id'
-            label={messages['permission_sub_group.label']}
-            isLoading={isLoadingPermissionSubGroups}
-            control={control}
-            options={permissionSubGroups}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {!isEdit && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='permission_sub_group_id'
+              label={messages['permission_sub_group.label']}
+              isLoading={isLoadingPermissionSubGroups}
+              control={control}
+              options={permissionSubGroups}
+              optionValueProp='id'
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomFormSelect
             id='organization_type_id'

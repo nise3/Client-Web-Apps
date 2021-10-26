@@ -4,6 +4,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
+  getMomentDateFormat,
   isResponseSuccess,
   isValidationError,
 } from '../../../../@softbd/utilities/helpers';
@@ -42,7 +43,7 @@ const initialValues = {
   job_responsibilities_en: '',
   start_date: '',
   end_date: '',
-  is_currently_work: 0,
+  is_currently_working: 0,
 };
 
 const employmentTypes = [
@@ -58,6 +59,14 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
 }: JobExperienceAddEditProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+
+  const isEdit = itemId != null;
+  const {
+    data: itemData,
+    mutate: jobExperienceMutate,
+    isLoading,
+  } = useFetchJobExperience(itemId);
+  const [currentWorkStatus, setCurrentWorkStatus] = useState<number>(0);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -81,8 +90,17 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .string()
         .required()
         .label(messages['common.start_date'] as string),
+      end_date:
+        currentWorkStatus == 0
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.end_date'] as string)
+          : yup.string(),
     });
-  }, [messages]);
+  }, [messages, currentWorkStatus]);
+
+  console.log('status', currentWorkStatus);
 
   const {
     control,
@@ -95,15 +113,6 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const isEdit = itemId != null;
-  const {
-    data: itemData,
-    mutate: jobExperienceMutate,
-    isLoading,
-  } = useFetchJobExperience(itemId);
-
-  const [currentWorkStatus, setCurrentWorkStatus] = useState<number>(0);
-
   useEffect(() => {
     if (itemData) {
       reset({
@@ -115,14 +124,18 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         location_en: itemData?.location_en,
         job_responsibilities: itemData?.job_responsibilities,
         job_responsibilities_en: itemData?.job_responsibilities_en,
-        start_date: itemData.start_date,
-        end_date: itemData?.end_date,
+        start_date: itemData?.start_date
+          ? getMomentDateFormat(itemData.start_date, 'YYYY-MM-DD')
+          : '',
+        end_date: itemData?.end_date
+          ? getMomentDateFormat(itemData?.end_date, 'YYYY-MM-DD')
+          : '',
         employment_type_id: itemData?.employment_type_id,
       });
       setCurrentWorkStatus(itemData?.is_currently_working);
     } else {
       reset(initialValues);
-      setCurrentWorkStatus(initialValues.is_currently_work);
+      setCurrentWorkStatus(initialValues.is_currently_working);
     }
   }, [itemData]);
 

@@ -42,6 +42,8 @@ interface BatchAddEditPopupProps {
 }
 
 const initialValues = {
+  title_en: '',
+  title: '',
   course_id: '',
   programme_id: '',
   institute_id: '',
@@ -100,6 +102,10 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      title: yup
+        .string()
+        .title()
+        .label(messages['common.title'] as string),
       institute_id: yup
         .string()
         .trim()
@@ -161,6 +167,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
+        title_en: itemData?.title_en,
+        title: itemData?.title,
         course_id: itemData?.course_id,
         institute_id: itemData?.institute_id,
         branch_id: itemData?.branch_id,
@@ -235,13 +243,18 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         itemId,
         data.trainers,
       );
-    } else {
+    } else if (
+      data.trainers &&
+      data.trainers.length > 0 &&
+      response &&
+      response.data
+    ) {
       assignTrainersResponse = await assignTrainersToBatch(
         response.data.id,
         data.trainers,
       );
     }
-    if (isResponseSuccess(response) && !isEdit && assignTrainersResponse) {
+    if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
@@ -297,6 +310,24 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='title'
+            label={messages['common.title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
             id='institute_id'

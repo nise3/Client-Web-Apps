@@ -34,7 +34,13 @@ const Certifications: FC<CertificationsProps> = ({
               <Grid item xs={12} sm={8} md={9}>
                 <Box sx={{display: 'flex'}}>
                   {certificate.certificate_file_path ? (
-                    <Avatar src={certificate.certificate_file_path} />
+                    <Avatar
+                      src={
+                        certificate.certificate_file_path +
+                        '?id=' +
+                        certificate.id
+                      }
+                    />
                   ) : (
                     <Avatar>
                       <Verified />
@@ -52,23 +58,30 @@ const Certifications: FC<CertificationsProps> = ({
                 </Box>
                 <Box>
                   <Grid container sx={{marginTop: '10px'}}>
-                    <Grid item sx={{display: 'flex'}}>
-                      <AccessTime color={'primary'} sx={{marginRight: '5px'}} />
-                      <TextPrimary
-                        text={
-                          getMomentDateFormat(
-                            certificate.start_date,
-                            'DD MMM, YYYY',
-                          ) +
-                          ' to ' +
-                          getMomentDateFormat(
-                            certificate.end_date,
-                            'DD MMM, YYYY',
-                          )
-                        }
-                      />
-                    </Grid>
-                    <VerticalLine />
+                    {certificate.start_date && (
+                      <React.Fragment>
+                        <Grid item sx={{display: 'flex'}}>
+                          <AccessTime
+                            color={'primary'}
+                            sx={{marginRight: '5px'}}
+                          />
+                          <TextPrimary
+                            text={
+                              getMomentDateFormat(
+                                certificate.start_date,
+                                'DD MMM, YYYY',
+                              ) +
+                              ' to ' +
+                              getMomentDateFormat(
+                                certificate.end_date,
+                                'DD MMM, YYYY',
+                              )
+                            }
+                          />
+                        </Grid>
+                        <VerticalLine />
+                      </React.Fragment>
+                    )}
                     <Grid item sx={{display: 'flex'}}>
                       <LocationOnIcon
                         color={'primary'}
