@@ -23,8 +23,8 @@ const YouthNoticeBoard = () => {
   const classes = useStyles();
   const {messages} = useIntl();
   return (
-    <Box>
-      {noticeList && noticeList.length > 0 ? (
+    <>
+      {noticeList && noticeList.length ? (
         <Container maxWidth={'xl'} className={classes.containerBox}>
           <Box className={classes.noticeTopBox}>
             <Typography variant={'h5'} className={classes.noticeBoardText}>
@@ -45,7 +45,7 @@ const YouthNoticeBoard = () => {
           </Box>
 
           <Grid container spacing={5} style={{marginTop: 0}}>
-            {noticeList?.map((notice: any) => {
+            {noticeList.map((notice: any) => {
               return (
                 <Grid item xs={12} md={6} key={notice.id}>
                   <NoticeCard notice={notice} />
@@ -62,17 +62,10 @@ const YouthNoticeBoard = () => {
         </Container>
       ) : (
         <Container maxWidth={'xl'} className={classes.containerBox}>
-          <Box className={classes.noticeTopBox}>
-            <Typography variant={'h5'} className={classes.noticeBoardText}>
-              {messages['common.notice_board']}
-            </Typography>
-          </Box>
-          <Box>
-            <H3>{messages['common.no_data_found']}</H3>
-          </Box>
+          <H3>{messages['common.no_data_found']}</H3>
         </Container>
       )}
-    </Box>
+    </>
   );
 };
 

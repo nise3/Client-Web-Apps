@@ -20,7 +20,7 @@ import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
 import yup from '../../../@softbd/libs/yup';
-import {H2} from '../../../@softbd/elements/common';
+import {H2, Link} from '../../../@softbd/elements/common';
 import {
   useFetchInstitutesVideoCategory,
   useFetchInstitutesVideos,
@@ -28,6 +28,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   searchIcon: {
@@ -39,6 +40,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 const InstituteVideos = () => {
   const {messages} = useIntl();
   const classes = useStyles();
+  const router = useRouter();
+  const path = router.pathname;
 
   const {data: videoItems, isLoading: isLoadingInstitutesVideo} =
     useFetchInstitutesVideos();
@@ -193,7 +196,7 @@ const InstituteVideos = () => {
               <Grid container>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant='h6'>
-                    মোট ফলাফল পাওয়া গেছে{' '}
+                    {messages['total_result.institute']}{' '}
                     <Chip
                       label={filteredVideoItems?.length}
                       color={'primary'}
@@ -210,24 +213,26 @@ const InstituteVideos = () => {
                           justifyContent={'center'}
                           mt={3}
                           key={data.id}>
-                          <Card>
-                            <CardActionArea>
-                              <CardMedia
-                                component='img'
-                                height='140'
-                                image={data.image_url}
-                                alt='random image'
-                              />
-                              <CardContent>
-                                <Typography
-                                  gutterBottom
-                                  variant='body1'
-                                  component='div'>
-                                  {data?.content}
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                          </Card>
+                          <Link href={`${path}/${data.id}`}>
+                            <Card>
+                              <CardActionArea>
+                                <CardMedia
+                                  component='img'
+                                  height='140'
+                                  image={data.image_url}
+                                  alt='random image'
+                                />
+                                <CardContent>
+                                  <Typography
+                                    gutterBottom
+                                    variant='body1'
+                                    component='div'>
+                                    {data?.content}
+                                  </Typography>
+                                </CardContent>
+                              </CardActionArea>
+                            </Card>
+                          </Link>
                         </Grid>
                       );
                     })}
