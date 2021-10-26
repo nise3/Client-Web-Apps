@@ -243,13 +243,18 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         itemId,
         data.trainers,
       );
-    } else if (response && response.data) {
+    } else if (
+      data.trainers &&
+      data.trainers.length > 0 &&
+      response &&
+      response.data
+    ) {
       assignTrainersResponse = await assignTrainersToBatch(
         response.data.id,
         data.trainers,
       );
     }
-    if (isResponseSuccess(response) && !isEdit && assignTrainersResponse) {
+    if (isResponseSuccess(response) && !isEdit) {
       successStack(
         <IntlMessages
           id='common.subject_created_successfully'
