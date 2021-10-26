@@ -6,10 +6,6 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -27,9 +23,10 @@ import {
   updateRole,
 } from '../../../services/userManagement/RoleService';
 /*import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';*/
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import IconRole from '../../../@softbd/icons/IconRole';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface RoleAddEditPopupProps {
   itemId: number | null;
@@ -53,7 +50,9 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
 
@@ -137,31 +136,19 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
       data.organization_id = authUser?.organization_id;
       data.permission_sub_group_id = authUser?.role?.permission_sub_group_id;
     }
-
-    const response = itemId
-      ? await updateRole(itemId, data)
-      : await createRole(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='role.label' />}}
-        />,
-      );
-      mutateRole();
+    try {
+      if (itemId) {
+        await updateRole(itemId, data);
+        updateSuccessMessage('role.label');
+        mutateRole();
+      } else {
+        await createRole(data);
+        createSuccessMessage('role.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='role.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

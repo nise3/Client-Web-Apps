@@ -9,12 +9,8 @@ import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButto
 import yup from '../../@softbd/libs/yup';
 import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../@softbd/utilities/helpers';
 import IntlMessages from '../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
 import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
@@ -32,7 +28,7 @@ import RowStatus from '../../@softbd/utilities/RowStatus';
 const OrganizationRegistration = () => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
   const [filters] = useState({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
@@ -141,11 +137,11 @@ const OrganizationRegistration = () => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    const response = await organizationRegistration(data);
-    if (isResponseSuccess(response)) {
+    try {
+      await organizationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

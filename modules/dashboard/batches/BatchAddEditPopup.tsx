@@ -3,11 +3,7 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  getMomentDateFormat,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -33,7 +29,8 @@ import {
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -65,7 +62,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
 
   const {
@@ -233,52 +231,40 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<Batch> = async (data: Batch) => {
-    const response = itemId
-      ? await updateBatch(itemId, data)
-      : await createBatch(data);
-
     let assignTrainersResponse;
-    if (itemId && isEdit) {
-      assignTrainersResponse = await assignTrainersToBatch(
-        itemId,
-        data.trainers,
-      );
-    } else if (
-      data.trainers &&
-      data.trainers.length > 0 &&
-      response &&
-      response.data
-    ) {
-      assignTrainersResponse = await assignTrainersToBatch(
-        response.data.id,
-        data.trainers,
-      );
-    }
-    if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='batches.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateBatch(itemId, data);
+        mutateBatch();
+        assignTrainersResponse = await assignTrainersToBatch(
+          itemId,
+          data.trainers,
+        );
+        if (assignTrainersResponse) {
+          updateSuccessMessage('batches.label');
+        }
+      } else {
+        const response = await createBatch(data);
+        createSuccessMessage('batches.label');
+        if (
+          data.trainers &&
+          data.trainers.length > 0 &&
+          response &&
+          response.data
+        ) {
+          assignTrainersResponse = await assignTrainersToBatch(
+            response.data.id,
+            data.trainers,
+          );
+        }
+        if (assignTrainersResponse) {
+          createSuccessMessage('batches.label');
+        }
+      }
       props.onClose();
       refreshDataTable();
-    } else if (
-      isResponseSuccess(response) &&
-      isEdit &&
-      assignTrainersResponse
-    ) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='batches.label' />}}
-        />,
-      );
-      mutateBatch();
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

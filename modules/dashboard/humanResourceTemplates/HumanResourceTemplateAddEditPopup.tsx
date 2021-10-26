@@ -13,16 +13,12 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {
   createHumanResourceTemplate,
   updateHumanResourceTemplate,
 } from '../../../services/organaizationManagement/HumanResourceTemplateService';
 import IconHumanResourceTemplate from '../../../@softbd/icons/IconHumanResourceTemplate';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchHumanResourceTemplate,
   useFetchHumanResourceTemplates,
@@ -30,6 +26,7 @@ import {
   useFetchRanks,
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
@@ -61,7 +58,8 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     ...props
   }) => {
     const {messages} = useIntl();
-    const {successStack} = useNotiStack();
+    const {errorStack} = useNotiStack();
+    const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
     const {
       data: humanResourceTemplateData,
@@ -223,42 +221,24 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       data.parent_id = data.parent_id ? data.parent_id : null;
       data.status = 1; // TODO::fix it
 
-      const response =
-        isEdit && itemId
-          ? await updateHumanResourceTemplate(itemId, data)
-          : await createHumanResourceTemplate(data);
-
-      if (isResponseSuccess(response) && isEdit) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{
-              subject: <IntlMessages id='human_resource_template.label' />,
-            }}
-          />,
-        );
-        mutateHumanResourceTemplate();
+      try {
+        if (itemId) {
+          await updateHumanResourceTemplate(itemId, data);
+          updateSuccessMessage('human_resource_template.label');
+          mutateHumanResourceTemplate();
+        } else {
+          await createHumanResourceTemplate(data);
+          createSuccessMessage('human_resource_template.label');
+        }
         props.onClose();
         refreshDataTable();
-      } else if (isResponseSuccess(response) && !isEdit) {
-        if (isResponseSuccess(response)) {
-          successStack(
-            <IntlMessages
-              id='common.subject_created_successfully'
-              values={{
-                subject: <IntlMessages id='human_resource_template.label' />,
-              }}
-            />,
-          );
-          props.onClose();
-          refreshDataTable();
-        } else if (isValidationError(response)) {
-          setServerValidationErrors(
-            response.errors,
-            setError,
-            validationSchema,
-          );
-        }
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          setError,
+          validationSchema,
+          errorStack,
+        });
       }
     };
 

@@ -7,21 +7,19 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {ChevronLeft} from '@mui/icons-material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {changePassword} from '../../../services/youthManagement/SettingsService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+
 interface ChangePasswordViewprops {
   onBack: () => void;
 }
+
 const ChangePasswordView: FC<ChangePasswordViewprops> = ({onBack}) => {
   const {messages} = useIntl();
   const classes = useStyles();
-  const {successStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -51,11 +49,11 @@ const ChangePasswordView: FC<ChangePasswordViewprops> = ({onBack}) => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    let response = await changePassword(data);
-    if (isResponseSuccess(response)) {
+    try {
+      await changePassword(data);
       successStack(<IntlMessages id='youth_registration.success' />);
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
   return (

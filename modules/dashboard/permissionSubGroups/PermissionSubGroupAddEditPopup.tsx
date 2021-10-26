@@ -12,10 +12,6 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroup,
 } from '../../../services/userManagement/hooks';
@@ -26,7 +22,8 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGroup';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -47,7 +44,8 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const [permissionGroupsFilter, setPermissionGroupsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -113,30 +111,19 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<PermissionSubGroup> = async (
     data: PermissionSubGroup,
   ) => {
-    const response = itemId
-      ? await updatePermissionSubGroup(itemId, data)
-      : await createPermissionSubGroup(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='permission_sub_group.label' />}}
-        />,
-      );
-      mutatePermissionSubGroup();
+    try {
+      if (itemId) {
+        await updatePermissionSubGroup(itemId, data);
+        updateSuccessMessage('permission_sub_group.label');
+        mutatePermissionSubGroup();
+      } else {
+        await createPermissionSubGroup(data);
+        createSuccessMessage('permission_sub_group.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='permission_sub_group.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

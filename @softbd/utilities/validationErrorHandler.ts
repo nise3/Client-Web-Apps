@@ -12,8 +12,8 @@ const ERRORS: any = {
 
 interface TProcessServerSideErrors {
   error: AxiosError;
-  validationSchema: any; //Yup Validation Schema
-  setError: any; // React hook form setError method
+  validationSchema?: any; //Yup Validation Schema
+  setError?: any; // React hook form setError method
   errorStack: any;
 }
 
@@ -23,59 +23,73 @@ export const processServerSideErrors = ({
   setError,
   errorStack,
 }: TProcessServerSideErrors) => {
-  const {response: {data: {errors}} = {}} = error;
+  if (error.response?.status === 422) {
+    if (setError && validationSchema) {
+      const {response: {data: {errors}} = {}} = error;
 
-  const validationFields = validationSchema.hasOwnProperty('fields')
-    ? Object.keys(validationSchema.fields)
-    : [];
-  const serversideErrorFields = (errors && Object.keys(errors)) || [];
+      const validationFields = validationSchema.hasOwnProperty('fields')
+        ? Object.keys(validationSchema.fields)
+        : [];
+      const serversideErrorFields = (errors && Object.keys(errors)) || [];
 
-  const shouldShowOnFields = serversideErrorFields.filter((v: any) =>
-    validationFields.includes(v),
-  );
-  console.log('shouldShowOnFields', shouldShowOnFields);
-  const shouldShowOnStack = serversideErrorFields.filter(
-    (v: any) => !validationFields.includes(v),
-  );
-  console.log('shouldShowOnStack', shouldShowOnStack);
+      const shouldShowOnFields = serversideErrorFields.filter((v: any) =>
+        validationFields.includes(v),
+      );
+      console.log('shouldShowOnFields', shouldShowOnFields);
+      const shouldShowOnStack = serversideErrorFields.filter(
+        (v: any) => !validationFields.includes(v),
+      );
+      console.log('shouldShowOnStack', shouldShowOnStack);
 
-  shouldShowOnFields.forEach((key: string) => {
-    errors[key].forEach((error: any) => {
-      const match = error.match(/\[([0-9]+)]$/i);
-
-      let label = validationSchema.fields[key].spec.label;
-
-      if (match && match[1] && ERRORS[match[1]]) {
-        setError(key, {
-          message: {key: ERRORS[match[1]], values: {path: label ? label : key}},
-        });
-      } else {
-        setError(key, {
-          message: {key: 'yup_validation_unknown_error'},
-        });
-      }
-    });
-  });
-
-  const notistackErrors = shouldShowOnStack.reduce(
-    (previousValue: any, currentValue: any) => {
-      if (currentValue in errors) {
-        errors[currentValue]?.forEach((error: string) => {
+      shouldShowOnFields.forEach((key: string) => {
+        errors[key].forEach((error: any) => {
           const match = error.match(/\[([0-9]+)]$/i);
-          if (match && match[1]) {
-            error = error.replace('[' + match[1] + ']', '');
+
+          let label = validationSchema.fields[key].spec.label;
+
+          if (match && match[1] && ERRORS[match[1]]) {
+            setError(key, {
+              message: {
+                key: ERRORS[match[1]],
+                values: {path: label ? label : key},
+              },
+            });
+          } else {
+            setError(key, {
+              message: {key: 'yup_validation_unknown_error'},
+            });
+          }
+        });
+      });
+
+      const notistackErrors = shouldShowOnStack.reduce(
+        (previousValue: any, currentValue: any) => {
+          if (currentValue in errors) {
+            errors[currentValue]?.forEach((error: string) => {
+              const match = error.match(/\[([0-9]+)]$/i);
+              if (match && match[1]) {
+                error = error.replace('[' + match[1] + ']', '');
+              }
+
+              previousValue.push(error);
+            });
           }
 
-          previousValue.push(error);
-        });
-      }
+          return previousValue;
+        },
+        [],
+      );
 
-      return previousValue;
-    },
-    [],
-  );
-
-  notistackErrors.forEach((value: string) => {
-    errorStack(value);
-  });
+      notistackErrors.forEach((value: string) => {
+        errorStack(value);
+      });
+    } else {
+      errorStack('Unknown Validation Error');
+    }
+  } else if (Number(error.response?.status || 0) >= 500) {
+    errorStack('Internal Server Error');
+  } else {
+    errorStack('Unknown Error');
+  }
+  // error.response?.data?._response_status?.message
 };

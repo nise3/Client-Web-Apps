@@ -12,10 +12,12 @@ import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
 import {Avatar, Box, Typography} from '@mui/material';
 import {deleteJobExperience} from '../../../../services/youthManagement/JobExperienceService';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 const JobExperienceSection = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [jobExperienceFilters] = useState({});
 
   const {

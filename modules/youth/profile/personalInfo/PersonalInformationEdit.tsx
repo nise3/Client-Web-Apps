@@ -3,13 +3,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  getMomentDateFormat,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
@@ -46,6 +41,7 @@ import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/Cu
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -100,7 +96,8 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   onClose: onEditPageClose,
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<YouthAuthUser>();
 
   const [youthSkillsFilter] = useState<any>({
@@ -441,17 +438,12 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       ? EthnicGroupStatus.YES
       : EthnicGroupStatus.NO;
 
-    const response = await updateYouthPersonalInfo(data);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='personal_info.label' />}}
-        />,
-      );
+    try {
+      await updateYouthPersonalInfo(data);
+      updateSuccessMessage('personal_info.label');
       onEditPageClose();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

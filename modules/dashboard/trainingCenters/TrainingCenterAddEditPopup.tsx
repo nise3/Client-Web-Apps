@@ -16,10 +16,6 @@ import {
   createTrainingCenter,
   updateTrainingCenter,
 } from '../../../services/instituteManagement/TrainingCenterService';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {
   useFetchBranches,
@@ -27,7 +23,7 @@ import {
   useFetchTrainingCenter,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -37,6 +33,7 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -73,7 +70,8 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
 
   const [divisionsFilter] = useState({});
@@ -194,31 +192,19 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<TrainingCenter> = async (
     data: TrainingCenter,
   ) => {
-    const response = itemId
-      ? await updateTrainingCenter(itemId, data)
-      : await createTrainingCenter(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='training_center.label' />}}
-        />,
-      );
-      mutateTrainingCenter();
+    try {
+      if (itemId) {
+        await updateTrainingCenter(itemId, data);
+        updateSuccessMessage('training_center.label');
+        mutateTrainingCenter();
+      } else {
+        await createTrainingCenter(data);
+        createSuccessMessage('training_center.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='training_center.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

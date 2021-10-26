@@ -18,15 +18,12 @@ import {
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {
   useFetchInstitutes,
   useFetchProgramme,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -51,7 +48,8 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -105,31 +103,19 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<Programme> = async (data: Programme) => {
-    const response = itemId
-      ? await updateProgramme(itemId, data)
-      : await createProgramme(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='programme.label' />}}
-        />,
-      );
-      mutateProgramme();
+    try {
+      if (itemId) {
+        await updateProgramme(itemId, data);
+        updateSuccessMessage('programme.label');
+        mutateProgramme();
+      } else {
+        await createProgramme(data);
+        createSuccessMessage('programme.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='programme.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

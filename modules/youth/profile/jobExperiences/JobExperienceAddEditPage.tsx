@@ -1,20 +1,14 @@
-import {Box, Grid, Zoom} from '@mui/material';
+import {Box, FormControlLabel, Grid, Switch, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  getMomentDateFormat,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
-import {FormControlLabel, Switch} from '@mui/material';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useFetchJobExperience} from '../../../../services/youthManagement/hooks';
@@ -25,6 +19,7 @@ import {
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {YouthJobExperience} from '../../../../services/youthManagement/typing';
 import CustomHookForm from '../component/CustomHookForm';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -58,9 +53,9 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   onClose: closeJobExperienceAddEditPage,
 }: JobExperienceAddEditProps) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  const isEdit = itemId != null;
   const {
     data: itemData,
     mutate: jobExperienceMutate,
@@ -144,29 +139,18 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   ) => {
     data.is_currently_working = currentWorkStatus;
 
-    const response = itemId
-      ? await updateJobExperience(itemId, data)
-      : await createJobExperience(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='job_experience.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateJobExperience(itemId, data);
+        updateSuccessMessage('job_experience.label');
+      } else {
+        await createJobExperience(data);
+        createSuccessMessage('job_experience.label');
+      }
       jobExperienceMutate();
       closeJobExperienceAddEditPage();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='job_experience.label' />}}
-        />,
-      );
-      jobExperienceMutate();
-      closeJobExperienceAddEditPage();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

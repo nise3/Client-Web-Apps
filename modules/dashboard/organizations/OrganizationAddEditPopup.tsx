@@ -19,11 +19,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchOrganization,
   useFetchOrganizationTypes,
@@ -42,6 +38,7 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -88,7 +85,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const [organizationTypeFilters] = useState({
     row_status: RowStatus.ACTIVE,
@@ -291,31 +289,19 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
-    const response = itemId
-      ? await updateOrganization(itemId, data)
-      : await createOrganization(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='organization.label' />}}
-        />,
-      );
-      mutateOrganization();
+    try {
+      if (itemId) {
+        await updateOrganization(itemId, data);
+        updateSuccessMessage('organization.label');
+        mutateOrganization();
+      } else {
+        await createOrganization(data);
+        createSuccessMessage('organization.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='organization.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

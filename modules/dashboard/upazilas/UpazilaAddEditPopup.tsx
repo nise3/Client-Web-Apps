@@ -19,15 +19,12 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
 import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazila,
 } from '../../../services/locationManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 const initialValues = {
   title_en: '',
@@ -50,7 +47,8 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const [divisionsFilter] = useState<any>({row_status: RowStatus.ACTIVE});
   const [districtsFilter, setDistrictsFilter] = useState<any>({
@@ -134,30 +132,19 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<Upazila> = async (data: Upazila) => {
-    const response = itemId
-      ? await updateUpazila(itemId, data)
-      : await createUpazila(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='upazilas.label' />}}
-        />,
-      );
-      mutateUpazila();
+    try {
+      if (itemId) {
+        await updateUpazila(itemId, data);
+        updateSuccessMessage('upazilas.label');
+        mutateUpazila();
+      } else {
+        await createUpazila(data);
+        createSuccessMessage('upazilas.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='upazilas.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

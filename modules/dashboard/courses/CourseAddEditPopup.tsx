@@ -17,10 +17,6 @@ import {
   updateCourse,
 } from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconProgramme';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchBranches,
@@ -28,10 +24,11 @@ import {
   useFetchInstitutes,
   useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -59,7 +56,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -301,31 +299,19 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     data.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
-    const response = itemId
-      ? await updateCourse(itemId, data)
-      : await createCourse(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='course.label' />}}
-        />,
-      );
-      mutateCourse();
+    try {
+      if (itemId) {
+        await updateCourse(itemId, data);
+        updateSuccessMessage('course.label');
+        mutateCourse();
+      } else {
+        await createCourse(data);
+        createSuccessMessage('course.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='course.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

@@ -2,17 +2,12 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {setServerValidationErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {Grid, Zoom, Box} from '@mui/material';
+import {Box, Grid, Zoom} from '@mui/material';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomHookForm from '../component/CustomHookForm';
@@ -28,14 +23,15 @@ import {
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {useFetchCountries} from '../../../../services/locationManagement/hooks';
 import {
-  ResultCodeGrade,
-  ResultCodeAppeared,
-  ResultCodeDivisions,
   EducationLevelCodePHD,
   EducationLevelCodeWithBoard,
   EducationLevelCodeWithGroup,
   EducationLevelForMajorGroup,
+  ResultCodeAppeared,
+  ResultCodeDivisions,
+  ResultCodeGrade,
 } from '../utilities/EducationEnums';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -69,7 +65,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
   onClose: onEducationEditPageClose,
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
     isLoading,
@@ -195,8 +192,6 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const isEdit = itemId != null;
-
   useEffect(() => {
     if (itemData) {
       reset({
@@ -301,28 +296,18 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
       delete data.cgpa_scale;
     }
 
-    const response = itemId
-      ? await updateEducation(itemId, data)
-      : await createEducation(data);
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='education.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateEducation(itemId, data);
+        updateSuccessMessage('education.label');
+      } else {
+        await createEducation(data);
+        createSuccessMessage('education.label');
+      }
       mutateEducation();
       onEducationEditPageClose();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='education.label' />}}
-        />,
-      );
-      onEducationEditPageClose();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

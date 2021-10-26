@@ -17,14 +17,11 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
-import {
   useFetchDistrict,
   useFetchDivisions,
 } from '../../../services/locationManagement/hooks';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
@@ -45,7 +42,8 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -101,31 +99,19 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
     }
   }, [itemData]);
   const onSubmit: SubmitHandler<District> = async (data: District) => {
-    const response = itemId
-      ? await updateDistrict(itemId, data)
-      : await createDistrict(data);
-
-    if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='districts.label' />}}
-        />,
-      );
-      mutateDistrict();
+    try {
+      if (itemId) {
+        await updateDistrict(itemId, data);
+        updateSuccessMessage('districts.label');
+        mutateDistrict();
+      } else {
+        await createDistrict(data);
+        createSuccessMessage('districts.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='districts.label' />}}
-        />,
-      );
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

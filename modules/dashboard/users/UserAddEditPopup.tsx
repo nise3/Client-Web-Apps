@@ -11,11 +11,7 @@ import {useFetchOrganizations} from '../../../services/organaizationManagement/h
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  getUserType,
-  isResponseSuccess,
-  isValidationError,
-} from '../../../@softbd/utilities/helpers';
+import {getUserType} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -29,10 +25,11 @@ import {
   updateUser,
 } from '../../../services/userManagement/UserService';
 import IconUser from '../../../@softbd/icons/IconUser';
-import {setServerValidationErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 /*import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';*/
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -60,7 +57,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
   const [roleFilters, setRoleFilters] = useState<any>({
@@ -209,31 +207,19 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       data.organization_id = authUser?.organization_id;
     }
 
-    const response =
-      isEdit && itemId
-        ? await updateUser(itemId, data)
-        : await createUser(data);
-    if (isResponseSuccess(response) && !isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_created_successfully'
-          values={{subject: <IntlMessages id='user.label' />}}
-        />,
-      );
+    try {
+      if (itemId) {
+        await updateUser(itemId, data);
+        updateSuccessMessage('user.label');
+        mutateUser();
+      } else {
+        await createUser(data);
+        createSuccessMessage('user.label');
+      }
       props.onClose();
       refreshDataTable();
-    } else if (isResponseSuccess(response) && isEdit) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='user.label' />}}
-        />,
-      );
-      mutateUser();
-      props.onClose();
-      refreshDataTable();
-    } else if (isValidationError(response)) {
-      setServerValidationErrors(response.errors, setError, validationSchema);
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
