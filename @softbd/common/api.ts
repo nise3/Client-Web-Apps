@@ -1,28 +1,9 @@
 import {AxiosRequestConfig, AxiosResponse} from 'axios';
 import axiosInstance from '../libs/axiosInstance';
-import {isDefined} from '../utilities/helpers';
 
 /** Axios catch block handler */
 const errorHandler = (error: {response: any; request?: any; message?: any}) => {
-  console.log('errorHandler', error);
-  if (error.response) {
-    const {response} = error;
-    if (isDefined(response, 'data')) {
-      if (
-        isDefined(response.data, '_response_status') &&
-        response.data._response_status.success == false
-      ) {
-        throw new Error(response.data._response_status.message);
-      }
-
-      throw new Error(response.data.message);
-    }
-  }
-  if (error.request) {
-    throw new Error('No response was received');
-  }
-
-  throw new Error('Opps! There was a problem. Please try again later.');
+  throw error;
 };
 
 function apiGet(apiPath: string, config: AxiosRequestConfig = {}) {

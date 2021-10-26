@@ -52,9 +52,7 @@ export const religions = [
   },
 ];
 export const catchBlockHandler = (error: any, message = '') => {
-  //const {errorStack} = useNotiStack();
-  //console.log('catchBlockHandler', error);
-  //errorStack(message || error.message);
+  throw error;
 };
 
 export const getGenderText = (genderCode: string): string => {
