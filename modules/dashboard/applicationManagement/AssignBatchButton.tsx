@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-import {FiUserCheck} from 'react-icons/fi';
 import {ButtonProps} from '@mui/material/Button/Button';
 import ButtonSkeleton from '../../../@softbd/elements/display/skeleton/ButtonSkeleton/ButtonSkeleton';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -22,6 +21,7 @@ interface Props extends ButtonProps {
   variant?: 'text' | 'outlined' | 'contained' | undefined;
   color?: 'inherit' | 'primary' | 'secondary';
   btnText?: string;
+  startIcon?: any;
 }
 
 const AssignBatchButton = ({
@@ -30,6 +30,7 @@ const AssignBatchButton = ({
   className,
   variant = 'contained',
   btnText,
+  startIcon,
   ...extra
 }: Props) => {
   const classes = useStyles();
@@ -38,7 +39,7 @@ const AssignBatchButton = ({
     <ButtonSkeleton />
   ) : (
     <Button
-      startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+      startIcon={startIcon}
       onClick={onClick}
       className={extra?.color ? clsx(classes.button, className) : className}
       color={extra?.color || 'secondary'}

@@ -100,7 +100,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
           <IconOccupation />
           {isEdit ? (
             <IntlMessages
-              id='common.edit'
+              id='applicationManagement.assignBatch'
               values={{
                 subject: <IntlMessages id='applicationManagement.label' />,
               }}
