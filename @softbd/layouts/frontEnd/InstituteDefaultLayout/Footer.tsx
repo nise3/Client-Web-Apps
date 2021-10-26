@@ -13,6 +13,7 @@ import {
   Home,
   LocalPhone,
 } from '@mui/icons-material';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,8 +53,8 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <>
-      <Grid container className={classes.root}>
-        <Container maxWidth='xl' className={classes.container}>
+      <Grid container className={clsx(classes.root, classes.container)}>
+        <Container maxWidth='lg'>
           <Grid container spacing={4}>
             <Grid item xs={12} md={6} lg={4} p={0}>
               <LogoCustomizable
@@ -79,7 +80,7 @@ const Footer = () => {
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={12} md={6} lg={4} p={0}>
+            <Grid item xs={12} md={6} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>যোগাযোগ</H6>
               <Box display='flex' mt={4}>
                 <Box flex='0 0 40px'>
@@ -109,7 +110,7 @@ const Footer = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} md={8} lg={4} p={0}>
+            <Grid item xs={12} md={8} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>গুরুত্বপূর্ণ লিঙ্ক</H6>
               <Box display='flex' mt={4} justifyContent='space-between'>
                 <Box>
@@ -162,8 +163,8 @@ const Footer = () => {
       </Grid>
 
       <Grid container className={classes.foot}>
-        <Container maxWidth='xl' className={classes.container}>
-          <Grid item container spacing={10}>
+        <Container maxWidth='lg'>
+          <Grid item container spacing={7}>
             <Grid item md={4}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>

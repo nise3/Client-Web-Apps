@@ -22,7 +22,7 @@ import {
 } from '../../../common/appLinks';
 import useStyles from './Header.style';
 import {useIntl} from 'react-intl';
-import {Button} from '@mui/material';
+import {Container} from '@mui/material';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
 
 interface AppHeaderProps {}
@@ -94,10 +94,9 @@ const Header: React.FC<AppHeaderProps> = () => {
   return (
     <>
       <Box className={classes.header}>
-        <Box
-          maxWidth='xl'
-          margin='auto'
-          display='flex'
+        <Container
+          maxWidth='lg'
+          sx={{margin: 'auto', display: 'flex'}}
           className={classes.logoArea}>
           <Link href='/' className={classes.headerHalf}>
             <LogoCustomizable
@@ -112,20 +111,22 @@ const Header: React.FC<AppHeaderProps> = () => {
             <H6 p={2}>
               <Send className={classes.menuIcons} /> support@bitac.gov.bd
             </H6>
-            <H6 p={2}>
+            <H6>
               <LocalPhone className={classes.menuIcons} /> ০১৯১২৩৪৫৬৭৮,
               ০১৮১২৩৪৫৬৭৮
             </H6>
           </Box>
-        </Box>
+        </Container>
       </Box>
+
       <AppBar
         position='relative'
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
         <Toolbar
           className={clsx(classes.headerMain, classes.headerFixedHeight)}>
-          <Box
+          <Container
+            maxWidth={'lg'}
             className={clsx(classes.headerMainFlex, classes.headerFixedHeight)}>
             {/*<Box className={classes.grow} />*/}
             <Box
@@ -137,7 +138,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                 <Box className={classes.headerMenuGroup}>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_ROOT}
-                    className={classes.menuItem}>
+                    className={classes.firstMenuItem}>
                     প্রথম পাতা
                   </Link>
                   <Link
@@ -172,10 +173,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                   </Link>
                 </Box>
                 <Box className={classes.headerMenuGroup}>
-                  <Button onClick={redirectToSSO} className={classes.menuItem}>
-                    <Person className={classes.menuIcons} />
-                    {messages['institute.youth_login']}
-                  </Button>
                   <Link
                     href={LINK_SIGNUP}
                     className={clsx(classes.menuItem, classes.menuItemAction)}>
@@ -197,9 +194,10 @@ const Header: React.FC<AppHeaderProps> = () => {
                 <MoreIcon />
               </IconButton>
             </Box>
-          </Box>
+          </Container>
         </Toolbar>
       </AppBar>
+
       {renderMobileMenu}
     </>
   );

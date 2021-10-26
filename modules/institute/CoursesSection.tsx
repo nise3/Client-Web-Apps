@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import {Box, Container, Grid, Tabs, Tab} from '@mui/material';
+import {Box, Container, Tabs, Tab} from '@mui/material';
 import UnderlinedHeading from './UnderlinedHeading';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
@@ -83,45 +83,37 @@ const CoursesSection = () => {
   };
 
   return (
-    <Grid container xl={12} className={classes.root}>
-      <Container
-        maxWidth='lg'
-        className={classes.rootMobileView}
-        disableGutters>
-        <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
-        <Box sx={{width: '100%'}}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            textColor='secondary'
-            indicatorColor='secondary'
-            aria-label='secondary tabs example'>
-            <Tab
-              label={messages['common.running_courses']}
-              {...indexProps(0)}
-            />
-            <Tab
-              label={messages['common.up_coming_courses']}
-              {...indexProps(1)}
-            />
-          </Tabs>
+    <Container maxWidth='lg' className={classes.rootMobileView}>
+      <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
+      <Box sx={{width: '100%'}}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor='secondary'
+          indicatorColor='secondary'
+          aria-label='secondary tabs example'>
+          <Tab label={messages['common.running_courses']} {...indexProps(0)} />
+          <Tab
+            label={messages['common.up_coming_courses']}
+            {...indexProps(1)}
+          />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+        <Box>
+          {upComingCourses && upComingCourses.length > 0 && (
+            <CourseSectionCarousel courses={upComingCourses} />
+          )}
         </Box>
-        <TabPanel value={value} index={0}>
-          <Box>
-            {upComingCourses && upComingCourses.length > 0 && (
-              <CourseSectionCarousel courses={upComingCourses} />
-            )}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Box>
-            {upComingCourses && upComingCourses.length > 0 && (
-              <CourseSectionCarousel courses={upComingCourses} />
-            )}
-          </Box>
-        </TabPanel>
-      </Container>
-    </Grid>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Box>
+          {upComingCourses && upComingCourses.length > 0 && (
+            <CourseSectionCarousel courses={upComingCourses} />
+          )}
+        </Box>
+      </TabPanel>
+    </Container>
   );
 };
 export default CoursesSection;

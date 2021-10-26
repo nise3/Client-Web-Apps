@@ -67,7 +67,7 @@ const AboutSection = () => {
   const classes = useStyles();
   return (
     <Grid container xl={12} className={classes.root}>
-      <Container maxWidth='lg' disableGutters>
+      <Container maxWidth='lg'>
         <Grid
           container
           spacing={4}
