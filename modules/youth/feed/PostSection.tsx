@@ -17,16 +17,38 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 
 interface PostSectionProps {
   filters?: any;
+  pageIndex: number;
+  setLoadingMainPostData: any;
 }
-const PostSection = ({filters}: PostSectionProps) => {
+
+const PostSection = ({
+  filters,
+  pageIndex,
+  setLoadingMainPostData,
+}: PostSectionProps) => {
   const classes = useStyle();
   const {messages} = useIntl();
   const [courseFilters, setCourseFilters] = useState({});
-  const {data: courseList, isLoading: isLoadingCourses} =
-    useFetchAllCourseList(courseFilters);
+  const {
+    data: courseList,
+    isLoading: isLoadingCourses,
+    metaData,
+  } = useFetchAllCourseList(courseFilters);
+
+  const [posts, setPosts] = useState<Array<any>>([]);
 
   useEffect(() => {
-    setCourseFilters(objectFilter({...courseFilters, ...filters}));
+    console.log('metadata: ', metaData);
+    if (pageIndex >= metaData?.total_page) {
+      setLoadingMainPostData(true);
+    } else {
+      setCourseFilters(objectFilter({...courseFilters, ...filters}));
+      if (courseList && courseList.length) {
+        let tmpArr = posts;
+        tmpArr.push(...courseList);
+        setPosts(objectFilter(tmpArr));
+      }
+    }
   }, [filters]);
 
   return (
@@ -40,8 +62,9 @@ const PostSection = ({filters}: PostSectionProps) => {
       {isLoadingCourses ? (
         <PostLoadingSkeleton />
       ) : (
-        courseList &&
-        courseList.map((course: any) => {
+        posts &&
+        posts.length &&
+        posts.map((course: any) => {
           return (
             <Grid item xs={12} key={course.id}>
               {<CourseInfoBlock course={course} />}
