@@ -1,14 +1,8 @@
 import React, {FC} from 'react';
 import Grid from '@mui/material/Grid';
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 interface OtherInfoFormProps {
   register: any;
@@ -16,90 +10,117 @@ interface OtherInfoFormProps {
   control: any;
 }
 
+const siblings = [
+  {
+    total: 0,
+  },
+  {
+    total: 1,
+  },
+  {
+    total: 2,
+  },
+  {
+    total: 3,
+  },
+  {
+    total: 4,
+  },
+  {
+    total: 5,
+  },
+  {
+    total: 6,
+  },
+  {
+    total: 7,
+  },
+  {
+    total: 8,
+  },
+  {
+    total: 9,
+  },
+  {
+    total: 10,
+  },
+];
+
 const OtherInfoForm: FC<OtherInfoFormProps> = ({register, errors, control}) => {
   const {messages} = useIntl();
   return (
     <Grid container spacing={5}>
       <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='number_of_siblings'
-          label={messages['common.number_of_siblings']}
-          isLoading={false}
+        <FormRadioButtons
+          id='miscellaneous_info[has_own_family_home]'
+          label={'common.has_own_family_home'}
+          radios={[
+            {
+              key: '1',
+              label: messages['common.yes'],
+            },
+            {
+              key: '0',
+              label: messages['common.no'],
+            },
+          ]}
           control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
+          defaultValue={'1'}
+          isLoading={false}
         />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControl component='fieldset'>
-          <FormLabel component='legend'>
-            {messages['common.own_house?']}
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-label='position'
-            name='position'
-            defaultValue='unmarried'>
-            <FormControlLabel
-              value='yes'
-              control={<Radio />}
-              label={messages['common.yes']}
-            />
-            <FormControlLabel
-              value='no'
-              control={<Radio />}
-              label={messages['common.no']}
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControl component='fieldset'>
-          <FormLabel component='legend'>
-            {messages['common.own_property?']}
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-label='position'
-            name='position'
-            defaultValue='yes'>
-            <FormControlLabel
-              value='yes'
-              control={<Radio />}
-              label={messages['common.yes']}
-            />
-            <FormControlLabel
-              value='no'
-              control={<Radio />}
-              label={messages['common.no']}
-            />
-          </RadioGroup>
-        </FormControl>
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <FormControl component='fieldset'>
-          <FormLabel component='legend'>
-            {messages['common.proposed_organization?']}
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-label='position'
-            name='position'
-            defaultValue='yes'>
-            <FormControlLabel
-              value='yes'
-              control={<Radio />}
-              label={messages['common.yes']}
-            />
-            <FormControlLabel
-              value='no'
-              control={<Radio />}
-              label={messages['common.no']}
-            />
-          </RadioGroup>
-        </FormControl>
+        <FormRadioButtons
+          id='miscellaneous_info[has_own_family_land]'
+          label={'common.has_own_family_land'}
+          radios={[
+            {
+              key: '1',
+              label: messages['common.yes'],
+            },
+            {
+              key: '0',
+              label: messages['common.no'],
+            },
+          ]}
+          control={control}
+          defaultValue={'1'}
+          isLoading={false}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <CustomFormSelect
+          id='miscellaneous_info[number_of_siblings]'
+          label={messages['common.number_of_siblings']}
+          isLoading={false}
+          control={control}
+          options={siblings}
+          optionValueProp={'total'}
+          optionTitleProp={['total']}
+          errorInstance={errors}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <FormRadioButtons
+          id='miscellaneous_info[recommended_by_any_organization]'
+          label={'common.recommended_by_any_organization'}
+          radios={[
+            {
+              key: '1',
+              label: messages['common.yes'],
+            },
+            {
+              key: '0',
+              label: messages['common.no'],
+            },
+          ]}
+          control={control}
+          defaultValue={'1'}
+          isLoading={false}
+        />
       </Grid>
     </Grid>
   );

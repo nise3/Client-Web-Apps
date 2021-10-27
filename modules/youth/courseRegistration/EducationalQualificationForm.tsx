@@ -1,258 +1,134 @@
-import React, {FC} from 'react';
-import Grid from '@mui/material/Grid';
-import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {Typography} from '@mui/material';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import React, {FC, useState} from 'react';
+import {Grid} from '@mui/material';
+import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
+import SectionPscForm from './educationQualification/SectionPSCForm';
+import {useFetchEducationExamsBoardsEduGroupsAndSubjects} from '../../../services/youthManagement/hooks';
+import SectionJscForm from './educationQualification/SectionJSCForm';
+import SectionSscForm from './educationQualification/SectionSSCForm';
+import SectionHscForm from './educationQualification/SectionHSCForm';
+import SectionHonoursForm from './educationQualification/SectionHonoursForm';
+import SectionMastersForm from './educationQualification/SectionMastersForm';
+import {useFetchCountries} from '../../../services/locationManagement/hooks';
+import SectionPhdForm from './educationQualification/SectionPhdForm';
 
 interface EducationalQualificationFormProps {
   register: any;
   errors: any;
   control: any;
+  visibleFieldKeys: Array<string>;
 }
 
 const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
   register,
   errors,
   control,
+  visibleFieldKeys,
 }) => {
-  const {messages} = useIntl();
+  const {data: educationsData} =
+    useFetchEducationExamsBoardsEduGroupsAndSubjects();
+  const [countryFilters] = useState<any>({});
+  const {data: countries} = useFetchCountries(countryFilters);
+
+  console.log('datatt', educationsData);
+
   return (
-    <Grid container spacing={5}>
-      <Grid item xs={12}>
-        <Typography variant={'h6'}>SSC</Typography>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='ssc_board'
-          label={messages['education.board']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='ssc_institute_name'
-          label={messages['common.institute_name']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='ssc_roll_no'
-          label={messages['education.roll_no']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='ssc_reg_no'
-          label={messages['education.reg_no']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='ssc_result'
-          label={messages['education.result']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='ssc_division'
-          label={messages['divisions.label']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <CustomFormSelect
-          id='ssc_passing_year'
-          label={messages['common.passing_year']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant={'h6'}>HSC</Typography>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='honours_board'
-          label={messages['education.board']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='honours_institute_name'
-          label={messages['common.institute_name']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='honours_roll_no'
-          label={messages['education.roll_no']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='honours_reg_no'
-          label={messages['education.reg_no']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='honours_result'
-          label={messages['education.result']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='honours_division'
-          label={messages['divisions.label']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <CustomFormSelect
-          id='honours_passing_year'
-          label={messages['common.passing_year']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant={'h6'}>HSC</Typography>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='hsc_board'
-          label={messages['education.board']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='hsc_institute_name'
-          label={messages['common.institute_name']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='hsc_roll_no'
-          label={messages['education.roll_no']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='hsc_reg_no'
-          label={messages['education.reg_no']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='hsc_result'
-          label={messages['education.result']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomFormSelect
-          id='hsc_division'
-          label={messages['divisions.label']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <CustomFormSelect
-          id='hsc_passing_year'
-          label={messages['common.passing_year']}
-          isLoading={false}
-          control={control}
-          options={[]}
-          optionValueProp={''}
-          errorInstance={errors}
-        />
-      </Grid>
+    <Grid container spacing={2}>
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_PSC_KEY) && (
+          <Grid item xs={12}>
+            <SectionPscForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
+              eduBoards={educationsData?.edu_boards}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_JSC_KEY) && (
+          <Grid item xs={12}>
+            <SectionJscForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
+              eduBoards={educationsData?.edu_boards}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_SSC_KEY) && (
+          <Grid item xs={12}>
+            <SectionSscForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
+              eduBoards={educationsData?.edu_boards}
+              eduGroups={educationsData?.edu_groups}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_HSC_KEY) && (
+          <Grid item xs={12}>
+            <SectionHscForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
+              eduBoards={educationsData?.edu_boards}
+              eduGroups={educationsData?.edu_groups}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_HONOURS_KEY) && (
+          <Grid item xs={12}>
+            <SectionHonoursForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_MASTERS_KEY) && (
+          <Grid item xs={12}>
+            <SectionMastersForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_PHD_KEY) && (
+          <Grid item xs={12}>
+            <SectionPhdForm
+              errors={errors}
+              control={control}
+              register={register}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
     </Grid>
   );
 };
