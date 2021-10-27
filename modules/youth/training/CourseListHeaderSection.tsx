@@ -38,8 +38,8 @@ const LANGUAGES = [
 ];
 
 const COURSE_TYPES = [
-  {id: 1, title: 'Free'},
-  {id: 2, title: 'Paid'},
+  {id: 1, title: 'Paid'},
+  {id: 2, title: 'Free'},
 ];
 
 interface CourseListHeaderSection {

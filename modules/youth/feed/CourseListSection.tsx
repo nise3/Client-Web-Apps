@@ -8,6 +8,10 @@ import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 const useStyle = makeStyles((theme: CremaTheme) => ({
   recentCourseSectionRoot: {
     marginTop: 0,
@@ -46,12 +50,27 @@ const CourseListSection = () => {
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState('recent');
   const URL = `/youth/course-list/${selectedValue}`;
+  const authYouth = useAuthUser<YouthAuthUser>();
 
-  const [courseFilters] = useState({page_size: 3});
-  const {data: courses} = useFetchCourseList(selectedValue, courseFilters);
+  const [courseFilters, setCourseFilters] = useState({page_size: 3});
+  const {data: courses, metaData: coursesMetaData} = useFetchCourseList(
+    selectedValue,
+    courseFilters,
+  );
 
   const handleCourseCategoryChange = useCallback((event: any) => {
-    setSelectedValue(event.target.value);
+    const value = event.target.value;
+    if (value == 'nearby') {
+      setCourseFilters((prevState) => {
+        return {...prevState, loc_district_id: authYouth?.loc_district_id};
+      });
+    } else {
+      setCourseFilters((prevState) => {
+        return objectFilter({...prevState, loc_district_id: 0});
+      });
+    }
+
+    setSelectedValue(value);
   }, []);
 
   return (
@@ -80,18 +99,24 @@ const CourseListSection = () => {
               </Grid>
             );
           })}
-        <Grid item xs={12} style={{paddingLeft: 15}}>
-          <Link href={URL} passHref>
-            <Button
-              variant={'text'}
-              color={'primary'}
-              size={'medium'}
-              className={classes.seeMoreButton}>
-              {messages['youth_feed.see_more_courses']}
-              <ChevronRight color={'primary'} />
-            </Button>
-          </Link>
-        </Grid>
+        {coursesMetaData.current_page < coursesMetaData.total_page && (
+          <Grid item xs={12} style={{paddingLeft: 15}}>
+            <Link href={URL} passHref>
+              <Button
+                variant={'text'}
+                color={'primary'}
+                size={'medium'}
+                className={classes.seeMoreButton}>
+                {messages['youth_feed.see_more_courses']}
+                <ChevronRight color={'primary'} />
+              </Button>
+            </Link>
+          </Grid>
+        )}
+
+        {courses?.length <= 0 && (
+          <NoDataFoundComponent messageTextType={'subtitle2'} />
+        )}
       </Grid>
     </Card>
   );
