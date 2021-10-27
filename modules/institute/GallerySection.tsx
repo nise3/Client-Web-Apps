@@ -8,8 +8,10 @@ import UnderlinedHeading from './UnderlinedHeading';
 import Carousel from 'react-multi-carousel';
 import {useFetchInstitutesGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';
-import {Link} from '../../@softbd/elements/common';
+import {H6, Link} from '../../@softbd/elements/common';
 import {useRouter} from 'next/router';
+import {useIntl} from 'react-intl';
+import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const GallerySection = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const {data: galleryItems} = useFetchInstitutesGallery();
   const router = useRouter();
   const path = router.pathname;
@@ -64,75 +67,79 @@ const GallerySection = () => {
   return (
     <Container maxWidth='lg' className={classes.rootMobileView}>
       <Fade direction='up'>
-        <UnderlinedHeading>গ্যালারি</UnderlinedHeading>
-        <Box>
-          {galleryItems && galleryItems.length && (
-            <Carousel
-              additionalTransfrom={0}
-              arrows
-              autoPlay={true}
-              autoPlaySpeed={3000}
-              centerMode={false}
-              className=''
-              containerClass='container-with-dots'
-              dotListClass=''
-              draggable
-              focusOnSelect={false}
-              infinite
-              itemClass=''
-              keyBoardControl
-              minimumTouchDrag={80}
-              renderButtonGroupOutside={false}
-              renderDotsOutside={false}
-              responsive={{
-                desktop: {
-                  breakpoint: {
-                    max: 3000,
-                    min: 1024,
+        <UnderlinedHeading>{messages['common.gallery']}</UnderlinedHeading>
+        {galleryItems && galleryItems.length ? (
+          <Box>
+            <Box>
+              <Carousel
+                additionalTransfrom={0}
+                arrows
+                autoPlay={true}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                className=''
+                containerClass='container-with-dots'
+                dotListClass=''
+                draggable
+                focusOnSelect={false}
+                infinite
+                itemClass=''
+                keyBoardControl
+                minimumTouchDrag={80}
+                renderButtonGroupOutside={false}
+                renderDotsOutside={false}
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024,
+                    },
+                    items: 4,
+                    partialVisibilityGutter: 40,
                   },
-                  items: 4,
-                  partialVisibilityGutter: 40,
-                },
-                mobile: {
-                  breakpoint: {
-                    max: 464,
-                    min: 0,
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0,
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30,
                   },
-                  items: 1,
-                  partialVisibilityGutter: 30,
-                },
-                tablet: {
-                  breakpoint: {
-                    max: 1024,
-                    min: 464,
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 464,
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30,
                   },
-                  items: 2,
-                  partialVisibilityGutter: 30,
-                },
-              }}
-              showDots={true}
-              sliderClass=''
-              slidesToSlide={1}
-              swipeable>
-              {galleryItems.map((v: any, i: number) => (
-                <Box key={i} className={classes.boxItem}>
-                  <GalleryItemCardView item={v} />
-                </Box>
-              ))}
-            </Carousel>
-          )}
-        </Box>
-        <Box display='flex' justifyContent='center' mt={8}>
-          <Link href={`${path}/gallery`}>
-            <Button
-              variant='outlined'
-              size='large'
-              endIcon={<ArrowRightAlt />}
-              className={classes.button}>
-              আরও দেখুন
-            </Button>
-          </Link>
-        </Box>
+                }}
+                showDots={true}
+                sliderClass=''
+                slidesToSlide={1}
+                swipeable>
+                {galleryItems.map((v: any, i: number) => (
+                  <Box key={i} className={classes.boxItem}>
+                    <GalleryItemCardView item={v} />
+                  </Box>
+                ))}
+              </Carousel>
+            </Box>
+            <Box display='flex' justifyContent='center' mt={8}>
+              <Link href={`${path}/gallery`}>
+                <Button
+                  variant='outlined'
+                  size='large'
+                  endIcon={<ArrowRightAlt />}
+                  className={classes.button}>
+                  আরও দেখুন
+                </Button>
+              </Link>
+            </Box>
+          </Box>
+        ) : (
+          <H6>{messages['common.no_data_found']}</H6>
+        )}
       </Fade>
     </Container>
   );

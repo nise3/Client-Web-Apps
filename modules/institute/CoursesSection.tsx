@@ -8,6 +8,7 @@ import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import Typography from '@mui/material/Typography';
 import CourseSectionCarousel from './courseSectionCarousel';
+import {H6} from '../../@softbd/elements/common';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -101,15 +102,19 @@ const CoursesSection = () => {
       </Box>
       <TabPanel value={value} index={0}>
         <Box>
-          {upComingCourses && upComingCourses.length > 0 && (
+          {upComingCourses && upComingCourses.length ? (
             <CourseSectionCarousel courses={upComingCourses} />
+          ) : (
+            <H6>{messages['common.no_data_found']}</H6>
           )}
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Box>
-          {upComingCourses && upComingCourses.length > 0 && (
+          {upComingCourses && upComingCourses.length ? (
             <CourseSectionCarousel courses={upComingCourses} />
+          ) : (
+            <H6>{messages['common.no_data_found']}</H6>
           )}
         </Box>
       </TabPanel>

@@ -1,11 +1,11 @@
 import React from 'react';
-import {Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
-import {Link} from '../../@softbd/elements/common';
+import {H6, Link} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -48,6 +48,12 @@ const useStyles = makeStyles((theme) => {
       bottom: '5%',
       left: '4%',
     },
+    vBar: {
+      height: '40px',
+      width: '5px',
+      background: 'linear-gradient(45deg, #ec5c17,#5affab)',
+      marginRight: '10px',
+    },
   };
 });
 
@@ -66,25 +72,30 @@ const RecentActivities = () => {
             variant='h4'
             component='div'
             display={'flex'}>
-            {messages['recent_activities.institute']}
+            <Box className={classes.vBar} />
+            <Box>{messages['recent_activities.institute']}</Box>
           </Typography>
-          {recentActivitiesItems && (
+          {recentActivitiesItems && recentActivitiesItems.length ? (
             <RecentActivityMasonryGroupView
               items={recentActivitiesItems.slice(0, 4)}
             />
+          ) : (
+            <H6>{messages['common.no_data_found']}</H6>
           )}
         </Grid>
       </Grid>
-      <Grid container justifyContent='flex-end'>
-        <Link href={'/recent-activities'}>
-          <Button
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}>
-            আরো দেখুন
-          </Button>
-        </Link>
-      </Grid>
+      {recentActivitiesItems && recentActivitiesItems.length > 0 && (
+        <Grid container justifyContent='flex-end'>
+          <Link href={'/recent-activities'}>
+            <Button
+              variant='outlined'
+              color='primary'
+              endIcon={<ArrowRightAlt />}>
+              {messages['freelance_corner.see_more']}
+            </Button>
+          </Link>
+        </Grid>
+      )}
     </Container>
   );
 };

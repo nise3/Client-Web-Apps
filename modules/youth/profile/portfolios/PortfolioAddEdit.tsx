@@ -108,15 +108,6 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
                 id='title'
                 label={messages['common.title']}
                 register={register}
@@ -124,7 +115,15 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 isLoading={isLoading}
               />
             </Grid>
-
+            <Grid item xs={12}>
+              <CustomTextInput
+                id='title_en'
+                label={messages['common.title_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
             <Grid item xs={12}>
               <CustomTextInput
                 id='description'

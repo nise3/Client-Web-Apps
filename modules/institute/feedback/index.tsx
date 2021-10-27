@@ -11,6 +11,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import makeStyles from '@mui/styles/makeStyles';
 import {H2} from '../../../@softbd/elements/common';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -35,12 +36,26 @@ const InstituteFeedback = () => {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      name: yup.string().label(messages['common.name'] as string),
+      name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.name'] as string),
       phone_numbers: yup
         .string()
-        .label(messages['common.phone_number'] as string),
-      email_address: yup.string().label(messages['common.email'] as string),
-      advice: yup.string().label(messages['personal_info.bio'] as string),
+        .trim()
+        .required()
+        .label(messages['common.phone_number'] as string)
+        .matches(MOBILE_NUMBER_REGEX),
+      email_address: yup
+        .string()
+        .label(messages['common.email'] as string)
+        .email(),
+      advice: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['advice.institute'] as string),
     });
   }, [messages]);
 

@@ -510,7 +510,7 @@
   "references.edit_reference": "রেফারেন্স সম্পাদনা করুন",
   "common.relation": "সম্পর্ক",
   "common.relation_en": "সম্পর্ক (ইংরেজি)",
-  "common.relation_bn": "সম্পর্",
+  "common.relation_bn": "সম্পর্ক",
   "education.education_level": "শিক্ষার স্তর",
   "education.education_exam_degree": "পরীক্ষা/ডিগ্রি",
   "education.education_exam_degree_name_bn": "পরীক্ষা/ডিগ্রির নাম",
@@ -731,5 +731,6 @@
   "common.location_latitude" : "অক্ষাংশ",
   "common.location_longitude" : "দ্রাঘিমাংশ",
   "common.short_min" : "মিনিট",
-  "common.short_hour" : "ঘন্টা"
+  "common.short_hour" : "ঘন্টা",
+  "common.gallery": "গ্যালারি"
 }
