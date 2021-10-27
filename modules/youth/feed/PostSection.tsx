@@ -55,7 +55,7 @@ const PostSection = ({
 
   useEffect(() => {
     if (courseList && courseList.length) {
-      if (filters?.search_text || filters?.upazila_id) {
+      if (metaData.current_page == 1) {
         setPosts([...courseList]);
       } else {
         setPosts((prevState) =>
