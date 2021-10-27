@@ -55,7 +55,7 @@ const PostSection = ({
 
   useEffect(() => {
     if (courseList && courseList.length) {
-      if (metaData.current_page == 1) {
+      if (metaData.current_page <= 1) {
         setPosts([...courseList]);
       } else {
         setPosts((prevState) =>
