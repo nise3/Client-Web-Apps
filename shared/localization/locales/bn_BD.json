@@ -452,7 +452,7 @@
   "common.position_en": "পদ (ইংরেজি)",
   "common.type_of_employee": "চাকরির ধরন",
   "common.type_of_identity_card": "পরিচয় পত্রের ধরন",
-  "common.location_latitude":  "অবস্থানের অক্ষাংশ",
+  "common.location_latitude": "অবস্থানের অক্ষাংশ",
   "common.location_longitude": "অবস্থানের দ্রাঘিমাংশ",
   "common.country": "দেশ",
   "common.phone_code": "ফোন কোড",
@@ -576,8 +576,8 @@
   "common.miscellaneous_info": "অন্যান্য তথ্য",
   "common.personal_info": "বাক্তিগত তথ্য",
   "common.occupation_info": "পেশাগত তথ্য",
-  "common.education_info" : "শিক্ষাগত যোগ্যতা",
-  "common.address_info" : "ঠিকানা",
+  "common.education_info": "শিক্ষাগত যোগ্যতা",
+  "common.address_info": "ঠিকানা",
   "course_card.complete": "{subject} সম্পন্ন",
   "common.submit": "সম্পন্ন",
   "freelance_corner.label": "ফ্রিল্যান্স কর্নার",
@@ -730,8 +730,6 @@
   "level.beginner": "শিক্ষানবিস",
   "level.intermediate": "মধ্যবর্তী",
   "level.expert": "বিশেষজ্ঞ",
-  "common.location_latitude" : "অক্ষাংশ",
-  "common.location_longitude" : "দ্রাঘিমাংশ",
-  "common.short_min" : "মিনিট",
-  "common.short_hour" : "ঘন্টা"
+  "common.short_min": "মিনিট",
+  "common.short_hour": "ঘন্টা"
 }

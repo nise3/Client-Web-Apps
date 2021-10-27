@@ -20,7 +20,9 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
       <Grid item xs={12} sm={6} md={6}>
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:{' '}
-          <Box className={classes.courseFeeStyle}>{course?.course_fee}</Box>
+          <Box className={classes.courseFeeStyle}>
+            {course?.course_fee || 'free'}
+          </Box>
         </Box>
         <Typography variant={'h4'} mb={8} fontWeight={'bold'}>
           {course?.title}

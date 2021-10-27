@@ -1,7 +1,7 @@
 import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
-import {useIntl} from 'react-intl';
+import {appIntl} from '../../@crema/utility/Utils';
 
 export const genders = [
   {
@@ -264,18 +264,20 @@ export const isNeedToSelectOrganization = (
 export const courseDuration = (duration: number) => {
   let dh = 0;
   let dm = 0;
-  const {messages} = useIntl();
+  const {messages} = appIntl();
 
   if (duration / 60 < 1) {
-    return duration + (messages['common.short_min'] as string);
+    return duration + ' ' + (messages['common.short_min'] as string);
   } else {
     dm = duration % 60;
     dh = Math.floor(duration / 60);
     return (
       dh +
+      ' ' +
       (messages['common.short_hour'] as string) +
-      ',' +
+      ', ' +
       dm +
+      ' ' +
       (messages['common.short_min'] as string)
     );
   }
