@@ -39,6 +39,7 @@ import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes'
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {useRouter} from 'next/router';
 import {LINK_YOUTH_REGISTRATION_VERIFICATION} from '../../../@softbd/common/appLinks';
+import {nationalities} from '../../../@softbd/utilities/Nationalities';
 
 const initialValues = {
   first_name: '',
@@ -62,29 +63,6 @@ const initialValues = {
   loc_upazila_id: '',
   zip_or_postal_code: '',
 };
-
-const nationalities = [
-  {
-    id: 1,
-    title: 'Bangladeshi',
-    title_en: 'Bangladeshi',
-  },
-  {
-    id: 2,
-    title: 'Indian',
-    title_en: 'Indian',
-  },
-  {
-    id: 3,
-    title: 'Pakistani',
-    title_en: 'Pakistani',
-  },
-  {
-    id: 4,
-    title: 'Nepali',
-    title_en: 'Nepali',
-  },
-];
 
 const YouthRegistration = () => {
   const classes = useStyles();
