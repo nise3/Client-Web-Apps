@@ -127,15 +127,6 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_en'
-            label='Title (En)'
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -143,6 +134,16 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

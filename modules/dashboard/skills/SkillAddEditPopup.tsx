@@ -135,15 +135,6 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -151,6 +142,16 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <CustomTextInput
             id='description'

@@ -56,15 +56,15 @@ const OrganizationUnitDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
+              label={messages['common.title']}
+              value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title']}
-              value={itemData?.title}
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
               isLoading={isLoading}
             />
           </Grid>

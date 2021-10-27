@@ -92,9 +92,6 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         .title()
         .label(messages['common.title'] as string),
       institute_id: yup.string().trim().required(),
-      address: yup.string(),
-      google_map_src: yup.string(),
-      row_status: yup.string(),
     });
   }, [messages]);
   const {
@@ -198,8 +195,8 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -207,8 +204,8 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title'
-            label={messages['common.title']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

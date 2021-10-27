@@ -26,7 +26,6 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-
 interface RankAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -68,10 +67,6 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -106,7 +101,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser) {
-      if (authUser.isOrganizationUser) {
+      if (authUser.isOrganizationUser && authUser.organization_id) {
         setRankTypeFilters({
           organization_id: authUser.organization_id,
           row_status: RowStatus.ACTIVE,
@@ -195,15 +190,6 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -211,6 +197,16 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         {authUser && authUser.isSystemUser && (
           <Grid item xs={6}>
             <CustomFormSelect

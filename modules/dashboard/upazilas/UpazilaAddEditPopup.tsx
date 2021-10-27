@@ -204,8 +204,8 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -213,8 +213,8 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title'
-            label={messages['common.title']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

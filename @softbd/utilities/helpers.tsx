@@ -5,27 +5,27 @@ import {useIntl} from 'react-intl';
 
 export const genders = [
   {
-    id: 1,
+    key: 1,
     label: 'Male',
   },
   {
-    id: 2,
+    key: 2,
     label: 'Female',
   },
   {
-    id: 3,
+    key: 3,
     label: 'Others',
   },
 ];
 
 export const marital_status = [
   {
-    id: 1,
-    label: 'Unmarried',
+    key: 0,
+    label: 'No',
   },
   {
-    id: 2,
-    label: 'Married',
+    key: 1,
+    label: 'Yes',
   },
 ];
 
@@ -40,7 +40,7 @@ export const religions = [
   },
   {
     id: 3,
-    label: 'Buddha',
+    label: 'Buddhist',
   },
   {
     id: 4,

@@ -36,11 +36,7 @@ const RankPage = () => {
 
   useEffect(() => {
     if (authUser) {
-      if (authUser.institute_id) {
-        setRankFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.organization_id) {
+      if (authUser.isOrganizationUser && authUser.organization_id) {
         setRankFilters({
           organization_id: authUser.organization_id,
         });

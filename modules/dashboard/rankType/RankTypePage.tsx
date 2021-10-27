@@ -26,17 +26,17 @@ const RankTypePage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [rankFilters, setRankFilters] = useState({});
+  const [rankTypeFilters, setRankTypeFilters] = useState({});
 
   const {
     data: rankTypes,
     isLoading,
     mutate: mutateRankTypes,
-  } = useFetchRankTypes(rankFilters);
+  } = useFetchRankTypes(rankTypeFilters);
 
   useEffect(() => {
-    if (authUser?.isOrganizationUser) {
-      setRankFilters({organization_id: authUser.organization?.id});
+    if (authUser?.isOrganizationUser && authUser.organization_id) {
+      setRankTypeFilters({organization_id: authUser.organization?.id});
     }
   }, []);
 

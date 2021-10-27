@@ -44,6 +44,7 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -62,9 +63,9 @@ const initialValues = {
   mobile: '',
   about_me: '',
   about_me_en: '',
-  gender: '',
-  marital_status: '',
-  religion: '',
+  gender: '1',
+  marital_status: '1',
+  religion: '1',
   nationality: '',
   nid: '',
   passport_number: '',
@@ -148,7 +149,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      trainer_name_en: yup.string(),
       trainer_name: yup
         .string()
         .title()
@@ -370,16 +370,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='trainer_name_en'
-            label={messages['trainer.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='trainer_name'
             label={messages['trainer.title']}
@@ -388,7 +379,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='trainer_name_en'
+            label={messages['trainer.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='email'
             label={messages['common.email']}
@@ -397,7 +397,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='about_me'
             label={messages['common.about_me']}
@@ -406,7 +406,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='about_me_en'
             label={messages['common.about_me_en']}
@@ -415,7 +415,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='mobile'
             label={messages['common.mobile']}
@@ -424,7 +424,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='date_of_birth'
             label={messages['common.date_of_birth']}
@@ -433,7 +433,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='present_house_address'
             label={messages['common.present_house_address']}
@@ -442,7 +442,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='present_house_address_en'
             label={messages['common.present_house_address_en']}
@@ -451,7 +451,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='permanent_house_address'
             label={messages['common.permanent_house_address']}
@@ -460,7 +460,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='permanent_house_address_en'
             label={messages['common.permanent_house_address_en']}
@@ -469,7 +469,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='present_address_division_id'
             label={messages['common.division_title_present_address']}
@@ -482,7 +482,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             onChange={onPresentDivisionChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='permanent_address_division_id'
             label={messages['common.division_title_permanent_address']}
@@ -495,7 +495,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             onChange={onPermanentDivisionChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='present_address_district_id'
             label={messages['common.district_title_present_address']}
@@ -508,7 +508,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             onChange={onPresentDistrictChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='permanent_address_district_id'
             label={messages['common.district_title_permanent_address']}
@@ -521,7 +521,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             onChange={onPermanentDistrictChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='present_address_upazila_id'
             label={messages['common.upazila_title_present_address']}
@@ -533,7 +533,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='permanent_address_upazila_id'
             label={messages['common.upazila_title_permanent_address']}
@@ -545,20 +545,30 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
-        <Grid item xs={6}>
-          <CustomFormSelect
+        <Grid item xs={12} md={6}>
+          <FormRadioButtons
             id='gender'
-            label={messages['common.gender']}
-            isLoading={isLoading}
+            label={'common.gender'}
+            radios={genders}
             control={control}
-            options={genders}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
+            defaultValue={initialValues.gender}
+            isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        {/*<Grid item xs={12} md={6}>*/}
+        {/*  <CustomFormSelect*/}
+        {/*    id='gender'*/}
+        {/*    label={messages['common.gender']}*/}
+        {/*    isLoading={isLoading}*/}
+        {/*    control={control}*/}
+        {/*    options={genders}*/}
+        {/*    optionValueProp={'id'}*/}
+        {/*    optionTitleProp={['label']}*/}
+        {/*    errorInstance={errors}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
+
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='religion'
             label={messages['common.religion']}
@@ -570,19 +580,29 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
+        <Grid item xs={12}>
+          <FormRadioButtons
             id='marital_status'
-            label={messages['common.marital_status']}
-            isLoading={isLoading}
+            label={'common.marital_status'}
+            radios={marital_status}
             control={control}
-            options={marital_status}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
+            defaultValue={initialValues.marital_status}
+            isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        {/*<Grid item xs={12} md={6}>*/}
+        {/*  <CustomFormSelect*/}
+        {/*    id='marital_status'*/}
+        {/*    label={messages['common.marital_status']}*/}
+        {/*    isLoading={isLoading}*/}
+        {/*    control={control}*/}
+        {/*    options={marital_status}*/}
+        {/*    optionValueProp={'id'}*/}
+        {/*    optionTitleProp={['label']}*/}
+        {/*    errorInstance={errors}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='nid'
             label={messages['common.nid']}
@@ -592,7 +612,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='educational_qualification'
             label={messages['common.educational_qualification']}
@@ -601,7 +621,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='educational_qualification_en'
             label={messages['common.educational_qualification_en']}
@@ -610,7 +630,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='trainer_registration_number'
             label={messages['common.registration_number']}
@@ -619,7 +639,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='skills'
             label={messages['menu.skill']}
@@ -628,7 +648,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='skills_en'
             label={messages['menu.skills_en']}
@@ -637,7 +657,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='passport_number'
             label={messages['common.passport_number']}
@@ -647,7 +667,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
@@ -660,7 +680,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             onChange={onInstituteChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
@@ -673,7 +693,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             onChange={onBranchChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='training_center_id'
             label={messages['menu.training_center']}
@@ -685,7 +705,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='nationality'
             label={messages['common.nationality']}
@@ -694,7 +714,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='signature'
             label={messages['common.signature']}
@@ -703,7 +723,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <input
             id='photo'
             name='btn-upload'
@@ -714,7 +734,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             Photo
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}
