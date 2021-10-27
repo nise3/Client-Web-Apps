@@ -39,11 +39,11 @@ const filterRoute = function (arr: any[], usr: any) {
 
 const Navigation: React.FC<NavigationProps> = () => {
   const authUser = useAuthUser();
-  const filteredRouters = useMemo(() => routesConfig, [authUser]);
-  /*const filteredRouters = useMemo(
+  // const filteredRouters = useMemo(() => routesConfig, [authUser]);
+  const filteredRouters = useMemo(
     () => filterRoute(routesConfig, authUser),
     [authUser],
-  );*/
+  );
 
   return (
     <List>
