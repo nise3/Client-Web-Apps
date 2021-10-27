@@ -155,6 +155,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             className={classes.dividerStyle}
           />
           <Grid item>
+            `
             <Box
               className={clsx(
                 classes.dFlexAlignCenter,
