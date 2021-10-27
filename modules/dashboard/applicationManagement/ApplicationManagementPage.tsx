@@ -23,7 +23,6 @@ const ApplicationManagementPage = () => {
   const authUser = useAuthUser();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const startIcon = <FiUserCheck style={{marginLeft: '5px'}} />;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
@@ -144,7 +143,7 @@ const ApplicationManagementPage = () => {
               <AssignBatchButton
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
                 btnText='applicationManagement.assignBatch'
-                startIcon={startIcon}
+                startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
               />
 
               {data.row_status !== 3 ? (

@@ -19,9 +19,8 @@ type Props = {
 const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
-  const startIcon = <FiUser style={{marginLeft: '5px'}} />;
 
-  const setGenderTitle = (genderNumber: number) => {
+  const getGenderTitle = (genderNumber: number) => {
     switch (genderNumber) {
       case 1:
         return messages['common.male'];
@@ -34,7 +33,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
     }
   };
 
-  const setPaymentTitle = (paymentNumber: number) => {
+  const getPaymentTitle = (paymentNumber: number) => {
     switch (paymentNumber) {
       case 0:
         return messages['common.unpaid'];
@@ -45,7 +44,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
     }
   };
 
-  const setReligionTitle = (religionNumber: number) => {
+  const getReligionTitle = (religionNumber: number) => {
     switch (religionNumber) {
       case 1:
         return messages['common.religion_islam'];
@@ -68,8 +67,8 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
     }
   };
 
-  const setMaritalStatusTitle = (MaritalNumber: number) => {
-    switch (MaritalNumber) {
+  const getMaritalStatusTitle = (maritalNumber: number) => {
+    switch (maritalNumber) {
       case 1:
         return messages['common.marital_status_single'];
       case 2:
@@ -83,8 +82,8 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
     }
   };
 
-  const setFreedomFighterStatusTitle = (MaritalNumber: number) => {
-    switch (MaritalNumber) {
+  const getFreedomFighterStatusTitle = (freedomFighterNumber: number) => {
+    switch (freedomFighterNumber) {
       case 1:
         return messages['common.no'];
       case 2:
@@ -121,7 +120,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             <AssignBatchButton
               onClick={() => console.log('pass trainee id, and show the cv')}
               btnText='applicationManagement.viewCV'
-              startIcon={startIcon}
+              startIcon={<FiUser style={{marginLeft: '5px'}} />}
             />
             {/*</DatatableButtonGroup>*/}
           </Grid>
@@ -177,7 +176,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.paymentStatus']}
-              value={setPaymentTitle(itemData?.payment_status)}
+              value={getPaymentTitle(itemData?.payment_status)}
               isLoading={isLoading}
             />
           </Grid>
@@ -212,7 +211,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.gender']}
-              value={setGenderTitle(itemData?.gender)}
+              value={getGenderTitle(itemData?.gender)}
               isLoading={isLoading}
             />
           </Grid>
@@ -254,14 +253,14 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.religion']}
-              value={setReligionTitle(itemData?.religion)}
+              value={getReligionTitle(itemData?.religion)}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.marital_status']}
-              value={setMaritalStatusTitle(itemData?.marital_status)}
+              value={getMaritalStatusTitle(itemData?.marital_status)}
               isLoading={isLoading}
             />
           </Grid>
@@ -286,7 +285,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.freedom_fighter_status']}
-              value={setFreedomFighterStatusTitle(
+              value={getFreedomFighterStatusTitle(
                 itemData?.freedom_fighter_status,
               )}
               isLoading={isLoading}

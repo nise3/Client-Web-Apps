@@ -21,7 +21,7 @@ interface Props extends ButtonProps {
   variant?: 'text' | 'outlined' | 'contained' | undefined;
   color?: 'inherit' | 'primary' | 'secondary';
   btnText?: string;
-  startIcon?: any;
+  startIcon?: React.ReactNode;
 }
 
 const AssignBatchButton = ({
