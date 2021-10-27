@@ -97,7 +97,7 @@ export function useFetchGuardian(guardianId: number | null) {
 }
 
 /** fetches a single youth's details */
-export function useFetchYouthDetails(youthId: number | null) {
+export function useFetchYouthDetails(youthId: number | null | string) {
   return useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
 }
 

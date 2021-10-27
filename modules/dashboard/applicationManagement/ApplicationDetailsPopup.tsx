@@ -10,6 +10,8 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
 import AssignBatchButton from './AssignBatchButton';
 import {FiUser} from 'react-icons/fi';
+import {useRouter} from 'next/router';
+import Link from 'next/link';
 
 type Props = {
   itemId: number;
@@ -19,6 +21,9 @@ type Props = {
 const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
+
+  const router = useRouter();
+  const path = router.pathname;
 
   const getGenderTitle = (genderNumber: number) => {
     switch (genderNumber) {
@@ -116,14 +121,17 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
         }>
         <Grid container spacing={5}>
           <Grid item xs={12}>
-            {/*<DatatableButtonGroup>*/}
-            <AssignBatchButton
-              onClick={() => console.log('pass trainee id, and show the cv')}
-              btnText='applicationManagement.viewCV'
-              startIcon={<FiUser style={{marginLeft: '5px'}} />}
-            />
-            {/*</DatatableButtonGroup>*/}
+            <Link
+              href={`${path}/youth-cv/${itemData?.youth_id}`}
+              passHref={true}>
+              <AssignBatchButton
+                btnText='applicationManagement.viewCV'
+                startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                style={{marginTop: '10px'}}
+              />
+            </Link>
           </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['programme.label']}

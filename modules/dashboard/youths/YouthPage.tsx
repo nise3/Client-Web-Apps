@@ -1,34 +1,23 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_YOUTH_LIST} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import YouthDetailsPopup from './YouthDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
+import {useRouter} from 'next/router';
+import Link from 'next/link';
+import AssignBatchButton from '../applicationManagement/AssignBatchButton';
+import {FiUser} from 'react-icons/fi';
 
 const YouthPage = () => {
   const {messages} = useIntl();
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  const openDetailsModal = useCallback(
-    (itemId: number) => {
-      setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
-    },
-    [],
-  );
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-  }, []);
+  const router = useRouter();
+  const path = router.pathname;
 
   const columns = useMemo(
     () => [
@@ -74,9 +63,13 @@ const YouthPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-            </DatatableButtonGroup>
+            <Link href={`${path}/youth-cv/${data?.id}`} passHref={true}>
+              <AssignBatchButton
+                btnText='applicationManagement.viewCV'
+                startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                style={{marginTop: '10px'}}
+              />
+            </Link>
           );
         },
         sortable: false,
@@ -99,7 +92,11 @@ const YouthPage = () => {
     } else {
       gender_label = 'Others';
     }
-    return {...youth, gender_label, full_name: youth.first_name + ' ' + youth.last_name};
+    return {
+      ...youth,
+      gender_label,
+      full_name: youth.first_name + ' ' + youth.last_name,
+    };
   });
 
   return (
@@ -118,14 +115,6 @@ const YouthPage = () => {
           pageCount={pageCount}
           totalCount={totalCount}
         />
-
-        {isOpenDetailsModal && selectedItemId && (
-          <YouthDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-          />
-        )}
       </PageBlock>
     </>
   );
