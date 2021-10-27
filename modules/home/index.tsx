@@ -24,7 +24,7 @@ const Home = () => {
       <PopularCourse />
       <SkillMatchingJobs />
       <Partners />
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 };

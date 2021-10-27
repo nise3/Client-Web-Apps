@@ -98,12 +98,19 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     ...headerFixedHeight,
     padding: '20px 10px',
     color: theme.palette.primary.contrastText,
+    '&.active': {
+      backgroundColor: theme.palette.primary.light,
+    },
   },
   firstMenuItem: {
     ...headerFixedHeight,
     padding: '20px 10px',
     paddingLeft: 0,
     color: theme.palette.primary.contrastText,
+    '&.active': {
+      backgroundColor: theme.palette.primary.light,
+      paddingLeft: 10,
+    },
   },
   menuItemActive: {
     backgroundColor: theme.palette.primary.light,
@@ -113,6 +120,9 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   menuItemMobile: {
     padding: '18px 20px 18px 12px',
+    '& .active': {
+      color: theme.palette.primary.main,
+    },
   },
   headerNav: {
     backgroundColor: theme.palette.primary.contrastText,

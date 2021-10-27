@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {Person, Login, LocalPhone, Send} from '@mui/icons-material';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
-import {H6, Link} from '../../../elements/common';
+import {H6, NavLink as Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_INSTITUTE_ROOT,
   LINK_FRONTEND_INSTITUTE_COURSES,
@@ -17,7 +17,7 @@ import {
   LINK_FRONTEND_INSTITUTE_FEEDBACK,
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_CONTACT,
-  LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR,
+  // LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR,
   LINK_SIGNUP,
 } from '../../../common/appLinks';
 import useStyles from './Header.style';
@@ -56,25 +56,37 @@ const Header: React.FC<AppHeaderProps> = () => {
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_ROOT}>প্রথম পাতা</Link>
+        <Link href={LINK_FRONTEND_INSTITUTE_ROOT}>
+          {messages['menu.first_page']}
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_COURSES}>কোর্স সমূহ</Link>
+        <Link href={LINK_FRONTEND_INSTITUTE_COURSES}>
+          {messages['menu.courses']}
+        </Link>
+      </MenuItem>
+      {/* <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR}>
+          {messages['menu.training_calender']}
+        </Link>
+      </MenuItem> */}
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_INSTITUTE_VIDEOS}>
+          {messages['menu.videos']}
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        প্রশিক্ষণ বর্ষপঞ্জি
+        <Link href={LINK_FRONTEND_INSTITUTE_FEEDBACK}>
+          {messages['menu.feedback']}
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_VIDEOS}>ভিডিও সমূহ</Link>
+        <Link href={LINK_FRONTEND_INSTITUTE_FAQ}>{messages['menu.faq']}</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_FEEDBACK}>পরামর্শ</Link>
-      </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_FAQ}>সাধারণ জিজ্ঞাসা</Link>
-      </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_CONTACT}>যোগাযোগ</Link>
+        <Link href={LINK_FRONTEND_INSTITUTE_CONTACT}>
+          {messages['menu.contact']}
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link onClick={redirectToSSO}>
@@ -139,37 +151,37 @@ const Header: React.FC<AppHeaderProps> = () => {
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_ROOT}
                     className={classes.firstMenuItem}>
-                    প্রথম পাতা
+                    {messages['menu.first_page']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_COURSES}
                     className={classes.menuItem}>
-                    কোর্স সমূহ
+                    {messages['menu.courses']}
                   </Link>
-                  <Link
-                    href={LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR}
-                    className={classes.menuItem}>
-                    প্রশিক্ষণ বর্ষপঞ্জি
-                  </Link>
+                  {/*<Link*/}
+                  {/*  href={LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR}*/}
+                  {/*  className={classes.menuItem}>*/}
+                  {/*  {messages['menu.training_calender']}*/}
+                  {/*</Link>*/}
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_VIDEOS}
                     className={classes.menuItem}>
-                    ভিডিও সমূহ
+                    {messages['menu.videos']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_FEEDBACK}
                     className={classes.menuItem}>
-                    পরামর্শ
+                    {messages['menu.feedback']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_FAQ}
                     className={classes.menuItem}>
-                    সাধারণ জিজ্ঞাসা
+                    {messages['menu.faq']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_CONTACT}
                     className={classes.menuItem}>
-                    যোগাযোগ
+                    {messages['menu.contact']}
                   </Link>
                 </Box>
                 <Box className={classes.headerMenuGroup}>

@@ -135,21 +135,25 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['batches.registration_start_date'] as string),
       registration_end_date: yup
         .string()
         .trim()
         .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['batches.registration_end_date'] as string),
       batch_start_date: yup
         .string()
         .trim()
         .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['batches.start_date'] as string),
       batch_end_date: yup
         .string()
         .trim()
         .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['batches.end_date'] as string),
     });
   }, [messages]);

@@ -3,6 +3,7 @@ import NextLink from 'next/link';
 import {Theme, Typography} from '@mui/material';
 import clsx from 'clsx';
 import makeStyles from '@mui/styles/makeStyles';
+import {useRouter} from 'next/router';
 
 interface LinkProp {
   children?: any;
@@ -45,6 +46,24 @@ export const Link = ({
   return (
     <NextLink href={href}>
       <a className={clsx(classes.linkText, className)} {...props}>
+        {children}
+      </a>
+    </NextLink>
+  );
+};
+
+export const NavLink = ({
+  children,
+  href = '',
+  className = '',
+  ...props
+}: LinkProp) => {
+  const classes = useStyles();
+  const route = useRouter();
+  const active = route.pathname == href ? 'active' : '';
+  return (
+    <NextLink href={href}>
+      <a className={clsx(classes.linkText, className, active)} {...props}>
         {children}
       </a>
     </NextLink>

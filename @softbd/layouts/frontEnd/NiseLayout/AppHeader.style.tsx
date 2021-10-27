@@ -52,11 +52,17 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     '&>a': {
       display: 'flex',
     },
+    '& .active': {
+      color: theme.palette.primary.main,
+    },
   },
   menuItemMobile: {
     padding: '18px 20px 18px 12px',
     '&>a': {
       display: 'flex',
+    },
+    '& .active': {
+      color: theme.palette.primary.main,
     },
   },
   desktopMenu: {

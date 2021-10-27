@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import useStyles from './index.style';
 import clsx from 'clsx';
 import ContentView from '../../../../@crema/core/ContentView';
+import Footer from '../../../../modules/home/Footer';
 
 interface HorLightNavProps {
   props?: any;
@@ -19,6 +20,7 @@ const NiseLayout: React.FC<HorLightNavProps> = (props) => {
           <ContentView>{props.children}</ContentView>
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 };
