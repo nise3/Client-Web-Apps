@@ -17,6 +17,7 @@ import AssignBatchButton from './AssignBatchButton';
 import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AssignBatchPopup from './AssignBatchPopup';
+import {FiUserCheck} from 'react-icons/fi';
 
 const ApplicationManagementPage = () => {
   const authUser = useAuthUser();
@@ -142,6 +143,7 @@ const ApplicationManagementPage = () => {
               <AssignBatchButton
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
                 btnText='applicationManagement.assignBatch'
+                startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
               />
 
               {data.row_status !== 3 ? (

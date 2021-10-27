@@ -8,6 +8,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconUser from '../../../@softbd/icons/IconUser';
 import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
+import AssignBatchButton from './AssignBatchButton';
+import {FiUser} from 'react-icons/fi';
 
 type Props = {
   itemId: number;
@@ -17,6 +19,83 @@ type Props = {
 const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
+
+  const getGenderTitle = (genderNumber: number) => {
+    switch (genderNumber) {
+      case 1:
+        return messages['common.male'];
+      case 2:
+        return messages['common.female'];
+      case 3:
+        return messages['common.others'];
+      default:
+        return messages['common.notDefined'];
+    }
+  };
+
+  const getPaymentTitle = (paymentNumber: number) => {
+    switch (paymentNumber) {
+      case 0:
+        return messages['common.unpaid'];
+      case 1:
+        return messages['common.paid'];
+      default:
+        return messages['common.notDefined'];
+    }
+  };
+
+  const getReligionTitle = (religionNumber: number) => {
+    switch (religionNumber) {
+      case 1:
+        return messages['common.religion_islam'];
+      case 2:
+        return messages['common.religion_hinduism'];
+      case 3:
+        return messages['common.religion_christianity'];
+      case 4:
+        return messages['common.religion_buddhism'];
+      case 5:
+        return messages['common.religion_judaism'];
+      case 6:
+        return messages['common.religion_sikhism'];
+      case 7:
+        return messages['common.religion_ethnic'];
+      case 8:
+        return messages['common.religion_atheist'];
+      default:
+        return messages['common.notDefined'];
+    }
+  };
+
+  const getMaritalStatusTitle = (maritalNumber: number) => {
+    switch (maritalNumber) {
+      case 1:
+        return messages['common.marital_status_single'];
+      case 2:
+        return messages['common.marital_status_married'];
+      case 3:
+        return messages['common.marital_status_widowed'];
+      case 4:
+        return messages['common.marital_status_divorced'];
+      default:
+        return messages['common.notDefined'];
+    }
+  };
+
+  const getFreedomFighterStatusTitle = (freedomFighterNumber: number) => {
+    switch (freedomFighterNumber) {
+      case 1:
+        return messages['common.no'];
+      case 2:
+        return messages['common.yes'];
+      case 3:
+        return messages['freedom_fighter_status.child'];
+      case 4:
+        return messages['freedom_fighter_status.grand_child'];
+      default:
+        return messages['common.notDefined'];
+    }
+  };
 
   return (
     <>
@@ -36,6 +115,15 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
+          <Grid item xs={12}>
+            {/*<DatatableButtonGroup>*/}
+            <AssignBatchButton
+              onClick={() => console.log('pass trainee id, and show the cv')}
+              btnText='applicationManagement.viewCV'
+              startIcon={<FiUser style={{marginLeft: '5px'}} />}
+            />
+            {/*</DatatableButtonGroup>*/}
+          </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['programme.label']}
@@ -88,147 +176,132 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.paymentStatus']}
-              value={itemData?.payment_status}
+              value={getPaymentTitle(itemData?.payment_status)}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['first_name']}
+              label={messages['common.first_name_bn']}
               value={itemData?.first_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['first_name_en']}
+              label={messages['common.first_name_en']}
               value={itemData?.first_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['last_name']}
+              label={messages['common.last_name_bn']}
               value={itemData?.last_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['last_name_en']}
+              label={messages['common.last_name_en']}
               value={itemData?.last_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['gender']}
-              value={itemData?.gender}
+              label={messages['common.gender']}
+              value={getGenderTitle(itemData?.gender)}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['date_of_birth']}
+              label={messages['common.date_of_birth']}
               value={itemData?.date_of_birth}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['email']}
+              label={messages['common.email']}
               value={itemData?.email}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['mobile']}
+              label={messages['youth.mobile']}
               value={itemData?.mobile}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['identity_number_type']}
+              label={messages['common.identity_number_type']}
               value={itemData?.identity_number_type}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['identity_number']}
+              label={messages['common.identity_number']}
               value={itemData?.identity_number}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['religion']}
-              value={itemData?.religion}
+              label={messages['common.religion']}
+              value={getReligionTitle(itemData?.religion)}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['marital_status']}
-              value={itemData?.marital_status}
+              label={messages['common.marital_status']}
+              value={getMaritalStatusTitle(itemData?.marital_status)}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['nationality']}
+              label={messages['common.nationality']}
               value={itemData?.nationality}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['physical_disability_status']}
-              value={itemData?.physical_disability_status}
+              label={messages['common.physical_disability']}
+              value={
+                itemData?.physical_disability_status === 1
+                  ? messages['common.yes']
+                  : messages['common.no']
+              }
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['freedom_fighter_status']}
-              value={itemData?.freedom_fighter_status}
+              label={messages['common.freedom_fighter_status']}
+              value={getFreedomFighterStatusTitle(
+                itemData?.freedom_fighter_status,
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['educations']}
+              label={messages['common.educations']}
               value={itemData?.educations}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['addresses']}
+              label={messages['common.addresses']}
               value={itemData?.addresses}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['guardian']}
-              value={itemData?.guardian}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['miscellaneous']}
-              value={itemData?.miscellaneous}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['physical_disabilities']}
-              value={itemData?.physical_disabilities}
               isLoading={isLoading}
             />
           </Grid>
