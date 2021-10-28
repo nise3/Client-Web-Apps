@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {Grid} from '@mui/material';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import SectionPscForm from './educationQualification/SectionPSCForm';
@@ -31,7 +31,14 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
   const [countryFilters] = useState<any>({});
   const {data: countries} = useFetchCountries(countryFilters);
 
-  console.log('datatt', educationsData);
+  const getExamDegreesByLevel = useCallback(
+    (levelCode: string) => {
+      return educationsData?.education_level_with_degrees?.find(
+        (eduLevel: any) => eduLevel.code == levelCode,
+      )?.exam_degrees;
+    },
+    [educationsData],
+  );
 
   return (
     <Grid container spacing={2}>
@@ -42,11 +49,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={
-                educationsData?.education_level_with_degrees?.find(
-                  (eduLevel: any) => eduLevel.code == EducationLevel.PSC,
-                )?.exam_degrees
-              }
+              examDegrees={getExamDegreesByLevel(EducationLevel.PSC)}
               eduBoards={educationsData?.edu_boards}
               countries={countries}
               result={educationsData?.result}
@@ -60,7 +63,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={getExamDegreesByLevel(EducationLevel.JSC)}
               eduBoards={educationsData?.edu_boards}
               countries={countries}
               result={educationsData?.result}
@@ -74,7 +77,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={getExamDegreesByLevel(EducationLevel.SSC)}
               eduBoards={educationsData?.edu_boards}
               eduGroups={educationsData?.edu_groups}
               countries={countries}
@@ -89,7 +92,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={getExamDegreesByLevel(EducationLevel.HSC)}
               eduBoards={educationsData?.edu_boards}
               eduGroups={educationsData?.edu_groups}
               countries={countries}
@@ -104,7 +107,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={getExamDegreesByLevel(EducationLevel.DIPLOMA)}
               countries={countries}
               result={educationsData?.result}
             />
@@ -117,7 +120,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={getExamDegreesByLevel(EducationLevel.HONOURS)}
               countries={countries}
               result={educationsData?.result}
             />
@@ -130,7 +133,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={getExamDegreesByLevel(EducationLevel.MASTERS)}
               countries={countries}
               result={educationsData?.result}
             />

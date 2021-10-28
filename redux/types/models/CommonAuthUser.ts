@@ -21,6 +21,7 @@ export interface AuthUser {
 }
 
 export interface CommonAuthUser extends AuthUser {
+  userId: string | number;
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: Institute | any;
@@ -31,6 +32,7 @@ export interface CommonAuthUser extends AuthUser {
 }
 
 export interface YouthAuthUser extends AuthUser {
+  youthId: string | number;
   first_name: string;
   first_name_en?: string;
   last_name: string;

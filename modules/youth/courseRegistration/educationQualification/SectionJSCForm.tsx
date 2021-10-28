@@ -57,7 +57,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='exam_degree_id'
+            id='jsc_info[exam_degree_id]'
             label={messages['education.education_exam_degree']}
             isLoading={false}
             control={control}
@@ -69,7 +69,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='edu_board_id'
+            id='jsc_info[edu_board_id]'
             label={messages['education.board']}
             isLoading={false}
             control={control}
@@ -81,7 +81,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name'
+            id='jsc_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
             errorInstance={errors}
@@ -90,7 +90,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name_en'
+            id='jsc_info[institute_name_en]'
             label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
@@ -100,7 +100,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
 
         <Grid item xs={12}>
           <CustomCheckbox
-            id='is_foreign_institute'
+            id='jsc_info[is_foreign_institute]'
             label={messages['education.is_foreign_institute']}
             register={register}
             errorInstance={errors}
@@ -115,7 +115,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='foreign_institute_country_id'
+              id='jsc_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
               control={control}
@@ -129,7 +129,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='result'
+            id='jsc_info[result]'
             label={messages['education.result']}
             isLoading={false}
             control={control}
@@ -144,7 +144,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='marks_in_percentage'
+              id='jsc_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
               register={register}
@@ -159,7 +159,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa_scale'
+                  id='jsc_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -172,7 +172,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa'
+                  id='jsc_info[cgpa]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -190,7 +190,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='year_of_passing'
+              id='jsc_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
               control={control}
@@ -205,7 +205,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='expected_year_of_passing'
+              id='jsc_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}
               control={control}

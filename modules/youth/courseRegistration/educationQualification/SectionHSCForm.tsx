@@ -59,7 +59,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='exam_degree_id'
+            id='hsc_info[exam_degree_id]'
             label={messages['education.education_exam_degree']}
             isLoading={false}
             control={control}
@@ -71,7 +71,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='edu_group_id'
+            id='hsc_info[edu_group_id]'
             label={messages['education.group']}
             isLoading={false}
             control={control}
@@ -83,7 +83,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='edu_board_id'
+            id='hsc_info[edu_board_id]'
             label={messages['education.board']}
             isLoading={false}
             control={control}
@@ -95,7 +95,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name'
+            id='hsc_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
             errorInstance={errors}
@@ -104,7 +104,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name_en'
+            id='hsc_info[institute_name_en]'
             label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
@@ -114,7 +114,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
 
         <Grid item xs={12}>
           <CustomCheckbox
-            id='is_foreign_institute'
+            id='hsc_info[is_foreign_institute]'
             label={messages['education.is_foreign_institute']}
             register={register}
             errorInstance={errors}
@@ -129,7 +129,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='foreign_institute_country_id'
+              id='hsc_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
               control={control}
@@ -143,7 +143,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='result'
+            id='hsc_info[result]'
             label={messages['education.result']}
             isLoading={false}
             control={control}
@@ -158,7 +158,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='marks_in_percentage'
+              id='hsc_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
               register={register}
@@ -173,7 +173,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa_scale'
+                  id='hsc_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -186,7 +186,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa'
+                  id='hsc_info[cgpa]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -204,7 +204,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='year_of_passing'
+              id='hsc_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
               control={control}
@@ -219,7 +219,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='expected_year_of_passing'
+              id='hsc_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}
               control={control}

@@ -1,5 +1,6 @@
-import {apiGet, apiPut} from '../../@softbd/common/api';
+import {apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {
+  API_COURSE_ENROLL,
   API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE,
   API_YOUTH_PERSONAL_INFO_UPDATE,
   API_YOUTH_PROFILE,
@@ -31,6 +32,15 @@ export const updateYouthFreelanceProfileStatus = async (data: any) => {
       API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE,
       data,
     );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const courseEnroll = async (data: any) => {
+  try {
+    let response: any = await apiPost(API_COURSE_ENROLL, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

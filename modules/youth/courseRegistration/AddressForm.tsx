@@ -20,9 +20,15 @@ interface AddressFormProps {
   register: any;
   errors: any;
   control: any;
+  onChangeSameAsPresentCheck: (checked: boolean) => void;
 }
 
-const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
+const AddressForm: FC<AddressFormProps> = ({
+  register,
+  errors,
+  control,
+  onChangeSameAsPresentCheck,
+}) => {
   const {messages} = useIntl();
   const [filters] = useState({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
@@ -89,7 +95,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
   );
 
   return (
-    <Grid container spacing={5}>
+    <Grid container spacing={2}>
       <Grid item xs={6}>
         <CustomFormSelect
           id='present_address[loc_division_id]'
@@ -168,6 +174,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           errorInstance={errors}
           checked={disabledPermanentAddress}
           onChange={() => {
+            onChangeSameAsPresentCheck(!disabledPermanentAddress);
             setDisabledPermanentAddress((prev) => !prev);
           }}
           isLoading={false}
@@ -183,6 +190,7 @@ const AddressForm: FC<AddressFormProps> = ({register, errors, control}) => {
           optionValueProp={'id'}
           optionTitleProp={['title_en', 'title']}
           errorInstance={errors}
+          defaultValue={1}
           onChange={onPermanentDivisionChange}
           isDisabled={disabledPermanentAddress}
         />

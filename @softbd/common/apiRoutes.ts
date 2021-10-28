@@ -112,6 +112,7 @@ export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
+export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
@@ -134,6 +135,7 @@ export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
 export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_TRAINING_CENTERS =
   PUBLIC_SERVICE_PATH + '/training-centers';
+export const API_PUBLIC_PROGRAMS = PUBLIC_SERVICE_PATH + '/programs';
 export const API_YOUTH_FEED_STATISTICS =
   YOUTH_SERVICE_PATH + '/youth-feed-statistics';
 
