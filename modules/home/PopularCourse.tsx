@@ -1,16 +1,17 @@
 import {Box, Button, Card, Container, Grid, Typography} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
-import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React, {useState} from 'react';
 import Image from 'next/image';
 import {useFetchCourseList} from '../../services/youthManagement/hooks';
-import {courseDuration} from '../../@softbd/utilities/helpers';
+import {courseDuration, getModulePath} from '../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
+import {Link} from '../../@softbd/elements/common';
+import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       marginTop: '50px',
@@ -55,6 +56,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const PopularCourse = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+
+  const router = useRouter();
 
   const [courseFilters] = useState<any>({page_size: 10});
   const pathValue = 'popular';
@@ -129,9 +132,15 @@ const PopularCourse = () => {
         <Box mb={2}>
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>
-              {courseList.map((course: any, key: number) =>
-                cardItem(course, key),
-              )}
+              {courseList.map((course: any, key: number) => (
+                <Link
+                  href={
+                    getModulePath(router.asPath) +
+                    `/course-details/${course.id}`
+                  }>
+                  {cardItem(course, key)}
+                </Link>
+              ))}
             </CustomCarousel>
           ) : (
             <Grid container sx={{justifyContent: 'center'}}>
