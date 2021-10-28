@@ -63,16 +63,140 @@ const initialValues = {
     loc_district_id: '',
     loc_upazila_id: '',
   },
-  main_profession: '',
-  monthly_income: '',
-  is_currently_employed: '0',
-  years_of_experiences: '',
-  father_name: '',
-  mother_name: '',
-  has_own_family_home: '1',
-  has_own_family_land: '1',
-  number_of_siblings: '0',
-  recommended_by_any_organization: '1',
+  professional_info: {
+    main_profession: '',
+    monthly_income: '',
+    is_currently_employed: '0',
+    years_of_experiences: '',
+  },
+  guardian_info: {
+    father_name: '',
+    mother_name: '',
+  },
+  miscellaneous_info: {
+    has_own_family_home: '1',
+    has_own_family_land: '1',
+    number_of_siblings: '0',
+    recommended_by_any_organization: '1',
+  },
+  psc_info: {
+    exam_degree_id: '',
+    edu_board_id: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  jsc_info: {
+    exam_degree_id: '',
+    edu_board_id: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  ssc_info: {
+    exam_degree_id: '',
+    edu_board_id: '',
+    edu_group_id: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  hsc_info: {
+    exam_degree_id: '',
+    edu_board_id: '',
+    edu_group_id: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  diploma_info: {
+    exam_degree_id: '',
+    major_or_concentration: '',
+    major_or_concentration_en: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  honours_info: {
+    exam_degree_id: '',
+    major_or_concentration: '',
+    major_or_concentration_en: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  masters_info: {
+    exam_degree_id: '',
+    major_or_concentration: '',
+    major_or_concentration_en: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
+  phd_info: {
+    exam_degree_id: '',
+    major_or_concentration: '',
+    major_or_concentration_en: '',
+    institute_name: '',
+    institute_name_en: '',
+    is_foreign_institute: '0',
+    foreign_institute_country_id: '',
+    result: '',
+    marks_in_percentage: '',
+    cgpa_scale: '',
+    cgpa: '',
+    year_of_passing: '',
+    expected_year_of_passing: '',
+  },
 };
 
 const YouthCourseRegistrationPage = () => {
@@ -89,7 +213,10 @@ const YouthCourseRegistrationPage = () => {
   const [activeStepKey, setActiveStepKey] = useState<string>(
     CourseConfigKeys.PERSONAL_KEY.toString(),
   );
-  const [stepKeys, setStepKeys] = useState<Array<string>>([]);
+  const [stepKeys, setStepKeys] = useState<Array<string>>([
+    CourseConfigKeys.PERSONAL_KEY.toString(),
+    CourseConfigKeys.ADDRESS_KEY.toString(),
+  ]);
   const [hasDisabilities, setHasDisabilities] = useState<boolean>(false);
   const [isPhysicalDisabilitiesRequired, setIsPhysicalDisabilitiesRequired] =
     useState<boolean>(false);
@@ -180,79 +307,115 @@ const YouthCourseRegistrationPage = () => {
           }),*/
         });
       case CourseConfigKeys.EDUCATION_KEY:
-        return yup.object().shape({});
+        return yup.object().shape({
+          psc_info: yup.object().shape({
+            exam_degree_id: yup
+              .string()
+              .required()
+              .label(messages['education.education_exam_degree'] as string),
+            edu_board_id: yup
+              .string()
+              .required()
+              .label(messages['education.board'] as string),
+            institute_name: yup
+              .string()
+              .title()
+              .label(messages['common.institute_name_bn'] as string),
+            result: yup
+              .string()
+              .required()
+              .label(messages['education.result'] as string),
+            year_of_passing: yup
+              .string()
+              .required()
+              .label(messages['education.passing_year'] as string),
+          }),
+          jsc_info: yup.object().shape({}),
+          ssc_info: yup.object().shape({}),
+          hsc_info: yup.object().shape({}),
+          diploma_info: yup.object().shape({}),
+          honours_info: yup.object().shape({}),
+          masters_info: yup.object().shape({}),
+          phd_info: yup.object().shape({}),
+        });
       case CourseConfigKeys.OCCUPATION_KEY:
         return yup.object().shape({
-          main_profession: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.main_occupation'] as string),
-          monthly_income: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.monthly_income'] as string),
-          years_of_experiences: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.year_of_experience'] as string),
-          is_currently_employed: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.currently_working'] as string),
+          professional_info: yup.object().shape({
+            main_profession: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.main_occupation'] as string),
+            monthly_income: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.monthly_income'] as string),
+            years_of_experiences: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.year_of_experience'] as string),
+            is_currently_employed: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.currently_working'] as string),
+          }),
         });
       case CourseConfigKeys.GUARDIAN_KEY:
         return yup.object().shape({
-          father_name: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.name_bn'] as string),
-          father_mobile: yup
-            .string()
-            .trim()
-            .nullable()
-            .matches(MOBILE_NUMBER_REGEX)
-            .label(messages['common.mobile'] as string),
-          mother_name: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.name_bn'] as string),
-          mother_mobile: yup
-            .string()
-            .trim()
-            .nullable()
-            .matches(MOBILE_NUMBER_REGEX)
-            .label(messages['common.mobile'] as string),
+          guardian_info: yup.object().shape({
+            father_name: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.name_bn'] as string),
+            father_mobile: yup
+              .string()
+              .trim()
+              .nullable()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['common.mobile'] as string),
+            mother_name: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.name_bn'] as string),
+            mother_mobile: yup
+              .string()
+              .trim()
+              .nullable()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['common.mobile'] as string),
+          }),
         });
       case CourseConfigKeys.MISCELLANEOUS_KEY:
         return yup.object().shape({
-          has_own_family_home: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.has_own_family_home'] as string),
-          has_own_family_land: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.has_own_family_land'] as string),
-          number_of_siblings: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.number_of_siblings'] as string),
-          recommended_by_any_organization: yup
-            .string()
-            .trim()
-            .required()
-            .label(
-              messages['common.recommended_by_any_organization'] as string,
-            ),
+          miscellaneous_info: yup.object().shape({
+            has_own_family_home: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.has_own_family_home'] as string),
+            has_own_family_land: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.has_own_family_land'] as string),
+            number_of_siblings: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.number_of_siblings'] as string),
+            recommended_by_any_organization: yup
+              .string()
+              .trim()
+              .required()
+              .label(
+                messages['common.recommended_by_any_organization'] as string,
+              ),
+          }),
         });
       default:
         return yup.object().shape({});

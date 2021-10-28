@@ -10,6 +10,8 @@ import SectionHonoursForm from './educationQualification/SectionHonoursForm';
 import SectionMastersForm from './educationQualification/SectionMastersForm';
 import {useFetchCountries} from '../../../services/locationManagement/hooks';
 import SectionPhdForm from './educationQualification/SectionPhdForm';
+import SectionDiplomaForm from './educationQualification/SectionDiplomaForm';
+import {EducationLevel} from '../profile/utilities/EducationEnums';
 
 interface EducationalQualificationFormProps {
   register: any;
@@ -40,7 +42,11 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
-              examDegrees={[]}
+              examDegrees={
+                educationsData?.education_level_with_degrees?.find(
+                  (eduLevel: any) => eduLevel.code == EducationLevel.PSC,
+                )?.exam_degrees
+              }
               eduBoards={educationsData?.edu_boards}
               countries={countries}
               result={educationsData?.result}
@@ -86,6 +92,19 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               examDegrees={[]}
               eduBoards={educationsData?.edu_boards}
               eduGroups={educationsData?.edu_groups}
+              countries={countries}
+              result={educationsData?.result}
+            />
+          </Grid>
+        )}
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.EDUCATION_DIPLOMA_KEY) && (
+          <Grid item xs={12}>
+            <SectionDiplomaForm
+              errors={errors}
+              control={control}
+              register={register}
+              examDegrees={[]}
               countries={countries}
               result={educationsData?.result}
             />

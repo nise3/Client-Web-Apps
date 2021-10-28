@@ -206,6 +206,21 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
             />
           </Grid>
         )}
+
+        {selectedResult && selectedResult.code == ResultCodeAppeared && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              id='expected_year_of_passing'
+              label={messages['education.expected_passing_year']}
+              isLoading={false}
+              control={control}
+              options={passingYears()}
+              optionValueProp={'year'}
+              optionTitleProp={['year']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

@@ -12,7 +12,7 @@ import {
 } from '../../profile/utilities/EducationEnums';
 import {passingYears} from '../../../../@softbd/utilities/helpers';
 
-interface SectionMastersFormProps {
+interface SectionDiplomaFormProps {
   errors: any;
   control: any;
   register: any;
@@ -21,7 +21,7 @@ interface SectionMastersFormProps {
   result: Array<any>;
 }
 
-const SectionMastersForm: FC<SectionMastersFormProps> = ({
+const SectionDiplomaForm: FC<SectionDiplomaFormProps> = ({
   errors,
   register,
   control,
@@ -51,7 +51,7 @@ const SectionMastersForm: FC<SectionMastersFormProps> = ({
     <Box sx={{boxShadow: '0px 0px 5px 5px #e9e9e9', padding: '15px'}}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant={'h6'}>Masters</Typography>
+          <Typography variant={'h6'}>Diploma</Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
@@ -226,4 +226,4 @@ const SectionMastersForm: FC<SectionMastersFormProps> = ({
   );
 };
 
-export default SectionMastersForm;
+export default SectionDiplomaForm;

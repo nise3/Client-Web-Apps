@@ -27,3 +27,14 @@ export const EducationLevelForMajorGroup = [
   'MASTERS',
   'PHD',
 ];
+
+export enum EducationLevel {
+  PSC = 'PSC_5_PASS',
+  JSC = 'JSC_JDC_8_PASS',
+  SSC = 'SECONDARY',
+  HSC = 'HIGHER_SECONDARY',
+  DIPLOMA = 'DIPLOMA',
+  HONOURS = 'BACHELOR',
+  MASTERS = 'MASTERS',
+  PHD = 'PHD',
+}
