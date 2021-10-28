@@ -137,7 +137,7 @@ const InstituteContact = () => {
       </Grid>
       <Grid sx={{maxWidth: '100%'}} className={classes.mainGrid}>
         <Grid
-          maxWidth='xl'
+          maxWidth='lg'
           container
           sx={{margin: 'auto'}}
           justifyContent={'center'}

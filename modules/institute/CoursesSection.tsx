@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
-import {Box, Container, Tabs, Tab} from '@mui/material';
+import {Box, Container, Tabs, Tab, Grid} from '@mui/material';
 import UnderlinedHeading from './UnderlinedHeading';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
@@ -42,26 +39,7 @@ const indexProps = (index: number) => {
   };
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      [theme.breakpoints.up('md')]: {
-        marginTop: '50px',
-      },
-      [theme.breakpoints.down('xl')]: {
-        // marginTop: '200px',
-      },
-    },
-    rootMobileView: {
-      [theme.breakpoints.down('xl')]: {
-        marginTop: '80px',
-      },
-    },
-  }),
-);
-
 const CoursesSection = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   // const [runningCoursesFilters] = useState<any>({page_size: 10, availability: 1});
@@ -84,40 +62,47 @@ const CoursesSection = () => {
   };
 
   return (
-    <Container maxWidth='lg' className={classes.rootMobileView}>
-      <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
-      <Box sx={{width: '100%'}}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          textColor='secondary'
-          indicatorColor='secondary'
-          aria-label='secondary tabs example'>
-          <Tab label={messages['common.running_courses']} {...indexProps(0)} />
-          <Tab
-            label={messages['common.up_coming_courses']}
-            {...indexProps(1)}
-          />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <Box>
-          {upComingCourses && upComingCourses.length ? (
-            <CourseSectionCarousel courses={upComingCourses} />
-          ) : (
-            <H6>{messages['common.no_data_found']}</H6>
-          )}
-        </Box>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Box>
-          {upComingCourses && upComingCourses.length ? (
-            <CourseSectionCarousel courses={upComingCourses} />
-          ) : (
-            <H6>{messages['common.no_data_found']}</H6>
-          )}
-        </Box>
-      </TabPanel>
+    <Container maxWidth='lg'>
+      <Grid container mt={{xs: 5}}>
+        <Grid item xs={12}>
+          <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
+          <Box sx={{width: '100%'}}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              textColor='secondary'
+              indicatorColor='secondary'
+              aria-label='secondary tabs example'>
+              <Tab
+                label={messages['common.running_courses']}
+                {...indexProps(0)}
+              />
+              <Tab
+                label={messages['common.up_coming_courses']}
+                {...indexProps(1)}
+              />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <Box>
+              {upComingCourses && upComingCourses.length ? (
+                <CourseSectionCarousel courses={upComingCourses} />
+              ) : (
+                <H6>{messages['common.no_data_found']}</H6>
+              )}
+            </Box>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Box>
+              {upComingCourses && upComingCourses.length ? (
+                <CourseSectionCarousel courses={upComingCourses} />
+              ) : (
+                <H6>{messages['common.no_data_found']}</H6>
+              )}
+            </Box>
+          </TabPanel>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

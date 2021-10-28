@@ -16,31 +16,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   langBtn: {
     justifyContent: 'flex-start',
     width: '100%',
-    height: 56,
+    height: '100%',
     fontSize: 16,
     borderRadius: 0,
-    paddingTop: '0.25rem',
-    paddingBottom: '0.25rem',
-    marginTop: '-10px',
-    color: theme.palette.text.primary,
-    '&:hover, &:focus': {
-      color: theme.palette.text.primary,
-    },
-    [theme.breakpoints.up('sm')]: {
-      minHeight: 70,
-    },
     [theme.breakpoints.up('md')]: {
       fontWeight: Fonts.MEDIUM,
       justifyContent: 'center',
       width: 'auto',
-      borderLeft: 'solid 1px',
-      borderLeftColor: theme.palette.grey[200],
       textTransform: 'uppercase',
       marginTop: 0,
-      color: theme.palette.text.primary,
-      '&:hover, &:focus': {
-        color: theme.palette.text.primary,
-      },
     },
     [theme.breakpoints.up('lg')]: {
       fontSize: 14,
@@ -52,7 +36,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingRight: '0.8rem',
       paddingTop: '0.25rem',
       paddingBottom: '0.25rem',
-      height: 56,
       borderLeft: '0 none',
       borderRadius: '50%',
       [theme.breakpoints.up('sm')]: {
@@ -61,7 +44,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       [theme.breakpoints.up('xl')]: {
         paddingLeft: '12px',
         paddingRight: '12px',
-        width: '100%',
       },
     },
   },
@@ -105,7 +87,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const classes = useStyles();
 
   return (
-    <Box>
+    <Box height={'100%'}>
       <IconButton
         className={clsx(
           classes.langBtn,
@@ -125,7 +107,6 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             <Box
               component='span'
               mr={{xs: 2}}
-              height={48}
               display='flex'
               alignItems='center'
               justifyContent='center'
@@ -136,7 +117,6 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             <Box
               component='span'
               fontSize={16}
-              fontFamily='Poppins'
               fontWeight={Fonts.REGULAR}
               display='inline-block'>
               {locale.name}
