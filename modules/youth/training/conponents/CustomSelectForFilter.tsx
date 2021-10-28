@@ -22,30 +22,32 @@ const CustomSelectForFilter = ({
   const classes: any = useStyles();
 
   return (
-    <FormControl fullWidth>
-      <InputLabel sx={{marginTop: -1}} id={labelId}>
-        {defaultLabel}
-      </InputLabel>
-      <Select
-        id={id}
-        labelId={labelId}
-        value={selectedOptionId}
-        variant='outlined'
-        className={classes.selectStyle}
-        onChange={onChangeCallback}>
-        <MenuItem value=''>
-          <em>None</em>
-        </MenuItem>
-        {options &&
-          options.map((option: any) => {
-            return (
-              <MenuItem key={option.id} value={option.id}>
-                {option.title}
-              </MenuItem>
-            );
-          })}
-      </Select>
-    </FormControl>
+    <>
+      <FormControl variant='outlined' fullWidth={true} size={'small'}>
+        <InputLabel sx={{background: '#fff', borderRadius: '3px'}} id={labelId}>
+          {defaultLabel}
+        </InputLabel>
+        <Select
+          id={id}
+          labelId={labelId}
+          label={defaultLabel}
+          value={selectedOptionId}
+          className={classes.selectStyle}
+          onChange={onChangeCallback}>
+          <MenuItem value=''>
+            <em>None</em>
+          </MenuItem>
+          {options &&
+            options.map((option: any) => {
+              return (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.title}
+                </MenuItem>
+              );
+            })}
+        </Select>
+      </FormControl>
+    </>
   );
 };
 
