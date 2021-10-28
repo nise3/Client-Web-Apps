@@ -85,16 +85,19 @@ const TrainersPage = () => {
         Header: messages['common.email'],
         accessor: 'email',
         isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['common.mobile'],
         accessor: 'mobile',
         isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['common.nid'],
         accessor: 'nid',
         isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],

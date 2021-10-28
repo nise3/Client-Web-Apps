@@ -32,22 +32,27 @@ const YouthPage = () => {
       {
         Header: messages['youth.username'],
         accessor: 'username',
+        disableFilters: true,
       },
       {
         Header: messages['youth.fullName'],
         accessor: 'full_name',
+        disableFilters: true,
       },
       {
         Header: messages['youth.gender'],
         accessor: 'gender_label',
+        disableFilters: true,
       },
       {
         Header: messages['youth.mobile'],
         accessor: 'mobile',
+        disableFilters: true,
       },
       {
         Header: messages['youth.email'],
         accessor: 'email',
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
