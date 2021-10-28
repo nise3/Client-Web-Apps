@@ -83,13 +83,15 @@ const OrganizationTypePage = () => {
           return props.row.index + 1;
         },
       },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-      },
+
       {
         Header: messages['common.title'],
         accessor: 'title',
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: false,
       },
       {
         Header: messages['organization_type.is_government'],

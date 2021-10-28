@@ -48,8 +48,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     isLoading,
     mutate: mutateOrganizationType,
   } = useFetchOrganizationType(itemId);
-  const [checkedIsGovernment, setCheckedIsGovernment] =
-    useState<boolean>(false);
+  const [checkedIsGovernment, setCheckedIsGovernment] = useState<number>(0);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -78,7 +77,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
         title: itemData?.title,
         row_status: String(itemData?.row_status),
       });
-      setCheckedIsGovernment(itemData?.is_government == 1);
+      setCheckedIsGovernment(itemData?.is_government);
     } else {
       reset(initialValues);
     }
@@ -87,6 +86,10 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<OrganizationType> = async (
     data: OrganizationType,
   ) => {
+    const {is_government} = data;
+    if (data) {
+      data = {...data, is_government: 1 * is_government};
+    }
     try {
       if (itemId) {
         await updateOrganizationType(itemId, data);
@@ -156,9 +159,15 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
             label={messages['organization_type.is_government']}
             register={register}
             errorInstance={errors}
-            checked={checkedIsGovernment}
+            checked={!!checkedIsGovernment}
             onChange={() => {
-              setCheckedIsGovernment((prevState) => !prevState);
+              setCheckedIsGovernment((prevState) => {
+                if (prevState == 0) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              });
             }}
             isLoading={isLoading}
           />

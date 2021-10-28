@@ -123,6 +123,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     isLoading,
     mutate: mutateOrganization,
   } = useFetchOrganization(itemId);
+  console.log('item', itemData);
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
     useFetchOrganizationTypes(organizationTypeFilters);
 
@@ -289,6 +290,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
+    console.log('Data----', data);
     try {
       if (itemId) {
         await updateOrganization(itemId, data);

@@ -100,6 +100,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         uri: itemData?.uri,
         method: itemData?.method,
         module: itemData?.module,
+        key: itemData?.key,
       });
     } else {
       reset(initialValues);

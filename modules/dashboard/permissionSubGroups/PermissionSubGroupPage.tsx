@@ -99,13 +99,15 @@ const PermissionSubGroupPage = () => {
         },
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-      },
-      {
         Header: messages['common.title'],
         accessor: 'title',
       },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: false,
+      },
+
       {
         Header: messages['permission_group.label'],
         accessor: 'permission_group_title_en',

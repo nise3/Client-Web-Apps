@@ -8,7 +8,6 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -64,7 +63,6 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
   }, [messages]);
 
   const {
-    control,
     register,
     reset,
     setError,
@@ -152,7 +150,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        {/*     <Grid item xs={12}>
           <CustomTextInput
             id='description'
             label={messages['common.description']}
@@ -170,7 +168,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
-        </Grid>
+        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );

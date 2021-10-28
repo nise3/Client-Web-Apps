@@ -79,12 +79,13 @@ const CoursePage = () => {
         },
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-      },
-      {
         Header: messages['common.title'],
         accessor: 'title',
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: false,
       },
       {
         Header: messages['institute.label'],
