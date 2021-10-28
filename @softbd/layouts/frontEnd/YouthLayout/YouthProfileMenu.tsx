@@ -22,7 +22,6 @@ import {
   KeyboardArrowDown,
   Logout,
   Person,
-  Work,
   Receipt,
   Score,
   Settings,
