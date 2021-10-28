@@ -29,6 +29,7 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -87,6 +88,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
+  const [isEducationChecked, setIsEducationChecked] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -129,43 +131,82 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const configItemList = useMemo(
     () => [
       {
-        key: 'ethnic_group_info',
+        key: CourseConfigKeys.ETHNIC_GROUP_KEY,
         label: messages['course.ethnic_group_info'],
+        isVisible: true,
       },
       {
-        key: 'freedom_fighter_info',
+        key: CourseConfigKeys.FREEDOM_FIGHTER_KEY,
         label: messages['course.freedom_fighter_info'],
+        isVisible: true,
       },
       {
-        key: 'disability_info',
+        key: CourseConfigKeys.DISABILITY_KEY,
         label: messages['course.disability_info'],
+        isVisible: true,
       },
       {
-        key: 'ssc_passing_info',
+        key: CourseConfigKeys.EDUCATION_KEY,
+        label: messages['course.education_info'],
+        isVisible: true,
+      },
+      {
+        key: CourseConfigKeys.EDUCATION_PSC_KEY,
+        label: messages['course.psc_passing_info'],
+        isVisible: isEducationChecked,
+      },
+      {
+        key: CourseConfigKeys.EDUCATION_JSC_KEY,
+        label: messages['course.jsc_passing_info'],
+        isVisible: isEducationChecked,
+      },
+      {
+        key: CourseConfigKeys.EDUCATION_SSC_KEY,
         label: messages['course.ssc_passing_info'],
+        isVisible: isEducationChecked,
       },
       {
-        key: 'hsc_passing_status',
-        label: messages['course.hsc_passing_status'],
+        key: CourseConfigKeys.EDUCATION_HSC_KEY,
+        label: messages['course.hsc_passing_info'],
+        isVisible: isEducationChecked,
       },
       {
-        key: 'honors_passing_info',
+        key: CourseConfigKeys.EDUCATION_DIPLOMA_KEY,
+        label: messages['course.diploma_passing_info'],
+        isVisible: isEducationChecked,
+      },
+      {
+        key: CourseConfigKeys.EDUCATION_HONOURS_KEY,
         label: messages['course.honors_passing_info'],
+        isVisible: isEducationChecked,
       },
       {
-        key: 'masters_passing_info',
+        key: CourseConfigKeys.EDUCATION_MASTERS_KEY,
         label: messages['course.masters_passing_info'],
+        isVisible: isEducationChecked,
       },
       {
-        key: 'occupation_info',
+        key: CourseConfigKeys.EDUCATION_PHD_KEY,
+        label: messages['course.phd_passing_info'],
+        isVisible: isEducationChecked,
+      },
+      {
+        key: CourseConfigKeys.OCCUPATION_KEY,
         label: messages['course.occupation_info'],
+        isVisible: true,
       },
       {
-        key: 'guardian_info',
+        key: CourseConfigKeys.GUARDIAN_KEY,
         label: messages['course.guardian_info'],
+        isVisible: true,
+      },
+      {
+        key: CourseConfigKeys.MISCELLANEOUS_KEY,
+        label: messages['course.miscellaneous_info'],
+        isVisible: true,
       },
     ],
-    [messages],
+    [messages, isEducationChecked],
   );
 
   const levels = useMemo(
@@ -260,6 +301,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         let value = configJson[key];
         if (value[0]) {
           itemsState.push(key);
+          if (key == CourseConfigKeys.EDUCATION_KEY) {
+            setIsEducationChecked(true);
+          }
         }
         if (value[1]) {
           itemsRequiredState.push(key);
@@ -655,7 +699,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         <Grid item container xs={12}>
           {configItemList.map((item: any, index: any) => {
             let states = [...configItemsState];
-            return (
+            return item.isVisible ? (
               <Grid item container xs={6} style={{minHeight: 40}} key={index}>
                 <Grid item xs={5} style={{marginTop: 5}}>
                   <CustomCheckbox
@@ -671,8 +715,14 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
                         itemStates = itemStates.filter(
                           (key: any) => key != item.key,
                         );
+                        if (item.key == CourseConfigKeys.EDUCATION_KEY) {
+                          setIsEducationChecked(false);
+                        }
                       } else {
                         itemStates.push(item.key);
+                        if (item.key == CourseConfigKeys.EDUCATION_KEY) {
+                          setIsEducationChecked(true);
+                        }
                       }
                       setConfigItemsState(itemStates);
                     }}
@@ -708,6 +758,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
                   </Grid>
                 )}
               </Grid>
+            ) : (
+              <></>
             );
           })}
         </Grid>

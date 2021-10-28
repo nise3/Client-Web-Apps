@@ -4,7 +4,7 @@ import {ChevronRight} from '@mui/icons-material';
 import useStyles from './index.style';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './conponents/TrainingCenterCard';
-import {useFetchTrainingCenters} from '../../../services/youthManagement/hooks';
+import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
@@ -19,7 +19,7 @@ const NearbyTrainingCenterSection = () => {
     page_size: 4,
   });
 
-  const {data: nearbyTrainingCenters} = useFetchTrainingCenters(
+  const {data: nearbyTrainingCenters} = useFetchPublicTrainingCenters(
     nearbyTrainingCenterFilters,
   );
 

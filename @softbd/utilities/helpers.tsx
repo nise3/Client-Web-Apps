@@ -292,3 +292,11 @@ export const objectFilter = (object: any) => {
 
   return object;
 };
+
+export const passingYears = () => {
+  let passingYearsArray = [];
+  for (let i = 2021; i > 1971; i--) {
+    passingYearsArray.push({year: i});
+  }
+  return passingYearsArray;
+};

@@ -8,7 +8,6 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 interface GuardiansInfoFormProps {
   register: any;
   errors: any;
-  control: any;
 }
 
 const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
@@ -22,8 +21,26 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='father_name'
-          label={messages['common.name']}
+          id='guardian_info[father_name]'
+          label={messages['common.name_bn']}
+          register={register}
+          errorInstance={errors}
+          isLoading={false}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='guardian_info[father_name_en]'
+          label={messages['common.name_en']}
+          register={register}
+          errorInstance={errors}
+          isLoading={false}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='guardian_info[father_mobile]'
+          label={messages['common.mobile']}
           register={register}
           errorInstance={errors}
           isLoading={false}
@@ -31,7 +48,7 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomDateTimeField
-          id='father_date_of_birth'
+          id='guardian_info[father_date_of_birth]'
           label={messages['common.date_of_birth']}
           register={register}
           errorInstance={errors}
@@ -39,17 +56,8 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='father_nid'
+          id='guardian_info[father_nid]'
           label={messages['common.nid']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='father_mobile'
-          label={messages['common.mobile']}
           register={register}
           errorInstance={errors}
           isLoading={false}
@@ -62,8 +70,26 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='mother_name'
-          label={messages['common.name']}
+          id='guardian_info[mother_name]'
+          label={messages['common.name_bn']}
+          register={register}
+          errorInstance={errors}
+          isLoading={false}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='guardian_info[mother_name_en]'
+          label={messages['common.name_en']}
+          register={register}
+          errorInstance={errors}
+          isLoading={false}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='guardian_info[mother_mobile]'
+          label={messages['common.mobile']}
           register={register}
           errorInstance={errors}
           isLoading={false}
@@ -71,7 +97,7 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomDateTimeField
-          id='mother_date_of_birth'
+          id='guardian_info[mother_date_of_birth]'
           label={messages['common.date_of_birth']}
           register={register}
           errorInstance={errors}
@@ -79,17 +105,8 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='mother_nid'
+          id='guardian_info[mother_nid]'
           label={messages['common.nid']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='mother_mobile'
-          label={messages['common.mobile']}
           register={register}
           errorInstance={errors}
           isLoading={false}

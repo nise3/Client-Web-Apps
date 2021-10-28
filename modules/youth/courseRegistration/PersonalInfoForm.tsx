@@ -4,7 +4,6 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import Button from '@mui/material/Button';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import Genders from '../../../@softbd/utilities/Genders';
 import {nationalities} from '../../../@softbd/utilities/Nationalities';
@@ -15,23 +14,39 @@ import MaritalStatus from '../../../@softbd/utilities/MaritalStatus';
 import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatus';
 import Religions from '../../../@softbd/utilities/Religions';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {useFetchProgrammes} from '../../../services/instituteManagement/hooks';
+import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
 
 interface PersonalInfoFormProps {
+  course: any;
   register: any;
   errors: any;
   control: any;
   visibleFieldKeys: Array<string>;
-  requiredFieldKeys: Array<string>;
 }
 
 const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
+  course,
   register,
   errors,
   control,
   visibleFieldKeys,
-  requiredFieldKeys,
 }) => {
   const {messages} = useIntl();
+  const [trainingCenterFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+    institute_id: course?.institute_id,
+  });
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
+    useFetchPublicTrainingCenters(trainingCenterFilters);
+  const [programmeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+    institute_id: course?.institute_id,
+  });
+  const {data: programmes, isLoading: isLoadingProgrammes} =
+    useFetchProgrammes(programmeFilters);
+
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
     PhysicalDisabilityStatus.NO,
   );
@@ -197,6 +212,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           register={register}
           errorInstance={errors}
           isLoading={false}
+          inputProps={{
+            disabled: true,
+          }}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -206,59 +224,34 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           register={register}
           errorInstance={errors}
           isLoading={false}
+          inputProps={{
+            disabled: true,
+          }}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='course'
-          label={messages['course.label']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='training_center'
+      <Grid item xs={6}>
+        <CustomFormSelect
+          id='training_center_id'
           label={messages['training_center.label']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CustomTextInput
-          id='programme'
-          label={messages['programme.label']}
-          register={register}
-          errorInstance={errors}
-          isLoading={false}
-        />
-      </Grid>
-
-      <Grid item xs={12} md={6}>
-        <FormRadioButtons
-          id='gender'
-          label={'common.gender'}
-          radios={[
-            {
-              key: Genders.MALE,
-              label: messages['common.male'],
-            },
-            {
-              key: Genders.FEMALE,
-              label: messages['common.female'],
-            },
-            {
-              key: Genders.OTHERS,
-              label: messages['common.others'],
-            },
-          ]}
+          isLoading={isLoadingTrainingCenters}
           control={control}
-          defaultValue={Genders.MALE}
-          isLoading={false}
+          options={trainingCenters}
+          optionValueProp={'id'}
+          optionTitleProp={['title_en', 'title']}
+          errorInstance={errors}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={6}>
+        <CustomFormSelect
+          id='programme_id'
+          label={messages['programme.label']}
+          isLoading={isLoadingProgrammes}
+          control={control}
+          options={programmes}
+          optionValueProp='id'
+          optionTitleProp={['title_en', 'title']}
+          errorInstance={errors}
         />
       </Grid>
 
@@ -271,7 +264,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <CustomFormSelect
           id='marital_status'
           label={messages['common.marital_status']}
@@ -284,7 +277,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <CustomFormSelect
           id='religion'
           label={messages['common.religion']}
@@ -297,7 +290,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <CustomFormSelect
           id='nationality'
           label={messages['common.nationality']}
@@ -310,32 +303,21 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={12}>
-        <CustomCheckbox
-          id='does_belong_to_ethnic_group'
-          label={messages['youth_registration.ethnic_group']}
-          register={register}
-          errorInstance={errors}
-          checked={isBelongToEthnicGroup}
-          onChange={() => {
-            setIsBelongToEthnicGroup((prev) => !prev);
-          }}
-          isLoading={false}
-        />
-      </Grid>
-
-      <Grid item xs={6}>
-        <CustomFormSelect
-          id='freedom_fighter_status'
-          label={messages['common.freedom_fighter_status']}
-          isLoading={false}
-          control={control}
-          options={freedomFighterStatus}
-          optionValueProp={'id'}
-          optionTitleProp={['label']}
-          errorInstance={errors}
-        />
-      </Grid>
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.FREEDOM_FIGHTER_KEY) && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              id='freedom_fighter_status'
+              label={messages['common.freedom_fighter_status']}
+              isLoading={false}
+              control={control}
+              options={freedomFighterStatus}
+              optionValueProp={'id'}
+              optionTitleProp={['label']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
 
       {visibleFieldKeys &&
         visibleFieldKeys.includes(CourseConfigKeys.DISABILITY_KEY) && (
@@ -381,6 +363,47 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         )}
 
       <Grid item xs={12} md={6}>
+        <FormRadioButtons
+          id='gender'
+          label={'common.gender'}
+          radios={[
+            {
+              key: Genders.MALE,
+              label: messages['common.male'],
+            },
+            {
+              key: Genders.FEMALE,
+              label: messages['common.female'],
+            },
+            {
+              key: Genders.OTHERS,
+              label: messages['common.others'],
+            },
+          ]}
+          control={control}
+          defaultValue={Genders.MALE}
+          isLoading={false}
+        />
+      </Grid>
+
+      {visibleFieldKeys &&
+        visibleFieldKeys.includes(CourseConfigKeys.ETHNIC_GROUP_KEY) && (
+          <Grid item xs={12}>
+            <CustomCheckbox
+              id='does_belong_to_ethnic_group'
+              label={messages['youth_registration.ethnic_group']}
+              register={register}
+              errorInstance={errors}
+              checked={isBelongToEthnicGroup}
+              onChange={() => {
+                setIsBelongToEthnicGroup((prev) => !prev);
+              }}
+              isLoading={false}
+            />
+          </Grid>
+        )}
+
+      {/*<Grid item xs={12}>
         <label htmlFor='contained-button-file'>
           <Button variant='contained' color='primary' component='label'>
             Upload passport size photo
@@ -392,8 +415,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             />
           </Button>
         </label>
-      </Grid>
-      <Grid item xs={12} md={6}>
+
         <label htmlFor='contained-button-file'>
           <Button variant='contained' color='primary' component='label'>
             Upload signature
@@ -405,7 +427,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             />
           </Button>
         </label>
-      </Grid>
+      </Grid>*/}
     </Grid>
   );
 };

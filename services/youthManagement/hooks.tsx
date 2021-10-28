@@ -132,7 +132,7 @@ export function useFetchYouthCourses(params: any) {
   return useAxiosSWR([API_YOUTH_COURSES, params]);
 }
 
-export function useFetchTrainingCenters(params: any) {
+export function useFetchPublicTrainingCenters(params: any) {
   return useAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
 }
 
