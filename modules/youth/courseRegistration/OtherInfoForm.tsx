@@ -49,7 +49,7 @@ const siblings = [
 const OtherInfoForm: FC<OtherInfoFormProps> = ({register, errors, control}) => {
   const {messages} = useIntl();
   return (
-    <Grid container spacing={5}>
+    <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <FormRadioButtons
           id='miscellaneous_info[has_own_family_home]'

@@ -15,8 +15,10 @@ import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatu
 import Religions from '../../../@softbd/utilities/Religions';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useFetchProgrammes} from '../../../services/instituteManagement/hooks';
-import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
+import {
+  useFetchPublicPrograms,
+  useFetchPublicTrainingCenters,
+} from '../../../services/youthManagement/hooks';
 
 interface PersonalInfoFormProps {
   course: any;
@@ -45,7 +47,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     institute_id: course?.institute_id,
   });
   const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchProgrammes(programmeFilters);
+    useFetchPublicPrograms(programmeFilters);
 
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
     PhysicalDisabilityStatus.NO,
@@ -166,7 +168,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   }, []);
 
   return (
-    <Grid container spacing={5}>
+    <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <CustomTextInput
           id='first_name'

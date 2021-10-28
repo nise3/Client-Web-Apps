@@ -68,6 +68,13 @@ const CustomFormSelect = ({
     return title;
   };
 
+  let errorObj = errorInstance?.[id];
+  const reg = new RegExp('(.*)\\[(.*?)]', '');
+  const matches = id.match(reg);
+  if (matches) {
+    errorObj = errorInstance?.[matches[1]]?.[matches[2]];
+  }
+
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -75,7 +82,7 @@ const CustomFormSelect = ({
       variant='outlined'
       fullWidth={true}
       disabled={isDisabled}
-      error={!!errorInstance?.[id]}
+      error={!!errorObj}
       size={size ? size : 'small'}>
       <InputLabel id='select-outlined-label'>{label}</InputLabel>
       <Controller
@@ -142,16 +149,16 @@ const CustomFormSelect = ({
                 }
               })}
             </Select>
-            {errorInstance?.[id] && (
+            {errorObj && (
               <FormHelperText>
-                {errorInstance?.[id].message ? (
-                  errorInstance?.[id].message.hasOwnProperty('key') ? (
+                {errorObj.message ? (
+                  errorObj.message.hasOwnProperty('key') ? (
                     <IntlMessages
-                      id={errorInstance?.[id].message.key}
-                      values={errorInstance?.[id].message?.values || {}}
+                      id={errorObj.message.key}
+                      values={errorObj.message?.values || {}}
                     />
                   ) : (
-                    errorInstance?.[id].message
+                    errorObj.message
                   )
                 ) : (
                   ''

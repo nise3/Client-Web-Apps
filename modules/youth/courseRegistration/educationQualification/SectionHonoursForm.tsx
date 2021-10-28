@@ -55,7 +55,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='exam_degree_id'
+            id='honours_info[exam_degree_id]'
             label={messages['education.education_exam_degree']}
             isLoading={false}
             control={control}
@@ -67,7 +67,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='major_or_concentration'
+            id='honours_info[major_or_concentration]'
             label={messages['education.major_group_name_bn']}
             register={register}
             errorInstance={errors}
@@ -77,7 +77,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='major_or_concentration_en'
+            id='honours_info[major_or_concentration_en]'
             label={messages['education.major_group_name_en']}
             register={register}
             errorInstance={errors}
@@ -86,7 +86,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name'
+            id='honours_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
             errorInstance={errors}
@@ -95,7 +95,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name_en'
+            id='honours_info[institute_name_en]'
             label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
@@ -105,7 +105,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
 
         <Grid item xs={12}>
           <CustomCheckbox
-            id='is_foreign_institute'
+            id='honours_info[is_foreign_institute]'
             label={messages['education.is_foreign_institute']}
             register={register}
             errorInstance={errors}
@@ -120,7 +120,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='foreign_institute_country_id'
+              id='honours_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
               control={control}
@@ -134,7 +134,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='result'
+            id='honours_info[result]'
             label={messages['education.result']}
             isLoading={false}
             control={control}
@@ -149,7 +149,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='marks_in_percentage'
+              id='honours_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
               register={register}
@@ -164,7 +164,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa_scale'
+                  id='honours_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -177,7 +177,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa'
+                  id='honours_info[cgpa]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -195,7 +195,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='year_of_passing'
+              id='honours_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
               control={control}
@@ -210,7 +210,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='expected_year_of_passing'
+              id='honours_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}
               control={control}

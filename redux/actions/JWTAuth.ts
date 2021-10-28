@@ -93,6 +93,7 @@ export const setAuthAccessTokenData = (
 type TAuthUserSSOResponse = {
   sub: string;
   upn: string;
+  id: string | number;
   given_name: string;
   family_name: string;
   userType: 'system' | 'institute' | 'organization' | 'youth';
@@ -112,6 +113,7 @@ type TAuthUserSSOResponse = {
 };
 
 type TYouthAuthUserSSOResponse = {
+  id: number | string;
   sub: string;
   upn: string;
   given_name: string;
@@ -166,6 +168,7 @@ export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
   return {
+    userId: authUser?.id,
     isYouthUser: false,
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
@@ -199,6 +202,7 @@ export const getYouthAuthUserObject = (
     isSystemUser: false,
     email: authUser?.email,
     uid: authUser?.sub,
+    youthId: authUser?.id,
     username: authUser?.username,
     date_of_birth: authUser?.date_of_birth,
     first_name: authUser?.first_name,

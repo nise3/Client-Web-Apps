@@ -13,7 +13,7 @@ interface GuardiansInfoFormProps {
 const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
   const {messages} = useIntl();
   return (
-    <Grid container spacing={5}>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant={'h6'}>
           {messages['common.father_information']}

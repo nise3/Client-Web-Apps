@@ -18,7 +18,7 @@ const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
     useState<boolean>(false);
 
   return (
-    <Grid container spacing={5}>
+    <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <CustomTextInput
           id='professional_info[main_profession]'

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Box,
   Button,
@@ -32,6 +32,11 @@ import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatu
 import Religions from '../../../@softbd/utilities/Religions';
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import {courseEnroll} from '../../../services/youthManagement/YouthService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS} from '../../../@softbd/common/appLinks';
 
 const tabKeys = [
   CourseConfigKeys.EDUCATION_KEY.toString(),
@@ -202,6 +207,7 @@ const initialValues = {
 const YouthCourseRegistrationPage = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
   const router = useRouter();
   const {courseId} = router.query;
   const authUser = useAuthUser<YouthAuthUser>();
@@ -213,19 +219,18 @@ const YouthCourseRegistrationPage = () => {
   const [activeStepKey, setActiveStepKey] = useState<string>(
     CourseConfigKeys.PERSONAL_KEY.toString(),
   );
-  const [stepKeys, setStepKeys] = useState<Array<string>>([
-    CourseConfigKeys.PERSONAL_KEY.toString(),
-    CourseConfigKeys.ADDRESS_KEY.toString(),
-  ]);
+  const [stepKeys, setStepKeys] = useState<Array<string>>([]);
   const [hasDisabilities, setHasDisabilities] = useState<boolean>(false);
   const [isPhysicalDisabilitiesRequired, setIsPhysicalDisabilitiesRequired] =
+    useState<boolean>(false);
+  const [isPermanentAddressSameAsPresent, setIsPermanentAddressSameAsPresent] =
     useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     switch (activeStepKey) {
       case CourseConfigKeys.PERSONAL_KEY:
         return yup.object().shape({
-          /*first_name: yup
+          first_name: yup
             .string()
             .title()
             .label(messages['common.first_name_bn'] as string),
@@ -233,6 +238,11 @@ const YouthCourseRegistrationPage = () => {
             .string()
             .title()
             .label(messages['common.last_name_bn'] as string),
+          training_center_id: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['training_center.label'] as string),
           date_of_birth: yup
             .string()
             .trim()
@@ -252,11 +262,11 @@ const YouthCourseRegistrationPage = () => {
                   .of(yup.string())
                   .min(1)
                   .label(messages['common.physical_disability'] as string)
-              : yup.array().of(yup.string()),*/
+              : yup.array().of(yup.string()),
         });
       case CourseConfigKeys.ADDRESS_KEY:
         return yup.object().shape({
-          /*is_permanent_address: yup
+          is_permanent_address: yup
             .string()
             .trim()
             .required()
@@ -272,71 +282,244 @@ const YouthCourseRegistrationPage = () => {
               .trim()
               .required()
               .label(messages['districts.label'] as string),
-            village_or_area: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.village_or_area_bn'] as string),
-            zip_or_postal_code: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.zip_or_postal_code'] as string),
           }),
-          permanent_address: yup.object().shape({
-            loc_division_id: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['divisions.label'] as string),
-            loc_district_id: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['districts.label'] as string),
-            village_or_area: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.village_or_area_bn'] as string),
-            zip_or_postal_code: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.zip_or_postal_code'] as string),
-          }),*/
+          permanent_address: !isPermanentAddressSameAsPresent
+            ? yup.object().shape({
+                loc_division_id: yup
+                  .string()
+                  .trim()
+                  .required()
+                  .label(messages['divisions.label'] as string),
+                loc_district_id: yup
+                  .string()
+                  .trim()
+                  .required()
+                  .label(messages['districts.label'] as string),
+              })
+            : yup.object().shape({}),
         });
       case CourseConfigKeys.EDUCATION_KEY:
         return yup.object().shape({
-          psc_info: yup.object().shape({
-            exam_degree_id: yup
-              .string()
-              .required()
-              .label(messages['education.education_exam_degree'] as string),
-            edu_board_id: yup
-              .string()
-              .required()
-              .label(messages['education.board'] as string),
-            institute_name: yup
-              .string()
-              .title()
-              .label(messages['common.institute_name_bn'] as string),
-            result: yup
-              .string()
-              .required()
-              .label(messages['education.result'] as string),
-            year_of_passing: yup
-              .string()
-              .required()
-              .label(messages['education.passing_year'] as string),
-          }),
-          jsc_info: yup.object().shape({}),
-          ssc_info: yup.object().shape({}),
-          hsc_info: yup.object().shape({}),
-          diploma_info: yup.object().shape({}),
-          honours_info: yup.object().shape({}),
-          masters_info: yup.object().shape({}),
-          phd_info: yup.object().shape({}),
+          psc_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_PSC_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                edu_board_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.board'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          jsc_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_JSC_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                edu_board_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.board'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          ssc_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_SSC_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                edu_group_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.group'] as string),
+                edu_board_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.board'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          hsc_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_HSC_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                edu_group_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.group'] as string),
+                edu_board_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.board'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          diploma_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_DIPLOMA_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                major_or_concentration: yup
+                  .string()
+                  .required()
+                  .label(messages['education.major_group_name_bn'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          honours_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_HONOURS_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                major_or_concentration: yup
+                  .string()
+                  .required()
+                  .label(messages['education.major_group_name_bn'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          masters_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_MASTERS_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_id: yup
+                  .string()
+                  .required()
+                  .label(messages['education.education_exam_degree'] as string),
+                major_or_concentration: yup
+                  .string()
+                  .required()
+                  .label(messages['education.major_group_name_bn'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
+          phd_info: visibleFormConfigKeys.includes(
+            CourseConfigKeys.EDUCATION_PHD_KEY,
+          )
+            ? yup.object().shape({
+                exam_degree_name: yup
+                  .string()
+                  .required()
+                  .label(
+                    messages[
+                      'education.education_exam_degree_name_bn'
+                    ] as string,
+                  ),
+                major_or_concentration: yup
+                  .string()
+                  .required()
+                  .label(messages['education.major_group_name_bn'] as string),
+                institute_name: yup
+                  .string()
+                  .title()
+                  .label(messages['common.institute_name_bn'] as string),
+                result: yup
+                  .string()
+                  .required()
+                  .label(messages['education.result'] as string),
+                year_of_passing: yup
+                  .string()
+                  .required()
+                  .label(messages['education.passing_year'] as string),
+              })
+            : yup.object().shape({}),
         });
       case CourseConfigKeys.OCCUPATION_KEY:
         return yup.object().shape({
@@ -420,7 +603,13 @@ const YouthCourseRegistrationPage = () => {
       default:
         return yup.object().shape({});
     }
-  }, [activeStepKey, hasDisabilities, isPhysicalDisabilitiesRequired]);
+  }, [
+    activeStepKey,
+    hasDisabilities,
+    isPhysicalDisabilitiesRequired,
+    requiredFormConfigKeys,
+    isPermanentAddressSameAsPresent,
+  ]);
 
   const {
     control,
@@ -428,19 +617,13 @@ const YouthCourseRegistrationPage = () => {
     watch,
     handleSubmit,
     reset,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   const watchFields: any = watch(['physical_disability_status']);
-
-  //resetting initial value
-  useEffect(() => {
-    reset(initialValues);
-  }, []);
-
-  console.log('errors', errors);
 
   useEffect(() => {
     if (watchFields[0] && watchFields[0] == PhysicalDisabilityStatus.YES) {
@@ -451,8 +634,34 @@ const YouthCourseRegistrationPage = () => {
   useEffect(() => {
     if (course && authUser?.isYouthUser) {
       setFormSettings(course.application_form_settings);
+      reset({
+        ...initialValues,
+        ...{
+          first_name: authUser?.first_name,
+          last_name: authUser?.last_name,
+          date_of_birth: getMomentDateFormat(authUser?.date_of_birth),
+          physical_disability_status: authUser?.physical_disability_status,
+          physical_disabilities: getPhysicalDisabilityIds(
+            authUser?.physical_disabilities,
+          ),
+          gender: authUser?.gender,
+          mobile: authUser?.mobile,
+          email: authUser?.email,
+          marital_status: authUser?.marital_status,
+          freedom_fighter_status: authUser?.freedom_fighter_status,
+          religion: authUser?.religion,
+          nationality: authUser?.nationality,
+          does_belong_to_ethnic_group: authUser?.does_belong_to_ethnic_group,
+        },
+      });
     }
   }, [course, authUser]);
+
+  const getPhysicalDisabilityIds = (physicalDisabilities: any) => {
+    return (physicalDisabilities || []).map(
+      (physicalDisability: any) => physicalDisability.id,
+    );
+  };
 
   const setFormSettings = (config: string | undefined | null) => {
     try {
@@ -461,7 +670,6 @@ const YouthCourseRegistrationPage = () => {
         CourseConfigKeys.ADDRESS_KEY.toString(),
       ];
       let configJson = JSON.parse(config || '{}');
-      console.log('form settings', configJson);
       let itemsState: any = [];
       let itemsRequiredState: any = [];
       Object.keys(configJson || {}).map((key: string) => {
@@ -494,6 +702,10 @@ const YouthCourseRegistrationPage = () => {
     }
   };
 
+  const onChangeSameAsPresentCheck = useCallback((checked: boolean) => {
+    setIsPermanentAddressSameAsPresent((prev) => !prev);
+  }, []);
+
   const handleNext = () => {
     setActiveStepKey(stepKeys[activeStep + 1]);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -518,7 +730,12 @@ const YouthCourseRegistrationPage = () => {
         );
       case CourseConfigKeys.ADDRESS_KEY:
         return (
-          <AddressForm register={register} errors={errors} control={control} />
+          <AddressForm
+            register={register}
+            errors={errors}
+            control={control}
+            onChangeSameAsPresentCheck={onChangeSameAsPresentCheck}
+          />
         );
       case CourseConfigKeys.EDUCATION_KEY:
         return (
@@ -546,12 +763,102 @@ const YouthCourseRegistrationPage = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('submit', data);
-    if (activeStep < stepKeys.length - 1) {
-      handleNext();
-    } else if (activeStep == stepKeys.length - 1) {
-      console.log('final submit', data);
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    try {
+      console.log('submit', formData);
+      if (activeStep < stepKeys.length - 1) {
+        handleNext();
+      } else if (activeStep == stepKeys.length - 1) {
+        let data: any = {...formData};
+        data.youth_id = authUser?.youthId;
+        data.course_id = course?.id;
+        data.address_info = {};
+        data.address_info.present_address = formData.present_address;
+        data.address_info.is_permanent_address = formData.is_permanent_address;
+        data.address_info.permanent_address = formData.is_permanent_address
+          ? formData.present_address
+          : formData.permanent_address;
+
+        if (visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_KEY)) {
+          data.education_info = {};
+
+          if (
+            visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_PSC_KEY)
+          )
+            data.education_info['1'] = data.psc_info;
+
+          if (
+            visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_JSC_KEY)
+          )
+            data.education_info['2'] = data.jsc_info;
+
+          if (
+            visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_SSC_KEY)
+          )
+            data.education_info['3'] = data.ssc_info;
+
+          if (
+            visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_HSC_KEY)
+          )
+            data.education_info['4'] = data.hsc_info;
+
+          if (
+            visibleFormConfigKeys.includes(
+              CourseConfigKeys.EDUCATION_DIPLOMA_KEY,
+            )
+          )
+            data.education_info['5'] = data.diploma_info;
+
+          if (
+            visibleFormConfigKeys.includes(
+              CourseConfigKeys.EDUCATION_HONOURS_KEY,
+            )
+          )
+            data.education_info['6'] = data.honours_info;
+
+          if (
+            visibleFormConfigKeys.includes(
+              CourseConfigKeys.EDUCATION_MASTERS_KEY,
+            )
+          )
+            data.education_info['7'] = data.masters_info;
+
+          if (
+            visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_PHD_KEY)
+          )
+            data.education_info['8'] = data.phd_info;
+        }
+
+        delete data.psc_info;
+        delete data.jsc_info;
+        delete data.ssc_info;
+        delete data.hsc_info;
+        delete data.diploma_info;
+        delete data.honours_info;
+        delete data.masters_info;
+        delete data.phd_info;
+        delete data.present_address;
+        delete data.is_permanent_address;
+        delete data.permanent_address;
+        delete data.email;
+        delete data.mobile;
+
+        console.log('data ', data);
+        await courseEnroll(data);
+
+        router
+          .push({
+            pathname: LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS + course.id,
+          })
+          .then((r) => {});
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        setError,
+        validationSchema,
+        errorStack,
+        error,
+      });
     }
   };
 

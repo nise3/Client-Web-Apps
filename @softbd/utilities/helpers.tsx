@@ -296,7 +296,7 @@ export const objectFilter = (object: any) => {
 export const passingYears = () => {
   let passingYearsArray = [];
   for (let i = 2021; i > 1971; i--) {
-    passingYearsArray.push({year: i});
+    passingYearsArray.push({year: String(i)});
   }
   return passingYearsArray;
 };

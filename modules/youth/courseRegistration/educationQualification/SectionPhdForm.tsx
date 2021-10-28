@@ -53,7 +53,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='exam_degree_name'
+            id='phd_info[exam_degree_name]'
             label={messages['education.education_exam_degree_name_bn']}
             register={register}
             errorInstance={errors}
@@ -63,7 +63,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='exam_degree_name_en'
+            id='phd_info[exam_degree_name_en]'
             label={messages['education.education_exam_degree_name_en']}
             register={register}
             errorInstance={errors}
@@ -72,7 +72,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='major_or_concentration'
+            id='phd_info[major_or_concentration]'
             label={messages['education.major_group_name_bn']}
             register={register}
             errorInstance={errors}
@@ -82,7 +82,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='major_or_concentration_en'
+            id='phd_info[major_or_concentration_en]'
             label={messages['education.major_group_name_en']}
             register={register}
             errorInstance={errors}
@@ -91,7 +91,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name'
+            id='phd_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
             errorInstance={errors}
@@ -100,7 +100,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='institute_name_en'
+            id='phd_info[institute_name_en]'
             label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
@@ -110,7 +110,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
 
         <Grid item xs={12}>
           <CustomCheckbox
-            id='is_foreign_institute'
+            id='phd_info[is_foreign_institute]'
             label={messages['education.is_foreign_institute']}
             register={register}
             errorInstance={errors}
@@ -125,7 +125,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='foreign_institute_country_id'
+              id='phd_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
               control={control}
@@ -139,7 +139,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            id='result'
+            id='phd_info[result]'
             label={messages['education.result']}
             isLoading={false}
             control={control}
@@ -154,7 +154,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='marks_in_percentage'
+              id='phd_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
               register={register}
@@ -169,7 +169,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa_scale'
+                  id='phd_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -182,7 +182,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
-                  id='cgpa'
+                  id='phd_info[cgpa]'
                   type={'number'}
                   inputProps={{
                     step: 0.01,
@@ -200,7 +200,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='year_of_passing'
+              id='phd_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
               control={control}
@@ -215,7 +215,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='expected_year_of_passing'
+              id='phd_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}
               control={control}
