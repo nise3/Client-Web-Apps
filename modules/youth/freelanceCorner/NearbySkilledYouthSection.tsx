@@ -15,7 +15,6 @@ import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
-import Link from 'next/link';
 
 const useStyle = makeStyles((theme: CremaTheme) => ({
   nearbyYouthSectionRoot: {},
@@ -46,7 +45,7 @@ const NearbySkilledYouthSection = () => {
 
   const {data: nearbySkilledYouths} = useFetchYouths(youthListFilters);
 
-  const NEARBY_YOUTH_URL = '/../../youth/course-list/nearby'; //TODO:: will be nearby youth, not exist now
+  //TODO:: will be nearby youth, not exist now
   return (
     <Card>
       <CardContent>
@@ -70,16 +69,16 @@ const NearbySkilledYouthSection = () => {
               );
             })}
           <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
-            <Link href={NEARBY_YOUTH_URL} passHref>
-              <Button
-                variant={'text'}
-                color={'primary'}
-                size={'medium'}
-                className={classes.seeMoreButton}>
-                {messages['freelance_corner.see_more']}
-                <ChevronRight color={'primary'} />
-              </Button>
-            </Link>
+            {/*<Link href={LINK_FRONTEND_YOUTH_NEARBY_COURSELIST} passHref>*/}
+            <Button
+              variant={'text'}
+              color={'primary'}
+              size={'medium'}
+              className={classes.seeMoreButton}>
+              {messages['freelance_corner.see_more']}
+              <ChevronRight color={'primary'} />
+            </Button>
+            {/*</Link>*/}
           </Grid>
         </Grid>
       </CardContent>
