@@ -32,6 +32,7 @@ interface HeadingProp {
 const useStyles = makeStyles((theme: Theme) => ({
   linkText: {
     textDecoration: 'none',
+    fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
     color: 'inherit',
   },
 }));
