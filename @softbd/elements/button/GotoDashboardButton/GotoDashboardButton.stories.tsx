@@ -14,11 +14,6 @@ const Template: ComponentStory<typeof GotoDashboardButton> = (args) => (
   <GotoDashboardButton {...args} />
 );
 
-export const withIsLoading = Template.bind({});
-withIsLoading.args = {
-  isLoading: true,
-};
-
 export const withVariant = Template.bind({});
 withVariant.args = {
   variant: 'outlined',
