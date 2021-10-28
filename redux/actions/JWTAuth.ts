@@ -166,6 +166,7 @@ export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
   return {
+    isYouthUser: false,
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
     isSystemUser: authUser?.isSystemUser,
@@ -193,6 +194,9 @@ export const getYouthAuthUserObject = (
     userType: authUser?.userType,
     authType: AuthType.AUTH2,
     displayName: authUser?.displayName,
+    isInstituteUser: false,
+    isOrganizationUser: false,
+    isSystemUser: false,
     email: authUser?.email,
     uid: authUser?.sub,
     username: authUser?.username,
