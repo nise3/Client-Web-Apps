@@ -300,3 +300,14 @@ export const passingYears = () => {
   }
   return passingYearsArray;
 };
+
+export const getModulePath = (path: string) => {
+  const pathArray = path.split('/');
+  if (pathArray.indexOf('youth') > -1) {
+    return '/youth';
+  } else if (pathArray.indexOf('institute') > -1) {
+    return '/institute';
+  } else {
+    return '/';
+  }
+};

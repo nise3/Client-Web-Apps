@@ -169,7 +169,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                   {/*  id='course_details.months_to_complete'*/}
                   {/*  values={{subject: 6}}*/}
                   {/*/>*/}
-                  {courseDuration(course.duration)}
+                  {courseDuration(course?.duration)}
                 </Box>
                 {/*<Box>3 {messages['course_details.hours_per_weeks']}</Box>*/}
               </Box>

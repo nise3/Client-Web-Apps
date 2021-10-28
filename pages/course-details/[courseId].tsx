@@ -3,14 +3,14 @@ import PageMeta from '../../@crema/core/PageMeta';
 import React from 'react';
 import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
 
-const NISETrainingPage = asyncComponent(
-  () => import('../../modules/youth/training'),
+const CourseDetailsPage = asyncComponent(
+  () => import('../../modules/youth/courseDetails'),
 );
 export default NiseFrontPage(() => {
   return (
     <>
-      <PageMeta title={'Training'} />
-      <NISETrainingPage />
+      <PageMeta title={'Course Details'} />
+      <CourseDetailsPage />
     </>
   );
 });

@@ -125,7 +125,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
 
   return (
     <Box className={classes.pageRootHeader}>
-      <Container maxWidth={'xl'}>
+      <Container maxWidth={'lg'}>
         <Grid container spacing={5}>
           <Grid item xs={12} md={7}>
             <Box fontSize={'16px'}>{messages['training.search_header']}</Box>
