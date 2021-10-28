@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
@@ -7,15 +7,26 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 interface OccupationalInfoFormProps {
   register: any;
   errors: any;
+  getValues: any;
 }
 
 const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
   register,
   errors,
+  getValues,
 }) => {
   const {messages} = useIntl();
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    if (getValues) {
+      const professionalInfo: any = getValues('professional_info');
+      const isCurrentlyEmployed: any = professionalInfo.is_currently_employed;
+
+      setIsCurrentlyEmployed(isCurrentlyEmployed);
+    }
+  }, [getValues]);
 
   return (
     <Grid container spacing={2}>

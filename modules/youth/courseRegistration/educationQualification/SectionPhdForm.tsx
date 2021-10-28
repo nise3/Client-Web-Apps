@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {Box, Typography} from '@mui/material';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -16,6 +16,7 @@ interface SectionPhdFormProps {
   errors: any;
   control: any;
   register: any;
+  getValues: any;
   countries: Array<any>;
   result: Array<any>;
 }
@@ -24,12 +25,25 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
   errors,
   register,
   control,
+  getValues,
   countries,
   result,
 }) => {
   const {messages} = useIntl();
   const [isForeignInstitute, setIsForeignInstitute] = useState<boolean>(false);
   const [selectedResult, setSelectedResult] = useState<any>(null);
+
+  useEffect(() => {
+    if (getValues) {
+      const phdInfo: any = getValues('phd_info');
+      const isForeignInstituteValue: any = phdInfo?.is_foreign_institute;
+
+      setIsForeignInstitute(isForeignInstituteValue);
+      if (phdInfo.result) {
+        onResultChange(phdInfo.result);
+      }
+    }
+  }, [getValues, result]);
 
   const onResultChange = useCallback(
     (resultId: number | undefined) => {

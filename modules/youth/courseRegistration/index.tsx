@@ -30,7 +30,6 @@ import Genders from '../../../@softbd/utilities/Genders';
 import MaritalStatus from '../../../@softbd/utilities/MaritalStatus';
 import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatus';
 import Religions from '../../../@softbd/utilities/Religions';
-import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {courseEnroll} from '../../../services/youthManagement/YouthService';
@@ -42,6 +41,7 @@ import {
   ResultCodeDivisionIds,
   ResultCodeGradeId,
 } from '../profile/utilities/EducationEnums';
+import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 
 const tabKeys = [
   CourseConfigKeys.EDUCATION_KEY.toString(),
@@ -61,13 +61,13 @@ const initialValues = {
   freedom_fighter_status: FreedomFighterStatus.NO,
   religion: Religions.ISLAM,
   nationality: '',
-  does_belong_to_ethnic_group: EthnicGroupStatus.NO,
+  does_belong_to_ethnic_group: false,
   present_address: {
     loc_division_id: '',
     loc_district_id: '',
     loc_upazila_id: '',
   },
-  is_permanent_address: '0',
+  is_permanent_address: false,
   permanent_address: {
     loc_division_id: '',
     loc_district_id: '',
@@ -76,7 +76,7 @@ const initialValues = {
   professional_info: {
     main_profession: '',
     monthly_income: '',
-    is_currently_employed: '0',
+    is_currently_employed: false,
     years_of_experiences: '',
   },
   guardian_info: {
@@ -94,7 +94,7 @@ const initialValues = {
     edu_board_id: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -108,7 +108,7 @@ const initialValues = {
     edu_board_id: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -123,7 +123,7 @@ const initialValues = {
     edu_group_id: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -138,7 +138,7 @@ const initialValues = {
     edu_group_id: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -153,7 +153,7 @@ const initialValues = {
     major_or_concentration_en: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -168,7 +168,7 @@ const initialValues = {
     major_or_concentration_en: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -183,7 +183,7 @@ const initialValues = {
     major_or_concentration_en: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -193,12 +193,13 @@ const initialValues = {
     expected_year_of_passing: '',
   },
   phd_info: {
-    exam_degree_id: '',
+    exam_degree_name: '',
+    exam_degree_name_en: '',
     major_or_concentration: '',
     major_or_concentration_en: '',
     institute_name: '',
     institute_name_en: '',
-    is_foreign_institute: '0',
+    is_foreign_institute: false,
     foreign_institute_country_id: '',
     result: '',
     marks_in_percentage: '',
@@ -268,12 +269,15 @@ const YouthCourseRegistrationPage = () => {
                   .min(1)
                   .label(messages['common.physical_disability'] as string)
               : yup.array().of(yup.string()),
+          does_belong_to_ethnic_group: yup
+            .boolean()
+            .required()
+            .label(messages['youth_registration.ethnic_group'] as string),
         });
       case CourseConfigKeys.ADDRESS_KEY:
         return yup.object().shape({
           is_permanent_address: yup
-            .string()
-            .trim()
+            .boolean()
             .required()
             .label(messages['course_registration.is_permanent'] as string),
           present_address: yup.object().shape({
@@ -321,6 +325,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -344,14 +361,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -371,6 +395,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -394,14 +431,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -425,6 +469,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -448,14 +505,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -479,6 +543,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -502,14 +579,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -529,6 +613,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -552,14 +649,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -579,6 +683,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -602,14 +719,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -629,6 +753,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -652,14 +789,21 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
                 year_of_passing: yup
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -683,6 +827,19 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .title()
                   .label(messages['common.institute_name_bn'] as string),
+                is_foreign_institute: yup
+                  .boolean()
+                  .required()
+                  .label(messages['education.is_foreign_institute'] as string),
+                foreign_institute_country_id: yup
+                  .string()
+                  .label(
+                    messages['education.foreign_institute_country'] as string,
+                  )
+                  .when('is_foreign_institute', {
+                    is: true,
+                    then: yup.string().required(),
+                  }),
                 result: yup
                   .string()
                   .required()
@@ -712,8 +869,15 @@ const YouthCourseRegistrationPage = () => {
                   .string()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
+                    is: (value: any) => value != ResultCodeAppearedId,
+                    then: yup.string().required(),
+                  }),
+                expected_year_of_passing: yup
+                  .string()
+                  .label(messages['education.expected_passing_year'] as string)
+                  .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
-                    then: yup.string().max(1).required(),
+                    then: yup.string().required(),
                   }),
               })
             : yup.object().shape({}),
@@ -737,8 +901,7 @@ const YouthCourseRegistrationPage = () => {
               .required()
               .label(messages['common.year_of_experience'] as string),
             is_currently_employed: yup
-              .string()
-              .trim()
+              .boolean()
               .required()
               .label(messages['common.currently_working'] as string),
           }),
@@ -811,22 +974,24 @@ const YouthCourseRegistrationPage = () => {
   const {
     control,
     register,
-    watch,
     handleSubmit,
     reset,
     setError,
+    getValues,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
-  const watchFields: any = watch(['physical_disability_status']);
-
   useEffect(() => {
-    if (watchFields[0] && watchFields[0] == PhysicalDisabilityStatus.YES) {
-      setHasDisabilities(true);
-    }
-  }, [watchFields]);
+    const physicalDisabilityStatus: any = getValues(
+      'physical_disability_status',
+    );
+
+    setHasDisabilities(
+      physicalDisabilityStatus == PhysicalDisabilityStatus.YES,
+    );
+  }, [getValues]);
 
   console.log('errors', errors);
 
@@ -838,7 +1003,10 @@ const YouthCourseRegistrationPage = () => {
         ...{
           first_name: authUser?.first_name,
           last_name: authUser?.last_name,
-          date_of_birth: getMomentDateFormat(authUser?.date_of_birth),
+          date_of_birth: getMomentDateFormat(
+            authUser?.date_of_birth,
+            'YYYY-MM-DD',
+          ),
           physical_disability_status: authUser?.physical_disability_status,
           physical_disabilities: getPhysicalDisabilityIds(
             authUser?.physical_disabilities,
@@ -850,7 +1018,14 @@ const YouthCourseRegistrationPage = () => {
           freedom_fighter_status: authUser?.freedom_fighter_status,
           religion: authUser?.religion,
           nationality: authUser?.nationality,
-          does_belong_to_ethnic_group: authUser?.does_belong_to_ethnic_group,
+          does_belong_to_ethnic_group:
+            String(authUser?.does_belong_to_ethnic_group) ==
+            EthnicGroupStatus.YES,
+          present_address: {
+            loc_division_id: authUser?.loc_division_id,
+            loc_district_id: authUser?.loc_district_id,
+            loc_upazila_id: authUser?.loc_upazila_id,
+          },
         },
       });
     }
@@ -924,6 +1099,7 @@ const YouthCourseRegistrationPage = () => {
             register={register}
             errors={errors}
             control={control}
+            getValues={getValues}
             visibleFieldKeys={visibleFormConfigKeys}
           />
         );
@@ -933,6 +1109,7 @@ const YouthCourseRegistrationPage = () => {
             register={register}
             errors={errors}
             control={control}
+            getValues={getValues}
             onChangeSameAsPresentCheck={onChangeSameAsPresentCheck}
           />
         );
@@ -942,11 +1119,18 @@ const YouthCourseRegistrationPage = () => {
             register={register}
             errors={errors}
             control={control}
+            getValues={getValues}
             visibleFieldKeys={visibleFormConfigKeys}
           />
         );
       case CourseConfigKeys.OCCUPATION_KEY:
-        return <OccupationalInfoForm register={register} errors={errors} />;
+        return (
+          <OccupationalInfoForm
+            register={register}
+            errors={errors}
+            getValues={getValues}
+          />
+        );
       case CourseConfigKeys.GUARDIAN_KEY:
         return <GuardiansInfoForm register={register} errors={errors} />;
       case CourseConfigKeys.MISCELLANEOUS_KEY:
@@ -971,6 +1155,9 @@ const YouthCourseRegistrationPage = () => {
         let data: any = {...formData};
         data.youth_id = authUser?.youthId;
         data.course_id = course?.id;
+        data.does_belong_to_ethnic_group = formData.does_belong_to_ethnic_group
+          ? 1
+          : 0;
         data.address_info = {};
         data.address_info.present_address = formData.present_address;
         data.address_info.is_permanent_address =
@@ -984,49 +1171,89 @@ const YouthCourseRegistrationPage = () => {
 
           if (
             visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_PSC_KEY)
-          )
+          ) {
+            data.psc_info.is_foreign_institute = formData.psc_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['1'] = data.psc_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_JSC_KEY)
-          )
+          ) {
+            data.jsc_info.is_foreign_institute = formData.jsc_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['2'] = data.jsc_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_SSC_KEY)
-          )
+          ) {
+            data.ssc_info.is_foreign_institute = formData.ssc_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['3'] = data.ssc_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_HSC_KEY)
-          )
+          ) {
+            data.hsc_info.is_foreign_institute = formData.hsc_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['4'] = data.hsc_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(
               CourseConfigKeys.EDUCATION_DIPLOMA_KEY,
             )
-          )
+          ) {
+            data.diploma_info.is_foreign_institute = formData.diploma_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['5'] = data.diploma_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(
               CourseConfigKeys.EDUCATION_HONOURS_KEY,
             )
-          )
+          ) {
+            data.honours_info.is_foreign_institute = formData.honours_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['6'] = data.honours_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(
               CourseConfigKeys.EDUCATION_MASTERS_KEY,
             )
-          )
+          ) {
+            data.masters_info.is_foreign_institute = formData.masters_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['7'] = data.masters_info;
+          }
 
           if (
             visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_PHD_KEY)
-          )
+          ) {
+            data.phd_info.is_foreign_institute = formData.phd_info
+              .is_foreign_institute
+              ? 1
+              : 0;
             data.education_info['8'] = data.phd_info;
+          }
         }
 
         if (!visibleFormConfigKeys.includes(CourseConfigKeys.GUARDIAN_KEY))
@@ -1034,6 +1261,12 @@ const YouthCourseRegistrationPage = () => {
 
         if (!visibleFormConfigKeys.includes(CourseConfigKeys.OCCUPATION_KEY))
           delete data.professional_info;
+        else {
+          data.professional_info.is_currently_employed = formData
+            .professional_info.is_currently_employed
+            ? 1
+            : 0;
+        }
 
         if (!visibleFormConfigKeys.includes(CourseConfigKeys.MISCELLANEOUS_KEY))
           delete data.miscellaneous_info;
@@ -1098,7 +1331,7 @@ const YouthCourseRegistrationPage = () => {
           </Stepper>
           {activeStep === stepKeys.length ? (
             <React.Fragment>
-              <Box>Done</Box>
+              <Box />
             </React.Fragment>
           ) : (
             <React.Fragment>
