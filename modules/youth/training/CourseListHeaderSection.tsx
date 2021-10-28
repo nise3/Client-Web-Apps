@@ -155,7 +155,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     className={classes.searchButton}
                     onClick={useCallback(() => {
                       addFilterKey(
-                        'search_text',
+                        'course_name',
                         searchTextField.current.value,
                       );
                     }, [])}>

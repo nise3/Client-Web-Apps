@@ -164,7 +164,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
                   color={'primary'}
                   className={classes.searchButton}
                   onClick={useCallback(() => {
-                    addFilter('search_text', searchTextField.current.value);
+                    addFilter('course_name', searchTextField.current.value);
                   }, [])}>
                   {messages['common.search']}
                 </Button>

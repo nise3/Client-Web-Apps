@@ -6,7 +6,7 @@ import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../../@softbd/common/appLinks';
+import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../../@softbd/common/appLinks';
 
 interface CourseInfoBlockProps {
   course: any;
@@ -122,7 +122,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                 </Grid>
                 <Grid item xs={4} className={classes.enrollButton}>
                   <Link
-                    href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}
+                    href={LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id}
                     passHref>
                     <Button
                       variant={'contained'}
