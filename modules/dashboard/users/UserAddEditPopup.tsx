@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
@@ -30,6 +30,15 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -45,9 +54,9 @@ const initialValues = {
   email: '',
   mobile: '',
   role_id: '',
-  /*user_type: '1',
-  organization_id: '',
-  institute_id: '',*/
+  loc_division_id: '',
+  loc_district_id: '',
+  loc_upazila_id: '',
   row_status: '1',
 };
 
@@ -64,21 +73,20 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const [roleFilters, setRoleFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+  const [divisionsFilter] = useState({});
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
 
   const {data: roles, isLoading: isLoadingRoles} = useFetchRoles(roleFilters);
-
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
   const authUser = useAuthUser();
-
-  /*const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-
-  const {data: institutes, isLoading: isLoadingInstitute} =
-    useFetchInstitutes(instituteFilters);
-
-  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
-
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilters);
-  const [userType, setUserType] = useState<number>(1);*/
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -117,32 +125,14 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               .string()
               .trim()
               .required()
+              .min(8)
               .label(messages['common.password'] as string),
-      retype_password: yup
+      password_confirmation: yup
         .string()
         .oneOf([yup.ref('password')])
         .label(messages['common.password'] as string),
-      /*user_type: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['user.user_type'] as string),
-      organization_id:
-        userType == 2
-          ? yup
-              .string()
-              .required()
-              .label(messages['organization.label'] as string)
-          : yup.string().label(messages['organization.label'] as string),
-      institute_id:
-        userType == 3
-          ? yup
-              .string()
-              .required()
-              .label(messages['institute.label'] as string)
-          : yup.string().label(messages['institute.label'] as string),*/
     });
-  }, [itemId, messages /*userType*/]);
+  }, [itemId, messages]);
 
   const {
     register,
@@ -157,19 +147,19 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser) {
-      if (authUser.institute_id) {
+      if (authUser?.isInstituteUser && authUser.institute_id) {
         setRoleFilters({
           institute_id: authUser.institute_id,
           row_status: RowStatus.ACTIVE,
         });
-      } else if (authUser.organization_id) {
+      } else if (authUser?.isOrganizationUser && authUser.organization_id) {
         setRoleFilters({
           organization_id: authUser.organization_id,
           row_status: RowStatus.ACTIVE,
         });
       }
     }
-  }, []);
+  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
@@ -181,38 +171,54 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         email: itemData?.email,
         mobile: itemData?.mobile,
         role_id: itemData?.role_id,
-        /*user_type: String(itemData?.user_type),
-        organization_id: itemData?.organization_id,
-        institute_id: itemData?.institute_id,*/
+        loc_division_id: itemData?.loc_division_id,
+        loc_district_id: itemData?.loc_district_id,
+        loc_upazila_id: itemData?.loc_upazila_id,
         row_status: String(itemData?.row_status),
       });
-      //setUserType(Number(itemData?.user_type));
+
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
+      );
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
-  /*  const onUserTypeChange = useCallback((userTypeId: number) => {
-    setUserType(userTypeId);
-  }, []);*/
+  const changeDivisionAction = useCallback(
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
+    },
+    [districts],
+  );
+
+  const changeDistrictAction = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
 
   const onSubmit: SubmitHandler<User> = async (data: User) => {
-    data.user_type = String(getUserType(authUser));
-
+    console.log('data--------------------', data);
     if (authUser?.isInstituteUser) {
       data.institute_id = authUser?.institute_id;
-    }
-
-    if (authUser?.isOrganizationUser) {
+    } else if (authUser?.isOrganizationUser) {
       data.organization_id = authUser?.organization_id;
     }
 
     try {
       if (itemId) {
+        data.user_type = String(itemData?.user_type);
         await updateUser(itemId, data);
         updateSuccessMessage('user.label');
         mutateUser();
       } else {
+        data.user_type = String(getUserType(authUser));
         await createUser(data);
         createSuccessMessage('user.label');
       }
@@ -251,39 +257,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {/*<Grid item xs={12}>
-          <FormRadioButtons
-            id='user_type'
-            label={'user.user_type'}
-            radios={[
-              {
-                key: '1',
-                label: messages['user.type.system'],
-              },
-              {
-                key: '2',
-                label: messages['user.type.organization'],
-              },
-              {
-                key: '3',
-                label: messages['user.type.institute'],
-              },
-            ]}
-            control={control}
-            defaultValue={initialValues.user_type}
-            isLoading={isLoading}
-            onChange={onUserTypeChange}
-          />
-        </Grid>*/}
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='name_en'
-            label={messages['common.name_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
         <Grid item xs={6}>
           <CustomTextInput
             id='name'
@@ -293,6 +266,16 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='name_en'
+            label={messages['common.name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={6}>
           <CustomTextInput
             id='username'
@@ -322,6 +305,44 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoadingDivisions}
+            control={control}
+            options={divisions}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDivisionAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoadingDistricts}
+            control={control}
+            options={districtsList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDistrictAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={isLoadingUpazilas}
+            control={control}
+            options={upazilasList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
             id='role_id'
             label={messages['role.label']}
             isLoading={isLoadingRoles}
@@ -332,34 +353,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        {/*{userType && userType == 2 && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoadingOrganizations}
-              control={control}
-              options={organizations}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
-        {userType && userType == 3 && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='institute_id'
-              label={messages['institute.label']}
-              isLoading={isLoadingInstitute}
-              control={control}
-              options={institutes}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}*/}
         {!(isEdit && itemId) && (
           <>
             <Grid item xs={6}>
@@ -374,7 +367,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={6}>
               <CustomTextInput
-                id='retype_password'
+                id='password_confirmation'
                 label={messages['common.retypePassword']}
                 type={'password'}
                 register={register}

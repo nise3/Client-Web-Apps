@@ -76,7 +76,16 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
               .required()
               .label(messages['organization.label'] as string)
           : yup.string().label(messages['organization.label'] as string),
-      description: yup.string(),
+      description: yup
+        .string()
+        .trim()
+        .max(300)
+        .label(messages['common.description'] as string),
+      description_en: yup
+        .string()
+        .trim()
+        .max(300)
+        .label(messages['common.description_en'] as string),
       row_status: yup.string(),
     });
   }, [messages]);
@@ -158,15 +167,6 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -174,6 +174,16 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         {authUser && isNeedToSelectOrganization(authUser) && (
           <Grid item xs={12}>
             <CustomFormSelect

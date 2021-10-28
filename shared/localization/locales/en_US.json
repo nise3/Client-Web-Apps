@@ -424,6 +424,7 @@
   "permissions.sync_permission": "Sync Permission",
   "common.assign_permission": "Assign Permission",
   "permission.module": "Module Name",
+  "permission.key": "Key",
   "common.change_userId": "Change user Id",
   "common.new_email": "New email or id",
   "common.old_email": "Old email or id",

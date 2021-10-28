@@ -150,15 +150,6 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -166,6 +157,16 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={6}>
           <CustomFormSelect
             id='institute_id'

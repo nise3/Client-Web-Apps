@@ -68,13 +68,16 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .trim()
-        .label(messages['common.title_en'] as string),
+        .title()
+        .label(messages['common.title'] as string),
       permission_group_id: yup
         .string()
         .required()
         .label(messages['permission_group.label'] as string),
-      key: yup.string(),
+      key: yup
+        .string()
+        .required()
+        .label(messages['permission.key'] as string),
       row_status: yup.string(),
     });
   }, [messages]);
@@ -160,16 +163,7 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -178,7 +172,17 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='permission_group_id'
             label={messages['permission_group.label']}
@@ -190,7 +194,7 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='key'
             label={messages['permission_group.key']}
@@ -199,7 +203,7 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}

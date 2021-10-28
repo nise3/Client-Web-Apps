@@ -9,9 +9,9 @@ type User = {
   mobile: string;
   organization_id?: string | number | null;
   institute_id?: string | number | null;
-  loc_district_id?: number;
-  loc_division_id?: number;
-  loc_upazila_id?: number;
+  loc_district_id?: string | number | null;
+  loc_division_id?: string | number | null;
+  loc_upazila_id?: string | number | null;
   profile_pic?: string;
   password?: string;
   row_status?: string;
@@ -22,17 +22,21 @@ type Role = {
   title_en: string;
   title: string;
   key: string;
+  permission_group_id: string | number | null;
   permission_sub_group_id: string | number | null;
   organization_id?: string | number | null;
   institute_id?: string | number | null;
+  description?: string | null;
   row_status?: string;
 };
 
 type Permission = {
   id: number;
-  name: string;
+  title: string;
+  title_en: string;
   uri: string;
-  method: string;
+  key: string;
+  method: number | string;
   module: string;
   method_name?: string;
 };

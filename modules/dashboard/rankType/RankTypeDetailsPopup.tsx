@@ -47,18 +47,19 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['organization.label']}
@@ -70,6 +71,13 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.description']}
               value={itemData?.description}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.description_en']}
+              value={itemData?.description_en}
               isLoading={isLoading}
             />
           </Grid>

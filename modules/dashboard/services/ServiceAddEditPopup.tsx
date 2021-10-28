@@ -72,9 +72,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        row_status: itemData?.row_status
-          ? String(itemData.row_status)
-          : initialValues.row_status,
+        row_status: String(itemData.row_status),
       });
     } else {
       reset(initialValues);
@@ -129,15 +127,6 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -145,6 +134,16 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

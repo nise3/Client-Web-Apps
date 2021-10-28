@@ -46,8 +46,22 @@ const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.name}
+              label={messages['common.title_en']}
+              value={itemData?.title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['permission.key']}
+              value={itemData?.key}
               isLoading={isLoading}
             />
           </Grid>

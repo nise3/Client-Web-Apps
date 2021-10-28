@@ -92,9 +92,6 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         .title()
         .label(messages['common.title'] as string),
       institute_id: yup.string().trim().required(),
-      address: yup.string(),
-      google_map_src: yup.string(),
-      row_status: yup.string(),
     });
   }, [messages]);
   const {
@@ -196,16 +193,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -214,7 +202,16 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.title_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
@@ -226,7 +223,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='address'
             label={messages['common.address']}
@@ -235,7 +232,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='address_en'
             label={messages['common.address_en']}
@@ -244,7 +241,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='loc_division_id'
             label={messages['divisions.label']}
@@ -257,7 +254,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             onChange={changeDivisionAction}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='loc_district_id'
             label={messages['districts.label']}
@@ -270,7 +267,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             onChange={changeDistrictAction}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='loc_upazila_id'
             label={messages['upazilas.label']}

@@ -296,7 +296,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -305,7 +305,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title_en'
             label={messages['common.title_en']}
@@ -314,7 +314,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='institute_id'
             label={messages['institute.label']}
@@ -328,7 +328,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
@@ -342,7 +342,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='training_center_id'
             label={messages['training_center.label']}
@@ -355,7 +355,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='course_id'
             label={messages['course.label']}
@@ -367,7 +367,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='registration_start_date'
             label={messages['batches.registration_start_date']}
@@ -376,7 +376,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='registration_end_date'
             label={messages['batches.registration_end_date']}
@@ -385,7 +385,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='batch_start_date'
             label={messages['batches.start_date']}
@@ -394,7 +394,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='batch_end_date'
             label={messages['batches.end_date']}
@@ -404,7 +404,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='number_of_seats'
             label={messages['batches.total_seat']}
@@ -413,7 +413,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='available_seats'
             label={messages['batches.available_seat']}
@@ -423,7 +423,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='trainers'
             label={messages['trainers.label']}
@@ -438,7 +438,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}

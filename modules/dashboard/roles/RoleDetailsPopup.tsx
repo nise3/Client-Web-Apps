@@ -47,13 +47,6 @@ const RoleDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
@@ -61,8 +54,15 @@ const RoleDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['role.unique_value']}
-              value={itemData?.key}
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['permission_group.label']}
+              value={itemData?.permission_group_title_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -75,18 +75,19 @@ const RoleDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['organization.label']}
-              value={itemData?.organization_title_en}
+              label={messages['role.unique_value']}
+              value={itemData?.key}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['institute.label']}
-              value={itemData?.institute_title_en}
+              label={messages['common.description']}
+              value={itemData?.description}
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}

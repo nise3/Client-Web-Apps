@@ -58,7 +58,7 @@ const initialValues = {
   title_en: '',
   title: '',
   domain: '',
-  institute_type_id: '',
+  institute_type_id: '0',
   code: '',
   address: '',
   primary_phone: '',
@@ -185,6 +185,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.address'] as string),
+      code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.code'] as string),
       email: yup
         .string()
         .required()
@@ -544,7 +549,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 label={'institute.type'}
                 radios={instituteTypes}
                 control={control}
-                defaultValue={InstituteType.NON_GOVERNMENT}
+                defaultValue={initialValues.institute_type_id}
                 isLoading={isLoading}
               />
             </Grid>

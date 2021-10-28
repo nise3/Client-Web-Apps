@@ -15,6 +15,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
+  useFetchPermissionGroups,
   useFetchPermissionSubGroups,
   useFetchRole,
 } from '../../../services/userManagement/hooks';
@@ -27,7 +28,6 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import IconRole from '../../../@softbd/icons/IconRole';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-
 interface RoleAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -39,6 +39,8 @@ const initialValues = {
   title: '',
   key: '',
   permission_sub_group_id: '',
+  permission_group_id: '',
+  description: '',
   /*organization_id: '',
   institute_id: '',*/
   row_status: '1',
@@ -52,16 +54,31 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
 
   const {data: itemData, isLoading, mutate: mutateRole} = useFetchRole(itemId);
 
-  const [permissionSubGroupFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
+    useState<any>({
+      row_status: RowStatus.ACTIVE,
+    });
+  const [permissionGroupFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
+
+  const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
+    useFetchPermissionGroups(permissionGroupFilters);
+
+  const changePermissionGroupAction = (value: number) => {
+    setPermissionSubGroupFilters({
+      permission_group_id: value,
+      row_status: RowStatus.ACTIVE,
+    });
+  };
 
   /*const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
@@ -88,15 +105,6 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.key'] as string),
-      permission_sub_group_id: authUser?.isSystemUser
-        ? yup
-            .string()
-            .required()
-            .label(messages['permission_sub_group.label'] as string)
-        : yup.string().label(messages['permission_sub_group.label'] as string),
-      /*institute_id: yup.string().nullable(),
-      organization_id: yup.string().nullable(),*/
-      row_status: yup.string(),
     });
   }, [messages]);
   const {
@@ -117,9 +125,14 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         title: itemData?.title,
         key: itemData?.key,
         permission_sub_group_id: itemData?.permission_sub_group_id,
+        permission_group_id: itemData?.permission_group_id,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
         row_status: String(itemData?.row_status),
+      });
+      setPermissionSubGroupFilters({
+        permission_group_id: itemData?.permission_group_id,
+        row_status: RowStatus.ACTIVE,
       });
     } else {
       reset(initialValues);
@@ -183,15 +196,6 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
             id='title'
             label={messages['common.title']}
             register={register}
@@ -201,26 +205,61 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='key'
-            label={messages['role.unique_value']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='key'
+            label={messages['common.key']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='description'
+            label={messages['common.description']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         {authUser?.isSystemUser && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='permission_sub_group_id'
-              label={messages['permission_sub_group.label']}
-              isLoading={isLoadingPermissionSubGroups}
-              control={control}
-              options={permissionSubGroups}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
+          <>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='permission_group_id'
+                label={messages['permission_group.label']}
+                isLoading={isLoadingPermissionGroups}
+                control={control}
+                options={permissionGroups}
+                onChange={changePermissionGroupAction}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='permission_sub_group_id'
+                label={messages['permission_sub_group.label']}
+                isLoading={isLoadingPermissionSubGroups}
+                control={control}
+                options={permissionSubGroups}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          </>
         )}
         {/*<Grid item xs={6}>
           <CustomFormSelect
