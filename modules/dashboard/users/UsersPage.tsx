@@ -96,6 +96,7 @@ const UsersPage = () => {
       {
         Header: messages['role.label'],
         accessor: 'role_title_en',
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
@@ -105,6 +106,7 @@ const UsersPage = () => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
         },
+        disableFilters: true,
       },
       {
         Header: messages['common.actions'],

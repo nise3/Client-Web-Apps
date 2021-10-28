@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
@@ -177,7 +177,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['applicationManagement.assignedBatch']}
-              value={itemData?.batch_id}
+              value={itemData?.batch_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -281,6 +281,22 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['common.freedom_fighter_status']}
+              value={getFreedomFighterStatusTitle(
+                itemData?.freedom_fighter_status,
+              )}
+              isLoading={isLoading}
+            />
+          </Grid>
+          {/*<Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.miscellaneous']}
+              value={itemData?.miscellaneous}
+              isLoading={isLoading}
+            />
+          </Grid>*/}
+          {/*<Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.physical_disability']}
               value={
                 itemData?.physical_disability_status === 1
@@ -289,30 +305,36 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
               }
               isLoading={isLoading}
             />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.freedom_fighter_status']}
-              value={getFreedomFighterStatusTitle(
-                itemData?.freedom_fighter_status,
-              )}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
+          </Grid>*/}
+          {/*<Grid item xs={6}>
             <DetailsInputView
               label={messages['common.educations']}
               value={itemData?.educations}
               isLoading={isLoading}
             />
-          </Grid>
-          <Grid item xs={6}>
+          </Grid>*/}
+          {/*<Grid item xs={6}>
             <DetailsInputView
               label={messages['common.addresses']}
               value={itemData?.addresses}
               isLoading={isLoading}
             />
-          </Grid>
+          </Grid>*/}
+
+          {itemData?.addresses && (
+            <React.Fragment>
+              <Typography>Address</Typography>
+              {(itemData?.addresses).map((address: any) => {
+                console.log('address.address_type: ', address.address_type);
+                return (
+                  <p key={address.id}>
+                    {5 === 5 ? 'Permanent Address' : 'Present Address'}
+                  </p>
+                );
+              })}
+            </React.Fragment>
+          )}
+
           <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}

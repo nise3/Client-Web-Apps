@@ -18,6 +18,7 @@ import {rejectEnrollment} from '../../../services/instituteManagement/Registrati
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AssignBatchPopup from './AssignBatchPopup';
 import {FiUserCheck} from 'react-icons/fi';
+import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 
 const ApplicationManagementPage = () => {
   const authUser = useAuthUser();
@@ -94,17 +95,15 @@ const ApplicationManagementPage = () => {
         Header: messages['applicationManagement.applicantFullName'],
         accessor: 'full_name',
         isVisible: true,
+        disableFilters: true,
       },
       {
         Header: messages['common.paymentStatus'],
         accessor: 'payment_status',
+        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          if (data.payment_status === 0) {
-            return <p>Unpaid</p>;
-          } else {
-            return <p>Paid</p>;
-          }
+          return <CustomChipPaymentStatus value={data?.payment_status} />;
         },
       },
       {
