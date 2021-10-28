@@ -106,7 +106,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           <>
             <Box
               component='span'
-              mr={{xs: 2}}
+              mr={{xs: 1}}
               display='flex'
               alignItems='center'
               justifyContent='center'
