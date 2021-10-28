@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Typography} from '@mui/material';
+import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
@@ -12,6 +12,7 @@ import AssignBatchButton from './AssignBatchButton';
 import {FiUser} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
+import {nationalities} from '../../../@softbd/utilities/Nationalities';
 
 type Props = {
   itemId: number;
@@ -275,7 +276,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.nationality']}
-              value={itemData?.nationality}
+              value={nationalities[itemData?.nationality - 1].title}
               isLoading={isLoading}
             />
           </Grid>
@@ -321,7 +322,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </Grid>*/}
 
-          {itemData?.addresses && (
+          {/*{itemData?.addresses && (
             <React.Fragment>
               <Typography>Address</Typography>
               {(itemData?.addresses).map((address: any) => {
@@ -333,7 +334,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
                 );
               })}
             </React.Fragment>
-          )}
+          )}*/}
 
           <Grid item xs={6}>
             <CustomChipRowStatus
