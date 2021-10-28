@@ -8,7 +8,6 @@ import RecentActivities from './RecentActivities';
 import PopularCourse from './PopularCourse';
 import SkillMatchingJobs from './SkillMatchingJobs';
 import Partners from './Partners';
-import Footer from './Footer';
 import BdMap from './BdMap';
 
 const Home = () => {
@@ -24,7 +23,6 @@ const Home = () => {
       <PopularCourse />
       <SkillMatchingJobs />
       <Partners />
-      {/*<Footer />*/}
     </>
   );
 };

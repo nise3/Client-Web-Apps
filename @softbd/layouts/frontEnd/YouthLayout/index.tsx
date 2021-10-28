@@ -9,7 +9,7 @@ interface HorLightNavProps {
   props?: any;
 }
 
-const NiseLayout: React.FC<HorLightNavProps> = (props) => {
+const LayoutLayout: React.FC<HorLightNavProps> = (props) => {
   const classes = useStyles(props);
   return (
     <Box className={clsx(classes.appMain, 'appMainHor')}>
@@ -23,4 +23,4 @@ const NiseLayout: React.FC<HorLightNavProps> = (props) => {
   );
 };
 
-export default NiseLayout;
+export default LayoutLayout;
