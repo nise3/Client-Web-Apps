@@ -2,7 +2,7 @@ import React from 'react';
 import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
 import PageMeta from '../../../@crema/core/PageMeta';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
-import {Box, Grid, Paper} from '@mui/material';
+import {Grid, Paper} from '@mui/material';
 import {H2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 
@@ -21,9 +21,7 @@ export default InstituteDefaultFrontPage(() => {
           </Paper>
         </Grid>
       </Grid>
-      <Box mt={1 / 4}>
-        <YouthTrainingPage />
-      </Box>
+      <YouthTrainingPage />
     </>
   );
 });

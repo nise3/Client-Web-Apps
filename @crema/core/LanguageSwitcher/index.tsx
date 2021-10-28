@@ -140,7 +140,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               <i className={`flag flag-24 flag-${language.icon}`} />
               <Box
                 component='h4'
-                ml={2}
+                ml={1}
                 fontSize={{xs: 14, xl: 16}}
                 fontWeight={Fonts.MEDIUM}>
                 {language.name}

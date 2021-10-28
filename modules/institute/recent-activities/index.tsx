@@ -32,7 +32,7 @@ const RecentActivities = () => {
 
   return (
     <Container maxWidth={'lg'}>
-      <Grid container mb={5}>
+      <Grid container my={5}>
         <Grid item md={12}>
           <Typography
             className={classes.titleTypography}

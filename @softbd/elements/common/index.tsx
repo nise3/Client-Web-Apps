@@ -71,13 +71,17 @@ export const NavLink = ({
 };
 
 export const Text = ({children, ...props}: TextProp) => (
-  <Typography variant='inherit' {...props}>
+  <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
+    variant='inherit'
+    {...props}>
     {children}
   </Typography>
 );
 
 export const H1 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='h1'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -87,6 +91,7 @@ export const H1 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const H2 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='h2'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -96,6 +101,7 @@ export const H2 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const H3 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='h3'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -105,6 +111,7 @@ export const H3 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const H4 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='h4'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -114,6 +121,7 @@ export const H4 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const H5 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='h5'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -123,6 +131,7 @@ export const H5 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const H6 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='h6'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -132,6 +141,7 @@ export const H6 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const S1 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='subtitle1'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
@@ -141,6 +151,7 @@ export const S1 = ({children, centered = false, ...props}: HeadingProp) => (
 
 export const S2 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='subtitle2'
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
