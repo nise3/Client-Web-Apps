@@ -555,18 +555,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {/*<Grid item xs={12} md={6}>*/}
-        {/*  <CustomFormSelect*/}
-        {/*    id='gender'*/}
-        {/*    label={messages['common.gender']}*/}
-        {/*    isLoading={isLoading}*/}
-        {/*    control={control}*/}
-        {/*    options={genders}*/}
-        {/*    optionValueProp={'id'}*/}
-        {/*    optionTitleProp={['label']}*/}
-        {/*    errorInstance={errors}*/}
-        {/*  />*/}
-        {/*</Grid>*/}
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
@@ -580,7 +568,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <FormRadioButtons
             id='marital_status'
             label={'common.marital_status'}
@@ -590,18 +578,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {/*<Grid item xs={12} md={6}>*/}
-        {/*  <CustomFormSelect*/}
-        {/*    id='marital_status'*/}
-        {/*    label={messages['common.marital_status']}*/}
-        {/*    isLoading={isLoading}*/}
-        {/*    control={control}*/}
-        {/*    options={marital_status}*/}
-        {/*    optionValueProp={'id'}*/}
-        {/*    optionTitleProp={['label']}*/}
-        {/*    errorInstance={errors}*/}
-        {/*  />*/}
-        {/*</Grid>*/}
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='nid'
@@ -651,7 +628,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='skills_en'
-            label={messages['menu.skills_en']}
+            label={messages['common.skills_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

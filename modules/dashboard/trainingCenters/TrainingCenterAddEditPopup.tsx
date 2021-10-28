@@ -113,10 +113,11 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['institute.label'] as string),
-      branch_id: yup.string(),
-      address: yup.string(),
-      google_map_src: yup.string(),
-      row_status: yup.string(),
+      center_location_type: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['training_center.centerLocationType'] as string),
     });
   }, [messages]);
 
