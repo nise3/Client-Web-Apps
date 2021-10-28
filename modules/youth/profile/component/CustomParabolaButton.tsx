@@ -8,6 +8,12 @@ const useStyles = makeStyles((theme: CremaTheme) =>
     CustomParabolaButton: {
       borderRadius: 40,
     },
+    shrinking: {
+      fontSize: 0,
+      '&:first-line': {
+        fontSize: '0.875rem',
+      },
+    },
   }),
 );
 
@@ -33,7 +39,7 @@ const CustomParabolaButton = ({
       className={classes.CustomParabolaButton}
       color={'primary'}
       onClick={onClick}>
-      {title}
+      <span className={classes.shrinking}>{title}</span>
     </Button>
   );
 };

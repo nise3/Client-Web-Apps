@@ -15,6 +15,7 @@ import {H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
 import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 type MapProp = {
   text: string;
@@ -83,13 +84,23 @@ const InstituteContact = () => {
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       recipient: yup.string().label(messages['recipient.institute'] as string),
-      name: yup.string().label(messages['common.name'] as string),
+      name: yup
+        .string()
+        .required()
+        .label(messages['common.name'] as string),
       phone_numbers: yup
         .string()
-        .label(messages['common.phone_number'] as string),
-      email_address: yup.string().label(messages['common.email'] as string),
-      advice: yup.string().label(messages['personal_info.bio'] as string),
-      location: yup.string().label(messages['common.location'] as string),
+        .required()
+        .label(messages['common.phone_number'] as string)
+        .matches(MOBILE_NUMBER_REGEX),
+      email_address: yup
+        .string()
+        .label(messages['common.email'] as string)
+        .email(),
+      advice: yup
+        .string()
+        .required()
+        .label(messages['advice.institute'] as string),
     });
   }, [messages]);
 

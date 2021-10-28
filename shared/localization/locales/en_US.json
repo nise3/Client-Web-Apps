@@ -765,5 +765,6 @@
   "common.location_latitude": "Latitude",
   "common.location_longitude": "Longitude",
   "common.short_min" : "min",
-  "common.short_hour" : "hr"
+  "common.short_hour" : "hr",
+  "common.gallery": "Gallery"
 }

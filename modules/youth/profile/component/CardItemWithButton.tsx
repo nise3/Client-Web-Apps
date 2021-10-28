@@ -2,8 +2,10 @@ import {Box, Button, Card, CardMedia} from '@mui/material';
 import {createStyles, makeStyles} from '@mui/styles';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
+import CircularDeleteButton from './CircularDeleteButton';
+import React from 'react';
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     image: {
       width: '100%',
@@ -11,15 +13,33 @@ const useStyles = makeStyles(() =>
     },
     buttons: {
       position: 'absolute',
-      right: '5%',
+      left: '5%',
       top: '4%',
       zIndex: 1,
       display: 'none',
       background: '#fff',
     },
+    deleteButtons: {
+      position: 'absolute',
+      right: '5%',
+      top: '4%',
+      zIndex: 1,
+      display: 'none',
+      background: '#fff',
+      borderRadius: 40,
+      border: '1px solid',
+      borderColor: theme.palette.error.main,
+    },
+    circularDeleteButton: {
+      border: 'none',
+    },
     box: {
       position: 'relative',
       '&:hover $buttons': {
+        display: 'block !important',
+        borderRadius: 40,
+      },
+      '&:hover $deleteButtons': {
         display: 'block !important',
         borderRadius: 40,
       },
@@ -33,11 +53,13 @@ const useStyles = makeStyles(() =>
 interface cardItemWithButtonProps {
   portfolio: any;
   onClick: () => void;
+  onDeletePortfolio: (itemId: number) => void;
 }
 
 const CardItemWithButton = ({
   portfolio,
   onClick: onclickHandler,
+  onDeletePortfolio,
 }: cardItemWithButtonProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
@@ -55,6 +77,15 @@ const CardItemWithButton = ({
               <BorderColor />
               {messages['common.edit_btn']}
             </Button>
+          </div>
+          <div className={classes.deleteButtons}>
+            <CircularDeleteButton
+              className={classes.circularDeleteButton}
+              deleteAction={() => {
+                onDeletePortfolio(portfolio?.id);
+              }}
+              deleteTitle={'Delete'}
+            />
           </div>
           <CardMedia
             component='img'

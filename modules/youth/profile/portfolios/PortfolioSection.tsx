@@ -10,9 +10,14 @@ import {useFetchPortfolios} from '../../../../services/youthManagement/hooks';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
 import BoxContentSkeleton from '../component/BoxContentSkeleton';
+import {deletePortfolio} from '../../../../services/youthManagement/PortfolioService';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 
 const PortfolioSection = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
   const [portfolioId, setPortfolioId] = useState<number | null>(null);
   const {
     data: portfolios,
@@ -33,6 +38,19 @@ const PortfolioSection = () => {
     setPortfolioId(null);
     setIsOpenPortfolioAddEditForm(false);
     mutatePortfolios();
+  }, []);
+
+  const onDeletePortfolio = useCallback(async (itemId: number) => {
+    let response = await deletePortfolio(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='reference.label' />}}
+        />,
+      );
+      mutatePortfolios();
+    }
   }, []);
 
   return isOpenPortfolioAddEditForm ? (
@@ -70,6 +88,7 @@ const PortfolioSection = () => {
                 <React.Fragment key={portfolio?.id}>
                   <CardItemWithButton
                     portfolio={portfolio}
+                    onDeletePortfolio={onDeletePortfolio}
                     onClick={() => openPortfolioAddEditForm(portfolio?.id)}
                   />
                 </React.Fragment>

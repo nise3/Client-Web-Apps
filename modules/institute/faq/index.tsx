@@ -43,7 +43,7 @@ const InstituteFAQ = () => {
       <Grid textAlign={'center'} className={classes.heading}>
         <H2>{messages['faq.institute']}</H2>
       </Grid>
-      <Container maxWidth='xl'>
+      <Container maxWidth='lg'>
         <Grid container>
           <Grid item xs={12} my={4}>
             {faqItems?.map((item: any) => (

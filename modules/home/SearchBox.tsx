@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {
   Box,
   Button,
+  Divider,
   Grid,
   InputAdornment,
   MenuItem,
@@ -119,8 +120,11 @@ const SearchBox = () => {
                   setTypeValue(e?.target?.value);
                 }}>
                 <MenuItem value='1'>দক্ষতা</MenuItem>
+                <Divider />
                 <MenuItem value='2'>চাকরি</MenuItem>
+                <Divider />
                 <MenuItem value='3'>ব্যবসা</MenuItem>
+                <Divider />
                 <MenuItem value='4'>শিক্ষা</MenuItem>
               </Select>
             </Box>
