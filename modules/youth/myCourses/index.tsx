@@ -3,11 +3,13 @@ import {Container, Grid, Typography} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchYouthCourses} from '../../../services/youthManagement/hooks';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 import {Link} from '../../../@softbd/elements/common';
+import {useRouter} from 'next/router';
+import {getModulePath} from '../../../@softbd/utilities/helpers';
 
 const MyCoursePage = () => {
   const {messages} = useIntl();
+  const router = useRouter();
 
   const [courseFilters] = useState({page_size: 4});
 
@@ -27,7 +29,11 @@ const MyCoursePage = () => {
               courseList.map((course: any) => {
                 return (
                   <Grid item xs={12} sm={6} md={3} key={course.id}>
-                    <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                    <Link
+                      href={
+                        getModulePath(router.asPath) +
+                        `/course-details/${course.id}`
+                      }>
                       <CourseCardComponent course={course} />
                     </Link>
                   </Grid>
