@@ -267,7 +267,7 @@ const OrganizationUnitTypeHierarchy = () => {
             horizontal: 'center',
           }}>
           <DatatableButtonGroup>
-            <AddButton onClick={() => openAddEditModal(false)} />
+            <AddButton tooltip={''} onClick={() => openAddEditModal(false)} />
             <EditButton onClick={() => openAddEditModal(true)} />
             {selectedItemParentId && selectedItemId && (
               <DeleteButton

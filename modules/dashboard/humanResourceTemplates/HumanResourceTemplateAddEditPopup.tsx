@@ -67,23 +67,13 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       mutate: mutateHumanResourceTemplate,
     } = useFetchHumanResourceTemplate(itemId);
 
-    const {
-      data: organizationUnitTypeData,
-      isLoading: isOrganizationUnitTypeLoading,
-    } = useFetchOrganizationUnitType(orgUnitTypeId);
-    const [rankFilter] = useState({
-      row_status: RowStatus.ACTIVE,
-    });
     const [humanResourceTemplateFilter] = useState({
       row_status: RowStatus.ACTIVE,
       organization_unit_type_id: orgUnitTypeId,
     });
-    const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
-    const {
-      data: humanResourceTemplates,
-      isLoading: isHumanResourceTemplatesLoading,
-    } = useFetchHumanResourceTemplates(humanResourceTemplateFilter);
-
+    const [rankFilter, setRankFilter] = useState({
+      row_status: RowStatus.ACTIVE,
+    });
     const [organization, setOrganization] = useState<any | {}>({});
     const [organizationUnitType, setOrganizationUnitType] = useState<any | {}>(
       {},
@@ -91,8 +81,29 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
     const [organizationUnitTypeId, setOrganizationUnitTypeId] = useState<
       number | null
     >(null);
-    const [humanResourceTemplateList, setHumanResourceTemplateList] =
-      useState<any>([]);
+
+    const {
+      data: organizationUnitTypeData,
+      isLoading: isOrganizationUnitTypeLoading,
+    } = useFetchOrganizationUnitType(orgUnitTypeId);
+
+    const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
+
+    useEffect(() => {
+      if (humanResourceTemplateData?.organization_id) {
+        setRankFilter((prev: any) => {
+          return {
+            ...prev,
+            organization_id: humanResourceTemplateData.organization_id,
+          };
+        });
+      }
+    }, [humanResourceTemplateData]);
+
+    const {
+      data: humanResourceTemplates,
+      isLoading: isHumanResourceTemplatesLoading,
+    } = useFetchHumanResourceTemplates(humanResourceTemplateFilter);
 
     const validationSchema = useMemo(() => {
       return yup.object().shape({
@@ -184,6 +195,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
         reset(initialValues);
       } else if (orgUnitTypeId && organizationUnitTypeData) {
         // when hierarchy tree is empty
+        console.log('tree empty action', humanResourceTemplateData);
         setOrganizationUnitTypeId(organizationUnitTypeId);
         setOrganization({
           id: organizationUnitTypeData.organization_id,
@@ -203,26 +215,14 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       }
     }, [itemId, humanResourceTemplateData, organizationUnitTypeData]);
 
-    useEffect(() => {
-      if (humanResourceTemplateData && humanResourceTemplates) {
-        const filteredData = isEdit
-          ? humanResourceTemplates.filter(
-              (humanResTemp: any) =>
-                humanResTemp.id != humanResourceTemplateData.id,
-            )
-          : humanResourceTemplates;
-        setHumanResourceTemplateList(filteredData);
-      }
-    }, [humanResourceTemplateData, humanResourceTemplates]);
-
     const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
       data: HumanResourceTemplate,
     ) => {
-      data.parent_id = data.parent_id ? data.parent_id : null;
+      data.parent_id = data.parent_id ?? null;
       data.status = 1; // TODO::fix it
 
       try {
-        if (itemId) {
+        if (itemId && isEdit) {
           await updateHumanResourceTemplate(itemId, data);
           updateSuccessMessage('human_resource_template.label');
           mutateHumanResourceTemplate();
@@ -347,13 +347,11 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
               label={messages['human_resource_template.parent']}
               isLoading={isHumanResourceTemplatesLoading}
               control={control}
-              options={humanResourceTemplateList}
+              options={humanResourceTemplates}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
-              inputProps={{
-                readOnly: !humanResourceTemplateData?.parent_id,
-              }}
+              inputProps={{readOnly: true}}
             />
           </Grid>
           <Grid item xs={6}>

@@ -5,12 +5,9 @@ import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
-import {
-  LINK_FRONTEND_YOUTH_COURSE_DETAILS,
-  LINK_FRONTEND_YOUTH_POPULAR_COURSELIST,
-} from '../../../@softbd/common/appLinks';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {getModulePath, objectFilter} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
+import {useRouter} from 'next/router';
 
 interface PopularCoursesSectionProps {
   filters?: any;
@@ -23,6 +20,8 @@ const PopularCoursesSection = ({
 }: PopularCoursesSectionProps) => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const router = useRouter();
+  const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState<any>({
     page_size: page_size ? page_size : null,
@@ -32,9 +31,9 @@ const PopularCoursesSection = ({
     setCourseFilters(objectFilter({...courseFilters, ...filters}));
   }, [filters]);
 
-  const pathVariable = 'popular';
+  const pathValue = 'popular';
   const {data: courseList, metaData: popularCoursesMetaData} =
-    useFetchCourseList(pathVariable, courseFilters);
+    useFetchCourseList(pathValue, courseFilters);
 
   return courseList && courseList.length ? (
     <Grid container spacing={5}>
@@ -48,7 +47,7 @@ const PopularCoursesSection = ({
 
           {page_size && popularCoursesMetaData?.total_page > 1 && (
             <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={LINK_FRONTEND_YOUTH_POPULAR_COURSELIST}>
+              <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />
@@ -64,7 +63,11 @@ const PopularCoursesSection = ({
             courseList.map((course: any) => {
               return (
                 <Grid item xs={12} sm={6} md={3} key={course.id}>
-                  <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                  <Link
+                    href={
+                      getModulePath(router.asPath) +
+                      `/course-details/${course.id}`
+                    }>
                     <CourseCardComponent course={course} />
                   </Link>
                 </Grid>

@@ -68,7 +68,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
 
   const {data: organizationUnitData, isLoading: isOrganizationUnitLoading} =
     useFetchOrganizationUnit(orgUnitId);
-  const [rankFilter] = useState({
+  const [rankFilter, setRankFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const [humanResourceFilter] = useState({
@@ -76,6 +76,15 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     organization_unit_id: orgUnitId,
   });
   const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
+
+  useEffect(() => {
+    if (humanResourceData) {
+      setRankFilter((prev: any) => {
+        return {...prev, organization_id: humanResourceData.organization_id};
+      });
+    }
+  }, [humanResourceData]);
+
   const {data: humanResources, isLoading: isHumanResourcesLoading} =
     useFetchHumanResources(humanResourceFilter);
 
@@ -326,7 +335,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            inputProps={{readOnly: !humanResourceData?.parent_id}}
+            inputProps={{readOnly: true}}
           />
         </Grid>
         <Grid item xs={6}>

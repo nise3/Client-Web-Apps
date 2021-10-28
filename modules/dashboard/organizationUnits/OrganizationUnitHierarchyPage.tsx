@@ -29,8 +29,8 @@ const getIdFromNodeId = (nodeId: string) => {
 const makeHierarchyData = (item: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
   item.id = HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
-  item.title = item.title_en;
-  item.name = item.title;
+  // item.title = item.title_en;
+  item.name = item.title_en;
 
   if (item.children && Array.isArray(item.children)) {
     item.children.map((node: any) => {

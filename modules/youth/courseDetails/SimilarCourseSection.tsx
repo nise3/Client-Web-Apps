@@ -4,8 +4,9 @@ import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 import {Link} from '../../../@softbd/elements/common';
+import {useRouter} from 'next/router';
+import {getModulePath} from '../../../@softbd/utilities/helpers';
 
 interface SimilarCourseSectionProps {
   skillIds: Array<number>;
@@ -13,10 +14,15 @@ interface SimilarCourseSectionProps {
 
 const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
   const {messages} = useIntl();
+  const router = useRouter();
+  const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState<any>({page_size: 8});
   const pathVariable = 'skill-matching';
-  const {data: courseList} = useFetchCourseList(pathVariable, courseFilters);
+  const {data: courseList, metaData} = useFetchCourseList(
+    pathVariable,
+    courseFilters,
+  );
 
   useEffect(() => {
     if (skillIds) {
@@ -33,12 +39,16 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
               {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
-          <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Button variant={'outlined'} size={'medium'} color={'primary'}>
-              {messages['common.see_all']}
-              <ChevronRight />
-            </Button>
-          </Grid>
+          {metaData?.total_page > 1 && (
+            <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
+              <Link href={`${path}/${pathVariable}`}>
+                <Button variant={'outlined'} size={'medium'} color={'primary'}>
+                  {messages['common.see_all']}
+                  <ChevronRight />
+                </Button>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
@@ -47,7 +57,11 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
             courseList.map((course: any) => {
               return (
                 <Grid item xs={12} sm={4} md={3} key={course.id}>
-                  <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                  <Link
+                    href={
+                      getModulePath(router.asPath) +
+                      `/course-details/${course.id}`
+                    }>
                     <CourseCardComponent course={course} />
                   </Link>
                 </Grid>
