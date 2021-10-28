@@ -15,7 +15,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     if (!node || node.children.length > 0) return;
     const div = document.createElement('div');
     div.innerHTML = pageSVG;
-    console.log('PAGE >> ', pageSVG);
+    // console.log('PAGE >> ', pageSVG);
     node.appendChild(div);
     const svgNode = div.children[0];
     const rects = svgNode.querySelectorAll('g[id]>text');
@@ -26,7 +26,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     setAreaText(
       svgNode,
       'name',
-      userData.first_name_en + ' ' + userData.last_name_en,
+      userData.first_name + ' ' + userData.last_name,
       'lt',
     );
     setAreaText(svgNode, 'phone', userData.mobile, 'lt');
@@ -34,7 +34,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     // setAreaText(svgNode, 'address', userData.address);
     // setAreaText(svgNode, 'education', userData.educations);
     // setAreaText(svgNode, 'language', userData.languages);
-    setAreaText(svgNode, 'objective', userData.bio_en);
+    setAreaText(svgNode, 'objective', userData.bio);
     // setAreaText(svgNode, 'experience', userData.jobExperiences);
     // setAreaText(svgNode, 'computerskill', userData.skills);
   }, []);

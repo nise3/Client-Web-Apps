@@ -65,6 +65,7 @@ export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =
   '/youth/training/skill-matching';
 export const LINK_FRONTEND_YOUTH_POPULAR_COURSELIST = '/youth/training/popular';
 export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST = '/youth/training/recent';
+export const LINK_FRONTEND_YOUTH_NEARBY_COURSELIST = '/youth/training/nearby';
 export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST =
   '/youth/training/trending';
 

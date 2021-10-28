@@ -25,7 +25,7 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
     setAreaText(
       svgNode,
       'name',
-      userData.first_name_en + ' ' + userData.last_name_en,
+      userData.first_name + ' ' + userData.last_name,
       'cn',
     );
     setAreaText(svgNode, 'phone', userData.mobile, 'cn');
@@ -33,7 +33,7 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
     // setAreaText(svgNode, 'address', userData.address);
     // setAreaText(svgNode, 'education', userData.educations);
     // setAreaText(svgNode, 'language', userData.languages);
-    setAreaText(svgNode, 'objective', userData.bio_en);
+    setAreaText(svgNode, 'objective', userData.bio);
     // setAreaText(svgNode, 'experience', userData.jobExperiences);
     // setAreaText(svgNode, 'computerskill', userData.skills);
   }, []);

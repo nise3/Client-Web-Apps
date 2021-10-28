@@ -13,6 +13,7 @@ import {updateYouthFreelanceProfileStatus} from '../../../services/youthManageme
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import * as _ from 'lodash';
 
 const FreelanceProfileComponent = () => {
   const {messages} = useIntl();
@@ -28,12 +29,10 @@ const FreelanceProfileComponent = () => {
     }
   }, [authUser]);
 
-  const handleFreelanceProfileStatusChange = useCallback(async (event: any) => {
-    const status = event.target.checked ? 1 : 0;
-    setFreelanceProfileStatus(status);
-    const data: any = {};
-    data.is_freelance_profile = status;
+  const debounceFn = useCallback(_.debounce(handleDebounce, 500), []);
 
+  async function handleDebounce(data: any) {
+    setFreelanceProfileStatus(data.is_freelance_profile);
     const response = await updateYouthFreelanceProfileStatus(data);
     if (isResponseSuccess(response)) {
       successStack(
@@ -43,7 +42,14 @@ const FreelanceProfileComponent = () => {
         />,
       );
     }
-  }, []);
+  }
+
+  const handleFreelanceProfileStatusChange = (event: any) => {
+    const status = event.target.checked ? 1 : 0;
+    const data: any = {};
+    data.is_freelance_profile = status;
+    debounceFn(data);
+  };
 
   return (
     <Card>

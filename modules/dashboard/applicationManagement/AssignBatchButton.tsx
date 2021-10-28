@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 interface Props extends ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   isLoading?: boolean;
   className?: string;
   variant?: 'text' | 'outlined' | 'contained' | undefined;

@@ -157,7 +157,7 @@ const MyCVPage = () => {
       case CVTemplateKeys.COLORFUL:
         return <ColorfulTemplate userData={userDatax} />;
       default:
-        return <ClassicTemplate userData={userDatax} />;
+        return <ClassicTemplate userData={userData} />;
     }
   };
 
@@ -208,7 +208,7 @@ const MyCVPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={8} ref={refer}>
-          {getTemplate()}
+          {userData && getTemplate()}
         </Grid>
       </Grid>
     </Container>

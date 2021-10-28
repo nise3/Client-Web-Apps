@@ -27,38 +27,42 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
 
   return (
     <Card>
-      <CardContent>
-        <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-          <Box sx={{display: 'flex'}}>
-            <Avatar
-              src={freelancer?.photo}
-              sx={{width: '60px', height: '60px'}}
-            />
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                marginLeft: 2,
-              }}>
-              <Box className={classes.titleStyle}>
-                {freelancer?.first_name + freelancer?.last_name}
+      {freelancer && (
+        <CardContent>
+          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+            <Box sx={{display: 'flex'}}>
+              <Avatar
+                src={freelancer?.photo}
+                sx={{width: '60px', height: '60px'}}
+              />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginLeft: 2,
+                }}>
+                <Box className={classes.titleStyle}>
+                  {freelancer?.first_name + freelancer?.last_name}
+                </Box>
               </Box>
             </Box>
+            <Box>
+              <Button variant={'contained'} color={'primary'}>
+                {messages['common.contact']}
+              </Button>
+            </Box>
+          </Box>
+          <Box sx={{margin: '15px 0px'}}>
+            {freelancer?.bio || 'No bio added'}
           </Box>
           <Box>
-            <Button variant={'contained'} color={'primary'}>
-              {messages['common.contact']}
-            </Button>
+            {(freelancer?.skills || []).map((skill: any, index: any) => {
+              return <TagChip label={skill.title} key={index} />;
+            })}
           </Box>
-        </Box>
-        <Box sx={{margin: '15px 0px'}}>{freelancer?.youth_bio}</Box>
-        <Box>
-          {(freelancer?.skills || []).map((skill: any, index: any) => {
-            return <TagChip label={skill.title} key={index} />;
-          })}
-        </Box>
-      </CardContent>
+        </CardContent>
+      )}
     </Card>
   );
 };
