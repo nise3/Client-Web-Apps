@@ -107,7 +107,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .required()
         .label(messages['common.code'] as string),
       course_fee: yup
-        .string()
+        .number()
         .required()
         .label(messages['course.fee'] as string),
       level: yup

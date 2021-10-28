@@ -385,6 +385,7 @@
   "common.married": "Married",
   "common.unmarried": "Unmarried",
   "common.gender": "Gender",
+  "yup_validation_integer": "{path} must be a integer",
   "yup_validation_required_field": "{path} field is required",
   "yup_validation_default": "{path} is invalid",
   "yup_validation_one_Of": "{path} must be matched",
@@ -778,8 +779,8 @@
   "common.short_min": "min",
   "common.short_hour": "hr",
   "common.same_as_present": "Same as present address",
-  "common.no_enrolled_course_found" : "No Enrolled Course Found!",
-  "common.no_notice_found" : "No notice found",
+  "common.no_enrolled_course_found": "No Enrolled Course Found!",
+  "common.no_notice_found": "No notice found",
   "common.gallery": "Gallery",
   "apply_liked_course.institute": "Apply Liked Course"
 }

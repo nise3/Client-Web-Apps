@@ -40,6 +40,7 @@ const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
       <Grid item xs={12} md={6}>
         <CustomTextInput
           id='professional_info[monthly_income]'
+          type={'number'}
           label={messages['common.monthly_income']}
           register={register}
           errorInstance={errors}
@@ -49,6 +50,7 @@ const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
       <Grid item xs={12} md={6}>
         <CustomTextInput
           id='professional_info[years_of_experiences]'
+          type={'number'}
           label={messages['common.year_of_experience']}
           register={register}
           errorInstance={errors}
