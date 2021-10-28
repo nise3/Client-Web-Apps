@@ -191,6 +191,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.date_of_birth'] as string),
     });
   }, [messages]);

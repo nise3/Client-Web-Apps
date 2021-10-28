@@ -14,6 +14,7 @@ import {
   LocalPhone,
 } from '@mui/icons-material';
 import clsx from 'clsx';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Footer = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   return (
     <>
       <Grid container className={clsx(classes.root, classes.container)}>
@@ -75,13 +77,13 @@ const Footer = () => {
                     size='large'
                     endIcon={<ArrowRightAlt />}
                     className={classes.button}>
-                    বিস্তারিত
+                    {messages['footer.details']}
                   </Button>
                 </Link>
               </Box>
             </Grid>
             <Grid item xs={12} md={6} lg={4} p={0} sx={{marginTop: 3}}>
-              <H6 className={classes.primary}>যোগাযোগ</H6>
+              <H6 className={classes.primary}>{messages['footer.contact']}</H6>
               <Box display='flex' mt={4}>
                 <Box flex='0 0 40px'>
                   <Home className={classes.primary} />
@@ -111,48 +113,58 @@ const Footer = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={8} lg={4} p={0} sx={{marginTop: 3}}>
-              <H6 className={classes.primary}>গুরুত্বপূর্ণ লিঙ্ক</H6>
+              <H6 className={classes.primary}>
+                {messages['footer.important_links']}
+              </H6>
               <Box display='flex' mt={4} justifyContent='space-between'>
                 <Box>
                   <Text className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> অনলাইন কোর্স
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.online_courses']}
                   </Text>
                   <Link
                     href={'/institute/notice-board'}
                     className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> সংবাদ
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.news']}
                   </Link>
                   <Link
                     href={'/institute/recent-activities'}
                     className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> ঘটনাবলী
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.events']}
                   </Link>
                   <Link href={'/sc/about-us'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> আমাদের
-                    সম্পর্কে
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.about_us']}
                   </Link>
                   <Link href={'/institute/contact'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> যোগাযোগ
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.contact']}
                   </Link>
                 </Box>
                 <Box>
                   <Link href={'/institute/faq'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> প্রয়োজনীয়
-                    প্রশ্ন এবং উত্তর
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.question_and_answer']}
                   </Link>
                   <Text className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> লগইন
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.login']}
                   </Text>
                   <Text className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> সাইন আপ
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.sign_up']}
                   </Text>
                   <Link
                     href={'/sc/terms-and-conditions'}
                     className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> শর্তাবলী
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.terms_and_conditions']}
                   </Link>
                   <Link href={'/sc/privacy-policy'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} /> গোপনীয়তা
+                    <ArrowForwardIos className={classes.primary} />{' '}
+                    {messages['footer.privacy_policy']}
                     নীতি
                   </Link>
                 </Box>
@@ -168,7 +180,7 @@ const Footer = () => {
             <Grid item md={4}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
-                  বাস্তবায়নে
+                  {messages['footer.implementation']}
                 </Box>
               </Typography>
               <Box component={'span'}>
@@ -183,7 +195,7 @@ const Footer = () => {
             <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
                 <Box component={'span'} fontWeight='fontWeightBold'>
-                  কারিগরি সহায়তায়
+                  {messages['footer.technical_assistance']}
                 </Box>
               </Typography>
               <Link href={'https://softbdltd.com/'}>

@@ -341,6 +341,7 @@ function $(sel: string | HTMLElement | Node): jElement {
   return new jElement(sel);
 }
 
+// @ts-ignore
 function $$(sel: string): Array<HTMLElement> {
   // @ts-ignore
   return [...document.querySelectorAll(sel)];
@@ -390,6 +391,7 @@ export function areaText(
   // $tex.clone().attr({ fill: '#f00', x: 0, y: 0 }).insertBefore($tex).prevAll('[pseudo="area"],[data-name*="::a;"]').attr('fill', '#bbb');
   console.time('AreaText');
   // if(!(prop.ff in FD)) return [];
+  // @ts-ignore
   let NBS = '&#160;',
     txt = $tex.text(),
     grp = svg$('g', {
@@ -444,13 +446,16 @@ export function areaText(
         // return `<tspan>${s}</tspan>`;
       }
     }),
+    // @ts-ignore
     bxx = clo.html(tag + '-' + `</text>`)[0].getBBox(),
+    // @ts-ignore
     sxx = clo.html(tag + NBS + `</text>`)[0].getBBox(),
     sln = (sxx.width * 1) / 1,
     hln = (bxx.width * 1) / 1,
     tof = -fbl, //(bxx.y * 1)/1,// edited for first baseline
     // cld = Array.prototype.map.bind($tex.html(arr.join(`<tspan> </tspan>`)).children())(el => el),//.map(el => el),///
     cpy = Array.prototype.map.bind(
+      // @ts-ignore
       grp.html(crr.join(tag + ` </text>`)).children(),
     )((el, i) => {
       cbx.push(tar[i] == ' ' ? sxx : el.getBBox());
@@ -508,6 +513,7 @@ export function areaText(
                 .map((s: string) => tag + `${s}</text>`)
                 .join(''),
             )
+            // @ts-ignore
             .children(),
         )((el) => el);
         // $(ltr).each((i,l) => {
@@ -629,12 +635,12 @@ export function areaText(
 }
 
 export const setAreaText = (
-  svgNode: SVGGElement,
+  svgNode: Element,
   id: string,
   text: string,
   textAlign = 'lt',
 ) => {
-  const g = svgNode.querySelector(`g[id="${id}"]`);
+  const g: any = svgNode.querySelector(`g[id="${id}"]`);
   const rect = g.children[0].getBBox();
   g.children[1].innerHTML = text;
   const fs = 1 * g.children[1].getAttribute('font-size');

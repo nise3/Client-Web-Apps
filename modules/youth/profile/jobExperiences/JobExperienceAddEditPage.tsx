@@ -84,12 +84,14 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       start_date: yup
         .string()
         .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.start_date'] as string),
       end_date:
         currentWorkStatus == 0
           ? yup
               .string()
               .required()
+              .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
               .label(messages['common.end_date'] as string)
           : yup.string(),
     });

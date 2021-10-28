@@ -14,6 +14,7 @@ import {
   LINK_FRONTEND_YOUTH_MY_COURSES,
   LINK_FRONTEND_YOUTH_MY_CV,
   LINK_FRONTEND_YOUTH_ROOT,
+  LINK_FRONTEND_YOUTH_FREELANCE_CORNER,
   LINK_FRONTEND_YOUTH_SETTINGS,
 } from '../../../common/appLinks';
 import {
@@ -21,6 +22,7 @@ import {
   KeyboardArrowDown,
   Logout,
   Person,
+  Work,
   Receipt,
   Settings,
 } from '@mui/icons-material';
@@ -118,6 +120,17 @@ const YouthProfileMenu = () => {
             </ListItemIcon>
             <ListItemText>
               {messages['youth_feed_menu.my_courses']}
+            </ListItemText>
+          </MenuItem>
+        </Link>
+        <Divider />
+        <Link href={LINK_FRONTEND_YOUTH_FREELANCE_CORNER}>
+          <MenuItem>
+            <ListItemIcon>
+              <Work />
+            </ListItemIcon>
+            <ListItemText>
+              {messages['youth_feed_menu.freelance_corner']}
             </ListItemText>
           </MenuItem>
         </Link>

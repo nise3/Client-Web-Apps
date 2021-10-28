@@ -19,6 +19,7 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
     const svgNode = div.children[0];
     const rects = svgNode.querySelectorAll('g[id]>text');
     for (let r = 0; r < rects.length; r++)
+      // @ts-ignore
       rects[r].previousElementSibling.setAttribute('fill', 'transparent');
     // setAreaText(svgNode, 'image', userData.image);
     setAreaText(

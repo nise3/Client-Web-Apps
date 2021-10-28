@@ -70,12 +70,14 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         ? yup
             .string()
             .required()
+            .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
             .label(messages['common.start_date'] as string)
         : yup.string(),
       end_date: isStartOrEndDateGiven
         ? yup
             .string()
             .required()
+            .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
             .label(messages['common.end_date'] as string)
         : yup.string(),
       /*certificate_file_path: yup

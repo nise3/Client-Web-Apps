@@ -18,7 +18,7 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 // import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
-import {Link} from '../../../elements/common';
+import {NavLink as Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_NISE_ROOT,
   LINK_FRONTEND_NISE_TRAINING,
@@ -68,28 +68,30 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_ROOT}>
-          <Home className={classes.menuIcons} /> হোম
+          <Home className={classes.menuIcons} /> {messages['menu.home']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_TRAINING}>
-          <CastForEducation className={classes.menuIcons} /> প্রশিক্ষণ
+          <CastForEducation className={classes.menuIcons} />{' '}
+          {messages['menu.training']}
         </Link>
       </MenuItem>
       {/*<MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_JOBS}>
-          <WorkIcon className={classes.menuIcons} /> চাকরি
+          <WorkIcon className={classes.menuIcons} /> {messages['menu.jobs']}
         </Link>
       </MenuItem>*/}
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
-          <ListAltIcon className={classes.menuIcons} /> নোটিশ
+          <ListAltIcon className={classes.menuIcons} />{' '}
+          {messages['menu.notice']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}>
-          <LocalActivityIcon className={classes.menuIcons} /> সাম্প্রতিক
-          কার্যক্রম
+          <LocalActivityIcon className={classes.menuIcons} />
+          {messages['menu.recent_activity']}
         </Link>
       </MenuItem>
       {/*<MenuItem className={classes.menuItemRoot}>*/}
@@ -114,7 +116,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_ROOT}>
                     <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
-                    হোম
+                    {messages['menu.home']}
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
@@ -123,7 +125,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
-                    প্রশিক্ষণ
+                    {messages['menu.training']}
                   </Link>
                 </Box>
                 {/*<Box component='span' className={classes.menuItem}>
@@ -132,7 +134,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
-                    চাকরি
+                    {messages['menu.jobs']}
                   </Link>
                 </Box>*/}
                 <Box component='span' className={classes.menuItem}>
@@ -141,7 +143,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
-                    নোটিশ
+                    {messages['menu.notice']}
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
@@ -150,7 +152,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
-                    সাম্প্রতিক কার্যক্রম
+                    {messages['menu.recent_activity']}
                   </Link>
                 </Box>
                 {/*<Notifications />*/}
