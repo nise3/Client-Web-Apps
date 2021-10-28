@@ -10,7 +10,7 @@ type Props = {
   isLoading?: boolean;
   register?: any;
   errorInstance?: any;
-  checked: boolean;
+  checked: boolean | number;
   onChange: () => void;
 };
 

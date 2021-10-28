@@ -6,7 +6,6 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
 
@@ -60,20 +59,13 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          {/*<Grid item xs={12}>
             <DetailsInputView
               label={messages['common.description']}
               value={itemData?.description}
               isLoading={isLoading}
             />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomChipRowStatus
-              label={messages['common.active_status']}
-              value={itemData?.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+          </Grid>*/}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

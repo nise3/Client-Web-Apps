@@ -79,13 +79,15 @@ const UsersPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.name_en'],
-        accessor: 'name_en',
-      },
-      {
         Header: messages['common.name'],
         accessor: 'name',
       },
+      {
+        Header: messages['common.name_en'],
+        accessor: 'name_en',
+        isVisible: false,
+      },
+
       {
         Header: messages['common.email'],
         accessor: 'email',

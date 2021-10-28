@@ -95,6 +95,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         institute_id: itemData?.institute_id,
         code: itemData?.code,
         description: itemData?.description,
+        description_en: itemData?.description_en,
         row_status: String(itemData?.row_status),
       });
     } else {

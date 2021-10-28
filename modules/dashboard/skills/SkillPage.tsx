@@ -9,8 +9,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import SkillAddEditPopup from './SkillAddEditPopup';
 import SkillDetailsPopup from './SkillDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteSkill} from '../../../services/organaizationManagement/SkillService';
@@ -83,21 +81,23 @@ const SkillPage = () => {
         },
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-      },
-      {
         Header: messages['common.title'],
         accessor: 'title',
       },
       {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        inVisible: false,
       },
+      // {
+      //   Header: messages['common.status'],
+      //   accessor: 'row_status',
+      //   filter: 'rowStatusFilter',
+      //   Cell: (props: any) => {
+      //     let data = props.row.original;
+      //     return <CustomChipRowStatus value={data?.row_status} />;
+      //   },
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

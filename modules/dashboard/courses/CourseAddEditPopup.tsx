@@ -41,7 +41,7 @@ const initialValues = {
   title: '',
   institute_id: '',
   branch_id: '',
-  programme_id: '',
+  program_id: '',
   level: '',
   language_medium: '',
   code: '',
@@ -343,6 +343,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     data.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
+    console.log(data);
     try {
       if (itemId) {
         await updateCourse(itemId, data);
@@ -460,7 +461,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
-            id='programme_id'
+            id='program_id'
             label={messages['programme.label']}
             isLoading={isLoadingProgrammes}
             control={control}

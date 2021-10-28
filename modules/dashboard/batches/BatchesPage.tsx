@@ -84,6 +84,11 @@ const BatchesPage = () => {
         accessor: 'title',
       },
       {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: false,
+      },
+      {
         Header: messages['batches.total_and_available_seat'],
         accessor: 'number_of_seats',
         Cell: (props: any) => {

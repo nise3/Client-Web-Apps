@@ -73,13 +73,15 @@ const TrainersPage = () => {
         disableFilters: true,
         disableSortBy: true,
       },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'trainer_name_en',
-      },
+
       {
         Header: messages['common.title'],
         accessor: 'trainer_name',
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'trainer_name_en',
+        isVisible: false,
       },
       {
         Header: messages['common.email'],
