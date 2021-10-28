@@ -31,9 +31,9 @@ const RecentActivities = () => {
   const {data: allActivitiesItems} = useFetchInstitutesAllActivity();
 
   return (
-    <Container maxWidth={'xl'}>
-      <Grid container>
-        <Grid item md={12} mt={8}>
+    <Container maxWidth={'lg'}>
+      <Grid container mb={5}>
+        <Grid item md={12}>
           <Typography
             className={classes.titleTypography}
             gutterBottom

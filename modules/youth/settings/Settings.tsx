@@ -48,7 +48,7 @@ const Settings = () => {
   };
 
   return (
-    <Container maxWidth={'xl'}>
+    <Container maxWidth={'lg'}>
       <Grid container mt={{xs: 1}} spacing={{xs: 1, md: 5}}>
         <Grid item sm={4}>
           <SideMenu />

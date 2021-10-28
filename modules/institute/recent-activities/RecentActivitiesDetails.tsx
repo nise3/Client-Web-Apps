@@ -26,7 +26,7 @@ const RecentActivitiesDetails = ({data}: any) => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth={'xl'}>
+    <Container maxWidth={'lg'}>
       <Grid container spacing={3}>
         <Grid item xs={12} mt={3}>
           <Grid container>

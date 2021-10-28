@@ -109,46 +109,42 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <Container maxWidth='lg'>
-        <AppBar
-          position='relative'
-          color={'inherit'}
-          className={clsx(classes.appBar, 'app-bar')}>
-          <Toolbar className={classes.headerMain}>
-            <Box className={classes.headerContainer}>
-              <Box className={classes.headerMainFlex}>
-                <Link href={'/'}>
-                  <AppLogo height={isMDDown ? 40 : 60} />
-                </Link>
+      <AppBar
+        position='relative'
+        color={'inherit'}
+        className={clsx(classes.appBar, 'app-bar')}>
+        <Toolbar className={classes.headerMain}>
+          <Container maxWidth={'lg'}>
+            <Box className={classes.headerMainFlex}>
+              <Link href={'/'}>
+                <AppLogo height={isMDDown ? 40 : 60} />
+              </Link>
 
-                <Box className={classes.grow} />
+              <Box className={classes.grow} />
 
-                <Box className={clsx(classes.sectionDesktop)}>
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={LINK_FRONTEND_YOUTH_ROOT}>
-                      <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
-                      {messages['menu.home']}
-                    </Link>
-                  </Box>
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={LINK_FRONTEND_YOUTH_FEED}>
-                      <Badge
-                        className={classes.menuIcons}
-                        sx={{fontSize: 42}}
-                      />{' '}
-                      {messages['menu.my_life']}
-                    </Link>
-                  </Box>
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={LINK_FRONTEND_YOUTH_TRAINING}>
-                      <CastForEducation
-                        className={classes.menuIcons}
-                        sx={{fontSize: 42}}
-                      />{' '}
-                      {messages['menu.training']}
-                    </Link>
-                  </Box>
-                  {/*<Box component='span' className={classes.menuItem}>
+              <Box className={clsx(classes.sectionDesktop)}>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+                    <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
+                    {messages['menu.home']}
+                  </Link>
+                </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_YOUTH_FEED}>
+                    <Badge className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
+                    {messages['menu.my_life']}
+                  </Link>
+                </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_YOUTH_TRAINING}>
+                    <CastForEducation
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    {messages['menu.training']}
+                  </Link>
+                </Box>
+                {/*<Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_YOUTH_JOBS}>
                     <WorkIcon
                       className={classes.menuIcons}
@@ -157,56 +153,55 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     চাকরি
                   </Link>
                 </Box>*/}
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
-                      <ListAltIcon
-                        className={classes.menuIcons}
-                        sx={{fontSize: 42}}
-                      />{' '}
-                      {messages['menu.notice']}
-                    </Link>
-                  </Box>
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES}>
-                      <LocalActivityIcon
-                        className={classes.menuIcons}
-                        sx={{fontSize: 42}}
-                      />{' '}
-                      {messages['menu.recent_activity']}
-                    </Link>
-                  </Box>
-                  {/*<Notifications />*/}
-                  <LanguageSwitcher />
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
+                    <ListAltIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    {messages['menu.notice']}
+                  </Link>
                 </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES}>
+                    <LocalActivityIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    {messages['menu.recent_activity']}
+                  </Link>
+                </Box>
+                {/*<Notifications />*/}
+                <LanguageSwitcher />
+              </Box>
 
-                {authUser ? (
-                  <YouthProfileMenu />
-                ) : (
-                  <Button
-                    variant='contained'
-                    href={LINK_SIGNUP}
-                    className={classes.signinButton}
-                    startIcon={<ExitToApp />}>
-                    {messages['common.registration_login']}
-                  </Button>
-                )}
-                <Box ml={1} className={classes.sectionMobile}>
-                  <IconButton
-                    aria-label='show more'
-                    aria-controls={mobileMenuId}
-                    aria-haspopup='true'
-                    onClick={handleMobileMenuOpen}
-                    color='inherit'
-                    size='large'>
-                    <MoreIcon />
-                  </IconButton>
-                </Box>
+              {authUser ? (
+                <YouthProfileMenu />
+              ) : (
+                <Button
+                  variant='contained'
+                  href={LINK_SIGNUP}
+                  className={classes.signinButton}
+                  startIcon={<ExitToApp />}>
+                  {messages['common.registration_login']}
+                </Button>
+              )}
+              <Box ml={1} className={classes.sectionMobile}>
+                <IconButton
+                  aria-label='show more'
+                  aria-controls={mobileMenuId}
+                  aria-haspopup='true'
+                  onClick={handleMobileMenuOpen}
+                  color='inherit'
+                  size='large'>
+                  <MoreIcon />
+                </IconButton>
               </Box>
             </Box>
-          </Toolbar>
-        </AppBar>
-        {renderMobileMenu}
-      </Container>
+          </Container>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
     </>
   );
 };

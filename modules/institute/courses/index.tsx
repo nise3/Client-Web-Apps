@@ -102,7 +102,7 @@ const InstituteCourses = () => {
           </Paper>
         </Grid>
       </Grid>
-      <Container maxWidth='xl'>
+      <Container maxWidth='lg'>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
             <Grid container spacing={{xs: 2, md: 6}}>

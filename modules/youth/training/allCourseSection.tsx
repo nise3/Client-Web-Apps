@@ -28,7 +28,7 @@ const CourseListPage = () => {
   return (
     <Box className={classes.trainingViewRoot}>
       <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
-      <Container maxWidth={'xl'} className={classes.mainContent}>
+      <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container spacing={5}>
           {courseType == 'skill-matching' && (
             <Grid item xs={12}>

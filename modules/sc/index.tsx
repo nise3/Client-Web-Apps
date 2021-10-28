@@ -9,7 +9,7 @@ import {useIntl} from 'react-intl';
 const StaticContent = ({data}: any) => {
   const {messages} = useIntl();
   return (
-    <Container maxWidth={'xl'}>
+    <Container maxWidth={'lg'}>
       {data && data.title ? (
         <Grid container spacing={3}>
           <Grid item xs={12} textAlign={'right'} mt={3}>

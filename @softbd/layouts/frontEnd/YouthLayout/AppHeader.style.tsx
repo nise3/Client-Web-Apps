@@ -21,19 +21,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  headerContainer: {
-    width: '100%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingLeft: 0,
-    paddingRight: 0,
-    [theme.breakpoints.up('lg')]: {
-      maxWidth: 1140,
-    },
-    [theme.breakpoints.up('xl')]: {
-      maxWidth: 1720,
-    },
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },

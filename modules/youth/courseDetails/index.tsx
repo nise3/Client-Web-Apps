@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Container} from '@mui/material';
 import CourseDetailsHeaderSection from './CourseDetailsHeaderSection';
 import CourseContentSection from './CourseContentSection';
 import SimilarCourseSection from './SimilarCourseSection';
@@ -25,12 +24,12 @@ const CourseDetails = () => {
   }, [courseDetails]);
 
   return (
-    <Container maxWidth={'xl'} sx={{marginTop: 5, marginBottom: 5}}>
+    <>
       <CourseDetailsHeaderSection course={courseDetails} />
       <CourseContentSection course={courseDetails} />
       <SimilarCourseSection skillIds={skillIds} />
       <CourseDetailsSkillMatchingJobSection />
-    </Container>
+    </>
   );
 };
 

@@ -1,6 +1,4 @@
 import React from 'react';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
-import {createStyles, makeStyles} from '@mui/styles';
 import {Container, Grid} from '@mui/material';
 import PersonalInfoSection from './personalInfo/PersonalInfoSection';
 import JobExperienceSection from './jobExperiences/JobExperienceSection';
@@ -14,21 +12,11 @@ import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import MyCVSection from './MyCVSection';
 
-const useStyles = makeStyles((theme: CremaTheme) =>
-  createStyles({
-    container: {
-      margin: '20px auto',
-    },
-  }),
-);
-
 const YouthProfile = () => {
-  const classes = useStyles();
-
   return (
     <>
-      <Container className={classes.container}>
-        <Grid container xl={12} spacing={3}>
+      <Container maxWidth={'lg'}>
+        <Grid container columnSpacing={3} xs={12} mt={{xs: 3}}>
           <Grid item xs={12} md={9}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={12}>

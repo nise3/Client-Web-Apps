@@ -863,7 +863,7 @@ const YouthCourseRegistrationPage = () => {
   };
 
   return (
-    <Container maxWidth={'xl'} className={classes.rootContainer}>
+    <Container maxWidth={'lg'} className={classes.rootContainer}>
       <Paper className={classes.paperBox}>
         <Box sx={{textAlign: 'center', marginBottom: 5}}>
           <Typography variant={'h4'}>

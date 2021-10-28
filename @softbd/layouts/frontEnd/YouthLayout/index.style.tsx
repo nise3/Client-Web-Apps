@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
           marginBottom: 0,
         },
       },
+      marginBottom: '20px',
     },
     boxedLayout: {
       [theme.breakpoints.up('lg')]: {

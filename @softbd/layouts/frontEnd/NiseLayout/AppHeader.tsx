@@ -108,7 +108,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
         <Toolbar className={classes.headerMain}>
-          <Container maxWidth={'md'}>
+          <Container maxWidth={'lg'}>
             <Box className={classes.headerMainFlex}>
               <AppLogo height={isMDDown ? 40 : 60} />
               <Box className={classes.grow} />

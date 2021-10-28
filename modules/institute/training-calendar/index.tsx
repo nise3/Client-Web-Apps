@@ -136,7 +136,7 @@ const InstituteTrainingCalendar = () => {
       <Grid textAlign={'center'} className={classes.heading}>
         <H2>পছন্দের কোর্স সমূহ</H2>
       </Grid>
-      <Container maxWidth='xl'>
+      <Container maxWidth='lg'>
         <Grid>
           <Grid mt={12}>
             <Grid md={12} container className={classes.filterMainGrid}>

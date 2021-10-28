@@ -105,7 +105,7 @@ const FreelanceCorner = () => {
   );
 
   return (
-    <Container maxWidth={'xl'} className={classes.container}>
+    <Container maxWidth={'lg'} className={classes.container}>
       <Grid container spacing={5} className={classes.root}>
         <Grid item xs={12} md={3}>
           <Grid container spacing={5}>

@@ -14,7 +14,7 @@ const MyCoursePage = () => {
   const {data: courseList} = useFetchYouthCourses(courseFilters);
 
   return courseList?.length ? (
-    <Container maxWidth={'xl'} sx={{padding: 5}}>
+    <Container maxWidth={'lg'} sx={{padding: 5}}>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={12} md={12}>
           <Typography variant={'h5'} fontWeight={'bold'}>

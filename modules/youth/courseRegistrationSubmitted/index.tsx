@@ -7,7 +7,7 @@ const YouthCourseRegistrationSubmittedPage = () => {
   const classes: any = useStyles();
 
   return (
-    <Container maxWidth={'xl'} className={classes.rootContainer}>
+    <Container maxWidth={'lg'} className={classes.rootContainer}>
       <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
         <CardMedia
           component='img'

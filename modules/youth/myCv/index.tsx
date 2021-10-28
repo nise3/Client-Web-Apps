@@ -162,7 +162,7 @@ const MyCVPage = () => {
   };
 
   return (
-    <Container maxWidth={'xl'} className={classes.root}>
+    <Container maxWidth={'lg'} className={classes.root}>
       <Grid container spacing={5}>
         <Grid item xs={10} sm={10} md={6}>
           <Typography variant={'h5'} fontWeight={'bold'}>
