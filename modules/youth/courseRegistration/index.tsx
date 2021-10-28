@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   Box,
   Button,
@@ -21,23 +21,67 @@ import GuardiansInfoForm from './GuardiansInfoForm';
 import OtherInfoForm from './OtherInfoForm';
 import {useIntl} from 'react-intl';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {useRouter} from 'next/router';
+import {useFetchCourseDetails} from '../../../services/instituteManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+
+const tabKeys = [
+  'education_info',
+  'occupation_info',
+  'guardian_info',
+  'miscellaneous_info',
+];
 
 const YouthCourseRegistrationPage = () => {
   const classes = useStyles();
   const {messages} = useIntl();
-  const steps = useMemo(
-    () => [
-      messages['common.personal_information'],
-      messages['common.address'],
-      messages['common.educational_qualification'],
-      messages['common.occupational_information'],
-      messages['common.guardian_info'],
-      messages['common.other_information'],
-    ],
-    [messages],
-  );
-
+  const router = useRouter();
+  const {courseId} = router.query;
+  const authUser = useAuthUser<YouthAuthUser>();
+  const {data: course} = useFetchCourseDetails(Number(courseId));
+  const [visibleFormConfigKeys, setVisibleFormConfigKeys] = useState<any>([]);
+  const [requiredFormConfigKeys, setRequiredFormConfigKeys] = useState<any>([]);
   const [activeStep, setActiveStep] = useState(0);
+  const [stepKeys, setStepKeys] = useState<Array<string>>([
+    'personal_info',
+    'address_info',
+  ]);
+
+  useEffect(() => {
+    if (course && authUser?.isYouthUser) {
+      setFormSettings(course.application_form_settings);
+    }
+  }, [course, authUser]);
+
+  const setFormSettings = (config: string | undefined | null) => {
+    try {
+      const steps = [...stepKeys];
+      let configJson = JSON.parse(config || '{}');
+      let itemsState: any = [];
+      let itemsRequiredState: any = [];
+      Object.keys(configJson || {}).map((key: string) => {
+        let value = configJson[key];
+        if (value[0]) {
+          itemsState.push(key);
+          if (tabKeys.includes(key)) {
+            steps.push(key);
+          }
+        }
+        if (value[1]) {
+          itemsRequiredState.push(key);
+        }
+      });
+      setStepKeys(steps);
+      setVisibleFormConfigKeys(itemsState);
+      setRequiredFormConfigKeys(itemsRequiredState);
+    } catch (e) {
+      console.log('Failed to parse config data', e);
+    }
+  };
+
+  console.log('visible', visibleFormConfigKeys);
+  console.log('required', requiredFormConfigKeys);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -55,6 +99,8 @@ const YouthCourseRegistrationPage = () => {
             register={register}
             errors={errors}
             control={control}
+            visibleFieldKeys={visibleFormConfigKeys}
+            requiredFieldKeys={requiredFormConfigKeys}
           />
         );
       case 1:
@@ -185,9 +231,9 @@ const YouthCourseRegistrationPage = () => {
   });
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    if (activeStep < steps.length - 1) {
+    if (activeStep < stepKeys.length - 1) {
       handleNext();
-    } else if (activeStep == steps.length - 1) {
+    } else if (activeStep == stepKeys.length - 1) {
       console.log('final submit', data);
     }
   };
@@ -203,19 +249,21 @@ const YouthCourseRegistrationPage = () => {
 
         <Box sx={{width: '100%'}}>
           <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label, index) => {
+            {stepKeys.map((key, index) => {
               const stepProps: {completed?: boolean} = {};
               const labelProps: {
                 optional?: React.ReactNode;
               } = {};
               return (
-                <Step key={label as string} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                <Step key={key as string} {...stepProps}>
+                  <StepLabel {...labelProps}>
+                    {messages['common.' + key]}
+                  </StepLabel>
                 </Step>
               );
             })}
           </Stepper>
-          {activeStep === steps.length ? (
+          {activeStep === stepKeys.length ? (
             <React.Fragment>
               <Box>Done</Box>
             </React.Fragment>
@@ -239,7 +287,7 @@ const YouthCourseRegistrationPage = () => {
                     variant={'contained'}
                     color={'primary'}
                     disabled={isSubmitting}>
-                    {activeStep == steps.length - 1
+                    {activeStep == stepKeys.length - 1
                       ? messages['common.submit']
                       : messages['common.next']}
                   </Button>

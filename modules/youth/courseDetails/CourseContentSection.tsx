@@ -24,6 +24,7 @@ import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CourseDetailsTabs from './CourseDetailsTabs';
+import {courseDuration} from '../../../@softbd/utilities/helpers';
 
 interface CourseContentProps {
   course: any;
@@ -155,6 +156,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             className={classes.dividerStyle}
           />
           <Grid item>
+            `
             <Box
               className={clsx(
                 classes.dFlexAlignCenter,
@@ -163,12 +165,13 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <Alarm className={classes.courseBadgeIcon} />
               <Box>
                 <Box className={classes.courseBadgeTitle}>
-                  <IntlMessages
-                    id='course_details.months_to_complete'
-                    values={{subject: 6}}
-                  />
+                  {/*<IntlMessages*/}
+                  {/*  id='course_details.months_to_complete'*/}
+                  {/*  values={{subject: 6}}*/}
+                  {/*/>*/}
+                  {courseDuration(course.duration)}
                 </Box>
-                <Box>3 {messages['course_details.hours_per_weeks']}</Box>
+                {/*<Box>3 {messages['course_details.hours_per_weeks']}</Box>*/}
               </Box>
             </Box>
           </Grid>
@@ -187,7 +190,12 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             {messages['course_details.lesson']}
           </Box>
           <Box style={{display: 'flex', alignItems: 'center'}}>
-            {course?.duration && <Typography> {course?.duration}, </Typography>}
+            {course?.duration && (
+              <Typography>
+                {' '}
+                {course?.duration + ' ' + messages['common.short_hour']},{' '}
+              </Typography>
+            )}
             {course?.total_enrolled && (
               <Typography> {course?.total_enrolled} </Typography>
             )}
@@ -279,22 +287,29 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             {messages['course_details.trainer']}
           </Box>
           {course?.trainers &&
-            course.trainers.map((trainer: any) => (
+            course.trainers.map((trainer: any, index: number) => (
               <Box
+                key={index}
                 className={clsx(classes.dFlexAlignCenter, classes.trainerBox)}>
                 <Avatar
                   sx={{height: 60, width: 60}}
-                  src={course.trainer?.image}
+                  src={
+                    'http://lorempixel.com/80/80?id=1' +
+                    trainer?.trainer_name_en
+                  }
                 />
                 <Box className={classes.trainerNameAndAboutBox}>
                   <Box fontWeight={'bold'}>
-                    {trainer?.first_name + ' ' + trainer?.last_name}
+                    {trainer?.trainer_name || trainer?.trainer_name_en}
                   </Box>
                   <Typography variant={'caption'}>{trainer?.about}</Typography>
                   <Link href={'#more-courses'} style={{textDecoration: 'none'}}>
                     <IntlMessages
                       id='course_details.view_more_courses_by'
-                      values={{subject: trainer?.firstName}}
+                      values={{
+                        subject:
+                          trainer?.trainer_name || trainer?.trainer_name_en,
+                      }}
                     />
                   </Link>
                 </Box>

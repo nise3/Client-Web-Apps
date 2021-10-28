@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     marginTop: '10px',
   },
   signInStyle: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.main + ' !important',
+    textDecoration: 'underline !important',
   },
 }));
 

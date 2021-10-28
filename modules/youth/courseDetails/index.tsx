@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container} from '@mui/material';
 import CourseDetailsHeaderSection from './CourseDetailsHeaderSection';
 import CourseContentSection from './CourseContentSection';
@@ -12,12 +12,23 @@ const CourseDetails = () => {
   let {courseId} = router.query;
 
   const {data: courseDetails} = useFetchCourseDetails(Number(courseId));
+  const [skillIds, setSkillIds] = useState<Array<number>>([]);
+
+  useEffect(() => {
+    let skillIDs: Array<number> = [];
+    if (courseDetails?.skills) {
+      courseDetails.skills.map((skill: any) => {
+        skillIDs.push(skill.id);
+      });
+    }
+    setSkillIds(skillIDs);
+  }, [courseDetails]);
 
   return (
     <Container maxWidth={'xl'} sx={{marginTop: 5, marginBottom: 5}}>
       <CourseDetailsHeaderSection course={courseDetails} />
       <CourseContentSection course={courseDetails} />
-      <SimilarCourseSection />
+      <SimilarCourseSection skillIds={skillIds} />
       <CourseDetailsSkillMatchingJobSection />
     </Container>
   );

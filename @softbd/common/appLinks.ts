@@ -59,6 +59,7 @@ export const LINK_FRONTEND_YOUTH_MY_COURSES = '/youth/my-courses';
 export const LINK_FRONTEND_YOUTH_SETTINGS = '/youth/settings';
 export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/youth/freelance-corner';
 export const LINK_FRONTEND_YOUTH_COURSE_DETAILS = '/youth/course-details/';
+export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT = '/youth/course-enroll/';
 
 export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =
   '/youth/training/skill-matching';

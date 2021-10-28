@@ -3,6 +3,8 @@ import {Container, Grid, Typography} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchYouthCourses} from '../../../services/youthManagement/hooks';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
+import {Link} from '../../../@softbd/elements/common';
 
 const MyCoursePage = () => {
   const {messages} = useIntl();
@@ -25,7 +27,9 @@ const MyCoursePage = () => {
               courseList.map((course: any) => {
                 return (
                   <Grid item xs={12} sm={6} md={3} key={course.id}>
-                    <CourseCardComponent course={course} />
+                    <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                      <CourseCardComponent course={course} />
+                    </Link>
                   </Grid>
                 );
               })}
@@ -35,7 +39,9 @@ const MyCoursePage = () => {
     </Container>
   ) : (
     <Grid container sx={{justifyContent: 'center', marginTop: 5}}>
-      <Typography variant={'h4'}>No Enrolled Course Found</Typography>
+      <Typography variant={'h4'}>
+        {messages['common.no_enrolled_course_found']}
+      </Typography>
     </Grid>
   );
 };

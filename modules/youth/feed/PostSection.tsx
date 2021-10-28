@@ -21,6 +21,12 @@ interface PostSectionProps {
   setLoadingMainPostData: any;
 }
 
+const filterDuplicateObject = (arr: Array<any>) => {
+  return arr.filter(
+    (v, i: number, a) => a.findIndex((t) => t.id === v.id) === i,
+  );
+};
+
 const PostSection = ({
   filters,
   pageIndex,
@@ -29,27 +35,35 @@ const PostSection = ({
   const classes = useStyle();
   const {messages} = useIntl();
   const [courseFilters, setCourseFilters] = useState({});
+
+  const [posts, setPosts] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    if (pageIndex >= metaData?.total_page) {
+      setLoadingMainPostData(true);
+    } else {
+      setCourseFilters(objectFilter({...courseFilters, ...filters}));
+      setLoadingMainPostData(false);
+    }
+  }, [filters]);
+
   const {
     data: courseList,
     isLoading: isLoadingCourses,
     metaData,
   } = useFetchAllCourseList(courseFilters);
 
-  const [posts, setPosts] = useState<Array<any>>([]);
-
   useEffect(() => {
-    console.log('metadata: ', metaData);
-    if (pageIndex >= metaData?.total_page) {
-      setLoadingMainPostData(true);
-    } else {
-      setCourseFilters(objectFilter({...courseFilters, ...filters}));
-      if (courseList && courseList.length) {
-        let tmpArr = posts;
-        tmpArr.push(...courseList);
-        setPosts(objectFilter(tmpArr));
+    if (courseList && courseList.length) {
+      if (metaData.current_page <= 1) {
+        setPosts([...courseList]);
+      } else {
+        setPosts((prevState) =>
+          filterDuplicateObject([...prevState, ...courseList]),
+        );
       }
     }
-  }, [filters]);
+  }, [courseList]);
 
   return (
     <Grid container spacing={5}>
@@ -59,10 +73,7 @@ const PostSection = ({
         </Box>
       </Grid>
 
-      {isLoadingCourses ? (
-        <PostLoadingSkeleton />
-      ) : (
-        posts &&
+      {posts &&
         posts.length &&
         posts.map((course: any) => {
           return (
@@ -70,7 +81,12 @@ const PostSection = ({
               {<CourseInfoBlock course={course} />}
             </Grid>
           );
-        })
+        })}
+
+      {isLoadingCourses && (
+        <Grid item xs={12}>
+          <PostLoadingSkeleton />
+        </Grid>
       )}
     </Grid>
   );

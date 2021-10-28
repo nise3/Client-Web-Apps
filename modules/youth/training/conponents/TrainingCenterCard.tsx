@@ -27,7 +27,8 @@ const TrainingCenterCard = ({trainingCenter}: TrainingCenterCardProps) => {
             }}>
             <Avatar
               alt={'logo'}
-              src={trainingCenter.logo}
+              //src={trainingCenter.logo}
+              src={'http://lorempixel.com/400/200?id=' + trainingCenter?.id}
               sx={{width: 70, height: 70}}
             />
           </Grid>

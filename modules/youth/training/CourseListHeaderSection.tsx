@@ -38,8 +38,8 @@ const LANGUAGES = [
 ];
 
 const COURSE_TYPES = [
-  {id: 1, title: 'Free'},
-  {id: 2, title: 'Paid'},
+  {id: 1, title: 'Paid'},
+  {id: 2, title: 'Free'},
 ];
 
 interface CourseListHeaderSection {
@@ -76,6 +76,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
         }),
       );
       addFilterKey('institute_id', instituteId);
+      if (!instituteId) {
+        addFilterKey('program_id', 0);
+      }
     },
     [selectedInstituteId],
   );
@@ -182,7 +185,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   selectedOptionId={selectedProgrammeId}
                   defaultLabel={'select program'}
                   onChangeCallback={handleProgrammeFilterChange}
-                  options={programmes}
+                  options={selectedInstituteId ? programmes : []}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>

@@ -42,6 +42,7 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import {nationalities} from '../../../../@softbd/utilities/Nationalities';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -68,29 +69,6 @@ const initialValues = {
   loc_upazila_id: '',
   zip_or_postal_code: '',
 };
-
-const nationalities = [
-  {
-    id: 1,
-    title: 'Bangladeshi',
-    title_en: 'Bangladeshi',
-  },
-  {
-    id: 2,
-    title: 'Indian',
-    title_en: 'Indian',
-  },
-  {
-    id: 3,
-    title: 'Pakistani',
-    title_en: 'Pakistani',
-  },
-  {
-    id: 4,
-    title: 'Nepali',
-    title_en: 'Nepali',
-  },
-];
 
 const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   onClose: onEditPageClose,
