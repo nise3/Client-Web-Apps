@@ -128,7 +128,7 @@ const InstituteVideos = () => {
           </Paper>
         </Grid>
       </Grid>
-      <Container maxWidth='xl'>
+      <Container maxWidth='lg'>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
             <Grid container spacing={{xs: 2, md: 6}}>
@@ -174,7 +174,7 @@ const InstituteVideos = () => {
                   Reset
                 </Button>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={4} style={{position: 'relative'}}>
                 <form onSubmit={handleSubmit(onSearch)}>
                   <CustomTextInput
                     id='title'

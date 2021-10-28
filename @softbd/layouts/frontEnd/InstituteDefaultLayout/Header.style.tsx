@@ -160,6 +160,19 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   pointer: {
     cursor: 'pointer',
   },
+  languageSwitcher: {
+    height: '100%',
+    background: theme.palette.primary.light,
+    color: theme.palette.primary.contrastText,
+  },
+  menuItemRegOrLogin: {
+    background: theme.palette.warning.main,
+    color: theme.palette.primary.contrastText,
+    width: '200px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
 export default useStyles;

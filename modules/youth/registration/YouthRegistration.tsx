@@ -4,7 +4,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useStyles from './Registration.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Chip, Container, Grid, Paper, Typography} from '@mui/material';
+import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {useIntl} from 'react-intl';
 import yup from '../../../@softbd/libs/yup';
@@ -27,7 +27,6 @@ import {youthRegistration} from '../../../services/youthManagement/YouthRegistra
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {CheckCircle} from '@mui/icons-material';
 import PhysicalDisabilities from '../../../@softbd/utilities/PhysicalDisabilities';
 import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
 import UserNameType from '../../../@softbd/utilities/UserNameType';
@@ -93,7 +92,7 @@ const YouthRegistration = () => {
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
     PhysicalDisabilityStatus.NO,
   );
-  const [userNameType, setUserNameType] = useState<number>(UserNameType.MOBILE);
+  //const [userNameType, setUserNameType] = useState<number>(UserNameType.MOBILE);
   const [isBelongToEthnicGroup, setIsBelongToEthnicGroup] =
     useState<boolean>(false);
   const [identityNumberType, setIdentityNumberType] = useState<
@@ -347,22 +346,24 @@ const YouthRegistration = () => {
     }
   };
 
-  const handleEmailChipClick = () => {
+  /*const handleEmailChipClick = () => {
     setUserNameType(UserNameType.EMAIL);
   };
 
   const handleMobileChipClick = () => {
     setUserNameType(UserNameType.MOBILE);
-  };
+  };*/
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const queryParam =
-        userNameType == UserNameType.MOBILE
+      const queryParam = {mobile: data.mobile};
+      /*const queryParam =
+      userNameType == UserNameType.MOBILE
           ? {mobile: data.mobile}
-          : {email: data.email};
+          : {email: data.email};*/
 
-      data.user_name_type = userNameType;
+      //data.user_name_type = userNameType;
+      data.user_name_type = UserNameType.MOBILE;
       if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
         delete data.physical_disabilities;
       }
@@ -426,7 +427,7 @@ const YouthRegistration = () => {
             </Grid>
 
             <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
-              <Chip
+              {/*<Chip
                 icon={<CheckCircle />}
                 label={messages['youth_registration.set_as_username']}
                 color='primary'
@@ -435,7 +436,7 @@ const YouthRegistration = () => {
                 }
                 sx={{marginBottom: '2px'}}
                 onClick={handleEmailChipClick}
-              />
+              />*/}
               <CustomTextInput
                 id='email'
                 label={messages['common.email']}
@@ -444,7 +445,7 @@ const YouthRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
-              <Chip
+              {/*<Chip
                 icon={<CheckCircle />}
                 label={messages['youth_registration.set_as_username']}
                 color='primary'
@@ -454,7 +455,7 @@ const YouthRegistration = () => {
                 sx={{marginBottom: '2px'}}
                 clickable={true}
                 onClick={handleMobileChipClick}
-              />
+              />*/}
               <CustomTextInput
                 id='mobile'
                 label={messages['common.mobile']}

@@ -39,14 +39,14 @@ const PopularCoursesSection = ({
     <Grid container spacing={5}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
-          <Grid item xs={8} sm={9} md={10}>
+          <Grid item xs={6} sm={9} md={10}>
             <Typography variant={'h5'} className={classes.sectionTitle}>
               {messages['common.popular_courses']}
             </Typography>
           </Grid>
 
           {page_size && popularCoursesMetaData?.total_page > 1 && (
-            <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
+            <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}

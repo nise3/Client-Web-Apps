@@ -780,5 +780,6 @@
   "common.same_as_present": "Same as present address",
   "common.no_enrolled_course_found" : "No Enrolled Course Found!",
   "common.no_notice_found" : "No notice found",
-  "common.gallery": "Gallery"
+  "common.gallery": "Gallery",
+  "apply_liked_course.institute": "Apply Liked Course"
 }

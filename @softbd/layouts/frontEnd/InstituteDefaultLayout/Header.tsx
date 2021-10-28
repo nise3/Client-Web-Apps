@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Person, Login, LocalPhone, Send} from '@mui/icons-material';
+import {Login, LocalPhone, Send} from '@mui/icons-material';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 import {H6, NavLink as Link} from '../../../elements/common';
 import {
@@ -17,17 +17,20 @@ import {
   LINK_FRONTEND_INSTITUTE_FEEDBACK,
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_CONTACT,
-  // LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR,
   LINK_SIGNUP,
 } from '../../../common/appLinks';
 import useStyles from './Header.style';
 import {useIntl} from 'react-intl';
 import {Container} from '@mui/material';
-import {getSSOLoginUrl} from '../../../common/SSOConfig';
+// import {getSSOLoginUrl} from '../../../common/SSOConfig';
+import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
+import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
+  const authUser = useAuthUser();
   const classes = useStyles();
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -37,9 +40,9 @@ const Header: React.FC<AppHeaderProps> = () => {
     setMobileMoreAnchorEl(null);
   }
 
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
+  // const redirectToSSO = useCallback(() => {
+  //   window.location.href = getSSOLoginUrl();
+  // }, []);
 
   function handleMobileMenuOpen(event: React.MouseEvent<HTMLElement>) {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -86,18 +89,6 @@ const Header: React.FC<AppHeaderProps> = () => {
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INSTITUTE_CONTACT}>
           {messages['menu.contact']}
-        </Link>
-      </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link onClick={redirectToSSO}>
-          <Person className={classes.menuIcons} />
-          {messages['institute.youth_login']}
-        </Link>
-      </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_SIGNUP}>
-          <Login className={classes.menuIcons} />
-          {messages['common.registration_login']}
         </Link>
       </MenuItem>
     </Menu>
@@ -184,16 +175,23 @@ const Header: React.FC<AppHeaderProps> = () => {
                     {messages['menu.contact']}
                   </Link>
                 </Box>
-                <Box className={classes.headerMenuGroup}>
-                  <Link
-                    href={LINK_SIGNUP}
-                    className={clsx(classes.menuItem, classes.menuItemAction)}>
-                    <Login className={classes.menuIcons} />
-                    {messages['common.registration_login']}
-                  </Link>
-                </Box>
               </Box>
             </Box>
+
+            <Box className={classes.headerMenuGroup}>
+              <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
+                <LanguageSwitcher />
+              </Box>
+              {authUser ? (
+                <GotoDashboardButton />
+              ) : (
+                <Link href={LINK_SIGNUP} className={classes.menuItemRegOrLogin}>
+                  <Login className={classes.menuIcons} />
+                  {messages['common.registration_login']}
+                </Link>
+              )}
+            </Box>
+
             <Box ml={1} className={classes.sectionMobile}>
               <IconButton
                 aria-label='show more'
