@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useMemo} from 'react';
 import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
@@ -63,7 +63,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
           <CardMedia
             component='img'
             alt='course image'
-            image={'/images/skill-matching-job1.jpg'}
+            image={'/images/courseImage.jpeg'}
             sx={{height: '100%'}}
           />
         </Grid>
@@ -77,7 +77,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       <CardMedia
                         component='img'
                         alt='course image'
-                        image={course?.trainer_image}
+                        image={'/images/logo1.png'}
                         className={classes.jobProviderImage}
                       />
                     </Grid>
@@ -114,7 +114,9 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     className={classes.tagChipStyle}
                   />
                   <TagChip
-                    label={Math.floor(Math.random() * 10 + 6) + ' lessons'}
+                    label={useMemo(() => {
+                      return Math.floor(Math.random() * 10 + 6) + ' lessons';
+                    }, [course])}
                     className={classes.tagChipStyle}
                   />
                 </Grid>

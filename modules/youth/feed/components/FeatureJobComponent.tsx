@@ -49,23 +49,25 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
 
   return (
     <Card className={classes.featureJobRoot}>
-      <Grid container spacing={1} alignItems={'center'}>
-        <Grid item xs={2}>
+      <Grid container spacing={2} alignItems={'center'}>
+        <Grid item xs={2} mr={1}>
           <Avatar
             className={classes.jobProviderImage}
             alt='provider image'
             src={data.imageUrl}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           <Box className={classes.jobTitle}>{data.jobTitle}</Box>
           <Box>{data.jobProviderName}</Box>
         </Grid>
-        <Chip
-          variant='outlined'
-          label={messages['common.featured']}
-          className={classes.tagStyle}
-        />
+        <Grid item>
+          <Chip
+            variant='outlined'
+            label={messages['common.featured']}
+            className={classes.tagStyle}
+          />
+        </Grid>
       </Grid>
     </Card>
   );

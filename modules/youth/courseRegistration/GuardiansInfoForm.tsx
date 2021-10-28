@@ -11,11 +11,7 @@ interface GuardiansInfoFormProps {
   control: any;
 }
 
-const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({
-  register,
-  errors,
-  control,
-}) => {
+const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
   const {messages} = useIntl();
   return (
     <Grid container spacing={5}>

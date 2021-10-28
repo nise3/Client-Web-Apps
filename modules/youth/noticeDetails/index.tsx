@@ -16,7 +16,7 @@ import useStyles from './index.style';
 const NoticeDetails = () => {
   const classes = useStyles();
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth={'lg'}>
       <Grid container spacing={3} padding={10}>
         <Grid item xs={12}>
           <Grid container>

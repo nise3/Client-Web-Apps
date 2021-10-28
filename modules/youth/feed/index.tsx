@@ -14,9 +14,9 @@ import {debounce} from 'lodash';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
-    marginTop: '40px',
+    marginTop: '0px',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100vh - 130px)',
+      height: 'calc(100vh - 70px)',
       boxSizing: 'border-box',
       overflowY: 'hidden',
     },
@@ -28,12 +28,19 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
   },
   scrollBarStyle: {
+    paddingTop: 20,
+    paddingBottom: 20,
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100vh - 120px)',
+      height: 'calc(100vh - 70px)',
       overflowY: 'hidden',
       '&:hover': {
         overflowY: 'auto',
       },
+    },
+    '&>.ps__rail-y': {
+      height: 'calc(100% - 40px) !important',
+      marginBottom: 20,
+      marginTop: 20,
     },
   },
 
@@ -63,12 +70,14 @@ const YouthFeedPage = () => {
     (filterKey: string, filterValue: number | null) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
+      pageIndex.current = 1;
+      newFilter['page'] = pageIndex.current;
 
       setFilters((prev: any) => {
         return {...prev, ...newFilter};
       });
     },
-    [],
+    [filters],
   );
 
   const onScrollMainPostContent = (e: any) => {
@@ -78,6 +87,15 @@ const YouthFeedPage = () => {
         return {...prev, page: pageIndex.current + 1};
       });
       pageIndex.current += 1;
+    }
+  };
+
+  const onScrollUpPostContent = () => {
+    if (pageIndex.current > 1) {
+      setFilters((prev: any) => {
+        return {...prev, page: pageIndex.current - 1};
+      });
+      pageIndex.current -= 1;
     }
   };
 
@@ -99,7 +117,8 @@ const YouthFeedPage = () => {
         <Grid item xs={12} md={6} order={{xs: 3, md: 2}}>
           <Scrollbar
             className={classes.scrollBarStyle}
-            onYReachEnd={debounce(onScrollMainPostContent, 1000)}>
+            onYReachEnd={debounce(onScrollMainPostContent, 1000)}
+            onYReachStart={debounce(onScrollUpPostContent, 1000)}>
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <OverviewSection addFilter={filterPost} />

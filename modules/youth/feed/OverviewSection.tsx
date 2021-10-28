@@ -152,7 +152,9 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
                   <option value={''}>{messages['common.location']}</option>
                   {upazilas &&
                     upazilas.map((upazila: any) => (
-                      <option value={upazila.id}>{upazila.title}</option>
+                      <option key={upazila.id} value={upazila.id}>
+                        {upazila.title}
+                      </option>
                     ))}
                 </NativeSelect>
               </Grid>

@@ -39,7 +39,9 @@ const MyCoursePage = () => {
     </Container>
   ) : (
     <Grid container sx={{justifyContent: 'center', marginTop: 5}}>
-      <Typography variant={'h4'}>No Enrolled Course Found</Typography>
+      <Typography variant={'h4'}>
+        {messages['common.no_enrolled_course_found']}
+      </Typography>
     </Grid>
   );
 };

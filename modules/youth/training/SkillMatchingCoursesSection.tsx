@@ -35,7 +35,7 @@ const SkillMatchingCoursesSection = ({
       skillIDs.push(skill.id);
     });
     setYouthSkillIds(skillIDs);
-  }, []);
+  }, [authUser]);
 
   const [courseFilters, setCourseFilters] = useState<any>({
     skill_ids: youthSkillIds,

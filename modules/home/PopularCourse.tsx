@@ -4,8 +4,11 @@ import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
+import {useFetchCourseList} from '../../services/youthManagement/hooks';
+import {courseDuration} from '../../@softbd/utilities/helpers';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,41 +52,18 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-let items = [
-  {
-    img: '/images/popular-course1.png',
-    price: '৫০০০',
-    title: 'লিডারশিপ স্কিল',
-    duration: '১ ঘন্টা ৩০ মিনিট',
-    enrolls: 'Student (16.1k)',
-  },
-
-  {
-    img: '/images/popular-course2.png',
-    price: '৩০০০',
-    title: 'প্রফেশনাল মাস্টার ক্লাস',
-    duration: '১ ঘন্টা',
-    enrolls: 'Student (16.1k)',
-  },
-  {
-    img: '/images/popular-course3.png',
-    price: 'বিনামূল্যে',
-    title: 'কম্পিঊটার স্কিল',
-    duration: '১ ঘন্টা',
-    enrolls: 'Student (16.1k)',
-  },
-  {
-    img: '/images/popular-course4.png',
-    price: '২০০০',
-    title: 'সেলস ট্রেনিং',
-    duration: '১ ঘন্টা',
-    enrolls: 'Student (16.1k)',
-  },
-];
-
 const PopularCourse = () => {
   const classes = useStyles();
-  const cardItem = (item: any, key: number) => {
+  const {messages} = useIntl();
+
+  const [courseFilters] = useState<any>({page_size: 10});
+  const pathValue = 'popular';
+  const {data: courseList, metaData: courseListMetaData} = useFetchCourseList(
+    pathValue,
+    courseFilters,
+  );
+
+  const cardItem = (course: any, key: number) => {
     return (
       <Box mr={1} key={key}>
         <Card className={classes.courseItem}>
@@ -92,24 +72,23 @@ const PopularCourse = () => {
               component={'span'}
               fontWeight='fontWeightBold'
               className={classes.priceDetails}>
-              {item.price}
+              {course?.course_fee}
             </Box>
           </Typography>
           <Box>
             <Image
               className={classes.image}
-              src={item.img}
+              src={'/images/popular-course3.png'}
               alt='crema-logo'
               height={50}
               width={'100%'}
               layout={'responsive'}
             />
-            {/*<img className={classes.image} src={item.img} alt='crema-logo' />*/}
           </Box>
           <Box p={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                {item.title}
+                {course.title}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
@@ -117,7 +96,7 @@ const PopularCourse = () => {
                 component={'span'}
                 fontWeight='fontWeightBold'
                 className={classes.timeDetails}>
-                <AccessTime /> {item.duration}
+                <AccessTime /> {courseDuration(course?.duration)}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
@@ -125,7 +104,7 @@ const PopularCourse = () => {
                 component={'span'}
                 fontWeight='fontWeightBold'
                 className={classes.timeDetails}>
-                <Info /> {item.enrolls}
+                <Info /> {course?.total_enroll}
               </Box>
             </Typography>
           </Box>
@@ -142,23 +121,37 @@ const PopularCourse = () => {
             className={classes.title}
             justifyContent={'center'}>
             <Box className={classes.vBar} />
-            <Box fontWeight='fontWeightBold'>জনপ্রিয় কোর্স</Box>
+            <Box fontWeight='fontWeightBold'>
+              {messages['common.popular_courses']}
+            </Box>
           </Box>
         </Typography>
         <Box mb={2}>
-          <CustomCarousel>
-            {items.map((item: any, key: number) => cardItem(item, key))}
-          </CustomCarousel>
+          {courseList && courseList.length > 0 ? (
+            <CustomCarousel>
+              {courseList.map((course: any, key: number) =>
+                cardItem(course, key),
+              )}
+            </CustomCarousel>
+          ) : (
+            <Grid container sx={{justifyContent: 'center'}}>
+              <Typography variant={'h6'}>
+                {messages['common.no_data_found']}
+              </Typography>
+            </Grid>
+          )}
         </Box>
-        <Grid item container justifyContent='center' spacing={2}>
-          <Button
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}
-            style={{marginTop: '15px', marginBottom: '15px'}}>
-            আরো দেখুন
-          </Button>
-        </Grid>
+        {courseListMetaData?.total_page > courseListMetaData?.current_page && (
+          <Grid item container justifyContent='center' spacing={2}>
+            <Button
+              variant='outlined'
+              color='primary'
+              endIcon={<ArrowRightAlt />}
+              style={{marginTop: '15px', marginBottom: '15px'}}>
+              আরো দেখুন
+            </Button>
+          </Grid>
+        )}
       </Container>
     </Grid>
   );

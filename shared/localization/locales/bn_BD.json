@@ -533,12 +533,12 @@
   "education.expected_passing_year": "প্রত্যাশিত বছর",
   "common.passing_year": "পাসের বছর",
   "common.bid": "বিআইডি",
-  "common.search": "অনুসন্ধান করুন",
+  "common.search": "অনুসন্ধান",
   "common.featured": "বৈশিষ্ট্যযুক্ত",
   "common.skill_matching_course": "স্কিল ম্যাচিং কোর্স",
   "common.skill_matching_job": "স্কিল ম্যাচিং জবস",
   "common.apply_now": "এখনি আবেদন করুন",
-  "common.apply": "আবেদন করুন",
+  "common.apply": "আবেদন",
   "common.details": "বিস্তারিত",
   "training.search_header": "অনুসন্ধান কোর্স এবং প্রশিক্ষণ",
   "common.see_all": "সবগুলো দেখ",
@@ -731,5 +731,7 @@
   "level.intermediate": "মধ্যবর্তী",
   "level.expert": "বিশেষজ্ঞ",
   "common.short_min": "মিনিট",
-  "common.short_hour": "ঘন্টা"
+  "common.short_hour": "ঘন্টা",
+  "common.no_enrolled_course_found" : "কোন নথিভুক্ত কোর্স পাওয়া যায়নি",
+  "common.no_notice_found" : "কোন নোটিশ পাওয়া যায়নি"
 }
