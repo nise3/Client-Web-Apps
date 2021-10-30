@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
@@ -25,6 +25,7 @@ interface PersonalInfoFormProps {
   register: any;
   errors: any;
   control: any;
+  getValues: any;
   visibleFieldKeys: Array<string>;
 }
 
@@ -33,6 +34,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   register,
   errors,
   control,
+  getValues,
   visibleFieldKeys,
 }) => {
   const {messages} = useIntl();
@@ -54,6 +56,16 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   );
   const [isBelongToEthnicGroup, setIsBelongToEthnicGroup] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    if (getValues) {
+      const doesBelongsToEthnicGroup: any = getValues(
+        'does_belong_to_ethnic_group',
+      );
+
+      setIsBelongToEthnicGroup(doesBelongsToEthnicGroup);
+    }
+  }, [getValues]);
 
   const physicalDisabilities = useMemo(
     () => [

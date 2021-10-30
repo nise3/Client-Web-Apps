@@ -17,6 +17,7 @@ interface EducationalQualificationFormProps {
   register: any;
   errors: any;
   control: any;
+  getValues: any;
   visibleFieldKeys: Array<string>;
 }
 
@@ -25,6 +26,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
   errors,
   control,
   visibleFieldKeys,
+  getValues,
 }) => {
   const {data: educationsData} =
     useFetchEducationExamsBoardsEduGroupsAndSubjects();
@@ -49,6 +51,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.PSC)}
               eduBoards={educationsData?.edu_boards}
               countries={countries}
@@ -63,6 +66,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.JSC)}
               eduBoards={educationsData?.edu_boards}
               countries={countries}
@@ -77,6 +81,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.SSC)}
               eduBoards={educationsData?.edu_boards}
               eduGroups={educationsData?.edu_groups}
@@ -92,6 +97,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.HSC)}
               eduBoards={educationsData?.edu_boards}
               eduGroups={educationsData?.edu_groups}
@@ -107,6 +113,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.DIPLOMA)}
               countries={countries}
               result={educationsData?.result}
@@ -120,6 +127,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.HONOURS)}
               countries={countries}
               result={educationsData?.result}
@@ -133,6 +141,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               examDegrees={getExamDegreesByLevel(EducationLevel.MASTERS)}
               countries={countries}
               result={educationsData?.result}
@@ -146,6 +155,7 @@ const EducationalQualificationForm: FC<EducationalQualificationFormProps> = ({
               errors={errors}
               control={control}
               register={register}
+              getValues={getValues}
               countries={countries}
               result={educationsData?.result}
             />

@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {useIntl} from 'react-intl';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -20,6 +20,7 @@ interface AddressFormProps {
   register: any;
   errors: any;
   control: any;
+  getValues: any;
   onChangeSameAsPresentCheck: (checked: boolean) => void;
 }
 
@@ -27,6 +28,7 @@ const AddressForm: FC<AddressFormProps> = ({
   register,
   errors,
   control,
+  getValues,
   onChangeSameAsPresentCheck,
 }) => {
   const {messages} = useIntl();
@@ -58,6 +60,32 @@ const AddressForm: FC<AddressFormProps> = ({
   >([]);
   const [disabledPermanentAddress, setDisabledPermanentAddress] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    if (getValues) {
+      const presentAddress: any = getValues('present_address');
+      const permanentAddress: any = getValues('permanent_address');
+      const isPermanentAddress: any = getValues('is_permanent_address');
+
+      if (presentAddress.loc_division_id) {
+        onPresentDivisionChange(presentAddress.loc_division_id);
+      }
+
+      if (presentAddress.loc_district_id) {
+        onPresentDistrictChange(presentAddress.loc_district_id);
+      }
+
+      setDisabledPermanentAddress(isPermanentAddress);
+
+      if (permanentAddress.loc_division_id) {
+        onPermanentDivisionChange(permanentAddress.loc_division_id);
+      }
+
+      if (permanentAddress.loc_district_id) {
+        onPermanentDistrictChange(permanentAddress.loc_district_id);
+      }
+    }
+  }, [getValues, districts, upazilas]);
 
   const onPresentDivisionChange = useCallback(
     (divisionId: number) => {
@@ -160,6 +188,22 @@ const AddressForm: FC<AddressFormProps> = ({
           errorInstance={errors}
         />
       </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='present_address[house_n_road]'
+          label={messages['common.house_n_road_bn']}
+          register={register}
+          errorInstance={errors}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='present_address[house_n_road_en]'
+          label={messages['common.house_n_road_en']}
+          register={register}
+          errorInstance={errors}
+        />
+      </Grid>
 
       <Grid item xs={12}>
         <Typography variant={'h6'}>
@@ -255,6 +299,22 @@ const AddressForm: FC<AddressFormProps> = ({
           inputProps={{
             disabled: disabledPermanentAddress,
           }}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='permanent_address[house_n_road]'
+          label={messages['common.house_n_road_bn']}
+          register={register}
+          errorInstance={errors}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CustomTextInput
+          id='permanent_address[house_n_road_en]'
+          label={messages['common.house_n_road_en']}
+          register={register}
+          errorInstance={errors}
         />
       </Grid>
     </Grid>

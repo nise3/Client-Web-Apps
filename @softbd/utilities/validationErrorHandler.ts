@@ -1,11 +1,12 @@
 import {AxiosError} from 'axios';
 
 const ERRORS: any = {
-  61000: 'yup_validation_exist',
-  49000: 'yup_validation_required_field',
-  45000: 'yup_validation_number',
-  46000: 'yup_validation_password',
-  48000: 'yup_validation_regex',
+  32000: 'yup_validation_integer',
+  62000: 'yup_validation_exist',
+  50000: 'yup_validation_required_field',
+  46000: 'yup_validation_number',
+  47000: 'yup_validation_password',
+  49000: 'yup_validation_regex',
   22000: 'yup_validation_email',
   39003: 'yup_validation_text_length',
 };

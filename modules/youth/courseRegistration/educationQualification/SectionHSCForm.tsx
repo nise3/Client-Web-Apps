@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {Box, Typography} from '@mui/material';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -16,6 +16,7 @@ interface SectionHSCFormProps {
   errors: any;
   control: any;
   register: any;
+  getValues: any;
   examDegrees: Array<any>;
   eduBoards: Array<any>;
   eduGroups: Array<any>;
@@ -27,6 +28,7 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
   errors,
   register,
   control,
+  getValues,
   examDegrees,
   eduBoards,
   countries,
@@ -36,6 +38,18 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
   const {messages} = useIntl();
   const [isForeignInstitute, setIsForeignInstitute] = useState<boolean>(false);
   const [selectedResult, setSelectedResult] = useState<any>(null);
+
+  useEffect(() => {
+    if (getValues) {
+      const hscInfo: any = getValues('hsc_info');
+      const isForeignInstituteValue: any = hscInfo?.is_foreign_institute;
+
+      setIsForeignInstitute(isForeignInstituteValue);
+      if (hscInfo.result) {
+        onResultChange(hscInfo.result);
+      }
+    }
+  }, [getValues, result]);
 
   const onResultChange = useCallback(
     (resultId: number | undefined) => {

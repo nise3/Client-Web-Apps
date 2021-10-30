@@ -4,6 +4,10 @@ export const ResultCodeDivisions = [
   'THIRD_DIVISION',
 ];
 
+export const ResultCodeDivisionIds = ['1', '2', '3'];
+export const ResultCodeGradeId = '4';
+export const ResultCodeAppearedId = '5';
+
 export const ResultCodeGrade = 'GRADE';
 export const ResultCodeAppeared = 'APPEARED';
 export const EducationLevelCodePHD = 'PHD';
