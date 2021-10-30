@@ -3,7 +3,7 @@ import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   rootContainer: {
-    height: 'calc(100vh - 70px)',
+    height: 'calc(100vh - 90px)',
     display: 'flex',
     [theme.breakpoints.only('xs')]: {
       height: 'calc(100vh - 56px)',
