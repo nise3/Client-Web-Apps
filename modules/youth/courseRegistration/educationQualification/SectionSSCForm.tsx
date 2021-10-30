@@ -69,7 +69,9 @@ const SectionSscForm: FC<SectionSSCFormProps> = ({
     <Box sx={{boxShadow: '0px 0px 5px 5px #e9e9e9', padding: '15px'}}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant={'h6'}>SSC</Typography>
+          <Typography variant={'h6'}>
+            {messages['course_registration.education_ssc_title']}
+          </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
