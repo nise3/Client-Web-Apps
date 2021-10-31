@@ -50,9 +50,8 @@ const AssignPermissionToPermissionSubGroupPage = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPermissions, setAllPermissions] = useState<any>(null);
-  const {data: itemData} = useFetchPermissionSubGroup(
-    Number(permissionSubGroupId),
-  );
+  const {data: itemData, mutate: mutatePermissionSubGroup} =
+    useFetchPermissionSubGroup(Number(permissionSubGroupId));
 
   useEffect(() => {
     (async () => {
@@ -160,6 +159,7 @@ const AssignPermissionToPermissionSubGroupPage = () => {
       Number(permissionSubGroupId),
       Array.from(checkedPermissions),
     );
+    mutatePermissionSubGroup();
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages

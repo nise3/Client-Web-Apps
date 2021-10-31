@@ -53,7 +53,7 @@ const AssignPermissionToRolePage = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [allPermissions, setAllPermissions] = useState<any>(null);
 
-  const {data: itemData} = useFetchRole(Number(roleId));
+  const {data: itemData, mutate: mutateRole} = useFetchRole(Number(roleId));
   const {data: permissionGroup, isLoading} = useFetchPermissionSubGroup(
     itemData?.permission_sub_group_id,
   );
@@ -152,6 +152,7 @@ const AssignPermissionToRolePage = () => {
     setIsSubmitting(true);
     try {
       await assignPermissions(Number(roleId), Array.from(checkedPermissions));
+      mutateRole();
       updateSuccessMessage('permission.label');
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
