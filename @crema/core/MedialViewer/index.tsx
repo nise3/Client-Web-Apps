@@ -8,7 +8,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import useStyles from './index.style';
 import Zoom from '@mui/material/Zoom';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import {TransitionProps} from '@mui/material/transitions';
 
 const settings: {
   dots: boolean;
@@ -49,10 +48,7 @@ const renderRow = (data: any, index: number) => {
     );
   }
 };
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {children?: any},
-  ref: React.Ref<unknown>,
-) {
+const Transition = React.forwardRef(function Transition(props: any, ref: any) {
   return <Zoom ref={ref} {...props} />;
 });
 
