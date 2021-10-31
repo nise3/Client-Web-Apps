@@ -3,10 +3,14 @@ import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
-import {courseDuration} from '../../../../@softbd/utilities/helpers';
+import {
+  courseDuration,
+  getModulePath,
+} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../../@softbd/common/appLinks';
+import {useRouter} from 'next/router';
 
 interface CourseInfoBlockProps {
   course: any;
@@ -50,22 +54,41 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
   tagChipStyle: {
     marginBottom: 0,
   },
+  courseDetailsButton: {
+    position: 'absolute',
+    left: 19,
+    top: 19,
+  },
 }));
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const classes = useStyle();
   const {messages} = useIntl();
+  const router = useRouter();
 
   return (
     <Card className={classes.courseBlockRoot}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2} sx={{position: 'relative'}}>
           <CardMedia
             component='img'
             alt='course image'
             image={'/images/courseImage.jpeg'}
             sx={{height: '100%'}}
           />
+          <Link
+            href={
+              getModulePath(router.asPath) + `/course-details/${course?.id}`
+            }
+            passHref>
+            <Button
+              className={classes.courseDetailsButton}
+              variant={'contained'}
+              color={'primary'}
+              size={'small'}>
+              {messages['common.details']}
+            </Button>
+          </Link>
         </Grid>
         <Grid item xs={12} md={10}>
           <Grid container>
@@ -81,6 +104,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                         className={classes.jobProviderImage}
                       />
                     </Grid>
+
                     <Grid item xs={10}>
                       <Box mt={2} ml={2} className={classes.titleStyle}>
                         {course.title}

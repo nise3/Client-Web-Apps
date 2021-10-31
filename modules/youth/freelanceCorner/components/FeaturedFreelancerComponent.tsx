@@ -13,7 +13,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     padding: '10px 5px',
   },
   freelanceUserImage: {
-    marginLeft: 10,
+    // marginLeft: 10,
     border: '1px solid ' + theme.palette.grey['300'],
   },
   tagStyle: {
@@ -52,15 +52,15 @@ const FeaturedFreelancerComponent: FC<FeaturedFreelancerComponentProps> = ({
   return (
     <>
       <Card className={classes.featureFreelancerRoot}>
-        <Grid container spacing={1} alignItems={'center'}>
-          <Grid item xs={2} sm={2} md={2}>
+        <Grid container spacing={2} alignItems={'center'}>
+          <Grid item xs={2}>
             <Avatar
               className={classes.freelanceUserImage}
               alt='user image'
               src={freelanceUser.image}
             />
           </Grid>
-          <Grid item xs={8} sm={8} md={8}>
+          <Grid item xs={8}>
             <Box className={classes.freelancerNameStyle}>
               {freelanceUser.name}
             </Box>
