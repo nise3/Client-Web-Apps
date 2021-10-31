@@ -50,7 +50,7 @@ const renderRow = (data: any, index: number) => {
   }
 };
 const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {children?: React.ReactElement<any, any>},
+  props: TransitionProps & {children?: any},
   ref: React.Ref<unknown>,
 ) {
   return <Zoom ref={ref} {...props} />;
@@ -81,7 +81,10 @@ const MediaViewer: React.FC<MediaViewerProps> = ({index, medias, onClose}) => {
       className={classes.dialogRoot}
       TransitionComponent={Transition}>
       <Box className={classes.mediaViewerRoot}>
-        <IconButton className={classes.cancelBtn} onClick={onClose} size="large">
+        <IconButton
+          className={classes.cancelBtn}
+          onClick={onClose}
+          size='large'>
           <HighlightOffIcon />
         </IconButton>
         {index >= 0 ? (
