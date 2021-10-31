@@ -22,7 +22,6 @@ type Props = {
 const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
-  console.log('the application details: ', itemData);
 
   const router = useRouter();
   const path = router.pathname;
