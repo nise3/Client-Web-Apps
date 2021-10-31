@@ -46,7 +46,7 @@ const PortfolioSection = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='reference.label' />}}
+          values={{subject: <IntlMessages id='common.portfolio' />}}
         />,
       );
       mutatePortfolios();
