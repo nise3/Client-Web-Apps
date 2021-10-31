@@ -40,7 +40,7 @@ const FeatureJobSection = () => {
   ];
 
   return (
-    <Grid container spacing={{xs: 0, md: 2, xl: 3}}>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Box className={classes.featureSectionTitle}>
           {messages['common.featured']}
