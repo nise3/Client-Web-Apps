@@ -1,9 +1,10 @@
 import {Box, ImageList, ImageListItem, Typography} from '@mui/material';
 import {DateRangeOutlined} from '@mui/icons-material';
-import Link from 'next/link';
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import {useRouter} from 'next/router';
+import {Link} from '../../../@softbd/elements/common';
+import {getModulePath} from '../../../@softbd/utilities/helpers';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -87,7 +88,7 @@ function RecentActivityMasonryGroupView({items}: any) {
               <DateRangeOutlined />
               <Typography>{item.date}</Typography>
             </Box>
-            <Link href={`${path}/${item.id}`} passHref>
+            <Link href={`${getModulePath(path)}/recent-activities/${item.id}`}>
               <Typography
                 style={{
                   fontWeight: 'bold',

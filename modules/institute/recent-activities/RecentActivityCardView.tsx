@@ -35,28 +35,29 @@ function RecentActivityCardView({activity}: any) {
 
   return (
     <Card>
-      <CardActionArea>
-        <CardMedia
-          component='img'
-          height='140'
-          image={activity.img}
-          alt='random image'
-        />
-        <CardContent>
-          <Box className={classes.dateInfo}>
-            <DateRangeOutlined />
-            <Typography>{activity.date}</Typography>
-          </Box>
-          <Link href={`${path}/${activity.id}`} passHref>
+      <Link href={`${path}/${activity.id}`} passHref>
+        <CardActionArea>
+          <CardMedia
+            component='img'
+            height='140'
+            image={activity.img}
+            alt='random image'
+          />
+          <CardContent>
+            <Box className={classes.dateInfo}>
+              <DateRangeOutlined />
+              <Typography>{activity.date}</Typography>
+            </Box>
+
             <Typography
               style={{fontWeight: 'bold'}}
               variant='subtitle2'
               component='div'>
               {activity.title}
             </Typography>
-          </Link>
-        </CardContent>
-      </CardActionArea>
+          </CardContent>
+        </CardActionArea>
+      </Link>
     </Card>
   );
 }
