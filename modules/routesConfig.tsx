@@ -16,13 +16,6 @@ export interface NavItemProps {
 
 const routesConfig: NavItemProps[] = [
   {
-    id: 'app',
-    title: 'Application',
-    messageId: 'menu.application',
-    type: 'group',
-    children: [],
-  },
-  {
     id: 'pages',
     title: 'Pages',
     messageId: 'menu.pages',
