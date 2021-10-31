@@ -22,6 +22,7 @@ type Props = {
 const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
+  console.log('the application details: ', itemData);
 
   const router = useRouter();
   const path = router.pathname;
@@ -276,7 +277,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.nationality']}
-              value={nationalities[itemData?.nationality - 1].title}
+              value={nationalities[itemData?.nationality - 1]?.title}
               isLoading={isLoading}
             />
           </Grid>
@@ -289,14 +290,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {/*<Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.miscellaneous']}
-              value={itemData?.miscellaneous}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
-          {/*<Grid item xs={6}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.physical_disability']}
               value={
@@ -306,36 +300,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
               }
               isLoading={isLoading}
             />
-          </Grid>*/}
-          {/*<Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.educations']}
-              value={itemData?.educations}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
-          {/*<Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.addresses']}
-              value={itemData?.addresses}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
-
-          {/*{itemData?.addresses && (
-            <React.Fragment>
-              <Typography>Address</Typography>
-              {(itemData?.addresses).map((address: any) => {
-                console.log('address.address_type: ', address.address_type);
-                return (
-                  <p key={address.id}>
-                    {5 === 5 ? 'Permanent Address' : 'Present Address'}
-                  </p>
-                );
-              })}
-            </React.Fragment>
-          )}*/}
-
+          </Grid>
           <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}
@@ -343,6 +308,223 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
+
+          {/** addresses */}
+          {itemData?.addresses.length > 0 && (
+            <Grid item xs={6}>
+              <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                  {messages['common.addresses']}
+                </legend>
+                {(itemData?.addresses).map((address: any) => {
+                  return (
+                    <div key={address.id}>
+                      <h2>
+                        {address.address_type === 1
+                          ? messages['common.permanent_address']
+                          : messages['common.present_address']}
+                      </h2>
+                      <ul>
+                        {address?.loc_division_title && (
+                          <li>Division: {address?.loc_division_title}</li>
+                        )}
+                        {address?.loc_district_title && (
+                          <li>District: {address?.loc_district_title}</li>
+                        )}
+                        {address?.loc_upazila_tile && (
+                          <li>Upazila: {address?.loc_upazila_tile}</li>
+                        )}
+                        {address?.village_or_area && (
+                          <li>Village Area: {address?.village_or_area}</li>
+                        )}
+                        {address?.house_n_road && (
+                          <li>House & Road: {address?.house_n_road}</li>
+                        )}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </fieldset>
+            </Grid>
+          )}
+
+          {/** Guardian */}
+          {itemData?.guardian && (
+            <Grid item xs={6}>
+              <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                  {messages['guardian.title']}
+                </legend>
+                {itemData?.guardian?.father_name && (
+                  <>
+                    <h2>{messages['common.father_information']}</h2>
+                    <ul>
+                      <li>Name: {itemData?.guardian?.father_name}</li>
+                      {itemData?.guardian?.father_mobile && (
+                        <li>
+                          Mobile Number: {itemData?.guardian?.father_mobile}
+                        </li>
+                      )}
+                      {itemData?.guardian?.father_nid && (
+                        <li>NID Number: {itemData?.guardian?.father_nid}</li>
+                      )}
+                      {itemData?.guardian?.father_date_of_birth && (
+                        <li>
+                          Date of Birthdate:{' '}
+                          {itemData?.guardian?.father_date_of_birth}
+                        </li>
+                      )}
+                    </ul>
+                  </>
+                )}
+                {itemData?.guardian?.mother_name && (
+                  <>
+                    <h2>{messages['common.mother_information']}</h2>
+                    <ul>
+                      <li>Name: {itemData?.guardian?.mother_name}</li>
+                      {itemData?.guardian?.mother_mobile && (
+                        <li>
+                          Mobile Number: {itemData?.guardian?.mother_mobile}
+                        </li>
+                      )}
+                      {itemData?.guardian?.mother_nid && (
+                        <li>NID Number: {itemData?.guardian?.mother_nid}</li>
+                      )}
+                      {itemData?.guardian?.mother_date_of_birth && (
+                        <li>
+                          Date of Birthdate:{' '}
+                          {itemData?.guardian?.mother_date_of_birth}
+                        </li>
+                      )}
+                    </ul>
+                  </>
+                )}
+              </fieldset>
+            </Grid>
+          )}
+
+          {/** Educations */}
+          {itemData?.educations?.map((education: any) => {
+            return (
+              <Grid item xs={6} key={education.id}>
+                <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                  <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                    {education?.education_level_title}
+                  </legend>
+                  <ul>
+                    {education?.edu_board_title && (
+                      <li>Education Board: {education?.edu_board_title}</li>
+                    )}
+                    {education?.institute_name && (
+                      <li>Institute name: {education?.institute_name}</li>
+                    )}
+                    {education?.edu_group_title && (
+                      <li>Education Group: {education?.edu_group_title}</li>
+                    )}
+                    <li>
+                      Is foreign institute:{' '}
+                      {education?.is_foreign_institute === 1 ? 'Yes' : 'No'}
+                    </li>
+                    {education?.is_foreign_institute === 1 &&
+                      education?.foreign_institute_country_title && (
+                        <li>
+                          Country Name:{' '}
+                          {education?.foreign_institute_country_title}
+                        </li>
+                      )}
+                    {education?.result?.title &&
+                      education?.result?.title !== 'Grade' && (
+                        <li>Result: {education?.result?.title}</li>
+                      )}
+                    {education?.marks_in_percentage && (
+                      <li>
+                        Marks: {parseInt(education?.marks_in_percentage)}%
+                      </li>
+                    )}
+                    {education?.cgpa && education?.cgpa_scale && (
+                      <li>
+                        CGPA: {parseFloat(education?.cgpa)} (out of{' '}
+                        {parseInt(education?.cgpa_scale)})
+                      </li>
+                    )}
+                    {education?.duration && (
+                      <li>Duration: {education?.duration}</li>
+                    )}
+                    <li>
+                      Exam Title:{' '}
+                      {education?.exam_degree_id
+                        ? education?.exam_degree_title
+                        : education?.exam_degree_name}
+                    </li>
+                    {education?.year_of_passing && (
+                      <li>
+                        Year of passing: {parseInt(education?.year_of_passing)}
+                      </li>
+                    )}
+                    {education?.expected_year_of_passing && (
+                      <li>
+                        Expected year of passing:{' '}
+                        {parseInt(education?.expected_year_of_passing)}
+                      </li>
+                    )}
+                    {education?.achievements && (
+                      <li>Achievements: {education?.achievements}</li>
+                    )}
+                  </ul>
+                </fieldset>
+              </Grid>
+            );
+          })}
+
+          {/** Physical Disabilities */}
+          {itemData?.physical_disability_status === 1 &&
+            itemData?.physical_disabilities && (
+              <Grid item xs={6}>
+                <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                  <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                    {messages['common.physical_disability']}
+                  </legend>
+                  {(itemData?.physical_disabilities).map((disablity: any) => {
+                    return <h3 key={disablity.id}>{disablity?.title}</h3>;
+                  })}
+                </fieldset>
+              </Grid>
+            )}
+
+          {/** Miscellaneous */}
+          {itemData?.miscellaneous && (
+            <Grid item xs={6}>
+              <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                  {messages['common.miscellaneous']}
+                </legend>
+                <ul>
+                  <li>
+                    Has own family home?{' '}
+                    <h3>
+                      {itemData?.miscellaneous?.has_own_family_home
+                        ? 'Yes'
+                        : 'No'}
+                    </h3>
+                  </li>
+                  <li>
+                    Has own family land?{' '}
+                    <h3>
+                      {itemData?.miscellaneous?.has_own_family_land
+                        ? 'Yes'
+                        : 'No'}
+                    </h3>
+                  </li>
+                  <li>
+                    Number of siblings:{' '}
+                    <h3 style={{lineHeight: '0px'}}>
+                      {itemData?.miscellaneous?.number_of_siblings}
+                    </h3>
+                  </li>
+                </ul>
+              </fieldset>
+            </Grid>
+          )}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>
