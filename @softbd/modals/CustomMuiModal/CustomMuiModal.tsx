@@ -10,7 +10,6 @@ import {WithStyles} from '@mui/styles';
 import createStyles from '@mui/styles/createStyles';
 import withStyles from '@mui/styles/withStyles';
 import {Close as CloseIcon} from '@mui/icons-material';
-import {TransitionProps} from '@mui/material/transitions';
 import Slide from '@mui/material/Slide';
 
 const styles = (theme: Theme) =>
@@ -58,10 +57,7 @@ export const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   );
 });
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {children?: React.ReactElement<any, any>},
-  ref: React.Ref<unknown>,
-) {
+const Transition = React.forwardRef(function Transition(props: any, ref: any) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
