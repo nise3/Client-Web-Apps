@@ -32,9 +32,19 @@ const MyCoursePage = () => {
                     <Link
                       href={
                         getModulePath(router.asPath) +
-                        `/course-details/${course.id}`
+                        `/course-details/${course.course_id}`
                       }>
-                      <CourseCardComponent course={course} />
+                      <CourseCardComponent
+                        course={{
+                          id: course.course_id,
+                          course_fee: course.course_fee,
+                          title: course.course_title,
+                          institute_title: course.institute_title,
+                          created_at: course.course_created_at,
+                          duration: course.duration,
+                          progress: (course.id * 40) % 100,
+                        }}
+                      />
                     </Link>
                   </Grid>
                 );

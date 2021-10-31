@@ -50,7 +50,7 @@ const YouthNoticeBoard = () => {
       </Box>
 
       {noticeList && noticeList.length ? (
-        <Grid container spacing={5} style={{marginTop: 0}}>
+        <Grid container spacing={3} style={{marginTop: 0}}>
           {noticeList.map((notice: any) => {
             return (
               <Grid item xs={12} md={6} key={notice.id}>

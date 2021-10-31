@@ -126,7 +126,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   return (
     <Box className={classes.pageRootHeader}>
       <Container maxWidth={'lg'}>
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
             <Box fontSize={'16px'}>{messages['training.search_header']}</Box>
             <Card sx={{padding: '10px', alignItems: 'center'}}>
@@ -172,7 +172,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'institute_id'}
                   labelId={'select-institute'}
                   selectedOptionId={selectedInstituteId}
-                  defaultLabel={'select institute'}
+                  defaultLabel={'Select Institute'}
                   onChangeCallback={handleInstituteFilterChange}
                   options={institutes}
                 />
@@ -183,7 +183,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'program_id'}
                   labelId={'select-program'}
                   selectedOptionId={selectedProgrammeId}
-                  defaultLabel={'select program'}
+                  defaultLabel={'Select Program'}
                   onChangeCallback={handleProgrammeFilterChange}
                   options={selectedInstituteId ? programmes : []}
                 />
@@ -193,7 +193,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'level'}
                   labelId={'select-skill-level'}
                   selectedOptionId={selectedSkillLevel}
-                  defaultLabel={'select skill level'}
+                  defaultLabel={'Select Skill Level'}
                   onChangeCallback={handleSkillLevelChange}
                   options={SKILL_LEVELS}
                 />
@@ -203,7 +203,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'course_type'}
                   labelId={'select-course-type'}
                   selectedOptionId={selectedcourseTypeId}
-                  defaultLabel={'select course type'}
+                  defaultLabel={'Select Course Type'}
                   onChangeCallback={handleCourseTypeChange}
                   options={COURSE_TYPES}
                 />
@@ -213,7 +213,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'availability'}
                   labelId={'select-availability'}
                   selectedOptionId={selectedAvailability}
-                  defaultLabel={'select availability'}
+                  defaultLabel={'Select Availability'}
                   onChangeCallback={handleAvailabilityChange}
                   options={AVAILABILITIES}
                 />
@@ -223,7 +223,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'language'}
                   labelId={'select-language-medium'}
                   selectedOptionId={selectedLanguageId}
-                  defaultLabel={'language medium'}
+                  defaultLabel={'Language Medium'}
                   onChangeCallback={handleLanguageChange}
                   options={LANGUAGES}
                 />

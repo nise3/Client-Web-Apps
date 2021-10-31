@@ -31,7 +31,7 @@ const FeaturedFreelanceSection = () => {
 
   return (
     <>
-      <Grid container spacing={5}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12}>
           <Box sx={{fontSize: 17, fontWeight: 'bold'}}>
             {messages['freelance_corner.featured_freelance']}

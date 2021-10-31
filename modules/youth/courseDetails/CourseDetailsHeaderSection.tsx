@@ -29,7 +29,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
           <Box className={classes.courseFee}>
             {messages['common.course_fee']}:{' '}
             <Box className={classes.courseFeeStyle}>
-              {course?.course_fee || 'free'}
+              {course?.course_fee ? course?.course_fee + ' TK' : 'Free'}
             </Box>
           </Box>
           <Typography variant={'h4'} mb={8} fontWeight={'bold'}>

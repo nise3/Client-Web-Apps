@@ -93,28 +93,29 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
 
   return (
     <TabContext value={value}>
-      <Box sx={{background: '#e6f3ec'}}>
-        <Container maxWidth={'lg'}>
-          <TabList aria-label='tabs' onChange={handleChange}>
-            <Tab
-              label={messages['course_details.overview']}
-              value={CourseDetailsTabs.TAB_OVERVIEW}
-            />
-            <Tab
-              label={messages['course_details.lesson']}
-              value={CourseDetailsTabs.TAB_LESSON}
-            />
-            <Tab
-              label={messages['course_details.requirements']}
-              value={CourseDetailsTabs.TAB_REQUIREMENTS}
-            />
-            <Tab
-              label={messages['course_details.trainer']}
-              value={CourseDetailsTabs.TAB_TRAINER}
-            />
-          </TabList>
-        </Container>
-      </Box>
+      <Container maxWidth={'lg'}>
+        <TabList
+          aria-label='tabs'
+          onChange={handleChange}
+          sx={{background: '#e6f3ec'}}>
+          <Tab
+            label={messages['course_details.overview']}
+            value={CourseDetailsTabs.TAB_OVERVIEW}
+          />
+          <Tab
+            label={messages['course_details.lesson']}
+            value={CourseDetailsTabs.TAB_LESSON}
+          />
+          <Tab
+            label={messages['course_details.requirements']}
+            value={CourseDetailsTabs.TAB_REQUIREMENTS}
+          />
+          <Tab
+            label={messages['course_details.trainer']}
+            value={CourseDetailsTabs.TAB_TRAINER}
+          />
+        </TabList>
+      </Container>
 
       <Container maxWidth={'lg'}>
         <Box>

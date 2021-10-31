@@ -27,7 +27,7 @@ const CourseListPage = () => {
     <Box className={classes.trainingViewRoot}>
       <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
       <Container maxWidth={'lg'} className={classes.mainContent}>
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
           <Grid item xs={12}>
             <SkillMatchingCoursesSection filters={filters} page_size={4} />
           </Grid>

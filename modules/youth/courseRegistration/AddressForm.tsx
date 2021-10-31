@@ -307,6 +307,9 @@ const AddressForm: FC<AddressFormProps> = ({
           label={messages['common.house_n_road_bn']}
           register={register}
           errorInstance={errors}
+          inputProps={{
+            disabled: disabledPermanentAddress,
+          }}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -315,6 +318,9 @@ const AddressForm: FC<AddressFormProps> = ({
           label={messages['common.house_n_road_en']}
           register={register}
           errorInstance={errors}
+          inputProps={{
+            disabled: disabledPermanentAddress,
+          }}
         />
       </Grid>
     </Grid>

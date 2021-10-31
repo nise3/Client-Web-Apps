@@ -308,6 +308,6 @@ export const getModulePath = (path: string) => {
   } else if (pathArray.indexOf('institute') > -1) {
     return '/institute';
   } else {
-    return '/';
+    return '';
   }
 };

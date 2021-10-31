@@ -99,9 +99,9 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
 
   return (
     <>
-      <Grid container spacing={5}>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {overviewItems.map((overview: any) => {
               return (
                 <Grid item xs={12} sm={6} md={4} key={overview.text}>

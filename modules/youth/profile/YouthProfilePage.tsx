@@ -16,7 +16,7 @@ const YouthProfile = () => {
   return (
     <>
       <Container maxWidth={'lg'}>
-        <Grid container columnSpacing={3} xs={12} mt={{xs: 3}}>
+        <Grid container columnSpacing={3} mt={{xs: 3}}>
           <Grid item xs={12} md={9}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={12}>

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
     marginTop: '0px',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100vh - 70px)',
+      height: 'calc(100vh - 90px)',
       boxSizing: 'border-box',
       overflowY: 'hidden',
     },
@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   },
   scrollBarStyle: {
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: '1px',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100vh - 70px)',
+      height: 'calc(100vh - 90px)',
       overflowY: 'hidden',
       '&:hover': {
         overflowY: 'auto',
@@ -101,10 +101,10 @@ const YouthFeedPage = () => {
 
   return (
     <Container maxWidth={'lg'} className={classes.container}>
-      <Grid container spacing={5}>
+      <Grid container columnSpacing={3}>
         <Grid item xs={12} md={3}>
           <Scrollbar className={classes.scrollBarStyle}>
-            <Grid container spacing={5}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <BasicInfo />
               </Grid>
@@ -119,7 +119,7 @@ const YouthFeedPage = () => {
             className={classes.scrollBarStyle}
             onYReachEnd={debounce(onScrollMainPostContent, 1000)}
             onYReachStart={debounce(onScrollUpPostContent, 1000)}>
-            <Grid container spacing={5}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <OverviewSection addFilter={filterPost} />
               </Grid>
@@ -138,7 +138,7 @@ const YouthFeedPage = () => {
         </Grid>
         <Grid item xs={12} md={3} order={{xs: 2, md: 3}}>
           <Scrollbar className={classes.scrollBarStyle}>
-            <Grid container spacing={5}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <RecentJobSection />
               </Grid>

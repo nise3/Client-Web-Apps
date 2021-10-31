@@ -27,16 +27,18 @@ const AllFreelancerListSection = ({
 
   useEffect(() => {
     let filters = {
-      skills: skillIds,
+      skill_ids: skillIds,
       first_name: searchText,
       first_name_en: searchText,
-      upazila_id: upazila_id,
+      last_name: searchText,
+      last_name_en: searchText,
+      loc_upazila_id: upazila_id,
     };
     setFreelancerFilters(objectFilter({...freelancerFilters, ...filters}));
   }, [skillIds, searchText, upazila_id]);
 
   return (
-    <Grid container spacing={5}>
+    <Grid container spacing={3}>
       <Grid item xs={12}>
         <Box sx={{fontSize: 17, fontWeight: 'bold'}}>
           {messages['common.all']}
