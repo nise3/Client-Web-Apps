@@ -20,10 +20,16 @@ import {deleteBatch} from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
+import AssignBatchButton from '../applicationManagement/AssignBatchButton';
+import {FiUserCheck} from 'react-icons/fi';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
 
 const BatchesPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const router = useRouter();
+  const path = router.pathname;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -137,6 +143,13 @@ const BatchesPage = () => {
                 deleteAction={() => deleteBatchItem(data.id)}
                 deleteTitle='Are you sure?'
               />
+              <Link href={`${path}/${data?.id}/youths`} passHref={true}>
+                <AssignBatchButton
+                  btnText='youth.label'
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  style={{marginLeft: '10px'}}
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },

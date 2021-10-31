@@ -121,7 +121,7 @@ const ApplicationManagementPage = () => {
           }
         },
       },
-      {
+      /*{
         Header: messages['applicationManagement.traineeDetails'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -132,13 +132,14 @@ const ApplicationManagementPage = () => {
           );
         },
         sortable: false,
-      },
+      },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
               <AssignBatchButton
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
                 btnText='applicationManagement.assignBatch'
