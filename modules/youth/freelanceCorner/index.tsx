@@ -106,9 +106,9 @@ const FreelanceCorner = () => {
 
   return (
     <Container maxWidth={'lg'} className={classes.container}>
-      <Grid container spacing={5} className={classes.root}>
+      <Grid container spacing={3} className={classes.root}>
         <Grid item xs={12} md={3}>
-          <Grid container spacing={5}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <Card>
                 <CardContent>
@@ -174,7 +174,7 @@ const FreelanceCorner = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Grid container spacing={5}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <Card sx={{padding: '10px', alignItems: 'center'}}>
                 <Grid container spacing={1} sx={{alignItems: 'center'}}>
@@ -221,7 +221,7 @@ const FreelanceCorner = () => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <Grid container spacing={5}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <FreelanceProfileComponent />
             </Grid>

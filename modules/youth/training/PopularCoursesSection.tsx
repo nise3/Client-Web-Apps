@@ -36,7 +36,7 @@ const PopularCoursesSection = ({
     useFetchCourseList(pathValue, courseFilters);
 
   return courseList && courseList.length ? (
-    <Grid container spacing={5}>
+    <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
@@ -58,7 +58,7 @@ const PopularCoursesSection = ({
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
           {courseList &&
             courseList.map((course: any) => {
               return (

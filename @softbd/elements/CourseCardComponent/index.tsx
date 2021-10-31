@@ -13,7 +13,7 @@ import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
-import {courseDuration} from '../../utilities/helpers';
+import {courseDuration, getMomentDateFormat} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -74,7 +74,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
       <CardContent>
         <Avatar
           className={classes.providerLogo}
-          alt={course?.institute_name}
+          alt={course?.institute_title}
           src={'http://lorempixel.com/400/200?id=1' + course?.id}
         />
         <Box className={classes.courseFee}>
@@ -85,7 +85,8 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         <Box fontWeight={'bold'}>{course.title}</Box>
 
         <Box marginTop={'5px'}>
-          By: {course.institute_title} &#8226; {course.created_at}
+          By: {course.institute_title} &#8226;{' '}
+          {getMomentDateFormat(course.created_at, 'DD MMM, YYYY')}
         </Box>
 
         <Box className={classes.tagBox}>
