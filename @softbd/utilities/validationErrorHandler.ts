@@ -84,13 +84,30 @@ export const processServerSideErrors = ({
       notistackErrors.forEach((value: string) => {
         errorStack(value);
       });
+
+      if (
+        !shouldShowOnFields.length &&
+        !(shouldShowOnStack.length && notistackErrors.length)
+      ) {
+        errorStack(
+          error.response?.data?._response_status?.message ||
+            'Unknown Validation Error',
+        );
+      }
     } else {
-      errorStack('Unknown Validation Error');
+      errorStack(
+        error.response?.data?._response_status?.message ||
+          'Unknown Validation Error',
+      );
     }
   } else if (Number(error.response?.status || 0) >= 500) {
-    errorStack('Internal Server Error');
+    errorStack(
+      error.response?.data?._response_status?.message ||
+        'Internal Server Error',
+    );
   } else {
-    errorStack('Unknown Error');
+    errorStack(
+      error.response?.data?._response_status?.message || 'Unknown Error',
+    );
   }
-  // error.response?.data?._response_status?.message
 };
