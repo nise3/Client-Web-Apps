@@ -36,7 +36,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             {course?.title}
           </Typography>
           {course?.duration && (
-            <TagChip label={courseDuration(course?.duration)} />
+            <TagChip label={courseDuration(course.duration)} />
           )}
           {course?.total_enrolled && (
             <TagChip label={course?.total_enrolled + ' Enrolled'} />
