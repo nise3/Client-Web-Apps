@@ -273,6 +273,21 @@ const YouthCourseRegistrationPage = () => {
             .boolean()
             .required()
             .label(messages['youth_registration.ethnic_group'] as string),
+          marital_status: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.marital_status'] as string),
+          religion: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.religion'] as string),
+          freedom_fighter_status: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.freedom_fighter_status'] as string),
         });
       case CourseConfigKeys.ADDRESS_KEY:
         return yup.object().shape({
