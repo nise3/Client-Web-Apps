@@ -29,8 +29,8 @@ axiosInstance.interceptors.request.use(
       COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
     const userAccessToken = authAccessTokenData?.access_token;
-    console.log('userAccessToken', userAccessToken);
-    console.log('apiAccessToken', apiAccessToken);
+    // console.log('userAccessToken', userAccessToken);
+    // console.log('apiAccessToken', apiAccessToken);
 
     if (userAccessToken || apiAccessToken) {
       config.headers['Authorization'] = `Bearer ${
@@ -66,13 +66,13 @@ export function loadAppAccessToken() {
       },
     )
       .then((response: AxiosResponse<any>) => {
-        console.log('/oauth2/token', response);
+        // console.log('/oauth2/token', response);
         axiosInstance.defaults.headers.common[
           'Authorization'
         ] = `Bearer ${accessToken}`;
       })
       .catch((error: AxiosError) => {
-        console.log(error);
+        // console.log(error);
       });
   }
 }

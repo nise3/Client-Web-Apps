@@ -15,8 +15,9 @@ type Props = {
   label: string;
   radios: Array<any>;
   isLoading: boolean;
+  required?: boolean;
   control: any;
-  defaultValue: string;
+  defaultValue?: string;
   onChange?: (e: any) => any;
 };
 
@@ -25,8 +26,9 @@ const FormRadioButtons = ({
   label,
   radios,
   isLoading,
+  required = false,
   control,
-  defaultValue,
+  defaultValue = '',
   onChange: onChangeCallback,
 }: Props) => {
   const {messages} = useIntl();
@@ -35,7 +37,9 @@ const FormRadioButtons = ({
     <TextInputSkeleton />
   ) : (
     <FormControl component='fieldset'>
-      <FormLabel component='legend'>{messages[label]}</FormLabel>
+      <FormLabel component='legend' required={required}>
+        {messages[label]}
+      </FormLabel>
       <Controller
         render={({field: {onChange, value = defaultValue.toString()}}) => (
           <RadioGroup

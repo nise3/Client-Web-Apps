@@ -11,6 +11,7 @@ type Props = {
   variant?: 'outlined' | 'standard' | 'filled';
   size?: 'small' | 'medium';
   isLoading?: boolean;
+  required?: boolean;
   register?: any;
   errorInstance?: any;
   defaultValue?: string;
@@ -22,7 +23,8 @@ const CustomDateTimeField = ({
   className,
   variant,
   size,
-  isLoading,
+  isLoading = false,
+  required = false,
   register,
   errorInstance,
   defaultValue,
@@ -31,6 +33,10 @@ const CustomDateTimeField = ({
     <TextInputSkeleton />
   ) : (
     <TextField
+      InputLabelProps={{
+        shrink: true,
+        required: required,
+      }}
       fullWidth
       variant={variant ? variant : 'outlined'}
       size={size ? size : 'small'}
@@ -41,9 +47,6 @@ const CustomDateTimeField = ({
       defaultValue={defaultValue}
       inputProps={{
         max: '9999-12-31',
-      }}
-      InputLabelProps={{
-        shrink: true,
       }}
       error={errorInstance?.[id] && Boolean(errorInstance?.[id])}
       helperText={

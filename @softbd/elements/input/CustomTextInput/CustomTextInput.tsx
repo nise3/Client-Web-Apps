@@ -73,8 +73,8 @@ const CustomTextInput = ({
         )
       }
       defaultValue={defaultValue}
+      inputProps={{...inputProps, ...{required: false}}}
       {...register(id)}
-      inputProps={inputProps}
       {...rest}
     />
   );
