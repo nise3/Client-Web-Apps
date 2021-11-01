@@ -27,6 +27,7 @@ type Props = {
   multiple?: boolean;
   inputProps?: any;
   isDisabled?: boolean;
+  required?: boolean;
   isGroupData?: boolean;
   optionGroupTitleProp?: Array<string>;
   groupDataKey?: string;
@@ -48,6 +49,7 @@ const CustomFormSelect = ({
   onChange: onChangeCallback,
   inputProps,
   isDisabled = false,
+  required = false,
   isGroupData = false,
   optionGroupTitleProp,
   groupDataKey,
@@ -84,7 +86,9 @@ const CustomFormSelect = ({
       disabled={isDisabled}
       error={!!errorObj}
       size={size ? size : 'small'}>
-      <InputLabel id='select-outlined-label'>{label}</InputLabel>
+      <InputLabel id='select-outlined-label' required={required}>
+        {label}
+      </InputLabel>
       <Controller
         render={({field: {onChange, value = defaultValue}}) => (
           <>
