@@ -686,7 +686,7 @@
   "common.identity_type_nid": "জাতীয় পরিচয় নম্বর",
   "common.identity_type_birth_cert": "জন্ম সনদ নম্বর",
   "common.identity_type_passport": "পাসপোর্ট নম্বর",
-  "youth.edit_education": "Edit Education",
+  "youth.edit_education": "শিক্ষা সম্পাদনা",
   "youth.label": "ইউথ এর তালিকা",
   "youth.username": "ইউজারনেম",
   "youth.fullName": "পুরো নাম",
@@ -791,5 +791,13 @@
   "common.no_enrolled_course_found" : "কোন নথিভুক্ত কোর্স পাওয়া যায়নি",
   "common.no_notice_found" : "কোন নোটিশ পাওয়া যায়নি",
   "common.gallery": "গ্যালারি",
-  "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন"
+  "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন",
+  "common.select_institute": "ইনস্টিটিউট নির্বাচন করুন",
+  "common.select_program": "প্রোগ্রাম নির্বাচন করুন",
+  "common.language_medium": "ভাষা মাধ্যম",
+  "common.select_skill_level":"দক্ষতার স্তর নির্বাচন করুন",
+  "common.select_course_type":"কোর্সের ধরন নির্বাচন করুন",
+  "common.select_availability":"প্রাপ্যতা নির্বাচন করুন",
+  "common.select_language_medium":"ভাষা মাধ্যম নির্বাচন করুন",
+  "common.no_nearby_training_center_found":"কাছাকাছি কোনো প্রশিক্ষণ কেন্দ্র পাওয়া যায়নি"
 }

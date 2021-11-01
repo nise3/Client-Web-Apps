@@ -172,7 +172,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'institute_id'}
                   labelId={'select-institute'}
                   selectedOptionId={selectedInstituteId}
-                  defaultLabel={'Select Institute'}
+                  defaultLabel={messages['common.select_institute'] as string}
                   onChangeCallback={handleInstituteFilterChange}
                   options={institutes}
                 />
@@ -183,7 +183,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'program_id'}
                   labelId={'select-program'}
                   selectedOptionId={selectedProgrammeId}
-                  defaultLabel={'Select Program'}
+                  defaultLabel={messages['common.select_program'] as string}
                   onChangeCallback={handleProgrammeFilterChange}
                   options={selectedInstituteId ? programmes : []}
                 />
@@ -193,7 +193,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'level'}
                   labelId={'select-skill-level'}
                   selectedOptionId={selectedSkillLevel}
-                  defaultLabel={'Select Skill Level'}
+                  defaultLabel={messages['common.select_skill_level'] as string}
                   onChangeCallback={handleSkillLevelChange}
                   options={SKILL_LEVELS}
                 />
@@ -203,7 +203,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'course_type'}
                   labelId={'select-course-type'}
                   selectedOptionId={selectedcourseTypeId}
-                  defaultLabel={'Select Course Type'}
+                  defaultLabel={messages['common.select_course_type'] as string}
                   onChangeCallback={handleCourseTypeChange}
                   options={COURSE_TYPES}
                 />
@@ -213,7 +213,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'availability'}
                   labelId={'select-availability'}
                   selectedOptionId={selectedAvailability}
-                  defaultLabel={'Select Availability'}
+                  defaultLabel={
+                    messages['common.select_availability'] as string
+                  }
                   onChangeCallback={handleAvailabilityChange}
                   options={AVAILABILITIES}
                 />
@@ -223,7 +225,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   id={'language'}
                   labelId={'select-language-medium'}
                   selectedOptionId={selectedLanguageId}
-                  defaultLabel={'Language Medium'}
+                  defaultLabel={
+                    messages['common.select_language_medium'] as string
+                  }
                   onChangeCallback={handleLanguageChange}
                   options={LANGUAGES}
                 />
