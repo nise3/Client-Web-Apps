@@ -1,4 +1,10 @@
-import {Box, ImageList, ImageListItem, Typography} from '@mui/material';
+import {
+  Box,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Typography,
+} from '@mui/material';
 import {DateRangeOutlined} from '@mui/icons-material';
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
@@ -15,15 +21,18 @@ const useStyles = makeStyles((theme) => {
       padding: '4px',
       width: '130px',
       borderRadius: '5px',
-      marginBottom: '10px',
+      bottom: '9vh',
+      left: '5px',
+      position: 'absolute',
+      [theme.breakpoints.down('lg')]: {
+        bottom: '10vh',
+      },
     },
     image: {
       overflow: 'hidden',
     },
     imageTexts: {
-      position: 'absolute',
-      bottom: '5%',
-      left: '4%',
+      position: 'relative',
     },
   };
 });
@@ -89,16 +98,7 @@ function RecentActivityMasonryGroupView({items}: any) {
               <Typography>{item.date}</Typography>
             </Box>
             <Link href={`${getModulePath(path)}/recent-activities/${item.id}`}>
-              <Typography
-                style={{
-                  fontWeight: 'bold',
-                  color: 'white',
-                  cursor: 'pointer',
-                }}
-                variant='subtitle2'
-                component='div'>
-                {item.title}
-              </Typography>
+              <ImageListItemBar title={item.title} />
             </Link>
           </Box>
         </ImageListItem>

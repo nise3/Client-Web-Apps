@@ -16,18 +16,14 @@ const useStyles = makeStyles((theme) => {
     accordion: {
       marginBottom: '10px',
     },
-    question: {
-      whiteSpace: 'nowrap',
-    },
     heading: {
       boxShadow: '0px 2px 2px #8888',
-      padding: '40px 0px',
     },
   };
 });
 
 const InstituteFAQ = () => {
-  const [expanded, setExpanded] = useState<string | false>(false);
+  const [expandedState, setExpanded] = useState<string | false>(false);
   const {messages} = useIntl();
   const classes = useStyles();
 
@@ -41,7 +37,9 @@ const InstituteFAQ = () => {
   return (
     <Grid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H2>{messages['faq.institute']}</H2>
+        <H2 py={3} fontWeight={'bold'}>
+          {messages['faq.institute']}
+        </H2>
       </Grid>
       <Container maxWidth='lg'>
         <Grid container>
@@ -49,18 +47,22 @@ const InstituteFAQ = () => {
             {faqItems?.map((item: any) => (
               <Accordion
                 className={classes.accordion}
-                expanded={expanded === item.id}
+                expanded={expandedState === item.id}
                 onChange={handleChange(item.id)}
                 key={item.id}>
                 <AccordionSummary
                   expandIcon={
-                    expanded === item.id ? <RemoveIcon /> : <AddIcon />
+                    expandedState === item.id ? <RemoveIcon /> : <AddIcon />
                   }
                   aria-controls='panel1bh-content'
                   id='panel1bh-header'>
                   <Typography
-                    className={classes.question}
-                    sx={{width: '33%', flexShrink: 0}}>
+                    sx={{
+                      width: '33%',
+                      flexShrink: 0,
+                      whiteSpace: 'nowrap',
+                      color: expandedState == item.id ? 'primary.main' : '',
+                    }}>
                     {item.question}
                   </Typography>
                 </AccordionSummary>

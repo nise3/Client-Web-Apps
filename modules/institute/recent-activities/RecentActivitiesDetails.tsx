@@ -12,7 +12,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import {H6} from '../../../@softbd/elements/common';
+import {H4} from '../../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme) => ({
   date: {
@@ -27,7 +27,7 @@ const RecentActivitiesDetails = ({data}: any) => {
 
   return (
     <Container maxWidth={'lg'}>
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item xs={12} mt={3}>
           <Grid container>
             <Grid item xs={6}>
@@ -43,6 +43,7 @@ const RecentActivitiesDetails = ({data}: any) => {
                     backgroundColor: '#008fff',
                     color: '#ffff',
                     padding: '2px',
+                    borderRadius: '3px',
                   }}
                 />
               </IconButton>
@@ -52,6 +53,7 @@ const RecentActivitiesDetails = ({data}: any) => {
                     backgroundColor: '#0054ffe8',
                     color: '#ffff',
                     padding: '2px',
+                    borderRadius: '3px',
                   }}
                 />
               </IconButton>
@@ -61,6 +63,7 @@ const RecentActivitiesDetails = ({data}: any) => {
                     backgroundColor: '#ffb700b8',
                     color: '#ffff',
                     padding: '2px',
+                    borderRadius: '3px',
                   }}
                 />
               </IconButton>
@@ -70,6 +73,7 @@ const RecentActivitiesDetails = ({data}: any) => {
                     backgroundColor: '#2fc94d',
                     color: '#ffff',
                     padding: '2px',
+                    borderRadius: '3px',
                   }}
                 />
               </IconButton>
@@ -78,9 +82,9 @@ const RecentActivitiesDetails = ({data}: any) => {
         </Grid>
 
         <Grid item xs={12}>
-          <H6>{data.title}</H6>
+          <H4 fontWeight={'bold'}>{data.title}</H4>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} my={3}>
           <CardMedia
             component='img'
             height='300'

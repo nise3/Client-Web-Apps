@@ -11,7 +11,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import makeStyles from '@mui/styles/makeStyles';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {H2} from '../../../@softbd/elements/common';
+import {H3} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
 import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => {
   return {
     buttons: {
       background: theme.palette.primary.dark,
+      width: '100%',
     },
     mainGrid: {
       background: theme.palette.primary.light,
@@ -47,7 +48,15 @@ const useStyles = makeStyles((theme) => {
     },
     heading: {
       boxShadow: '0px 2px 2px #8888',
-      padding: '40px 0px',
+    },
+    formCard: {
+      [theme.breakpoints.up('md')]: {
+        height: '76vh',
+      },
+    },
+    mapDiv: {
+      height: '47vh',
+      width: '100%',
     },
   };
 });
@@ -133,7 +142,9 @@ const InstituteContact = () => {
   return (
     <Grid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H2>{messages['contact.institute']}</H2>
+        <H3 py={3} fontWeight={'bold'}>
+          {messages['contact.institute']}
+        </H3>
       </Grid>
       <Grid sx={{maxWidth: '100%'}} className={classes.mainGrid}>
         <Grid
@@ -144,7 +155,7 @@ const InstituteContact = () => {
           py={2}>
           <Grid item md={6} xs={12} p={2}>
             <Card>
-              <CardContent>
+              <CardContent className={classes.formCard}>
                 <Grid>
                   <Typography variant={'h6'} mb={4}>
                     {messages['contact_with_us.institute']}
@@ -200,7 +211,12 @@ const InstituteContact = () => {
                           rows={3}
                         />
                       </Grid>
-                      <Grid container justifyContent={'center'} mt={3}>
+                      <Grid
+                        item
+                        xs={12}
+                        justifyContent={'center'}
+                        mt={3}
+                        style={{paddingTop: '0'}}>
                         <Button
                           type={'submit'}
                           disabled={isSubmitting}
@@ -235,7 +251,7 @@ const InstituteContact = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <div style={{height: '100vh', width: '100%'}}>
+                    <div className={classes.mapDiv}>
                       <GoogleMapReact
                         bootstrapURLKeys={{key: APIKEY}}
                         defaultCenter={mapCenter}

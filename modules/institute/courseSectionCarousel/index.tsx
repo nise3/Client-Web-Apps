@@ -80,7 +80,7 @@ const CourseSectionCarousel = ({courses}: any) => {
               partialVisibilityGutter: 30,
             },
           }}
-          showDots
+          // showDots
           sliderClass=''
           slidesToSlide={1}
           swipeable>
@@ -107,7 +107,7 @@ const CourseSectionCarousel = ({courses}: any) => {
           ))}
         </Carousel>
       </Box>
-      <Box display='flex' justifyContent='center' mt={8}>
+      <Box display='flex' justifyContent='center'>
         <Link href={`${path}/courses`}>
           <Button
             variant='outlined'
