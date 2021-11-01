@@ -169,6 +169,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <CustomFormSelect
+                required
                 id='language_id'
                 isLoading={isLoading}
                 control={control}
@@ -176,6 +177,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
+                label={messages['common.select']}
               />
             </Grid>
             <Grid item xs={12}>

@@ -168,6 +168,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='certification_name'
                 label={messages['certificate.name_bn']}
                 register={register}
@@ -186,6 +187,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='institute_name'
                 label={messages['common.institute_name_bn']}
                 register={register}
@@ -204,6 +206,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='location'
                 label={messages['common.location_bn']}
                 register={register}

@@ -43,6 +43,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import {nationalities} from '../../../../@softbd/utilities/Nationalities';
+import useFormatStyle from '../../../useFormatStyle';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -77,6 +78,10 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<YouthAuthUser>();
+
+  const [showPhoneFormat, setShowPhoneFormat] = useState(false);
+  const [showEmialFormat, setShowEmailFormat] = useState(false);
+  const classes: any = useFormatStyle();
 
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -468,6 +473,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='first_name'
                 label={messages['common.first_name_bn']}
                 register={register}
@@ -486,6 +492,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
@@ -505,28 +512,43 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             {authUser?.user_name_type != UserNameType.EMAIL && (
               <Grid item xs={12} md={6}>
                 <CustomTextInput
+                  required
                   id='email'
                   label={messages['common.email']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
+                  onFocus={() => setShowEmailFormat(true)}
+                  onBlur={() => setShowEmailFormat(false)}
                 />
+                {showEmialFormat && (
+                  <span className={classes.spanTag}>
+                    Format: exmaple@gmail.com
+                  </span>
+                )}
               </Grid>
             )}
             {authUser?.user_name_type != UserNameType.MOBILE && (
               <Grid item xs={12} md={6}>
                 <CustomTextInput
+                  required
                   id='mobile'
                   label={messages['common.mobile']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
+                  onFocus={() => setShowPhoneFormat(true)}
+                  onBlur={() => setShowPhoneFormat(false)}
                 />
+                {showPhoneFormat && (
+                  <span className={classes.spanTag}>Format: 017xxxxxxxx</span>
+                )}
               </Grid>
             )}
 
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='skills'
                 label={messages['common.select_your_skills']}
                 isLoading={isLoadingSkills}
@@ -567,6 +589,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='identity_number'
                 label={getIdentityNumberFieldCaption()}
                 isLoading={false}
@@ -601,6 +624,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomDateTimeField
+                required
                 id='date_of_birth'
                 label={messages['common.date_of_birth']}
                 isLoading={false}
@@ -701,6 +725,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_division_id'
                 label={messages['divisions.label']}
                 isLoading={isLoadingDivisions}
@@ -714,6 +739,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}
