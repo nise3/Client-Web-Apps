@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     color: theme.palette.primary.main,
   },
   tagBox: {
-    marginTop: 15,
+    marginTop: 5,
   },
   courseTitle: {
     fontWeight: 'bold',
@@ -71,7 +71,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         image={'http://lorempixel.com/400/200?id=' + course?.id}
         title={course.title}
       />
-      <CardContent>
+      <CardContent sx={{paddingBottom: '16px !important'}}>
         <Avatar
           className={classes.providerLogo}
           alt={course?.institute_title}
@@ -79,13 +79,14 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
-          <Box className={classes.courseFeeStyle}>{course.course_fee} TK</Box>
+          <Box className={classes.courseFeeStyle}>{course.course_fee} ৳</Box>
         </Box>
 
         <Box fontWeight={'bold'}>{course.title}</Box>
 
+        <Box marginTop={'5px'}>By: {course.institute_title}</Box>
         <Box marginTop={'5px'}>
-          By: {course.institute_title} &#8226;{' '}
+          {messages['common.start_date']}:{' '}
           {getMomentDateFormat(course.created_at, 'DD MMM, YYYY')}
         </Box>
 

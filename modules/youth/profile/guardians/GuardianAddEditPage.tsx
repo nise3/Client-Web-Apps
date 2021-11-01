@@ -30,9 +30,11 @@ interface GuardianAddEditPageProps {
 const relationship_type = [
   {id: 1, title: 'Father'},
   {id: 2, title: 'Mother'},
-  {id: 3, title: 'Uncle'},
-  {id: 4, title: 'Aunt'},
-  {id: 5, title: 'Other'},
+  {id: 3, title: 'Brother'},
+  {id: 4, title: 'Sister'},
+  {id: 5, title: 'Uncle'},
+  {id: 6, title: 'Aunt'},
+  {id: 7, title: 'Other'},
 ];
 
 const initialValues = {
