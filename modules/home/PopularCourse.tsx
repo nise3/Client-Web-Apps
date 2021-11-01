@@ -61,10 +61,7 @@ const PopularCourse = () => {
 
   const [courseFilters] = useState<any>({page_size: 10});
   const pathValue = 'popular';
-  const {data: courseList, metaData: courseListMetaData} = useFetchCourseList(
-    pathValue,
-    courseFilters,
-  );
+  const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
 
   const cardItem = (course: any, key: number) => {
     return (
@@ -134,6 +131,7 @@ const PopularCourse = () => {
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
                 <Link
+                  key={key}
                   href={
                     getModulePath(router.asPath) +
                     `/course-details/${course.id}`
@@ -150,17 +148,15 @@ const PopularCourse = () => {
             </Grid>
           )}
         </Box>
-        {courseListMetaData?.total_page > courseListMetaData?.current_page && (
-          <Grid item container justifyContent='center' spacing={2}>
-            <Button
-              variant='outlined'
-              color='primary'
-              endIcon={<ArrowRightAlt />}
-              style={{marginTop: '15px', marginBottom: '15px'}}>
-              আরো দেখুন
-            </Button>
-          </Grid>
-        )}
+        <Grid item container justifyContent='center' spacing={2}>
+          <Button
+            variant='outlined'
+            color='primary'
+            endIcon={<ArrowRightAlt />}
+            style={{marginTop: '15px', marginBottom: '15px'}}>
+            আরো দেখুন
+          </Button>
+        </Grid>
       </Container>
     </Grid>
   );
