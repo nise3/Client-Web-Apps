@@ -24,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '100%',
   },
+
+  thinSearchButton: {
+    color: '#fff',
+    padding: '11px 0',
+    width: '97%',
+    height: '100%',
+  },
+
   searchInputBorderHide: {
     padding: 0,
     '& fieldset': {

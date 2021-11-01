@@ -69,7 +69,7 @@ const SkillMatchingJobs = () => {
   const classes = useStyles();
   const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={1} key={key}>
+      <Box mr={1} ml={1} key={key}>
         <Card className={classes.courseItem}>
           <Box>
             <img className={classes.image} src={item.img} alt='crema-logo' />
@@ -109,7 +109,7 @@ const SkillMatchingJobs = () => {
             style={{marginBottom: '50px', marginTop: '10px'}}
             className={classes.title}
             justifyContent={'center'}>
-            <Box className={classes.vBar}></Box>
+            <Box className={classes.vBar} />
             <Box fontWeight='fontWeightBold'>স্কিল ম্যাচিং জব</Box>
           </Box>
         </Typography>

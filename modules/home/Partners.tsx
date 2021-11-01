@@ -56,7 +56,7 @@ const Partners = () => {
   const classes = useStyles();
   const cardItem = (item: any, key: number) => {
     return (
-      <Box mr={1} key={key}>
+      <Box mr={1} ml={1} key={key}>
         <Card className={classes.courseItem}>
           <Box>
             <img className={classes.image} src={item.img} alt='crema-logo' />
@@ -70,7 +70,7 @@ const Partners = () => {
       <Container maxWidth='lg'>
         <Typography variant='h5'>
           <Box
-            style={{marginBottom: '50px', marginTop: '50px'}}
+            style={{marginBottom: '50px', marginTop: '10px'}}
             className={classes.title}
             justifyContent={'center'}>
             <Box className={classes.vBar} />
@@ -82,14 +82,6 @@ const Partners = () => {
             {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
-        {/*<Grid item container justifyContent='center'>
-          <Button
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}>
-            আরো দেখুন
-          </Button>
-        </Grid>*/}
       </Container>
     </Grid>
   );

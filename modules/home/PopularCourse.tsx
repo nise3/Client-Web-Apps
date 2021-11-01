@@ -1,15 +1,15 @@
-import {Box, Button, Card, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
+import {ArrowRightAlt} from '@mui/icons-material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React, {useState} from 'react';
-import Image from 'next/image';
 import {useFetchCourseList} from '../../services/youthManagement/hooks';
-import {courseDuration, getModulePath} from '../../@softbd/utilities/helpers';
+import {getModulePath} from '../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
-import {Link} from '../../@softbd/elements/common';
 import {useRouter} from 'next/router';
+import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
+import Link from 'next/link';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -63,55 +63,6 @@ const PopularCourse = () => {
   const pathValue = 'popular';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
 
-  const cardItem = (course: any, key: number) => {
-    return (
-      <Box mr={1} key={key}>
-        <Card className={classes.courseItem}>
-          <Typography>
-            <Box
-              component={'span'}
-              fontWeight='fontWeightBold'
-              className={classes.priceDetails}>
-              {course?.course_fee}
-            </Box>
-          </Typography>
-          <Box>
-            <Image
-              className={classes.image}
-              src={'/images/popular-course3.png'}
-              alt='crema-logo'
-              height={50}
-              width={'100%'}
-              layout={'responsive'}
-            />
-          </Box>
-          <Box p={2}>
-            <Typography variant='subtitle2' gutterBottom={true}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {course.title}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box
-                component={'span'}
-                fontWeight='fontWeightBold'
-                className={classes.timeDetails}>
-                <AccessTime /> {courseDuration(course?.duration)}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box
-                component={'span'}
-                fontWeight='fontWeightBold'
-                className={classes.timeDetails}>
-                <Info /> {course?.total_enroll}
-              </Box>
-            </Typography>
-          </Box>
-        </Card>
-      </Box>
-    );
-  };
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg'>
@@ -136,7 +87,9 @@ const PopularCourse = () => {
                     getModulePath(router.asPath) +
                     `/course-details/${course.id}`
                   }>
-                  {cardItem(course, key)}
+                  <Box mr={1} ml={1}>
+                    <CourseCardComponent course={course} />
+                  </Box>
                 </Link>
               ))}
             </CustomCarousel>
@@ -148,15 +101,19 @@ const PopularCourse = () => {
             </Grid>
           )}
         </Box>
-        <Grid item container justifyContent='center' spacing={2}>
-          <Button
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}
-            style={{marginTop: '15px', marginBottom: '15px'}}>
-            আরো দেখুন
-          </Button>
-        </Grid>
+        {courseList && courseList?.length > 1 && (
+          <Grid item container justifyContent='center' spacing={2}>
+            <Link href={'/course-list/popular'} passHref>
+              <Button
+                variant='outlined'
+                color='primary'
+                endIcon={<ArrowRightAlt />}
+                style={{marginTop: '15px', marginBottom: '15px'}}>
+                {messages['common.see_more']}
+              </Button>
+            </Link>
+          </Grid>
+        )}
       </Container>
     </Grid>
   );

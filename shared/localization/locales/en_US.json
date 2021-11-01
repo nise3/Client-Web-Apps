@@ -480,7 +480,7 @@
   "common.apply_now": "Apply Now",
   "common.apply": "Apply",
   "common.details": "Details",
-  "training.search_header": "Search Courses and Training",
+  "training.search_header": "Search Training",
   "common.see_all": "See All",
   "common.course_fee": "Course Fee",
   "common.popular_courses": "Popular Courses",
@@ -793,6 +793,21 @@
   "common.no_notice_found": "No notice found",
   "common.gallery": "Gallery",
   "apply_liked_course.institute": "Apply Liked Course",
-  "common.no_nearby_training_center_found":"No nearby training center found!"
-
+  "common.no_nearby_training_center_found":"No nearby training center found!",
+  "common.institute":"Institute",
+  "common.program":"Program",
+  "common.skill_level":"Skill Level",
+  "common.course_type":"Course Type",
+  "common.availability":"Availability",
+  "common.running":"Running",
+  "common.upcoming":"Upcoming",
+  "common.select":"Select",
+  "common.reset":"Reset",
+  "common.beginner":"Beginner",
+  "common.intermediate":"Intermediate",
+  "common.expert":"Expert",
+  "common.english":"English",
+  "common.bangla":"Bengali",
+  "course.paid":"Paid",
+  "common.free":"Free"
 }

@@ -4,10 +4,10 @@ import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 import {Link} from '../../../@softbd/elements/common';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getModulePath} from '../../../@softbd/utilities/helpers';
 
 const CourseList = () => {
   const {messages} = useIntl();
@@ -66,7 +66,10 @@ const CourseList = () => {
           courseList.map((course: any) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={course.id}>
-                <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}>
+                <Link
+                  href={`${getModulePath(router.asPath)}/course-details/${
+                    course.id
+                  }`}>
                   <CourseCardComponent course={course} />
                 </Link>
               </Grid>

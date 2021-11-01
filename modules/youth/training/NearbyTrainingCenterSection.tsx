@@ -43,8 +43,6 @@ const NearbyTrainingCenterSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={3}>
-          {nearbyTrainingCenters &&
-        <Grid container spacing={5}>
           {nearbyTrainingCenters ? (
             nearbyTrainingCenters.map((trainingCenter: any) => {
               return (

@@ -59,7 +59,7 @@ const BdMap = () => {
             xs={12}
             sm={6}
             md={5}
-            mb={2}
+            mt={'10px'}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>

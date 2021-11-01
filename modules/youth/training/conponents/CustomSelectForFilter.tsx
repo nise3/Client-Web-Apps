@@ -1,6 +1,7 @@
 import {FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 import React from 'react';
 import useStyles from '.././index.style';
+import {useIntl} from 'react-intl';
 
 interface CustomSelectForFilterProps {
   id: string;
@@ -20,6 +21,7 @@ const CustomSelectForFilter = ({
   options,
 }: CustomSelectForFilterProps) => {
   const classes: any = useStyles();
+  const {messages} = useIntl();
 
   return (
     <>
@@ -35,7 +37,7 @@ const CustomSelectForFilter = ({
           className={classes.selectStyle}
           onChange={onChangeCallback}>
           <MenuItem value=''>
-            <em>None</em>
+            <em>{messages['common.select']}</em>
           </MenuItem>
           {options &&
             options.map((option: any) => {
