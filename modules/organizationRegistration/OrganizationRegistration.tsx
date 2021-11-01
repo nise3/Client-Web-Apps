@@ -24,8 +24,12 @@ import {
   useFetchUpazilas,
 } from '../../services/locationManagement/hooks';
 import RowStatus from '../../@softbd/utilities/RowStatus';
+import {Link} from '../../@softbd/elements/common';
+import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
+import {useRouter} from 'next/router';
 
 const OrganizationRegistration = () => {
+  const router = useRouter();
   const classes = useStyles();
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
@@ -56,7 +60,7 @@ const OrganizationRegistration = () => {
       title: yup
         .string()
         .title()
-        .label(messages['common.title'] as string),
+        .label(messages['common.organization_name'] as string),
       organization_type_id: yup
         .string()
         .trim()
@@ -78,7 +82,7 @@ const OrganizationRegistration = () => {
         .string()
         .trim()
         .required()
-        .label(messages['common.head_of_office_bn'] as string),
+        .label(messages['organization.head_of_office'] as string),
       contact_person_name: yup
         .string()
         .trim()
@@ -107,6 +111,7 @@ const OrganizationRegistration = () => {
       contact_person_email: yup
         .string()
         .trim()
+        .email()
         .required()
         .label(messages['common.contact_person_email'] as string),
       contact_person_mobile: yup
@@ -140,6 +145,11 @@ const OrganizationRegistration = () => {
     try {
       await organizationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
+      router
+        .push({
+          pathname: '/registration-success',
+        })
+        .then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -155,6 +165,9 @@ const OrganizationRegistration = () => {
     },
     [districts],
   );
+  const redirectToSSO = useCallback(() => {
+    window.location.href = getSSOLoginUrl();
+  }, []);
 
   const onDistrictChange = useCallback(
     (districtId: number) => {
@@ -171,7 +184,7 @@ const OrganizationRegistration = () => {
           align={'center'}
           variant={'h6'}
           style={{marginBottom: '10px'}}>
-          {messages['common.organization_registration']}
+          {messages['common.registration']}
         </Typography>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
           {messages['common.organizationInfoText']}
@@ -180,16 +193,9 @@ const OrganizationRegistration = () => {
           <Grid container spacing={3} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='title'
-                label={messages['common.title']}
+                label={messages['common.organization_name']}
                 register={register}
                 errorInstance={errors}
               />
@@ -197,6 +203,7 @@ const OrganizationRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='organization_type_id'
                 isLoading={isLoading}
                 label={messages['common.company_type']}
@@ -210,6 +217,7 @@ const OrganizationRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='mobile'
                 label={messages['common.mobile']}
                 register={register}
@@ -219,28 +227,14 @@ const OrganizationRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='name_of_the_office_head_en '
-                label={messages['common.head_of_office_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='name_of_the_office_head'
-                label={messages['common.head_of_office_bn']}
+                label={messages['organization.head_of_office']}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='name_of_the_office_head_designation_en'
-                label={messages['common.designation_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='name_of_the_office_head_designation'
@@ -252,14 +246,7 @@ const OrganizationRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='address_en'
-                label={messages['common.address_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='address'
                 label={messages['common.address_bn']}
                 register={register}
@@ -269,14 +256,16 @@ const OrganizationRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='email'
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_division_id'
                 label={messages['divisions.label']}
                 isLoading={isLoadingDivisions}
@@ -288,8 +277,9 @@ const OrganizationRegistration = () => {
                 onChange={onDivisionChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={false}
@@ -301,7 +291,7 @@ const OrganizationRegistration = () => {
                 onChange={onDistrictChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
@@ -331,30 +321,17 @@ const OrganizationRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='contact_person_name_en'
-                label={messages['common.contact_person_name_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='contact_person_name'
                 label={messages['common.contact_person_name_bn']}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='contact_person_designation_en'
-                label={messages['common.contact_person_designation_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='contact_person_designation'
                 label={messages['common.contact_person_designation_bn']}
                 register={register}
@@ -363,6 +340,7 @@ const OrganizationRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='contact_person_email'
                 label={messages['common.contact_person_email']}
                 register={register}
@@ -371,6 +349,7 @@ const OrganizationRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='contact_person_mobile'
                 label={messages['common.contact_person_mobile']}
                 register={register}
@@ -379,6 +358,7 @@ const OrganizationRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='password'
                 type={'password'}
                 label={messages['common.password']}
@@ -388,6 +368,7 @@ const OrganizationRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='password_confirmation'
                 type={'password'}
                 label={messages['common.retype_password']}
@@ -400,6 +381,17 @@ const OrganizationRegistration = () => {
               xs={12}
               style={{display: 'flex', justifyContent: 'flex-end'}}>
               <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography align={'right'} style={{fontSize: '15px'}}>
+                {messages['common.already_have_account']}{' '}
+                <Link
+                  href={''}
+                  onClick={redirectToSSO}
+                  className={classes.signInStyle}>
+                  {messages['common.signin_here']}
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>

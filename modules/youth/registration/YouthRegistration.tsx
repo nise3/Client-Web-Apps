@@ -30,15 +30,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import PhysicalDisabilities from '../../../@softbd/utilities/PhysicalDisabilities';
 import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
 import UserNameType from '../../../@softbd/utilities/UserNameType';
-import MaritalStatus from '../../../@softbd/utilities/MaritalStatus';
-import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatus';
-import Religions from '../../../@softbd/utilities/Religions';
-import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
-import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {useRouter} from 'next/router';
 import {LINK_YOUTH_REGISTRATION_VERIFICATION} from '../../../@softbd/common/appLinks';
-import {nationalities} from '../../../@softbd/utilities/Nationalities';
 
 const initialValues = {
   first_name: '',
@@ -49,13 +42,6 @@ const initialValues = {
   email: '',
   mobile: '',
   gender: Genders.MALE,
-  marital_status: MaritalStatus.SINGLE,
-  freedom_fighter_status: FreedomFighterStatus.NO,
-  religion: Religions.ISLAM,
-  nationality: '',
-  identity_number_type: IdentityNumberTypes.NID,
-  identity_number: '',
-  does_belong_to_ethnic_group: EthnicGroupStatus.NO,
   skills: [],
   loc_division_id: '',
   loc_district_id: '',
@@ -93,11 +79,6 @@ const YouthRegistration = () => {
     PhysicalDisabilityStatus.NO,
   );
   //const [userNameType, setUserNameType] = useState<number>(UserNameType.MOBILE);
-  const [isBelongToEthnicGroup, setIsBelongToEthnicGroup] =
-    useState<boolean>(false);
-  const [identityNumberType, setIdentityNumberType] = useState<
-    string | undefined
-  >(IdentityNumberTypes.NID);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -155,21 +136,6 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      nationality: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.nationality'] as string),
-      freedom_fighter_status: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.freedom_fighter_status'] as string),
-      does_belong_to_ethnic_group: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['youth_registration.ethnic_group'] as string),
       password: yup
         .string()
         .trim()
@@ -204,88 +170,6 @@ const YouthRegistration = () => {
       {
         id: PhysicalDisabilities.SOCIAL,
         label: messages['physical_disability.social'],
-      },
-    ],
-    [messages],
-  );
-
-  const maritalStatus = useMemo(
-    () => [
-      {
-        id: MaritalStatus.SINGLE,
-        label: messages['common.marital_status_single'],
-      },
-      {
-        id: MaritalStatus.MARRIED,
-        label: messages['common.marital_status_married'],
-      },
-      {
-        id: MaritalStatus.WIDOWED,
-        label: messages['common.marital_status_widowed'],
-      },
-      {
-        id: MaritalStatus.DIVORCED,
-        label: messages['common.marital_status_divorced'],
-      },
-    ],
-    [messages],
-  );
-
-  const freedomFighterStatus = useMemo(
-    () => [
-      {
-        id: FreedomFighterStatus.NO,
-        label: messages['common.no'],
-      },
-      {
-        id: FreedomFighterStatus.YES,
-        label: messages['common.yes'],
-      },
-      {
-        id: FreedomFighterStatus.CHILD,
-        label: messages['freedom_fighter_status.child'],
-      },
-      {
-        id: FreedomFighterStatus.GRAND_CHILD,
-        label: messages['freedom_fighter_status.grand_child'],
-      },
-    ],
-    [messages],
-  );
-
-  const religions = useMemo(
-    () => [
-      {
-        id: Religions.ISLAM,
-        label: messages['common.religion_islam'],
-      },
-      {
-        id: Religions.HINDUISM,
-        label: messages['common.religion_hinduism'],
-      },
-      {
-        id: Religions.CHRISTIANITY,
-        label: messages['common.religion_christianity'],
-      },
-      {
-        id: Religions.BUDDHISM,
-        label: messages['common.religion_buddhism'],
-      },
-      {
-        id: Religions.JUDAISM,
-        label: messages['common.religion_judaism'],
-      },
-      {
-        id: Religions.SIKHISM,
-        label: messages['common.religion_sikhism'],
-      },
-      {
-        id: Religions.ETHNIC,
-        label: messages['common.religion_ethnic'],
-      },
-      {
-        id: Religions.ATHEIST,
-        label: messages['common.religion_atheist'],
       },
     ],
     [messages],
@@ -329,23 +213,6 @@ const YouthRegistration = () => {
     setDisabilityStatus(value);
   }, []);
 
-  const onIdentityTypeChange = useCallback((value: string) => {
-    setIdentityNumberType(value);
-  }, []);
-
-  const getIdentityNumberFieldCaption = () => {
-    switch (identityNumberType) {
-      case IdentityNumberTypes.NID:
-        return messages['common.identity_type_nid'];
-      case IdentityNumberTypes.BIRTH_CERT:
-        return messages['common.identity_type_birth_cert'];
-      case IdentityNumberTypes.PASSPORT:
-        return messages['common.identity_type_passport'];
-      default:
-        return messages['common.identity_type_nid'];
-    }
-  };
-
   /*const handleEmailChipClick = () => {
     setUserNameType(UserNameType.EMAIL);
   };
@@ -367,11 +234,9 @@ const YouthRegistration = () => {
       if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
         delete data.physical_disabilities;
       }
-      data.does_belong_to_ethnic_group = isBelongToEthnicGroup
-        ? EthnicGroupStatus.YES
-        : EthnicGroupStatus.NO;
 
       await youthRegistration(data);
+      console.log(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       router
         .push({
@@ -394,112 +259,27 @@ const YouthRegistration = () => {
           <Grid container spacing={3} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='first_name'
                 label={messages['common.first_name_bn']}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='first_name_en'
-                label={messages['common.first_name_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='last_name_en'
-                label={messages['common.last_name_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
-              {/*<Chip
-                icon={<CheckCircle />}
-                label={messages['youth_registration.set_as_username']}
-                color='primary'
-                variant={
-                  userNameType == UserNameType.EMAIL ? 'filled' : 'outlined'
-                }
-                sx={{marginBottom: '2px'}}
-                onClick={handleEmailChipClick}
-              />*/}
-              <CustomTextInput
-                id='email'
-                label={messages['common.email']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{textAlign: 'right'}}>
-              {/*<Chip
-                icon={<CheckCircle />}
-                label={messages['youth_registration.set_as_username']}
-                color='primary'
-                variant={
-                  userNameType == UserNameType.MOBILE ? 'filled' : 'outlined'
-                }
-                sx={{marginBottom: '2px'}}
-                clickable={true}
-                onClick={handleMobileChipClick}
-              />*/}
-              <CustomTextInput
-                id='mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
 
             <Grid item xs={12} md={6}>
               <FormRadioButtons
-                id='identity_number_type'
-                label={'common.identity_number_type'}
-                radios={[
-                  {
-                    key: IdentityNumberTypes.NID,
-                    label: messages['common.identity_type_nid'],
-                  },
-                  {
-                    key: IdentityNumberTypes.BIRTH_CERT,
-                    label: messages['common.identity_type_birth_cert'],
-                  },
-                  {
-                    key: IdentityNumberTypes.PASSPORT,
-                    label: messages['common.identity_type_passport'],
-                  },
-                ]}
-                control={control}
-                defaultValue={IdentityNumberTypes.NID}
-                isLoading={false}
-                onChange={onIdentityTypeChange}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='identity_number'
-                label={getIdentityNumberFieldCaption()}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <FormRadioButtons
+                required
                 id='gender'
                 label={'common.gender'}
                 radios={[
@@ -521,57 +301,9 @@ const YouthRegistration = () => {
                 isLoading={false}
               />
             </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomDateTimeField
-                id='date_of_birth'
-                label={messages['common.date_of_birth']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='marital_status'
-                label={messages['common.marital_status']}
-                isLoading={false}
-                control={control}
-                options={maritalStatus}
-                optionValueProp={'id'}
-                optionTitleProp={['label']}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='religion'
-                label={messages['common.religion']}
-                isLoading={false}
-                control={control}
-                options={religions}
-                optionValueProp={'id'}
-                optionTitleProp={['label']}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='freedom_fighter_status'
-                label={messages['common.freedom_fighter_status']}
-                isLoading={false}
-                control={control}
-                options={freedomFighterStatus}
-                optionValueProp={'id'}
-                optionTitleProp={['label']}
-                errorInstance={errors}
-              />
-            </Grid>
-
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='skills'
                 label={messages['common.select_your_skills']}
                 isLoading={false}
@@ -584,9 +316,9 @@ const YouthRegistration = () => {
                 defaultValue={[]}
               />
             </Grid>
-
             <Grid item xs={12} md={6}>
               <FormRadioButtons
+                required
                 id='physical_disability_status'
                 label={'common.physical_disability'}
                 radios={[
@@ -605,10 +337,10 @@ const YouthRegistration = () => {
                 onChange={onDisabilityStatusChange}
               />
             </Grid>
-
             {disabilityStatus == 1 && (
               <Grid item xs={12} md={6}>
                 <CustomFormSelect
+                  required
                   id='physical_disabilities'
                   label={messages['common.physical_disability_title']}
                   isLoading={false}
@@ -623,21 +355,37 @@ const YouthRegistration = () => {
               </Grid>
             )}
 
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='nationality'
-                label={messages['common.nationality']}
-                isLoading={false}
-                control={control}
-                options={nationalities}
-                optionValueProp={'id'}
-                optionTitleProp={['title', 'title_en']}
+            <Grid item xs={12} sm={6} md={6}>
+              <CustomDateTimeField
+                required
+                id='date_of_birth'
+                label={messages['common.date_of_birth']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='email'
+                label={messages['common.email']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='mobile'
+                label={messages['common.mobile']}
+                register={register}
                 errorInstance={errors}
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_division_id'
                 label={messages['divisions.label']}
                 isLoading={isLoadingDivisions}
@@ -649,8 +397,9 @@ const YouthRegistration = () => {
                 onChange={onDivisionChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={false}
@@ -662,7 +411,7 @@ const YouthRegistration = () => {
                 onChange={onDistrictChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
@@ -677,32 +426,7 @@ const YouthRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='village_or_area'
-                label={messages['common.village_or_area_bn']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='village_or_area_en'
-                label={messages['common.village_or_area_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='zip_or_postal_code'
-                label={messages['common.zip_or_postal_code']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='password'
                 label={messages['common.password']}
                 register={register}
@@ -713,24 +437,12 @@ const YouthRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='password_confirmation'
                 label={messages['common.retype_password']}
                 register={register}
                 errorInstance={errors}
                 type={'password'}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomCheckbox
-                id='does_belong_to_ethnic_group'
-                label={messages['youth_registration.ethnic_group']}
-                register={register}
-                errorInstance={errors}
-                checked={isBelongToEthnicGroup}
-                onChange={() => {
-                  setIsBelongToEthnicGroup((prev) => !prev);
-                }}
-                isLoading={false}
               />
             </Grid>
 

@@ -4,7 +4,12 @@ import {makeStyles} from '@mui/styles';
 const useStyles = makeStyles((theme: CremaTheme) => ({
   root: {},
   PaperBox: {
-    padding: 40,
+    padding: 20,
+    margin: '20px auto',
+  },
+  signInStyle: {
+    color: theme.palette.primary.main + ' !important',
+    textDecoration: 'underline !important',
   },
 }));
 
