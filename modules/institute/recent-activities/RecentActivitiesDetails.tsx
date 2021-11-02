@@ -85,8 +85,9 @@ const RecentActivitiesDetails = ({data}: any) => {
             title={data?.title}
           />
         </Grid>
+
         <Grid item xs={12}>
-          <div dangerouslySetInnerHTML={{__html: data.content}} />
+          <Typography dangerouslySetInnerHTML={{__html: data.content}} />
         </Grid>
       </Grid>
     </Container>
