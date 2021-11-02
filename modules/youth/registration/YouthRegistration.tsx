@@ -380,6 +380,7 @@ const YouthRegistration = () => {
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
+                placeholder='017********'
               />
             </Grid>
 
