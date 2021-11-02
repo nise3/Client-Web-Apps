@@ -111,6 +111,19 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     string | undefined
   >(IdentityNumberTypes.NID);
 
+  const getIdentityNumberFieldCaption = () => {
+    switch (identityNumberType) {
+      case IdentityNumberTypes.NID:
+        return messages['common.identity_type_nid'];
+      case IdentityNumberTypes.BIRTH_CERT:
+        return messages['common.identity_type_birth_cert'];
+      case IdentityNumberTypes.PASSPORT:
+        return messages['common.identity_type_passport'];
+      default:
+        return messages['common.identity_type_nid'];
+    }
+  };
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       first_name: yup
@@ -177,7 +190,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .string()
         .trim()
         .min(11)
-        .label(messages['common.nid'] as string),
+        .label(messages['common.identity_number'] as string),
     });
   }, [messages, userNameType, disabilityStatus]);
 
@@ -393,19 +406,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   const onIdentityTypeChange = useCallback((value: string) => {
     setIdentityNumberType(value);
   }, []);
-
-  const getIdentityNumberFieldCaption = () => {
-    switch (identityNumberType) {
-      case IdentityNumberTypes.NID:
-        return messages['common.identity_type_nid'];
-      case IdentityNumberTypes.BIRTH_CERT:
-        return messages['common.identity_type_birth_cert'];
-      case IdentityNumberTypes.PASSPORT:
-        return messages['common.identity_type_passport'];
-      default:
-        return messages['common.identity_type_nid'];
-    }
-  };
 
   const onSubmit: SubmitHandler<YouthPersonalInfo> = async (
     data: YouthPersonalInfo,

@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import useStyles from '../youth/registration/Registration.style';
+import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Container, Grid, Paper, Typography} from '@mui/material';
@@ -24,8 +24,12 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../services/locationManagement/locationUtils';
+import {Link} from '../../@softbd/elements/common';
+import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
+import {useRouter} from 'next/router';
 
 const InstituteRegistration = () => {
+  const router = useRouter();
   const classes = useStyles();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
@@ -74,7 +78,7 @@ const InstituteRegistration = () => {
         .string()
         .trim()
         .required()
-        .label(messages['common.name_of_the_office_head'] as string),
+        .label(messages['institute.head_of_office'] as string),
       address: yup
         .string()
         .trim()
@@ -103,6 +107,7 @@ const InstituteRegistration = () => {
       contact_person_email: yup
         .string()
         .trim()
+        .email()
         .required()
         .label(messages['common.contact_person_email'] as string),
       contact_person_mobile: yup
@@ -125,7 +130,7 @@ const InstituteRegistration = () => {
           [yup.ref('password'), null],
           messages['common.password_must_match'] as string,
         )
-        .label(messages['common.password_confirmation'] as string),
+        .label(messages['common.retype_password'] as string),
     });
   }, [messages]);
   const {
@@ -149,11 +154,19 @@ const InstituteRegistration = () => {
           }}
         />,
       );
+      router
+        .push({
+          pathname: '/registration-success',
+        })
+        .then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
+  const redirectToSSO = useCallback(() => {
+    window.location.href = getSSOLoginUrl();
+  }, []);
   const onDivisionChange = useCallback(
     (divisionId: number) => {
       let filteredDistricts = filterDistrictsByDivisionId(
@@ -179,8 +192,8 @@ const InstituteRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
-          style={{marginBottom: '10px'}}>
-          {messages['common.institute_registration']}
+          style={{marginBottom: '10px', fontWeight: 'bold', fontSize: '25px'}}>
+          {messages['common.registration']}
         </Typography>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
           {messages['common.instituteInfoText']}
@@ -189,17 +202,9 @@ const InstituteRegistration = () => {
           <Grid container spacing={3} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
+                required
                 id='title'
-                label={messages['common.title']}
+                label={messages['common.institute_name']}
                 register={register}
                 errorInstance={errors}
               />
@@ -230,26 +235,31 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='email'
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gmail.com'
               />
             </Grid>
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='primary_mobile'
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='name_of_the_office_head'
-                label={messages['common.name_of_the_office_head']}
+                label={messages['institute.head_of_office']}
                 register={register}
                 errorInstance={errors}
               />
@@ -265,6 +275,7 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='address'
                 label={messages['common.institute_address']}
                 register={register}
@@ -273,6 +284,7 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={6}>
               <CustomFormSelect
+                required
                 id='loc_division_id'
                 label={messages['divisions.label']}
                 isLoading={isLoadingDivisions}
@@ -286,6 +298,7 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={6}>
               <CustomFormSelect
+                required
                 id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={false}
@@ -327,6 +340,7 @@ const InstituteRegistration = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='contact_person_name'
                 label={messages['common.contact_person_name']}
                 register={register}
@@ -335,6 +349,7 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='contact_person_designation'
                 label={messages['common.contact_person_designation']}
                 register={register}
@@ -343,22 +358,27 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='contact_person_email'
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gmail.com'
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='contact_person_mobile'
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='password'
                 type={'password'}
                 label={messages['common.password']}
@@ -368,6 +388,7 @@ const InstituteRegistration = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='password_confirmation'
                 type={'password'}
                 label={messages['common.retype_password']}
@@ -380,6 +401,17 @@ const InstituteRegistration = () => {
               xs={12}
               style={{display: 'flex', justifyContent: 'flex-end'}}>
               <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography align={'right'} style={{fontSize: '15px'}}>
+                {messages['common.already_have_account']}{' '}
+                <Link
+                  href={''}
+                  onClick={redirectToSSO}
+                  className={classes.signInStyle}>
+                  {messages['common.signin_here']}
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>

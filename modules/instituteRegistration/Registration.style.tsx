@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   root: {},
   PaperBox: {
     padding: 40,
+    margin: '20px auto',
+  },
+  signInStyle: {
+    color: theme.palette.primary.main + ' !important',
+    textDecoration: 'underline !important',
   },
 }));
 
