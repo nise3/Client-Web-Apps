@@ -252,7 +252,9 @@ const YouthRegistration = () => {
   return (
     <Container maxWidth={'md'} className={classes.root}>
       <Paper className={classes.PaperBox}>
-        <Typography variant={'h6'} style={{marginBottom: '10px'}}>
+        <Typography
+          variant={'h6'}
+          style={{marginBottom: '20px', fontSize: '25px', fontWeight: 'bold'}}>
           {messages['common.registration']}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
@@ -371,6 +373,7 @@ const YouthRegistration = () => {
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gmail.com'
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -380,7 +383,7 @@ const YouthRegistration = () => {
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
-                placeholder='017********'
+                placeholder='017xxxxxxxx'
               />
             </Grid>
 

@@ -183,7 +183,7 @@ const OrganizationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
-          style={{marginBottom: '10px'}}>
+          style={{marginBottom: '10px', fontWeight: 'bold', fontSize: '25px'}}>
           {messages['common.registration']}
         </Typography>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
@@ -222,6 +222,7 @@ const OrganizationRegistration = () => {
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
 
@@ -261,6 +262,7 @@ const OrganizationRegistration = () => {
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gmail.com'
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -345,6 +347,7 @@ const OrganizationRegistration = () => {
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gmail.com'
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -354,6 +357,7 @@ const OrganizationRegistration = () => {
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
             <Grid item xs={12} md={6}>

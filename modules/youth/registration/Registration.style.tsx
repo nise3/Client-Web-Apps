@@ -4,7 +4,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     root: {},
     PaperBox: {
-      padding: 20,
+      padding: 40,
       margin: '20px auto',
     },
   }),
