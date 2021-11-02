@@ -475,7 +475,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='skills'
-            label={messages['common.select_your_skills']}
+            label={messages['common.skills']}
             isLoading={isLoadingSkills}
             control={control}
             options={skills}

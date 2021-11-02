@@ -149,7 +149,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['common.physical_disability'] as string),
+        .label(messages['common.physical_disabilities_status'] as string),
       physical_disabilities:
         disabilityStatus == PhysicalDisabilityStatus.YES
           ? yup
@@ -534,7 +534,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomFormSelect
                 required
                 id='skills'
-                label={messages['common.select_your_skills']}
+                label={messages['common.skills']}
                 isLoading={isLoadingSkills}
                 control={control}
                 options={skills}
@@ -672,7 +672,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             <Grid item xs={12} md={6}>
               <FormRadioButtons
                 id='physical_disability_status'
-                label={'common.physical_disability'}
+                label={'common.physical_disabilities_status'}
                 radios={[
                   {
                     key: PhysicalDisabilityStatus.YES,
@@ -694,7 +694,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <Grid item xs={12} md={6}>
                 <CustomFormSelect
                   id='physical_disabilities'
-                  label={messages['common.physical_disability_title']}
+                  label={messages['common.physical_disability']}
                   isLoading={false}
                   control={control}
                   options={physicalDisabilities}
@@ -750,7 +750,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='bio'
-                label={messages['common.bio_bn']}
+                label={messages['common.bio']}
                 register={register}
                 errorInstance={errors}
                 isLoading={false}

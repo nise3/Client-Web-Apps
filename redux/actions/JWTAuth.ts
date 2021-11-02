@@ -162,6 +162,9 @@ type TYouthAuthUserSSOResponse = {
   physical_disabilities?: any[];
   skills?: any[];
   youth_certifications?: any[];
+  youth_educations?: any[];
+  youth_languages_proficiencies?: any[];
+  youth_portfolios?: any[];
 };
 
 export const getCommonAuthUserObject = (
@@ -242,6 +245,10 @@ export const getYouthAuthUserObject = (
     physical_disabilities: authUser?.physical_disabilities,
     skills: authUser?.skills,
     total_certificates: authUser?.youth_certifications?.length,
+    certifications: authUser?.youth_certifications,
+    educations: authUser?.youth_educations,
+    portfolios: authUser?.youth_portfolios,
+    languages_proficiencies: authUser?.youth_languages_proficiencies,
   };
 };
 

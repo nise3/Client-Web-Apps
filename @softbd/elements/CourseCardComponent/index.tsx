@@ -13,7 +13,7 @@ import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
-import {courseDuration, getMomentDateFormat} from '../../utilities/helpers';
+import {courseDuration} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -51,6 +51,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     color: '#424242',
     textDecoration: 'none',
   },
+  overflowDottedText: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
 }));
 
 interface CourseCardComponentProps {
@@ -82,19 +87,31 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           <Box className={classes.courseFeeStyle}>{course.course_fee} ৳</Box>
         </Box>
 
-        <Box fontWeight={'bold'}>{course.title}</Box>
+        <Box
+          fontWeight={'bold'}
+          title={course.title}
+          className={classes.overflowDottedText}>
+          {course.title}
+        </Box>
 
-        <Box marginTop={'5px'}>By: {course.institute_title}</Box>
-        <Box marginTop={'5px'}>
-          {messages['common.start_date']}:{' '}
-          {getMomentDateFormat(course.created_at, 'DD MMM, YYYY')}
+        <Box
+          marginTop={'5px'}
+          title={course.institute_title}
+          className={classes.overflowDottedText}>
+          {messages['common.institute_name']}: {course.institute_title}
         </Box>
 
         <Box className={classes.tagBox}>
           {course?.duration && (
             <TagChip label={courseDuration(course.duration)} />
           )}
-          <TagChip label={Math.floor(Math.random() * 10 + 6) + ' lessons'} />
+          <TagChip
+            label={
+              Math.floor(Math.random() * 10 + 6) +
+              ' ' +
+              messages['common.lesson']
+            }
+          />
         </Box>
 
         {isMyCoursePage && course?.total_enroll && (

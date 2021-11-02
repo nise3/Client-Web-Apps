@@ -1,5 +1,5 @@
 import {Avatar, Box, Typography} from '@mui/material';
-import {BorderColor} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import LanguageAddEditPage from './LanguageAddEditPage';
@@ -70,7 +70,7 @@ const LanguageSection = () => {
             <CustomParabolaButton
               buttonVariant={'outlined'}
               title={messages['language_proficiency.add'] as string}
-              icon={<BorderColor />}
+              icon={<Add />}
               onClick={() => openLanguageAddEditForm(null)}
             />
           }>

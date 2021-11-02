@@ -38,7 +38,7 @@ const EditButton = ({
     <Button
       startIcon={<RiEditBoxFill />}
       onClick={onClick}
-      className={extra?.color ? clsx(classes.button, className) : className}
+      className={className ? clsx(classes.button, className) : className}
       color={extra?.color || 'secondary'}
       variant={variant}
       {...extra}>

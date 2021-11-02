@@ -135,6 +135,8 @@ const LanguageProficiencyViewPage = ({
                       <TableCell>
                         <EditButton
                           size={'small'}
+                          color={'primary'}
+                          sx={{marginRight: '10px'}}
                           onClick={() => onEdit(language.id)}
                         />
                         <DeleteButton

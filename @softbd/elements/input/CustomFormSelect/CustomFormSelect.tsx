@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {useIntl} from 'react-intl';
 
 type Props = {
   id: string;
@@ -54,6 +55,8 @@ const CustomFormSelect = ({
   optionGroupTitleProp,
   groupDataKey,
 }: Props) => {
+  const {messages} = useIntl();
+
   const getTitle = (
     option: any,
     optionTitleProp: Array<string> | undefined,
@@ -114,7 +117,7 @@ const CustomFormSelect = ({
               }}
               inputProps={inputProps}>
               <MenuItem value=''>
-                <em>None</em>
+                <em>{messages['common.select']}</em>
               </MenuItem>
               {(options || []).map((option: any, index: number) => {
                 if (!isGroupData) {

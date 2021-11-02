@@ -139,7 +139,11 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                   />
                   <TagChip
                     label={useMemo(() => {
-                      return Math.floor(Math.random() * 10 + 6) + ' lessons';
+                      return (
+                        Math.floor(Math.random() * 10 + 6) +
+                        ' ' +
+                        messages['common.lesson']
+                      );
                     }, [course])}
                     className={classes.tagChipStyle}
                   />

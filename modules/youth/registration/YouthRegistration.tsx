@@ -105,7 +105,7 @@ const YouthRegistration = () => {
         .string()
         .trim()
         .required()
-        .label(messages['common.physical_disability'] as string),
+        .label(messages['common.physical_disabilities_status'] as string),
       physical_disabilities:
         disabilityStatus == PhysicalDisabilityStatus.YES
           ? yup
@@ -307,7 +307,7 @@ const YouthRegistration = () => {
               <CustomFormSelect
                 required
                 id='skills'
-                label={messages['common.select_your_skills']}
+                label={messages['common.skills']}
                 isLoading={false}
                 control={control}
                 options={skills}
@@ -322,7 +322,7 @@ const YouthRegistration = () => {
               <FormRadioButtons
                 required
                 id='physical_disability_status'
-                label={'common.physical_disability'}
+                label={'common.physical_disabilities_status'}
                 radios={[
                   {
                     key: PhysicalDisabilityStatus.YES,
@@ -344,7 +344,7 @@ const YouthRegistration = () => {
                 <CustomFormSelect
                   required
                   id='physical_disabilities'
-                  label={messages['common.physical_disability_title']}
+                  label={messages['common.physical_disability']}
                   isLoading={false}
                   control={control}
                   options={physicalDisabilities}

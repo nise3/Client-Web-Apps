@@ -65,7 +65,7 @@ const CardItemWithButton = ({
   const {messages} = useIntl();
 
   return (
-    <Box mr={4} key={portfolio?.id}>
+    <Box mr={1} ml={1} key={portfolio?.id}>
       <Card>
         <Box className={classes.box}>
           <div className={classes.buttons}>
