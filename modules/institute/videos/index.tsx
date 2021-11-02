@@ -1,39 +1,47 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {
-  Grid,
-  Typography,
   Button,
-  Paper,
   Card,
-  CardContent,
   CardActionArea,
+  CardContent,
   CardMedia,
-  Pagination,
-  Container,
   Chip,
+  Container,
+  Grid,
   IconButton,
+  Pagination,
+  Paper,
+  Typography,
 } from '@mui/material';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useEffect, useMemo, useState} from 'react';
-import {useForm, SubmitHandler} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
 import yup from '../../../@softbd/libs/yup';
-import {H2, Link} from '../../../@softbd/elements/common';
+import {H3, Link} from '../../../@softbd/elements/common';
 import {
   useFetchInstitutesVideoCategory,
   useFetchInstitutesVideos,
 } from '../../../services/instituteManagement/hooks';
 import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
+const useStyles = makeStyles((theme) => ({
   searchIcon: {
     position: 'absolute',
-    right: 20,
+    right: 0,
+  },
+  filterIcon: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  resetButton: {
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: '3% !important',
+    },
   },
 }));
 
@@ -43,8 +51,7 @@ const InstituteVideos = () => {
   const router = useRouter();
   const path = router.pathname;
 
-  const {data: videoItems, isLoading: isLoadingInstitutesVideo} =
-    useFetchInstitutesVideos();
+  const {data: videoItems} = useFetchInstitutesVideos();
 
   const {data: videoCategoryData, isLoading: isLoadingVideoCategory} =
     useFetchInstitutesVideoCategory();
@@ -107,10 +114,6 @@ const InstituteVideos = () => {
     });
   };
 
-  const onChangeValue = (value: number) => {
-    filterVideosByInput(getValues());
-  };
-
   const onSearch: SubmitHandler<any> = async (data: any) => {
     let filter = filteredVideoItems?.filter((item: any) =>
       item.title.toLowerCase().includes(data.title),
@@ -124,7 +127,9 @@ const InstituteVideos = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
-            <H2 py={5}>{messages['videos.institute']}</H2>
+            <H3 py={3} fontWeight={'bold'}>
+              {messages['videos.institute']}
+            </H3>
           </Paper>
         </Grid>
       </Grid>
@@ -132,15 +137,11 @@ const InstituteVideos = () => {
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
             <Grid container spacing={{xs: 2, md: 6}}>
-              <Grid item xs={12} md={1}>
-                <Grid container>
-                  <Grid item md={6}>
-                    <FilterListIcon />
-                  </Grid>
-                  <Grid item md={6}>
-                    <Typography>{messages['filter.institute']}</Typography>
-                  </Grid>
-                </Grid>
+              <Grid item xs={12} md={1} className={classes.filterIcon}>
+                <FilterListIcon />
+                <Typography sx={{marginLeft: '10px'}}>
+                  {messages['filter.institute']}
+                </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
@@ -154,24 +155,12 @@ const InstituteVideos = () => {
                   onChange={onChangeCategory}
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
-                <CustomFormSelect
-                  id='video_id'
-                  label={messages['videos.institute']}
-                  isLoading={isLoadingInstitutesVideo}
-                  control={control}
-                  optionValueProp={'id'}
-                  options={filteredVideoItems}
-                  optionTitleProp={['content']}
-                  onChange={onChangeValue}
-                />
-              </Grid>
-              <Grid item xs={12} md={1}>
+              <Grid item xs={12} md={1} className={classes.resetButton}>
                 <Button
                   onClick={onResetClicked}
                   variant={'contained'}
                   color={'primary'}>
-                  Reset
+                  {messages['common.reset']}
                 </Button>
               </Grid>
               <Grid item xs={12} md={4} style={{position: 'relative'}}>
@@ -243,13 +232,13 @@ const InstituteVideos = () => {
           ) : (
             <Grid container>
               <Grid item>
-                <H2 py={5}>{messages['common.no_data_found']}</H2>
+                <H3 py={5}>{messages['common.no_data_found']}</H3>
               </Grid>
             </Grid>
           )}
 
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
-            <Pagination count={3} variant='outlined' color='primary' />
+            <Pagination count={3} variant='outlined' shape='rounded' />
           </Grid>
         </Grid>
       </Container>

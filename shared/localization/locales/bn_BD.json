@@ -795,5 +795,6 @@
   "common.no_enrolled_course_found" : "কোন নথিভুক্ত কোর্স পাওয়া যায়নি",
   "common.no_notice_found" : "কোন নোটিশ পাওয়া যায়নি",
   "common.gallery": "গ্যালারি",
-  "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন"
+  "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন",
+  "common.reset": "রিসেট"
 }

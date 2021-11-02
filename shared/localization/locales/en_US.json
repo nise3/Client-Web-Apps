@@ -795,5 +795,6 @@
   "common.no_enrolled_course_found": "No Enrolled Course Found!",
   "common.no_notice_found": "No notice found",
   "common.gallery": "Gallery",
-  "apply_liked_course.institute": "Apply Liked Course"
+  "apply_liked_course.institute": "Apply Liked Course",
+  "common.reset": "Reset"
 }

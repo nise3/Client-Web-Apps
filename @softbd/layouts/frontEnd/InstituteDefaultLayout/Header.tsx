@@ -112,7 +112,11 @@ const Header: React.FC<AppHeaderProps> = () => {
             justifyContent='flex-end'
             alignItems='center'>
             <H6 p={2}>
-              <Send className={classes.menuIcons} /> support@bitac.gov.bd
+              <Send
+                className={classes.menuIcons}
+                sx={{transform: 'rotate( 320deg)'}}
+              />{' '}
+              support@bitac.gov.bd
             </H6>
             <H6>
               <LocalPhone className={classes.menuIcons} /> ০১৯১২৩৪৫৬৭৮,

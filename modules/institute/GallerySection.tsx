@@ -89,7 +89,7 @@ const GallerySection = () => {
                         partialVisibilityGutter: 30,
                       },
                     }}
-                    showDots={true}
+                    // showDots={true}
                     sliderClass=''
                     slidesToSlide={1}
                     swipeable>
@@ -100,14 +100,14 @@ const GallerySection = () => {
                     ))}
                   </Carousel>
                 </Box>
-                <Box display='flex' justifyContent='center' mt={8}>
+                <Box display='flex' justifyContent='center'>
                   <Link href={`${path}/gallery`}>
                     <Button
                       variant='outlined'
                       size='large'
                       endIcon={<ArrowRightAlt />}
                       className={classes.button}>
-                      আরও দেখুন
+                      {messages['common.see_more']}
                     </Button>
                   </Link>
                 </Box>

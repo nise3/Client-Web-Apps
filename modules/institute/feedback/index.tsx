@@ -10,7 +10,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import makeStyles from '@mui/styles/makeStyles';
-import {H2} from '../../../@softbd/elements/common';
+import {H3} from '../../../@softbd/elements/common';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 const useStyles = makeStyles((theme) => {
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => {
     },
     heading: {
       boxShadow: '0px 2px 2px #8888',
-      padding: '40px 0px',
     },
   };
 });
@@ -85,7 +84,9 @@ const InstituteFeedback = () => {
   return (
     <Grid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H2>{messages['feedback.institution']}</H2>
+        <H3 fontWeight={'bold'} py={3}>
+          {messages['feedback.institution']}
+        </H3>
       </Grid>
       <Grid
         container
