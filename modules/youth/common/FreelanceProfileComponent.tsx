@@ -32,16 +32,18 @@ const FreelanceProfileComponent = () => {
   const debounceFn = useCallback(_.debounce(handleDebounce, 500), []);
 
   async function handleDebounce(data: any) {
-    setFreelanceProfileStatus(data.is_freelance_profile);
-    const response = await updateYouthFreelanceProfileStatus(data);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='common.freelance_profile' />}}
-        />,
-      );
-    }
+    try {
+      const response = await updateYouthFreelanceProfileStatus(data);
+      if (isResponseSuccess(response)) {
+        setFreelanceProfileStatus(data.is_freelance_profile);
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='common.freelance_profile' />}}
+          />,
+        );
+      }
+    } catch (error) {}
   }
 
   const handleFreelanceProfileStatusChange = (event: any) => {

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   chipStyle: {
     borderRadius: 4,
     background: '#e4e4e4',
-    margin: '0px 10px 10px 0px',
+    margin: '10px 10px 0px 0px',
   },
 }));
 
