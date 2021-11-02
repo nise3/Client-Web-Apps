@@ -54,6 +54,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
           <CardMedia
             image={'http://lorempixel.com/400/200?id=' + course?.id}
             sx={{height: 300, width: '100%'}}
+            title={course?.title}
           />
         </Grid>
       </Grid>

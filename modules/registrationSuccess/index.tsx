@@ -20,7 +20,7 @@ const RegistrationSuccess = () => {
           <CardContent>
             <CardMedia
               component='img'
-              alt='green iguana'
+              alt='registration success'
               height='350'
               image='/images/success.png'
             />

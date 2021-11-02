@@ -812,5 +812,9 @@
   "common.english":"English",
   "common.bangla":"Bengali",
   "course.paid":"Paid",
-  "common.free":"Free"
+  "common.free":"Free",
+  "common.like": "Like",
+  "common.share_label": "Share",
+  "common.download_label": "Download",
+  "common.print": "Print"
 }

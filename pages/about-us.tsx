@@ -5,20 +5,17 @@ import PageMeta from '../@crema/core/PageMeta';
 // @ts-ignore
 import styles from '../styles/Home.module.css';
 
-
 interface ContactUsProps {
   todo: any;
 }
 
 const ContactUs: React.FC<ContactUsProps> = ({todo}) => {
-  console.log('todo data: ', todo);
   return (
     <div className={styles.container}>
-
-      <PageMeta title="About Crema React" />
+      <PageMeta title='About Crema React' />
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Crema Next.js!</a>
+          Welcome to <a href='https://nextjs.org'>Crema Next.js!</a>
         </h1>
 
         <p className={styles.description}>
@@ -27,12 +24,15 @@ const ContactUs: React.FC<ContactUsProps> = ({todo}) => {
         </p>
 
         <div className={styles.grid}>
-          Presenting Crema, the all in one package which uses React Hooks to write components more intuitively without
-          using classes. Crema is purely based on Material UI components and follows Google’s Material Design
-          guidelines. It is integrated with Redux and Context API for state management hence making it fast and
-          reliable. It is fully RTL supported and multi-lingual. It uses fake API creator ‘axios-mock-adaptor’ to fetch
-          Data hence making it very easy to integrate with real Server. Crema has integration of Storybook to write the
-          story with Material-UI
+          Presenting Crema, the all in one package which uses React Hooks to
+          write components more intuitively without using classes. Crema is
+          purely based on Material UI components and follows Google’s Material
+          Design guidelines. It is integrated with Redux and Context API for
+          state management hence making it fast and reliable. It is fully RTL
+          supported and multi-lingual. It uses fake API creator
+          ‘axios-mock-adaptor’ to fetch Data hence making it very easy to
+          integrate with real Server. Crema has integration of Storybook to
+          write the story with Material-UI
         </div>
         <Box mt={4}>
           <strong>Todo Title :--- </strong>
@@ -47,9 +47,7 @@ const ContactUs: React.FC<ContactUsProps> = ({todo}) => {
           display='flex'>
           <Box>Copy right @crema 2020</Box>
           <Box ml='auto'>
-            <Button color='primary'>
-              Buy Now
-            </Button>
+            <Button color='primary'>Buy Now</Button>
           </Box>
         </Box>
       </Box>

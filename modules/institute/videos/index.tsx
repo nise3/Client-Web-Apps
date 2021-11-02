@@ -209,7 +209,8 @@ const InstituteVideos = () => {
                                   component='img'
                                   height='140'
                                   image={data.image_url}
-                                  alt='random image'
+                                  title={data?.title}
+                                  alt={data?.title}
                                 />
                                 <CardContent>
                                   <Typography

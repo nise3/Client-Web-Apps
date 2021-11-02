@@ -19,6 +19,7 @@ const ChoosePayment = () => {
               style={{width: '120px'}}
               image='/images/payment/bkash.png'
               alt='bkash'
+              title='bkash'
               className={classes.img}
             />
           </Grid>
@@ -29,6 +30,7 @@ const ChoosePayment = () => {
               style={{width: '120px'}}
               image='/images/payment/nagad.png'
               alt='nagad'
+              title='nagad'
               className={classes.img}
             />
           </Grid>
@@ -39,6 +41,7 @@ const ChoosePayment = () => {
               style={{width: '120px'}}
               image='/images/payment/rocket.jpg'
               alt='rocket'
+              title='rocket'
               className={classes.img}
             />
           </Grid>
@@ -49,6 +52,7 @@ const ChoosePayment = () => {
               style={{width: '120px'}}
               image='/images/payment/mycash.jpg'
               alt='mycash'
+              title='mycash'
               className={classes.img}
             />
           </Grid>

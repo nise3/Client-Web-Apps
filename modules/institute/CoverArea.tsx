@@ -21,7 +21,6 @@ const headings = [
 ];
 
 const CoverArea = () => {
-  // const classes = useStyles();
   return (
     <>
       <ImageCarousel images={images} headings={headings} />

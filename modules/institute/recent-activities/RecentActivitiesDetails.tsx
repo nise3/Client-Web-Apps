@@ -4,7 +4,7 @@ import {
   CardMedia,
   Container,
   Grid,
-  IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -13,6 +13,7 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {H4} from '../../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({
   date: {
@@ -20,15 +21,22 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     color: theme.palette.primary.main,
   },
+  icon: {
+    color: '#ffff',
+    padding: '2px',
+    borderRadius: '3px',
+    '&:not(:last-child)': {marginRight: '10px'},
+  },
 }));
 
 const RecentActivitiesDetails = ({data}: any) => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Container maxWidth={'lg'}>
       <Grid container>
-        <Grid item xs={12} mt={3}>
+        <Grid item xs={12} mt={5}>
           <Grid container>
             <Grid item xs={6}>
               <Box className={classes.date}>
@@ -37,46 +45,30 @@ const RecentActivitiesDetails = ({data}: any) => {
               </Box>
             </Grid>
             <Grid item xs={6} textAlign={'right'}>
-              <IconButton>
+              <Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
-                  style={{
-                    backgroundColor: '#008fff',
-                    color: '#ffff',
-                    padding: '2px',
-                    borderRadius: '3px',
-                  }}
+                  className={classes.icon}
+                  sx={{backgroundColor: '#008fff'}}
                 />
-              </IconButton>
-              <IconButton>
+              </Tooltip>
+              <Tooltip title={messages['common.share_label']}>
                 <ShareIcon
-                  style={{
-                    backgroundColor: '#0054ffe8',
-                    color: '#ffff',
-                    padding: '2px',
-                    borderRadius: '3px',
-                  }}
+                  className={classes.icon}
+                  sx={{backgroundColor: '#4E4E98'}}
                 />
-              </IconButton>
-              <IconButton>
+              </Tooltip>
+              <Tooltip title={messages['common.print']}>
                 <PrintOutlinedIcon
-                  style={{
-                    backgroundColor: '#ffb700b8',
-                    color: '#ffff',
-                    padding: '2px',
-                    borderRadius: '3px',
-                  }}
+                  className={classes.icon}
+                  sx={{backgroundColor: '#ffb700b8'}}
                 />
-              </IconButton>
-              <IconButton>
+              </Tooltip>
+              <Tooltip title={messages['common.download_label']}>
                 <SystemUpdateAltOutlinedIcon
-                  style={{
-                    backgroundColor: '#2fc94d',
-                    color: '#ffff',
-                    padding: '2px',
-                    borderRadius: '3px',
-                  }}
+                  className={classes.icon}
+                  sx={{backgroundColor: '#2fc94d'}}
                 />
-              </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
         </Grid>
@@ -89,7 +81,8 @@ const RecentActivitiesDetails = ({data}: any) => {
             component='img'
             height='300'
             image={data.img}
-            alt='image'
+            alt={data?.title}
+            title={data?.title}
           />
         </Grid>
         <Grid item xs={12}>

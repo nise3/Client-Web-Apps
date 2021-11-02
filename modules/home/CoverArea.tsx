@@ -159,7 +159,7 @@ const CoverArea = () => {
           <Card>
             <CardMedia
               component='img'
-              alt='green iguana'
+              alt='NISE3 cover image'
               height='140'
               image='/images/cover-area.png'
               className={classes.coverImage}

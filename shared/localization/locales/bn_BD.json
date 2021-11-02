@@ -819,5 +819,9 @@
   "common.expert":"দক্ষ",
   "course.paid":"পেড",
   "common.free":"ফ্রী",
-  "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন"
+  "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন",
+  "common.like": "লাইক",
+  "common.share_label": "শেয়ার",
+  "common.download_label": "ডাউনলোড",
+  "common.print": "প্রিন্ট"
 }

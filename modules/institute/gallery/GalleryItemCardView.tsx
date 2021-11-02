@@ -14,7 +14,8 @@ function GalleryItemCardView({item}: any) {
           component='img'
           height='140'
           image={item?.image_url}
-          alt='random image'
+          alt={item.title}
+          title={item.title}
         />
         <CardContent>
           <Typography gutterBottom variant='body1' component='div'>

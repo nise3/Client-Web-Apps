@@ -1,58 +1,60 @@
-import {CardMedia, Container, Grid, IconButton} from '@mui/material';
+import {CardMedia, Container, Grid, Tooltip} from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import makeStyles from '@mui/styles/makeStyles';
+
+const useStyles = makeStyles(() => {
+  return {
+    icon: {
+      color: '#ffff',
+      padding: '2px',
+      borderRadius: '3px',
+      '&:not(:last-child)': {marginRight: '10px'},
+    },
+  };
+});
 
 const StaticContent = ({data}: any) => {
   const {messages} = useIntl();
+  const classes = useStyles();
+
   return (
     <Container maxWidth={'lg'}>
       {data && data.title ? (
         <Grid container spacing={3}>
-          <Grid item xs={12} textAlign={'right'} mt={3}>
-            <IconButton>
+          <Grid item xs={12} textAlign={'right'} mt={5}>
+            <Tooltip title={messages['common.like']}>
               <ThumbUpAltIcon
-                style={{
-                  backgroundColor: '#008fff',
-                  color: '#ffff',
-                  padding: '2px',
-                }}
+                className={classes.icon}
+                sx={{backgroundColor: '#008fff'}}
               />
-            </IconButton>
-            <IconButton>
+            </Tooltip>
+            <Tooltip title={messages['common.share_label']}>
               <ShareIcon
-                style={{
-                  backgroundColor: '#0054ffe8',
-                  color: '#ffff',
-                  padding: '2px',
-                }}
+                className={classes.icon}
+                sx={{backgroundColor: '#4E4E98'}}
               />
-            </IconButton>
-            <IconButton>
+            </Tooltip>
+            <Tooltip title={messages['common.print']}>
               <PrintOutlinedIcon
-                style={{
-                  backgroundColor: '#ffb700b8',
-                  color: '#ffff',
-                  padding: '2px',
-                }}
+                className={classes.icon}
+                sx={{backgroundColor: '#ffb700b8'}}
               />
-            </IconButton>
-            <IconButton>
+            </Tooltip>
+            <Tooltip title={messages['common.download_label']}>
               <SystemUpdateAltOutlinedIcon
-                style={{
-                  backgroundColor: '#2fc94d',
-                  color: '#ffff',
-                  padding: '2px',
-                }}
+                className={classes.icon}
+                sx={{backgroundColor: '#2fc94d'}}
               />
-            </IconButton>
+            </Tooltip>
           </Grid>
 
           <Grid item xs={12}>
-            <H3>{data.title}</H3>
+            <H3>{data?.title}</H3>
           </Grid>
           {data && data.cover_img && (
             <Grid item xs={12}>
@@ -60,7 +62,8 @@ const StaticContent = ({data}: any) => {
                 component='img'
                 height='300'
                 image={data.cover_img}
-                alt='image'
+                alt={data?.title}
+                title={data?.title}
               />
             </Grid>
           )}

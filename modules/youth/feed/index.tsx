@@ -82,7 +82,6 @@ const YouthFeedPage = () => {
 
   const onScrollMainPostContent = (e: any) => {
     if (!loadingMainPostData) {
-      console.log('loadingMainPostData', loadingMainPostData);
       setFilters((prev: any) => {
         return {...prev, page: pageIndex.current + 1};
       });

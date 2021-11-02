@@ -72,9 +72,10 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
         <Grid item xs={12} md={2} sx={{position: 'relative'}}>
           <CardMedia
             component='img'
-            alt='course image'
+            alt={course.title}
             image={'/images/courseImage.jpeg'}
             sx={{height: '100%'}}
+            title={course?.title}
           />
           <Link
             href={
@@ -99,7 +100,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     <Grid item xs={2}>
                       <CardMedia
                         component='img'
-                        alt='course image'
+                        alt={course.title}
                         image={'/images/logo1.png'}
                         className={classes.jobProviderImage}
                       />
