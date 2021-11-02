@@ -14,7 +14,7 @@ import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {apiPost} from '../common/api';
 import {Base64} from 'js-base64';
 import SSOConfig from '../common/SSOConfig';
-import apiAccessToken from '../common/appToken';
+import apiAccessToken from '../common/apiAccessToken';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
