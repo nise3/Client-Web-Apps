@@ -43,7 +43,6 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import {nationalities} from '../../../../@softbd/utilities/Nationalities';
-import useFormatStyle from '../../../useFormatStyle';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -78,10 +77,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<YouthAuthUser>();
-
-  const [showPhoneFormat, setShowPhoneFormat] = useState(false);
-  const [showEmialFormat, setShowEmailFormat] = useState(false);
-  const classes: any = useFormatStyle();
 
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -518,31 +513,20 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
-                  onFocus={() => setShowEmailFormat(true)}
-                  onBlur={() => setShowEmailFormat(false)}
+                  placeholder='example@gmail.com'
                 />
-                {showEmialFormat && (
-                  <span className={classes.spanTag}>
-                    Format: exmaple@gmail.com
-                  </span>
-                )}
               </Grid>
             )}
             {authUser?.user_name_type != UserNameType.MOBILE && (
               <Grid item xs={12} md={6}>
                 <CustomTextInput
-                  required
                   id='mobile'
                   label={messages['common.mobile']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
-                  onFocus={() => setShowPhoneFormat(true)}
-                  onBlur={() => setShowPhoneFormat(false)}
+                  placeholder='017xxxxxxxx'
                 />
-                {showPhoneFormat && (
-                  <span className={classes.spanTag}>Format: 017xxxxxxxx</span>
-                )}
               </Grid>
             )}
 

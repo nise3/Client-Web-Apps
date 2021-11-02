@@ -21,7 +21,6 @@ import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
-import useFormatStyle from '../../../useFormatStyle';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -55,9 +54,6 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [showOther, setShowOther] = useState(1);
-
-  const [showFormat, setShowFormat] = useState(false);
-  const classes: any = useFormatStyle();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -193,12 +189,8 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
-                onFocus={() => setShowFormat(true)}
-                onBlur={() => setShowFormat(false)}
+                placeholder='017xxxxxxxx'
               />
-              {showFormat && (
-                <span className={classes.spanTag}>Format: 017xxxxxxxx</span>
-              )}
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomDateTimeField
