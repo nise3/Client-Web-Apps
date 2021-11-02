@@ -108,6 +108,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='title'
                 label={messages['common.title']}
                 register={register}

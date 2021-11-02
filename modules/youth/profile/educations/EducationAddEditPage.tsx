@@ -330,6 +330,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='education_level_id'
                 label={messages['education.education_level']}
                 isLoading={isLoadingEducationsData}
@@ -444,6 +445,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='institute_name'
                 label={messages['common.institute_name_bn']}
                 register={register}
@@ -492,6 +494,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='result'
                 label={messages['education.result']}
                 isLoading={isLoadingCountries}

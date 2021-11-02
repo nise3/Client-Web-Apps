@@ -157,6 +157,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='name'
                 label={messages['guardian.name']}
                 register={register}
@@ -184,11 +185,13 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='mobile'
                 label={messages['guardian.mobile']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
             <Grid item xs={12} md={6}>

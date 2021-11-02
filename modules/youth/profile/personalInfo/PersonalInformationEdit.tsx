@@ -468,6 +468,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='first_name'
                 label={messages['common.first_name_bn']}
                 register={register}
@@ -486,6 +487,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
@@ -505,11 +507,13 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             {authUser?.user_name_type != UserNameType.EMAIL && (
               <Grid item xs={12} md={6}>
                 <CustomTextInput
+                  required
                   id='email'
                   label={messages['common.email']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
+                  placeholder='example@gmail.com'
                 />
               </Grid>
             )}
@@ -521,12 +525,14 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
+                  placeholder='017xxxxxxxx'
                 />
               </Grid>
             )}
 
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='skills'
                 label={messages['common.select_your_skills']}
                 isLoading={isLoadingSkills}
@@ -567,6 +573,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='identity_number'
                 label={getIdentityNumberFieldCaption()}
                 isLoading={false}
@@ -601,6 +608,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomDateTimeField
+                required
                 id='date_of_birth'
                 label={messages['common.date_of_birth']}
                 isLoading={false}
@@ -701,6 +709,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_division_id'
                 label={messages['divisions.label']}
                 isLoading={isLoadingDivisions}
@@ -714,6 +723,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}

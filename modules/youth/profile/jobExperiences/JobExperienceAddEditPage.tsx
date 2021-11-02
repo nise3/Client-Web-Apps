@@ -179,6 +179,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='company_name'
                 label={messages['common.company_name_bn']}
                 register={register}
@@ -197,6 +198,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='position'
                 label={messages['common.position_bn']}
                 register={register}
@@ -215,6 +217,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='location'
                 label={messages['common.location_bn']}
                 register={register}
@@ -233,6 +236,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomFormSelect
+                required
                 id={'employment_type_id'}
                 label={messages['common.type_of_employee']}
                 isLoading={isLoading}
@@ -245,6 +249,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={6}>
               <CustomDateTimeField
+                required
                 id='start_date'
                 label={messages['job_experience.start_date']}
                 register={register}
@@ -254,6 +259,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             </Grid>
             <Grid item xs={6}>
               <CustomDateTimeField
+                required
                 id='end_date'
                 label={messages['job_experience.end_date']}
                 register={register}

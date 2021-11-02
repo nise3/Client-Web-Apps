@@ -162,6 +162,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_first_name'
                 label={messages['common.first_name_bn']}
                 register={register}
@@ -181,6 +182,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
@@ -199,25 +201,30 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_email'
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='exmaple@gmail.com'
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_mobile'
                 label={messages['common.phone']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_organization_name'
                 label={messages['common.organization_bn']}
                 register={register}
@@ -237,6 +244,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_designation'
                 label={messages['common.designation_bn']}
                 register={register}
@@ -256,6 +264,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_address'
                 label={messages['common.address_bn']}
                 register={register}
@@ -275,6 +284,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='referrer_relation'
                 label={messages['common.relation_bn']}
                 register={register}
