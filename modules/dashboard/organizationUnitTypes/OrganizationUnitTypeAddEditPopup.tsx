@@ -160,6 +160,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <CustomTextInput
+              required
               id='title'
               label={messages['common.title']}
               register={register}
@@ -180,6 +181,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
           {!authUser?.isOrganizationUser && (
             <Grid item xs={12}>
               <CustomFormSelect
+                required
                 id='organization_id'
                 label={messages['organization.label']}
                 isLoading={isOrganizationLoading}

@@ -160,6 +160,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -169,6 +170,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title_en'
             label={messages['common.title_en']}
             register={register}
@@ -178,6 +180,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='key'
             label={messages['permission.key']}
             register={register}
@@ -187,6 +190,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='module'
             label={messages['permission.module']}
             register={register}
@@ -196,6 +200,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='uri'
             label={messages['permission.uri']}
             register={register}
@@ -205,6 +210,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='method'
             label={messages['permission.method']}
             register={register}

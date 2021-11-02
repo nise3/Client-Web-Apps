@@ -195,6 +195,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -213,6 +214,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
+            required
             id='institute_id'
             label={messages['institute.label']}
             isLoading={isLoadingInstitutes}

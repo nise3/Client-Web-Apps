@@ -302,6 +302,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -320,6 +321,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
+            required
             id='institute_id'
             label={messages['institute.label']}
             isLoading={isLoadingInstitutes}
@@ -348,6 +350,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
+            required
             id='training_center_id'
             label={messages['training_center.label']}
             isLoading={isLoadingTrainingCenters}
@@ -361,6 +364,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
+            required
             id='course_id'
             label={messages['course.label']}
             isLoading={isLoadingCourses}
@@ -373,6 +377,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='registration_start_date'
             label={messages['batches.registration_start_date']}
             register={register}
@@ -382,6 +387,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='registration_end_date'
             label={messages['batches.registration_end_date']}
             register={register}
@@ -391,6 +397,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='batch_start_date'
             label={messages['batches.start_date']}
             register={register}
@@ -400,6 +407,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='batch_end_date'
             label={messages['batches.end_date']}
             register={register}
@@ -410,6 +418,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='number_of_seats'
             label={messages['batches.total_seat']}
             register={register}
@@ -419,6 +428,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='available_seats'
             label={messages['batches.available_seat']}
             register={register}

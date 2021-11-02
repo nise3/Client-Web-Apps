@@ -294,6 +294,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -313,6 +314,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         {isNeedToSelectOrganization(authUser) && (
           <Grid item xs={6}>
             <CustomFormSelect
+              required
               id='organization_id'
               label={messages['organization.label']}
               isLoading={isLoadingOrganization}
@@ -327,6 +329,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         )}
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='organization_unit_type_id'
             label={messages['organization_unit_type.label']}
             isLoading={isLoadingOrganizationUnitTypes}
@@ -494,6 +497,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='employee_size'
             label={messages['organization_unit.employee_size']}
             register={register}

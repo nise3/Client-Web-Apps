@@ -379,8 +379,9 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
+                required
+                id='title'
+                label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -388,16 +389,19 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='email'
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='example@gmail.com'
               />
             </Grid>
             {!isEdit && (
               <Grid item xs={12}>
                 <CustomFormSelect
+                  required
                   id='permission_sub_group_id'
                   label={messages['permission_sub_group.label']}
                   isLoading={isLoadingPermissionSubGroups}
@@ -416,6 +420,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='xxx-xxx-xxxx'
               />
             </Grid>
             <Grid item container xs={12}>
@@ -430,6 +435,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='address'
                 label={messages['common.address']}
                 register={register}
@@ -439,6 +445,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomFormSelect
+                required
                 id='loc_division_id'
                 label={messages['divisions.label']}
                 isLoading={isLoadingDivisions}
@@ -466,6 +473,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             {/** working */}
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='name_of_the_office_head'
                 label={messages['institute.name_of_the_office_head']}
                 register={register}
@@ -475,6 +483,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='name_of_the_office_head_designation'
                 label={
                   messages['institute.name_of_the_office_head_designation']
@@ -486,6 +495,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='contact_person_name'
                 label={messages['common.contact_person_name']}
                 register={register}
@@ -495,6 +505,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='contact_person_designation'
                 label={messages['common.contact_person_designation']}
                 register={register}
@@ -504,11 +515,13 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='contact_person_email'
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='example@gmail.com'
               />
             </Grid>
           </Grid>
@@ -518,8 +531,8 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <CustomTextInput
-                id='title'
-                label={messages['common.title']}
+                id='title_en'
+                label={messages['common.title_en']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -527,6 +540,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='code'
                 label={messages['common.code']}
                 register={register}
@@ -541,6 +555,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='https://example.xyz'
               />
             </Grid>
             <Grid item xs={12}>
@@ -555,11 +570,13 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='primary_mobile'
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
             <Grid item container xs={12}>
@@ -574,6 +591,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomFormSelect
+                required
                 id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}
@@ -636,11 +654,13 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12}>
               <CustomTextInput
+                required
                 id='contact_person_mobile'
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='017xxxxxxxx'
               />
             </Grid>
           </Grid>
