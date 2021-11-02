@@ -45,7 +45,7 @@ const BdMap = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title='ম্যাপ' center={true}></SectionTitle>
+        <SectionTitle title='ম্যাপ' center={true} />
 
         <Box
           sx={{
@@ -59,7 +59,7 @@ const BdMap = () => {
             xs={12}
             sm={6}
             md={5}
-            mb={2}
+            mt={'10px'}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
@@ -110,7 +110,8 @@ const BdMap = () => {
                         sx={{
                           bgcolor: '#682988',
                           border: '1px solid #682988',
-                        }}></Box>
+                        }}
+                      />
                     </Grid>
                     <Grid item xs={8}>
                       দক্ষতা
@@ -120,14 +121,15 @@ const BdMap = () => {
               </Grid>
               <Grid item container xs={12}>
                 <Grid item xs={6}>
-                  <Grid item container>
+                  <Grid container>
                     <Grid item xs={4}>
                       <Box
                         className={classes.mapSidePoints}
                         sx={{
                           bgcolor: '#2AC92A',
                           border: '1px solid #2AC92A',
-                        }}></Box>
+                        }}
+                      />
                     </Grid>
                     <Grid item xs={8}>
                       চাকরি

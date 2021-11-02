@@ -52,7 +52,7 @@ const SkillMatchingCoursesSection = ({
   );
 
   return courseList && courseList.length ? (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} mb={8}>
       <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>

@@ -7,6 +7,7 @@ import TrainingCenterCard from './conponents/TrainingCenterCard';
 import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const NearbyTrainingCenterSection = () => {
   const classes = useStyles();
@@ -42,14 +43,22 @@ const NearbyTrainingCenterSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={3}>
-          {nearbyTrainingCenters &&
+          {nearbyTrainingCenters ? (
             nearbyTrainingCenters.map((trainingCenter: any) => {
               return (
                 <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>
                   <TrainingCenterCard trainingCenter={trainingCenter} />
                 </Grid>
               );
-            })}
+            })
+          ) : (
+            <NoDataFoundComponent
+              message={
+                messages['common.no_nearby_training_center_found'] as string
+              }
+              messageTextType={'subtitle1'}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>
