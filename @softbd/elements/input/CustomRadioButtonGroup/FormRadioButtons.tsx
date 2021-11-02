@@ -14,7 +14,7 @@ type Props = {
   id: string;
   label: string;
   radios: Array<any>;
-  isLoading: boolean;
+  isLoading?: boolean;
   required?: boolean;
   control: any;
   defaultValue?: string;
