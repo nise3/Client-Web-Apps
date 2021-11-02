@@ -260,9 +260,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
                 <Button
-                  sx={{height: '100%'}}
+                  fullWidth
                   variant={'contained'}
-                  color={'primary'}
+                  color={'secondary'}
                   onClick={onClickResetButton}>
                   {messages['common.reset']}
                 </Button>
