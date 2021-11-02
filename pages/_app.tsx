@@ -40,7 +40,7 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
               <SWRConfig
                 value={{
                   provider: () => new Map(),
-                  revalidateIfStale: false,
+                  revalidateIfStale: true,
                   revalidateOnFocus: false,
                   revalidateOnReconnect: false,
                 }}>
