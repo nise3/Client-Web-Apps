@@ -51,11 +51,11 @@ const useStyles = makeStyles((theme) => {
     },
     formCard: {
       [theme.breakpoints.up('md')]: {
-        height: '76vh',
+        height: '465px',
       },
     },
     mapDiv: {
-      height: '47vh',
+      height: '293px',
       width: '100%',
     },
   };
