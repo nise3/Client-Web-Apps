@@ -96,7 +96,7 @@ const YouthRegistration = () => {
       skills: yup
         .array()
         .of(yup.object())
-        .required()
+        .min(1)
         .label(messages['common.skills'] as string),
       date_of_birth: yup
         .string()
@@ -362,20 +362,31 @@ const YouthRegistration = () => {
             </Grid>
             {disabilityStatus == 1 && (
               <Grid item xs={12} md={6}>
-                <CustomFormSelect
-                  required
+                <CustomSelectAutoComplete
                   id='physical_disabilities'
                   label={messages['common.physical_disability']}
-                  isLoading={false}
                   control={control}
                   options={physicalDisabilities}
-                  optionValueProp={'id'}
-                  optionTitleProp={['label']}
+                  optionTitleProp='label'
                   errorInstance={errors}
-                  multiple={true}
-                  defaultValue={[]}
                 />
               </Grid>
+
+              // <Grid item xs={12} md={6}>
+              //   <CustomFormSelect
+              //     required
+              //     id='physical_disabilities'
+              //     label={messages['common.physical_disability']}
+              //     isLoading={false}
+              //     control={control}
+              //     options={physicalDisabilities}
+              //     optionValueProp={'id'}
+              //     optionTitleProp={['label']}
+              //     errorInstance={errors}
+              //     multiple={true}
+              //     defaultValue={[]}
+              //   />
+              // </Grid>
             )}
 
             <Grid item xs={12} sm={6} md={6}>
@@ -473,6 +484,7 @@ const YouthRegistration = () => {
 
             <Grid item xs={12}>
               <SubmitButton
+                startIcon={false}
                 isSubmitting={isSubmitting}
                 label={messages['common.create_account'] as string}
                 size='large'
