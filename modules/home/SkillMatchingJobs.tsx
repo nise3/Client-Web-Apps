@@ -72,7 +72,12 @@ const SkillMatchingJobs = () => {
       <Box mr={1} ml={1} key={key}>
         <Card className={classes.courseItem}>
           <Box>
-            <img className={classes.image} src={item.img} alt='crema-logo' />
+            <img
+              className={classes.image}
+              src={item.img}
+              alt={item.title}
+              title={item.title}
+            />
           </Box>
           <Box p={2}>
             <Typography variant='subtitle2' gutterBottom={true}>

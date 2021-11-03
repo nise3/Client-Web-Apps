@@ -72,9 +72,11 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   return (
     <Card className={classes.trainingCardRoot}>
       <CardMedia
+        component={'img'}
         className={classes.trainingCardImage}
         image={'http://lorempixel.com/400/200?id=' + course?.id}
         title={course.title}
+        alt={course.title}
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
         <Avatar

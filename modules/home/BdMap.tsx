@@ -1,13 +1,11 @@
 import React from 'react';
-import {Box, Button, Container, Grid} from '@mui/material';
-import {Theme} from '@mui/material/styles';
+import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import SectionTitle from './SectionTitle';
-import map from '../../public/images/map.jpg';
-import Image from 'next/image';
+import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       marginTop: '50px',
@@ -41,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const BdMap = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Grid container xl={12} className={classes.root}>
@@ -86,7 +85,16 @@ const BdMap = () => {
               justifyContent={'center'}
               alignItems={'center'}>
               <Grid item xs={8}>
-                <Image src={map} alt={'Map of Bangladesh'} />
+                <CardMedia
+                  component={'img'}
+                  image={'images/map.png'}
+                  title={
+                    messages['common.map_of_bangladesh'] as string | undefined
+                  }
+                  alt={
+                    messages['common.map_of_bangladesh'] as string | undefined
+                  }
+                />
               </Grid>
             </Grid>
 
@@ -146,7 +154,8 @@ const BdMap = () => {
                         sx={{
                           bgcolor: '#2A52C9',
                           border: '1px solid #2A52C9',
-                        }}></Box>
+                        }}
+                      />
                     </Grid>
                     <Grid item xs={8}>
                       ব্যবসা
@@ -163,7 +172,8 @@ const BdMap = () => {
                         sx={{
                           bgcolor: '#2A52C9',
                           border: '1px solid #2A52C9',
-                        }}></Box>
+                        }}
+                      />
                     </Grid>
                     <Grid item xs={8}>
                       শিক্ষা

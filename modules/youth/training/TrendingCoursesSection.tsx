@@ -24,7 +24,7 @@ const TrendingCoursesSection = ({
   const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState({
-    page_size: page_size ? page_size : null,
+    page_size: page_size ?? null,
   });
 
   const pathValue = 'trending';

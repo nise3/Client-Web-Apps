@@ -823,5 +823,17 @@
     "অন্যান্য"
   ],
   "common.present": "বর্তমানে কর্মরত",
-  "common.lesson": "পাঠ"
+  "common.lesson": "পাঠ",
+  "common.select_institute": "ইনস্টিটিউট নির্বাচন করুন",
+  "common.select_program": "প্রোগ্রাম নির্বাচন করুন",
+  "common.language_medium": "ভাষা মাধ্যম",
+  "common.select_skill_level":"দক্ষতার স্তর নির্বাচন করুন",
+  "common.select_course_type":"কোর্সের ধরন নির্বাচন করুন",
+  "common.select_availability":"প্রাপ্যতা নির্বাচন করুন",
+  "common.select_language_medium":"ভাষা মাধ্যম নির্বাচন করুন",
+  "common.like": "লাইক",
+  "common.share_label": "শেয়ার",
+  "common.download_label": "ডাউনলোড",
+  "common.print": "প্রিন্ট",
+  "common.map_of_bangladesh": "বাংলাদেশের মানচিত্র"
 }

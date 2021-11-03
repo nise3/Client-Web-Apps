@@ -42,6 +42,7 @@ function RecentActivityCardView({activity}: any) {
             height='140'
             image={activity.img}
             alt='random image'
+            title={activity?.title}
           />
           <CardContent>
             <Box className={classes.dateInfo}>

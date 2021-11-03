@@ -4,7 +4,7 @@ import React, {ReactNode} from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
-import {Box, Container, Typography} from '@mui/material';
+import {Box, CardMedia, Container, Typography} from '@mui/material';
 import {rgba} from 'polished';
 
 type Props = {
@@ -121,9 +121,15 @@ const ImageCarousel = ({images, headings}: Props) => {
       sliderClass=''
       slidesToSlide={1}
       swipeable>
-      {images.map((uri, i) => (
+      {images.map((uri: string, i: number) => (
         <Box key={i} className={classes.imageBox}>
-          <img className={classes.image} alt='' src={uri} />
+          <CardMedia
+            component='img'
+            image={uri}
+            className={classes.image}
+            alt={headings[i]}
+            title={headings[i]}
+          />
           <Container maxWidth={'lg'}>
             <Typography variant='h3'>
               <Box
