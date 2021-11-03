@@ -5,6 +5,7 @@ import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Link} from '../../@softbd/elements/common';
+import GoToTop from '../goToTop';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -154,6 +155,7 @@ const Footer = () => {
                 </Box>
               </Link>
             </Grid>
+            <GoToTop />
           </Grid>
         </Container>
       </Grid>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 
@@ -15,6 +15,9 @@ import {
 } from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
+import GoToTop from '../../../../modules/goToTop';
+import {LINK_SIGNUP} from '../../../common/appLinks';
+import {getSSOLoginUrl} from '../../../common/SSOConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +56,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const Footer = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+
+  const redirectToSSO = useCallback(() => {
+    window.location.href = getSSOLoginUrl();
+  }, []);
+
   return (
     <>
       <Grid container className={clsx(classes.root, classes.container)}>
@@ -119,51 +127,84 @@ const Footer = () => {
               <Box display='flex' mt={4} justifyContent='space-between'>
                 <Box>
                   <Text className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.online_courses']}
                   </Text>
                   <Link
                     href={'/institute/notice-board'}
                     className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.news']}
                   </Link>
                   <Link
                     href={'/institute/recent-activities'}
                     className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.events']}
                   </Link>
                   <Link href={'/sc/about-us'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.about_us']}
                   </Link>
                   <Link href={'/institute/contact'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.contact']}
                   </Link>
                 </Box>
                 <Box>
                   <Link href={'/institute/faq'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.question_and_answer']}
                   </Link>
-                  <Text className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                  <Link
+                    href={''}
+                    onClick={redirectToSSO}
+                    className={classes.bullet}>
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.login']}
-                  </Text>
-                  <Text className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                  </Link>
+                  <Link href={LINK_SIGNUP} className={classes.bullet}>
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.sign_up']}
-                  </Text>
+                  </Link>
                   <Link
                     href={'/sc/terms-and-conditions'}
                     className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.terms_and_conditions']}
                   </Link>
                   <Link href={'/sc/privacy-policy'} className={classes.bullet}>
-                    <ArrowForwardIos className={classes.primary} />{' '}
+                    <ArrowForwardIos
+                      sx={{fontSize: '16px'}}
+                      className={classes.primary}
+                    />{' '}
                     {messages['footer.privacy_policy']}
                     নীতি
                   </Link>
@@ -211,6 +252,7 @@ const Footer = () => {
           </Grid>
         </Container>
       </Grid>
+      <GoToTop />
     </>
   );
 };
