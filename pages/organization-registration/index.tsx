@@ -3,6 +3,8 @@ import PageMeta from '../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import DefaultPage from '../../@softbd/layouts/hoc/DefaultPage';
+import {responsiveFontSizes, ThemeProvider} from '@mui/material';
+import theme from '../../@softbd/layouts/themes/nise';
 
 const OrganizationRegistrationPage = asyncComponent(
   () =>
@@ -13,7 +15,9 @@ export default DefaultPage(() => {
   return (
     <>
       <PageMeta title={messages['common.registration'] as string} />
-      <OrganizationRegistrationPage />
+      <ThemeProvider theme={responsiveFontSizes(theme())}>
+        <OrganizationRegistrationPage />
+      </ThemeProvider>
     </>
   );
 });

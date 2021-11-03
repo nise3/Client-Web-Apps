@@ -146,6 +146,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomFormSelect
+            required
             id='loc_division_id'
             label={messages['divisions.label']}
             isLoading={isDivisionsLoading}
@@ -158,6 +159,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -167,6 +169,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title_en'
             label={messages['common.title_en']}
             register={register}
@@ -176,6 +179,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='bbs_code'
             label={messages['common.bbs_code']}
             register={register}

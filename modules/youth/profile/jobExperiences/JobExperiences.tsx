@@ -56,7 +56,7 @@ const JobExperiences = ({
                         ) +
                         ' - ' +
                         (jobExperience.is_currently_working == 1
-                          ? 'Present'
+                          ? messages['common.present']
                           : jobExperience?.end_date
                           ? getMomentDateFormat(
                               jobExperience?.end_date,

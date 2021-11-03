@@ -137,6 +137,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}

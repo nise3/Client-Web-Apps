@@ -40,15 +40,19 @@ const useStyles = makeStyles((theme: Theme) =>
 let items = [
   {
     img: '/images/partner1.png',
+    title: 'partner1',
   },
   {
     img: '/images/partner2.png',
+    title: 'partner2',
   },
   {
     img: '/images/partner1.png',
+    title: 'partner3',
   },
   {
     img: '/images/partner2.png',
+    title: 'partner4',
   },
 ];
 
@@ -59,7 +63,12 @@ const Partners = () => {
       <Box mr={1} ml={1} key={key}>
         <Card className={classes.courseItem}>
           <Box>
-            <img className={classes.image} src={item.img} alt='crema-logo' />
+            <img
+              className={classes.image}
+              src={item.img}
+              alt={item.title}
+              title={item.title}
+            />
           </Box>
         </Card>
       </Box>

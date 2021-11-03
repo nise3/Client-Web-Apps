@@ -283,8 +283,9 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <CustomTextInput
-              id='title_en'
-              label={messages['common.title_en']}
+              required
+              id='title'
+              label={messages['common.title']}
               register={register}
               errorInstance={errors}
               isLoading={isOrganizationUnitTypeLoading}
@@ -292,8 +293,8 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='title'
-              label={messages['common.title']}
+              id='title_en'
+              label={messages['common.title_en']}
               register={register}
               errorInstance={errors}
               isLoading={isOrganizationUnitTypeLoading}
@@ -368,6 +369,7 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id='display_order'
               label={messages['human_resource_template.display_order']}
               register={register}

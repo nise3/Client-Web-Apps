@@ -10,6 +10,7 @@ interface Props {
   label?: string;
   isSubmitting?: boolean;
   isLoading?: boolean;
+  [x: string]: any;
 }
 
 const SubmitButton = ({
@@ -18,6 +19,7 @@ const SubmitButton = ({
   label,
   isSubmitting,
   isLoading,
+  ...rest
 }: Props) => {
   const {messages} = useIntl();
   const btnText = label ? label : messages['common.done'];
@@ -31,7 +33,8 @@ const SubmitButton = ({
       onClick={onClick}
       className={className}
       type='submit'
-      disabled={isSubmitting}>
+      disabled={isSubmitting}
+      {...rest}>
       {btnText}
     </Button>
   );

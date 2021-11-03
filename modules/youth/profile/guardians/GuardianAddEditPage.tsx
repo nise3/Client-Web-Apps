@@ -27,23 +27,13 @@ interface GuardianAddEditPageProps {
   onClose: () => void;
 }
 
-const relationship_type = [
-  {id: 1, title: 'Father'},
-  {id: 2, title: 'Mother'},
-  {id: 3, title: 'Brother'},
-  {id: 4, title: 'Sister'},
-  {id: 5, title: 'Uncle'},
-  {id: 6, title: 'Aunt'},
-  {id: 7, title: 'Other'},
-];
-
 const initialValues = {
   name: '',
   name_en: '',
   nid: '',
   mobile: '',
   date_of_birth: '',
-  relationship_type: '1',
+  relationship_type: '',
   relationship_title: '',
   relationship_title_en: '',
 };
@@ -56,6 +46,17 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [showOther, setShowOther] = useState(1);
+
+  const relationshipTypes = useMemo(() => {
+    let relationShips = [];
+    for (let i = 1; i <= 7; i++) {
+      relationShips.push({
+        id: i,
+        title: messages['common.guardian_types'][i - 1],
+      });
+    }
+    return relationShips;
+  }, [messages]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -206,9 +207,10 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
             <Grid item xs={12}>
               <CustomFormSelect
                 id='relationship_type'
+                label={messages['guardian.relationship_type']}
                 isLoading={isLoading}
                 control={control}
-                options={relationship_type}
+                options={relationshipTypes}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}

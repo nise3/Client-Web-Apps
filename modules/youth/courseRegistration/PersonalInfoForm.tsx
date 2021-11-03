@@ -339,7 +339,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <Grid item xs={12} md={6}>
               <FormRadioButtons
                 id='physical_disability_status'
-                label={'common.physical_disability'}
+                label={'common.physical_disabilities_status'}
                 radios={[
                   {
                     key: PhysicalDisabilityStatus.YES,
@@ -361,7 +361,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               <Grid item xs={12} md={6}>
                 <CustomFormSelect
                   id='physical_disabilities'
-                  label={messages['common.physical_disability_title']}
+                  label={messages['common.physical_disability']}
                   isLoading={false}
                   control={control}
                   options={physicalDisabilities}

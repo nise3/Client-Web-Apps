@@ -178,7 +178,7 @@ const OrganizationRegistration = () => {
   );
 
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth={'md'} className={classes.rootContainer}>
       <Paper className={classes.PaperBox}>
         <Typography
           align={'center'}
@@ -190,7 +190,7 @@ const OrganizationRegistration = () => {
           {messages['common.organizationInfoText']}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-          <Grid container spacing={3} maxWidth={'md'}>
+          <Grid container spacing={4} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
@@ -380,14 +380,13 @@ const OrganizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{display: 'flex', justifyContent: 'flex-end'}}>
-              <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
-            </Grid>
             <Grid item xs={12}>
-              <Typography align={'right'} style={{fontSize: '15px'}}>
+              <SubmitButton
+                isSubmitting={isSubmitting}
+                label={messages['common.registration'] as string}
+                size='large'
+              />
+              <Typography style={{fontSize: '15px', marginTop: '15px'}}>
                 {messages['common.already_have_account']}{' '}
                 <Link
                   href={''}

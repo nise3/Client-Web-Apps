@@ -1,5 +1,5 @@
 import {Box, Typography} from '@mui/material';
-import {BorderColor} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import CustomCarousel from '../../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useCallback, useState} from 'react';
@@ -66,7 +66,7 @@ const PortfolioSection = () => {
         <CustomParabolaButton
           buttonVariant={'outlined'}
           title={messages['common.add_new_portfolio'] as string}
-          icon={<BorderColor />}
+          icon={<Add />}
           onClick={() => openPortfolioAddEditForm(null)}
         />
       }
@@ -82,7 +82,7 @@ const PortfolioSection = () => {
         </>
       ) : (
         <Box>
-          <CustomCarousel>
+          <CustomCarousel itemsInDesktop={3}>
             {(portfolios || []).map((portfolio: any) => {
               return (
                 <React.Fragment key={portfolio?.id}>

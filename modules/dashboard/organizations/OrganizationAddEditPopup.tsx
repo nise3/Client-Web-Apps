@@ -337,8 +337,9 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            required
+            id='title'
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -346,8 +347,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='title'
-            label={messages['common.title']}
+            id='title_en'
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -356,6 +357,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         {!isEdit && (
           <Grid item xs={6}>
             <CustomFormSelect
+              required
               id='permission_sub_group_id'
               label={messages['permission_sub_group.label']}
               isLoading={isLoadingPermissionSubGroups}
@@ -369,6 +371,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         )}
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='organization_type_id'
             label={messages['common.organization_type']}
             isLoading={isOrganizationTypeLoading}
@@ -390,11 +393,13 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='email'
             label={messages['common.email']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='example@gmail.com'
           />
         </Grid>
         <Grid item xs={6}>
@@ -408,15 +413,18 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='mobile'
             label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='017xxxxxxxx'
           />
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='contact_person_name'
             label={messages['common.contact_person_name']}
             register={register}
@@ -471,24 +479,29 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='contact_person_mobile'
             label={messages['common.contact_person_mobile']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='017xxxxxxxx'
           />
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='contact_person_email'
             label={messages['common.contact_person_email']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='example@gmail.com'
           />
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='contact_person_designation'
             label={messages['common.contact_person_designation']}
             register={register}
@@ -529,6 +542,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='address'
             label={messages['common.address']}
             register={register}
@@ -552,6 +566,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='loc_division_id'
             label={messages['divisions.label']}
             isLoading={isLoadingDivisions}
@@ -565,6 +580,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='loc_district_id'
             label={messages['districts.label']}
             isLoading={isLoadingDistricts}

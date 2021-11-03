@@ -259,6 +259,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='name'
             label={messages['common.name']}
             register={register}
@@ -268,6 +269,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='name_en'
             label={messages['common.name_en']}
             register={register}
@@ -278,6 +280,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='username'
             label={messages['user.username']}
             register={register}
@@ -287,20 +290,24 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='email'
             label={messages['common.email']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='example@gmail.com'
           />
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='mobile'
             label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='017xxxxxxxx'
           />
         </Grid>
         <Grid item xs={6}>
@@ -357,22 +364,26 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <>
             <Grid item xs={6}>
               <CustomTextInput
+                required
                 id='password'
                 label={messages['common.password']}
                 type={'password'}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='xxxxXXXX123'
               />
             </Grid>
             <Grid item xs={6}>
               <CustomTextInput
+                required
                 id='password_confirmation'
                 label={messages['common.retypePassword']}
                 type={'password'}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='xxxxXXXX123'
               />
             </Grid>
           </>

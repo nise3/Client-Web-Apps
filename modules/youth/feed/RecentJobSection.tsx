@@ -81,10 +81,12 @@ const RecentJobSection = () => {
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
             onChange={onSelectChange}>
-            <MenuItem value={1}>Recent Jobs</MenuItem>
-            <MenuItem value={2}>Popular Jobs</MenuItem>
-            <MenuItem value={3}>Nearby Jobs</MenuItem>
-            <MenuItem value={4}>Skill Matching Jobs</MenuItem>
+            <MenuItem value={1}>{messages['common.recent_jobs']}</MenuItem>
+            <MenuItem value={2}>{messages['common.popular_jobs']}</MenuItem>
+            <MenuItem value={3}>{messages['common.nearby_jobs']}</MenuItem>
+            <MenuItem value={4}>
+              {messages['common.skill_matching_jobs']}
+            </MenuItem>
           </Select>
         </Grid>
         {items.map((job: any, index: number) => {

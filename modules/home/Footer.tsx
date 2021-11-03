@@ -5,6 +5,7 @@ import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Link} from '../../@softbd/elements/common';
+import GoToTop from '../goToTop';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -128,13 +129,15 @@ const Footer = () => {
                   বাস্তবায়নে
                 </Box>
               </Typography>
-              <Box component={'span'}>
-                <img
-                  src={'/images/footer-img.png'}
-                  alt='crema-logo'
-                  className={classes.footerImage}
-                />
-              </Box>
+              <Link href={'https://a2i.gov.bd/'}>
+                <Box component={'span'}>
+                  <img
+                    src={'/images/footer-img.png'}
+                    alt='crema-logo'
+                    className={classes.footerImage}
+                  />
+                </Box>
+              </Link>
             </Grid>
             <Grid item md={2} textAlign={'right'}>
               <Typography variant='subtitle2' gutterBottom={true}>
@@ -152,6 +155,7 @@ const Footer = () => {
                 </Box>
               </Link>
             </Grid>
+            <GoToTop />
           </Grid>
         </Container>
       </Grid>

@@ -151,6 +151,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -170,6 +171,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='institute_id'
             label={messages['institute.label']}
             isLoading={isLoadingInstitutes}

@@ -390,6 +390,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -408,6 +409,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
+            required
             id='code'
             label={messages['course.code']}
             register={register}
@@ -417,6 +419,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6} sm={3} md={3}>
           <CustomTextInput
+            required
             id='course_fee'
             label={messages['course.fee']}
             register={register}
@@ -435,6 +438,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
+            required
             id='institute_id'
             label={messages['institute.label']}
             isLoading={isLoadingInstitutes}
@@ -474,8 +478,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
+            required
             id='skills'
-            label={messages['common.select_your_skills']}
+            label={messages['common.skills']}
             isLoading={isLoadingSkills}
             control={control}
             options={skills}
@@ -489,6 +494,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
+            required
             id='level'
             label={messages['course.course_level']}
             isLoading={false}
@@ -502,6 +508,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
+            required
             id='language_medium'
             label={messages['course.language_medium']}
             isLoading={false}

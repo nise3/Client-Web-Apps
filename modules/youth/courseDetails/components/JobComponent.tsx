@@ -56,6 +56,7 @@ const JobComponent: FC<JobComponentProps> = ({job}) => {
           className={classes.jobCardImage}
           image={job.providerImage}
           title={job.title}
+          alt={job.title}
         />
         <Box className={classes.jobTitleBox}>{job.title}</Box>
         <Box>{job.providerName}</Box>

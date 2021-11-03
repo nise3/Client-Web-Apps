@@ -28,14 +28,6 @@ type GuardianViewPageProps = {
   onClose: () => void;
 };
 
-const relationship_type: any = {
-  1: 'Father',
-  2: 'Mother',
-  3: 'Uncle',
-  4: 'Aunt',
-  5: 'Other',
-};
-
 const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -87,7 +79,9 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
                     <TableCell component='th'>{guardian?.name}</TableCell>
                     <TableCell>{guardian?.mobile}</TableCell>
                     <TableCell>
-                      {relationship_type[guardian?.relationship_type] +
+                      {messages['common.guardian_types'][
+                        guardian?.relationship_type
+                      ] +
                         (guardian?.relationship_title
                           ? ' (' + guardian?.relationship_title + ')'
                           : '')}
@@ -95,6 +89,8 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
                     <TableCell>
                       <EditButton
                         size={'small'}
+                        color={'primary'}
+                        sx={{marginRight: '10px'}}
                         onClick={() => onEdit(guardian.id)}
                       />
                       <DeleteButton

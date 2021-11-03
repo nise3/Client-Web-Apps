@@ -267,16 +267,16 @@ export const courseDuration = (duration: number) => {
   const {messages} = appIntl();
 
   if (duration / 60 < 1) {
-    return duration + ' ' + (messages['common.short_min'] as string);
+    return (duration || 0) + ' ' + (messages['common.short_min'] as string);
   } else {
     dm = duration % 60;
     dh = Math.floor(duration / 60);
     return (
-      dh +
+      (dh || 0) +
       ' ' +
       (messages['common.short_hour'] as string) +
       ', ' +
-      dm +
+      (dm || 0) +
       ' ' +
       (messages['common.short_min'] as string)
     );
