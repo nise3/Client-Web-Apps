@@ -145,6 +145,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -164,6 +165,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
 
         <Grid item xs={12}>
           <CustomFormSelect
+            required
             id='job_sector_id'
             label={messages['job_sectors.label']}
             isLoading={isJobSectorsLoading}

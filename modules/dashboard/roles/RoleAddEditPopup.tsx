@@ -196,6 +196,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -205,6 +206,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='title_en'
             label={messages['common.title_en']}
             register={register}
@@ -215,6 +217,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='key'
             label={messages['common.key']}
             register={register}

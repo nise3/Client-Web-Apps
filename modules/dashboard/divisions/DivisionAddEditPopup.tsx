@@ -135,6 +135,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title_en'
             label={messages['common.title_en']}
             register={register}
@@ -144,6 +145,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -153,6 +155,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
+            required
             id='bbs_code'
             label={messages['common.bbs_code']}
             register={register}

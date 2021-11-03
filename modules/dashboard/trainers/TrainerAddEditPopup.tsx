@@ -373,6 +373,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='trainer_name'
             label={messages['trainer.title']}
             register={register}
@@ -391,11 +392,13 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='email'
             label={messages['common.email']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='example@gmail.com'
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -418,15 +421,18 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='mobile'
             label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='017xxxxxxxx'
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='date_of_birth'
             label={messages['common.date_of_birth']}
             register={register}
@@ -610,6 +616,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='trainer_registration_number'
             label={messages['common.registration_number']}
             register={register}
@@ -647,6 +654,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
+            required
             id='institute_id'
             label={messages['institute.label']}
             isLoading={isLoadingInstitutes}
@@ -685,6 +693,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='nationality'
             label={messages['common.nationality']}
             register={register}

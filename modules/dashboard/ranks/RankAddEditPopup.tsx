@@ -190,6 +190,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -210,6 +211,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         {authUser && authUser.isSystemUser && (
           <Grid item xs={6}>
             <CustomFormSelect
+              required
               id='organization_id'
               label={messages['organization.label']}
               isLoading={isLoadingOrganizations}
@@ -224,6 +226,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         )}
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='rank_type_id'
             label={messages['rank_types.label']}
             isLoading={isLoadingRankTypes}

@@ -126,6 +126,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomFormSelect
+            required
             id='batch_id'
             label={messages['applicationManagement.batches']}
             isLoading={isBatchesLoading}

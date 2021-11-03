@@ -73,6 +73,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
         <Avatar
+          variant='square'
           className={classes.providerLogo}
           alt={course?.institute_title}
           src={'http://lorempixel.com/400/200?id=1' + course?.id}

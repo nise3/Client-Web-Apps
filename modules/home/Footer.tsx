@@ -128,13 +128,15 @@ const Footer = () => {
                   বাস্তবায়নে
                 </Box>
               </Typography>
-              <Box component={'span'}>
-                <img
-                  src={'/images/footer-img.png'}
-                  alt='crema-logo'
-                  className={classes.footerImage}
-                />
-              </Box>
+              <Link href={'https://a2i.gov.bd/'}>
+                <Box component={'span'}>
+                  <img
+                    src={'/images/footer-img.png'}
+                    alt='crema-logo'
+                    className={classes.footerImage}
+                  />
+                </Box>
+              </Link>
             </Grid>
             <Grid item md={2} textAlign={'right'}>
               <Typography variant='subtitle2' gutterBottom={true}>
