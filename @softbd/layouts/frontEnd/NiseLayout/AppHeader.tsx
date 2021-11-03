@@ -115,7 +115,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <Box className={clsx(classes.sectionDesktop)}>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_ROOT}>
-                    <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
+                    <img src={'/svg/home.svg'} alt={'home.svg'} />
                     {messages['menu.home']}
                   </Link>
                 </Box>

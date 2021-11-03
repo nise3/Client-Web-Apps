@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     '& .active': {
       color: theme.palette.primary.main,
     },
+    '& img': {
+      marginRight: '5px',
+    },
   },
   menuItemMobile: {
     padding: '18px 20px 18px 12px',

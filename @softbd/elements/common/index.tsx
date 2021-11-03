@@ -159,3 +159,23 @@ export const S2 = ({children, centered = false, ...props}: HeadingProp) => (
     {children}
   </Typography>
 );
+
+export const Body1 = ({children, centered = false, ...props}: HeadingProp) => (
+  <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
+    variant='body1'
+    style={centered ? {textAlign: 'center'} : {}}
+    {...props}>
+    {children}
+  </Typography>
+);
+
+export const Body2 = ({children, centered = false, ...props}: HeadingProp) => (
+  <Typography
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
+    variant='body2'
+    style={centered ? {textAlign: 'center'} : {}}
+    {...props}>
+    {children}
+  </Typography>
+);
