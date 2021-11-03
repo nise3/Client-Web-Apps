@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {
   Button,
   Divider,
-  Grid,
   IconButton,
   InputBase,
   MenuItem,
@@ -67,77 +66,74 @@ const SearchBox = () => {
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={6} md={4} lg={2} xl={2}>
-          <Paper
-            elevation={0}
-            square
-            component='form'
-            sx={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              width: '760px',
-              height: '86px',
-              p: '10px',
-            }}>
-            <IconButton sx={{p: '20px'}} aria-label='menu'>
-              <SearchIcon />
-            </IconButton>
-            <InputBase
-              sx={{ml: 1, flex: 1}}
-              placeholder='অনুসন্ধান করুন'
-              inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
-            />
-            <Paper component='span' elevation={0}>
-              <IconButton aria-label='location'>
-                <LocationOnIcon />
-              </IconButton>
-              <Select
-                className={classes.select}
-                variant='standard'
-                value={locationValue}
-                label=''
-                onChange={(e: any) => {
-                  setLocationValue(e?.target?.value);
-                }}
-                MenuProps={{disableScrollLock: true}}>
-                <MenuItem value='1'>লোকেশন</MenuItem>
-              </Select>
-            </Paper>
-            <Button
-              variant='contained'
-              size={'large'}
-              sx={{borderRadius: 0, width: '150px', height: '100%'}}
-              disableElevation>
-              অনুসন্ধান
-            </Button>
-            <Select
-              className={classes.topSelect}
-              sx={{
-                position: 'absolute',
-                left: 0,
-                top: '-40px',
-                color: 'primary.contrastText',
-              }}
-              variant='filled'
-              value={typeValue}
-              label=''
-              MenuProps={{disableScrollLock: true}}
-              onChange={(e: any) => {
-                setTypeValue(e?.target?.value);
-              }}>
-              <MenuItem value='1'>দক্ষতা</MenuItem>
-              <Divider className={classes.resetDivider} />
-              <MenuItem value='2'>চাকরি</MenuItem>
-              <Divider className={classes.resetDivider} />
-              <MenuItem value='3'>ব্যবসা</MenuItem>
-              <Divider className={classes.resetDivider} />
-              <MenuItem value='4'>শিক্ষা</MenuItem>
-            </Select>
-          </Paper>
-        </Grid>
-      </Grid>
+      <Paper
+        elevation={0}
+        square
+        component='form'
+        sx={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          width: '760px',
+          height: '86px',
+          p: '10px',
+          marginTop: '100px',
+        }}>
+        <IconButton sx={{p: '20px'}} aria-label='menu'>
+          <SearchIcon />
+        </IconButton>
+        <InputBase
+          sx={{ml: 1, flex: 1}}
+          placeholder='অনুসন্ধান করুন'
+          inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
+        />
+        <Paper component='span' elevation={0}>
+          <IconButton aria-label='location'>
+            <LocationOnIcon />
+          </IconButton>
+          <Select
+            className={classes.select}
+            variant='standard'
+            value={locationValue}
+            label=''
+            onChange={(e: any) => {
+              setLocationValue(e?.target?.value);
+            }}
+            MenuProps={{disableScrollLock: true}}>
+            <MenuItem value='1'>লোকেশন</MenuItem>
+          </Select>
+        </Paper>
+        <Button
+          variant='contained'
+          size={'large'}
+          sx={{borderRadius: 0, width: '150px', height: '100%'}}
+          disableElevation>
+          অনুসন্ধান
+        </Button>
+        <Select
+          className={classes.topSelect}
+          sx={{
+            position: 'absolute',
+            left: 0,
+            top: '-40px',
+            color: 'primary.contrastText',
+          }}
+          variant='filled'
+          value={typeValue}
+          label=''
+          MenuProps={{disableScrollLock: true}}
+          onChange={(e: any) => {
+            setTypeValue(e?.target?.value);
+          }}>
+          <MenuItem value='1'>দক্ষতা</MenuItem>
+          <Divider className={classes.resetDivider} />
+          <MenuItem value='2'>চাকরি</MenuItem>
+          <Divider className={classes.resetDivider} />
+          <MenuItem value='3'>ব্যবসা</MenuItem>
+          <Divider className={classes.resetDivider} />
+          <MenuItem value='4'>শিক্ষা</MenuItem>
+        </Select>
+      </Paper>
     </>
   );
 };
