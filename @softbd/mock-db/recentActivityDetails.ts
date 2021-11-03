@@ -1,7 +1,7 @@
 const recentActivityDetails = [
   {
     id: 1,
-    date: '১৩ জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
     content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus
@@ -30,43 +30,43 @@ const recentActivityDetails = [
   },
   {
     id: 2,
-    date: '১৪জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },
   {
     id: 3,
-    date: '১৫ জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },
   {
     id: 4,
-    date: '১৬ জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },
   {
     id: 5,
-    date: '১৩ জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },
   {
     id: 6,
-    date: '১৪জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },
   {
     id: 7,
-    date: '১৫ জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },
   {
     id: 8,
-    date: '১৬ জুন ২০২১',
+    date: '2021-12-08T00:00:00.000000Z',
     title: 'সাদাত সৃতি পল্লিতে দেয়া হয় কম্পিউটার প্রশিক্ষণ',
     img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80',
   },

@@ -7,34 +7,25 @@ interface TrainingCenterCardProps {
 
 const TrainingCenterCard = ({trainingCenter}: TrainingCenterCardProps) => {
   return (
-    <Card
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: 300,
-      }}>
+    <Card sx={{height: '100%'}}>
       <CardContent>
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+        <Grid container sx={{alignItems: 'center', flexDirection: 'column'}}>
+          <Grid item xs={12}>
             <Avatar
-              alt={'logo'}
+              alt={trainingCenter.institute_title}
+              variant='square'
               //src={trainingCenter.logo}
-              src={'http://lorempixel.com/400/200?id=' + trainingCenter?.id}
-              sx={{width: 70, height: 70}}
+              src={'http://lorempixel.com/300/200?id=' + trainingCenter?.id}
+              sx={{
+                width: 110,
+                height: 110,
+                '>img': {height: 'auto'},
+              }}
             />
           </Grid>
 
           <Grid item xs={12}>
-            <Typography mt={4} sx={{textAlign: 'center'}} variant={'h4'}>
+            <Typography mt={4} variant={'h5'}>
               {trainingCenter.title}
             </Typography>
           </Grid>

@@ -13,7 +13,7 @@ import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
-import {courseDuration} from '../../utilities/helpers';
+import {courseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     maxWidth: 345,
     minWidth: '100%',
     position: 'relative',
+    height: '100%',
   },
   trainingCardImage: {
     height: 140,
@@ -32,6 +33,10 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     position: 'absolute',
     top: 110,
     left: 10,
+    background: theme.palette.common.white,
+    '& img': {
+      height: 'auto',
+    },
   },
   courseFee: {
     textTransform: 'uppercase',
@@ -64,7 +69,7 @@ interface CourseCardComponentProps {
 
 const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   const classes = useStyles();
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const pathname = router.pathname;
   const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
@@ -87,7 +92,11 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
-          <Box className={classes.courseFeeStyle}>{course.course_fee} ৳</Box>
+          <Box className={classes.courseFeeStyle}>
+            {course.course_fee
+              ? formatNumber(course.course_fee) + ' ৳'
+              : messages['common.free']}
+          </Box>
         </Box>
 
         <Box
@@ -106,19 +115,22 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
         <Box className={classes.tagBox}>
           {course?.duration && (
-            <TagChip label={courseDuration(course.duration)} />
+            <TagChip
+              label={courseDuration(messages, formatNumber, course.duration)}
+            />
           )}
-          <TagChip
-            label={
-              Math.floor(Math.random() * 10 + 6) +
-              ' ' +
-              messages['common.lesson']
-            }
-          />
+          <TagChip label={formatNumber(15) + ' ' + messages['common.lesson']} />
         </Box>
 
         {isMyCoursePage && course?.total_enroll && (
-          <Typography>{course?.total_enroll + ' Student'}</Typography>
+          <Typography>
+            <IntlMessages
+              id={'course_details.enrolled'}
+              values={{
+                total: getIntlNumber(formatNumber, course.total_enroll),
+              }}
+            />
+          </Typography>
         )}
 
         {course.progress && (
@@ -127,7 +139,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
             <Box>
               <IntlMessages
                 id='course_card.complete'
-                values={{subject: course.progress + '%'}}
+                values={{subject: formatNumber(course.progress) + '%'}}
               />
             </Box>
           </Box>

@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC} from 'react';
 import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
@@ -63,7 +63,7 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const classes = useStyle();
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const router = useRouter();
 
   return (
@@ -119,7 +119,9 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     {messages['common.course_fee']}:
                   </Box>
                   <Typography variant={'h5'} fontWeight={'bold'}>
-                    {course?.course_fee + ' Tk'}
+                    {course.course_fee
+                      ? formatNumber(course.course_fee) + ' ৳'
+                      : messages['common.free']}
                   </Typography>
                 </Grid>
               </Grid>
@@ -135,17 +137,15 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
               <Grid container sx={{alignItems: 'flex-end'}}>
                 <Grid item xs={8}>
                   <TagChip
-                    label={courseDuration(course?.duration)}
+                    label={courseDuration(
+                      messages,
+                      formatNumber,
+                      course?.duration,
+                    )}
                     className={classes.tagChipStyle}
                   />
                   <TagChip
-                    label={useMemo(() => {
-                      return (
-                        Math.floor(Math.random() * 10 + 6) +
-                        ' ' +
-                        messages['common.lesson']
-                      );
-                    }, [course])}
+                    label={formatNumber(12) + ' ' + messages['common.lesson']}
                     className={classes.tagChipStyle}
                   />
                 </Grid>

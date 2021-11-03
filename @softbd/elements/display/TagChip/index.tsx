@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import clsx from 'clsx';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 
 interface TagChipProps {
   icon?: any;
-  label: string;
+  label: string | ReactNode;
   className?: string;
 }
 

@@ -10,6 +10,8 @@ import {DateRangeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import makeStyles from '@mui/styles/makeStyles';
 import {useRouter} from 'next/router';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.primary.light,
       display: 'flex',
       padding: '4px',
-      width: '130px',
+      width: '180px',
       borderRadius: '5px',
       marginBottom: '10px',
     },
@@ -32,6 +34,7 @@ function RecentActivityCardView({activity}: any) {
   const classes = useStyles();
   const router = useRouter();
   const path = router.pathname;
+  const {formatDate} = useIntl();
 
   return (
     <Card>
@@ -47,7 +50,9 @@ function RecentActivityCardView({activity}: any) {
           <CardContent>
             <Box className={classes.dateInfo}>
               <DateRangeOutlined />
-              <Typography>{activity.date}</Typography>
+              <Typography>
+                {getIntlDateFromString(formatDate, activity.date)}
+              </Typography>
             </Box>
 
             <Typography

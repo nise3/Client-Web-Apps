@@ -830,5 +830,8 @@
   "common.share_label": "Share",
   "common.download_label": "Download",
   "common.print": "Print",
-  "common.map_of_bangladesh": "Map of Bangladesh"
+  "common.map_of_bangladesh": "Map of Bangladesh",
+  "certificate.to": "to",
+  "education.cgpa_out_of_scale": "{cgpa} out of {scale}",
+  "course_details.enrolled": "{total} enrolled"
 }

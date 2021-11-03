@@ -15,6 +15,8 @@ import {useIntl} from 'react-intl';
 import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 import {ResultCodeAppeared, ResultCodeGrade} from '../utilities/EducationEnums';
+import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 interface EducationsProps {
   educations: Array<YouthEducation> | any[];
@@ -27,17 +29,27 @@ const Educations: FC<EducationsProps> = ({
   onEditClick,
   onDeleteClick,
 }) => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
 
   const getResult = (education: YouthEducation) => {
     if (education.result?.code == ResultCodeGrade) {
-      return education.cgpa + ' out of ' + education.cgpa_scale;
+      return (
+        <IntlMessages
+          id='education.cgpa_out_of_scale'
+          values={{
+            scale: getIntlNumber(formatNumber, education.cgpa_scale),
+            cgpa: getIntlNumber(formatNumber, education.cgpa),
+          }}
+        />
+      );
     } else {
       return (
         education.result?.title +
-        ' ' +
+        ', ' +
         (education.marks_in_percentage
-          ? messages['education.marks'] + ': ' + education.marks_in_percentage
+          ? messages['education.marks'] +
+            ': ' +
+            getIntlNumber(formatNumber, education.marks_in_percentage)
           : '')
       );
     }
@@ -80,19 +92,29 @@ const Educations: FC<EducationsProps> = ({
                     education?.year_of_passing && (
                       <Typography variant={'subtitle2'}>
                         {messages['education.passing_year']}:{' '}
-                        <b>{education?.year_of_passing}</b>
+                        <b>
+                          {getIntlNumber(
+                            formatNumber,
+                            education.year_of_passing,
+                          )}
+                        </b>
                       </Typography>
                     )}
                   {education.result?.code == ResultCodeAppeared && (
                     <Typography variant={'subtitle2'}>
                       {messages['education.expected_passing_year']}:{' '}
-                      <b>{education?.expected_year_of_passing}</b>
+                      <b>
+                        {getIntlNumber(
+                          formatNumber,
+                          education.expected_year_of_passing,
+                        )}
+                      </b>
                     </Typography>
                   )}
                   {education.duration && (
                     <Typography variant={'subtitle2'}>
                       {messages['education.duration']}:{' '}
-                      <b>{education.duration}</b>
+                      <b>{getIntlNumber(formatNumber, education.duration)}</b>
                     </Typography>
                   )}
                 </Box>
@@ -132,7 +154,12 @@ const Educations: FC<EducationsProps> = ({
                             color={'primary'}
                             sx={{marginRight: '5px'}}
                           />
-                          <TextPrimary text={education.year_of_passing} />
+                          <TextPrimary
+                            text={getIntlNumber(
+                              formatNumber,
+                              education.year_of_passing,
+                            )}
+                          />
                         </Grid>
                       </React.Fragment>
                     )}

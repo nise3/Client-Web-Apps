@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.primary.light,
       display: 'flex',
       padding: '4px',
-      width: '130px',
+      width: '180px',
       borderRadius: '5px',
       marginBottom: '10px',
     },

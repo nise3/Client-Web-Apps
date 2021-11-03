@@ -14,6 +14,7 @@ import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutl
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {H4} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 
 const useStyles = makeStyles((theme) => ({
   date: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RecentActivitiesDetails = ({data}: any) => {
   const classes = useStyles();
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
 
   return (
     <Container maxWidth={'lg'}>
@@ -41,7 +42,9 @@ const RecentActivitiesDetails = ({data}: any) => {
             <Grid item xs={6}>
               <Box className={classes.date}>
                 <DateRangeIcon />
-                <Typography>{data.date}</Typography>
+                <Typography>
+                  {getIntlDateFromString(formatDate, data.date)}
+                </Typography>
               </Box>
             </Grid>
             <Grid item xs={6} textAlign={'right'}>

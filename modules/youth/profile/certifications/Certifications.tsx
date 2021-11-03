@@ -7,7 +7,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import CircularDeleteButton from '../component/CircularDeleteButton';
 import {useIntl} from 'react-intl';
-import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
+import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
 import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 
@@ -22,7 +22,7 @@ const Certifications: FC<CertificationsProps> = ({
   onEditClick,
   onDeleteClick,
 }) => {
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
 
   return (
     <React.Fragment>
@@ -58,7 +58,7 @@ const Certifications: FC<CertificationsProps> = ({
                 </Box>
                 <Box>
                   <Grid container sx={{marginTop: '10px'}}>
-                    {certificate.start_date && (
+                    {certificate?.start_date && (
                       <React.Fragment>
                         <Grid item sx={{display: 'flex'}}>
                           <AccessTime
@@ -67,14 +67,14 @@ const Certifications: FC<CertificationsProps> = ({
                           />
                           <TextPrimary
                             text={
-                              getMomentDateFormat(
-                                certificate.start_date,
-                                'DD MMM, YYYY',
+                              getIntlDateFromString(
+                                formatDate,
+                                certificate?.start_date,
                               ) +
-                              ' to ' +
-                              getMomentDateFormat(
-                                certificate.end_date,
-                                'DD MMM, YYYY',
+                              messages['certificate.to'] +
+                              getIntlDateFromString(
+                                formatDate,
+                                certificate?.end_date,
                               )
                             }
                           />

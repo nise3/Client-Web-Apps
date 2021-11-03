@@ -8,6 +8,7 @@ import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_ROOT} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getIntlNumber} from '../../../@softbd/utilities/helpers';
 
 const useStyles = makeStyles((theme: CremaTheme): any => ({
   container: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
 
 const BasicInfo = () => {
   const classes: any = useStyles();
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
 
   return (
@@ -56,7 +57,10 @@ const BasicInfo = () => {
           </Box>
           <Box sx={{width: '100%'}}>
             <LinearProgress variant='determinate' value={55} />
-            <Box>{messages['youth_feed.profile_progress']} 55%</Box>
+            <Box>
+              {messages['youth_feed.profile_progress']}{' '}
+              {getIntlNumber(formatNumber, 55)}%
+            </Box>
           </Box>
 
           <BasicInfoItemBox youthProfile={authUser} />

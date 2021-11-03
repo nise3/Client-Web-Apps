@@ -586,7 +586,7 @@
   "course_details.start_instantly": "তাতক্ষণিকভাবে শুরু করুন এবং চালান",
   "course_details.months_to_complete": "সম্পূর্ণ করতে {subject} মাস",
   "course_details.hours_per_weeks": "ঘন্টা/সপ্তাহ",
-  "course_details.view_more_courses_by": "{subject} এর আরও কোর্স দেখুন",
+  "course_details.view_more_courses_by": "{subject} এর আরও কোর্স",
   "common.main_occupation": "প্রধান পেশা",
   "common.others_occupation": "অন্যান্য পেশা",
   "common.monthly_income": "মাসিক আয়",
@@ -838,5 +838,8 @@
   "common.share_label": "শেয়ার",
   "common.download_label": "ডাউনলোড",
   "common.print": "প্রিন্ট",
-  "common.map_of_bangladesh": "বাংলাদেশের মানচিত্র"
+  "common.map_of_bangladesh": "বাংলাদেশের মানচিত্র",
+  "certificate.to": " থেকে ",
+  "education.cgpa_out_of_scale": "{scale} এর মধ্যে {cgpa}",
+  "course_details.enrolled": "{total} জন নিবন্ধিত হয়েছে"
 }

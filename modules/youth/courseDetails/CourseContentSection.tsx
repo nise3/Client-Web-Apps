@@ -25,7 +25,10 @@ import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CourseDetailsTabs from './CourseDetailsTabs';
-import {courseDuration} from '../../../@softbd/utilities/helpers';
+import {
+  courseDuration,
+  getIntlNumber,
+} from '../../../@softbd/utilities/helpers';
 
 interface CourseContentProps {
   course: any;
@@ -52,7 +55,7 @@ const lessonsList = [
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const classes = useStyle();
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
 
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
   const overviewRef = useRef<any>();
@@ -161,7 +164,6 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               className={classes.dividerStyle}
             />
             <Grid item>
-              `
               <Box
                 className={clsx(
                   classes.dFlexAlignCenter,
@@ -170,13 +172,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 <Alarm className={classes.courseBadgeIcon} />
                 <Box>
                   <Box className={classes.courseBadgeTitle}>
-                    {/*<IntlMessages*/}
-                    {/*  id='course_details.months_to_complete'*/}
-                    {/*  values={{subject: 6}}*/}
-                    {/*/>*/}
-                    {courseDuration(course?.duration)}
+                    {courseDuration(messages, formatNumber, course?.duration)}
                   </Box>
-                  {/*<Box>3 {messages['course_details.hours_per_weeks']}</Box>*/}
                 </Box>
               </Box>
             </Grid>
@@ -197,12 +194,19 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             <Box style={{display: 'flex', alignItems: 'center'}}>
               {course?.duration && (
                 <Typography>
-                  {' '}
-                  {course?.duration + ' ' + messages['common.short_hour']},{' '}
+                  {courseDuration(messages, formatNumber, course?.duration)}
                 </Typography>
               )}
               {course?.total_enrolled && (
-                <Typography> {course?.total_enrolled} </Typography>
+                <Typography>
+                  {course?.duration ? ', ' : ''}
+                  <IntlMessages
+                    id={'course_details.enrolled'}
+                    values={{
+                      total: getIntlNumber(formatNumber, course.total_enrolled),
+                    }}
+                  />{' '}
+                </Typography>
               )}
             </Box>
 
@@ -236,21 +240,6 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.assisment_method']}
               </Box>
               <Typography>{course?.evaluation_system}</Typography>
-
-              {/*<List className={classes.ulList}>*/}
-              {/*  <ListItem className='list-item'>*/}
-              {/*    <ListItemIcon className='list-item-bullet-large'>*/}
-              {/*      &#8226;*/}
-              {/*    </ListItemIcon>*/}
-              {/*    <ListItemText primary={'Lesson Quiz'} />*/}
-              {/*  </ListItem>*/}
-              {/*  <ListItem className='list-item'>*/}
-              {/*    <ListItemIcon className='list-item-bullet-large'>*/}
-              {/*      &#8226;*/}
-              {/*    </ListItemIcon>*/}
-              {/*    <ListItemText primary={'Online MCQ 50 Marks'} />*/}
-              {/*  </ListItem>*/}
-              {/*</List>*/}
             </Box>
           </Box>
 
@@ -260,30 +249,6 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             </Box>
             <Box>
               <Typography>{course?.prerequisite}</Typography>
-              {/*<List className={classes.ulList}>*/}
-              {/*  <ListItem className='list-item'>*/}
-              {/*    <ListItemIcon className='list-item-bullet-small'>*/}
-              {/*      &#8226;*/}
-              {/*    </ListItemIcon>*/}
-              {/*    <ListItemText primary={'A Computer Windows, Mac , or Linux'} />*/}
-              {/*  </ListItem>*/}
-              {/*  <ListItem className='list-item'>*/}
-              {/*    <ListItemIcon className='list-item-bullet-small'>*/}
-              {/*      &#8226;*/}
-              {/*    </ListItemIcon>*/}
-              {/*    <ListItemText*/}
-              {/*      primary={'No prior knowledge of Python is required'}*/}
-              {/*    />*/}
-              {/*  </ListItem>*/}
-              {/*  <ListItem className='list-item'>*/}
-              {/*    <ListItemIcon className='list-item-bullet-small'>*/}
-              {/*      &#8226;*/}
-              {/*    </ListItemIcon>*/}
-              {/*    <ListItemText*/}
-              {/*      primary={'No previous programming experience needed'}*/}
-              {/*    />*/}
-              {/*  </ListItem>*/}
-              {/*</List>*/}
             </Box>
           </Box>
 
