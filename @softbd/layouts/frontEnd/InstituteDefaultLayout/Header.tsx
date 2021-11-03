@@ -7,21 +7,21 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Login, LocalPhone, Send} from '@mui/icons-material';
+import {Login} from '@mui/icons-material';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
-import {H6, NavLink as Link} from '../../../elements/common';
+import {NavLink as Link, Text} from '../../../elements/common';
 import {
-  LINK_FRONTEND_INSTITUTE_ROOT,
-  LINK_FRONTEND_INSTITUTE_COURSES,
-  LINK_FRONTEND_INSTITUTE_VIDEOS,
-  LINK_FRONTEND_INSTITUTE_FEEDBACK,
-  LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_CONTACT,
+  LINK_FRONTEND_INSTITUTE_COURSES,
+  LINK_FRONTEND_INSTITUTE_FAQ,
+  LINK_FRONTEND_INSTITUTE_FEEDBACK,
+  LINK_FRONTEND_INSTITUTE_ROOT,
+  LINK_FRONTEND_INSTITUTE_VIDEOS,
   LINK_SIGNUP,
 } from '../../../common/appLinks';
 import useStyles from './Header.style';
 import {useIntl} from 'react-intl';
-import {Container} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
@@ -107,11 +107,12 @@ const Header: React.FC<AppHeaderProps> = () => {
               instituteLogo='/images/bitac-logo.jpg'
             />
           </Link>
-          <Box
-            className={classes.headerHalf}
-            justifyContent='flex-end'
-            alignItems='center'>
-            <H6 p={2}>
+          <Grid item md={4} className={classes.headerHalf} mr={5}>
+            <Text fontWeight={'bold'}>
+              National Institute for skills Education, Employment and
+              Entrepreneurship
+            </Text>
+            {/*<H6 p={2}>
               <Send
                 className={classes.menuIcons}
                 sx={{transform: 'rotate( 320deg)'}}
@@ -121,8 +122,8 @@ const Header: React.FC<AppHeaderProps> = () => {
             <H6>
               <LocalPhone className={classes.menuIcons} /> ০১৯১২৩৪৫৬৭৮,
               ০১৮১২৩৪৫৬৭৮
-            </H6>
-          </Box>
+            </H6>*/}
+          </Grid>
         </Container>
       </Box>
 

@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
   headerHalf: {
     display: 'flex',
     justifyContent: 'center',
+    textAlign: 'end',
+    alignItems: 'center',
     [theme.breakpoints.up('md')]: {
       // width: '50%',
       justifyContent: 'unset',
