@@ -96,7 +96,7 @@ const YouthRegistration = () => {
       skills: yup
         .array()
         .of(yup.object())
-        .min(1)
+        .required()
         .label(messages['common.skills'] as string),
       date_of_birth: yup
         .string()
@@ -315,27 +315,28 @@ const YouthRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              {/*<CustomFormSelect*/}
-              {/*  required*/}
-              {/*  id='skills'*/}
-              {/*  label={messages['common.select_your_skills']}*/}
-              {/*  isLoading={false}*/}
-              {/*  control={control}*/}
-              {/*  options={skills}*/}
-              {/*  multiple={true}*/}
-              {/*  optionValueProp={'id'}*/}
-              {/*  optionTitleProp={['title_en', 'title']}*/}
-              {/*  errorInstance={errors}*/}
-              {/*  defaultValue={[]}*/}
-              {/*/>*/}
+              {/*  <CustomFormSelect
+                required
+                id='skills'
+                label={messages['common.select_your_skills']}
+                isLoading={false}
+                control={control}
+                options={skills}
+                multiple={true}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                defaultValue={[]}
+              />*/}
 
               <CustomSelectAutoComplete
-                label={messages['common.skills']}
                 id='skills'
+                label={messages['common.skills']}
                 control={control}
                 options={skills}
                 optionTitleProp='title'
                 errorInstance={errors}
+                required
               />
             </Grid>
             <Grid item xs={12} md={6}>

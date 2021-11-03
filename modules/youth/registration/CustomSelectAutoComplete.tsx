@@ -32,7 +32,7 @@ export default function CustomSelectAutoComplete({
   optionTitleProp,
   label,
   defaultValue,
-  required,
+  required = false,
   errorInstance,
   onChange: onChangeCallback,
   placeholder,
