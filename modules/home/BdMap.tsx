@@ -88,8 +88,12 @@ const BdMap = () => {
                 <CardMedia
                   component={'img'}
                   image={'images/map.png'}
-                  title={messages['common.map_of_bangladesh'] as string}
-                  alt={messages['common.map_of_bangladesh']}
+                  title={
+                    messages['common.map_of_bangladesh'] as string | undefined
+                  }
+                  alt={
+                    messages['common.map_of_bangladesh'] as string | undefined
+                  }
                 />
               </Grid>
             </Grid>
