@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CustomSelectAutoComplete from './CustomSelectAutoComplete';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useStyles from './Registration.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -32,6 +33,8 @@ import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabil
 import UserNameType from '../../../@softbd/utilities/UserNameType';
 import {useRouter} from 'next/router';
 import {LINK_YOUTH_REGISTRATION_VERIFICATION} from '../../../@softbd/common/appLinks';
+import {Link} from '../../../@softbd/elements/common';
+import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 
 const initialValues = {
   first_name: '',
@@ -92,8 +95,8 @@ const YouthRegistration = () => {
         .label(messages['common.last_name_bn'] as string),
       skills: yup
         .array()
-        .of(yup.number())
-        .min(1)
+        .of(yup.object())
+        .required()
         .label(messages['common.skills'] as string),
       date_of_birth: yup
         .string()
@@ -229,14 +232,20 @@ const YouthRegistration = () => {
           ? {mobile: data.mobile}
           : {email: data.email};*/
 
-      //data.user_name_type = userNameType;
+      // data.user_name_type = userNameType;
+
       data.user_name_type = UserNameType.MOBILE;
       if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
         delete data.physical_disabilities;
       }
 
+      let skillIds: any = [];
+      data.skills.map((skill: any) => {
+        skillIds.push(skill.id);
+      });
+      data.skills = skillIds;
+
       await youthRegistration(data);
-      console.log(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       router
         .push({
@@ -248,9 +257,11 @@ const YouthRegistration = () => {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-
+  const redirectToSSO = useCallback(() => {
+    window.location.href = getSSOLoginUrl();
+  }, []);
   return (
-    <Container maxWidth={'md'} className={classes.root}>
+    <Container maxWidth={'md'} className={classes.rootContainer}>
       <Paper className={classes.PaperBox}>
         <Typography
           variant={'h6'}
@@ -258,7 +269,7 @@ const YouthRegistration = () => {
           {messages['common.registration']}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-          <Grid container spacing={3} maxWidth={'md'}>
+          <Grid container spacing={4} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
@@ -304,7 +315,7 @@ const YouthRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              {/*  <CustomFormSelect
                 required
                 id='skills'
                 label={messages['common.skills']}
@@ -316,6 +327,16 @@ const YouthRegistration = () => {
                 optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
                 defaultValue={[]}
+              />*/}
+
+              <CustomSelectAutoComplete
+                id='skills'
+                label={messages['common.skills']}
+                control={control}
+                options={skills}
+                optionTitleProp='title'
+                errorInstance={errors}
+                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -450,8 +471,21 @@ const YouthRegistration = () => {
               />
             </Grid>
 
-            <Grid item xs={12} sx={{textAlign: 'right'}}>
-              <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
+            <Grid item xs={12}>
+              <SubmitButton
+                isSubmitting={isSubmitting}
+                label={messages['common.create_account'] as string}
+                size='large'
+              />
+              <Typography style={{marginTop: '15px'}} variant={'body1'}>
+                {messages['common.already_have_account']}{' '}
+                <Link
+                  href={''}
+                  onClick={redirectToSSO}
+                  className={classes.signInStyle}>
+                  {messages['common.signin_here']}
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>
