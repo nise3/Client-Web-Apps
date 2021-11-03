@@ -9,7 +9,7 @@ import {
   Select,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import {Theme} from '@mui/system';
@@ -77,7 +77,7 @@ const SearchBox = () => {
           width: '760px',
           height: '86px',
           p: '10px',
-          marginTop: '100px',
+          zIndex: '999',
         }}>
         <IconButton sx={{p: '20px'}} aria-label='menu'>
           <SearchIcon />
@@ -89,7 +89,7 @@ const SearchBox = () => {
         />
         <Paper component='span' elevation={0}>
           <IconButton aria-label='location'>
-            <LocationOnIcon />
+            <LocationOnOutlined />
           </IconButton>
           <Select
             className={classes.select}
@@ -106,7 +106,12 @@ const SearchBox = () => {
         <Button
           variant='contained'
           size={'large'}
-          sx={{borderRadius: 0, width: '150px', height: '100%'}}
+          sx={{
+            borderRadius: 0,
+            width: '150px',
+            height: '100%',
+            marginLeft: '20px',
+          }}
           disableElevation>
           অনুসন্ধান
         </Button>

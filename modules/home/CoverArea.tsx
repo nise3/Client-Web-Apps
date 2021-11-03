@@ -43,27 +43,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
     trendWrapper: {
       position: 'relative',
-      padding: '100px 0',
       background: '#ddd',
       paddingBottom: 'auto',
-      [theme.breakpoints.down('xl')]: {
-        marginBottom: '10px',
-      },
-      [theme.breakpoints.down('md')]: {
-        marginTop: '70px',
-        padding: '48px 5px',
-      },
-      [theme.breakpoints.only('sm')]: {
-        marginTop: '160px',
-      },
     },
     trendSearchItem: {
       background: '#fff',
       textAlign: 'center',
       borderRadius: '6px',
     },
-
     coverImage: {
+      position: 'absolute',
       height: '430px',
       right: 0,
       bottom: 0,
@@ -73,7 +62,6 @@ const useStyles = makeStyles((theme: Theme) =>
         position: 'absolute',
         width: '40%',
       },
-
       [theme.breakpoints.down('md')]: {
         marginTop: '13px',
         marginBottom: '10px',
@@ -107,61 +95,64 @@ const CoverArea = () => {
   const classes = useStyles();
   return (
     <>
-      <Box className={classes.root}>
-        <Container maxWidth='lg'>
-          <Grid container>
-            <Grid item xs={6} mt={{sm: 5}}>
-              <Fade direction='up'>
-                <H3>
-                  এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি অথবা প্রশিক্ষণ
-                </H3>
-              </Fade>
+      <Box sx={{position: 'relative'}}>
+        <Box className={classes.root}>
+          <Container maxWidth='lg'>
+            <Grid container>
+              <Grid item xs={6} mt={{sm: 5}}>
+                <Fade direction='up'>
+                  <H3>
+                    এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি অথবা প্রশিক্ষণ
+                  </H3>
+                </Fade>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={6} mt={{sm: 3}} sx={{marginBottom: '100px'}}>
-              <Fade direction='down'>
-                <Text>
-                  আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন তাহলে এখনই খুঁজে নিন
-                  আপনার প্রয়োজন ও যোগ্যতা অনুসারে চাকরি।
-                </Text>
-              </Fade>
+            <Grid container>
+              <Grid item xs={6} mt={{sm: 3}} sx={{marginBottom: '100px'}}>
+                <Fade direction='down'>
+                  <Text>
+                    আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন তাহলে এখনই খুঁজে নিন
+                    আপনার প্রয়োজন ও যোগ্যতা অনুসারে চাকরি।
+                  </Text>
+                </Fade>
+              </Grid>
             </Grid>
+            <SearchBox />
+          </Container>
+        </Box>
+        <Grid container className={classes.trendWrapper}>
+          <Grid item xs={12}>
+            <Slide direction='down'>
+              <Container maxWidth={'lg'}>
+                <Grid
+                  container
+                  display={'flex'}
+                  alignItems={'center'}
+                  height='180px'>
+                  <H6 mr={2}>ট্রেন্ড সার্চ</H6>
+                  <TrendSearchItemList
+                    searchItems={[
+                      'গ্রাফিক্স ডিজাইন',
+                      'ওয়েব ডিজাইন',
+                      'ইউ-আই/এক্স',
+                      'হেলথ কেয়ার জব',
+                    ]}
+                  />
+                </Grid>
+              </Container>
+            </Slide>
           </Grid>
-          <SearchBox />
-        </Container>
+        </Grid>
+        <Card>
+          <CardMedia
+            component='img'
+            alt='green iguana'
+            height='140'
+            image='/images/cover-area.png'
+            className={classes.coverImage}
+          />
+        </Card>
       </Box>
-
-      {/*<Grid container className={classes.trendWrapper}>*/}
-      {/*  <Grid item xs={12}>*/}
-      {/*    <Slide direction='down'>*/}
-      {/*      <Container maxWidth={'lg'}>*/}
-      {/*        <Grid container display={'flex'} alignItems={'center'}>*/}
-      {/*          <H6 mr={2}>ট্রেন্ড সার্চ</H6>*/}
-      {/*          <TrendSearchItemList*/}
-      {/*            searchItems={[*/}
-      {/*              'গ্রাফিক্স ডিজাইন',*/}
-      {/*              'ওয়েব ডিজাইন',*/}
-      {/*              'ইউ-আই/এক্স',*/}
-      {/*              'হেলথ কেয়ার জব',*/}
-      {/*            ]}*/}
-      {/*          />*/}
-      {/*        </Grid>*/}
-      {/*      </Container>*/}
-      {/*    </Slide>*/}
-      {/*  </Grid>*/}
-      {/*  <Grid item xs={12} mt={{xs: 5, md: 0}}>*/}
-      {/*    <Card>*/}
-      {/*      <CardMedia*/}
-      {/*        component='img'*/}
-      {/*        alt='green iguana'*/}
-      {/*        height='140'*/}
-      {/*        image='/images/cover-area.png'*/}
-      {/*        className={classes.coverImage}*/}
-      {/*      />*/}
-      {/*    </Card>*/}
-      {/*  </Grid>*/}
-      {/*</Grid>*/}
     </>
   );
 };
