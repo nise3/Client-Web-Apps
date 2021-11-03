@@ -224,13 +224,15 @@ const Footer = () => {
                   {messages['footer.implementation']}
                 </Box>
               </Typography>
-              <Box component={'span'}>
-                <img
-                  src={'/images/footer-img-white.png'}
-                  alt='crema-logo'
-                  className={classes.footerImage}
-                />
-              </Box>
+              <Link href={'https://a2i.gov.bd/'}>
+                <Box component={'span'}>
+                  <img
+                    src={'/images/footer-img-white.png'}
+                    alt='crema-logo'
+                    className={classes.footerImage}
+                  />
+                </Box>
+              </Link>
             </Grid>
             <Grid item md={6} />
             <Grid item md={2}>

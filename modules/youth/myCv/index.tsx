@@ -9,6 +9,7 @@ import ColorfulTemplate from './templates/ColorfulTemplate';
 import CVTemplateKeys from './CVTemplateKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 
 const resumeTemplates = [
   {
@@ -107,7 +108,8 @@ const userDatax = {
 
 const MyCVPage = () => {
   const userData = useAuthUser<YouthAuthUser>();
-  console.log('YouthAuthUser', userData);
+  const youthId = userData?.youthId;
+  const {data: youthData} = useFetchYouthDetails(String(youthId));
   const classes: any = useStyles();
   const {messages} = useIntl();
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
@@ -151,13 +153,13 @@ const MyCVPage = () => {
   const getTemplate = () => {
     switch (selectedTemplateKey) {
       case CVTemplateKeys.CLASSIC:
-        return <ClassicTemplate userData={userData} />;
+        return <ClassicTemplate userData={youthData} />;
       case CVTemplateKeys.MODERN:
-        return <ModernTemplate userData={userData} />;
+        return <ModernTemplate userData={youthData} />;
       case CVTemplateKeys.COLORFUL:
         return <ColorfulTemplate userData={userDatax} />;
       default:
-        return <ClassicTemplate userData={userData} />;
+        return <ClassicTemplate userData={youthData} />;
     }
   };
 
@@ -208,7 +210,7 @@ const MyCVPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={8} ref={refer}>
-          {userData && getTemplate()}
+          {youthData && getTemplate()}
         </Grid>
       </Grid>
     </Container>
