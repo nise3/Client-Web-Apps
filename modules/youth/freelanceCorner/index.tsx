@@ -13,8 +13,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  MenuItem,
-  Select,
   SelectChangeEvent,
   TextField,
 } from '@mui/material';
@@ -28,6 +26,7 @@ import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
+import CustomSelectForFilter from '../training/conponents/CustomSelectForFilter';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
@@ -69,9 +68,7 @@ const FreelanceCorner = () => {
   const [selectedSkills, setSelectedSkills] = useState<Array<number>>([]);
   const [freelancerFilters, setFreelancerFilters] = useState<Array<number>>([]);
   const [searchInputText, setSearchInputText] = useState<string>('');
-  const [selectedUpazilaId, setSelectedUpazilaId] = useState<
-    number | null | undefined
-  >(null);
+  const [selectedUpazilaId, setSelectedUpazilaId] = useState<any>(null);
   const [skillFilters] = useState<any>({});
   const searchTextField = useRef<any>();
 
@@ -149,25 +146,14 @@ const FreelanceCorner = () => {
                     {messages['freelance_corner.specific_location']}
                   </Box>
 
-                  <Select
-                    id='upazila_id'
-                    fullWidth
-                    value={selectedUpazilaId}
-                    variant='outlined'
-                    className={classes.selectStyle}
-                    onChange={handleUpazilaChange}>
-                    <MenuItem value=''>
-                      <em>None</em>
-                    </MenuItem>
-                    {upazilas &&
-                      upazilas.map((upazila: any, index: number) => {
-                        return (
-                          <MenuItem key={index} value={upazila.id}>
-                            {upazila.title}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
+                  <CustomSelectForFilter
+                    id={'upazila_id'}
+                    labelId={'select-upazila-id'}
+                    selectedOptionId={selectedUpazilaId}
+                    defaultLabel={messages['upazilas.label'] as string}
+                    onChangeCallback={handleUpazilaChange}
+                    options={upazilas || []}
+                  />
                 </CardContent>
               </Card>
             </Grid>

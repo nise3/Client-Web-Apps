@@ -1,5 +1,5 @@
 import {Avatar, Box, Typography} from '@mui/material';
-import {BorderColor} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import GuardianAddEditPage from './GuardianAddEditPage';
@@ -69,7 +69,7 @@ const GuardianSection = () => {
             <CustomParabolaButton
               buttonVariant={'outlined'}
               title={messages['guardian.add'] as string}
-              icon={<BorderColor />}
+              icon={<Add />}
               onClick={() => openGuardianAddEditForm(null)}
             />
           }>

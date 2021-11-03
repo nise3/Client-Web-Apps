@@ -4,9 +4,10 @@ import React, {ReactNode} from 'react';
 
 type Props = {
   children?: ReactNode;
+  itemsInDesktop?: number;
 };
 
-const CustomCarousel = ({children}: Props) => {
+const CustomCarousel = ({children, itemsInDesktop = 4}: Props) => {
   return (
     <Carousel
       additionalTransfrom={0}
@@ -31,7 +32,7 @@ const CustomCarousel = ({children}: Props) => {
             max: 3000,
             min: 1024,
           },
-          items: 4,
+          items: itemsInDesktop,
           partialVisibilityGutter: 40,
         },
         mobile: {

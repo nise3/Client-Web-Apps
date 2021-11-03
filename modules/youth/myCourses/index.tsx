@@ -17,7 +17,7 @@ const MyCoursePage = () => {
 
   return courseList?.length ? (
     <Container maxWidth={'lg'} sx={{padding: 5}}>
-      <Grid container spacing={5}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12}>
           <Typography variant={'h5'} fontWeight={'bold'}>
             {messages['common.my_courses']}

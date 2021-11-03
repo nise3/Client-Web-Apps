@@ -14,7 +14,10 @@ import {
   LanguageProficiencySpeakingType,
   LanguageProficiencyType,
 } from '../utilities/LanguageProficiencyType';
-import {useFetchLanguageProficiency} from '../../../../services/youthManagement/hooks';
+import {
+  useFetchLanguageProficiency,
+  useFetchLanguages,
+} from '../../../../services/youthManagement/hooks';
 import {YouthLanguageProficiency} from '../../../../services/youthManagement/typing';
 import {
   createLanguageProficiency,
@@ -28,12 +31,6 @@ interface LanguageAddEditPageProps {
   onClose: () => void;
 }
 
-const languages = [
-  {id: 1, title: 'বাংলা'},
-  {id: 2, title: 'ইংরেজি'},
-  {id: 3, title: 'স্পেনীয়'},
-  {id: 4, title: 'আরবি'},
-];
 const initialValues = {
   language_id: '',
   reading_proficiency_level: LanguageProficiencyType.EASILY,
@@ -55,6 +52,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
     isLoading,
     mutate: mutateLanguageProficiency,
   } = useFetchLanguageProficiency(itemId);
+  const {data: languages, isLoading: isLoadingLanguages} = useFetchLanguages();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -171,13 +169,13 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
               <CustomFormSelect
                 required
                 id='language_id'
-                isLoading={isLoading}
+                isLoading={isLoadingLanguages}
                 control={control}
                 options={languages}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
-                label={messages['common.select']}
+                label={messages['common.language']}
               />
             </Grid>
             <Grid item xs={12}>

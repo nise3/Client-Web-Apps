@@ -17,6 +17,7 @@ import {
   API_YOUTH_REFERENCES,
   API_YOUTH_SKILLS,
   API_PUBLIC_PROGRAMS,
+  API_LANGUAGES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -143,4 +144,8 @@ export function useFetchPublicPrograms(params: any) {
 
 export function useFetchYouthFeedStatistics() {
   return useAxiosSWR([API_YOUTH_FEED_STATISTICS]);
+}
+
+export function useFetchLanguages() {
+  return useAxiosSWR([API_LANGUAGES]);
 }

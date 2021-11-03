@@ -138,5 +138,6 @@ export const API_PUBLIC_TRAINING_CENTERS =
 export const API_PUBLIC_PROGRAMS = PUBLIC_SERVICE_PATH + '/programs';
 export const API_YOUTH_FEED_STATISTICS =
   YOUTH_SERVICE_PATH + '/youth-feed-statistics';
+export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_NOTICE_BOARD = '/notice-board/';

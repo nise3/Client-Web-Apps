@@ -84,10 +84,18 @@ const CourseListSection = () => {
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
             onChange={handleCourseCategoryChange}>
-            <MenuItem value={'recent'}>Recent Courses</MenuItem>
-            <MenuItem value={'popular'}>Popular Courses</MenuItem>
-            <MenuItem value={'nearby'}>Nearby Courses</MenuItem>
-            <MenuItem value={'trending'}>Trending Courses</MenuItem>
+            <MenuItem value={'recent'}>
+              {messages['common.recent_courses']}
+            </MenuItem>
+            <MenuItem value={'popular'}>
+              {messages['common.popular_courses']}
+            </MenuItem>
+            <MenuItem value={'nearby'}>
+              {messages['common.nearby_courses']}
+            </MenuItem>
+            <MenuItem value={'trending'}>
+              {messages['common.trending_courses']}
+            </MenuItem>
           </Select>
         </Grid>
         {courses &&

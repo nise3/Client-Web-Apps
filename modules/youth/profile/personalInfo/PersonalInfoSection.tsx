@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import CustomParabolaButton from '../component/CustomParabolaButton';
-import {BusinessCenter} from '@mui/icons-material';
+import {BorderColor, BusinessCenter, Verified} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import SkillInfo from '../SkillInfo';
 import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
@@ -118,7 +118,7 @@ const PersonalInfoSection = () => {
               <Box>
                 <CustomParabolaButton
                   title={messages['youth_profile.edit_profile'] as string}
-                  icon={<BusinessCenter />}
+                  icon={<BorderColor />}
                   onClick={openPersonalInformationEditForm}
                 />
               </Box>
@@ -149,7 +149,7 @@ const PersonalInfoSection = () => {
 
             <Grid item>
               <SkillInfo
-                icon={<BusinessCenter />}
+                icon={<BusinessCenter color={'primary'} />}
                 text1={
                   5 + ' ' + (messages['common.year_of_experience'] as string)
                 }
@@ -167,7 +167,7 @@ const PersonalInfoSection = () => {
 
                 <Grid item>
                   <SkillInfo
-                    icon={<BusinessCenter />}
+                    icon={<Verified color={'primary'} />}
                     text1={
                       authUser?.total_certificates +
                       ' ' +

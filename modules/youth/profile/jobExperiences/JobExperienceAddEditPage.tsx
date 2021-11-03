@@ -97,8 +97,6 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     });
   }, [messages, currentWorkStatus]);
 
-  console.log('status', currentWorkStatus);
-
   const {
     control,
     handleSubmit,
@@ -140,6 +138,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     data: YouthJobExperience,
   ) => {
     data.is_currently_working = currentWorkStatus;
+    if (currentWorkStatus == 1) delete data.end_date;
 
     try {
       if (itemId) {
@@ -257,16 +256,18 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6}>
-              <CustomDateTimeField
-                required
-                id='end_date'
-                label={messages['job_experience.end_date']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
+            {currentWorkStatus == 0 && (
+              <Grid item xs={6}>
+                <CustomDateTimeField
+                  required
+                  id='end_date'
+                  label={messages['job_experience.end_date']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='job_responsibilities'

@@ -480,7 +480,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           <CustomFormSelect
             required
             id='skills'
-            label={messages['common.select_your_skills']}
+            label={messages['common.skills']}
             isLoading={isLoadingSkills}
             control={control}
             options={skills}

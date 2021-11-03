@@ -1,5 +1,5 @@
 import CustomParabolaButton from '../component/CustomParabolaButton';
-import {BusinessCenter} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import React, {useCallback, useState} from 'react';
 import JobExperiences from './JobExperiences';
 import {useIntl} from 'react-intl';
@@ -66,7 +66,7 @@ const JobExperienceSection = () => {
         <CustomParabolaButton
           buttonVariant={'outlined'}
           title={messages['youth_profile.add_new_experience'] as string}
-          icon={<BusinessCenter />}
+          icon={<Add />}
           onClick={() => openJobExperienceAddEditForm(null)}
         />
       }>

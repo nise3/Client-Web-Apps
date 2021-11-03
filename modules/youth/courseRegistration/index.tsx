@@ -259,7 +259,9 @@ const YouthCourseRegistrationPage = () => {
                 .string()
                 .trim()
                 .required()
-                .label(messages['common.physical_disability'] as string)
+                .label(
+                  messages['common.physical_disabilities_status'] as string,
+                )
             : yup.string(),
           physical_disabilities:
             hasDisabilities && isPhysicalDisabilitiesRequired

@@ -9,7 +9,7 @@ import {deleteReference} from '../../../../services/youthManagement/ReferenceSer
 import ReferenceAddEditPage from './ReferenceAddEditPage';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
-import {BorderColor} from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import {Avatar, Box, Typography} from '@mui/material';
 
@@ -65,7 +65,7 @@ const ReferenceSection = () => {
         <CustomParabolaButton
           buttonVariant={'outlined'}
           title={messages['references.add_new_reference'] as string}
-          icon={<BorderColor />}
+          icon={<Add />}
           onClick={() => openReferenceAddEditForm(null)}
         />
       }>

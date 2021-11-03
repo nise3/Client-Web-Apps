@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme: CremaTheme): any => ({
     display: 'inline-block',
   },
   divider: {
-    width: '100%',
+    width: 'calc(100% + 32px)',
+    marginLeft: '-16px',
     height: 1,
-    marginTop: 10,
+    marginTop: 5,
   },
 }));
 
@@ -34,11 +35,11 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
   return (
     <>
       <Box className={classes.profileItem}>
-        <Box className={classes.displayInline}>{messages['common.phone']}</Box>
+        <Box className={classes.displayInline}>{messages['common.mobile']}</Box>
         {youthProfile?.mobile ? (
           <CheckCircle className='itemIcon' color={'primary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'primary'} />
+          <AddCircle className='itemIcon' color={'secondary'} />
         )}
         <Divider className={classes.divider} />
       </Box>
@@ -47,25 +48,52 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
         {youthProfile?.email ? (
           <CheckCircle className='itemIcon' color={'primary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'primary'} />
+          <AddCircle className='itemIcon' color={'secondary'} />
         )}
         <Divider className={classes.divider} />
       </Box>
       <Box className={classes.profileItem}>
-        <Box className={classes.displayInline}>{messages['common.nid']}</Box>
+        <Box className={classes.displayInline}>
+          {messages['common.identity_number']}
+        </Box>
         {youthProfile?.identity_number ? (
           <CheckCircle className='itemIcon' color={'primary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'primary'} />
+          <AddCircle className='itemIcon' color={'secondary'} />
         )}
         <Divider className={classes.divider} />
       </Box>
       <Box className={classes.profileItem}>
-        <Box className={classes.displayInline}>{messages['common.bid']}</Box>
-        {youthProfile?.identity_number ? (
+        <Box className={classes.displayInline}>
+          {messages['common.education']}
+        </Box>
+        {youthProfile?.educations && youthProfile?.educations.length ? (
           <CheckCircle className='itemIcon' color={'primary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'primary'} />
+          <AddCircle className='itemIcon' color={'secondary'} />
+        )}
+        <Divider className={classes.divider} />
+      </Box>
+      <Box className={classes.profileItem}>
+        <Box className={classes.displayInline}>
+          {messages['common.language']}
+        </Box>
+        {youthProfile?.languages_proficiencies &&
+        youthProfile?.languages_proficiencies.length ? (
+          <CheckCircle className='itemIcon' color={'primary'} />
+        ) : (
+          <AddCircle className='itemIcon' color={'secondary'} />
+        )}
+        <Divider className={classes.divider} />
+      </Box>
+      <Box className={classes.profileItem}>
+        <Box className={classes.displayInline}>
+          {messages['portfolio.label']}
+        </Box>
+        {youthProfile?.portfolios && youthProfile?.portfolios.length ? (
+          <CheckCircle className='itemIcon' color={'primary'} />
+        ) : (
+          <AddCircle className='itemIcon' color={'secondary'} />
         )}
       </Box>
     </>
