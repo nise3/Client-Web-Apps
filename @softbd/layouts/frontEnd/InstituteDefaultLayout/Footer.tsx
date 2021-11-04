@@ -37,9 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     softbdImage: {
       width: '147px',
     },
-    button: {
-      borderRadius: 20,
-    },
+
     primary: {
       color: theme.palette.primary.main,
     },
@@ -65,7 +63,7 @@ const Footer = () => {
     <>
       <Grid container className={clsx(classes.root, classes.container)}>
         <Container maxWidth='lg'>
-          <Grid container spacing={4}>
+          <Grid container spacing={8}>
             <Grid item xs={12} md={6} lg={4} p={0}>
               <LogoCustomizable
                 instituteName='Bangladesh Industrial Technical Assistance Centre'
@@ -81,10 +79,10 @@ const Footer = () => {
               <Box display='flex' justifyContent='left' mt={4}>
                 <Link href={'/sc/about-us'}>
                   <Button
-                    variant='outlined'
+                    variant='contained'
+                    color='primary'
                     size='large'
-                    endIcon={<ArrowRightAlt />}
-                    className={classes.button}>
+                    endIcon={<ArrowRightAlt />}>
                     {messages['footer.details']}
                   </Button>
                 </Link>
@@ -93,31 +91,23 @@ const Footer = () => {
             <Grid item xs={12} md={6} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>{messages['footer.contact']}</H6>
               <Box display='flex' mt={4}>
-                <Box flex='0 0 40px'>
-                  <Home className={classes.primary} />
-                </Box>
-                <Box flex='1'>
-                  <Text>
-                    বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র (বিটাক) ১১৬ (খ),
-                    তেজগাঁও শিল্প এলাকা ঢাকা - ১২০৮
-                  </Text>
-                </Box>
+                <Home className={classes.primary} />
+                <Text style={{marginLeft: '6px'}}>
+                  বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র (বিটাক) ১১৬ (খ), তেজগাঁও
+                  শিল্প এলাকা ঢাকা - ১২০৮
+                </Text>
               </Box>
               <Box display='flex' mt={4}>
-                <Box flex='0 0 40px'>
-                  <Email className={classes.primary} />
-                </Box>
-                <Box flex='1'>
-                  <Text>ict@btac.gov.bd</Text>
-                </Box>
+                <Email className={classes.primary} />
+                <Text style={{marginTop: '2px', marginLeft: '6px'}}>
+                  ict@btac.gov.bd
+                </Text>
               </Box>
               <Box display='flex' mt={4}>
-                <Box flex='0 0 40px'>
-                  <LocalPhone className={classes.primary} />
-                </Box>
-                <Box flex='1'>
-                  <Text>++৮৮-০২-৯৯৩৯৪৯৩, ++৮৮-০২-৮৩৮৪৮৪৮৪</Text>
-                </Box>
+                <LocalPhone className={classes.primary} />
+                <Text style={{marginLeft: '6px'}}>
+                  ++৮৮-০২-৯৯৩৯৪৯৩, ++৮৮-০২-৮৩৮৪৮৪৮৪
+                </Text>
               </Box>
             </Grid>
             <Grid item xs={12} md={8} lg={4} p={0} sx={{marginTop: 3}}>
@@ -128,7 +118,7 @@ const Footer = () => {
                 <Box>
                   <Text className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.online_courses']}
@@ -137,7 +127,7 @@ const Footer = () => {
                     href={'/institute/notice-board'}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.news']}
@@ -146,21 +136,21 @@ const Footer = () => {
                     href={'/institute/recent-activities'}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.events']}
                   </Link>
                   <Link href={'/sc/about-us'} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.about_us']}
                   </Link>
                   <Link href={'/institute/contact'} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.contact']}
@@ -169,7 +159,7 @@ const Footer = () => {
                 <Box>
                   <Link href={'/institute/faq'} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.question_and_answer']}
@@ -179,14 +169,14 @@ const Footer = () => {
                     onClick={redirectToSSO}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.login']}
                   </Link>
                   <Link href={LINK_SIGNUP} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.sign_up']}
@@ -195,14 +185,14 @@ const Footer = () => {
                     href={'/sc/terms-and-conditions'}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.terms_and_conditions']}
                   </Link>
                   <Link href={'/sc/privacy-policy'} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '16px'}}
+                      sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.privacy_policy']}
