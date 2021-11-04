@@ -18,7 +18,7 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
 
   const LanguageProficiencySpeakingType: any = {
     '1': 'Fluently',
-    '2': 'Fluently',
+    '2': 'Not Fluently',
   };
 
   const theCB = useCallback((node) => {

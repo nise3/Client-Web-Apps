@@ -18,7 +18,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
 
   const LanguageProficiencySpeakingType: any = {
     '1': 'Fluently',
-    '2': 'Fluently',
+    '2': 'Not Fluently',
   };
 
   const theCB = useCallback((node) => {
