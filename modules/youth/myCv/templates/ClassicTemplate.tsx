@@ -9,7 +9,6 @@ interface ClassicTemplateProps {
 }
 
 const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
-  console.log('cv user data: ', userData);
   const classes: any = useStyles();
 
   const LanguageProficiencyType: any = {
