@@ -6,13 +6,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import {Fade, Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
-import {H4, H6} from '../../@softbd/elements/common';
+import {H3, H6, Text} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       color: '#fff',
-      height: '440px',
       background:
         'linear-gradient(152deg, rgba(5, 99, 7, 1) 0%, rgb(108 95 9) 51%, rgb(100 89 15) 74%)',
     },
@@ -44,27 +43,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
     trendWrapper: {
       position: 'relative',
-      padding: '100px 0',
       background: '#ddd',
       paddingBottom: 'auto',
-      [theme.breakpoints.down('xl')]: {
-        marginBottom: '10px',
-      },
-      [theme.breakpoints.down('md')]: {
-        marginTop: '70px',
-        padding: '48px 5px',
-      },
-      [theme.breakpoints.only('sm')]: {
-        marginTop: '160px',
-      },
     },
     trendSearchItem: {
       background: '#fff',
       textAlign: 'center',
       borderRadius: '6px',
     },
-
     coverImage: {
+      position: 'absolute',
       height: '430px',
       right: 0,
       bottom: 0,
@@ -74,7 +62,6 @@ const useStyles = makeStyles((theme: Theme) =>
         position: 'absolute',
         width: '40%',
       },
-
       [theme.breakpoints.down('md')]: {
         marginTop: '13px',
         marginBottom: '10px',
@@ -108,65 +95,64 @@ const CoverArea = () => {
   const classes = useStyles();
   return (
     <>
-      <Grid container>
-        <Grid item xs={12} className={classes.root}>
+      <Box sx={{position: 'relative'}}>
+        <Box className={classes.root}>
           <Container maxWidth='lg'>
-            <Box pt={6}>
-              <Fade direction='up'>
-                <H4>
-                  <Box fontWeight='fontWeightBold' mt={4}>
-                    এখানে খুঁজে নিন আপনার প্রয়োজন <br /> অনুসারে চাকরি অথবা
-                    প্রশিক্ষণ
-                  </Box>
-                </H4>
-              </Fade>
-
-              <Fade direction='down'>
-                <Box mt={2}>
-                  <H6>
-                    আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন | <br />
-                    তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা
-                    <br />
-                    অনুসারে চাকরি।
-                  </H6>
-                </Box>
-              </Fade>
-            </Box>
-
+            <Grid container>
+              <Grid item xs={6} mt={{sm: 5}}>
+                <Fade direction='up'>
+                  <H3>
+                    এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি অথবা প্রশিক্ষণ
+                  </H3>
+                </Fade>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={6} mt={{sm: 3}} sx={{marginBottom: '100px'}}>
+                <Fade direction='down'>
+                  <Text>
+                    আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন তাহলে এখনই খুঁজে নিন
+                    আপনার প্রয়োজন ও যোগ্যতা অনুসারে চাকরি।
+                  </Text>
+                </Fade>
+              </Grid>
+            </Grid>
             <SearchBox />
           </Container>
+        </Box>
+        <Grid container className={classes.trendWrapper}>
+          <Grid item xs={12}>
+            <Slide direction='down'>
+              <Container maxWidth={'lg'}>
+                <Grid
+                  container
+                  display={'flex'}
+                  alignItems={'center'}
+                  height='180px'>
+                  <H6 mr={2}>ট্রেন্ড সার্চ</H6>
+                  <TrendSearchItemList
+                    searchItems={[
+                      'গ্রাফিক্স ডিজাইন',
+                      'ওয়েব ডিজাইন',
+                      'ইউ-আই/এক্স',
+                      'হেলথ কেয়ার জব',
+                    ]}
+                  />
+                </Grid>
+              </Container>
+            </Slide>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container className={classes.trendWrapper}>
-        <Grid item xs={12}>
-          <Slide direction='down'>
-            <Container maxWidth={'lg'}>
-              <Grid container display={'flex'} alignItems={'center'}>
-                <H6 mr={2}>ট্রেন্ড সার্চ</H6>
-                <TrendSearchItemList
-                  searchItems={[
-                    'গ্রাফিক্স ডিজাইন',
-                    'ওয়েব ডিজাইন',
-                    'ইউ-আই/এক্স',
-                    'হেলথ কেয়ার জব',
-                  ]}
-                />
-              </Grid>
-            </Container>
-          </Slide>
-        </Grid>
-        <Grid item xs={12} mt={{xs: 5, md: 0}}>
-          <Card>
-            <CardMedia
-              component='img'
-              alt='NISE3 cover image'
-              height='140'
-              image='/images/cover-area.png'
-              className={classes.coverImage}
-            />
-          </Card>
-        </Grid>
-      </Grid>
+        <Card>
+          <CardMedia
+            component='img'
+            alt='green iguana'
+            height='140'
+            image='/images/cover-area.png'
+            className={classes.coverImage}
+          />
+        </Card>
+      </Box>
     </>
   );
 };
