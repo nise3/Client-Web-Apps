@@ -10,7 +10,11 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
-import {getModulePath} from '../../../@softbd/utilities/helpers';
+import {
+  getIntlDateFromString,
+  getModulePath,
+} from '../../../@softbd/utilities/helpers';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.primary.light,
       display: 'flex',
       padding: '4px',
-      width: '130px',
+      width: '180px',
       borderRadius: '5px',
       bottom: '9vh',
       left: '5px',
@@ -69,6 +73,8 @@ function RecentActivityMasonryGroupView({items}: any) {
   const router = useRouter();
   const path = router.pathname;
   const classes = useStyles();
+  const {formatDate} = useIntl();
+
   return (
     <ImageList
       sx={{width: '100%', height: 'auto'}}
@@ -95,7 +101,9 @@ function RecentActivityMasonryGroupView({items}: any) {
           <Box className={classes.imageTexts}>
             <Box className={classes.dateInfo}>
               <DateRangeOutlined />
-              <Typography>{item.date}</Typography>
+              <Typography>
+                {getIntlDateFromString(formatDate, item.date)}
+              </Typography>
             </Box>
             <Link href={`${getModulePath(path)}/recent-activities/${item.id}`}>
               <ImageListItemBar title={item.title} />

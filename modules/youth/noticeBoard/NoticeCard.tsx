@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import {useIntl} from 'react-intl';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 
 interface NoticeCardProps {
   notice: any;
@@ -20,7 +21,7 @@ const logo = '/images/creativeIt.png';
 
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const classes = useStyles();
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
   const URL = `/youth/notice-details/${notice.id}`;
   return (
     <Card style={{padding: '10px'}}>
@@ -44,10 +45,26 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
             </Typography>
 
             <Box>
-              <Button variant='outlined' className={classes.btn}>
-                {notice.noticeDate}
+              {/*<Chip
+                label={getIntlDateFromString(formatDate, notice.noticeDate)}
+                variant={'outlined'}
+                color={'primary'}
+                sx={{
+                  marginRight: '10px',
+                  borderRadius: 0,
+                  background: '#e4f1ea',
+                  border: 'none',
+                }}
+              />*/}
+              <Button
+                variant='outlined'
+                className={classes.btn}
+                sx={{background: '#e4f1ea', border: 'none'}}>
+                {getIntlDateFromString(formatDate, notice.noticeDate)}
               </Button>
-              <Button color={'primary'}>{messages['common.download']}</Button>
+              <Button color={'primary'} variant={'outlined'}>
+                {messages['common.download']}
+              </Button>
             </Box>
           </Grid>
         </Grid>

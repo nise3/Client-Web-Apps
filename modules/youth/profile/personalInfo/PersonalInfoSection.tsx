@@ -20,7 +20,10 @@ import PersonalInformationEdit from './PersonalInformationEdit';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {useDispatch} from 'react-redux';
 import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
-import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import {
+  getIntlNumber,
+  isResponseSuccess,
+} from '../../../../@softbd/utilities/helpers';
 import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
@@ -57,7 +60,7 @@ const useStyles = makeStyles((theme: CremaTheme) =>
 );
 
 const PersonalInfoSection = () => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const classes = useStyles();
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
@@ -135,7 +138,13 @@ const PersonalInfoSection = () => {
           <Grid container className={classes.skillInfoGrid}>
             <Grid item>
               <SkillInfo
-                icon={<CircularProgressWithLabel value={40} size={30} />}
+                icon={
+                  <CircularProgressWithLabel
+                    value={55}
+                    text={getIntlNumber(formatNumber, 55)}
+                    size={35}
+                  />
+                }
                 text1={messages['common.complete'] as string}
                 text2={messages['common.profile'] as string}
               />
@@ -151,7 +160,9 @@ const PersonalInfoSection = () => {
               <SkillInfo
                 icon={<BusinessCenter color={'primary'} />}
                 text1={
-                  5 + ' ' + (messages['common.year_of_experience'] as string)
+                  getIntlNumber(formatNumber, 5) +
+                  ' ' +
+                  (messages['common.year_of_experience'] as string)
                 }
                 text2={messages['common.experience'] as string}
               />
@@ -169,7 +180,10 @@ const PersonalInfoSection = () => {
                   <SkillInfo
                     icon={<Verified color={'primary'} />}
                     text1={
-                      authUser?.total_certificates +
+                      getIntlNumber(
+                        formatNumber,
+                        authUser?.total_certificates,
+                      ) +
                       ' ' +
                       (messages['common.certificate'] as string)
                     }

@@ -38,7 +38,7 @@ const YouthNoticeBoard = () => {
           <Paper className={classes.paperSearch}>
             <InputBase
               sx={{ml: 1, flex: 1, paddingLeft: '20px'}}
-              placeholder='Search'
+              placeholder={messages['common.search'] as string}
               inputProps={{'aria-label': 'Search'}}
               onChange={debounce(onChangeSearchInput, 1000)}
             />

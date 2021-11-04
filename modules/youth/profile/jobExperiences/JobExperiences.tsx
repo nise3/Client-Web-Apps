@@ -8,8 +8,8 @@ import {YouthJobExperience} from '../../../../services/youthManagement/typing';
 import TextPrimary from '../component/TextPrimary';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import HorizontalLine from '../component/HorizontalLine';
-import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
 import VerticalLine from '../component/VerticalLine';
+import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
 
 type JobExperienceProp = {
   jobExperiences: Array<YouthJobExperience>;
@@ -22,7 +22,7 @@ const JobExperiences = ({
   onOpenAddEditForm,
   onDeleteJobExperience,
 }: JobExperienceProp) => {
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
 
   return (
     <React.Fragment>
@@ -50,17 +50,17 @@ const JobExperiences = ({
                     <AccessTime color={'primary'} sx={{marginRight: '5px'}} />
                     <TextPrimary
                       text={
-                        getMomentDateFormat(
+                        getIntlDateFromString(
+                          formatDate,
                           jobExperience?.start_date,
-                          'DD MMM, YYYY',
                         ) +
                         ' - ' +
                         (jobExperience.is_currently_working == 1
                           ? messages['common.present']
                           : jobExperience?.end_date
-                          ? getMomentDateFormat(
+                          ? getIntlDateFromString(
+                              formatDate,
                               jobExperience?.end_date,
-                              'DD MMM, YYYY',
                             )
                           : '')
                       }

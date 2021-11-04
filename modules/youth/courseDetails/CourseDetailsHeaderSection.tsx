@@ -10,9 +10,13 @@ import {
 } from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
-import {courseDuration} from '../../../@softbd/utilities/helpers';
+import {
+  courseDuration,
+  getIntlNumber,
+} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../@softbd/common/appLinks';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 interface CourseDetailsHeaderProps {
   course: any;
@@ -20,7 +24,7 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const classes: any = useStyle();
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
 
   return (
     <Container maxWidth={'lg'}>
@@ -29,17 +33,30 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
           <Box className={classes.courseFee}>
             {messages['common.course_fee']}:{' '}
             <Box className={classes.courseFeeStyle}>
-              {course?.course_fee ? course?.course_fee + ' TK' : 'Free'}
+              {course?.course_fee
+                ? formatNumber(course.course_fee) + ' ৳'
+                : messages['common.free']}
             </Box>
           </Box>
           <Typography variant={'h4'} mb={8} fontWeight={'bold'}>
             {course?.title}
           </Typography>
           {course?.duration && (
-            <TagChip label={courseDuration(course.duration)} />
+            <TagChip
+              label={courseDuration(messages, formatNumber, course.duration)}
+            />
           )}
           {course?.total_enrolled && (
-            <TagChip label={course?.total_enrolled + ' Enrolled'} />
+            <TagChip
+              label={
+                <IntlMessages
+                  id={'course_details.enrolled'}
+                  values={{
+                    total: getIntlNumber(formatNumber, course.total_enrolled),
+                  }}
+                />
+              }
+            />
           )}
 
           <Box mt={4}>

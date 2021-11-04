@@ -1,7 +1,6 @@
 import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
-import {appIntl} from '../../@crema/utility/Utils';
 
 export const genders = [
   {
@@ -261,22 +260,27 @@ export const isNeedToSelectOrganization = (
   return true;
 };
 
-export const courseDuration = (duration: number) => {
+export const courseDuration = (
+  messages: any,
+  formatFn: any,
+  duration: number,
+) => {
   let dh = 0;
   let dm = 0;
-  const {messages} = appIntl();
 
   if (duration / 60 < 1) {
-    return (duration || 0) + ' ' + (messages['common.short_min'] as string);
+    return (
+      formatFn(duration || 0) + ' ' + (messages['common.short_min'] as string)
+    );
   } else {
     dm = duration % 60;
     dh = Math.floor(duration / 60);
     return (
-      (dh || 0) +
+      formatFn(dh || 0) +
       ' ' +
       (messages['common.short_hour'] as string) +
       ', ' +
-      (dm || 0) +
+      formatFn(dm || 0) +
       ' ' +
       (messages['common.short_min'] as string)
     );
@@ -310,4 +314,25 @@ export const getModulePath = (path: string) => {
   } else {
     return '';
   }
+};
+
+export const getIntlDateFromString = (formatFn: any, dateStr: any) => {
+  const dt = new Date(dateStr).toLocaleString();
+  if (dt !== 'Invalid Date') {
+    return formatFn(dateStr, {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+  } else {
+    return dateStr;
+  }
+};
+
+export const getIntlNumber = (formatFn: any, value: any) => {
+  return value
+    ? formatFn(value, {
+        useGrouping: false,
+      })
+    : '';
 };
