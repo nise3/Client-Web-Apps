@@ -53,6 +53,7 @@ const JobComponent: FC<JobComponentProps> = ({job}) => {
     <Card className={classes.jobCardRoot}>
       <CardContent>
         <CardMedia
+          component={'img'}
           className={classes.jobCardImage}
           image={job.providerImage}
           title={job.title}

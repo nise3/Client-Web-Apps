@@ -865,5 +865,13 @@
   "common.map": "ম্যাপ",
   "nise.skill_matching_Job": "স্কিল ম্যাচিং চাকরি",
   "nise.partners": "পার্টনার সমূহ",
-  "common.profile_picture_upload": "ছবি আপলোড"
+  "common.profile_picture_upload": "ছবি আপলোড",
+  "institute_home.at_a_glance" : "একনজরে",
+  "institute_home.course_management_stat": "কোর্স ম্যানেজমেন্ট সিস্টেমের পরিসংখ্যান",
+  "institute_home.total_course_subject": "বিষয়ে প্রশিক্ষণ প্রদান",
+  "institute_home.total_youth_trained": "যুবক প্রশিক্ষণ গ্রহন করেছেন",
+  "institute_home.total_training_center": "প্রশিক্ষণ কেন্দ্র",
+  "institute_home.total_skilled_trainer": "দক্ষ প্রশিক্ষক",
+  "institute_home.ti": "টি",
+  "institute_home.people": "জন"
 }
