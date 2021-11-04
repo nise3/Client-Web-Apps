@@ -41,6 +41,7 @@ const UnderlinedHeading = ({children}: Props) => {
     <>
       <Typography
         variant='h3'
+        style={{fontSize: '30px'}}
         gutterBottom={true}
         fontWeight='fontWeightBold'
         className={classes.heading}>

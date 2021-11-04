@@ -63,7 +63,7 @@ const CoursesSection = () => {
 
   return (
     <Container maxWidth='lg'>
-      <Grid container mt={{xs: 5}}>
+      <Grid container mt={14}>
         <Grid item xs={12}>
           <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
           <Box sx={{width: '100%'}}>
