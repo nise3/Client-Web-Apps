@@ -1,7 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {Box, Typography} from '@mui/material';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -11,6 +10,7 @@ import {
   ResultCodeGrade,
 } from '../../profile/utilities/EducationEnums';
 import {passingYears} from '../../../../@softbd/utilities/helpers';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface SectionJSCFormProps {
   errors: any;
@@ -72,7 +72,8 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='jsc_info[exam_degree_id]'
             label={messages['education.education_exam_degree']}
             isLoading={false}
@@ -84,7 +85,8 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='jsc_info[edu_board_id]'
             label={messages['education.board']}
             isLoading={false}
@@ -130,7 +132,8 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
 
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='jsc_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
@@ -144,7 +147,8 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
         )}
 
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='jsc_info[result]'
             label={messages['education.result']}
             isLoading={false}
@@ -205,7 +209,8 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
 
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='jsc_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
@@ -220,7 +225,8 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
 
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='jsc_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}

@@ -489,6 +489,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
             {isForeignInstitute && (
               <Grid item xs={12} md={6}>
                 <CustomFilterableFormSelect
+                  required
                   id='foreign_institute_country_id'
                   label={messages['education.foreign_institute_country']}
                   isLoading={isLoadingCountries}
