@@ -7,6 +7,8 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import {FormControl} from '@mui/material';
 import {Controller} from 'react-hook-form';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
 type Props = {
@@ -37,6 +39,8 @@ export default function CustomSelectAutoComplete({
   onChange: onChangeCallback,
   placeholder,
 }: Props) {
+  const errorObj = errorInstance?.[id];
+
   return (
     <FormControl
       variant='outlined'
@@ -53,6 +57,7 @@ export default function CustomSelectAutoComplete({
           <Autocomplete
             multiple
             id='checkboxes-tags-demo'
+            size={'small'}
             options={options || []}
             disableCloseOnSelect
             value={value}
@@ -75,7 +80,27 @@ export default function CustomSelectAutoComplete({
               </li>
             )}
             fullWidth
-            renderInput={(params) => <TextField label={label} {...params} />}
+            renderInput={(params) => (
+              <TextField
+                label={label}
+                {...params}
+                error={errorObj && Boolean(errorObj)}
+                helperText={
+                  errorObj && errorObj.message ? (
+                    errorObj.message.hasOwnProperty('key') ? (
+                      <IntlMessages
+                        id={errorObj.message.key}
+                        values={errorObj.message?.values || {}}
+                      />
+                    ) : (
+                      errorObj.message
+                    )
+                  ) : (
+                    ''
+                  )
+                }
+              />
+            )}
           />
         )}
       />

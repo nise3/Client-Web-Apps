@@ -31,7 +31,9 @@ import {Theme} from '@mui/system';
 import {useIntl} from 'react-intl';
 import Hidden from '../../../elements/Hidden';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
-
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
+import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 interface AppHeaderProps {}
 
 const AppHeader: React.FC<AppHeaderProps> = () => {
@@ -115,13 +117,16 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <Box className={clsx(classes.sectionDesktop)}>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_ROOT}>
-                    <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
+                    <HomeOutlinedIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
                     {messages['menu.home']}
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_TRAINING}>
-                    <CastForEducation
+                    <CastForEducationOutlinedIcon
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
@@ -139,7 +144,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box>*/}
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
-                    <ListAltIcon
+                    <ContentPasteOutlinedIcon
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}

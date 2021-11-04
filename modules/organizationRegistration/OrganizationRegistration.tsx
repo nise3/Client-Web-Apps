@@ -386,11 +386,12 @@ const OrganizationRegistration = () => {
             </Grid>
             <Grid item xs={12}>
               <SubmitButton
+                startIcon={false}
                 isSubmitting={isSubmitting}
                 label={messages['common.registration'] as string}
                 size='large'
               />
-              <Typography style={{fontSize: '15px', marginTop: '15px'}}>
+              <Typography variant={'body1'} style={{marginTop: '15px'}}>
                 {messages['common.already_have_account']}{' '}
                 <Link
                   href={''}

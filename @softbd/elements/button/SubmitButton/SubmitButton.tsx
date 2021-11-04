@@ -10,6 +10,8 @@ interface Props {
   label?: string;
   isSubmitting?: boolean;
   isLoading?: boolean;
+  startIcon?: React.ReactNode | false;
+
   [x: string]: any;
 }
 
@@ -19,6 +21,7 @@ const SubmitButton = ({
   label,
   isSubmitting,
   isLoading,
+  startIcon,
   ...rest
 }: Props) => {
   const {messages} = useIntl();
@@ -27,7 +30,7 @@ const SubmitButton = ({
     <ButtonSkeleton />
   ) : (
     <Button
-      startIcon={<Save />}
+      startIcon={startIcon === false ? undefined : startIcon || <Save />}
       variant='contained'
       color='primary'
       onClick={onClick}

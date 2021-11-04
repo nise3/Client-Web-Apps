@@ -33,6 +33,13 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     color: theme.palette.primary.main,
     fontWeight: Fonts.BOLD,
   },
+  designationStyle: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    color: theme.palette.primary.main,
+    fontWeight: Fonts.BOLD,
+  },
 }));
 
 interface FeaturedFreelancerComponentProps {
@@ -60,11 +67,13 @@ const FeaturedFreelancerComponent: FC<FeaturedFreelancerComponentProps> = ({
               src={freelanceUser.image}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Box className={classes.freelancerNameStyle}>
               {freelanceUser.name}
             </Box>
-            <Box>{freelanceUser.designation}</Box>
+            <Box className={classes.designationStyle}>
+              {freelanceUser.designation}
+            </Box>
           </Grid>
           <Chip
             variant='outlined'

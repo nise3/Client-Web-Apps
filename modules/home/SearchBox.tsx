@@ -1,69 +1,22 @@
 import React, {useState} from 'react';
 import {
-  Box,
   Button,
   Divider,
   Grid,
-  InputAdornment,
+  IconButton,
+  InputBase,
   MenuItem,
+  Paper,
   Select,
 } from '@mui/material';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import {Slide} from 'react-awesome-reveal';
-import clsx from 'clsx';
-// import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import {Theme} from '@mui/system';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    searchBox: {
-      padding: '12px',
-      background: '#fff',
-      position: 'absolute',
-      zIndex: 1,
-      border: 'none',
-      maxWidth: theme.breakpoints.values.md,
-      [theme.breakpoints.down('xl')]: {
-        width: 'calc(100% - 32px)',
-        // marginLeft: '-16px',
-      },
-      [theme.breakpoints.up('sm')]: {
-        width: 'calc(100% - 48px)',
-        marginLeft: '0px',
-        // paddingBottom: '0px',
-      },
-      [theme.breakpoints.up('md')]: {
-        width: theme.breakpoints.values.md - 48,
-        height: '85px',
-        padding: '12px 15px 5px 15px',
-      },
-    },
-    noBorder: {
-      border: 'none',
-    },
-    location: {
-      marginTop: '15px',
-      width: '70px',
-    },
-    locationIcon: {},
-    searchButton: {
-      background: '#682988',
-      color: '#fff',
-      borderRadius: '0px',
-      height: '63px',
-      width: '162px',
-    },
-    gridPaddingTop: {
-      paddingTop: '3px !important',
-    },
-    gridButtonWrap: {
-      padding: '0px !important',
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
     select: {
       '&>div, &>div:focus': {
         backgroundColor: 'transparent',
@@ -80,9 +33,16 @@ const useStyles = makeStyles((theme: Theme) =>
       background: ' #5e6b0f',
       textAlign: 'center',
       color: '#fff',
-      padding: '0 7px 2px 12px',
       height: 40,
-      width: 150,
+      width: 110,
+      '& .MuiSelect-select': {
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingLeft: 0,
+      },
+      '& .MuiSvgIcon-root': {
+        color: '#fff',
+      },
       '&>div, &>div:focus': {
         backgroundColor: 'transparent',
       },
@@ -93,12 +53,12 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    resetDivider: {
+      marginTop: '0px !important',
+      marginBottom: '0px !important',
+    },
   }),
 );
-
-// function CustomSvgIcon(props: any) {
-//   return <LocationOnIcon {...props} />;
-// }
 
 const SearchBox = () => {
   const classes = useStyles();
@@ -107,74 +67,75 @@ const SearchBox = () => {
 
   return (
     <>
-      <Slide direction='up'>
-        <Grid item container mt={2}>
-          <Grid item xs={6} md={4} lg={2} xl={2}>
-            <Box>
+      <Grid container>
+        <Grid item xs={6} md={4} lg={2} xl={2}>
+          <Paper
+            elevation={0}
+            square
+            component='form'
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              width: '760px',
+              height: '86px',
+              p: '10px',
+            }}>
+            <IconButton sx={{p: '20px'}} aria-label='menu'>
+              <SearchIcon />
+            </IconButton>
+            <InputBase
+              sx={{ml: 1, flex: 1}}
+              placeholder='অনুসন্ধান করুন'
+              inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
+            />
+            <Paper component='span' elevation={0}>
+              <IconButton aria-label='location'>
+                <LocationOnIcon />
+              </IconButton>
               <Select
-                className={clsx(classes.select, classes.topSelect)}
-                variant='filled'
-                value={typeValue}
+                className={classes.select}
+                variant='standard'
+                value={locationValue}
                 label=''
                 onChange={(e: any) => {
-                  setTypeValue(e?.target?.value);
-                }}>
-                <MenuItem value='1'>দক্ষতা</MenuItem>
-                <Divider />
-                <MenuItem value='2'>চাকরি</MenuItem>
-                <Divider />
-                <MenuItem value='3'>ব্যবসা</MenuItem>
-                <Divider />
-                <MenuItem value='4'>শিক্ষা</MenuItem>
+                  setLocationValue(e?.target?.value);
+                }}
+                MenuProps={{disableScrollLock: true}}>
+                <MenuItem value='1'>লোকেশন</MenuItem>
               </Select>
-            </Box>
-          </Grid>
-        </Grid>
-      </Slide>
-      <Grid container xl={12} spacing={0} className={classes.searchBox}>
-        <Grid item xs={12} md={7} className={classes.gridPaddingTop}>
-          <TextField
-            variant='outlined'
-            name='searchBox'
-            autoFocus
-            placeholder='অনুসন্ধান করুন'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              classes: {notchedOutline: classes.noBorder},
-            }}
-          />
-        </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          md={5}
-          spacing={0}
-          justifyContent={'space-around'}>
-          {/*<Grid xs={1} md={1} className={classes.locationIcon}>*/}
-          {/*  <LocationOnIcon/>*/}
-          {/*</Grid>*/}
-          <Grid item xs={6} md={6} className={classes.location}>
-            <Select
-              className={classes.select}
-              variant='standard'
-              value={locationValue}
-              label=''
-              onChange={(e: any) => {
-                setLocationValue(e?.target?.value);
-              }}>
-              <MenuItem value='1'>লোকেশন</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={6} md={6} className={classes.gridButtonWrap}>
-            <Button variant='contained' className={classes.searchButton}>
+            </Paper>
+            <Button
+              variant='contained'
+              size={'large'}
+              sx={{borderRadius: 0, width: '150px', height: '100%'}}
+              disableElevation>
               অনুসন্ধান
             </Button>
-          </Grid>
+            <Select
+              className={classes.topSelect}
+              sx={{
+                position: 'absolute',
+                left: 0,
+                top: '-40px',
+                color: 'primary.contrastText',
+              }}
+              variant='filled'
+              value={typeValue}
+              label=''
+              MenuProps={{disableScrollLock: true}}
+              onChange={(e: any) => {
+                setTypeValue(e?.target?.value);
+              }}>
+              <MenuItem value='1'>দক্ষতা</MenuItem>
+              <Divider className={classes.resetDivider} />
+              <MenuItem value='2'>চাকরি</MenuItem>
+              <Divider className={classes.resetDivider} />
+              <MenuItem value='3'>ব্যবসা</MenuItem>
+              <Divider className={classes.resetDivider} />
+              <MenuItem value='4'>শিক্ষা</MenuItem>
+            </Select>
+          </Paper>
         </Grid>
       </Grid>
     </>

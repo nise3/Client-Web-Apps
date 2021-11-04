@@ -30,6 +30,9 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
     },
   },
   jobTitle: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     color: theme.palette.primary.main,
     fontWeight: Fonts.BOLD,
   },
@@ -57,8 +60,10 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
             src={data.imageUrl}
           />
         </Grid>
-        <Grid item xs={7}>
-          <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+        <Grid item xs={6}>
+          <Box className={classes.jobTitle} title={data.jobTitle}>
+            {data.jobTitle}
+          </Box>
           <Box>{data.jobProviderName}</Box>
         </Grid>
         <Grid item>
