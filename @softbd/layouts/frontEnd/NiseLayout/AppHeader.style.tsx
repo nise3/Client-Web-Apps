@@ -47,13 +47,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     height: '0.6em',
   },
   menuItem: {
-    fontSize: 20,
+    fontSize: '16px',
     padding: '20px 10px',
+    color: '#746F6F',
     '&>a': {
       display: 'flex',
     },
     '& .active': {
       color: theme.palette.primary.main,
+      fontWeight: 'bold',
     },
     '& img': {
       marginRight: '5px',

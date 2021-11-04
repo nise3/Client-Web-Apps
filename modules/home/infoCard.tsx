@@ -40,12 +40,15 @@ const InfoCard = ({color, infos}: Props) => {
                       <img className={classes.logo} src='/images/logo1.png' />
                     </Grid>
                     <Grid item xs={10}>
-                      <Box> {infoItem.name}</Box>
+                      <Box style={{fontSize: '18px'}}> {infoItem.name}</Box>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item md={2} xs={2}>
-                  <Box sx={{color: color}}>{infoItem.count}</Box>
+                  <Box
+                    sx={{color: color, fontSize: '25px', fontWeight: 'bold'}}>
+                    {infoItem.count}
+                  </Box>
                 </Grid>
               </Fragment>
             );

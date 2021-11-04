@@ -1,9 +1,10 @@
 import React from 'react';
-import {Box, Typography} from '@mui/material';
+import {Box} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
+import {H3} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,8 +14,8 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
     },
     vBar: {
-      height: '40px',
-      width: '5px',
+      height: '33px',
+      width: '2px',
       background: 'linear-gradient(45deg, #ec5c17,#5affab)',
       marginRight: '10px',
     },
@@ -30,15 +31,14 @@ const SectionTitle = ({title, center}: Props) => {
   const classes = useStyles();
   return (
     <>
-      <Typography variant='h5'>
+      <H3 style={{fontSize: '33px', fontWeight: 'bold', marginBottom: '30px'}}>
         <Box
-          mb={5}
           className={classes.title}
           justifyContent={center ? 'center' : 'flex-start'}>
-          <Box className={classes.vBar}></Box>
+          <Box className={classes.vBar} />
           <Box fontWeight='fontWeightBold'>{title}</Box>
         </Box>
-      </Typography>
+      </H3>
     </>
   );
 };

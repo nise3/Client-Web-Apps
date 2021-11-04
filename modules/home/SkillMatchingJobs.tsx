@@ -5,6 +5,7 @@ import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import {H3} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,8 +18,8 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
     },
     vBar: {
-      height: '40px',
-      width: '5px',
+      height: '33px',
+      width: '2px',
       background: 'linear-gradient(45deg, #ec5c17,#5affab)',
       marginRight: '10px',
     },
@@ -109,15 +110,15 @@ const SkillMatchingJobs = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg'>
-        <Typography variant='h5'>
+        <H3>
           <Box
-            style={{marginBottom: '50px', marginTop: '10px'}}
+            style={{fontSize: '33px', marginBottom: '50px', marginTop: '10px'}}
             className={classes.title}
             justifyContent={'center'}>
             <Box className={classes.vBar} />
             <Box fontWeight='fontWeightBold'>স্কিল ম্যাচিং জব</Box>
           </Box>
-        </Typography>
+        </H3>
         <Box mb={2}>
           <CustomCarousel>
             {items.map((item: any, key: number) => cardItem(item, key))}

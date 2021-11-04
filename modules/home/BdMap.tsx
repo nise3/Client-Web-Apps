@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) =>
       borderRadius: '2px',
       backgroundColor: '#fff',
     },
-
     mapSidePoints: {
       borderRadius: '50%',
       height: '5px',
@@ -45,7 +44,6 @@ const BdMap = () => {
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg' disableGutters>
         <SectionTitle title='ম্যাপ' center={true} />
-
         <Box
           sx={{
             display: 'flex',
@@ -58,7 +56,6 @@ const BdMap = () => {
             xs={12}
             sm={6}
             md={5}
-            mt={'10px'}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
@@ -98,7 +95,6 @@ const BdMap = () => {
               </Grid>
             </Grid>
 
-            {/*right side chit show*/}
             <Box
               sx={{
                 position: 'absolute',

@@ -73,8 +73,8 @@ export const NavLink = ({
 
 export const Text = ({children, ...props}: TextProp) => (
   <Typography
-    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     variant='body1'
+    sx={{fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(',')}}
     {...props}>
     {children}
   </Typography>

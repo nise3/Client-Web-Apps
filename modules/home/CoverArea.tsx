@@ -54,21 +54,16 @@ const useStyles = makeStyles((theme: Theme) =>
     coverImage: {
       position: 'absolute',
       height: '430px',
-      right: 0,
-      bottom: 0,
-      borderRadius: '5px',
       display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        position: 'absolute',
-        width: '40%',
+      [theme.breakpoints.up('sm')]: {
+        right: 0,
+        bottom: 0,
+        width: '502px',
       },
-      [theme.breakpoints.down('md')]: {
-        marginTop: '13px',
-        marginBottom: '10px',
+      [theme.breakpoints.down('sm')]: {
+        bottom: '-430px',
+        left: 0,
         width: '100%',
-      },
-      [theme.breakpoints.up('xl')]: {
-        width: '40%',
       },
     },
     animationFillMode: {
@@ -99,20 +94,25 @@ const CoverArea = () => {
         <Box className={classes.root}>
           <Container maxWidth='lg'>
             <Grid container>
-              <Grid item xs={6} mt={{sm: 5}}>
+              <Grid item xs={8} mt={{xs: 5, md: 8}}>
                 <Fade direction='up'>
-                  <H3>
+                  <H3 style={{fontSize: '44px', lineHeight: '62px'}}>
                     এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি অথবা প্রশিক্ষণ
                   </H3>
                 </Fade>
               </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={6} mt={{sm: 3}} sx={{marginBottom: '100px'}}>
+              <Grid item xs={5} mt={{xs: 2, md: 2}}>
                 <Fade direction='down'>
-                  <Text>
+                  <Text
+                    style={{
+                      fontSize: '22px',
+                      fontWeight: '300',
+                      lineHeight: '33px',
+                    }}>
                     আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন তাহলে এখনই খুঁজে নিন
-                    আপনার প্রয়োজন ও যোগ্যতা অনুসারে চাকরি।
+                    আপনার প্রয়োজন ও যোগ্যতা অনুসারে চাকরি...
                   </Text>
                 </Fade>
               </Grid>

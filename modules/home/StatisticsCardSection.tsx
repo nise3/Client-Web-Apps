@@ -1,10 +1,11 @@
 import React from 'react';
-import {Box, Card, Container, Grid, Typography} from '@mui/material';
+import {Box, Card, Container, Grid} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
 import InfoCard from './infoCard';
+import {H3, Text} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,192 +77,138 @@ const StatisticsCardSection = () => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth='lg'>
-      <Fade direction='down'>
-        <Grid container spacing={2} style={{marginTop: '40px'}}>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor1}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ২৫
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                মন্ত্রণালয়
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor2}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ৮
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                বিভাগ
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor3}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ১০,০০০
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                প্রজেক্ট
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor4}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ২৫
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                আর টি ও
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor4}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ৩৫,০০০০০
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                যুব
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor3}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ২৫
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                সমিতি
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor5}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ৩২
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                শিল্প প্রতিষ্ঠান
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor6}>
-              <Typography variant='h5' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  ৩২
-                </Box>
-              </Typography>
-              <Typography variant='subtitle1' gutterBottom={true}>
-                শিল্প প্রতিষ্ঠান
-              </Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor1}>
-              <Typography variant='subtitle1' gutterBottom={true}>
+    <div style={{background: '#f9fdfe'}}>
+      <Container maxWidth='lg'>
+        <Fade direction='down'>
+          <Grid container spacing={2} style={{marginTop: '65px'}}>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor1}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
+                <Text style={{fontSize: '25px'}}>মন্ত্রণালয়</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor2}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৮</H3>
+                <Text style={{fontSize: '25px'}}>বিভাগ</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor3}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>১০,০০০</H3>
+                <Text style={{fontSize: '25px'}}>প্রজেক্ট</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor4}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
+                <Text style={{fontSize: '25px'}}>আর টি ও</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor4}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩৫,০০০০০</H3>
+                <Text style={{fontSize: '25px'}}>যুব</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor3}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
+                <Text style={{fontSize: '25px'}}>সমিতি</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor5}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩২</H3>
+                <Text style={{fontSize: '25px'}}>শিল্প প্রতিষ্ঠান</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor6}>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩২</H3>
+                <Text style={{fontSize: '25px'}}>শিল্প প্রতিষ্ঠান</Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor1} style={{padding: '20px'}}>
                 জব প্রোভাইডার
-              </Typography>
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#661687'}}
-            />
-            <InfoCard
-              color={'#661687'}
-              infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor2}>
-              <Typography variant='subtitle1' gutterBottom={true}>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#661687'}}
+              />
+              <InfoCard
+                color={'#661687'}
+                infos={[
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor2} style={{padding: '20px'}}>
                 দক্ষতা উন্নয়ণ কেন্দ্র
-              </Typography>
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#0069BC'}}
-            />
-            <InfoCard
-              color={'#0069BC'}
-              infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor3}>
-              <Typography variant='subtitle1' gutterBottom={true}>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#0069BC'}}
+              />
+              <InfoCard
+                color={'#0069BC'}
+                infos={[
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor3} style={{padding: '20px'}}>
                 জনপ্রিয় কোর্স
-              </Typography>
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#305DF7'}}
-            />
-            <InfoCard
-              color={'#305DF7'}
-              infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor7}>
-              <Typography variant='subtitle1' gutterBottom={true}>
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#305DF7'}}
+              />
+              <InfoCard
+                color={'#305DF7'}
+                infos={[
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={classes.cardColor7} style={{padding: '20px'}}>
                 জনপ্রিয় জব
-              </Typography>
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#22BB33'}}
-            />
-            <InfoCard
-              color={'#22BB33'}
-              infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
-              ]}
-            />
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#22BB33'}}
+              />
+              <InfoCard
+                color={'#22BB33'}
+                infos={[
+                  {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
+                  {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
+                  {id: 3, name: 'পাঠাও', count: '২৫'},
+                  {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                ]}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-      </Fade>
-    </Container>
+        </Fade>
+      </Container>
+    </div>
   );
 };
 export default StatisticsCardSection;

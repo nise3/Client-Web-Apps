@@ -13,10 +13,12 @@ import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import {Theme} from '@mui/system';
+import Hidden from '../../@softbd/elements/Hidden';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     select: {
+      color: '#818086',
       '&>div, &>div:focus': {
         backgroundColor: 'transparent',
       },
@@ -56,6 +58,28 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '0px !important',
       marginBottom: '0px !important',
     },
+    rootPaper: {
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      width: '760px',
+      height: '86px',
+      padding: '10px',
+      marginTop: '114px',
+      [theme.breakpoints.down('md')]: {
+        display: 'flex',
+        width: '100%',
+      },
+    },
+    searchButton: {
+      borderRadius: 0,
+      width: '150px',
+      height: '100%',
+      marginLeft: '20px',
+      [theme.breakpoints.down('md')]: {
+        width: '80px',
+      },
+    },
   }),
 );
 
@@ -67,51 +91,43 @@ const SearchBox = () => {
   return (
     <>
       <Paper
+        sx={{zIndex: '999'}}
         elevation={0}
         square
         component='form'
-        sx={{
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          width: '760px',
-          height: '86px',
-          p: '10px',
-          zIndex: '999',
-        }}>
-        <IconButton sx={{p: '20px'}} aria-label='menu'>
-          <SearchIcon />
-        </IconButton>
+        className={classes.rootPaper}>
+        <Hidden mdDown>
+          <IconButton sx={{p: '20px'}} aria-label='menu'>
+            <SearchIcon />
+          </IconButton>
+        </Hidden>
         <InputBase
           sx={{ml: 1, flex: 1}}
           placeholder='অনুসন্ধান করুন'
           inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
         />
-        <Paper component='span' elevation={0}>
-          <IconButton aria-label='location'>
-            <LocationOnOutlined />
-          </IconButton>
-          <Select
-            className={classes.select}
-            variant='standard'
-            value={locationValue}
-            label=''
-            onChange={(e: any) => {
-              setLocationValue(e?.target?.value);
-            }}
-            MenuProps={{disableScrollLock: true}}>
-            <MenuItem value='1'>লোকেশন</MenuItem>
-          </Select>
-        </Paper>
+        <Hidden mdDown>
+          <Paper component='span' elevation={0}>
+            <IconButton aria-label='location'>
+              <LocationOnOutlined />
+            </IconButton>
+            <Select
+              className={classes.select}
+              variant='standard'
+              value={locationValue}
+              label=''
+              onChange={(e: any) => {
+                setLocationValue(e?.target?.value);
+              }}
+              MenuProps={{disableScrollLock: true}}>
+              <MenuItem value='1'>লোকেশন</MenuItem>
+            </Select>
+          </Paper>
+        </Hidden>
         <Button
           variant='contained'
           size={'large'}
-          sx={{
-            borderRadius: 0,
-            width: '150px',
-            height: '100%',
-            marginLeft: '20px',
-          }}
+          className={classes.searchButton}
           disableElevation>
           অনুসন্ধান
         </Button>
