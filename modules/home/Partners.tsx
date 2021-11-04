@@ -5,6 +5,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import {H3} from '../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,6 +61,7 @@ let items = [
 
 const Partners = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const cardItem = (item: any, key: number) => {
     return (
       <Box mr={1} ml={1} key={key}>
@@ -85,7 +87,7 @@ const Partners = () => {
             className={classes.title}
             justifyContent={'center'}>
             <Box className={classes.vBar} />
-            <Box fontWeight='fontWeightBold'>পার্টনার সমূহ</Box>
+            <Box fontWeight='fontWeightBold'>{messages['nise.partners']}</Box>
           </Box>
         </H3>
         <Box mb={2}>

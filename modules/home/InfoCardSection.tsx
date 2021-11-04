@@ -5,6 +5,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
 import {H3, Text} from '../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const InfoCardSection = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Fade direction='up'>
@@ -73,22 +75,22 @@ const InfoCardSection = () => {
           <Grid item xs={12} md={4}>
             <Card className={classes.youthBoxItem}>
               <img src={'/images/home-page/man-n-woman.png'} />
-              <H3>যুব</H3>
-              <Text>আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।</Text>
+              <H3>{messages['common.youth_2']}</H3>
+              <Text>{messages['nise.card_youth']}</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={4}>
             <Card className={classes.skillBoxItem}>
               <img src={'/images/home-page/training.png'} />
-              <H3>দক্ষতা উন্নয়ন কেন্দ্র</H3>
-              <Text>আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।</Text>
+              <H3>{messages['common.skill_develop']}</H3>
+              <Text> {messages['nise.card_youth']}</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={4}>
             <Card className={classes.industryBoxItem}>
               <img src={'/images/home-page/industry.png'} />
-              <H3>শিল্প প্রতিষ্ঠান</H3>
-              <Text>আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।</Text>
+              <H3>{messages['common.industrial']}</H3>
+              <Text>{messages['nise.card_youth']}</Text>
             </Card>
           </Grid>
         </Grid>
