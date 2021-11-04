@@ -1,7 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
@@ -15,6 +14,7 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface AddressFormProps {
   register: any;
@@ -125,7 +125,7 @@ const AddressForm: FC<AddressFormProps> = ({
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='present_address[loc_division_id]'
           label={messages['divisions.label']}
           isLoading={isLoadingDivisions}
@@ -138,7 +138,7 @@ const AddressForm: FC<AddressFormProps> = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='present_address[loc_district_id]'
           label={messages['districts.label']}
           isLoading={false}
@@ -151,7 +151,7 @@ const AddressForm: FC<AddressFormProps> = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='present_address[loc_upazila_id]'
           label={messages['upazilas.label']}
           isLoading={false}
@@ -225,7 +225,7 @@ const AddressForm: FC<AddressFormProps> = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='permanent_address[loc_division_id]'
           label={messages['divisions.label']}
           isLoading={isLoadingDivisions}
@@ -240,7 +240,7 @@ const AddressForm: FC<AddressFormProps> = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='permanent_address[loc_district_id]'
           label={messages['districts.label']}
           isLoading={false}
@@ -254,7 +254,7 @@ const AddressForm: FC<AddressFormProps> = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='permanent_address[loc_upazila_id]'
           label={messages['upazilas.label']}
           isLoading={false}

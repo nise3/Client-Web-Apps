@@ -841,5 +841,6 @@
   "common.map_of_bangladesh": "বাংলাদেশের মানচিত্র",
   "certificate.to": " থেকে ",
   "education.cgpa_out_of_scale": "{scale} এর মধ্যে {cgpa}",
-  "course_details.enrolled": "{total} জন নিবন্ধিত হয়েছে"
+  "course_details.enrolled": "{total} জন নিবন্ধিত হয়েছে",
+  "common.profile_picture_upload": "ছবি আপলোড"
 }

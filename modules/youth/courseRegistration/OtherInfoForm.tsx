@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import Grid from '@mui/material/Grid';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface OtherInfoFormProps {
   register: any;
@@ -91,7 +91,7 @@ const OtherInfoForm: FC<OtherInfoFormProps> = ({register, errors, control}) => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='miscellaneous_info[number_of_siblings]'
           label={messages['common.number_of_siblings']}
           isLoading={false}

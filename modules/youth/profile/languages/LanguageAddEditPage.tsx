@@ -6,7 +6,6 @@ import {processServerSideErrors} from '../../../../@softbd/utilities/validationE
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {Box, Grid, Zoom} from '@mui/material';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -25,6 +24,7 @@ import {
 } from '../../../../services/youthManagement/LanguageProficiencyService';
 import CustomHookForm from '../component/CustomHookForm';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface LanguageAddEditPageProps {
   itemId: number | null;
@@ -136,10 +136,10 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
     try {
       if (itemId) {
         await updateLanguageProficiency(itemId, data);
-        updateSuccessMessage('language_proficiency.label');
+        updateSuccessMessage('language_proficiency.title');
       } else {
         await createLanguageProficiency(data);
-        createSuccessMessage('language_proficiency.label');
+        createSuccessMessage('language_proficiency.title');
       }
       mutateLanguageProficiency();
       onLanguageAddEditFormClose();
@@ -166,14 +166,14 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
           onClose={onLanguageAddEditFormClose}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='language_id'
                 isLoading={isLoadingLanguages}
                 control={control}
                 options={languages}
                 optionValueProp={'id'}
-                optionTitleProp={['title']}
+                optionTitleProp={['title', 'title_en']}
                 errorInstance={errors}
                 label={messages['common.language']}
               />
