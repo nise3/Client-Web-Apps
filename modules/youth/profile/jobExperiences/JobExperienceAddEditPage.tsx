@@ -16,10 +16,10 @@ import {
   createJobExperience,
   updateJobExperience,
 } from '../../../../services/youthManagement/JobExperienceService';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {YouthJobExperience} from '../../../../services/youthManagement/typing';
 import CustomHookForm from '../component/CustomHookForm';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -234,7 +234,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id={'employment_type_id'}
                 label={messages['common.type_of_employee']}

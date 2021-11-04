@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomSelectAutoComplete from './CustomSelectAutoComplete';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useStyles from './Registration.style';
@@ -38,6 +37,7 @@ import {useRouter} from 'next/router';
 import {LINK_YOUTH_REGISTRATION_VERIFICATION} from '../../../@softbd/common/appLinks';
 import {Link} from '../../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 const initialValues = {
   first_name: '',
@@ -424,7 +424,7 @@ const YouthRegistration = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_division_id'
                 label={messages['divisions.label']}
@@ -438,7 +438,7 @@ const YouthRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_district_id'
                 label={messages['districts.label']}
@@ -452,7 +452,7 @@ const YouthRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
                 isLoading={false}
