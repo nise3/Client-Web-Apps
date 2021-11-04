@@ -857,5 +857,13 @@
   "nise.skill_matching_Job": "Skill matching job",
   "nise.partners": "Partners",
   "course_details.enrolled": "{total} enrolled",
-  "common.profile_picture_upload": "Upload picture"
+  "common.profile_picture_upload": "Upload picture",
+  "institute_home.at_a_glance" : "At a Glance",
+  "institute_home.course_management_stat": "Course Management System Statistics",
+  "institute_home.total_course_subject": "subjects training provided",
+  "institute_home.total_youth_trained": "youth has received training",
+  "institute_home.total_training_center": "training Center",
+  "institute_home.total_skilled_trainer": "skilled trainer",
+  "institute_home.ti": "",
+  "institute_home.people": ""
 }

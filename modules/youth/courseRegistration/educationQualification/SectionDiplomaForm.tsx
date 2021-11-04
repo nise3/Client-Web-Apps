@@ -1,7 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {Box, Typography} from '@mui/material';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -11,6 +10,7 @@ import {
   ResultCodeGrade,
 } from '../../profile/utilities/EducationEnums';
 import {passingYears} from '../../../../@softbd/utilities/helpers';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface SectionDiplomaFormProps {
   errors: any;
@@ -70,7 +70,8 @@ const SectionDiplomaForm: FC<SectionDiplomaFormProps> = ({
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='diploma_info[exam_degree_id]'
             label={messages['education.education_exam_degree']}
             isLoading={false}
@@ -135,7 +136,8 @@ const SectionDiplomaForm: FC<SectionDiplomaFormProps> = ({
 
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='diploma_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
@@ -149,7 +151,8 @@ const SectionDiplomaForm: FC<SectionDiplomaFormProps> = ({
         )}
 
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='diploma_info[result]'
             label={messages['education.result']}
             isLoading={false}
@@ -210,7 +213,8 @@ const SectionDiplomaForm: FC<SectionDiplomaFormProps> = ({
 
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='diploma_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
@@ -225,7 +229,8 @@ const SectionDiplomaForm: FC<SectionDiplomaFormProps> = ({
 
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='diploma_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}

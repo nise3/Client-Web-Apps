@@ -1321,6 +1321,7 @@ const YouthCourseRegistrationPage = () => {
     }
   };
 
+  console.log('err', errors);
   return (
     <Container maxWidth={'lg'} className={classes.rootContainer}>
       <Paper className={classes.paperBox}>
