@@ -16,7 +16,6 @@ import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHa
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {createRegistration} from '../../services/instituteManagement/RegistrationService';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -30,6 +29,7 @@ import {
 import {Link} from '../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {useRouter} from 'next/router';
+import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 
 const InstituteRegistration = () => {
   const router = useRouter();
@@ -285,7 +285,7 @@ const InstituteRegistration = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_division_id'
                 label={messages['divisions.label']}
@@ -299,7 +299,7 @@ const InstituteRegistration = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_district_id'
                 label={messages['districts.label']}
@@ -313,7 +313,7 @@ const InstituteRegistration = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
                 isLoading={false}
