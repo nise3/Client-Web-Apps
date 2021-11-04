@@ -10,7 +10,10 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 import {useIntl} from 'react-intl';
 import yup from '../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_PASSWORD,
+} from '../../../@softbd/common/patternRegex';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -144,7 +147,8 @@ const YouthRegistration = () => {
         .trim()
         .min(8)
         .required()
-        .label(messages['common.password'] as string),
+        .label(messages['common.password'] as string)
+        .matches(TEXT_REGEX_PASSWORD),
       password_confirmation: yup
         .string()
         .oneOf([yup.ref('password')])

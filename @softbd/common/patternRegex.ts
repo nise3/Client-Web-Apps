@@ -16,3 +16,6 @@ export const TEXT_REGEX_BANGLA_ONLY = new RegExp(
 export const TEXT_REGEX_ENGLISH_ONLY = new RegExp(
   "^[a-zA-Z0-9\\s'!@#$%^&*)(+=._-]+$",
 );
+export const TEXT_REGEX_PASSWORD = new RegExp(
+  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,20}$)',
+);

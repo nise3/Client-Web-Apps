@@ -15,7 +15,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
-import {H2} from '../../../@softbd/elements/common';
+import {H2, H3} from '../../../@softbd/elements/common';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   useFetchInstitutesGallery,
@@ -29,7 +29,16 @@ import GalleryItemCardView from './GalleryItemCardView';
 const useStyles = makeStyles((theme: CremaTheme) => ({
   searchIcon: {
     position: 'absolute',
-    right: 20,
+    right: 0,
+  },
+  filterIcon: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  resetButton: {
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: '3% !important',
+    },
   },
 }));
 
@@ -40,8 +49,7 @@ const InstituteGallery = () => {
   const {data: galleryCategories, isLoading: isLoadingGalleryCategories} =
     useFetchInstitutesGalleryCategory();
 
-  const {data: galleryItems, isLoading: isLoadingGalleryItems} =
-    useFetchInstitutesGallery();
+  const {data: galleryItems} = useFetchInstitutesGallery();
 
   const [filteredGalleryItems, setFilteredGalleryItems] = useState([]);
 
@@ -87,10 +95,6 @@ const InstituteGallery = () => {
     });
   };
 
-  const onChangeValue = () => {
-    filterVidesByInput(getValues());
-  };
-
   const filterVidesByInput = ({gallery_category_id, gallery_id}: any) => {
     if (gallery_category_id?.length == 0 && gallery_id?.length == 0) {
       setFilteredGalleryItems(galleryItems);
@@ -118,7 +122,9 @@ const InstituteGallery = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
-            <H2 py={5}>{messages['galleries.institute']}</H2>
+            <H3 py={3} fontWeight={'bold'}>
+              {messages['galleries.institute']}
+            </H3>
           </Paper>
         </Grid>
       </Grid>
@@ -126,15 +132,11 @@ const InstituteGallery = () => {
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
             <Grid container spacing={{xs: 2, md: 6}}>
-              <Grid item xs={12} md={1}>
-                <Grid container>
-                  <Grid item md={6}>
-                    <FilterListIcon />
-                  </Grid>
-                  <Grid item md={6}>
-                    <Typography>{messages['filter.institute']}</Typography>
-                  </Grid>
-                </Grid>
+              <Grid item xs={12} md={1} className={classes.filterIcon}>
+                <FilterListIcon />
+                <Typography sx={{marginLeft: '10px'}}>
+                  {messages['filter.institute']}
+                </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
                 <CustomFormSelect
@@ -148,27 +150,15 @@ const InstituteGallery = () => {
                   onChange={onChangeCategory}
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
-                <CustomFormSelect
-                  id='gallery_id'
-                  label={messages['galleries.institute']}
-                  isLoading={isLoadingGalleryItems}
-                  control={control}
-                  optionValueProp={'id'}
-                  options={filteredGalleryItems}
-                  optionTitleProp={['content']}
-                  onChange={onChangeValue}
-                />
-              </Grid>
-              <Grid item xs={12} md={1}>
+              <Grid item xs={12} md={1} className={classes.resetButton}>
                 <Button
                   onClick={onResetClicked}
                   variant={'contained'}
                   color={'primary'}>
-                  Reset
+                  {messages['common.reset']}
                 </Button>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={4} style={{position: 'relative'}}>
                 <form onSubmit={handleSubmit(onSearch)}>
                   <CustomTextInput
                     id='title'
@@ -190,7 +180,7 @@ const InstituteGallery = () => {
               <Grid container>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant='h6'>
-                    মোট ফলাফল পাওয়া গেছে{' '}
+                    {messages['total_result.institute']}{' '}
                     <Chip
                       label={filteredGalleryItems?.length}
                       color={'primary'}
@@ -221,7 +211,7 @@ const InstituteGallery = () => {
             </Grid>
           )}
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
-            <Pagination count={3} variant='outlined' color='primary' />
+            <Pagination count={3} variant='outlined' shape='rounded' />
           </Grid>
         </Grid>
       </Container>

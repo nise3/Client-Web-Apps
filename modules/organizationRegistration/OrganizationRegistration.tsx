@@ -7,7 +7,10 @@ import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/Custom
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
-import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_PASSWORD,
+} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
@@ -125,6 +128,7 @@ const OrganizationRegistration = () => {
         .trim()
         .min(8)
         .required()
+        .matches(TEXT_REGEX_PASSWORD)
         .label(messages['common.password'] as string),
       password_confirmation: yup
         .string()
