@@ -1,7 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {Box, Typography} from '@mui/material';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -11,6 +10,7 @@ import {
   ResultCodeGrade,
 } from '../../profile/utilities/EducationEnums';
 import {passingYears} from '../../../../@softbd/utilities/helpers';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface SectionHSCFormProps {
   errors: any;
@@ -74,7 +74,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='hsc_info[exam_degree_id]'
             label={messages['education.education_exam_degree']}
             isLoading={false}
@@ -86,7 +87,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='hsc_info[edu_group_id]'
             label={messages['education.group']}
             isLoading={false}
@@ -98,7 +100,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='hsc_info[edu_board_id]'
             label={messages['education.board']}
             isLoading={false}
@@ -144,7 +147,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
 
         {isForeignInstitute && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='hsc_info[foreign_institute_country_id]'
               label={messages['education.foreign_institute_country']}
               isLoading={false}
@@ -158,7 +162,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
         )}
 
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='hsc_info[result]'
             label={messages['education.result']}
             isLoading={false}
@@ -219,7 +224,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
 
         {selectedResult && selectedResult.code != ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='hsc_info[year_of_passing]'
               label={messages['education.passing_year']}
               isLoading={false}
@@ -234,7 +240,8 @@ const SectionHscForm: FC<SectionHSCFormProps> = ({
 
         {selectedResult && selectedResult.code == ResultCodeAppeared && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
+              required
               id='hsc_info[expected_year_of_passing]'
               label={messages['education.expected_passing_year']}
               isLoading={false}

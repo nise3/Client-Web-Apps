@@ -126,6 +126,7 @@ const AddressForm: FC<AddressFormProps> = ({
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <CustomFilterableFormSelect
+          required
           id='present_address[loc_division_id]'
           label={messages['divisions.label']}
           isLoading={isLoadingDivisions}
@@ -139,6 +140,7 @@ const AddressForm: FC<AddressFormProps> = ({
       </Grid>
       <Grid item xs={6}>
         <CustomFilterableFormSelect
+          required
           id='present_address[loc_district_id]'
           label={messages['districts.label']}
           isLoading={false}
@@ -226,6 +228,7 @@ const AddressForm: FC<AddressFormProps> = ({
       </Grid>
       <Grid item xs={6}>
         <CustomFilterableFormSelect
+          required
           id='permanent_address[loc_division_id]'
           label={messages['divisions.label']}
           isLoading={isLoadingDivisions}
@@ -241,6 +244,7 @@ const AddressForm: FC<AddressFormProps> = ({
       </Grid>
       <Grid item xs={6}>
         <CustomFilterableFormSelect
+          required
           id='permanent_address[loc_district_id]'
           label={messages['districts.label']}
           isLoading={false}
