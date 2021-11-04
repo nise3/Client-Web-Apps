@@ -28,10 +28,7 @@ const AllFreelancerListSection = ({
   useEffect(() => {
     let filters = {
       skill_ids: skillIds,
-      first_name: searchText,
-      first_name_en: searchText,
-      last_name: searchText,
-      last_name_en: searchText,
+      search_text: searchText,
       loc_upazila_id: upazila_id,
     };
     setFreelancerFilters(objectFilter({...freelancerFilters, ...filters}));
