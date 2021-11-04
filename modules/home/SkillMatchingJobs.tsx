@@ -5,6 +5,7 @@ import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,6 +68,7 @@ let items = [
 
 const SkillMatchingJobs = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const cardItem = (item: any, key: number) => {
     return (
       <Box mr={1} ml={1} key={key}>
@@ -115,7 +117,9 @@ const SkillMatchingJobs = () => {
             className={classes.title}
             justifyContent={'center'}>
             <Box className={classes.vBar} />
-            <Box fontWeight='fontWeightBold'>স্কিল ম্যাচিং জব</Box>
+            <Box fontWeight='fontWeightBold'>
+              {messages['nise.skill_matching_Job']}
+            </Box>
           </Box>
         </Typography>
         <Box mb={2}>

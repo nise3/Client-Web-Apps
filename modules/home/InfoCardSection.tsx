@@ -5,6 +5,7 @@ import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const InfoCardSection = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
 
   return (
     <Fade direction='up'>
@@ -44,10 +46,12 @@ const InfoCardSection = () => {
               {/*<Assignment className={classes.icon} />*/}
               <Accessibility className={classes.icon} />
               <Typography variant='h5' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'> যুব </Box>
+                <Box fontWeight='fontWeightBold'>
+                  {messages['common.youth_2']}
+                </Box>
               </Typography>
               <Typography variant='subtitle1' gutterBottom={true}>
-                আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।
+                {messages['nise.card_youth']}
               </Typography>
             </Card>
           </Grid>
@@ -55,10 +59,12 @@ const InfoCardSection = () => {
             <Card className={classes.skillBoxItem}>
               <Build className={classes.icon} />
               <Typography variant='h5' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'> দক্ষতা উন্নয়ন</Box>
+                <Box fontWeight='fontWeightBold'>
+                  {messages['common.skill_develop']}
+                </Box>
               </Typography>
               <Typography variant='subtitle1' gutterBottom={true}>
-                আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।
+                {messages['nise.card_youth']}
               </Typography>
             </Card>
           </Grid>
@@ -66,10 +72,12 @@ const InfoCardSection = () => {
             <Card className={classes.industryBoxItem}>
               <HomeWork className={classes.icon} />
               <Typography variant='h5' gutterBottom={true}>
-                <Box fontWeight='fontWeightBold'>শিল্প প্রতিষ্ঠান</Box>
+                <Box fontWeight='fontWeightBold'>
+                  {messages['common.industrial']}
+                </Box>
               </Typography>
               <Typography variant='subtitle1' gutterBottom={true}>
-                আপনি যদি চাকরি প্রার্থী হয়ে থাকেন, তাহলে খুঁজে নিন।
+                {messages['nise.card_youth']}
               </Typography>
             </Card>
           </Grid>

@@ -7,6 +7,7 @@ import {Fade, Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
 import {H3, H6, Text} from '../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -93,6 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CoverArea = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   return (
     <>
       <Box sx={{position: 'relative'}}>
@@ -101,19 +103,14 @@ const CoverArea = () => {
             <Grid container>
               <Grid item xs={6} mt={{sm: 5}}>
                 <Fade direction='up'>
-                  <H3>
-                    এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি অথবা প্রশিক্ষণ
-                  </H3>
+                  <H3>{messages['landing.text_find_job_here']}</H3>
                 </Fade>
               </Grid>
             </Grid>
             <Grid container>
               <Grid item xs={6} mt={{sm: 3}} sx={{marginBottom: '100px'}}>
                 <Fade direction='down'>
-                  <Text>
-                    আপনি যদি একজন চাকরি প্রার্থী হয়ে থাকেন তাহলে এখনই খুঁজে নিন
-                    আপনার প্রয়োজন ও যোগ্যতা অনুসারে চাকরি।
-                  </Text>
+                  <Text>{messages['landing.text_if_candidate']}</Text>
                 </Fade>
               </Grid>
             </Grid>
@@ -129,13 +126,13 @@ const CoverArea = () => {
                   display={'flex'}
                   alignItems={'center'}
                   height='180px'>
-                  <H6 mr={2}>ট্রেন্ড সার্চ</H6>
+                  <H6 mr={2}>{messages['nise.trend_search']}</H6>
                   <TrendSearchItemList
                     searchItems={[
-                      'গ্রাফিক্স ডিজাইন',
-                      'ওয়েব ডিজাইন',
-                      'ইউ-আই/এক্স',
-                      'হেলথ কেয়ার জব',
+                      messages['nise.graphics_design'],
+                      messages['nise.web_design'],
+                      messages['nise.ui_ux'],
+                      messages['nise.health_care'],
                     ]}
                   />
                 </Grid>

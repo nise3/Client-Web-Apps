@@ -44,7 +44,7 @@ const BdMap = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title='ম্যাপ' center={true} />
+        <SectionTitle title={messages['common.map'] as string} center={true} />
 
         <Box
           sx={{
@@ -64,17 +64,17 @@ const BdMap = () => {
             className={classes.mapButtonGroup}>
             <Grid item xs={3} md={2} mb={2}>
               <Button variant='contained' className={classes.skillButton}>
-                দক্ষতা
+                {messages['common.skills']}
               </Button>
             </Grid>
             <Grid item xs={3} md={2} mb={2}>
-              <Button variant='text'>চাকরি</Button>
+              <Button variant='text'>{messages['menu.jobs']}</Button>
             </Grid>
             <Grid item xs={3} md={2} mb={2}>
-              <Button variant='text'>ব্যবসা</Button>
+              <Button variant='text'>{messages['common.business']}</Button>
             </Grid>
             <Grid item xs={3} md={2} mb={2}>
-              <Button variant='text'>শিক্ষা</Button>
+              <Button variant='text'>{messages['common.educations']}</Button>
             </Grid>
           </Grid>
           <Container maxWidth={'sm'} className={classes.map}>
@@ -122,7 +122,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      দক্ষতা
+                      {messages['common.skills']}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -140,7 +140,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      চাকরি
+                      {messages['menu.jobs']}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -158,7 +158,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      ব্যবসা
+                      {messages['common.business']}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -176,7 +176,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      শিক্ষা
+                      {messages['common.educations']}
                     </Grid>
                   </Grid>
                 </Grid>

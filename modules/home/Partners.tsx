@@ -4,6 +4,7 @@ import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,6 +59,7 @@ let items = [
 
 const Partners = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const cardItem = (item: any, key: number) => {
     return (
       <Box mr={1} ml={1} key={key}>
@@ -83,7 +85,7 @@ const Partners = () => {
             className={classes.title}
             justifyContent={'center'}>
             <Box className={classes.vBar} />
-            <Box fontWeight='fontWeightBold'>পার্টনার সমূহ</Box>
+            <Box fontWeight='fontWeightBold'>{messages['nise.partners']}</Box>
           </Box>
         </Typography>
         <Box mb={2}>

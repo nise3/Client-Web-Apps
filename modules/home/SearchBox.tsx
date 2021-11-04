@@ -13,6 +13,7 @@ import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import {Theme} from '@mui/system';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SearchBox = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   const [locationValue, setLocationValue] = useState(1);
   const [typeValue, setTypeValue] = useState(1);
 
@@ -84,7 +86,7 @@ const SearchBox = () => {
         </IconButton>
         <InputBase
           sx={{ml: 1, flex: 1}}
-          placeholder='অনুসন্ধান করুন'
+          placeholder={messages['common.search_2'] as string}
           inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
         />
         <Paper component='span' elevation={0}>
@@ -100,7 +102,7 @@ const SearchBox = () => {
               setLocationValue(e?.target?.value);
             }}
             MenuProps={{disableScrollLock: true}}>
-            <MenuItem value='1'>লোকেশন</MenuItem>
+            <MenuItem value='1'>{messages['common.location_2']}</MenuItem>
           </Select>
         </Paper>
         <Button
@@ -113,7 +115,7 @@ const SearchBox = () => {
             marginLeft: '20px',
           }}
           disableElevation>
-          অনুসন্ধান
+          {messages['common.search']}
         </Button>
         <Select
           className={classes.topSelect}
@@ -130,13 +132,13 @@ const SearchBox = () => {
           onChange={(e: any) => {
             setTypeValue(e?.target?.value);
           }}>
-          <MenuItem value='1'>দক্ষতা</MenuItem>
+          <MenuItem value='1'>{messages['common.skills']}</MenuItem>
           <Divider className={classes.resetDivider} />
-          <MenuItem value='2'>চাকরি</MenuItem>
+          <MenuItem value='2'>{messages['menu.jobs']}</MenuItem>
           <Divider className={classes.resetDivider} />
-          <MenuItem value='3'>ব্যবসা</MenuItem>
+          <MenuItem value='3'>{messages['common.business']}</MenuItem>
           <Divider className={classes.resetDivider} />
-          <MenuItem value='4'>শিক্ষা</MenuItem>
+          <MenuItem value='4'>{messages['common.educations']}</MenuItem>
         </Select>
       </Paper>
     </>

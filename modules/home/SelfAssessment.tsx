@@ -8,6 +8,7 @@ import Image from 'next/image';
 import selfAssessmentImage from '../../public/images/self-assessment.png';
 import {H4} from '../../@softbd/elements/common';
 import {ArrowRight} from '@mui/icons-material';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,18 +25,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SelfAssessment = () => {
   const classes = useStyles();
+  const {messages} = useIntl();
   return (
     <Container maxWidth={'lg'}>
       <Grid container spacing={4} mt={{xs: 2, md: 5}} alignItems={'center'}>
         <Grid item xs={12} md={8}>
-          <H4>নিজেকে যাচাই করুন</H4>
+          <H4>{messages['nise.assess_yourself']}</H4>
           <Typography variant='subtitle1' my={{xs: 4}}>
-            আপনার ক্যারিয়ারের আগ্রহ, দক্ষতা, কাজের মান এবং শেখার স্টাইল সম্পর্কে
-            আরও আবিষ্কার করুন। এই সরঞ্জামগুলি আত্ম-সচেতনতা এবং অনুসন্ধানের
-            সুবিধার্থে।
+            {messages['nise.assess_yourself_text']}
           </Typography>
           <Button variant='contained' className={classes.detailsButton}>
-            শুরু করা যাক <ArrowRight />
+            {messages['nise.lets_start']}
+            <ArrowRight />
           </Button>
         </Grid>
         <Grid item xs={12} md={4}>
