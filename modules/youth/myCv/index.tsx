@@ -20,7 +20,7 @@ const resumeTemplates = [
   {
     key: CVTemplateKeys.MODERN,
     name: 'Modern',
-    demoImage: '/images/youth/youth-cv.jpg',
+    demoImage: '/images/youth/youth-cv-modern.png',
   },
   /*{
     key: CVTemplateKeys.COLORFUL,

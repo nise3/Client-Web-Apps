@@ -8,7 +8,7 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {Login} from '@mui/icons-material';
-import LogoCustomizable from '../../../elements/common/LogoCustomizable';
+/*import LogoCustomizable from '../../../elements/common/LogoCustomizable';*/
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_INSTITUTE_CONTACT,
@@ -100,13 +100,33 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Container
           maxWidth='lg'
           sx={{margin: 'auto', display: 'flex'}}
-          className={classes.logoArea}>
-          <Link href='/' className={classes.headerHalf}>
-            <LogoCustomizable
+          className={classes.logoArea}
+          style={{marginTop: '16px'}}>
+          <Link
+            href='/'
+            className={classes.headerHalf}
+            style={{marginRight: '-11%'}}>
+            {/*<LogoCustomizable
               instituteName='Bangladesh Industrial Technical Assistance Centre'
-              instituteLogo='/images/bitac-logo.jpg'
-            />
+              instituteLogo='/images/Logo-Nise-Bitac-Gov.png'
+            />*/}
+            <Box>
+              <img
+                className={classes.logoInstitute}
+                src='/images/Logo-Nise-Bitac-Gov.png'
+                alt='institute logo'
+              />
+            </Box>
           </Link>
+
+          <Grid item md={4} style={{margin: 'auto'}}>
+            <Text
+              fontWeight={'bold'}
+              style={{color: '#6C91C5', fontWeight: '700'}}>
+              বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র
+            </Text>
+          </Grid>
+
           <Grid item md={4} className={classes.headerHalf} mr={5}>
             <Text fontWeight={'bold'}>
               National Institute for skills Education, Employment and

@@ -18,7 +18,7 @@ const resumeTemplates = [
   {
     key: CVTemplateKeys.MODERN,
     name: 'Modern',
-    demoImage: '/images/youth/youth-cv.jpg',
+    demoImage: '/images/youth/youth-cv-modern.png',
   },
   /*{
     key: CVTemplateKeys.COLORFUL,
@@ -121,6 +121,7 @@ const YouthCVPage = () => {
                     onClick={() => {
                       onTemplateSelect(template.key);
                     }}
+                    style={{maxHeight: '92.44px'}}
                   />
                   <Typography>{template.name}</Typography>
                 </Grid>
