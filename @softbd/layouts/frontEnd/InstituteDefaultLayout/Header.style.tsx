@@ -175,6 +175,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logoInstitute: {
+    width: '100%',
+    height: 48,
+    objectFit: 'contain',
+  },
 }));
 
 export default useStyles;
