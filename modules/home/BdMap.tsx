@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) =>
       borderRadius: '2px',
       backgroundColor: '#fff',
     },
-
     mapSidePoints: {
       borderRadius: '50%',
       height: '5px',
@@ -44,7 +43,7 @@ const BdMap = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title='ম্যাপ' center={true} />
+        <SectionTitle title={messages['common.map'] as string} center={true} />
 
         <Box
           sx={{
@@ -58,23 +57,22 @@ const BdMap = () => {
             xs={12}
             sm={6}
             md={5}
-            mt={'10px'}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
             <Grid item xs={3} md={2} mb={2}>
               <Button variant='contained' className={classes.skillButton}>
-                দক্ষতা
+                {messages['common.skills']}
               </Button>
             </Grid>
             <Grid item xs={3} md={2} mb={2}>
-              <Button variant='text'>চাকরি</Button>
+              <Button variant='text'>{messages['menu.jobs']}</Button>
             </Grid>
             <Grid item xs={3} md={2} mb={2}>
-              <Button variant='text'>ব্যবসা</Button>
+              <Button variant='text'>{messages['common.business']}</Button>
             </Grid>
             <Grid item xs={3} md={2} mb={2}>
-              <Button variant='text'>শিক্ষা</Button>
+              <Button variant='text'>{messages['common.educations']}</Button>
             </Grid>
           </Grid>
           <Container maxWidth={'sm'} className={classes.map}>
@@ -98,7 +96,6 @@ const BdMap = () => {
               </Grid>
             </Grid>
 
-            {/*right side chit show*/}
             <Box
               sx={{
                 position: 'absolute',
@@ -122,7 +119,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      দক্ষতা
+                      {messages['common.skills']}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -140,7 +137,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      চাকরি
+                      {messages['menu.jobs']}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -158,7 +155,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      ব্যবসা
+                      {messages['common.business']}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -176,7 +173,7 @@ const BdMap = () => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      শিক্ষা
+                      {messages['common.educations']}
                     </Grid>
                   </Grid>
                 </Grid>

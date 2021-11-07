@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
-import {H6, Link} from '../../@softbd/elements/common';
+import {H3, H6, Link} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => {
     },
     titleTypography: {
       color: theme.palette.primary.dark,
+      display: 'flex',
+      fontSize: '33px',
+      fontWeight: 'bold',
+      marginBottom: '38px',
     },
     pagination: {
       marginRight: 'auto',
@@ -49,8 +53,8 @@ const useStyles = makeStyles((theme) => {
       left: '4%',
     },
     vBar: {
-      height: '40px',
-      width: '5px',
+      height: '33px',
+      width: '2px',
       background: 'linear-gradient(45deg, #ec5c17,#5affab)',
       marginRight: '10px',
     },
@@ -63,18 +67,13 @@ const RecentActivities = () => {
   const {messages} = useIntl();
 
   return (
-    <Container maxWidth={'lg'}>
+    <Container maxWidth={'lg'} style={{marginTop: '78px'}}>
       <Grid container>
-        <Grid item md={12} mt={8}>
-          <Typography
-            className={classes.titleTypography}
-            gutterBottom
-            variant='h4'
-            component='div'
-            display={'flex'}>
+        <Grid item md={12}>
+          <H3 className={classes.titleTypography}>
             <Box className={classes.vBar} />
             <Box>{messages['recent_activities.institute']}</Box>
-          </Typography>
+          </H3>
           {recentActivitiesItems && recentActivitiesItems.length ? (
             <RecentActivityMasonryGroupView
               items={recentActivitiesItems.slice(0, 4)}

@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selectStyle: {
     background: '#fff',
+    borderRadius: '5px',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },

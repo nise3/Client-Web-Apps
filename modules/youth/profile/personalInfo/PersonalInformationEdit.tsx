@@ -43,6 +43,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import {nationalities} from '../../../../@softbd/utilities/Nationalities';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -461,8 +462,8 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 <Button variant='contained' color='primary' component='span'>
                   <CloudUploadOutlinedIcon
                     style={{marginRight: '5px', fontSize: 30}}
-                  />{' '}
-                  Upload new picture
+                  />
+                  {messages['common.profile_picture_upload']}
                 </Button>
               </label>
             </Grid>
@@ -618,7 +619,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
 
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='marital_status'
                 label={messages['common.marital_status']}
                 isLoading={false}
@@ -631,7 +632,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
 
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='nationality'
                 label={messages['common.nationality']}
                 isLoading={false}
@@ -644,7 +645,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
 
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='religion'
                 label={messages['common.religion']}
                 isLoading={false}
@@ -657,7 +658,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
 
             <Grid item xs={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='freedom_fighter_status'
                 label={messages['common.freedom_fighter_status']}
                 isLoading={false}
@@ -708,7 +709,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             )}
 
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_division_id'
                 label={messages['divisions.label']}
@@ -722,7 +723,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_district_id'
                 label={messages['districts.label']}
@@ -736,7 +737,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
                 isLoading={isLoadingUpazilas}

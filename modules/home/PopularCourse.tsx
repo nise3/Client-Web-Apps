@@ -10,6 +10,7 @@ import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import Link from 'next/link';
+import {H3} from '../../@softbd/elements/common';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,8 +24,8 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
     },
     vBar: {
-      height: '40px',
-      width: '5px',
+      height: '33px',
+      width: '2px',
       background: 'linear-gradient(45deg, #ec5c17,#5affab)',
       marginRight: '10px',
     },
@@ -66,7 +67,7 @@ const PopularCourse = () => {
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg'>
-        <Typography variant='h5'>
+        <H3 style={{fontSize: '33px', fontWeight: 'bold'}}>
           <Box
             style={{marginBottom: '50px', marginTop: '50px'}}
             className={classes.title}
@@ -76,7 +77,7 @@ const PopularCourse = () => {
               {messages['common.popular_courses']}
             </Box>
           </Box>
-        </Typography>
+        </H3>
         <Box mb={2}>
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>

@@ -96,11 +96,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
 
   return (
     <TabContext value={value}>
-      <Container maxWidth={'lg'}>
-        <TabList
-          aria-label='tabs'
-          onChange={handleChange}
-          sx={{background: '#e6f3ec'}}>
+      <TabList
+        aria-label='tabs'
+        onChange={handleChange}
+        sx={{background: '#e6f3ec'}}>
+        <Container maxWidth={'lg'}>
           <Tab
             label={messages['course_details.overview']}
             value={CourseDetailsTabs.TAB_OVERVIEW}
@@ -117,8 +117,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             label={messages['course_details.trainer']}
             value={CourseDetailsTabs.TAB_TRAINER}
           />
-        </TabList>
-      </Container>
+        </Container>
+      </TabList>
+
 
       <Container maxWidth={'lg'}>
         <Box>
@@ -257,41 +258,41 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               {messages['course_details.trainer']}
             </Box>
             {course?.trainers &&
-              course.trainers.map((trainer: any, index: number) => (
-                <Box
-                  key={index}
-                  className={clsx(
-                    classes.dFlexAlignCenter,
-                    classes.trainerBox,
-                  )}>
-                  <Avatar
-                    sx={{height: 60, width: 60}}
-                    src={
-                      'http://lorempixel.com/80/80?id=1' +
-                      trainer?.trainer_name_en
-                    }
-                  />
-                  <Box className={classes.trainerNameAndAboutBox}>
-                    <Box fontWeight={'bold'}>
-                      {trainer?.trainer_name || trainer?.trainer_name_en}
-                    </Box>
-                    <Typography variant={'caption'}>
-                      {trainer?.about}
-                    </Typography>
-                    <Link
-                      href={'#more-courses'}
-                      style={{textDecoration: 'none'}}>
-                      <IntlMessages
-                        id='course_details.view_more_courses_by'
-                        values={{
-                          subject:
-                            trainer?.trainer_name || trainer?.trainer_name_en,
-                        }}
-                      />
-                    </Link>
+            course.trainers.map((trainer: any, index: number) => (
+              <Box
+                key={index}
+                className={clsx(
+                  classes.dFlexAlignCenter,
+                  classes.trainerBox,
+                )}>
+                <Avatar
+                  sx={{height: 60, width: 60}}
+                  src={
+                    'http://lorempixel.com/80/80?id=1' +
+                    trainer?.trainer_name_en
+                  }
+                />
+                <Box className={classes.trainerNameAndAboutBox}>
+                  <Box fontWeight={'bold'}>
+                    {trainer?.trainer_name || trainer?.trainer_name_en}
                   </Box>
+                  <Typography variant={'caption'}>
+                    {trainer?.about}
+                  </Typography>
+                  <Link
+                    href={'#more-courses'}
+                    style={{textDecoration: 'none'}}>
+                    <IntlMessages
+                      id='course_details.view_more_courses_by'
+                      values={{
+                        subject:
+                          trainer?.trainer_name || trainer?.trainer_name_en,
+                      }}
+                    />
+                  </Link>
                 </Box>
-              ))}
+              </Box>
+            ))}
           </Box>
         </Box>
       </Container>

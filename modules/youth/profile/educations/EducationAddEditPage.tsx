@@ -6,7 +6,6 @@ import {processServerSideErrors} from '../../../../@softbd/utilities/validationE
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {Box, Grid, Zoom} from '@mui/material';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -32,6 +31,7 @@ import {
   ResultCodeGrade,
 } from '../utilities/EducationEnums';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface EducationAddEditPageProps {
   itemId: number | null;
@@ -329,7 +329,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           onClose={onEducationEditPageClose}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='education_level_id'
                 label={messages['education.education_level']}
@@ -346,7 +346,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
             {selectedEducationLevel &&
               selectedEducationLevel.code != EducationLevelCodePHD && (
                 <Grid item xs={12} md={6}>
-                  <CustomFormSelect
+                  <CustomFilterableFormSelect
+                    required
                     id='exam_degree_id'
                     label={messages['education.education_exam_degree']}
                     isLoading={isLoadingEducationsData}
@@ -390,6 +391,12 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required={
+                  selectedEducationLevel &&
+                  EducationLevelForMajorGroup.includes(
+                    selectedEducationLevel.code,
+                  )
+                }
                 id='major_or_concentration'
                 label={messages['education.major_group_name_bn']}
                 register={register}
@@ -413,7 +420,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 selectedEducationLevel.code,
               ) && (
                 <Grid item xs={12} md={6}>
-                  <CustomFormSelect
+                  <CustomFilterableFormSelect
+                    required
                     id='edu_board_id'
                     label={messages['education.board']}
                     isLoading={isLoadingEducationsData}
@@ -430,7 +438,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 selectedEducationLevel.code,
               ) && (
                 <Grid item xs={12} md={6}>
-                  <CustomFormSelect
+                  <CustomFilterableFormSelect
+                    required
                     id='edu_group_id'
                     label={messages['education.group']}
                     isLoading={isLoadingEducationsData}
@@ -479,7 +488,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
             {isForeignInstitute && (
               <Grid item xs={12} md={6}>
-                <CustomFormSelect
+                <CustomFilterableFormSelect
+                  required
                   id='foreign_institute_country_id'
                   label={messages['education.foreign_institute_country']}
                   isLoading={isLoadingCountries}
@@ -493,7 +503,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
             )}
 
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='result'
                 label={messages['education.result']}
@@ -511,6 +521,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
               ResultCodeDivisions.includes(selectedResult.code) && (
                 <Grid item xs={12} md={6}>
                   <CustomTextInput
+                    required
                     id='marks_in_percentage'
                     type={'number'}
                     label={messages['education.marks']}
@@ -526,6 +537,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                 <Grid container spacing={3}>
                   <Grid item xs={6} md={6}>
                     <CustomTextInput
+                      required
                       id='cgpa_scale'
                       type={'number'}
                       inputProps={{
@@ -539,6 +551,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
                   </Grid>
                   <Grid item xs={6} md={6}>
                     <CustomTextInput
+                      required
                       id='cgpa'
                       type={'number'}
                       inputProps={{
@@ -556,7 +569,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
             {selectedResult && selectedResult.code != ResultCodeAppeared && (
               <Grid item xs={12} md={6}>
-                <CustomFormSelect
+                <CustomFilterableFormSelect
+                  required
                   id='year_of_passing'
                   label={messages['education.passing_year']}
                   isLoading={isLoading}
@@ -571,7 +585,8 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
 
             {selectedResult && selectedResult.code == ResultCodeAppeared && (
               <Grid item xs={12} md={6}>
-                <CustomFormSelect
+                <CustomFilterableFormSelect
+                  required
                   id='expected_year_of_passing'
                   label={messages['education.expected_passing_year']}
                   isLoading={isLoading}

@@ -4,7 +4,6 @@ import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
 import {
@@ -30,6 +29,7 @@ import RowStatus from '../../@softbd/utilities/RowStatus';
 import {Link} from '../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {useRouter} from 'next/router';
+import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 
 const OrganizationRegistration = () => {
   const router = useRouter();
@@ -206,7 +206,7 @@ const OrganizationRegistration = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='organization_type_id'
                 isLoading={isLoading}
@@ -270,7 +270,7 @@ const OrganizationRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_division_id'
                 label={messages['divisions.label']}
@@ -284,7 +284,7 @@ const OrganizationRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id='loc_district_id'
                 label={messages['districts.label']}
@@ -298,7 +298,7 @@ const OrganizationRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 id='loc_upazila_id'
                 label={messages['upazilas.label']}
                 isLoading={false}

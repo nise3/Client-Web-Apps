@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 const YouthFeedPage = () => {
   const classes: any = useStyles();
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
+  const isSearching = useRef<boolean>(false);
 
   const [filters, setFilters] = useState<any>({page_size: 5});
   const pageIndex = useRef(1);
@@ -72,6 +73,7 @@ const YouthFeedPage = () => {
       newFilter[filterKey] = filterValue;
       pageIndex.current = 1;
       newFilter['page'] = pageIndex.current;
+      isSearching.current = true;
 
       setFilters((prev: any) => {
         return {...prev, ...newFilter};
@@ -82,6 +84,7 @@ const YouthFeedPage = () => {
 
   const onScrollMainPostContent = (e: any) => {
     if (!loadingMainPostData) {
+      isSearching.current = false;
       setFilters((prev: any) => {
         return {...prev, page: pageIndex.current + 1};
       });
@@ -130,6 +133,7 @@ const YouthFeedPage = () => {
                   filters={filters}
                   pageIndex={pageIndex.current}
                   setLoadingMainPostData={setLoadingMainPostData}
+                  isSearching={isSearching.current}
                 />
               </Grid>
             </Grid>

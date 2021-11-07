@@ -19,6 +19,7 @@ import {
   useFetchPublicPrograms,
   useFetchPublicTrainingCenters,
 } from '../../../services/youthManagement/hooks';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface PersonalInfoFormProps {
   course: any;
@@ -183,6 +184,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='first_name'
           label={messages['common.first_name_bn']}
           register={register}
@@ -202,6 +204,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
 
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='last_name'
           label={messages['common.last_name_bn']}
           register={register}
@@ -221,6 +224,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
 
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='mobile'
           label={messages['common.mobile']}
           register={register}
@@ -233,6 +237,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='email'
           label={messages['common.email']}
           register={register}
@@ -245,7 +250,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
 
       <Grid item xs={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
+          required
           id='training_center_id'
           label={messages['training_center.label']}
           isLoading={isLoadingTrainingCenters}
@@ -257,7 +263,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
       <Grid item xs={12} sm={6} md={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id='programme_id'
           label={messages['programme.label']}
           isLoading={isLoadingProgrammes}
@@ -271,6 +277,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
 
       <Grid item xs={12} md={6}>
         <CustomDateTimeField
+          required
           id='date_of_birth'
           label={messages['common.date_of_birth']}
           register={register}
@@ -279,7 +286,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
+          required
           id='marital_status'
           label={messages['common.marital_status']}
           isLoading={false}
@@ -292,7 +300,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
+          required
           id='religion'
           label={messages['common.religion']}
           isLoading={false}
@@ -305,7 +314,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
+          required
           id='nationality'
           label={messages['common.nationality']}
           isLoading={false}
@@ -320,7 +330,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       {visibleFieldKeys &&
         visibleFieldKeys.includes(CourseConfigKeys.FREEDOM_FIGHTER_KEY) && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
               id='freedom_fighter_status'
               label={messages['common.freedom_fighter_status']}
               isLoading={false}

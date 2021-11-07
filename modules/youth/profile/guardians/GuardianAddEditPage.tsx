@@ -7,7 +7,6 @@ import {processServerSideErrors} from '../../../../@softbd/utilities/validationE
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {Box, Grid, Zoom} from '@mui/material';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useFetchGuardian} from '../../../../services/youthManagement/hooks';
@@ -21,6 +20,7 @@ import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -69,7 +69,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
         .required()
         .label(messages['guardian.relationship_type'] as string),
       relationship_title:
-        showOther == 5
+        showOther == 7
           ? yup
               .string()
               .required()
@@ -111,8 +111,8 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           ? getMomentDateFormat(itemData.date_of_birth, 'YYYY-MM-DD')
           : '',
         relationship_type:
-          itemData?.relationship_type === 5
-            ? (setShowOther(5), itemData?.relationship_type)
+          itemData?.relationship_type === 7
+            ? (setShowOther(7), itemData?.relationship_type)
             : (setShowOther(itemData?.relationship_type),
               itemData?.relationship_type),
         relationship_title: itemData?.relationship_title,
@@ -205,7 +205,8 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
+                required
                 id='relationship_type'
                 label={messages['guardian.relationship_type']}
                 isLoading={isLoading}
@@ -217,31 +218,28 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
                 onChange={(value: number) => setShowOther(value)}
               />
             </Grid>
-            {showOther === 5 ? (
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='relationship_title'
-                  label={messages['guardian.relationship_title']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            ) : (
-              ''
-            )}
-            {showOther === 5 ? (
-              <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  id='relationship_title_en'
-                  label={messages['guardian.relationship_title_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            ) : (
-              ''
+            {showOther === 7 && (
+              <React.Fragment>
+                <Grid item xs={12} md={6}>
+                  <CustomTextInput
+                    required
+                    id='relationship_title'
+                    label={messages['guardian.relationship_title']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <CustomTextInput
+                    id='relationship_title_en'
+                    label={messages['guardian.relationship_title_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              </React.Fragment>
             )}
           </Grid>
         </CustomHookForm>

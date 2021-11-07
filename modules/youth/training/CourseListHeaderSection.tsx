@@ -6,7 +6,6 @@ import {
   Container,
   Grid,
   InputAdornment,
-  SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import useStyles from './index.style';
@@ -18,7 +17,7 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import CustomSelectForFilter from './conponents/CustomSelectForFilter';
+import CustomFilterableSelect from './conponents/CustomFilterableSelect';
 
 interface CourseListHeaderSection {
   addFilterKey: (filterKey: string, filterValue: number | null) => void;
@@ -79,8 +78,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {data: programmes} = useFetchProgrammes(programmeFilters);
 
   const handleInstituteFilterChange = useCallback(
-    (event: SelectChangeEvent<any>) => {
-      const instituteId = event.target.value;
+    (instituteId: number | null) => {
       setSelectedInstituteId(instituteId);
       setProgrammeFilters(
         objectFilter({
@@ -97,44 +95,38 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   );
 
   const handleProgrammeFilterChange = useCallback(
-    (event: SelectChangeEvent<any>) => {
-      setSelectedProgrammeId(event.target.value);
-      addFilterKey('program_id', event.target.value);
+    (programId: number | null) => {
+      setSelectedProgrammeId(programId);
+      addFilterKey('program_id', programId);
     },
     [selectedProgrammeId],
   );
 
   const handleAvailabilityChange = useCallback(
-    (event: SelectChangeEvent<any>) => {
-      setSelectedAvailability(event.target.value);
-      addFilterKey('availability', event.target.value);
+    (availability: number | null) => {
+      setSelectedAvailability(availability);
+      addFilterKey('availability', availability);
     },
     [selectedAvailability],
   );
 
-  const handleCourseTypeChange = useCallback(
-    (event: SelectChangeEvent<any>) => {
-      setSelectedcourseTypeId(event.target.value);
-      addFilterKey('course_type', event.target.value);
-    },
-    [],
-  );
+  const handleCourseTypeChange = useCallback((courseType: number | null) => {
+    setSelectedcourseTypeId(courseType);
+    addFilterKey('course_type', courseType);
+  }, []);
 
   const handleLanguageChange = useCallback(
-    (event: SelectChangeEvent<any>) => {
-      setSelectedLanguageId(event.target.value);
-      addFilterKey('language_medium', event.target.value);
+    (languageId: number | null) => {
+      setSelectedLanguageId(languageId);
+      addFilterKey('language_medium', languageId);
     },
     [selectedLanguageId],
   );
 
-  const handleSkillLevelChange = useCallback(
-    (event: SelectChangeEvent<any>) => {
-      setSelectedSkillLevel(event.target.value);
-      addFilterKey('level', event.target.value);
-    },
-    [],
-  );
+  const handleSkillLevelChange = useCallback((skillLevel: number | null) => {
+    setSelectedSkillLevel(skillLevel);
+    addFilterKey('level', skillLevel);
+  }, []);
 
   const onClickResetButton = useCallback(() => {
     setSelectedInstituteId('');
@@ -198,64 +190,76 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
           <Grid item xs={12} md={12}>
             <Grid container spacing={3}>
               <Grid item xs={6} sm={4} md={2}>
-                <CustomSelectForFilter
+                <CustomFilterableSelect
                   id={'institute_id'}
-                  labelId={'select-institute'}
-                  selectedOptionId={selectedInstituteId}
-                  defaultLabel={messages['common.institute'] as string}
-                  onChangeCallback={handleInstituteFilterChange}
+                  defaultValue={selectedInstituteId}
+                  label={messages['common.institute'] as string}
+                  onChange={handleInstituteFilterChange}
                   options={institutes}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
 
               <Grid item xs={6} sm={4} md={2}>
-                <CustomSelectForFilter
+                <CustomFilterableSelect
                   id={'program_id'}
-                  labelId={'select-program'}
-                  selectedOptionId={selectedProgrammeId}
-                  defaultLabel={messages['common.program'] as string}
-                  onChangeCallback={handleProgrammeFilterChange}
+                  defaultValue={selectedProgrammeId}
+                  label={messages['common.program'] as string}
+                  onChange={handleProgrammeFilterChange}
                   options={programmes}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <CustomSelectForFilter
+                <CustomFilterableSelect
                   id={'level'}
-                  labelId={'select-skill-level'}
-                  selectedOptionId={selectedSkillLevel}
-                  defaultLabel={messages['common.skill_level'] as string}
-                  onChangeCallback={handleSkillLevelChange}
+                  defaultValue={selectedSkillLevel}
+                  label={messages['common.skill_level'] as string}
+                  onChange={handleSkillLevelChange}
                   options={SKILL_LEVELS}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <CustomSelectForFilter
+                <CustomFilterableSelect
                   id={'course_type'}
-                  labelId={'select-course-type'}
-                  selectedOptionId={selectedcourseTypeId}
-                  defaultLabel={messages['common.course_type'] as string}
-                  onChangeCallback={handleCourseTypeChange}
+                  defaultValue={selectedcourseTypeId}
+                  label={messages['common.course_type'] as string}
+                  onChange={handleCourseTypeChange}
                   options={COURSE_TYPES}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <CustomSelectForFilter
+                <CustomFilterableSelect
                   id={'availability'}
-                  labelId={'select-availability'}
-                  selectedOptionId={selectedAvailability}
-                  defaultLabel={messages['common.availability'] as string}
-                  onChangeCallback={handleAvailabilityChange}
+                  defaultValue={selectedAvailability}
+                  label={messages['common.availability'] as string}
+                  onChange={handleAvailabilityChange}
                   options={AVAILABILITIES}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
-                <CustomSelectForFilter
+                <CustomFilterableSelect
                   id={'language'}
-                  labelId={'select-language-medium'}
-                  selectedOptionId={selectedLanguageId}
-                  defaultLabel={messages['language.label'] as string}
-                  onChangeCallback={handleLanguageChange}
+                  defaultValue={selectedLanguageId}
+                  label={messages['language.label'] as string}
+                  onChange={handleLanguageChange}
                   options={LANGUAGES}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>

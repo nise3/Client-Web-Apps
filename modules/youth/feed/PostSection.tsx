@@ -19,6 +19,7 @@ interface PostSectionProps {
   filters?: any;
   pageIndex: number;
   setLoadingMainPostData: any;
+  isSearching: boolean;
 }
 
 const filterDuplicateObject = (arr: Array<any>) => {
@@ -31,6 +32,7 @@ const PostSection = ({
   filters,
   pageIndex,
   setLoadingMainPostData,
+  isSearching,
 }: PostSectionProps) => {
   const classes = useStyle();
   const {messages} = useIntl();
@@ -39,7 +41,7 @@ const PostSection = ({
   const [posts, setPosts] = useState<Array<any>>([]);
 
   useEffect(() => {
-    if (pageIndex >= metaData?.total_page) {
+    if (!isSearching && pageIndex >= metaData?.total_page) {
       setLoadingMainPostData(true);
     } else {
       setCourseFilters(objectFilter({...courseFilters, ...filters}));
@@ -62,6 +64,8 @@ const PostSection = ({
           filterDuplicateObject([...prevState, ...courseList]),
         );
       }
+    } else {
+      setPosts([]);
     }
   }, [courseList]);
 
@@ -73,15 +77,21 @@ const PostSection = ({
         </Box>
       </Grid>
 
-      {posts &&
-        posts.length &&
+      {posts && posts.length > 0 ? (
         posts.map((course: any) => {
           return (
             <Grid item xs={12} key={course.id}>
               {<CourseInfoBlock course={course} />}
             </Grid>
           );
-        })}
+        })
+      ) : (
+        <Grid item xs={12}>
+          <Box sx={{textAlign: 'center', fontSize: 20}}>
+            {messages['common.no_data_found']}
+          </Box>
+        </Grid>
+      )}
 
       {isLoadingCourses && (
         <Grid item xs={12}>

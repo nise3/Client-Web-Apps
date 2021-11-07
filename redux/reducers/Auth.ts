@@ -6,10 +6,14 @@ import {
   UPDATE_AUTH_USER,
   USER_LOADED,
 } from '../types/actions/Auth.actions';
-import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
+import {
+  AllAuthUser,
+  CommonAuthUser,
+  YouthAuthUser,
+} from '../types/models/CommonAuthUser';
 
 const INIT_STATE: {
-  user: CommonAuthUser | YouthAuthUser | null;
+  user: CommonAuthUser | YouthAuthUser | AllAuthUser | null;
   token: string | null;
   authAccessTokenData: string | null;
   loading: boolean;
@@ -20,7 +24,7 @@ const INIT_STATE: {
   authAccessTokenData: null,
 };
 
-const Auth = (state = INIT_STATE, action: AppActions) => {
+const Auth = (state = INIT_STATE, action: AppActions): any => {
   switch (action.type) {
     case UPDATE_AUTH_USER: {
       return {

@@ -7,6 +7,7 @@ import {Fade} from 'react-awesome-reveal';
 import {Assignment, HomeWork, People, PeopleAlt} from '@mui/icons-material';
 import UnderlinedHeading from './UnderlinedHeading';
 import {H4, H5} from '../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,24 +53,27 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const InfoCardSection = () => {
   const classes = useStyles();
+  const {messages, formatNumber} = useIntl();
 
   return (
     <Grid container xl={12} className={classes.root}>
       <Container maxWidth='lg' className={classes.rootMobileView}>
         <Fade direction='up'>
-          <UnderlinedHeading>একনজরে</UnderlinedHeading>
+          <UnderlinedHeading>
+            {messages['institute_home.at_a_glance']}
+          </UnderlinedHeading>
           <H5 gutterBottom={true} className={classes.subheading}>
-            কোর্স ম্যানেজমেন্ট সিস্টেমের পরিসংখ্যান
+            {messages['institute_home.course_management_stat']}
           </H5>
           <Grid container spacing={6}>
             <Grid item xs={12} sm={6} md={3}>
               <Card className={classes.boxItem}>
                 <Assignment className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  ১০ টি
+                  {formatNumber(10)} {messages['institute_home.ti']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
-                  বিষয়ে প্রশিক্ষণ প্রদান
+                  {messages['institute_home.total_course_subject']}
                 </H5>
               </Card>
             </Grid>
@@ -77,10 +81,10 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <PeopleAlt className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  ১০ জন
+                  {formatNumber(10)} {messages['institute_home.people']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
-                  যুবক প্রশিক্ষণ গ্রহন করেছেন
+                  {messages['institute_home.total_youth_trained']}
                 </H5>
               </Card>
             </Grid>
@@ -88,10 +92,10 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <HomeWork className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  ১০ টি
+                  {formatNumber(10)} {messages['institute_home.ti']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
-                  প্রশিক্ষণ কেন্দ্র
+                  {messages['institute_home.total_training_center']}
                 </H5>
               </Card>
             </Grid>
@@ -99,10 +103,10 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <People className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  ১০ জন
+                  {formatNumber(10)} {messages['institute_home.people']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
-                  দক্ষ প্রশিক্ষক
+                  {messages['institute_home.total_skilled_trainer']}
                 </H5>
               </Card>
             </Grid>

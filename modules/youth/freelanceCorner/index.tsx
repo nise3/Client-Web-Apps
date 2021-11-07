@@ -13,7 +13,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
@@ -26,7 +25,7 @@ import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
-import CustomSelectForFilter from '../training/conponents/CustomSelectForFilter';
+import CustomFilterableSelect from '../training/conponents/CustomFilterableSelect';
 
 const useStyles = makeStyles((theme: CremaTheme) => ({
   container: {
@@ -80,8 +79,8 @@ const FreelanceCorner = () => {
     setSearchInputText(searchTextField.current?.value);
   }, []);
 
-  const handleUpazilaChange = useCallback((event: SelectChangeEvent<any>) => {
-    setSelectedUpazilaId(event.target.value);
+  const handleUpazilaChange = useCallback((upazilaId: number | null) => {
+    setSelectedUpazilaId(upazilaId);
   }, []);
 
   const handleToggle = useCallback(
@@ -146,13 +145,15 @@ const FreelanceCorner = () => {
                     {messages['freelance_corner.specific_location']}
                   </Box>
 
-                  <CustomSelectForFilter
+                  <CustomFilterableSelect
                     id={'upazila_id'}
-                    labelId={'select-upazila-id'}
-                    selectedOptionId={selectedUpazilaId}
-                    defaultLabel={messages['upazilas.label'] as string}
-                    onChangeCallback={handleUpazilaChange}
+                    defaultValue={selectedUpazilaId}
+                    label={messages['upazilas.label'] as string}
+                    onChange={handleUpazilaChange}
                     options={upazilas || []}
+                    isLoading={false}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title', 'title_en']}
                   />
                 </CardContent>
               </Card>

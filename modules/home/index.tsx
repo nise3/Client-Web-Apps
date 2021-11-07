@@ -12,7 +12,7 @@ import BdMap from './BdMap';
 
 const Home = () => {
   return (
-    <>
+    <div style={{background: '#fff'}}>
       <CoverArea />
       <InfoCardSection />
       <SelfAssessment />
@@ -23,7 +23,7 @@ const Home = () => {
       <PopularCourse />
       <SkillMatchingJobs />
       <Partners />
-    </>
+    </div>
   );
 };
 

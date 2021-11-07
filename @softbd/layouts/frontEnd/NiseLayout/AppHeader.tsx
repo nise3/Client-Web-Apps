@@ -8,10 +8,7 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import useStyles from './AppHeader.style';
-import {CastForEducation, ExitToApp, Home} from '@mui/icons-material';
-// import WorkIcon from '@mui/icons-material/Work';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import {ExitToApp, LocalActivityOutlined} from '@mui/icons-material';
 import {Button, Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
@@ -34,6 +31,7 @@ import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/Go
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
+
 interface AppHeaderProps {}
 
 const AppHeader: React.FC<AppHeaderProps> = () => {
@@ -70,12 +68,13 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_ROOT}>
-          <Home className={classes.menuIcons} /> {messages['menu.home']}
+          <HomeOutlinedIcon className={classes.menuIcons} />{' '}
+          {messages['menu.home']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_TRAINING}>
-          <CastForEducation className={classes.menuIcons} />{' '}
+          <CastForEducationOutlinedIcon className={classes.menuIcons} />{' '}
           {messages['menu.training']}
         </Link>
       </MenuItem>
@@ -86,13 +85,13 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       </MenuItem>*/}
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
-          <ListAltIcon className={classes.menuIcons} />{' '}
+          <ContentPasteOutlinedIcon className={classes.menuIcons} />{' '}
           {messages['menu.notice']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}>
-          <LocalActivityIcon className={classes.menuIcons} />
+          <LocalActivityOutlined className={classes.menuIcons} />
           {messages['menu.recent_activity']}
         </Link>
       </MenuItem>
@@ -153,7 +152,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}>
-                    <LocalActivityIcon
+                    <LocalActivityOutlined
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
