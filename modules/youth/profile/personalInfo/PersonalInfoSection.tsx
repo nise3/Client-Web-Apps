@@ -167,31 +167,28 @@ const PersonalInfoSection = () => {
                 text2={messages['common.experience'] as string}
               />
             </Grid>
+            <Divider
+              orientation='vertical'
+              flexItem
+              className={classes.dividerStyle}
+            />
 
-            {authUser?.total_certificates && (
-              <React.Fragment>
-                <Divider
-                  orientation='vertical'
-                  flexItem
-                  className={classes.dividerStyle}
-                />
-
-                <Grid item>
-                  <SkillInfo
-                    icon={<Verified color={'primary'} />}
-                    text1={
-                      getIntlNumber(
-                        formatNumber,
-                        authUser?.total_certificates,
-                      ) +
-                      ' ' +
-                      (messages['common.certificate'] as string)
-                    }
-                    text2={messages['common.achieved'] as string}
-                  />
-                </Grid>
-              </React.Fragment>
-            )}
+            <Grid item>
+              <SkillInfo
+                icon={<Verified color={'primary'} />}
+                text1={
+                  getIntlNumber(
+                    formatNumber,
+                    authUser?.total_certificates
+                      ? authUser.total_certificates
+                      : '0',
+                  ) +
+                  ' ' +
+                  (messages['common.certificate'] as string)
+                }
+                text2={messages['common.achieved'] as string}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>

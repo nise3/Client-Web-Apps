@@ -133,7 +133,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           </Typography>
         )}
 
-        {course.progress && (
+        {!isNaN(course.progress) && (
           <Box sx={{width: '100%', marginTop: '10px'}}>
             <LinearProgress variant='determinate' value={course.progress} />
             <Box>
