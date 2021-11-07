@@ -123,12 +123,6 @@ export const API_FRONT_END_ALL_ACTIVITY_LIST =
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';
 
-/** Routes for faq page */
-export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
-
-/** Routes for faq page */
-export const API_FRONT_SC = '/sc';
-
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
 export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
@@ -141,3 +135,8 @@ export const API_YOUTH_FEED_STATISTICS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_NOTICE_BOARD = '/notice-board/';
+
+/** Routes for FAQ page */
+export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
+export const API_FRONT_SC = '/sc';
+export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';

@@ -833,5 +833,9 @@
   "common.map_of_bangladesh": "Map of Bangladesh",
   "certificate.to": "to",
   "education.cgpa_out_of_scale": "{cgpa} out of {scale}",
-  "course_details.enrolled": "{total} enrolled"
+  "course_details.enrolled": "{total} enrolled",
+  "cms.label": "CMS",
+  "faq.show_in": "Show In",
+  "faq.question": "Question",
+  "faq.answer": "Answer"
 }
