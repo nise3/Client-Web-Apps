@@ -885,5 +885,7 @@
   "cms.label": "সিএমএস",
   "faq.show_in": "যেখানে দেখাবেন",
   "faq.question": "প্রশ্ন",
-  "faq.answer": "উত্তর"
+  "faq.answer": "উত্তর",
+  "institute_home.people": "জন",
+  "common.content": "কনটেন্ট"
 }

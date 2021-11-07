@@ -12,6 +12,8 @@ import {
   API_FRONT_END_FAQ,
   API_FRONT_SC,
   API_NOTICE_BOARD,
+  API_FRONT_END_VIDEO,
+  API_FRONT_END_GALLERY,
 } from '../common/apiRoutes';
 import videos, {videosCategories} from '../mock-db/videos';
 import galleries, {galleryCategories} from '../mock-db/gallery';
@@ -67,6 +69,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(API_FRONT_SC).reply(200, {data: staticContent[0]});
 
   mock.onGet(API_NOTICE_BOARD).reply(200, {data: noticeList});
+
+  mock.onGet(API_FRONT_END_VIDEO).reply(200, {data: videos[0]});
+
+  mock.onGet(API_FRONT_END_GALLERY).reply(200, {data: galleries[0]});
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();
