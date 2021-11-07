@@ -5,18 +5,6 @@ import {API_TRAINERS} from '../../@softbd/common/apiRoutes';
 /**
  * @deprecated
  */
-export const getAllTrainers = async (params = {}) => {
-  try {
-    let response: any = await apiGet(API_TRAINERS, {params});
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-/**
- * @deprecated
- */
 export const getTrainer = async (trainerId: number) => {
   try {
     let response: any = await apiGet(API_TRAINERS + '/' + trainerId);

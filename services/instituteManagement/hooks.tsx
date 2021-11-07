@@ -18,6 +18,8 @@ import {
   API_FRONT_END_FAQ,
   API_PUBLIC_COURSE_LIST,
   API_COURSE_ENROLLMENTS,
+  API_FRONT_END_VIDEO,
+  API_FRONT_END_GALLERY,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -76,6 +78,22 @@ export function useFetchCourse(courseId: number | null) {
 
 export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
+}
+
+export function useFetchVideos(params: any) {
+  return useAxiosSWR([API_FRONT_END_VIDEOS_LIST, params]);
+}
+
+export function useFetchVideo(videoId: number | null) {
+  return useAxiosSWR(API_FRONT_END_VIDEO);
+}
+
+export function useFetchGalleries(params: any) {
+  return useAxiosSWR([API_FRONT_END_GALLERY_LIST, params]);
+}
+
+export function useFetchGallery(videoId: number | null) {
+  return useAxiosSWR(API_FRONT_END_GALLERY);
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {
