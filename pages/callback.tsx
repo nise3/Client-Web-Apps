@@ -11,7 +11,7 @@ export default DefaultPage(() => {
     const authResult: any = queryString.parse(
       window.location.hash.replace('#', ''),
     );
-    console.log('authResult', authResult);
+    // console.log('authResult', authResult);
     dispatch(onSSOSignInCallback(authResult));
   }, [dispatch]);
 
