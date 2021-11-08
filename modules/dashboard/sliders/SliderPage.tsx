@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -13,9 +12,10 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
+import IconSlider from '../../../@softbd/icons/IconSlider';
+import {deleteSlider} from '../../../services/cmsManagement/SliderService';
 
 const SliderPage = () => {
   const {messages} = useIntl();
@@ -56,13 +56,13 @@ const SliderPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteJobSectorItem = async (itemId: number) => {
-    let response = await deleteJobSector(itemId);
+  const deleteSliderItem = async (itemId: number) => {
+    let response = await deleteSlider(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
+          values={{subject: <IntlMessages id='slider.label' />}}
         />,
       );
 
@@ -95,6 +95,41 @@ const SliderPage = () => {
         isVisible: false,
       },
       {
+        Header: messages['common.sub_title'],
+        accessor: 'sub_title',
+        isVisible: false,
+      },
+      {
+        Header: messages['institute.label'],
+        accessor: 'institute_id',
+        isVisible: false,
+      },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_id',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.button_text'],
+        accessor: 'button_text',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.link'],
+        accessor: 'link',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.alt_title'],
+        accessor: 'alt_title',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.banner_template'],
+        accessor: 'banner_template',
+        isVisible: false,
+      },
+      {
         Header: messages['common.status'],
         accessor: 'row_status',
         filter: 'rowStatusFilter',
@@ -112,7 +147,7 @@ const SliderPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteJobSectorItem(data.id)}
+                deleteAction={() => deleteSliderItem(data.id)}
                 deleteTitle={'Are you sure?'}
               />
             </DatatableButtonGroup>
@@ -129,7 +164,7 @@ const SliderPage = () => {
       <PageBlock
         title={
           <>
-            <IconJobSector /> <IntlMessages id='job_sectors.label' />
+            <IconSlider /> <IntlMessages id='slider.label' />
           </>
         }
         extra={[
@@ -141,7 +176,7 @@ const SliderPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['job_sectors.label'],
+                  subject: messages['slider.label'],
                 }}
               />
             }

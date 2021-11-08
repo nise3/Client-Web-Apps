@@ -878,5 +878,16 @@
   "cms.label": "CMS",
   "faq.show_in": "Show In",
   "faq.question": "Question",
-  "faq.answer": "Answer"
+  "faq.answer": "Answer",
+  "slider.label": "Slider",
+  "common.sub_title": "Sub title",
+  "common.banner_template": "Banner Template",
+  "common.alt_title": "Alter Title",
+  "common.is_button_available": "Is button available?",
+  "visitor_feedback.label": "Visitor Feedback",
+  "common.read_at" : "Read at",
+  "common.achieved_at" : "Achieved at",
+  "common.comment" : "Comment",
+  "organization_association.label" : "Organization association"
+
 }

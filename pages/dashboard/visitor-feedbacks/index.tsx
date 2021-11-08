@@ -4,15 +4,16 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const SliderPage = asyncComponent(
-  () => import('../../../modules/dashboard/sliders/SliderPage'),
+const VisitorFeedbackPage = asyncComponent(
+  () =>
+    import('../../../modules/dashboard/visitorFeedbacks/VisitorFeedbackPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.slider'] as string} />
-      <SliderPage />
+      <PageMeta title={messages['visitor_feedback.label'] as string} />
+      <VisitorFeedbackPage />
     </>
   );
 });

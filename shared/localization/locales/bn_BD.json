@@ -886,5 +886,17 @@
   "cms.label": "সিএমএস",
   "faq.show_in": "যেখানে দেখাবেন",
   "faq.question": "প্রশ্ন",
-  "faq.answer": "উত্তর"
+  "faq.answer": "উত্তর",
+  "slider.label": "স্লাইডার",
+  "common.sub_title": "সাবটাইটেল",
+  "common.button_text": "বাটন টেক্সট",
+  "common.link": "লিঙ্ক",
+  "common.banner_template": "ব্যানার টেম্পলেট",
+  "common.alt_title": "আলটার টাইটেল",
+  "common.is_button_available": "বাটন আছে?",
+  "visitor_feedback.label": "ভিজিটর ফিডব্যাক",
+  "common.read_at" : "পড়া হইয়াছে",
+  "common.achieved_at" : "অর্জিত হইয়াছে",
+  "common.comment" : "কমেন্ট",
+  "organization_association.label" : "সংস্থা সংঘ"
 }

@@ -23,13 +23,13 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'sm'}
+        maxWidth={'md'}
         open={true}
         {...props}
         title={
           <>
             <WorkOutline />
-            <IntlMessages id='job_sectors.label' />
+            <IntlMessages id='slider.label' />
           </>
         }
         actions={
@@ -42,17 +42,68 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
+              label={messages['common.sub_title']}
+              value={itemData?.sub_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          {itemData?.institute_title && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute_label']}
+                value={itemData?.institute_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+
+          {itemData?.organization_title && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['organization_label']}
+                value={itemData?.organization_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.is_button_available']}
+              value={itemData?.is_button_available}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.link']}
+              value={itemData?.link}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.button_text']}
+              value={itemData?.button_text}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.alt_title']}
+              value={itemData?.alt_title}
               isLoading={isLoading}
             />
           </Grid>
