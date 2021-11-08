@@ -2602,6 +2602,14 @@
     resolve-from "^5.0.0"
     store2 "^2.12.0"
 
+"@tinymce/tinymce-react@^3.13.0":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-react/-/tinymce-react-3.13.0.tgz#51ae6dbaa4076efde3389229d61c38e4533bc5ee"
+  integrity sha512-8+OHYIUP9W5D5z7gknausaG48ovQtEvjcK4c+zpha7QppRVVX0ltaINpo10V6Vb4qj9Jf7ZFfZpMRxxcFL2YvQ==
+  dependencies:
+    prop-types "^15.6.2"
+    tinymce "^5.5.1"
+
 "@types/braces@*":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/braces/-/braces-3.0.1.tgz#5a284d193cfc61abb2e5a50d36ebbc50d942a32b"
@@ -2694,6 +2702,13 @@
   integrity sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==
   dependencies:
     "@types/istanbul-lib-report" "*"
+
+"@types/jquery@*":
+  version "3.5.8"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.8.tgz#83bfbcdf4e625c5471590f92703c06aadb052a09"
+  integrity sha512-cXk6NwqjDYg+UI9p2l3x0YmPa4m7RrXqmbK4IpVVpRJiYXU/QTo+UZrn54qfE1+9Gao4qpYqUnxm5ZCy2FTXAw==
+  dependencies:
+    "@types/sizzle" "*"
 
 "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8":
   version "7.0.9"
@@ -2887,6 +2902,11 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/sizzle@*":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.3.tgz#ff5e2f1902969d305225a047c8a0fd5c915cebef"
+  integrity sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==
+
 "@types/source-list-map@*":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
@@ -2896,6 +2916,13 @@
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.8.tgz#b94a4391c85666c7b73299fd3ad79d4faa435310"
   integrity sha512-ipixuVrh2OdNmauvtT51o3d8z12p6LtFW9in7U79der/kwejjdNchQC5UMn5u/KxNoM7VHHOs/l8KS8uHxhODQ==
+
+"@types/tinymce@^4.6.4":
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/@types/tinymce/-/tinymce-4.6.4.tgz#c31d72ba55147233e2b8fa8ebb81960f23d74c32"
+  integrity sha512-7xo9AnZO9DXdS41zxmKHDzOEo+yxdj9KaZXokSLDYeZ9KcbzIHJJBppRrCoDA8PH2+k79Qj68B+Yj/ye2xQzow==
+  dependencies:
+    "@types/jquery" "*"
 
 "@types/uglify-js@*":
   version "3.13.1"
@@ -11287,6 +11314,11 @@ tinycolor2@^1.4.1:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
+
+tinymce@^5.5.1:
+  version "5.10.1"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.10.1.tgz#e0a360c7cc42e3e8ba2ac8a523166eca3493a880"
+  integrity sha512-aIsFTYiuESpoYkCgkoojpVtPwrSvYBxp4mMEGsj20CnUruLCWosywkbYHDII+j7KlQZZn3p+xK89f5gT3QyuGw==
 
 tmpl@1.0.x:
   version "1.0.5"
