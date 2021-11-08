@@ -878,5 +878,8 @@
   "cms.label": "CMS",
   "faq.show_in": "Show In",
   "faq.question": "Question",
-  "faq.answer": "Answer"
+  "faq.answer": "Answer",
+  "partner.main_image_path": "Main Image Path",
+  "partner.thumb_image_path": "Thumb Image Path",
+  "partner.grid_image_path": "Grid Image Path"
 }
