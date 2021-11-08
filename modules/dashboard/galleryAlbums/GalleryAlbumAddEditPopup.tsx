@@ -192,7 +192,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     if (itemData) {
       reset({
         title: itemData?.title,
-        institute_id: itemData?.title,
+        institute_id: itemData?.institute_id,
         parent_gallery_album_id: itemData?.parent_gallery_album_id,
         organization_id: itemData?.organization_id,
         batch_id: itemData?.batch_id,

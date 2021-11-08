@@ -55,7 +55,7 @@ const GalleryAlbumPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='common.gallery_albums' />}}
+          values={{subject: <IntlMessages id='common.gallery_album' />}}
         />,
       );
       await refreshDataTable();
