@@ -53,7 +53,7 @@ const FAQPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='institute.label' />}}
+          values={{subject: <IntlMessages id='menu.faq' />}}
         />,
       );
 
@@ -77,19 +77,19 @@ const FAQPage = () => {
       },
       {
         Header: messages['faq.show_in'],
-        accessor: 'show_in',
-      },
-      {
-        Header: messages['common.name'],
         accessor: 'show_in_label',
       },
       {
+        Header: messages['common.name'],
+        accessor: 'name',
+      },
+      {
         Header: messages['faq.question'],
-        accessor: 'question',
+        accessor: 'question_short',
       },
       {
         Header: messages['faq.answer'],
-        accessor: 'answer',
+        accessor: 'answer_short',
       },
       {
         Header: messages['common.actions'],
@@ -117,6 +117,35 @@ const FAQPage = () => {
       urlPath: API_ALL_FAQS,
     });
 
+  let modifiedData = data?.map((faq: any) => {
+    let name: string = '',
+      question_short: string = '',
+      answer_short: string = '';
+    if (parseInt(faq?.show_in) === 1) {
+      name = 'NISE3';
+    } else if (parseInt(faq?.show_in) === 2) {
+      name = 'Youth';
+    } else if (parseInt(faq?.show_in) === 3) {
+      name = faq?.institute_title;
+    } else if (parseInt(faq?.show_in) === 4) {
+      name = faq?.organization_title;
+    } else if (parseInt(faq?.show_in) === 5) {
+      name = faq?.industry_association_title;
+    } else {
+      name = '';
+    }
+
+    question_short = faq?.question ? faq?.question.substr(0, 25) + '.....' : '';
+    answer_short = faq?.answer ? faq?.answer.substr(0, 25) + '.....' : '';
+
+    return {
+      ...faq,
+      name,
+      question_short,
+      answer_short,
+    };
+  });
+
   return (
     <>
       <PageBlock
@@ -140,15 +169,17 @@ const FAQPage = () => {
             }
           />,
         ]}>
-        <ReactTable
-          columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={isToggleTable}
-        />
+        {modifiedData && (
+          <ReactTable
+            columns={columns}
+            data={modifiedData}
+            fetchData={onFetchData}
+            loading={loading}
+            pageCount={pageCount}
+            totalCount={totalCount}
+            toggleResetTable={isToggleTable}
+          />
+        )}
         {isOpenAddEditModal && (
           <FAQAddEditPopup
             key={1}
@@ -157,7 +188,6 @@ const FAQPage = () => {
             refreshDataTable={refreshDataTable}
           />
         )}
-
         {isOpenDetailsModal && selectedItemId && (
           <FAQDetailsPopup
             key={1}
