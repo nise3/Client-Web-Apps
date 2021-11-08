@@ -888,5 +888,10 @@
   "common.read_at" : "Read at",
   "common.achieved_at" : "Achieved at",
   "common.comment" : "Comment",
-  "organization_association.label" : "Organization association"
+  "organization_association.label" : "Organization association",
+  "common.show_in": "Show in",
+  "common.content_slug_or_id": "Content slug or Id",
+  "common.content_type": "Content type",
+  "common.content": "Content"
 }
+
