@@ -16,6 +16,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
+import { useFetchPartners } from '../../../services/cmsManagement/hooks';
 
 const Nise3PartnersPage = () => {
   const {messages} = useIntl();
@@ -26,7 +27,8 @@ const Nise3PartnersPage = () => {
     data: jobSectors,
     isLoading,
     mutate: mutateJobSectors,
-  }: any = useFetchJobSectors(jobSectorFilters);
+  // }: any = useFetchJobSectors(jobSectorFilters);
+  }: any = useFetchPartners(jobSectorFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -90,19 +92,10 @@ const Nise3PartnersPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
+        Header: messages['common.code'],
+        accessor: 'code',
       },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },
+      
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

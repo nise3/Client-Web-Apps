@@ -141,3 +141,4 @@ export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 export const API_FRONT_SC = '/sc';
 export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
+export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
