@@ -1,6 +1,8 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PARTNERS} from '../../@softbd/common/apiRoutes';
+// import { useAxiosSWR } from '../../@softbd/hooks/useAxiosSWR';
+import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 
 /**
  * @deprecated
@@ -14,17 +16,19 @@ export const getAllPartners = async (params = {}) => {
   }
 };
 
-/**
- * @deprecated
- */
-export const getPartner = async (partnerId: number) => {
-  try {
-    let response: any = await apiGet(API_PARTNERS + '/' + partnerId);
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
+// export function getPartner(partnerId: number){
+//   return useAxiosSWR(API_PARTNERS + '/' + partnerId);
+//   // try {
+//   //   let response: any = await apiGet(API_PARTNERS + '/' + partnerId);
+//   //   return response.data;
+//   // } catch (error) {
+//   //   catchBlockHandler(error);
+//   // }
+// };
+
+export function useFetchPartner(partnerId: number) {
+  return useAxiosSWR(API_PARTNERS + '/' + partnerId);
+}
 
 export const createPartner = async (data: Partner) => {
   try {

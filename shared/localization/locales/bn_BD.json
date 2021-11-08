@@ -886,5 +886,8 @@
   "cms.label": "সিএমএস",
   "faq.show_in": "যেখানে দেখাবেন",
   "faq.question": "প্রশ্ন",
-  "faq.answer": "উত্তর"
+  "faq.answer": "উত্তর",
+  "partner.main_image_path": "মূল ছবির ইউআরএল",
+  "partner.thumb_image_path": "থাম ছবির ইউআরএল",
+  "partner.grid_image_path": "গ্রীড ছবির ইউআরএল"
 }

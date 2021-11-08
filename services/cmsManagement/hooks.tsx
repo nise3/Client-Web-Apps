@@ -7,5 +7,5 @@ export function useFetchCMSGlobalConfig() {
 }
 
 export function useFetchPartners(params: any) {
-  return useAxiosSWR(API_PARTNERS, params);
+  return useAxiosSWR(API_PARTNERS);
 }
