@@ -6,7 +6,7 @@ import {
   API_COURSES,
   API_FONT_END_CONTACT_MAP,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
-  API_FRONT_END_GALLERY_LIST,
+  API_GALLERY_ALBUMS,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_END_VIDEOS_LIST,
   API_INSTITUTES,
@@ -19,7 +19,6 @@ import {
   API_PUBLIC_COURSE_LIST,
   API_COURSE_ENROLLMENTS,
   API_FRONT_END_VIDEO,
-  API_FRONT_END_GALLERY,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -31,7 +30,7 @@ export function useFetchInstitutes(params: any) {
 }
 
 export function useFetchInstitutesGallery() {
-  return useAxiosSWR(API_FRONT_END_GALLERY_LIST);
+  return useAxiosSWR(API_GALLERY_ALBUMS);
 }
 
 export function useFetchInstitutesGalleryCategory() {
@@ -88,12 +87,14 @@ export function useFetchVideo(videoId: number | null) {
   return useAxiosSWR(API_FRONT_END_VIDEO);
 }
 
-export function useFetchGalleries(params: any) {
-  return useAxiosSWR([API_FRONT_END_GALLERY_LIST, params]);
+export function useFetchGalleryAlbums(params: any) {
+  return useAxiosSWR([API_GALLERY_ALBUMS, params]);
 }
 
-export function useFetchGallery(videoId: number | null) {
-  return useAxiosSWR(API_FRONT_END_GALLERY);
+export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
+  return useAxiosSWR(
+    galleryAlbumId ? API_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
+  );
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {

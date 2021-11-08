@@ -7,17 +7,18 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import GalleryAddEditPopup from './GalleryAddEditPopup';
-import GalleryDetailsPopup from './GalleryDetailsPopup';
+import GalleryAlbumAddEditPopup from './GalleryAlbumAddEditPopup';
+import GalleryAlbumDetailsPopup from './GalleryAlbumDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconVideo from '../../../@softbd/icons/IconVideo';
-import {deleteGallery} from '../../../services/instituteManagement/GalleryService';
+import {deleteGallery} from '../../../services/cmsManagement/GalleryAlbumService';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_FRONT_END_GALLERY_LIST} from '../../../@softbd/common/apiRoutes';
+import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
-const GalleriesPage = () => {
+const GalleryAlbumPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -26,7 +27,7 @@ const GalleriesPage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
-    useReactTableFetchData({urlPath: API_FRONT_END_GALLERY_LIST});
+    useReactTableFetchData({urlPath: API_GALLERY_ALBUMS});
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -54,7 +55,7 @@ const GalleriesPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='galleries.institute' />}}
+          values={{subject: <IntlMessages id='common.gallery_albums' />}}
         />,
       );
       await refreshDataTable();
@@ -80,10 +81,23 @@ const GalleriesPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.content'],
-        accessor: 'content',
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: false,
       },
-
+      {
+        Header: messages['gallery_album.featured_status'],
+        accessor: 'featured',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -120,7 +134,7 @@ const GalleriesPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['galleries.institute'],
+                  subject: messages['common.gallery_album'],
                 }}
               />
             }
@@ -136,7 +150,7 @@ const GalleriesPage = () => {
           totalCount={totalCount}
         />
         {isOpenAddEditModal && (
-          <GalleryAddEditPopup
+          <GalleryAlbumAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -145,7 +159,7 @@ const GalleriesPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <GalleryDetailsPopup
+          <GalleryAlbumDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -157,4 +171,4 @@ const GalleriesPage = () => {
   );
 };
 
-export default GalleriesPage;
+export default GalleryAlbumPage;

@@ -1,21 +1,21 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {
-  API_FRONT_END_GALLERY,
-  API_FRONT_END_GALLERY_LIST,
-} from '../../@softbd/common/apiRoutes';
+import {API_GALLERY_ALBUMS} from '../../@softbd/common/apiRoutes';
 
 export const createGallery = async (data: any) => {
   try {
-    let response: any = await apiPost(API_FRONT_END_GALLERY_LIST, data);
+    let response: any = await apiPost(API_GALLERY_ALBUMS, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
 };
-export const updateGallery = async (galleryId: number, data: any) => {
+export const updateGalleryAlbum = async (galleryAlbumId: number, data: any) => {
   try {
-    let response: any = await apiPut(API_FRONT_END_GALLERY, data);
+    let response: any = await apiPut(
+      API_GALLERY_ALBUMS + '/' + galleryAlbumId,
+      data,
+    );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -24,9 +24,7 @@ export const updateGallery = async (galleryId: number, data: any) => {
 
 export const deleteGallery = async (galleryId: number) => {
   try {
-    let response: any = await apiDelete(
-      API_FRONT_END_GALLERY_LIST + '/' + galleryId,
-    );
+    let response: any = await apiDelete(API_GALLERY_ALBUMS + '/' + galleryId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

@@ -6,8 +6,9 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {useFetchGallery} from '../../../services/instituteManagement/hooks';
 import IconGallery from '../../../@softbd/icons/IconGallery';
+import {useFetchGalleryAlbum} from '../../../services/instituteManagement/hooks';
+import {showIns} from './GalleryAlbumAddEditPopup';
 
 type Props = {
   itemId: number;
@@ -15,10 +16,9 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const GalleryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchGallery(itemId);
-  console.log('itemData', itemData);
+  const {data: itemData, isLoading} = useFetchGalleryAlbum(itemId);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -46,13 +46,6 @@ const GalleryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
@@ -60,16 +53,43 @@ const GalleryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.content']}
-              value={itemData?.content}
+              label={messages['gallery_album.featured_status']}
+              value={itemData?.featured}
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.cover_image']}
-              value={itemData?.image_url}
+              label={messages['gallery_album.album_type']}
+              value={itemData?.album_type}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['institute.label']}
+              value={itemData?.institute_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.show_in']}
+              value={showIns[itemData?.show_in - 1]?.label}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['gallery_album.parent_gallery_album']}
+              value={itemData?.parent_gallery_album_id}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['organization.label']}
+              value={itemData?.organization_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -79,4 +99,4 @@ const GalleryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default GalleryDetailsPopup;
+export default GalleryAlbumDetailsPopup;

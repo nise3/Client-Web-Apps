@@ -5,13 +5,13 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const GalleriesPage = asyncComponent(
-  () => import('../../../modules/dashboard/galleries/GalleriesPage'),
+  () => import('../../../modules/dashboard/galleryAlbums/GalleryAlbumPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['galleries.institute']} />
+      <PageMeta title={messages['common.gallery_album']} />
       <GalleriesPage />
     </>
   );
