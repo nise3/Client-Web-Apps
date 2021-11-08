@@ -140,3 +140,4 @@ export const API_NOTICE_BOARD = '/notice-board/';
 export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 export const API_FRONT_SC = '/sc';
 export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
+export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
