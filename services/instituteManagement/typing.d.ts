@@ -97,6 +97,25 @@ type Branch = {
   deleted_at?: string;
 };
 
+type Partner = {
+  id: number;
+  title_en?: string;
+  title: string;
+  // institute_id: number | string;
+  // institute_title_en?: string;
+  // address?: string;
+  // address_en?: string;
+  // loc_division_id: number | string;
+  // loc_district_id: number | string;
+  // loc_upazila_id: number | string;
+  // google_map_src?: string;
+  // row_status: string;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
+};
+
+
 type TrainingCenter = {
   id: number;
   title_en?: string;
