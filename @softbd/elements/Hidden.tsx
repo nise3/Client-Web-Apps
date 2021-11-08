@@ -82,7 +82,7 @@ export interface HiddenProps {
   xsUp?: boolean;
 }
 
-export default function (props: HiddenProps) {
+export default function Hidden(props: HiddenProps) {
   const {
     // implementation = 'js',
     lgDown = false,
