@@ -92,7 +92,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const handleUpazilaChange = useCallback(
     (event: any) => {
       setSelectedUpazilaId(event.target.value);
-      addFilter('upazila_id', event.target.value);
+      addFilter('loc_upazila_id', event.target.value);
     },
     [selectedUpazilaId],
   );

@@ -878,5 +878,6 @@
   "faq.question": "Question",
   "faq.answer": "Answer",
   "institute_home.people": "",
-  "common.content": "Content"
+  "common.content": "Content",
+  "common.no_freelancer_found": "No Freelancer Found!"
 }

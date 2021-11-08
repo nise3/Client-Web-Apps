@@ -4,7 +4,7 @@ import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
-import {useFetchAllCourseList} from '../../../services/youthManagement/hooks';
+import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 
@@ -53,7 +53,7 @@ const PostSection = ({
     data: courseList,
     isLoading: isLoadingCourses,
     metaData,
-  } = useFetchAllCourseList(courseFilters);
+  } = useFetchCourseList('recent', courseFilters);
 
   useEffect(() => {
     if (courseList && courseList.length) {
