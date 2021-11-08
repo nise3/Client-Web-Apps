@@ -54,9 +54,6 @@ const BdMap = () => {
           <Grid
             container
             spacing={2}
-            xs={12}
-            sm={6}
-            md={5}
             justifyContent={'center'}
             alignItems={'center'}
             className={classes.mapButtonGroup}>
