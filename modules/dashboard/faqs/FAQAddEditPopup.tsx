@@ -1,20 +1,14 @@
 import {Grid} from '@mui/material';
-import {
-  createInstitute,
-  updateInstitute,
-} from '../../../services/instituteManagement/InstituteService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import {getValuesFromObjectArray} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -22,12 +16,15 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {
+  createFAQ,
   getAllIndustries,
   getAllInstitutes,
+  updateFAQ,
 } from '../../../services/cmsManagement/FAQService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import {getValuesFromObjectArray} from '../../../@softbd/utilities/helpers';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -42,11 +39,9 @@ const initialValues = {
   question: '',
   answer: '',
   language: '',
-  other_language_fields: [],
+  other_language_fields: '',
   row_status: '1',
 };
-
-let isLoadingSectionNameList: boolean = false;
 
 const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   itemId,
@@ -58,17 +53,15 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const isEdit = itemId != null;
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateInstitute,
-  } = useFetchFAQ(itemId);
+  const {data: itemData, isLoading, mutate: mutateFAQ} = useFetchFAQ(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -96,49 +89,58 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  /*  useEffect(() => {
+  useEffect(() => {
     if (itemData) {
+      console.log('item date : ', itemData);
       reset({
-        title_en: itemData?.title_en,
-        title: itemData?.title,
+        show_in: itemData?.show_in,
+        institute_id: itemData?.institute_id,
+        organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
+        question: itemData?.question,
+        answer: itemData?.answer,
+        row_status: itemData?.row_status,
+        other_language_fields: itemData?.other_language_fields,
       });
-
-      /!*setDistrictsList(
-        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
-      );*!/
+      console.log('in if');
     } else {
       reset(initialValues);
     }
-  }, [itemData, districts]);*/
+    console.log('item date : ', itemData);
+  }, [itemData]);
 
   const changeShowInAction = async (showInId: number) => {
-    isLoadingSectionNameList = true;
+    setIsLoadingSectionNameList(true);
     if (showInId === 3) {
       const institutes = await getAllInstitutes();
-      isLoadingSectionNameList = false;
       setIndustryList([]);
       setInstituteList(institutes);
+      setIsLoadingSectionNameList(false);
     } else if (showInId == 4) {
       const industries = await getAllIndustries();
-      isLoadingSectionNameList = false;
       setInstituteList([]);
       setIndustryList(industries);
+      setIsLoadingSectionNameList(false);
     } else {
-      return;
+      setIndustryList([]);
+      setInstituteList([]);
+      setIsLoadingSectionNameList(false);
     }
   };
 
   const onSubmit: SubmitHandler<FAQ> = async (data: FAQ) => {
     try {
-      console.log('the submitted data: ', data);
       /*data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);*/
+      /*data.other_language_fields = [];*/
+
+      console.log('submitted data: ', data);
 
       if (itemId) {
-        await updateInstitute(itemId, data);
+        await updateFAQ(itemId, data);
         updateSuccessMessage('institute.label');
-        mutateInstitute();
+        mutateFAQ();
       } else {
-        await createInstitute(data);
+        await createFAQ(data);
         createSuccessMessage('institute.label');
       }
       props.onClose();
@@ -248,6 +250,35 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             errors={errors}
           />
         </Grid>*/}
+        {/*        {Object.keys(itemData?.other_language_fields || {}).map(
+          (key: string) =>
+            itemData?.other_language_fields.hasOwnProperty(key) && (
+              <div>
+                <Grid item xs={12} md={12}>
+                  <fieldset>
+                    {<legend>{languageLabel(key)}</legend>}
+                    <p>
+                      {messages['faq.question']}: <br />
+                      {itemData?.other_language_fields[key].question}
+                    </p>
+                    <p>
+                      {messages['faq.answer']}: <br />
+                      {itemData?.other_language_fields[key].answer}
+                    </p>
+                  </fieldset>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <CustomTextInput
+                    required
+                    id='question'
+                    label={messages['faq.question']}
+                    register={register}
+                    errorInstance={errors}
+                  />
+                </Grid>
+              </div>
+            ),
+        )}*/}
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

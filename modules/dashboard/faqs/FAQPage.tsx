@@ -49,7 +49,6 @@ const FAQPage = () => {
 
   const deleteFAQItem = async (itemId: number) => {
     let response = await deleteFAQ(itemId);
-    console.log('response delete: ', response);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
