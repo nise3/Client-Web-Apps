@@ -129,7 +129,7 @@ const Nise3PartnersPage = () => {
       <PageBlock
         title={
           <>
-            <IconJobSector /> <IntlMessages id='job_sectors.label' />
+            <IconJobSector /> <IntlMessages id='nise.partners' />
           </>
         }
         extra={[
