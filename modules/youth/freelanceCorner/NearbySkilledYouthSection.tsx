@@ -38,14 +38,13 @@ const NearbySkilledYouthSection = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const [youthListFilters] = useState<any>({
-    district_id: authUser?.loc_district_id,
-    upazila_id: authUser?.loc_upazila_id,
+    loc_district_id: authUser?.loc_district_id,
+    loc_upazila_id: authUser?.loc_upazila_id,
     page_size: 4,
   });
 
   const {data: nearbySkilledYouths} = useFetchYouths(youthListFilters);
 
-  //TODO:: will be nearby youth, not exist now
   return (
     <Card>
       <CardContent>
@@ -68,7 +67,7 @@ const NearbySkilledYouthSection = () => {
                 </Grid>
               );
             })}
-          <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
+          <Grid item xs={12} style={{paddingLeft: 15}}>
             {/*<Link href={LINK_FRONTEND_YOUTH_NEARBY_COURSELIST} passHref>*/}
             <Button
               variant={'text'}

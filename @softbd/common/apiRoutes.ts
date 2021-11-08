@@ -129,6 +129,8 @@ export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
 export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
 export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
+export const API_PUBLIC_RECENT_COURSE_LIST =
+  PUBLIC_SERVICE_PATH + '/course-list/recent';
 export const API_PUBLIC_TRAINING_CENTERS =
   PUBLIC_SERVICE_PATH + '/training-centers';
 export const API_PUBLIC_PROGRAMS = PUBLIC_SERVICE_PATH + '/programs';

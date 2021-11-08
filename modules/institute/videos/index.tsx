@@ -28,6 +28,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useRouter} from 'next/router';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const useStyles = makeStyles((theme) => ({
   searchIcon: {
@@ -231,11 +232,7 @@ const InstituteVideos = () => {
               </Grid>
             </Grid>
           ) : (
-            <Grid container>
-              <Grid item>
-                <H3 py={5}>{messages['common.no_data_found']}</H3>
-              </Grid>
-            </Grid>
+            <NoDataFoundComponent />
           )}
 
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>

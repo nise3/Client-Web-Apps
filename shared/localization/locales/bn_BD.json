@@ -886,5 +886,6 @@
   "faq.show_in": "যেখানে দেখাবেন",
   "faq.question": "প্রশ্ন",
   "faq.answer": "উত্তর",
-  "common.content": "কনটেন্ট"
+  "common.content": "কনটেন্ট",
+  "common.no_freelancer_found": "কোন ফ্রিল্যান্সার পাওয়া যায়নি"
 }

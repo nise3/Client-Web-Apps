@@ -5,6 +5,7 @@ import FreelancerCardComponent from './components/FreelancerCardComponent';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 interface AllFreelancerListSectionProps {
   skillIds?: Array<number>;
@@ -52,6 +53,12 @@ const AllFreelancerListSection = ({
             </Grid>
           );
         })
+      )}
+
+      {freelancerLists && freelancerLists.length <= 0 && (
+        <NoDataFoundComponent
+          message={messages['common.no_freelancer_found'] as string}
+        />
       )}
     </Grid>
   );
