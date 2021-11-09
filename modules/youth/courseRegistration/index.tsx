@@ -232,6 +232,8 @@ const YouthCourseRegistrationPage = () => {
   const [isPermanentAddressSameAsPresent, setIsPermanentAddressSameAsPresent] =
     useState<boolean>(false);
 
+  // const postalCodeRegex = /^([1-9]{1})[0-9]{3}$/g;
+
   const validationSchema = useMemo(() => {
     switch (activeStepKey) {
       case CourseConfigKeys.PERSONAL_KEY:
@@ -308,6 +310,11 @@ const YouthCourseRegistrationPage = () => {
               .trim()
               .required()
               .label(messages['districts.label'] as string),
+            zip_or_postal_code: yup
+              .string()
+              .min(4)
+              .max(4)
+              .label(messages['common.zip_or_postal_code'] as string),
           }),
           permanent_address: !isPermanentAddressSameAsPresent
             ? yup.object().shape({
@@ -321,6 +328,11 @@ const YouthCourseRegistrationPage = () => {
                   .trim()
                   .required()
                   .label(messages['districts.label'] as string),
+                zip_or_postal_code: yup
+                  .string()
+                  .min(4)
+                  .max(4)
+                  .label(messages['common.zip_or_postal_code'] as string),
               })
             : yup.object().shape({}),
         });

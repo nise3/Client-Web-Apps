@@ -9,15 +9,21 @@ import {useRouter} from 'next/router';
 import {getModulePath} from '../../../@softbd/utilities/helpers';
 
 interface SimilarCourseSectionProps {
+  courseId: number;
   skillIds: Array<number>;
 }
 
-const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
+const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
+  courseId,
+  skillIds,
+}) => {
   const {messages} = useIntl();
   const router = useRouter();
-  const path = router.pathname;
+  const pageSize = 4;
 
-  const [courseFilters, setCourseFilters] = useState<any>({page_size: 8});
+  const [courseFilters, setCourseFilters] = useState<any>({
+    page_size: pageSize,
+  });
   const pathVariable = 'skill-matching';
   const {data: courseList, metaData} = useFetchCourseList(
     pathVariable,
@@ -26,7 +32,9 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
 
   useEffect(() => {
     if (skillIds) {
-      setCourseFilters({skill_ids: skillIds, page_size: 8});
+      setCourseFilters((prevState: any) => {
+        return {...prevState, skill_ids: skillIds};
+      });
     }
   }, [skillIds]);
 
@@ -42,7 +50,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
             </Grid>
             {metaData?.total_page > 1 && (
               <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-                <Link href={`${path}/${pathVariable}`}>
+                <Link href={`/similar-courses/${courseId}`}>
                   <Button
                     variant={'outlined'}
                     size={'medium'}

@@ -906,5 +906,6 @@
   "common.content_slug_or_id": "কন্টেন্ট স্লাগ অর আইডি",
   "common.content_type": "কন্টেন্ট টাইপ",
   "common.content": "কন্টেন্ট",
-  "common.contents": "কন্টেন্টস"
+  "common.contents": "কন্টেন্টস",
+  "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি"
 }

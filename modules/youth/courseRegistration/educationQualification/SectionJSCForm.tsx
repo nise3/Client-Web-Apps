@@ -130,7 +130,7 @@ const SectionJscForm: FC<SectionJSCFormProps> = ({
           />
         </Grid>
 
-        {isForeignInstitute && (
+        {Boolean(isForeignInstitute) && (
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
               required

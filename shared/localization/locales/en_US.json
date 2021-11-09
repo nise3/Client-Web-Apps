@@ -893,6 +893,7 @@
   "organization_association.label" : "Organization association",
   "common.show_in": "Show in",
   "common.content_slug_or_id": "Content slug or Id",
-  "common.content_type": "Content type"
+  "common.content_type": "Content type",
+  "common.no_similar_course_found": "No similar course found"
 }
 
