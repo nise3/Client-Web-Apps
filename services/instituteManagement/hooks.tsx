@@ -20,6 +20,7 @@ import {
   API_COURSE_ENROLLMENTS,
   API_FRONT_END_VIDEO,
   API_FRONT_END_GALLERY,
+  API_ALL_FAQS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -155,4 +156,9 @@ export function useFetchBatchesToAssign(courseId: number | null) {
       ? API_COURSES + '/' + courseId + '/' + 'training_centers/batches'
       : null,
   );
+}
+
+/** fetches a single FAQ's details */
+export function useFetchFAQ(faqId: number | null) {
+  return useAxiosSWR(faqId ? API_ALL_FAQS + '/' + faqId : null);
 }
