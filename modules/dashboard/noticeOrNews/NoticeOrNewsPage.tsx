@@ -97,6 +97,7 @@ const NoticeOrNewsPage = () => {
       {
         Header: messages['common.details'],
         accessor: 'details',
+        isVisible: false,
       },
       {
         Header: messages['common.main_image_path'],
@@ -136,10 +137,10 @@ const NoticeOrNewsPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
-      {
-        Header: messages['common.other_language_fields'],
-        accessor: 'other_language_fields',
-      },
+      // {
+      //   Header: messages['common.other_language_fields'],
+      //   accessor: 'other_language_fields',
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

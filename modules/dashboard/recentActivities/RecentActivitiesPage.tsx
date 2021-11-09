@@ -94,6 +94,7 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.description'],
         accessor: 'description',
+        isVisible: false,
       },
       {
         Header: messages['common.content_type'],
@@ -150,10 +151,10 @@ const RecentActivitiesPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
-      {
-        Header: messages['common.other_language_fields'],
-        accessor: 'other_language_fields',
-      },
+      // {
+      //   Header: messages['common.other_language_fields'],
+      //   accessor: 'other_language_fields',
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

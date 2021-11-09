@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -22,6 +22,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
+import TextEditor from '../../../@softbd/components/editor/TextEditor';
 
 interface RecentActivitiesAddEditPopupProps {
   recentActivityId: number | null;
@@ -63,6 +64,25 @@ const showIn = [
   },
 ];
 
+const collagePosition = [
+  {
+    id: 1,
+    label: '1.1',
+  },
+  {
+    id: 2,
+    label: '1.2.1',
+  },
+  {
+    id: 2,
+    label: '1.2.2.1',
+  },
+  {
+    id: 4,
+    label: '1.2.2.2',
+  },
+];
+
 const initialValues = {
   title: '',
   institute_id: '',
@@ -92,6 +112,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = recentActivityId != null;
+  const textEditorRef = useRef<any>(null);
 
   const {
     data: recentActivityItem,
@@ -117,7 +138,11 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       content_type: yup
         .string()
         .required()
-        .label(messages['common.title'] as string),
+        .label(messages['common.content_type'] as string),
+      show_in: yup
+        .string()
+        .required()
+        .label(messages['common.show_in'] as string),
     });
   }, [recentActivityId, messages]);
 
@@ -159,10 +184,11 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   }, [recentActivityItem, reset]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('data==>', data);
     data.recentActivityId = data.recentActivityId
       ? data.recentActivityId
       : null;
+
+    data.description = textEditorRef.current?.editor?.getContent();
 
     data.collage_image_path = 'http://lorempixel.com/400/200/';
     data.thumb_image_path = 'http://lorempixel.com/400/200/';
@@ -264,17 +290,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
-          <CustomTextInput
-            id='description'
-            label={messages['common.description']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
           <CustomFormSelect
             required
             id='content_type'
@@ -298,13 +313,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
-          <CustomTextInput
+          <CustomFormSelect
             id='collage_position'
             label={messages['common.collage_position']}
+            isLoading={false}
             control={control}
-            register={register}
+            options={collagePosition}
+            optionValueProp={'label'}
+            optionTitleProp={['label']}
             errorInstance={errors}
-            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -386,14 +403,22 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        {/*<Grid item xs={6}>
           <CustomTextInput
-            id='other_language_fields'
-            label={messages['common.other_language_fields']}
+            id='description'
+            label={messages['common.description']}
             control={control}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+          />
+        </Grid>*/}
+        <Grid item xs={12}>
+          <TextEditor
+            ref={textEditorRef}
+            initialValue={initialValues.description}
+            height={'300px'}
+            key={1}
           />
         </Grid>
       </Grid>
