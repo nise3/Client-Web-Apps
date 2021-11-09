@@ -63,14 +63,14 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.institute_id']}
+              label={messages['institute.label']}
               value={data?.institute_id}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.organization_id']}
+              label={messages['organization.label']}
               value={data?.organization_id}
               isLoading={isLoading}
             />

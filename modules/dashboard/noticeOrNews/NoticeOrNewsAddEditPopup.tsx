@@ -254,7 +254,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='institute_id'
-            label={messages['common.institute_id']}
+            label={messages['institute.label']}
             isLoading={isLoadingInstitutes}
             control={control}
             options={institutes}
@@ -266,7 +266,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFormSelect
             id='organization_id'
-            label={messages['common.organization_id']}
+            label={messages['organization.label']}
             isLoading={isLoadingOrganizations}
             control={control}
             options={organizations}
