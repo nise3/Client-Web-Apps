@@ -108,8 +108,14 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        title_en: itemData?.title_en,
         title: itemData?.title,
+        sub_title: itemData?.sub_title,
+        organization_id: itemData?.organization_id,
+        institute_id: itemData?.institute_id,
+        is_button_available: itemData?.is_button_available,
+        button_text: itemData?.button_text,
+        link: itemData?.link,
+        alt_title: itemData?.alt_title,
         row_status: String(itemData?.row_status),
       });
     } else {

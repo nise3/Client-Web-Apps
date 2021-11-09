@@ -129,8 +129,15 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
+        show_in: itemData?.show_in,
+        content_slug_or_id: itemData?.content_slug_or_id,
         title_en: itemData?.title_en,
-        title: itemData?.title,
+        sub_title: itemData?.sub_title,
+        organization_id: itemData?.organization_id,
+        institute_id: itemData?.institute_id,
+        content_type: itemData?.content_type,
+        content: itemData?.content,
+        organization_association: itemData?.organization_association,
         row_status: String(itemData?.row_status),
       });
     } else {
