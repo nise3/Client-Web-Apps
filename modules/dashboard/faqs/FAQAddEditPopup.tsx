@@ -53,6 +53,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateFAQ} = useFetchFAQ(itemId);
+  console.log('item dara: ', itemData);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
@@ -173,7 +174,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5}>
+      <Grid container spacing={5} style={{marginBottom: '55px'}}>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
             required
@@ -246,22 +247,27 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             errors={errors}
           />
         </Grid>*/}
-        {/*        {Object.keys(itemData?.other_language_fields || {}).map(
+      </Grid>
+      <Grid container spacing={5}>
+        {Object.keys(itemData?.other_language_fields || {}).map(
           (key: string) =>
             itemData?.other_language_fields.hasOwnProperty(key) && (
-              <div>
-                <Grid item xs={12} md={12}>
-                  <fieldset>
-                    {<legend>{languageLabel(key)}</legend>}
-                    <p>
-                      {messages['faq.question']}: <br />
-                      {itemData?.other_language_fields[key].question}
-                    </p>
-                    <p>
-                      {messages['faq.answer']}: <br />
-                      {itemData?.other_language_fields[key].answer}
-                    </p>
-                  </fieldset>
+              <>
+                <Grid item xs={12} md={9} />
+                <Grid item xs={8} md={3}>
+                  {cmsGlobalConfig.language_configs?.length > 0 && (
+                    <CustomFilterableFormSelect
+                      required
+                      id='organization_id'
+                      label={messages['common.select']}
+                      isLoading={isFetching}
+                      control={control}
+                      options={cmsGlobalConfig.language_configs}
+                      optionValueProp={'id'}
+                      optionTitleProp={['native_name']}
+                      errorInstance={errors}
+                    />
+                  )}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <CustomTextInput
@@ -272,10 +278,19 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                     errorInstance={errors}
                   />
                 </Grid>
-              </div>
+                <Grid item xs={12} md={6} style={{marginBottom: '55px'}}>
+                  <CustomTextInput
+                    required
+                    id='answer'
+                    label={messages['faq.answer']}
+                    register={register}
+                    errorInstance={errors}
+                  />
+                </Grid>
+              </>
             ),
-        )}*/}
-        <Grid item xs={12}>
+        )}
+        <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}
