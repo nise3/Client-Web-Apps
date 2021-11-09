@@ -156,6 +156,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     data.itemId = data.itemId ? data.itemId : null;
+    data.other_language_fields = '';
 
     data.details = textEditorRef.current?.editor?.getContent();
 

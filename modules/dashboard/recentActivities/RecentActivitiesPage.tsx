@@ -95,10 +95,12 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.institute_id'],
         accessor: 'institute_id',
+        isVisible: false,
       },
       {
         Header: messages['common.organization_id'],
         accessor: 'organization_id',
+        isVisible: false,
       },
       {
         Header: messages['common.show_in'],
@@ -123,6 +125,7 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.collage_image_path'],
         accessor: 'collage_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.collage_position'],
@@ -152,14 +155,17 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.content_properties'],
         accessor: 'content_properties',
+        isVisible: false,
       },
       {
         Header: messages['common.embedded_id'],
         accessor: 'embedded_id',
+        isVisible: false,
       },
       {
         Header: messages['common.embedded_url'],
         accessor: 'embedded_url',
+        isVisible: false,
       },
       {
         Header: messages['common.active_status'],

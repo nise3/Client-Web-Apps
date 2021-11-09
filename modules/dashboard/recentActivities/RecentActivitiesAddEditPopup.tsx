@@ -188,6 +188,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       ? data.recentActivityId
       : null;
 
+    data.other_language_fields = '';
+
     data.description = textEditorRef.current?.editor?.getContent();
 
     data.collage_image_path = 'http://lorempixel.com/400/200/';

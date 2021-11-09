@@ -116,18 +116,22 @@ const NoticeOrNewsPage = () => {
       {
         Header: messages['common.main_image_path'],
         accessor: 'main_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.grid_image_path'],
         accessor: 'grid_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.thumb_image_path'],
         accessor: 'thumb_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.file_path'],
         accessor: 'file_path',
+        isVisible: false,
       },
       {
         Header: messages['common.image_alt_title'],
@@ -144,6 +148,7 @@ const NoticeOrNewsPage = () => {
       {
         Header: messages['common.file_alt_title'],
         accessor: 'file_alt_title',
+        isVisible: false,
       },
       {
         Header: messages['common.active_status'],
