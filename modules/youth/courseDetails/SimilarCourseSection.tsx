@@ -41,7 +41,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   return courseList && courseList.length ? (
     <Container maxWidth={'lg'}>
       <Grid container spacing={5}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12}>
           <Grid container alignItems={'center'}>
             <Grid item xs={8} sm={9} md={10}>
               <Typography variant={'h5'} fontWeight={'bold'}>
@@ -50,7 +50,11 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
             </Grid>
             {metaData?.total_page > 1 && (
               <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-                <Link href={`/similar-courses/${courseId}`}>
+                <Link
+                  href={
+                    getModulePath(router.asPath) +
+                    `/similar-courses/${courseId}`
+                  }>
                   <Button
                     variant={'outlined'}
                     size={'medium'}
@@ -63,7 +67,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
             )}
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12}>
           <Grid container spacing={5}>
             {courseList &&
               courseList.map((course: any) => {
