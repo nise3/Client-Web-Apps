@@ -84,9 +84,20 @@ const EventCalendar = () => {
   }, [isToggleTable]);
   
 
-  const {data: events, isLoading: isLoadingEvents} =
-    useFetchCalenderEvents(viewFilters);
+  // let {data: events, isLoading: isLoadingEvents} =
+  //   useFetchCalenderEvents(viewFilters);
 
+  // // console.log('events ', events);
+  // if (events) {
+  //   events = events.map((e:any)=> {
+  //     return {
+  //       start: e.start_date,
+  //       end: e.end_date,
+  //       title: e.title
+  //     }
+  //   })
+  //   console.log('events ', events);
+  // }
 
   return (
     <>
@@ -98,9 +109,13 @@ const EventCalendar = () => {
         }>
         <Calendar
           events={events}
+          selectable='true'
           localizer={localizer}
           style={{height: '100vh'}}
           onView={(view: View) => setViewFilters({type: view})}
+          onNavigate={(e: any) => console.log('onNavigate ', e) }
+          onSelectEvent={(e: any) => console.log('onSelectEvent ', e) }
+          onSelectSlot={(e: any) => console.log('onSelectSlot ', e) }
         />
       </PageBlock>
     </>
