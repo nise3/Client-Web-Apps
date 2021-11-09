@@ -13,13 +13,16 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteEvent} from '../../../services/cmsManagement/EventService';
 
 const localizer = momentLocalizer(moment);
+const toDate = moment().toDate();
+// const chkDate = new Date('2021-11-11');
+console.log('chkDate ', toDate);
 
 const events = [
   {
-    start: moment().toDate(),
+    start: toDate,
     end: moment().add(1, 'days').toDate(),
     title: 'Some title',
-  },
+  }
 ];
 
 const EventCalendar = () => {
@@ -70,8 +73,9 @@ const EventCalendar = () => {
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, [isToggleTable]);
+console.log('event calendar ', events);
+  return (  
 
-  return (
     <>
       <PageBlock
         title={

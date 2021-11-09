@@ -5,6 +5,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 interface IMyCalendar extends CalendarProps {}
 
 const MyCalendar = ({events, ...rest}: IMyCalendar) => {
+  
+  
   return (
     <div>
       <Calendar
