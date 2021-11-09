@@ -9,6 +9,9 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteEvent} from '../../../services/cmsManagement/EventService';
 import Calendar from '../../../@softbd/calendar/Calendar';
+import {useFetchBranches} from '../../../services/instituteManagement/hooks';
+import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
@@ -34,8 +37,9 @@ const EventCalendar = () => {
   /*const authUser = useAuthUser();*/
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [calenderView, setCalenderView] = useState<string>('month');
-  console.log('view: ', calenderView);
+  const [viewFilters, setViewFilters] = useState<any>({
+    type: 'month',
+  });
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -79,9 +83,12 @@ const EventCalendar = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, [isToggleTable]);
   
-  
-  return (  
 
+  const {data: events, isLoading: isLoadingEvents} =
+    useFetchCalenderEvents(viewFilters);
+
+
+  return (
     <>
       <PageBlock
         title={
@@ -93,8 +100,7 @@ const EventCalendar = () => {
           events={events}
           localizer={localizer}
           style={{height: '100vh'}}
-          onView={(view: View) => setCalenderView(view)}
-          onSelectEvent={event => alert(event.title)}
+          onView={(view: View) => setViewFilters({type: view})}
         />
       </PageBlock>
     </>
