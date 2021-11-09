@@ -1,8 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PARTNERS} from '../../@softbd/common/apiRoutes';
-// import { useAxiosSWR } from '../../@softbd/hooks/useAxiosSWR';
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 
 /**
  * @deprecated
@@ -26,9 +24,6 @@ export const getAllPartners = async (params = {}) => {
 //   // }
 // };
 
-export function useFetchPartner(partnerId: number | null) {
-  return useAxiosSWR(API_PARTNERS + '/' + partnerId);
-}
 
 export const createPartner = async (data: Partner) => {
   try {

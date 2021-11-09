@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import { useFetchPartner } from '../../../services/cmsManagement/PartnersService';
+import { useFetchPartner } from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;

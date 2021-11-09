@@ -9,3 +9,7 @@ export function useFetchCMSGlobalConfig() {
 export function useFetchPartners(params: any) {
   return useAxiosSWR(API_PARTNERS);
 }
+
+export function useFetchPartner(partnerId: number) {
+  return useAxiosSWR(API_PARTNERS + '/' + partnerId);
+}
