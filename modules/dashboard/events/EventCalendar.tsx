@@ -11,15 +11,20 @@ import {deleteEvent} from '../../../services/cmsManagement/EventService';
 import Calendar from '../../../@softbd/calendar/Calendar';
 
 const localizer = momentLocalizer(moment);
-const toDate = moment().toDate();
-// const chkDate = new Date('2021-11-11');
-console.log('chkDate ', toDate);
+// const toDate = moment().toDate();
+// // const chkDate = new Date('2021-11-11');
+// console.log('chkDate ', toDate);
 
 const events = [
   {
-    start: toDate,
-    end: moment().add(1, 'days').toDate(),
-    title: 'Some title',
+    start: '2021-11-08',
+    end: '2021-11-08',
+    title: 'Partners'
+  },
+  {
+    start: '2021-11-09',
+    end: '2021-11-11',
+    title: 'Event Project'
   }
 ];
 
@@ -73,7 +78,8 @@ const EventCalendar = () => {
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, [isToggleTable]);
-console.log('event calendar ', events);
+  
+  
   return (  
 
     <>
@@ -88,6 +94,7 @@ console.log('event calendar ', events);
           localizer={localizer}
           style={{height: '100vh'}}
           onView={(view: View) => setCalenderView(view)}
+          onSelectEvent={event => alert(event.title)}
         />
       </PageBlock>
     </>
