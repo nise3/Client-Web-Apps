@@ -29,17 +29,19 @@ import {
 } from '../../../services/cmsManagement/StaticPageService';
 
 interface StaticPage {
-  id: number;
   title?: string;
   sub_title?: string;
-  show_in: '';
-  content_slug_or_id: '';
-  institute_id: '';
-  organization_id: '';
-  content_type: '';
-  contents: '';
-  row_status: '1';
+  show_in?: number | string;
+  content_slug_or_id?: string;
+  institute_id?: string;
+  organization_id?: string;
+  content_type?: string;
+  contents?: string;
+  row_status?: number | string;
+  updated_at?: string;
+  crated_at?: string;
 }
+
 interface StaticPageAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -131,7 +133,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm<StaticPage>({
     resolver: yupResolver(validationSchema),
   });
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
@@ -174,7 +176,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     setSelectedModule(moduleId);
   }, []);
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
+  const onSubmit: SubmitHandler<StaticPage> = async (data: StaticPage) => {
     try {
       if (itemId) {
         await updateStaticPage(itemId, data);

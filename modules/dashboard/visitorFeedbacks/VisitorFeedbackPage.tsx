@@ -3,14 +3,15 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
 import IconVisitorFeedback from '../../../@softbd/icons/IconVisitorFeedback';
+import {useFetchVisitorFeedbacks} from '../../../services/cmsManagement/hooks';
 
 const VisitorFeedbackPage = () => {
   const {messages} = useIntl();
-  const [jobSectorFilters] = useState({});
-  const {data: jobSectors, isLoading}: any =
-    useFetchJobSectors(jobSectorFilters);
+  const [visitorFeedbackFilters] = useState({});
+  const {data: visitorFeedbacks, isLoading}: any = useFetchVisitorFeedbacks(
+    visitorFeedbackFilters,
+  );
 
   const columns = useMemo(
     () => [
@@ -88,7 +89,7 @@ const VisitorFeedbackPage = () => {
         }>
         <ReactTable
           columns={columns}
-          data={jobSectors || []}
+          data={visitorFeedbacks || []}
           loading={isLoading}
         />
       </PageBlock>
