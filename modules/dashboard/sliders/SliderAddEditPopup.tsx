@@ -92,7 +92,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<JobSector>({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -123,7 +123,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+  const onSubmit: SubmitHandler<JobSector> = async (data: any) => {
     try {
       if (itemId) {
         await updateSlider(itemId, data);

@@ -113,7 +113,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<JobSector>({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
