@@ -7,18 +7,18 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import GalleryAlbumAddEditPopup from './GalleryAlbumAddEditPopup';
-import GalleryAlbumDetailsPopup from './GalleryAlbumDetailsPopup';
+import ContentAddEditPopup from './ContentAddEditPopup';
+import ContentDetailsPopup from './ContentDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconVideo from '../../../@softbd/icons/IconVideo';
-import {deleteGalleryAlbum} from '../../../services/cmsManagement/GalleryAlbumService';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
+import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
 
-const GalleryAlbumPage = () => {
+const ContentsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -27,7 +27,7 @@ const GalleryAlbumPage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
-    useReactTableFetchData({urlPath: API_GALLERY_ALBUMS});
+    useReactTableFetchData({urlPath: API_GALLERY_ALBUM_CONTENTS});
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -50,12 +50,12 @@ const GalleryAlbumPage = () => {
   }, []);
 
   const deleteGalleryItem = async (itemId: number) => {
-    let response = await deleteGalleryAlbum(itemId);
+    let response = await deleteGalleryAlbumContent(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='common.gallery_album' />}}
+          values={{subject: <IntlMessages id='gallery_album_content.label' />}}
         />,
       );
       await refreshDataTable();
@@ -81,9 +81,21 @@ const GalleryAlbumPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
+        Header: messages['common.content_type'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data.content_type === 1) {
+            return <p>{messages['common.image']}</p>;
+          } else if (data.content_type === 2) {
+            return <p>{messages['common.video']}</p>;
+          } else {
+            return <p>{messages['common.none']}</p>;
+          }
+        },
+      },
+      {
+        Header: messages['common.content_title'],
+        accessor: 'content_title ',
       },
       {
         Header: messages['gallery_album.featured_status'],
@@ -98,6 +110,11 @@ const GalleryAlbumPage = () => {
           }
         },
       },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
+      },
+
       {
         Header: messages['common.status'],
         accessor: 'row_status',
@@ -131,7 +148,7 @@ const GalleryAlbumPage = () => {
       <PageBlock
         title={
           <>
-            <IconVideo /> <IntlMessages id='galleries.institute' />
+            <IconVideo /> <IntlMessages id='gallery_album_content.label' />
           </>
         }
         extra={[
@@ -159,7 +176,7 @@ const GalleryAlbumPage = () => {
           totalCount={totalCount}
         />
         {isOpenAddEditModal && (
-          <GalleryAlbumAddEditPopup
+          <ContentAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -168,7 +185,7 @@ const GalleryAlbumPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <GalleryAlbumDetailsPopup
+          <ContentDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -180,4 +197,4 @@ const GalleryAlbumPage = () => {
   );
 };
 
-export default GalleryAlbumPage;
+export default ContentsPage;

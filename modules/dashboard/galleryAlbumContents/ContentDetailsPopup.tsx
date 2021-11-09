@@ -7,9 +7,9 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconGallery from '../../../@softbd/icons/IconGallery';
-import {useFetchGalleryAlbum} from '../../../services/cmsManagement/hooks';
-import {showIns, albumTypes, features} from './GalleryAlbumAddEditPopup';
+import {contentTypes, features, videoTypes} from './ContentAddEditPopup';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import {useFetchGalleryAlbumContent} from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,9 +17,9 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const ContentDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchGalleryAlbum(itemId);
+  const {data: itemData, isLoading} = useFetchGalleryAlbumContent(itemId);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -59,13 +59,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['gallery_album.album_type']}
-              value={albumTypes[itemData?.album_type - 1]?.label}
-              isLoading={isLoading}
-            />
-          </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['institute.label']}
@@ -73,17 +67,18 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.show_in']}
-              value={showIns[itemData?.show_in - 1]?.label}
+              value={contentTypes[itemData?.content_type - 1]?.label}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['gallery_album.parent_gallery_album']}
-              value={itemData?.parent_gallery_album_id}
+              label={messages['common.show_in']}
+              value={videoTypes[itemData?.video_type - 1]?.label}
               isLoading={isLoading}
             />
           </Grid>
@@ -122,4 +117,4 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default GalleryAlbumDetailsPopup;
+export default ContentDetailsPopup;

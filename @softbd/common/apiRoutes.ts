@@ -97,12 +97,15 @@ export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 /** Routes for gallery page map */
 
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
+export const API_GALLERY_ALBUM_CONTENTS =
+  CMS_SERVICE_PATH + '/gallery-images-videos';
 export const API_FRONT_END_GALLERY = CMS_SERVICE_PATH + '/gallery';
 export const API_FRONT_END_GALLERY_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/gallery-category';
 
 /** Routes for video page map */
-export const API_FRONT_END_VIDEOS_LIST = INSTITUTE_SERVICE_PATH + '/videos';
+export const API_FRONT_END_VIDEOS_LIST =
+  INSTITUTE_SERVICE_PATH + '/gallery-album-contents';
 export const API_FRONT_END_VIDEO = INSTITUTE_SERVICE_PATH + '/video';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
@@ -122,6 +125,7 @@ export const API_FRONT_END_RECENT_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/recent-activities';
 export const API_FRONT_END_ALL_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/all-activities';
+export const CMS_RECENT_ACTIVITY = CMS_SERVICE_PATH + '/' + 'recent-activities';
 
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';
@@ -130,6 +134,8 @@ export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
 export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
 export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
+export const API_PUBLIC_RECENT_COURSE_LIST =
+  PUBLIC_SERVICE_PATH + '/course-list/recent';
 export const API_PUBLIC_TRAINING_CENTERS =
   PUBLIC_SERVICE_PATH + '/training-centers';
 export const API_PUBLIC_PROGRAMS = PUBLIC_SERVICE_PATH + '/programs';
@@ -138,8 +144,13 @@ export const API_YOUTH_FEED_STATISTICS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_NOTICE_BOARD = '/notice-board/';
+export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/' + 'notice-or-news';
 
 /** Routes for FAQ page */
 export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 export const API_FRONT_SC = '/sc';
 export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
+export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
+export const API_VISITOR_FEEDBACKS =
+  CMS_SERVICE_PATH + '/visitor-feedback-suggestions';
+export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';

@@ -87,16 +87,6 @@ export function useFetchVideo(videoId: number | null) {
   return useAxiosSWR(API_FRONT_END_VIDEO);
 }
 
-export function useFetchGalleryAlbums(params: any) {
-  return useAxiosSWR([API_GALLERY_ALBUMS, params]);
-}
-
-export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
-  return useAxiosSWR(
-    galleryAlbumId ? API_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
-  );
-}
-
 export function useFetchCourseList(pathVariable: string, params: any) {
   return useAxiosSWR([
     pathVariable
