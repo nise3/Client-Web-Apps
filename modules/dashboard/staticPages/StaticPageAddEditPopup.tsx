@@ -237,7 +237,34 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             />
           </Grid>
         )}
-
+        {authUser && authUser.isSystemUser && selectedModule == 3 && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+        {authUser && authUser.isSystemUser && selectedModule == 4 && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganizations}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomTextInput
             required
@@ -268,36 +295,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
-        {authUser && authUser.isSystemUser && selectedModule == 4 && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoadingOrganizations}
-              control={control}
-              options={organizations}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
-
-        {authUser && authUser.isSystemUser && selectedModule == 3 && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='institute_id'
-              label={messages['institute.label']}
-              isLoading={isLoadingInstitutes}
-              control={control}
-              options={institutes}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
 
         <Grid item xs={6}>
           <CustomFormSelect
