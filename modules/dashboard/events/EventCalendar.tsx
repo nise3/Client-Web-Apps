@@ -1,16 +1,14 @@
 import React, {useCallback, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import Calendar from '../../../@softbd/calendar/Calendar';
 import moment from 'moment';
-import {momentLocalizer} from 'react-big-calendar';
+import {momentLocalizer, View} from 'react-big-calendar';
 import IconEvents from '../../../@softbd/icons/IconEvents';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {deleteUser} from '../../../services/userManagement/UserService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteEvent} from '../../../services/cmsManagement/EventService';
+import Calendar from '../../../@softbd/calendar/Calendar';
 
 const localizer = momentLocalizer(moment);
 
@@ -28,6 +26,8 @@ const EventCalendar = () => {
   /*const authUser = useAuthUser();*/
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [calenderView, setCalenderView] = useState<string>('month');
+  console.log('view: ', calenderView);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -83,6 +83,7 @@ const EventCalendar = () => {
           events={events}
           localizer={localizer}
           style={{height: '100vh'}}
+          onView={(view: View) => setCalenderView(view)}
         />
       </PageBlock>
     </>
