@@ -1,5 +1,6 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_CALENDAR_EVENTS,
   API_SLIDERS,
   API_STATIC_PAGES,
   API_VISITOR_FEEDBACKS,
@@ -15,4 +16,9 @@ export function useFetchSliders(params: any) {
 
 export function useFetchStaticPages(params: any) {
   return useAxiosSWR([API_STATIC_PAGES, params]);
+}
+
+export function useFetchCalenderEvents(params: any) {
+  console.log('axis: ', params);
+  return useAxiosSWR([API_CALENDAR_EVENTS, params]);
 }
