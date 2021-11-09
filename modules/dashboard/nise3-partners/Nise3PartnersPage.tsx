@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -11,13 +10,11 @@ import Nise3PartnersDetailsPopup from './Nise3PartnersDetailsPopup';
 import Nise3PartnersAddEditPopup from './Nise3PartnersAddEditPopup';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
-import { useFetchPartners } from '../../../services/cmsManagement/hooks';
-import { deletePartner } from '../../../services/cmsManagement/PartnersService';
+import {useFetchPartners} from '../../../services/cmsManagement/hooks';
+import {deletePartner} from '../../../services/cmsManagement/PartnersService';
 
 const Nise3PartnersPage = () => {
   const {messages} = useIntl();

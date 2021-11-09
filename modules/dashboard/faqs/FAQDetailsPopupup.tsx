@@ -19,9 +19,17 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchFAQ(itemId);
 
-  const {data: cmsGlobalConfig, isFetching} = useFetchCMSGlobalConfig();
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
-  console.log('cmsGlobalConfig: ', cmsGlobalConfig?.language_configs);
+  const languageLabel = (key: string) => {
+    let label: string = '';
+    cmsGlobalConfig?.language_configs.map((lang: any) => {
+      if (lang.code === key) {
+        label = lang.native_name;
+      }
+    });
+    return label;
+  };
 
   return (
     <>
@@ -48,7 +56,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={12}>
             <fieldset>
-              <legend>Bangla</legend>
+              <legend>{messages['common.bangla']}</legend>
               <p>
                 {messages['faq.question']}: <br />
                 {itemData?.question}
@@ -62,18 +70,9 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           {Object.keys(itemData?.other_language_fields || {}).map(
             (key: string) =>
               itemData?.other_language_fields.hasOwnProperty(key) && (
-                /*<Box>
-                  lang: {key} {itemData?.other_language_fields[key].question}
-                </Box>*/
                 <Grid item xs={12} md={12}>
                   <fieldset>
-                    {cmsGlobalConfig?.language_configs.map((language: any) => {
-                      if (language.code === key) {
-                        return <legend>{language.native_name}</legend>;
-                      } else {
-                        console.error('error: ', language.code, key);
-                      }
-                    })}
+                    {<legend>{languageLabel(key)}</legend>}
                     <p>
                       {messages['faq.question']}: <br />
                       {itemData?.other_language_fields[key].question}

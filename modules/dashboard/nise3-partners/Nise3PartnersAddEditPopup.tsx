@@ -1,9 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
-import {
-  createJobSector,
-  updateJobSector,
-} from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
