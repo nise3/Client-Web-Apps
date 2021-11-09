@@ -148,3 +148,6 @@ export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
 export const API_VISITOR_FEEDBACKS =
   CMS_SERVICE_PATH + '/visitor-feedback-suggestions';
 export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';
+
+/** Routes for calendar events */
+export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
