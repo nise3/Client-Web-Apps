@@ -17,6 +17,18 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import NoticeOrNewsAddEditPopup from './NoticeOrNewsAddEditPopup';
 import NoticeOrNewsDetailsPopup from './NoticeOrNewsDetailsPopup';
 
+const newsOrNoticetype: any = {
+  1: 'Notice',
+  2: 'News',
+};
+
+const showIn: any = {
+  1: 'NISE3',
+  2: 'YOUTH',
+  3: 'TSP',
+  4: 'INDUSTRY',
+};
+
 const NoticeOrNewsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -27,7 +39,6 @@ const NoticeOrNewsPage = () => {
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({urlPath: CMS_NOTICE_OR_NEWS});
-  console.log('notice page data->', data);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -82,7 +93,10 @@ const NoticeOrNewsPage = () => {
       },
       {
         Header: messages['common.type'],
-        accessor: 'type',
+        Cell: (props: any) => {
+          let data = props.row.original?.type;
+          return data in newsOrNoticetype ? newsOrNoticetype[data] : '';
+        },
       },
       {
         Header: messages['common.institute_id'],
@@ -122,7 +136,10 @@ const NoticeOrNewsPage = () => {
       },
       {
         Header: messages['common.show_in'],
-        accessor: 'show_in',
+        Cell: (props: any) => {
+          let data = props.row.original?.show_in;
+          return data in showIn ? showIn[data] : '';
+        },
       },
       {
         Header: messages['common.file_alt_title'],

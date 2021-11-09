@@ -17,6 +17,19 @@ import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
 
+const showIn: any = {
+  1: 'NISE3',
+  2: 'YOUTH',
+  3: 'TSP',
+  4: 'INDUSTRY',
+};
+
+const contentType: any = {
+  1: 'Image',
+  2: 'Facebook source',
+  3: 'Youtube source',
+};
+
 const RecentActivitiesPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -89,7 +102,10 @@ const RecentActivitiesPage = () => {
       },
       {
         Header: messages['common.show_in'],
-        accessor: 'show_in',
+        Cell: (props: any) => {
+          let data = props.row.original?.show_in;
+          return data in showIn ? showIn[data] : '';
+        },
       },
       {
         Header: messages['common.description'],
@@ -98,7 +114,10 @@ const RecentActivitiesPage = () => {
       },
       {
         Header: messages['common.content_type'],
-        accessor: 'content_type ',
+        Cell: (props: any) => {
+          let data = props.row.original?.content_type;
+          return data in contentType ? contentType[data] : '';
+        },
       },
 
       {
