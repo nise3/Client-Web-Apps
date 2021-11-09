@@ -307,12 +307,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{subject: <IntlMessages id='menu.faq' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{subject: <IntlMessages id='menu.faq' />}}
             />
           )}
         </>
@@ -408,7 +408,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            Add FAQ in Other Language
+            {messages['faq.add_language']}
           </Button>
         </Grid>
 

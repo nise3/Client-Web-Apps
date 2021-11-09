@@ -879,6 +879,7 @@
   "faq.show_in": "Show In",
   "faq.question": "Question",
   "faq.answer": "Answer",
+  "faq.add_language": "Add FAQ in other language",
   "partner.main_image_path": "Main Image Path",
   "partner.thumb_image_path": "Thumb Image Path",
   "partner.grid_image_path": "Grid Image Path"
