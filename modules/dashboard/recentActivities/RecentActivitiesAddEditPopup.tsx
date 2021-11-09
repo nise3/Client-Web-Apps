@@ -1,8 +1,18 @@
-import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchRecentActivity} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchCMSGlobalConfigs,
+  useFetchRecentActivity,
+} from '../../../services/cmsManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -23,6 +33,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface RecentActivitiesAddEditPopupProps {
   recentActivityId: number | null;
@@ -42,25 +53,6 @@ const contentType = [
   {
     id: 3,
     label: 'Youtube Source',
-  },
-];
-
-const showIn = [
-  {
-    id: 1,
-    label: 'Nise3',
-  },
-  {
-    id: 2,
-    label: 'Youth',
-  },
-  {
-    id: 3,
-    label: 'TSP',
-  },
-  {
-    id: 4,
-    label: 'Industry',
   },
 ];
 
@@ -114,6 +106,17 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const isEdit = recentActivityId != null;
   const textEditorRef = useRef<any>(null);
 
+  const authUser = useAuthUser();
+  const [selectedModule, setSelectedModule] = useState<number | null>(null);
+  const [globalConfigFilters] = useState<any>({});
+  const {data: configData} = useFetchCMSGlobalConfigs(globalConfigFilters);
+  let showIns = configData?.show_in;
+
+  useEffect(() => {
+    showIns = configData?.show_in;
+    console.log('show', showIns);
+  }, [configData]);
+
   const {
     data: recentActivityItem,
     isLoading,
@@ -143,6 +146,24 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.show_in'] as string),
+      institute_id: yup
+        .string()
+        .label(messages['institute.label'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == 3;
+          },
+          then: yup.string().required(),
+        }),
+      organization_id: yup
+        .string()
+        .label(messages['organization.label'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == 4;
+          },
+          then: yup.string().required(),
+        }),
     });
   }, [recentActivityId, messages]);
 
@@ -182,6 +203,10 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [recentActivityItem, reset]);
+
+  const onchangeModule = useCallback((moduleId: number | null) => {
+    setSelectedModule(moduleId);
+  }, []);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     data.recentActivityId = data.recentActivityId
@@ -244,6 +269,50 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        {authUser && authUser.isSystemUser && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              required
+              isLoading={false}
+              id='show_in'
+              label={messages['common.show_in']}
+              control={control}
+              options={showIns}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+              onChange={onchangeModule}
+            />
+          </Grid>
+        )}
+        {authUser && authUser.isSystemUser && selectedModule == 3 && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp='id'
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+        {authUser && authUser.isSystemUser && selectedModule == 4 && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganizations}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomTextInput
             id='title'
@@ -252,43 +321,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='institute_id'
-            label={messages['institute.label']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organization_id'
-            label={messages['organization.label']}
-            isLoading={isLoadingOrganizations}
-            control={control}
-            options={organizations}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            required
-            isLoading={false}
-            id='show_in'
-            label={messages['common.show_in']}
-            control={control}
-            options={showIn}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={6}>
