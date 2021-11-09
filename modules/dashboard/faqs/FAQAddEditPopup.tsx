@@ -1,4 +1,4 @@
-import {Button, Divider, Grid} from '@mui/material';
+import {Box, Button, Grid, IconButton} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -24,7 +24,7 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import {Add} from '@mui/icons-material';
+import {Add, Delete} from '@mui/icons-material';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -61,8 +61,13 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
-  const [otherLanguages, setOtherLanguages] = useState<Array<string>>([]);
+  const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);
+  const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
+  const [selectedLanguageCode, setSelectedLanguageCode] = useState<
+    string | null
+  >(null);
+  const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -81,8 +86,50 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['faq.answer'] as string),
+      language_en: !selectedCodes.includes('en')
+        ? yup.object().shape({})
+        : yup.object().shape({
+            question: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.question'] as string),
+            answer: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.answer'] as string),
+          }),
+      language_hi: !selectedCodes.includes('hi')
+        ? yup.object().shape({})
+        : yup.object().shape({
+            question: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.question'] as string),
+            answer: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.answer'] as string),
+          }),
+      language_te: !selectedCodes.includes('te')
+        ? yup.object().shape({})
+        : yup.object().shape({
+            question: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.question'] as string),
+            answer: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.answer'] as string),
+          }),
     });
-  }, [messages]);
+  }, [messages, selectedCodes]);
 
   const {
     register,
@@ -97,11 +144,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   useEffect(() => {
     if (cmsGlobalConfig) {
-      setLanguageList(
-        cmsGlobalConfig.language_configs?.filter(
-          (item: any) => item.code != 'bn',
-        ),
+      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
+        (item: any) => item.code != 'bn',
       );
+
+      setAllLanguages(filteredLanguage);
+      setLanguageList(filteredLanguage);
     }
   }, [cmsGlobalConfig]);
 
@@ -120,17 +168,23 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
       const otherLangData = itemData?.other_language_fields;
 
       if (otherLangData) {
-        let languageKeys: any = [];
-
-        Object.keys(otherLangData).map((key: string, index: number) => {
-          data['language_' + index] = {
+        let keys: any = Object.keys(otherLangData);
+        keys.map((key: string) => {
+          data['language_' + key] = {
             code: key,
             question: otherLangData[key].question,
             answer: otherLangData[key].answer,
           };
-          languageKeys.push('language_' + index);
         });
-        setOtherLanguages(languageKeys);
+        setSelectedCodes(keys);
+
+        setSelectedLanguageList(
+          allLanguages.filter((item: any) => keys.includes(item.code)),
+        );
+
+        setLanguageList(
+          allLanguages.filter((item: any) => !keys.includes(item.code)),
+        );
       }
 
       reset(data);
@@ -139,7 +193,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, allLanguages]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -162,30 +216,68 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   }, []);
 
   const onAddOtherLanguageClick = useCallback(() => {
-    let languageKeys = [...otherLanguages];
-    languageKeys.push('language_' + languageKeys.length);
-    setOtherLanguages(languageKeys);
-  }, [otherLanguages]);
+    if (selectedLanguageCode) {
+      let lists = [...selectedLanguageList];
+      const lang = allLanguages.find(
+        (item: any) => item.code == selectedLanguageCode,
+      );
+
+      if (lang) {
+        lists.push(lang);
+        setSelectedLanguageList(lists);
+        setSelectedCodes((prev) => [...prev, lang.code]);
+
+        setLanguageList((prevState: any) =>
+          prevState.filter((item: any) => item.code != selectedLanguageCode),
+        );
+        setSelectedLanguageCode(null);
+      }
+    }
+  }, [selectedLanguageCode, selectedLanguageList]);
+
+  const onLanguageListChange = useCallback((selected: any) => {
+    setSelectedLanguageCode(selected);
+  }, []);
+
+  const onDeleteLanguage = useCallback(
+    (language: any) => {
+      if (language) {
+        setSelectedLanguageList((prevState: any) =>
+          prevState.filter((item: any) => item.code != language.code),
+        );
+
+        let languages = [...languageList];
+        languages.push(language);
+        setLanguageList(languages);
+
+        setSelectedCodes((prev) =>
+          prev.filter((code: any) => code != language.code),
+        );
+      }
+    },
+    [selectedLanguageList, languageList, selectedCodes],
+  );
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       let data = {...formData};
 
       let otherLanguagesFields: any = {};
-      otherLanguages.map((langKey: string) => {
-        const langObj = formData[langKey];
+      delete data.language_list;
 
-        if (langObj.code) {
-          otherLanguagesFields[langObj.code] = {
-            question: langObj.question,
-            answer: langObj.answer,
-          };
-        }
+      selectedLanguageList.map((language: any) => {
+        const langObj = formData['language_' + language.code];
 
-        delete data[langKey];
+        otherLanguagesFields[language.code] = {
+          question: langObj.question,
+          answer: langObj.answer,
+        };
       });
+      delete data['language_en'];
+      delete data['language_hi'];
+      delete data['language_te'];
 
-      if (otherLanguages.length > 0)
+      if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
 
       //console.log('submitted data: ', data);
@@ -275,7 +367,6 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             />
           )}
         </Grid>
-        {/*)}*/}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
@@ -295,64 +386,73 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={6}>
+          <CustomFilterableFormSelect
+            id={'language_list'}
+            label={messages['common.language']}
+            isLoading={isFetching}
+            control={control}
+            options={languageList}
+            optionValueProp={'code'}
+            optionTitleProp={['native_name']}
+            errorInstance={errors}
+            onChange={onLanguageListChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <Button
             variant={'outlined'}
             color={'primary'}
-            onClick={onAddOtherLanguageClick}>
+            onClick={onAddOtherLanguageClick}
+            disabled={!selectedLanguageCode}>
             <Add />
             Add FAQ in Other Language
           </Button>
         </Grid>
 
-        {otherLanguages.map((langKey: string) => (
-          <React.Fragment key={langKey}>
-            <Divider
-              orientation={'horizontal'}
-              sx={{
-                width: 'calc(100% + 28px)',
-                marginLeft: '-4px',
-                marginTop: '20px',
-              }}
-            />
-            <Grid item xs={12}>
-              <Grid container spacing={5}>
-                <Grid item xs={12} md={6}>
-                  <CustomFilterableFormSelect
-                    required
-                    id={langKey + '[code]'}
-                    label={messages['common.language']}
-                    isLoading={isFetching}
-                    control={control}
-                    options={languageList}
-                    optionValueProp={'code'}
-                    optionTitleProp={['native_name']}
-                    errorInstance={errors}
-                  />
+        <Grid item xs={12}>
+          {selectedLanguageList.map((language: any) => (
+            <Box key={language.code} sx={{marginTop: '10px'}}>
+              <fieldset style={{border: '1px solid #7e7e7e'}}>
+                <legend style={{color: '#0a8fdc'}}>
+                  {language.native_name}
+                </legend>
+                <Grid container spacing={5}>
+                  <Grid item xs={11}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[question]'}
+                      label={messages['faq.question']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={1} md={1}>
+                    <IconButton
+                      aria-label='delete'
+                      color={'error'}
+                      onClick={(event) => {
+                        onDeleteLanguage(language);
+                      }}>
+                      <Delete color={'error'} />
+                    </IconButton>
+                  </Grid>
+                  <Grid item md={12}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[answer]'}
+                      label={messages['faq.answer']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6} />
-                <Grid item xs={12} md={6}>
-                  <CustomTextInput
-                    required
-                    id={langKey + '[question]'}
-                    label={messages['faq.question']}
-                    register={register}
-                    errorInstance={errors}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <CustomTextInput
-                    required
-                    id={langKey + '[answer]'}
-                    label={messages['faq.answer']}
-                    register={register}
-                    errorInstance={errors}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-          </React.Fragment>
-        ))}
+              </fieldset>
+            </Box>
+          ))}
+        </Grid>
 
         <Grid item xs={12} md={6}>
           <FormRowStatus
