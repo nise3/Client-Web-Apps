@@ -1,7 +1,7 @@
-import {Grid} from '@mui/material';
+import {Button, Divider, Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -24,6 +24,7 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import {Add} from '@mui/icons-material';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -37,8 +38,6 @@ const initialValues = {
   organization_id: '',
   question: '',
   answer: '',
-  language: '',
-  other_language_fields: '',
   row_status: '1',
 };
 
@@ -53,7 +52,6 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateFAQ} = useFetchFAQ(itemId);
-  console.log('item dara: ', itemData);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
@@ -62,9 +60,17 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const [industryList, setIndustryList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
+  const [showInId, setShowInId] = useState<number | null>(null);
+  const [otherLanguages, setOtherLanguages] = useState<Array<string>>([]);
+  const [languageList, setLanguageList] = useState<any>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      show_in: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['faq.show_in'] as string),
       question: yup
         .string()
         .trim()
@@ -90,8 +96,18 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (cmsGlobalConfig) {
+      setLanguageList(
+        cmsGlobalConfig.language_configs?.filter(
+          (item: any) => item.code != 'bn',
+        ),
+      );
+    }
+  }, [cmsGlobalConfig]);
+
+  useEffect(() => {
     if (itemData) {
-      reset({
+      let data: any = {
         show_in: itemData?.show_in,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
@@ -99,38 +115,80 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         question: itemData?.question,
         answer: itemData?.answer,
         row_status: itemData?.row_status,
-        other_language_fields: itemData?.other_language_fields,
-      });
+      };
+
+      const otherLangData = itemData?.other_language_fields;
+
+      if (otherLangData) {
+        let languageKeys: any = [];
+
+        Object.keys(otherLangData).map((key: string, index: number) => {
+          data['language_' + index] = {
+            code: key,
+            question: otherLangData[key].question,
+            answer: otherLangData[key].answer,
+          };
+          languageKeys.push('language_' + index);
+        });
+        setOtherLanguages(languageKeys);
+      }
+
+      reset(data);
+      setShowInId(itemData?.show_in);
+      changeShowInAction(itemData?.show_in);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
-  const changeShowInAction = async (showInId: number) => {
-    setIsLoadingSectionNameList(true);
-    if (showInId === 3) {
-      const institutes = await getAllInstitutes();
-      setIndustryList([]);
-      setInstituteList(institutes);
+  const changeShowInAction = useCallback((id: number) => {
+    (async () => {
+      setIsLoadingSectionNameList(true);
+      if (id === 3) {
+        const institutes = await getAllInstitutes();
+        setIndustryList([]);
+        setInstituteList(institutes);
+      } else if (id == 4) {
+        const industries = await getAllIndustries();
+        setInstituteList([]);
+        setIndustryList(industries);
+      } else {
+        setIndustryList([]);
+        setInstituteList([]);
+      }
+      setShowInId(id);
       setIsLoadingSectionNameList(false);
-    } else if (showInId == 4) {
-      const industries = await getAllIndustries();
-      setInstituteList([]);
-      setIndustryList(industries);
-      setIsLoadingSectionNameList(false);
-    } else {
-      setIndustryList([]);
-      setInstituteList([]);
-      setIsLoadingSectionNameList(false);
-    }
-  };
+    })();
+  }, []);
 
-  const onSubmit: SubmitHandler<FAQ> = async (data: FAQ) => {
+  const onAddOtherLanguageClick = useCallback(() => {
+    let languageKeys = [...otherLanguages];
+    languageKeys.push('language_' + languageKeys.length);
+    setOtherLanguages(languageKeys);
+  }, [otherLanguages]);
+
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      /*data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);*/
-      /*data.other_language_fields = [];*/
+      let data = {...formData};
 
-      console.log('submitted data: ', data);
+      let otherLanguagesFields: any = {};
+      otherLanguages.map((langKey: string) => {
+        const langObj = formData[langKey];
+
+        if (langObj.code) {
+          otherLanguagesFields[langObj.code] = {
+            question: langObj.question,
+            answer: langObj.answer,
+          };
+        }
+
+        delete data[langKey];
+      });
+
+      if (otherLanguages.length > 0)
+        data.other_language_fields = otherLanguagesFields;
+
+      //console.log('submitted data: ', data);
 
       if (itemId) {
         await updateFAQ(itemId, data);
@@ -189,13 +247,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             onChange={changeShowInAction}
           />
         </Grid>
-        {/*{(instituteList?.length > 0 || industryList?.length > 0) && (*/}
-        <Grid item container xs={12} md={6}>
-          {instituteList?.length > 0 && (
+        <Grid item xs={12} md={6}>
+          {showInId == 3 && (
             <CustomFilterableFormSelect
               required
               id='institute_id'
-              label={messages['common.select']}
+              label={messages['institute.label']}
               isLoading={isLoadingSectionNameList}
               control={control}
               options={instituteList}
@@ -204,11 +261,11 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               errorInstance={errors}
             />
           )}
-          {industryList?.length > 0 && (
+          {showInId == 4 && (
             <CustomFilterableFormSelect
               required
               id='organization_id'
-              label={messages['common.select']}
+              label={messages['organization.label']}
               isLoading={isLoadingSectionNameList}
               control={control}
               options={industryList}
@@ -237,59 +294,66 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        {/*<Grid item container xs={12} md={6}>
-          <CustomFieldArray
-            id='phone_numbers'
-            labelLanguageId={'common.phone'}
-            isLoading={isLoading}
-            control={control}
-            register={register}
-            errors={errors}
-          />
-        </Grid>*/}
-      </Grid>
-      <Grid container spacing={5}>
-        {Object.keys(itemData?.other_language_fields || {}).map(
-          (key: string) =>
-            itemData?.other_language_fields.hasOwnProperty(key) && (
-              <>
-                <Grid item xs={12} md={9} />
-                <Grid item xs={8} md={3}>
-                  {cmsGlobalConfig.language_configs?.length > 0 && (
-                    <CustomFilterableFormSelect
-                      required
-                      id='organization_id'
-                      label={messages['common.select']}
-                      isLoading={isFetching}
-                      control={control}
-                      options={cmsGlobalConfig.language_configs}
-                      optionValueProp={'id'}
-                      optionTitleProp={['native_name']}
-                      errorInstance={errors}
-                    />
-                  )}
+
+        <Grid item xs={12}>
+          <Button
+            variant={'outlined'}
+            color={'primary'}
+            onClick={onAddOtherLanguageClick}>
+            <Add />
+            Add FAQ in Other Language
+          </Button>
+        </Grid>
+
+        {otherLanguages.map((langKey: string) => (
+          <React.Fragment key={langKey}>
+            <Divider
+              orientation={'horizontal'}
+              sx={{
+                width: 'calc(100% + 28px)',
+                marginLeft: '-4px',
+                marginTop: '20px',
+              }}
+            />
+            <Grid item xs={12}>
+              <Grid container spacing={5}>
+                <Grid item xs={12} md={6}>
+                  <CustomFilterableFormSelect
+                    required
+                    id={langKey + '[code]'}
+                    label={messages['common.language']}
+                    isLoading={isFetching}
+                    control={control}
+                    options={languageList}
+                    optionValueProp={'code'}
+                    optionTitleProp={['native_name']}
+                    errorInstance={errors}
+                  />
                 </Grid>
+                <Grid item xs={12} md={6} />
                 <Grid item xs={12} md={6}>
                   <CustomTextInput
                     required
-                    id='question'
+                    id={langKey + '[question]'}
                     label={messages['faq.question']}
                     register={register}
                     errorInstance={errors}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} style={{marginBottom: '55px'}}>
+                <Grid item xs={12} md={6}>
                   <CustomTextInput
                     required
-                    id='answer'
+                    id={langKey + '[answer]'}
                     label={messages['faq.answer']}
                     register={register}
                     errorInstance={errors}
                   />
                 </Grid>
-              </>
-            ),
-        )}
+              </Grid>
+            </Grid>
+          </React.Fragment>
+        ))}
+
         <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
