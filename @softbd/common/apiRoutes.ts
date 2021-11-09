@@ -121,6 +121,7 @@ export const API_FRONT_END_RECENT_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/recent-activities';
 export const API_FRONT_END_ALL_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/all-activities';
+export const CMS_RECENT_ACTIVITY = CMS_SERVICE_PATH + '/' + 'recent-activities';
 
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';
@@ -137,6 +138,7 @@ export const API_YOUTH_FEED_STATISTICS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_NOTICE_BOARD = '/notice-board/';
+export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/' + 'notice-or-news';
 
 /** Routes for FAQ page */
 export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
