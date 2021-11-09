@@ -18,7 +18,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { createPartner, updatePartner, useFetchPartner } from '../../../services/cmsManagement/PartnersService';
+import { createPartner, updatePartner } from '../../../services/cmsManagement/PartnersService';
+import { useFetchPartner } from '../../../services/cmsManagement/hooks';
 
 interface PartnerAddEditPopupProps {
   itemId: number | null;
