@@ -11,22 +11,35 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {
-  useFetchJobSector,
-  useFetchOrganizations,
-} from '../../../services/organaizationManagement/hooks';
+import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {
-  createSlider,
-  updateSlider,
-} from '../../../services/cmsManagement/SliderService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {
+  useFetchCMSGlobalConfigs,
+  useFetchStaticPage,
+} from '../../../services/cmsManagement/hooks';
+import {
+  createStaticPage,
+  updateStaticPage,
+} from '../../../services/cmsManagement/StaticPageService';
 
+interface StaticPage {
+  id: number;
+  title?: string;
+  sub_title?: string;
+  show_in: '';
+  content_slug_or_id: '';
+  institute_id: '';
+  organization_id: '';
+  content_type: '';
+  contents: '';
+  row_status: '1';
+}
 interface StaticPageAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -40,7 +53,6 @@ const initialValues = {
   content_slug_or_id: '',
   institute_id: '',
   organization_id: '',
-  organization_association_id: '',
   content_type: '',
   contents: '',
   row_status: '1',
@@ -57,12 +69,19 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser();
   const [selectedModule, setSelectedModule] = useState<number | null>(null);
+  const [globalConfigFilters] = useState<any>({});
+  const {data: configData} = useFetchCMSGlobalConfigs(globalConfigFilters);
+  let showIns = configData?.show_in;
+
+  useEffect(() => {
+    showIns = configData?.show_in;
+  }, [configData]);
 
   const {
     data: itemData,
     isLoading,
-    mutate: mutateJobSector,
-  } = useFetchJobSector(itemId);
+    mutate: mutateStaticPage,
+  } = useFetchStaticPage(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -97,7 +116,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
-      organization_association_id: yup.string(),
       content_type: yup
         .string()
         .required()
@@ -116,7 +134,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
@@ -131,30 +148,18 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       reset({
         show_in: itemData?.show_in,
         content_slug_or_id: itemData?.content_slug_or_id,
-        title_en: itemData?.title_en,
+        title: itemData?.title,
         sub_title: itemData?.sub_title,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
         content_type: itemData?.content_type,
-        content: itemData?.content,
-        organization_association: itemData?.organization_association,
+        contents: itemData?.contents,
         row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
     }
   }, [itemData]);
-
-  const MODULES = useMemo(
-    () => [
-      {id: 1, title: 'NISE3', title_en: 'NISE3'},
-      {id: 2, title: 'Youth', title_en: 'Youth'},
-      {id: 3, title: 'TSP', title_en: 'TSP'},
-      {id: 4, title: 'Industry', title_en: 'Industry'},
-      {id: 5, title: 'Industry Association', title_en: 'Industry Association'},
-    ],
-    [],
-  );
 
   const CONTENT_TYPES = useMemo(
     () => [
@@ -169,14 +174,14 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     setSelectedModule(moduleId);
   }, []);
 
-  const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       if (itemId) {
-        await updateSlider(itemId, data);
+        await updateStaticPage(itemId, data);
         updateSuccessMessage('static_page.label');
-        mutateJobSector();
+        mutateStaticPage();
       } else {
-        await createSlider(data);
+        await createStaticPage(data);
         createSuccessMessage('static_page.label');
       }
       props.onClose();
@@ -215,19 +220,22 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='show_in'
-            label={messages['common.show_in']}
-            control={control}
-            isLoading={false}
-            options={MODULES}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onchangeModule}
-          />
-        </Grid>
+        {authUser && authUser.isSystemUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='show_in'
+              label={messages['common.show_in']}
+              control={control}
+              isLoading={false}
+              options={showIns}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+              onChange={onchangeModule}
+            />
+          </Grid>
+        )}
+
         <Grid item xs={6}>
           <CustomTextInput
             required
@@ -288,16 +296,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             />
           </Grid>
         )}
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='organization_association_id'
-            label={messages['organization_association.label']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
 
         <Grid item xs={6}>
           <CustomFormSelect

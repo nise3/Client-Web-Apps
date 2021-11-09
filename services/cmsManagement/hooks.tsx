@@ -1,5 +1,6 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_CMS_GLOBAL_CONFIGS,
   API_SLIDERS,
   API_STATIC_PAGES,
   API_VISITOR_FEEDBACKS,
@@ -15,4 +16,12 @@ export function useFetchSliders(params: any) {
 
 export function useFetchStaticPages(params: any) {
   return useAxiosSWR([API_STATIC_PAGES, params]);
+}
+
+export function useFetchStaticPage(pageId: number | null) {
+  return useAxiosSWR(pageId ? API_STATIC_PAGES + '/' + pageId : null);
+}
+
+export function useFetchCMSGlobalConfigs(params: any) {
+  return useAxiosSWR([API_CMS_GLOBAL_CONFIGS, params]);
 }
