@@ -24,7 +24,6 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import {getValuesFromObjectArray} from '../../../@softbd/utilities/helpers';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -91,7 +90,6 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
-      console.log('item date : ', itemData);
       reset({
         show_in: itemData?.show_in,
         institute_id: itemData?.institute_id,
@@ -102,11 +100,9 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         row_status: itemData?.row_status,
         other_language_fields: itemData?.other_language_fields,
       });
-      console.log('in if');
     } else {
       reset(initialValues);
     }
-    console.log('item date : ', itemData);
   }, [itemData]);
 
   const changeShowInAction = async (showInId: number) => {

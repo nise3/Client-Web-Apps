@@ -6,7 +6,7 @@ type FAQ = {
   question: string;
   answer: string;
   row_status: number;
-  other_language_fields?: Array;
+  other_language_fields?: object;
 };
 
 type Partner = {

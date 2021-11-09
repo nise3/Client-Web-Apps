@@ -26,7 +26,7 @@ export const getAllPartners = async (params = {}) => {
 //   // }
 // };
 
-export function useFetchPartner(partnerId: number) {
+export function useFetchPartner(partnerId: number | null) {
   return useAxiosSWR(API_PARTNERS + '/' + partnerId);
 }
 

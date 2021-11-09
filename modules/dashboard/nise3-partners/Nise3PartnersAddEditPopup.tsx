@@ -1,9 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
-import {
-  createJobSector,
-  updateJobSector,
-} from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
@@ -18,7 +14,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { createPartner, updatePartner, useFetchPartner } from '../../../services/cmsManagement/PartnersService';
+import {
+  createPartner,
+  updatePartner,
+  useFetchPartner,
+} from '../../../services/cmsManagement/PartnersService';
 
 interface PartnerAddEditPopupProps {
   itemId: number | null;
