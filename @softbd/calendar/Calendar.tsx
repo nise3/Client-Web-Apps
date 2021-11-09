@@ -5,11 +5,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 interface IMyCalendar extends CalendarProps {}
 
 const MyCalendar = ({events, ...rest}: IMyCalendar) => {
-  // const handleSelect = ({start, end}: any) => {
-  //   const title = window.prompt('New Event name');
-  //   alert(title);
-  // };
-
   return (
     <div>
       <Calendar
