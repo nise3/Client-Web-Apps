@@ -25,7 +25,11 @@ const EventCalendar = () => {
             <IconInstitute /> <IntlMessages id='menu.faq' />
           </>
         }>
-        <Calendar events={events} localizer={localizer} />
+        <Calendar
+          events={events}
+          localizer={localizer}
+          style={{height: '100vh'}}
+        />
       </PageBlock>
     </>
   );
