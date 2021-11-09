@@ -324,11 +324,11 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5} style={{marginBottom: '55px'}}>
+      <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
             required
-            id='show_in'
+            id={'show_in'}
             label={messages['faq.show_in']}
             isLoading={isFetching}
             control={control}
@@ -343,7 +343,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           {showInId == 3 && (
             <CustomFilterableFormSelect
               required
-              id='institute_id'
+              id={'institute_id'}
               label={messages['institute.label']}
               isLoading={isLoadingSectionNameList}
               control={control}
@@ -356,7 +356,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           {showInId == 4 && (
             <CustomFilterableFormSelect
               required
-              id='organization_id'
+              id={'organization_id'}
               label={messages['organization.label']}
               isLoading={isLoadingSectionNameList}
               control={control}
@@ -367,22 +367,24 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             />
           )}
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             required
-            id='question'
+            id={'question'}
             label={messages['faq.question']}
             register={register}
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             required
-            id='answer'
+            id={'answer'}
             label={messages['faq.answer']}
             register={register}
             errorInstance={errors}
+            multiline={true}
+            rows={3}
           />
         </Grid>
 
