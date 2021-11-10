@@ -56,22 +56,22 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.institute_id']}
-              value={recentActivityData?.institute_id}
+              label={messages['common.show_in']}
+              value={recentActivityData?.show_in_label}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.organization_id']}
-              value={recentActivityData?.organization_id}
+              label={messages['institute.label']}
+              value={recentActivityData?.institute_title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.description']}
-              value={recentActivityData?.description}
+              label={messages['organization.label']}
+              value={recentActivityData?.organization_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -153,10 +153,10 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.other_language_fields']}
-              value={recentActivityData?.other_language_fields}
+              label={messages['common.description']}
+              value={recentActivityData?.description}
               isLoading={isLoading}
             />
           </Grid>

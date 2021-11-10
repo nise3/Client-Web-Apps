@@ -1,8 +1,18 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchNoticeOrNews} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchCMSGlobalConfigs,
+  useFetchNoticeOrNews,
+} from '../../../services/cmsManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -22,6 +32,8 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
+import TextEditor from '../../../@softbd/components/editor/TextEditor';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface NoticeOrNewsAddEditPopupProps {
   itemId: number | null;
@@ -37,25 +49,6 @@ const type = [
   {
     id: 2,
     label: 'News',
-  },
-];
-
-const showIn = [
-  {
-    id: 1,
-    label: 'Nise3',
-  },
-  {
-    id: 2,
-    label: 'Youth',
-  },
-  {
-    id: 3,
-    label: 'TSP',
-  },
-  {
-    id: 4,
-    label: 'Industry',
   },
 ];
 
@@ -85,12 +78,23 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+  const textEditorRef = useRef<any>(null);
 
   const {
     data,
     isLoading: noticeIsLoading,
     mutate: mutateNoticeOrNews,
   } = useFetchNoticeOrNews(itemId);
+
+  const authUser = useAuthUser();
+  const [selectedModule, setSelectedModule] = useState<number | null>(null);
+  const [globalConfigFilters] = useState<any>({});
+  const {data: configData} = useFetchCMSGlobalConfigs(globalConfigFilters);
+  let showInsRef = useRef(configData?.show_in);
+
+  useEffect(() => {
+    showInsRef.current = configData?.show_in;
+  }, [configData]);
 
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: organizations, isLoading: isLoadingOrganizations} =
@@ -110,11 +114,29 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       type: yup
         .string()
         .required()
-        .label(messages['common.title'] as string),
+        .label(messages['common.type'] as string),
       show_in: yup
         .string()
         .required()
-        .label(messages['common.title'] as string),
+        .label(messages['common.show_in'] as string),
+      institute_id: yup
+        .string()
+        .label(messages['institute.label'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == 3;
+          },
+          then: yup.string().required(),
+        }),
+      organization_id: yup
+        .string()
+        .label(messages['organization.label'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == 4;
+          },
+          then: yup.string().required(),
+        }),
     });
   }, [itemId, messages]);
 
@@ -152,9 +174,15 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
     }
   }, [data, reset]);
 
+  const onchangeModule = useCallback((moduleId: number | null) => {
+    setSelectedModule(moduleId);
+  }, []);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('Notice submit data==>', data);
     data.itemId = data.itemId ? data.itemId : null;
+    data.other_language_fields = '';
+
+    data.details = textEditorRef.current?.editor?.getContent();
 
     data.main_image_path = 'http://lorempixel.com/400/200/';
     data.thumb_image_path = 'http://lorempixel.com/400/200/';
@@ -211,6 +239,50 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        {authUser && authUser.isSystemUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              required
+              isLoading={false}
+              id='show_in'
+              label={messages['common.show_in']}
+              control={control}
+              options={showInsRef.current}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+              onChange={onchangeModule}
+            />
+          </Grid>
+        )}
+        {authUser && authUser.isSystemUser && selectedModule == 3 && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp='id'
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+        {authUser && authUser.isSystemUser && selectedModule == 4 && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganizations}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomTextInput
             required
@@ -233,40 +305,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['label']}
             errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='institute_id'
-            label={messages['common.institute_id']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organization_id'
-            label={messages['common.organization_id']}
-            isLoading={isLoadingOrganizations}
-            control={control}
-            options={organizations}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='details'
-            label={messages['common.details']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={noticeIsLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -320,19 +358,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
-          <CustomFormSelect
-            required
-            isLoading={false}
-            id='show_in'
-            label={messages['common.show_in']}
-            control={control}
-            options={showIn}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
           <CustomTextInput
             id='file_alt_title'
             label={messages['common.file_alt_title']}
@@ -350,14 +375,22 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             isLoading={noticeIsLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='other_language_fields'
-            label={messages['common.other_language_fields']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={noticeIsLoading}
+        {/*<Grid item xs={6}>*/}
+        {/*  <CustomTextInput*/}
+        {/*    id='details'*/}
+        {/*    label={messages['common.details']}*/}
+        {/*    control={control}*/}
+        {/*    register={register}*/}
+        {/*    errorInstance={errors}*/}
+        {/*    isLoading={noticeIsLoading}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
+        <Grid item xs={12}>
+          <TextEditor
+            ref={textEditorRef}
+            initialValue={''}
+            height={'300px'}
+            key={1}
           />
         </Grid>
       </Grid>

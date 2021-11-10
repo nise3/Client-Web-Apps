@@ -1,5 +1,6 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_CMS_GLOBAL_CONFIGS,
   API_SLIDERS,
   API_STATIC_PAGES,
   API_VISITOR_FEEDBACKS,
@@ -69,4 +70,8 @@ export function useFetchGalleryAlbumContent(
       ? API_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
       : null,
   );
+}
+
+export function useFetchCMSGlobalConfigs(params: any) {
+  return useAxiosSWR([API_CMS_GLOBAL_CONFIGS, params]);
 }

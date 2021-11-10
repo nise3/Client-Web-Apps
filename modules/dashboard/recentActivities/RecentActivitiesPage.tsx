@@ -17,6 +17,12 @@ import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
 
+const contentType: any = {
+  1: 'Image',
+  2: 'Facebook source',
+  3: 'Youtube source',
+};
+
 const RecentActivitiesPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -80,29 +86,34 @@ const RecentActivitiesPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.institute_id'],
-        accessor: 'institute_id',
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
       },
       {
-        Header: messages['common.organization_id'],
-        accessor: 'organization_id',
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
       },
       {
         Header: messages['common.show_in'],
-        accessor: 'show_in',
+        accessor: 'show_in_label',
       },
       {
         Header: messages['common.description'],
         accessor: 'description',
+        isVisible: false,
       },
       {
         Header: messages['common.content_type'],
-        accessor: 'content_type ',
+        Cell: (props: any) => {
+          let data = props.row.original?.content_type;
+          return data in contentType ? contentType[data] : '';
+        },
       },
 
       {
         Header: messages['common.collage_image_path'],
         accessor: 'collage_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.collage_position'],
@@ -132,14 +143,17 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.content_properties'],
         accessor: 'content_properties',
+        isVisible: false,
       },
       {
         Header: messages['common.embedded_id'],
         accessor: 'embedded_id',
+        isVisible: false,
       },
       {
         Header: messages['common.embedded_url'],
         accessor: 'embedded_url',
+        isVisible: false,
       },
       {
         Header: messages['common.active_status'],
@@ -150,10 +164,10 @@ const RecentActivitiesPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
-      {
-        Header: messages['common.other_language_fields'],
-        accessor: 'other_language_fields',
-      },
+      // {
+      //   Header: messages['common.other_language_fields'],
+      //   accessor: 'other_language_fields',
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

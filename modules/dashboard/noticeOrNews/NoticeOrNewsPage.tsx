@@ -17,6 +17,11 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import NoticeOrNewsAddEditPopup from './NoticeOrNewsAddEditPopup';
 import NoticeOrNewsDetailsPopup from './NoticeOrNewsDetailsPopup';
 
+const newsOrNoticetype: any = {
+  1: 'Notice',
+  2: 'News',
+};
+
 const NoticeOrNewsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -27,7 +32,6 @@ const NoticeOrNewsPage = () => {
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({urlPath: CMS_NOTICE_OR_NEWS});
-  console.log('notice page data->', data);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -82,37 +86,43 @@ const NoticeOrNewsPage = () => {
       },
       {
         Header: messages['common.type'],
-        accessor: 'type',
+        Cell: (props: any) => {
+          let data = props.row.original?.type;
+          return data in newsOrNoticetype ? newsOrNoticetype[data] : '';
+        },
       },
       {
-        Header: messages['common.institute_id'],
-        accessor: 'institute_id',
-        isVisible: false,
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
       },
       {
-        Header: messages['common.organization_id'],
-        accessor: 'organization_id',
-        isVisible: false,
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
       },
       {
         Header: messages['common.details'],
         accessor: 'details',
+        isVisible: false,
       },
       {
         Header: messages['common.main_image_path'],
         accessor: 'main_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.grid_image_path'],
         accessor: 'grid_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.thumb_image_path'],
         accessor: 'thumb_image_path',
+        isVisible: false,
       },
       {
         Header: messages['common.file_path'],
         accessor: 'file_path',
+        isVisible: false,
       },
       {
         Header: messages['common.image_alt_title'],
@@ -121,11 +131,12 @@ const NoticeOrNewsPage = () => {
       },
       {
         Header: messages['common.show_in'],
-        accessor: 'show_in',
+        accessor: 'show_in_label',
       },
       {
         Header: messages['common.file_alt_title'],
         accessor: 'file_alt_title',
+        isVisible: false,
       },
       {
         Header: messages['common.active_status'],
@@ -136,10 +147,10 @@ const NoticeOrNewsPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
-      {
-        Header: messages['common.other_language_fields'],
-        accessor: 'other_language_fields',
-      },
+      // {
+      //   Header: messages['common.other_language_fields'],
+      //   accessor: 'other_language_fields',
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

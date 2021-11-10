@@ -63,22 +63,15 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.institute_id']}
-              value={data?.institute_id}
+              label={messages['institute.label']}
+              value={data?.institute_title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.organization_id']}
-              value={data?.organization_id}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.details']}
-              value={data?.details}
+              label={messages['organization.label']}
+              value={data?.organization_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -121,7 +114,7 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.show_in']}
-              value={data?.show_in}
+              value={data?.show_in_label}
               isLoading={isLoading}
             />
           </Grid>
@@ -143,6 +136,13 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
             <CustomChipRowStatus
               label={messages['common.row_status']}
               value={data?.row_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.details']}
+              value={data?.details}
               isLoading={isLoading}
             />
           </Grid>
