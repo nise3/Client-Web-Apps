@@ -77,10 +77,6 @@ const ContentsPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.title'],
-        accessor: 'title',
-      },
-      {
         Header: messages['common.content_type'],
         Cell: (props: any) => {
           let data = props.row.original;
