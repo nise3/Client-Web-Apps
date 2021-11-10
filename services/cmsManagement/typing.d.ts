@@ -21,3 +21,17 @@ type Partner = {
   row_status: string;
   other_language_fields?: object;
 };
+
+interface StaticPage {
+  title?: string;
+  sub_title?: string;
+  show_in?: number | string;
+  content_slug_or_id?: string;
+  institute_id?: string | number;
+  organization_id?: string | number;
+  content_type?: string;
+  contents?: string;
+  row_status?: number | string;
+  updated_at?: string;
+  crated_at?: string;
+}

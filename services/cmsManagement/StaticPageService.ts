@@ -2,20 +2,6 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_STATIC_PAGES} from '../../@softbd/common/apiRoutes';
 
-interface StaticPage {
-  title?: string;
-  sub_title?: string;
-  show_in?: number | string;
-  content_slug_or_id?: string;
-  institute_id?: string;
-  organization_id?: string;
-  content_type?: string;
-  contents?: string;
-  row_status?: number | string;
-  updated_at?: string;
-  crated_at?: string;
-}
-
 /**
  * @deprecated
  */
