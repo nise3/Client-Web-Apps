@@ -123,7 +123,7 @@ const InstituteGallery = () => {
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
             <H3 py={3} fontWeight={'bold'}>
-              {messages['galleries.institute']}
+              {messages['gallery-albums.institute']}
             </H3>
           </Paper>
         </Grid>

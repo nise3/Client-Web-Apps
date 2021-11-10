@@ -4,15 +4,15 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const GalleriesPage = asyncComponent(
-  () => import('../../../modules/dashboard/galleries/GalleriesPage'),
+const VideosPage = asyncComponent(
+  () => import('../../../modules/dashboard/galleryAlbumContents/ContentsPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['galleries.institute']} />
-      <GalleriesPage />
+      <PageMeta title={messages['gallery_album_content.label']} />
+      <VideosPage />
     </>
   );
 });

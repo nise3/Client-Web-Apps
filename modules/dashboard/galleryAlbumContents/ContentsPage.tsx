@@ -7,17 +7,18 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import GalleryAddEditPopup from './GalleryAddEditPopup';
-import GalleryDetailsPopup from './GalleryDetailsPopup';
+import ContentAddEditPopup from './ContentAddEditPopup';
+import ContentDetailsPopup from './ContentDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconVideo from '../../../@softbd/icons/IconVideo';
-import {deleteGallery} from '../../../services/instituteManagement/GalleryService';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_FRONT_END_GALLERY_LIST} from '../../../@softbd/common/apiRoutes';
+import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
 
-const GalleriesPage = () => {
+const ContentsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -26,7 +27,7 @@ const GalleriesPage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
-    useReactTableFetchData({urlPath: API_FRONT_END_GALLERY_LIST});
+    useReactTableFetchData({urlPath: API_GALLERY_ALBUM_CONTENTS});
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -49,12 +50,12 @@ const GalleriesPage = () => {
   }, []);
 
   const deleteGalleryItem = async (itemId: number) => {
-    let response = await deleteGallery(itemId);
+    let response = await deleteGalleryAlbumContent(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='galleries.institute' />}}
+          values={{subject: <IntlMessages id='gallery_album_content.label' />}}
         />,
       );
       await refreshDataTable();
@@ -80,10 +81,49 @@ const GalleriesPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.content'],
-        accessor: 'content',
+        Header: messages['common.content_type'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data.content_type === 1) {
+            return <p>{messages['common.image']}</p>;
+          } else if (data.content_type === 2) {
+            return <p>{messages['common.video']}</p>;
+          } else {
+            return <p>{messages['common.none']}</p>;
+          }
+        },
+      },
+      {
+        Header: messages['common.content_title'],
+        accessor: 'content_title',
+      },
+      {
+        Header: messages['gallery_album.featured_status'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data.featured === 0) {
+            return <p>{messages['common.no']}</p>;
+          } else if (data.featured === 1) {
+            return <p>{messages['common.yes']}</p>;
+          } else {
+            return <p>none</p>;
+          }
+        },
+      },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
       },
 
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -108,7 +148,7 @@ const GalleriesPage = () => {
       <PageBlock
         title={
           <>
-            <IconVideo /> <IntlMessages id='galleries.institute' />
+            <IconVideo /> <IntlMessages id='gallery_album_content.label' />
           </>
         }
         extra={[
@@ -120,7 +160,7 @@ const GalleriesPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['galleries.institute'],
+                  subject: messages['common.gallery_album'],
                 }}
               />
             }
@@ -136,7 +176,7 @@ const GalleriesPage = () => {
           totalCount={totalCount}
         />
         {isOpenAddEditModal && (
-          <GalleryAddEditPopup
+          <ContentAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -145,7 +185,7 @@ const GalleriesPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <GalleryDetailsPopup
+          <ContentDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -157,4 +197,4 @@ const GalleriesPage = () => {
   );
 };
 
-export default GalleriesPage;
+export default ContentsPage;

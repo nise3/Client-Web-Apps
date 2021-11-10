@@ -5,6 +5,8 @@ import {
   API_VISITOR_FEEDBACKS,
   CMS_NOTICE_OR_NEWS,
   CMS_RECENT_ACTIVITY,
+  API_GALLERY_ALBUM_CONTENTS,
+  API_GALLERY_ALBUMS,
   API_CMS_GLOBAL_CONFIG, API_PARTNERS
 } from '../../@softbd/common/apiRoutes';
 
@@ -40,4 +42,31 @@ export function useFetchPartners(params: any) {
 
 export function useFetchPartner(partnerId: number) {
   return useAxiosSWR(API_PARTNERS + '/' + partnerId);
+}
+
+
+/******* For Gallery Albums ******/
+export function useFetchGalleryAlbums(params: any) {
+  return useAxiosSWR([API_GALLERY_ALBUMS, params]);
+}
+
+export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
+  return useAxiosSWR(
+    galleryAlbumId ? API_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
+  );
+}
+
+/****** For Gallery Album Contents ******/
+export function useFetchGalleryAlbumContents(params: any) {
+  return useAxiosSWR([API_GALLERY_ALBUM_CONTENTS, params]);
+}
+
+export function useFetchGalleryAlbumContent(
+  galleryAlbumContentId: number | null,
+) {
+  return useAxiosSWR(
+    galleryAlbumContentId
+      ? API_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
+      : null,
+  );
 }
