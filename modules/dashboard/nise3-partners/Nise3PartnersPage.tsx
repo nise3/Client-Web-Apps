@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteJobSector} from '../../../services/organaizationManagement/JobSectorService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -11,11 +10,11 @@ import Nise3PartnersDetailsPopup from './Nise3PartnersDetailsPopup';
 import Nise3PartnersAddEditPopup from './Nise3PartnersAddEditPopup';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
+import {useFetchPartners} from '../../../services/cmsManagement/hooks';
+import {deletePartner} from '../../../services/cmsManagement/PartnersService';
 
 const Nise3PartnersPage = () => {
   const {messages} = useIntl();
@@ -26,7 +25,8 @@ const Nise3PartnersPage = () => {
     data: jobSectors,
     isLoading,
     mutate: mutateJobSectors,
-  }: any = useFetchJobSectors(jobSectorFilters);
+  // }: any = useFetchJobSectors(jobSectorFilters);
+  }: any = useFetchPartners(jobSectorFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -56,13 +56,13 @@ const Nise3PartnersPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteJobSectorItem = async (itemId: number) => {
-    let response = await deleteJobSector(itemId);
+  const deletePartnerItem = async (itemId: number) => {
+    let response = await deletePartner(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_sectors.label' />}}
+          values={{subject: <IntlMessages id='nise.partners' />}}
         />,
       );
 
@@ -90,18 +90,8 @@ const Nise3PartnersPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
+        Header: messages['partner.grid_image_path'],
+        accessor: 'grid_image_path',
       },
       {
         Header: messages['common.actions'],
@@ -112,7 +102,7 @@ const Nise3PartnersPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteJobSectorItem(data.id)}
+                deleteAction={() => deletePartnerItem(data.id)}
                 deleteTitle={'Are you sure?'}
               />
             </DatatableButtonGroup>
@@ -129,7 +119,7 @@ const Nise3PartnersPage = () => {
       <PageBlock
         title={
           <>
-            <IconJobSector /> <IntlMessages id='job_sectors.label' />
+            <IconJobSector /> <IntlMessages id='nise.partners' />
           </>
         }
         extra={[

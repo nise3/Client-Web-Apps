@@ -927,5 +927,9 @@
   "common.notice_or_news": "বিজ্ঞপ্তি বা সংবাদ",
   "common.other_language_fields": "অন্যান্য ভাষার ক্ষেত্র",
   "common.embedded_id": "এমবেডেড আইডি",
-  "common.embedded_url": "এমবেডেড ইউআরএল"
+  "common.embedded_url": "এমবেডেড ইউআরএল",
+  "faq.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
+  "partner.main_image_path": "মূল ছবির ইউআরএল",
+  "partner.thumb_image_path": "থাম ছবির ইউআরএল",
+  "partner.grid_image_path": "গ্রীড ছবির ইউআরএল"
 }

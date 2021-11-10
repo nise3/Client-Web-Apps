@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,6 +18,18 @@ type Props = {
 const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchFAQ(itemId);
+
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+
+  const languageLabel = (key: string) => {
+    let label: string = '';
+    cmsGlobalConfig?.language_configs.map((lang: any) => {
+      if (lang.code === key) {
+        label = lang.native_name;
+      }
+    });
+    return label;
+  };
 
   return (
     <>
@@ -40,20 +53,38 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <h3 style={{textAlign: 'center'}}>{itemData?.show_in_label}</h3>
-        <h4>Language: Bangla</h4>
         <Grid container spacing={5}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <fieldset>
-              <legend>{messages['faq.question']}</legend>
-              <p>{itemData?.question}</p>
+              <legend>{messages['common.bangla']}</legend>
+              <p>
+                {messages['faq.question']}: <br />
+                {itemData?.question}
+              </p>
+              <p>
+                {messages['faq.answer']}: <br />
+                {itemData?.answer}
+              </p>
             </fieldset>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <fieldset>
-              <legend>{messages['faq.answer']}</legend>
-              <p>{itemData?.answer}</p>
-            </fieldset>
-          </Grid>
+          {Object.keys(itemData?.other_language_fields || {}).map(
+            (key: string) =>
+              itemData?.other_language_fields.hasOwnProperty(key) && (
+                <Grid item xs={12} md={12}>
+                  <fieldset>
+                    {<legend>{languageLabel(key)}</legend>}
+                    <p>
+                      {messages['faq.question']}: <br />
+                      {itemData?.other_language_fields[key].question}
+                    </p>
+                    <p>
+                      {messages['faq.answer']}: <br />
+                      {itemData?.other_language_fields[key].answer}
+                    </p>
+                  </fieldset>
+                </Grid>
+              ),
+          )}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
+import { useFetchPartner } from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -21,7 +21,8 @@ const Nise3PartnersDetailsPopup = ({
   openEditModal,
   ...props
 }: Props) => {
-  const {data: itemData, isLoading} = useFetchJobSector(itemId);
+  // const {data: itemData, isLoading} = useFetchJobSector(itemId);
+  const {data: itemData, isLoading} = useFetchPartner(itemId);
   const {messages} = useIntl();
 
   return (
@@ -33,7 +34,7 @@ const Nise3PartnersDetailsPopup = ({
         title={
           <>
             <WorkOutline />
-            <IntlMessages id='job_sectors.label' />
+            <IntlMessages id='nise.partners' />
           </>
         }
         actions={
@@ -55,8 +56,22 @@ const Nise3PartnersDetailsPopup = ({
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
+              label={messages['partner.main_image_path']}
+              value={itemData?.main_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['partner.thumb_image_path']}
+              value={itemData?.thumb_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['partner.grid_image_path']}
+              value={itemData?.grid_image_path}
               isLoading={isLoading}
             />
           </Grid>

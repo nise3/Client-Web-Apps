@@ -914,5 +914,9 @@
   "common.notice_or_news": "Notice or News",
   "common.other_language_fields": "Other language fields",
   "common.embedded_id": "Embedded Id",
-  "common.embedded_url": "Embedded url"
+  "common.embedded_url": "Embedded url",
+  "faq.add_language": "Add FAQ in other language",
+  "partner.main_image_path": "Main Image Path",
+  "partner.thumb_image_path": "Thumb Image Path",
+  "partner.grid_image_path": "Grid Image Path"
 }

@@ -1,9 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
-import {
-  createJobSector,
-  updateJobSector,
-} from '../../../services/organaizationManagement/JobSectorService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
@@ -15,24 +11,25 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { createPartner, updatePartner } from '../../../services/cmsManagement/PartnersService';
+import { useFetchPartner } from '../../../services/cmsManagement/hooks';
 
-interface JobSectorAddEditPopupProps {
+interface PartnerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  title_en: '',
+  // title_en: '',
   title: '',
   row_status: '1',
 };
 
-const Nise3PartnersAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
+const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -44,8 +41,8 @@ const Nise3PartnersAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
   const {
     data: itemData,
     isLoading,
-    mutate: mutateJobSector,
-  } = useFetchJobSector(itemId);
+    mutate: mutatePartners,
+  } = useFetchPartner(itemId);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title_en: yup.string().label(messages['common.title_en'] as string),
@@ -63,14 +60,13 @@ const Nise3PartnersAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<JobSector>({
+  } = useForm<Partner>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
     if (itemData) {
       reset({
-        title_en: itemData?.title_en,
         title: itemData?.title,
         row_status: String(itemData?.row_status),
       });
@@ -79,15 +75,16 @@ const Nise3PartnersAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+  const onSubmit: SubmitHandler<Partner> = async (data: Partner) => {
     try {
       if (itemId) {
-        await updateJobSector(itemId, data);
-        updateSuccessMessage('job_sectors.label');
-        mutateJobSector();
+        await updatePartner(itemId, data);
+        updateSuccessMessage('nise.partners');
+        mutatePartners();
       } else {
-        await createJobSector(data);
-        createSuccessMessage('job_sectors.label');
+        // data.title_en = 'aa'
+        await createPartner(data);
+        createSuccessMessage('nise.partners');
       }
       props.onClose();
       refreshDataTable();
@@ -106,12 +103,12 @@ const Nise3PartnersAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='job_sectors.label' />}}
+              values={{subject: <IntlMessages id='nise.partners' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='job_sectors.label' />}}
+              values={{subject: <IntlMessages id='nise.partners' />}}
             />
           )}
         </>
@@ -137,8 +134,26 @@ const Nise3PartnersAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            id='title_en'
-            label={messages['common.title_en']}
+            id='main_image_path'
+            label={messages['partner.main_image_path']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='thumb_image_path'
+            label={messages['partner.thumb_image_path']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='grid_image_path'
+            label={messages['partner.grid_image_path']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
