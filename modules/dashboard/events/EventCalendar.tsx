@@ -12,6 +12,7 @@ import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchBranches} from '../../../services/instituteManagement/hooks';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import CalendarAddEditPopup from './EventCalendarAddEditPopup';
 
 const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
@@ -20,11 +21,13 @@ const localizer = momentLocalizer(moment);
 
 const events = [
   {
+    id: "1",
     start: '2021-11-08',
     end: '2021-11-08',
     title: 'Partners'
   },
   {
+    id: "2",
     start: '2021-11-09',
     end: '2021-11-11',
     title: 'Event Project'
@@ -37,6 +40,8 @@ const EventCalendar = () => {
   /*const authUser = useAuthUser();*/
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
   const [viewFilters, setViewFilters] = useState<any>({
     type: 'month',
   });
@@ -84,21 +89,31 @@ const EventCalendar = () => {
   }, [isToggleTable]);
   
 
-  // let {data: events, isLoading: isLoadingEvents} =
-  //   useFetchCalenderEvents(viewFilters);
+  let {data: events, isLoading: isLoadingEvents} =
+    useFetchCalenderEvents(viewFilters);
 
-  // // console.log('events ', events);
-  // if (events) {
-  //   events = events.map((e:any)=> {
-  //     return {
-  //       start: e.start_date,
-  //       end: e.end_date,
-  //       title: e.title
-  //     }
-  //   })
-  //   console.log('events ', events);
-  // }
+  // console.log('events ', events);
+  if (events) {
+    events = events.map((e:any)=> {
+      return {
+        ...e,
+        start: e.start_date,
+        end: e.end_date,
+        // title: e.title
+      }
+    })
+    // console.log('events ', events);
+  }
 
+  const onSelectSlot = (e: any) => {
+    setSelectedStartDate(e.start);
+    setSelectedEndDate(e.end);
+    openAddEditModal(e.id);
+  };
+  const onSelectEvent = (e: any) => {
+    console.log('onSelectEvent ', e);
+    openAddEditModal(e.id);
+  };
   return (
     <>
       <PageBlock
@@ -114,9 +129,20 @@ const EventCalendar = () => {
           style={{height: '100vh'}}
           onView={(view: View) => setViewFilters({type: view})}
           onNavigate={(e: any) => console.log('onNavigate ', e) }
-          onSelectEvent={(e: any) => console.log('onSelectEvent ', e) }
-          onSelectSlot={(e: any) => console.log('onSelectSlot ', e) }
+          onSelectEvent={ onSelectEvent }
+          onSelectSlot={ onSelectSlot }
         />
+        
+        {isOpenAddEditModal && (
+          <CalendarAddEditPopup
+            key={1}
+            onClose={closeAddEditModal}
+            itemId={selectedItemId}
+            startDate={selectedStartDate}
+            endDate={selectedEndDate}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
       </PageBlock>
     </>
   );

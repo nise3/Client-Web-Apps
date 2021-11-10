@@ -22,3 +22,9 @@ export function useFetchCalenderEvents(params: any) {
   console.log('axis: ', params);
   return useAxiosSWR([API_CALENDAR_EVENTS, params]);
 }
+
+/** fetches a single calendar event */
+export function useFetchCalendarEvent(faqId: number | null) {
+  return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
+}
+
