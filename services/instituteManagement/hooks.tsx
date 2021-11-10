@@ -19,7 +19,6 @@ import {
   API_PUBLIC_COURSE_LIST,
   API_COURSE_ENROLLMENTS,
   API_FRONT_END_VIDEO,
-  API_FRONT_END_GALLERY,
   API_ALL_FAQS,
 } from '../../@softbd/common/apiRoutes';
 

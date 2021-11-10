@@ -67,13 +67,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
   },
   sectionDesktop: {
-    minHeight: 58,
+    height: '100%',
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
-    },
-    [theme.breakpoints.up('xl')]: {
-      minHeight: 65,
+      alignItems: 'center',
     },
   },
   sectionMobile: {
