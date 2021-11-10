@@ -25,6 +25,10 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {Add, Delete} from '@mui/icons-material';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -49,6 +53,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateFAQ} = useFetchFAQ(itemId);
@@ -71,11 +76,32 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      show_in: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['faq.show_in'] as string),
+      show_in:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.show_in'] as string)
+          : yup.string(),
+      institute_id: yup
+        .mixed()
+        .label(messages['common.institute'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.TSP;
+          },
+          then: yup.string().required(),
+        }),
+      organization_id: yup
+        .mixed()
+        .label(messages['common.organization_bn'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY;
+          },
+          then: yup.string().required(),
+        }),
       question: yup
         .string()
         .trim()
@@ -86,7 +112,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['faq.answer'] as string),
-      language_en: !selectedCodes.includes('en')
+      language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
             question: yup
@@ -100,7 +126,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .required()
               .label(messages['faq.answer'] as string),
           }),
-      language_hi: !selectedCodes.includes('hi')
+      language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
         ? yup.object().shape({})
         : yup.object().shape({
             question: yup
@@ -114,7 +140,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .required()
               .label(messages['faq.answer'] as string),
           }),
-      language_te: !selectedCodes.includes('te')
+      language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
         ? yup.object().shape({})
         : yup.object().shape({
             question: yup
@@ -129,7 +155,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .label(messages['faq.answer'] as string),
           }),
     });
-  }, [messages, selectedCodes]);
+  }, [messages, selectedCodes, authUser]);
 
   const {
     register,
@@ -145,7 +171,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   useEffect(() => {
     if (cmsGlobalConfig) {
       const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
-        (item: any) => item.code != 'bn',
+        (item: any) => item.code != LanguageCodes.BANGLA,
       );
 
       setAllLanguages(filteredLanguage);
@@ -198,18 +224,14 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
-      if (id === 3) {
+      if (id === ShowInTypes.TSP && instituteList.length == 0) {
         const institutes = await getAllInstitutes();
-        setIndustryList([]);
         setInstituteList(institutes);
-      } else if (id == 4) {
+      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
         const industries = await getAllIndustries();
-        setInstituteList([]);
         setIndustryList(industries);
-      } else {
-        setIndustryList([]);
-        setInstituteList([]);
       }
+
       setShowInId(id);
       setIsLoadingSectionNameList(false);
     })();
@@ -260,6 +282,16 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      if (authUser?.isInstituteUser) {
+        formData.institute_id = authUser?.institute_id;
+        formData.show_in = ShowInTypes.TSP;
+      }
+
+      if (authUser?.isOrganizationUser) {
+        formData.organization_id = authUser?.organization_id;
+        formData.show_in = ShowInTypes.INDUSTRY;
+      }
+
       let data = {...formData};
 
       let otherLanguagesFields: any = {};
@@ -325,48 +357,52 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id={'show_in'}
-            label={messages['faq.show_in']}
-            isLoading={isFetching}
-            control={control}
-            options={cmsGlobalConfig?.show_in}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-            onChange={changeShowInAction}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          {showInId == 3 && (
-            <CustomFilterableFormSelect
-              required
-              id={'institute_id'}
-              label={messages['institute.label']}
-              isLoading={isLoadingSectionNameList}
-              control={control}
-              options={instituteList}
-              optionValueProp={'id'}
-              optionTitleProp={['title']}
-              errorInstance={errors}
-            />
-          )}
-          {showInId == 4 && (
-            <CustomFilterableFormSelect
-              required
-              id={'organization_id'}
-              label={messages['organization.label']}
-              isLoading={isLoadingSectionNameList}
-              control={control}
-              options={industryList}
-              optionValueProp={'id'}
-              optionTitleProp={['title']}
-              errorInstance={errors}
-            />
-          )}
-        </Grid>
+        {authUser && authUser.isSystemUser && (
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                required
+                id={'show_in'}
+                label={messages['faq.show_in']}
+                isLoading={isFetching}
+                control={control}
+                options={cmsGlobalConfig?.show_in}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={changeShowInAction}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {showInId == ShowInTypes.TSP && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'institute_id'}
+                  label={messages['institute.label']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={instituteList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+              {showInId == ShowInTypes.INDUSTRY && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'organization_id'}
+                  label={messages['organization.label']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+            </Grid>
+          </React.Fragment>
+        )}
         <Grid item xs={12}>
           <CustomTextInput
             required
