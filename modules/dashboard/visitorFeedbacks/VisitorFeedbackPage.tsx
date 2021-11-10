@@ -44,6 +44,7 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.address'],
         accessor: 'address',
+        isVisible: false,
       },
       {
         Header: messages['common.read_at'],

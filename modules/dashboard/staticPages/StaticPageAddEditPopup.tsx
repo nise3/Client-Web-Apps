@@ -2,7 +2,14 @@ import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -72,11 +79,12 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const authUser = useAuthUser();
   const [selectedModule, setSelectedModule] = useState<number | null>(null);
   const [globalConfigFilters] = useState<any>({});
-  const {data: configData} = useFetchCMSGlobalConfigs(globalConfigFilters);
-  let showIns = configData?.show_in;
+  const {data: configData, isLoading: isLoadingConfigData} =
+    useFetchCMSGlobalConfigs(globalConfigFilters);
+  let showIns = useRef(configData?.show_in);
 
   useEffect(() => {
-    showIns = configData?.show_in;
+    showIns.current = configData?.show_in;
   }, [configData]);
 
   const {
@@ -223,13 +231,13 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       }>
       <Grid container spacing={2}>
         {authUser && authUser.isSystemUser && (
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <CustomFormSelect
               id='show_in'
               label={messages['common.show_in']}
               control={control}
-              isLoading={false}
-              options={showIns}
+              isLoading={isLoadingConfigData}
+              options={showIns.current}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
@@ -238,7 +246,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           </Grid>
         )}
         {authUser && authUser.isSystemUser && selectedModule == 3 && (
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <CustomFormSelect
               id='institute_id'
               label={messages['institute.label']}
@@ -252,7 +260,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           </Grid>
         )}
         {authUser && authUser.isSystemUser && selectedModule == 4 && (
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <CustomFormSelect
               id='organization_id'
               label={messages['organization.label']}
@@ -265,7 +273,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='content_slug_or_id'
@@ -276,7 +284,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='title'
@@ -286,7 +294,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='sub_title'
             label={messages['common.sub_title']}
@@ -296,7 +304,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='content_type'
             label={messages['common.content_type']}
@@ -309,7 +317,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='contents'
             label={messages['common.contents']}
