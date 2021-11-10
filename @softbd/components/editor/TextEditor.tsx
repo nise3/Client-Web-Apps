@@ -1,12 +1,10 @@
-import React, {ForwardedRef, useState} from 'react';
+import React, {ForwardedRef} from 'react';
 import {Editor as TinymceEditor} from '@tinymce/tinymce-react';
-import CircularProgress from '@mui/material/CircularProgress';
-import {Editor as TinyMCEEditor} from 'tinymce';
 
 interface EditorProps {
-  initialValue?: string;
   height?: string;
-  onEditorChange?: (a: string, editor: TinyMCEEditor) => void;
+  onEditorChange?: (a: string, editor: any) => void;
+  defaultValue?: string;
 
   [x: string]: any;
 }
@@ -17,27 +15,24 @@ interface EditorProps {
 
  <TextEditor
  ref={textEditorRef}
- initialValue={'Hello world'}
- height={'500px'}
- key={1}
+ errorInstance={errors}
+ label={messages['common.description']}
+ />
  />
  */
 const TextEditor = React.forwardRef(
   (
-    {initialValue = '', height, onEditorChange}: EditorProps,
+    {defaultValue = '', height, onEditorChange, errorInstance}: EditorProps,
     ref: ForwardedRef<any>,
   ) => {
-    const [loading, setLoading] = useState<boolean>(true);
-
     let toolbar =
       'undo redo formatselect fontselect fontsizeselect bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image';
     return (
       <>
-        {loading && <CircularProgress className='loader' />}
         <TinymceEditor
           onEditorChange={onEditorChange}
           ref={ref}
-          initialValue={initialValue}
+          initialValue={defaultValue}
           init={{
             height: height ? height : 700,
             menubar: false,
@@ -52,10 +47,8 @@ const TextEditor = React.forwardRef(
             ],
             toolbar,
             toolbar_mode: 'wrap',
-            setup: function (editor: TinyMCEEditor) {
-              editor.on('init', function (e) {
-                setLoading(false);
-              });
+            setup: function (editor: any) {
+              editor.on('init', function (e: any) {});
               editor.on('focus', function () {
                 console.log('focus', toolbar);
               });
@@ -65,6 +58,7 @@ const TextEditor = React.forwardRef(
             },
           }}
         />
+        {/*errorInstance*/}
       </>
     );
   },
