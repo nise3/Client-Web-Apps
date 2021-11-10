@@ -1,9 +1,4 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
 import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
@@ -11,10 +6,6 @@ import {
 } from '../../shared/constants/AppConst';
 import cookieInstance from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
-import {apiPost} from '../common/api';
-import {Base64} from 'js-base64';
-import SSOConfig from '../common/SSOConfig';
-import apiAccessToken from '../common/apiAccessToken';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -32,10 +23,11 @@ axiosInstance.interceptors.request.use(
     // console.log('userAccessToken', userAccessToken);
     // console.log('apiAccessToken', apiAccessToken);
 
-    if (userAccessToken || apiAccessToken) {
-      config.headers['Authorization'] = `Bearer ${
-        userAccessToken || apiAccessToken
-      }`;
+    if (userAccessToken) {
+      config.headers['Authorization'] = `Bearer ${userAccessToken}`;
+    } else {
+      const appAccessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
+      config.headers['Authorization'] = `Bearer ${appAccessToken}`;
     }
     return config;
   },
@@ -44,36 +36,23 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export function loadAppAccessToken() {
+export async function loadAppAccessToken() {
   const accessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
-  if (accessToken) {
-    axiosInstance.defaults.headers.common[
-      'Authorization'
-    ] = `Bearer ${accessToken}`;
-  } else {
-    apiPost(
-      '/oauth2/token',
-      {
-        grant_type: 'client_credentials',
-      },
-      {
-        baseURL: 'https://bus-staging.softbdltd.com/',
-        headers: {
-          Authorization: `Basic ${Base64.encode(
-            SSOConfig.clientKey + ':' + SSOConfig.clientSecret,
-          )}`,
+  if (!accessToken?.length) {
+    try {
+      let response = await axios.get(
+        'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',
+      );
+      cookieInstance.set(
+        COOKIE_KEY_APP_ACCESS_TOKEN,
+        response?.data?.access_token || '',
+        {
+          path: '/',
         },
-      },
-    )
-      .then((response: AxiosResponse<any>) => {
-        // console.log('/oauth2/token', response);
-        axiosInstance.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${accessToken}`;
-      })
-      .catch((error: AxiosError) => {
-        // console.log(error);
-      });
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 
