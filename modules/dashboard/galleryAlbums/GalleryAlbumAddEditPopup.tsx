@@ -276,6 +276,19 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            id='show_in'
+            label={messages['common.show_in']}
+            isLoading={isLoading}
+            control={control}
+            options={showIns}
+            optionValueProp={'id'}
+            optionTitleProp={['label']}
+            errorInstance={errors}
+            onChange={onShowInChange}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -308,20 +321,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='show_in'
-            label={messages['common.show_in']}
-            isLoading={isLoading}
-            control={control}
-            options={showIns}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
-            onChange={onShowInChange}
-          />
-        </Grid>
-        {showInStatus == 3 && (
+
+        {showInStatus === 3 && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
               id='institute_id'
@@ -335,7 +336,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        {showInStatus == 4 && (
+        {showInStatus === 4 && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
               id='organization_id'
@@ -382,8 +383,17 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             control={control}
             options={filteredGalleryAlbums}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='image_alt_title'
+            label={messages['gallery_album.image_alt_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -445,15 +455,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             isLoading={isLoading}
           />*/}
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='image_alt_title'
-            label={messages['gallery_album.image_alt_title']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+
         <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'

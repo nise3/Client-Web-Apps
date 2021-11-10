@@ -135,14 +135,14 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
         .required()
         .label(messages['common.content_title'] as string),
       image_url: yup
-        .mixed()
+        .string()
         .label(messages['common.image'] as string)
         .when('content_type', {
           is: (value: any) => value === '1',
           then: yup.string().required(),
         }),
       video_url: yup
-        .mixed()
+        .string()
         .label(messages['common.video'] as string)
         .when('content_type', {
           is: (value: any) => value === '2',

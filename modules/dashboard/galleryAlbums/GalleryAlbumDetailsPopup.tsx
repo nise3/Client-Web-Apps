@@ -47,6 +47,13 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['common.show_in']}
+              value={showIns[itemData?.show_in - 1]?.label}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
@@ -73,13 +80,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.show_in']}
-              value={showIns[itemData?.show_in - 1]?.label}
-              isLoading={isLoading}
-            />
-          </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['gallery_album.parent_gallery_album']}
