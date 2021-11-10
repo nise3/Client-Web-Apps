@@ -90,6 +90,10 @@ const SliderPage = () => {
         accessor: 'title',
       },
       {
+        Header: messages['common.show_in'],
+        accessor: 'show_in_label',
+      },
+      {
         Header: messages['common.sub_title'],
         accessor: 'sub_title',
         isVisible: false,

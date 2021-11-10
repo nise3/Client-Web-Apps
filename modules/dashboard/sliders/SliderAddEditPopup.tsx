@@ -9,7 +9,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {WorkOutline} from '@mui/icons-material';
+import {Add, Delete, WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -22,7 +22,6 @@ import {
   updateSlider,
 } from '../../../services/cmsManagement/SliderService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
@@ -31,6 +30,7 @@ import {
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import {Box, Button, IconButton} from '@mui/material';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -57,8 +57,14 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const isEdit = itemId != null;
   const authUser = useAuthUser();
+
+  const isEdit = itemId != null;
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateSlider,
+  } = useFetchSlider(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
@@ -76,14 +82,34 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
 
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateJobSector,
-  } = useFetchSlider(itemId);
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      show_in:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['faq.show_in'] as string)
+          : yup.string(),
+      institute_id: yup
+        .mixed()
+        .label(messages['common.institute'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.TSP;
+          },
+          then: yup.string().required(),
+        }),
+      organization_id: yup
+        .mixed()
+        .label(messages['common.organization_bn'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY;
+          },
+          then: yup.string().required(),
+        }),
       title: yup
         .string()
         .title()
@@ -96,8 +122,6 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['slider.images'] as string),
-      institute_id: yup.string(),
-      organization_id: yup.string(),
       is_button_available: yup
         .string()
         .required()
@@ -107,7 +131,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
       alt_title: yup.string(),
       row_status: yup.string().trim().required(),
     });
-  }, [messages]);
+  }, [messages, selectedCodes, authUser]);
   const {
     register,
     reset,
@@ -130,26 +154,53 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     }
   }, [cmsGlobalConfig]);
 
-  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-
   useEffect(() => {
     if (itemData) {
-      reset({
-        title: itemData?.title,
-        sub_title: itemData?.sub_title,
+      let data: any = {
+        show_in: itemData?.show_in,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
+        title: itemData?.title,
+        sub_title: itemData?.sub_title,
         is_button_available: itemData?.is_button_available,
         button_text: itemData?.button_text,
         link: itemData?.link,
         alt_title: itemData?.alt_title,
         row_status: String(itemData?.row_status),
-      });
+      };
+
+      const otherLangData = itemData?.other_language_fields;
+
+      if (otherLangData) {
+        let keys: any = Object.keys(otherLangData);
+        keys.map((key: string) => {
+          data['language_' + key] = {
+            code: key,
+            title: otherLangData[key].title,
+            sub_title: otherLangData[key].sub_title,
+            alt_title: otherLangData[key].alt_title,
+            button_text: otherLangData[key].button_text,
+          };
+        });
+        setSelectedCodes(keys);
+
+        setSelectedLanguageList(
+          allLanguages.filter((item: any) => keys.includes(item.code)),
+        );
+
+        setLanguageList(
+          allLanguages.filter((item: any) => !keys.includes(item.code)),
+        );
+      }
+
+      reset(data);
+      setShowInId(itemData?.show_in);
+      changeShowInAction(itemData?.show_in);
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, allLanguages]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -167,12 +218,88 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     })();
   }, []);
 
-  const onSubmit: SubmitHandler<JobSector> = async (data: any) => {
+  const onAddOtherLanguageClick = useCallback(() => {
+    if (selectedLanguageCode) {
+      let lists = [...selectedLanguageList];
+      const lang = allLanguages.find(
+        (item: any) => item.code == selectedLanguageCode,
+      );
+
+      if (lang) {
+        lists.push(lang);
+        setSelectedLanguageList(lists);
+        setSelectedCodes((prev) => [...prev, lang.code]);
+
+        setLanguageList((prevState: any) =>
+          prevState.filter((item: any) => item.code != selectedLanguageCode),
+        );
+        setSelectedLanguageCode(null);
+      }
+    }
+  }, [selectedLanguageCode, selectedLanguageList]);
+
+  const onLanguageListChange = useCallback((selected: any) => {
+    setSelectedLanguageCode(selected);
+  }, []);
+
+  const onDeleteLanguage = useCallback(
+    (language: any) => {
+      if (language) {
+        setSelectedLanguageList((prevState: any) =>
+          prevState.filter((item: any) => item.code != language.code),
+        );
+
+        let languages = [...languageList];
+        languages.push(language);
+        setLanguageList(languages);
+
+        setSelectedCodes((prev) =>
+          prev.filter((code: any) => code != language.code),
+        );
+      }
+    },
+    [selectedLanguageList, languageList, selectedCodes],
+  );
+
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      if (authUser?.isInstituteUser) {
+        formData.institute_id = authUser?.institute_id;
+        formData.show_in = ShowInTypes.TSP;
+      }
+
+      if (authUser?.isOrganizationUser) {
+        formData.organization_id = authUser?.organization_id;
+        formData.show_in = ShowInTypes.INDUSTRY;
+      }
+
+      let data = {...formData};
+
+      let otherLanguagesFields: any = {};
+      delete data.language_list;
+
+      selectedLanguageList.map((language: any) => {
+        const langObj = formData['language_' + language.code];
+
+        otherLanguagesFields[language.code] = {
+          title: langObj.title,
+          sub_title: langObj.sub_title,
+          alt_title: langObj.alt_title,
+          button_text: langObj.button_text,
+        };
+      });
+
+      delete data['language_en'];
+      delete data['language_hi'];
+      delete data['language_te'];
+
+      if (selectedLanguageList.length > 0)
+        data.other_language_fields = otherLanguagesFields;
+
       if (itemId) {
         await updateSlider(itemId, data);
         updateSuccessMessage('slider.label');
-        mutateJobSector();
+        mutateSlider();
       } else {
         await createSlider(data);
         createSuccessMessage('slider.label');
@@ -212,7 +339,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={2}>
+      <Grid container spacing={5}>
         {authUser && authUser.isSystemUser && (
           <React.Fragment>
             <Grid item xs={12} md={6}>
@@ -337,6 +464,99 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFilterableFormSelect
+            id={'language_list'}
+            label={messages['common.language']}
+            isLoading={isFetching}
+            control={control}
+            options={languageList}
+            optionValueProp={'code'}
+            optionTitleProp={['native_name']}
+            errorInstance={errors}
+            onChange={onLanguageListChange}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <Button
+            variant={'outlined'}
+            color={'primary'}
+            onClick={onAddOtherLanguageClick}
+            disabled={!selectedLanguageCode}>
+            <Add />
+            {messages['faq.add_language']}
+          </Button>
+        </Grid>
+
+        <Grid item xs={12}>
+          {selectedLanguageList.map((language: any) => (
+            <Box key={language.code} sx={{marginTop: '10px'}}>
+              <fieldset style={{border: '1px solid #7e7e7e'}}>
+                <legend style={{color: '#0a8fdc'}}>
+                  {language.native_name}
+                </legend>
+                <Grid container spacing={5}>
+                  <Grid item md={11}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[title]'}
+                      label={messages['common.title']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                  <Grid item xs={1} md={1}>
+                    <IconButton
+                      aria-label='delete'
+                      color={'error'}
+                      onClick={(event) => {
+                        onDeleteLanguage(language);
+                      }}>
+                      <Delete color={'error'} />
+                    </IconButton>
+                  </Grid>
+                  <Grid item md={12}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[sub_title]'}
+                      label={messages['common.sub_title']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                  <Grid item md={12}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[alt_title]'}
+                      label={messages['common.alt_title']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                  <Grid item md={12}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[button_text]'}
+                      label={messages['common.button_text']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                </Grid>
+              </fieldset>
+            </Box>
+          ))}
         </Grid>
 
         <Grid item xs={12}>
