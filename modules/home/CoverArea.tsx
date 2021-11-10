@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Card, CardMedia, Container, Grid} from '@mui/material';
+import {Box, Container, Grid} from '@mui/material';
 import {Theme} from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -8,6 +8,8 @@ import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
 import {H3, H6, Text} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import {LINK_INSTITUTE_SIGNUP} from '../../@softbd/common/appLinks';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,21 +54,6 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       borderRadius: '6px',
     },
-    coverImage: {
-      position: 'absolute',
-      height: '430px',
-      display: 'flex',
-      [theme.breakpoints.up('sm')]: {
-        right: 0,
-        bottom: 0,
-        width: '502px',
-      },
-      [theme.breakpoints.down('sm')]: {
-        bottom: '-430px',
-        left: 0,
-        width: '100%',
-      },
-    },
     animationFillMode: {
       animationFillMode: 'backwards !important',
     },
@@ -84,12 +71,106 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '5%',
       backgroundColor: 'lightgrey',
     },
+    fold: {
+      position: 'absolute',
+      height: '430px',
+      display: 'flex',
+      transition: 'all ease 0.5s',
+      right: 0,
+      bottom: 0,
+      '&:hover $foldStyle': {
+        width: '150px',
+        height: '150px',
+        transition: 'all ease 0.5s',
+        [theme.breakpoints.up('xl')]: {
+          width: '200px',
+          height: '200px',
+        },
+      },
+      '&:hover $foldStyle::before': {
+        borderWidth: '0 150px 150px 0',
+        transition: 'all ease 0.5s',
+        [theme.breakpoints.up('xl')]: {
+          borderWidth: '0 200px 200px 0',
+        },
+      },
+      '&:hover $certifiedImage': {
+        width: '150px',
+        height: '150px',
+        transition: 'all ease 0.5s',
+        [theme.breakpoints.up('xl')]: {
+          width: '200px',
+          height: '200px',
+        },
+      },
+      [theme.breakpoints.down('md')]: {
+        position: 'unset',
+      },
+    },
+    certifiedImage: {
+      position: 'absolute',
+      right: 0,
+      width: '80px',
+      height: '80px',
+      backgroundPosition: 'top right',
+      backgroundSize: '300px',
+      transition: 'all ease 0.5s',
+      cursor: 'pointer',
+      [theme.breakpoints.up('xl')]: {
+        width: '150px',
+        height: '150px',
+      },
+    },
+    foldStyle: {
+      position: 'absolute',
+      right: 0,
+      width: '80px',
+      height: '80px',
+      transition: 'all ease 0.5s',
+      [theme.breakpoints.up('xl')]: {
+        width: '150px',
+        height: '150px',
+      },
+      '&::before': {
+        content: '""',
+        left: 0,
+        position: 'absolute',
+        borderStyle: 'solid',
+        borderWidth: '0 80px 80px 0',
+        borderColor: '#fbfbfb transparent',
+        transition: 'all ease 0.5s',
+        boxShadow: '0px 4px 9px -2px #898989',
+        [theme.breakpoints.up('xl')]: {
+          borderWidth: '0 150px 150px 0',
+        },
+      },
+    },
+    coverImg: {
+      width: '400px',
+      backgroundSize: '100% 100%',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+      },
+      [theme.breakpoints.only('md')]: {
+        width: '500px',
+      },
+      [theme.breakpoints.only('lg')]: {
+        width: '600px',
+      },
+      [theme.breakpoints.up('xl')]: {
+        width: '800px',
+      },
+    },
   }),
 );
 
 const CoverArea = () => {
   const classes = useStyles();
   const {messages} = useIntl();
+  const router = useRouter();
+  const coverImageUrl = '/images/cover-area.png';
+  const certifiedImageUrl = 'https://lorempixel.com/400/200/?20';
+
   return (
     <>
       <Box sx={{position: 'relative'}}>
@@ -144,15 +225,24 @@ const CoverArea = () => {
             </Slide>
           </Grid>
         </Grid>
-        <Card>
-          <CardMedia
-            component='img'
-            alt='green iguana'
-            height='140'
-            image='/images/cover-area.png'
-            className={classes.coverImage}
+        <Box className={classes.fold}>
+          <Box
+            sx={{backgroundImage: `url(${certifiedImageUrl})`}}
+            className={classes.certifiedImage}
+            onClick={() => {
+              router
+                .push({
+                  pathname: LINK_INSTITUTE_SIGNUP,
+                })
+                .then((r) => {});
+            }}>
+            <Box className={classes.foldStyle} />
+          </Box>
+          <Box
+            className={classes.coverImg}
+            sx={{background: `url(${coverImageUrl}) no-repeat`}}
           />
-        </Card>
+        </Box>
       </Box>
     </>
   );
