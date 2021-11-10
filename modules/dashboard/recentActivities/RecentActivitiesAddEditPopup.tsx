@@ -177,6 +177,27 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  const isValidDescription = () => {
+    if (textEditorRef.current?.editor?.getContent()?.length < 5) {
+      setError('description', {
+        // @ts-ignore
+        message: {
+          key: 'yup_validation_required_field',
+          values: {path: messages['common.description']},
+        },
+      });
+
+      return false;
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    if (isSubmitting) {
+      isValidDescription();
+    }
+  }, [isSubmitting]);
+
   useEffect(() => {
     if (recentActivityItem) {
       reset({
@@ -208,6 +229,11 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    if (!isValidDescription()) {
+      return false;
+    }
+    data.description = textEditorRef.current.editor.getContent();
+
     data.recentActivityId = data.recentActivityId
       ? data.recentActivityId
       : null;
@@ -436,18 +462,12 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {/*<Grid item xs={6}>
-          <CustomTextInput
-            id='description'
-            label={messages['common.description']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>*/}
         <Grid item xs={12}>
           <TextEditor
+            required
+            id={'description'}
+            label={messages['common.description']}
+            errorInstance={errors}
             ref={textEditorRef}
             initialValue={initialValues.description}
             height={'300px'}
