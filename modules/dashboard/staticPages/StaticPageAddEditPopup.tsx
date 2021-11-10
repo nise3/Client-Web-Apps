@@ -2,7 +2,14 @@ import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -11,21 +18,36 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {
-  useFetchJobSector,
-  useFetchOrganizations,
-} from '../../../services/organaizationManagement/hooks';
+import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {
-  createSlider,
-  updateSlider,
-} from '../../../services/cmsManagement/SliderService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {
+  useFetchCMSGlobalConfigs,
+  useFetchStaticPage,
+} from '../../../services/cmsManagement/hooks';
+import {
+  createStaticPage,
+  updateStaticPage,
+} from '../../../services/cmsManagement/StaticPageService';
+
+interface StaticPage {
+  title?: string;
+  sub_title?: string;
+  show_in?: number | string;
+  content_slug_or_id?: string;
+  institute_id?: string;
+  organization_id?: string;
+  content_type?: string;
+  contents?: string;
+  row_status?: number | string;
+  updated_at?: string;
+  crated_at?: string;
+}
 
 interface StaticPageAddEditPopupProps {
   itemId: number | null;
@@ -40,7 +62,6 @@ const initialValues = {
   content_slug_or_id: '',
   institute_id: '',
   organization_id: '',
-  organization_association_id: '',
   content_type: '',
   contents: '',
   row_status: '1',
@@ -56,12 +77,21 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
+  const [selectedModule, setSelectedModule] = useState<number | null>(null);
+  const [globalConfigFilters] = useState<any>({});
+  const {data: configData, isLoading: isLoadingConfigData} =
+    useFetchCMSGlobalConfigs(globalConfigFilters);
+  let showIns = useRef(configData?.show_in);
+
+  useEffect(() => {
+    showIns.current = configData?.show_in;
+  }, [configData]);
 
   const {
     data: itemData,
     isLoading,
-    mutate: mutateJobSector,
-  } = useFetchJobSector(itemId);
+    mutate: mutateStaticPage,
+  } = useFetchStaticPage(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -78,10 +108,28 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         .title()
         .label(messages['common.title'] as string),
       sub_title: yup.string(),
-      institute_id: yup.string(),
-      organization_id: yup.string(),
-      organization_association_id: yup.string(),
-      content_type: yup.string().required().label('common.content_type'),
+      institute_id: yup
+        .string()
+        .label(messages['common.institute'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == 3;
+          },
+          then: yup.string().required(),
+        }),
+      organization_id: yup
+        .string()
+        .label(messages['common.organization_bn'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == 4;
+          },
+          then: yup.string().required(),
+        }),
+      content_type: yup
+        .string()
+        .required()
+        .label(messages['common.content_type'] as string),
       contents: yup.string(),
       row_status: yup.string().trim().required(),
     });
@@ -93,10 +141,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<JobSector>({
+  } = useForm<StaticPage>({
     resolver: yupResolver(validationSchema),
   });
-
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
 
@@ -109,8 +156,14 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        title_en: itemData?.title_en,
+        show_in: itemData?.show_in,
+        content_slug_or_id: itemData?.content_slug_or_id,
         title: itemData?.title,
+        sub_title: itemData?.sub_title,
+        organization_id: itemData?.organization_id,
+        institute_id: itemData?.institute_id,
+        content_type: itemData?.content_type,
+        contents: itemData?.contents,
         row_status: String(itemData?.row_status),
       });
     } else {
@@ -118,28 +171,27 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const modules = [
-    {id: 1, title: 'NISE3', title_en: 'NISE3'},
-    {id: 2, title: 'Youth', title_en: 'Youth'},
-    {id: 3, title: 'TSP', title_en: 'TSP'},
-    {id: 4, title: 'Industry', title_en: 'Industry'},
-    {id: 5, title: 'Industry Association', title_en: 'Industry Association'},
-  ];
+  const CONTENT_TYPES = useMemo(
+    () => [
+      {id: 1, title: 'Image', title_en: 'Image'},
+      {id: 2, title: 'Video', title_en: 'Video'},
+      {id: 3, title: 'Youtube', title_en: 'Youtube'},
+    ],
+    [],
+  );
 
-  const CONTENT_TYPES = [
-    {id: 1, title: 'Image', title_en: 'Image'},
-    {id: 2, title: 'Video', title_en: 'Video'},
-    {id: 3, title: 'Youtube', title_en: 'Youtube'},
-  ];
+  const onchangeModule = useCallback((moduleId: number | null) => {
+    setSelectedModule(moduleId);
+  }, []);
 
-  const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+  const onSubmit: SubmitHandler<StaticPage> = async (data: StaticPage) => {
     try {
       if (itemId) {
-        await updateSlider(itemId, data);
+        await updateStaticPage(itemId, data);
         updateSuccessMessage('static_page.label');
-        mutateJobSector();
+        mutateStaticPage();
       } else {
-        await createSlider(data);
+        await createStaticPage(data);
         createSuccessMessage('static_page.label');
       }
       props.onClose();
@@ -178,66 +230,23 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='show_in'
-            label={messages['common.show_in']}
-            control={control}
-            isLoading={false}
-            options={modules}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='content_slug_or_id'
-            label={messages['common.content_slug_or_id']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='title'
-            label={messages['common.title']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='sub_title'
-            label={messages['common.sub_title']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
         {authUser && authUser.isSystemUser && (
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoadingOrganizations}
+              id='show_in'
+              label={messages['common.show_in']}
               control={control}
-              options={organizations}
+              isLoading={isLoadingConfigData}
+              options={showIns.current}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
+              onChange={onchangeModule}
             />
           </Grid>
         )}
-
-        {authUser && authUser.isSystemUser && (
-          <Grid item xs={6}>
+        {authUser && authUser.isSystemUser && selectedModule == 3 && (
+          <Grid item xs={12} md={6}>
             <CustomFormSelect
               id='institute_id'
               label={messages['institute.label']}
@@ -250,18 +259,52 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             />
           </Grid>
         )}
-
-        <Grid item xs={6}>
+        {authUser && authUser.isSystemUser && selectedModule == 4 && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingOrganizations}
+              control={control}
+              options={organizations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='organization_association_id'
-            label={messages['organization_association.label']}
+            required
+            id='content_slug_or_id'
+            label={messages['common.content_slug_or_id']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='title'
+            label={messages['common.title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='sub_title'
+            label={messages['common.sub_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='content_type'
             label={messages['common.content_type']}
@@ -274,7 +317,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='contents'
             label={messages['common.contents']}

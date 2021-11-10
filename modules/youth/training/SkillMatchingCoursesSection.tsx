@@ -51,7 +51,7 @@ const SkillMatchingCoursesSection = ({
     courseFilters,
   );
 
-  return courseList && courseList.length ? (
+  return courseList && courseList.length > 0 ? (
     <Grid container spacing={3} mb={8}>
       <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>

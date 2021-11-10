@@ -75,3 +75,7 @@ export function useFetchGalleryAlbumContent(
 export function useFetchCMSGlobalConfigs(params: any) {
   return useAxiosSWR([API_CMS_GLOBAL_CONFIGS, params]);
 }
+
+export function useFetchStaticPage(pageId: number | null) {
+  return useAxiosSWR(pageId ? API_STATIC_PAGES + '/' + pageId : null);
+}

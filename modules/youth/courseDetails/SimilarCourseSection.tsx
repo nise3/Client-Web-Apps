@@ -9,15 +9,21 @@ import {useRouter} from 'next/router';
 import {getModulePath} from '../../../@softbd/utilities/helpers';
 
 interface SimilarCourseSectionProps {
+  courseId: number;
   skillIds: Array<number>;
 }
 
-const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
+const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
+  courseId,
+  skillIds,
+}) => {
   const {messages} = useIntl();
   const router = useRouter();
-  const path = router.pathname;
+  const pageSize = 4;
 
-  const [courseFilters, setCourseFilters] = useState<any>({page_size: 8});
+  const [courseFilters, setCourseFilters] = useState<any>({
+    page_size: pageSize,
+  });
   const pathVariable = 'skill-matching';
   const {data: courseList, metaData} = useFetchCourseList(
     pathVariable,
@@ -26,14 +32,16 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
 
   useEffect(() => {
     if (skillIds) {
-      setCourseFilters({skill_ids: skillIds, page_size: 8});
+      setCourseFilters((prevState: any) => {
+        return {...prevState, skill_ids: skillIds};
+      });
     }
   }, [skillIds]);
 
   return courseList && courseList.length ? (
     <Container maxWidth={'lg'}>
       <Grid container spacing={5}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12}>
           <Grid container alignItems={'center'}>
             <Grid item xs={8} sm={9} md={10}>
               <Typography variant={'h5'} fontWeight={'bold'}>
@@ -42,7 +50,11 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
             </Grid>
             {metaData?.total_page > 1 && (
               <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-                <Link href={`${path}/${pathVariable}`}>
+                <Link
+                  href={
+                    getModulePath(router.asPath) +
+                    `/similar-courses/${courseId}`
+                  }>
                   <Button
                     variant={'outlined'}
                     size={'medium'}
@@ -55,7 +67,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({skillIds}) => {
             )}
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12}>
           <Grid container spacing={5}>
             {courseList &&
               courseList.map((course: any) => {

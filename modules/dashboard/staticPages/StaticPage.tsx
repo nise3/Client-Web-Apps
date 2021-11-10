@@ -13,20 +13,20 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
 import {deleteStaticPage} from '../../../services/cmsManagement/StaticPageService';
 import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
+import {useFetchStaticPages} from '../../../services/cmsManagement/hooks';
 
 const StaticPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [jobSectorFilters] = useState({});
+  const [staticPagesFilters] = useState({});
   const {
-    data: jobSectors,
+    data: staticPages,
     isLoading,
-    mutate: mutateJobSectors,
-  }: any = useFetchJobSectors(jobSectorFilters);
+    mutate: mutateStaticPages,
+  }: any = useFetchStaticPages(staticPagesFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -35,7 +35,7 @@ const StaticPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-    mutateJobSectors();
+    mutateStaticPages();
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
@@ -71,8 +71,8 @@ const StaticPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    mutateJobSectors();
-  }, [mutateJobSectors]);
+    mutateStaticPages();
+  }, [mutateStaticPages]);
 
   const columns = useMemo(
     () => [
@@ -184,7 +184,7 @@ const StaticPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={jobSectors || []}
+          data={staticPages || []}
           loading={isLoading}
         />
         {isOpenAddEditModal && (

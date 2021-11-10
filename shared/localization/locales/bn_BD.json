@@ -950,5 +950,5 @@
   "faq.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
   "partner.main_image_path": "মূল ছবির ইউআরএল",
   "partner.thumb_image_path": "থাম ছবির ইউআরএল",
-  "partner.grid_image_path": "গ্রীড ছবির ইউআরএল"
+  "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি"
 }

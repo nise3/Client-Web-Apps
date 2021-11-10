@@ -27,7 +27,7 @@ const CourseDetails = () => {
     <>
       <CourseDetailsHeaderSection course={courseDetails} />
       <CourseContentSection course={courseDetails} />
-      <SimilarCourseSection skillIds={skillIds} />
+      <SimilarCourseSection skillIds={skillIds} courseId={Number(courseId)} />
       <CourseDetailsSkillMatchingJobSection />
     </>
   );

@@ -145,7 +145,7 @@ const SectionSscForm: FC<SectionSSCFormProps> = ({
           />
         </Grid>
 
-        {isForeignInstitute && (
+        {Boolean(isForeignInstitute) && (
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
               required

@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
+import {useFetchStaticPage} from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const {data: itemData, isLoading} = useFetchJobSector(itemId);
+  const {data: itemData, isLoading} = useFetchStaticPage(itemId);
   const {messages} = useIntl();
 
   return (
@@ -45,7 +45,7 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.show_in']}
-              value={itemData?.show_in}
+              value={itemData?.show_in_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -106,7 +106,7 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.contents']}
               value={itemData?.contents}

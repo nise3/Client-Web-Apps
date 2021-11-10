@@ -3,16 +3,17 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_STATIC_PAGES} from '../../@softbd/common/apiRoutes';
 
 interface StaticPage {
-  id: number;
   title?: string;
   sub_title?: string;
-  show_in?: number;
-  content_slug_or_id?: number;
-  institute_id?: number;
-  organization_id?: number;
-  organization_association_id?: number;
-  content_type?: number;
+  show_in?: number | string;
+  content_slug_or_id?: string;
+  institute_id?: string;
+  organization_id?: string;
+  content_type?: string;
   contents?: string;
+  row_status?: number | string;
+  updated_at?: string;
+  crated_at?: string;
 }
 
 /**
