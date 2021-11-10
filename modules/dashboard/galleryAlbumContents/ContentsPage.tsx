@@ -95,7 +95,7 @@ const ContentsPage = () => {
       },
       {
         Header: messages['common.content_title'],
-        accessor: 'content_title ',
+        accessor: 'content_title',
       },
       {
         Header: messages['gallery_album.featured_status'],
