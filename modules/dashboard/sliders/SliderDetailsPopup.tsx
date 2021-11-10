@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
+import {useFetchSlider} from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const {data: itemData, isLoading} = useFetchJobSector(itemId);
+  const {data: itemData, isLoading} = useFetchSlider(itemId);
   const {messages} = useIntl();
 
   return (
@@ -60,7 +60,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           {itemData?.institute_title && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['institute_label']}
+                label={messages['common.institute_name']}
                 value={itemData?.institute_title}
                 isLoading={isLoading}
               />
@@ -70,7 +70,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           {itemData?.organization_title && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['organization_label']}
+                label={messages['organization.label']}
                 value={itemData?.organization_title}
                 isLoading={isLoading}
               />
@@ -80,7 +80,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.is_button_available']}
-              value={itemData?.is_button_available}
+              value={itemData?.is_button_available ? 'Yes' : 'No'}
               isLoading={isLoading}
             />
           </Grid>

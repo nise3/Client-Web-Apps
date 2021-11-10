@@ -14,6 +14,10 @@ export function useFetchSliders(params: any) {
   return useAxiosSWR([API_SLIDERS, params]);
 }
 
+export function useFetchSlider(sliderId: number | null) {
+  return useAxiosSWR(sliderId ? API_SLIDERS + '/' + sliderId : null);
+}
+
 export function useFetchStaticPages(params: any) {
   return useAxiosSWR([API_STATIC_PAGES, params]);
 }
@@ -24,4 +28,8 @@ export function useFetchStaticPage(pageId: number | null) {
 
 export function useFetchCMSGlobalConfigs(params: any) {
   return useAxiosSWR([API_CMS_GLOBAL_CONFIGS, params]);
+}
+
+export function useFetchCMSGlobalConfig() {
+  return useAxiosSWR(API_CMS_GLOBAL_CONFIGS);
 }

@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -11,22 +11,26 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {
-  useFetchJobSector,
-  useFetchOrganizations,
-} from '../../../services/organaizationManagement/hooks';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   createSlider,
+  getAllIndustries,
+  getAllInstitutes,
   updateSlider,
 } from '../../../services/cmsManagement/SliderService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchSlider,
+} from '../../../services/cmsManagement/hooks';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -56,11 +60,27 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser();
 
+  const {data: cmsGlobalConfig, isLoading: isFetching} =
+    useFetchCMSGlobalConfig();
+
+  const [instituteList, setInstituteList] = useState([]);
+  const [industryList, setIndustryList] = useState([]);
+  const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
+    useState<boolean>(false);
+  const [showInId, setShowInId] = useState<number | null>(null);
+  const [allLanguages, setAllLanguages] = useState<any>([]);
+  const [languageList, setLanguageList] = useState<any>([]);
+  const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
+  const [selectedLanguageCode, setSelectedLanguageCode] = useState<
+    string | null
+  >(null);
+  const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
+
   const {
     data: itemData,
     isLoading,
     mutate: mutateJobSector,
-  } = useFetchJobSector(itemId);
+  } = useFetchSlider(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -72,6 +92,10 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.sub_title'] as string),
+      slider_images: yup
+        .string()
+        .required()
+        .label(messages['slider.images'] as string),
       institute_id: yup.string(),
       organization_id: yup.string(),
       is_button_available: yup
@@ -80,7 +104,6 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         .label('common.is_button_available'),
       link: yup.string(),
       button_text: yup.string(),
-      slider_images: yup.string().required().label('common.slider_images'),
       alt_title: yup.string(),
       row_status: yup.string().trim().required(),
     });
@@ -96,14 +119,19 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
+        (item: any) => item.code != LanguageCodes.BANGLA,
+      );
+
+      setAllLanguages(filteredLanguage);
+      setLanguageList(filteredLanguage);
+    }
+  }, [cmsGlobalConfig]);
+
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilters);
-
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
 
   useEffect(() => {
     if (itemData) {
@@ -122,6 +150,22 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [itemData]);
+
+  const changeShowInAction = useCallback((id: number) => {
+    (async () => {
+      setIsLoadingSectionNameList(true);
+      if (id === ShowInTypes.TSP && instituteList.length == 0) {
+        const institutes = await getAllInstitutes();
+        setInstituteList(institutes);
+      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
+        const industries = await getAllIndustries();
+        setIndustryList(industries);
+      }
+
+      setShowInId(id);
+      setIsLoadingSectionNameList(false);
+    })();
+  }, []);
 
   const onSubmit: SubmitHandler<JobSector> = async (data: any) => {
     try {
@@ -169,6 +213,53 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={2}>
+        {authUser && authUser.isSystemUser && (
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                required
+                id={'show_in'}
+                label={messages['faq.show_in']}
+                isLoading={isFetching}
+                control={control}
+                options={cmsGlobalConfig?.show_in}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={changeShowInAction}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {showInId == ShowInTypes.TSP && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'institute_id'}
+                  label={messages['institute.label']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={instituteList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+              {showInId == ShowInTypes.INDUSTRY && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'organization_id'}
+                  label={messages['organization.label']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+            </Grid>
+          </React.Fragment>
+        )}
+
         <Grid item xs={6}>
           <CustomTextInput
             required
@@ -188,36 +279,6 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
-        {authUser && authUser.isSystemUser && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoadingOrganizations}
-              control={control}
-              options={organizations}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
-
-        {authUser && authUser.isSystemUser && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              id='institute_id'
-              label={messages['institute.label']}
-              isLoading={isLoadingInstitutes}
-              control={control}
-              options={institutes}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
 
         <Grid item xs={6}>
           <FormRadioButtons
@@ -258,6 +319,16 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           />
         </Grid>
 
+        <Grid item xs={6}>
+          <CustomTextInput
+            required
+            id='slider_images'
+            label={messages['slider.images']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
         <Grid item xs={6}>
           <CustomTextInput
             id='alt_title'
