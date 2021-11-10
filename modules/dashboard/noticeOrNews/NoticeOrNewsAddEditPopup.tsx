@@ -90,11 +90,10 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
   const [selectedModule, setSelectedModule] = useState<number | null>(null);
   const [globalConfigFilters] = useState<any>({});
   const {data: configData} = useFetchCMSGlobalConfigs(globalConfigFilters);
-  let showIns = configData?.show_in;
+  let showInsRef = useRef(configData?.show_in);
 
   useEffect(() => {
-    showIns = configData?.show_in;
-    console.log('show', showIns);
+    showInsRef.current = configData?.show_in;
   }, [configData]);
 
   const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
@@ -248,7 +247,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
               id='show_in'
               label={messages['common.show_in']}
               control={control}
-              options={showIns}
+              options={showInsRef.current}
               optionValueProp={'id'}
               optionTitleProp={['title']}
               errorInstance={errors}

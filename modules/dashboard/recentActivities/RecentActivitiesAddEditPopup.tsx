@@ -110,11 +110,10 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const [selectedModule, setSelectedModule] = useState<number | null>(null);
   const [globalConfigFilters] = useState<any>({});
   const {data: configData} = useFetchCMSGlobalConfigs(globalConfigFilters);
-  let showIns = configData?.show_in;
+  let showInsRef: any = useRef(configData?.show_in);
 
   useEffect(() => {
-    showIns = configData?.show_in;
-    console.log('show', showIns);
+    showInsRef.current = configData?.show_in;
   }, [configData]);
 
   const {
@@ -277,7 +276,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               id='show_in'
               label={messages['common.show_in']}
               control={control}
-              options={showIns}
+              options={showInsRef.current}
               optionValueProp={'id'}
               optionTitleProp={['title']}
               errorInstance={errors}

@@ -17,13 +17,6 @@ import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
 
-const showIn: any = {
-  1: 'NISE3',
-  2: 'YOUTH',
-  3: 'TSP',
-  4: 'INDUSTRY',
-};
-
 const contentType: any = {
   1: 'Image',
   2: 'Facebook source',
@@ -93,21 +86,16 @@ const RecentActivitiesPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.institute_id'],
-        accessor: 'institute_id',
-        isVisible: false,
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
       },
       {
-        Header: messages['common.organization_id'],
-        accessor: 'organization_id',
-        isVisible: false,
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
       },
       {
         Header: messages['common.show_in'],
-        Cell: (props: any) => {
-          let data = props.row.original?.show_in;
-          return data in showIn ? showIn[data] : '';
-        },
+        accessor: 'show_in_label',
       },
       {
         Header: messages['common.description'],
