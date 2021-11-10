@@ -13,20 +13,20 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
 import IconSlider from '../../../@softbd/icons/IconSlider';
 import {deleteSlider} from '../../../services/cmsManagement/SliderService';
+import {useFetchSliders} from '../../../services/cmsManagement/hooks';
 
 const SliderPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [jobSectorFilters] = useState({});
+  const [sliderFilters] = useState({});
   const {
     data: jobSectors,
     isLoading,
     mutate: mutateJobSectors,
-  }: any = useFetchJobSectors(jobSectorFilters);
+  }: any = useFetchSliders(sliderFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -90,23 +90,18 @@ const SliderPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
-      },
-      {
         Header: messages['common.sub_title'],
         accessor: 'sub_title',
         isVisible: false,
       },
       {
         Header: messages['institute.label'],
-        accessor: 'institute_id',
+        accessor: 'institute_title',
         isVisible: false,
       },
       {
         Header: messages['organization.label'],
-        accessor: 'organization_id',
+        accessor: 'organization_title',
         isVisible: false,
       },
       {
