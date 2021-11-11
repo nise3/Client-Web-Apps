@@ -1,6 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {Button, CardMedia, Container, Grid, Typography} from '@mui/material';
-import useStyles from './index.style';
 import {useIntl} from 'react-intl';
 import clsx from 'clsx';
 import ClassicTemplate from './templates/ClassicTemplate';
@@ -10,6 +10,35 @@ import CVTemplateKeys from './CVTemplateKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
+
+const PREFIX = 'MyCVPage';
+
+const classes = {
+  rootContent: `${PREFIX}-rootContent`,
+  templateImage: `${PREFIX}-templateImage`,
+  templateSelected: `${PREFIX}-templateSelected`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  marginTop: 20,
+  marginBottom: 20,
+  [`& .${classes.rootContent}`]: {
+    marginTop: 0,
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row-reverse',
+    },
+  },
+
+  [`& .${classes.templateImage}`]: {
+    cursor: 'pointer',
+  },
+
+  [`& .${classes.templateSelected}`]: {
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: theme.palette.primary.main,
+  },
+}));
 
 const resumeTemplates = [
   {
@@ -110,7 +139,7 @@ const MyCVPage = () => {
   const userData = useAuthUser<YouthAuthUser>();
   const youthId = userData?.youthId;
   const {data: youthData} = useFetchYouthDetails(String(youthId));
-  const classes: any = useStyles();
+
   const {messages} = useIntl();
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
     CVTemplateKeys.CLASSIC,
@@ -164,7 +193,7 @@ const MyCVPage = () => {
   };
 
   return (
-    <Container maxWidth={'lg'} className={classes.root}>
+    <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={5}>
         <Grid item xs={10} sm={10} md={6}>
           <Typography variant={'h5'} fontWeight={'bold'}>
@@ -213,7 +242,7 @@ const MyCVPage = () => {
           {youthData && getTemplate()}
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

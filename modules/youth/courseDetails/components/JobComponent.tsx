@@ -23,7 +23,7 @@ const classes = {
   buttonBox: `${PREFIX}-buttonBox`,
 };
 
-const StyledCard = styled(Card)(({theme: CremaTheme}) => ({
+const StyledCard = styled(Card)(({theme}) => ({
   maxWidth: 345,
   minWidth: '100%',
 

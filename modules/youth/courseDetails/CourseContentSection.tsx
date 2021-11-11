@@ -1,4 +1,5 @@
 import React, {FC, useRef, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -14,7 +15,6 @@ import {
   Typography,
 } from '@mui/material';
 import {TabContext, TabList} from '@mui/lab';
-import useStyle from './index.style';
 import {
   Alarm,
   CardMembership,
@@ -29,6 +29,103 @@ import {
   courseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
+
+const PREFIX = 'CourseContentSection';
+
+const classes = {
+  sectionTitleStyle: `${PREFIX}-sectionTitleStyle`,
+  dFlexAlignCenter: `${PREFIX}-dFlexAlignCenter`,
+  courseBadgeBox: `${PREFIX}-courseBadgeBox`,
+  courseBadgeIcon: `${PREFIX}-courseBadgeIcon`,
+  courseBadgeTitle: `${PREFIX}-courseBadgeTitle`,
+  dividerStyle: `${PREFIX}-dividerStyle`,
+  boxMargin: `${PREFIX}-boxMargin`,
+  lessonBox: `${PREFIX}-lessonBox`,
+  listStyle: `${PREFIX}-listStyle`,
+  listItem: `${PREFIX}-listItem`,
+  trainerBox: `${PREFIX}-trainerBox`,
+  trainerNameAndAboutBox: `${PREFIX}-trainerNameAndAboutBox`,
+};
+
+const StyledTabContext = styled(TabContext)(({theme}) => ({
+  [`& .${classes.sectionTitleStyle}`]: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: theme.palette.primary.main,
+  },
+
+  [`& .${classes.dFlexAlignCenter}`]: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.courseBadgeBox}`]: {
+    color: '#999',
+  },
+
+  [`& .${classes.courseBadgeIcon}`]: {
+    height: 60,
+    width: 60,
+    marginRight: 15,
+  },
+
+  [`& .${classes.courseBadgeTitle}`]: {
+    color: '#161616',
+    fontWeight: 'bold',
+  },
+
+  [`& .${classes.dividerStyle}`]: {
+    margin: '10px 30px',
+    borderWidth: 1,
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+
+  [`& .${classes.boxMargin}`]: {
+    marginTop: 20,
+    marginBottom: 25,
+  },
+
+  [`& .${classes.lessonBox}`]: {
+    maxWidth: '600px',
+    border: '1px solid #e9e9e9',
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  [`& .${classes.listStyle}`]: {
+    padding: 0,
+    background: '#fbfbf8',
+    borderRadius: 5,
+  },
+
+  [`& .${classes.listItem}`]: {
+    '& .MuiListItemText-primary': {
+      display: 'inline-block',
+      width: '70%',
+    },
+    '& .MuiListItemText-secondary': {
+      display: 'inline-block',
+      float: 'right',
+      width: '30%',
+      textAlign: 'right',
+    },
+  },
+
+  [`& .${classes.trainerBox}`]: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  [`& .${classes.trainerNameAndAboutBox}`]: {
+    marginLeft: 20,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}));
 
 interface CourseContentProps {
   course: any;
@@ -54,7 +151,6 @@ const lessonsList = [
 ];
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
-  const classes = useStyle();
   const {messages, formatNumber} = useIntl();
 
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
@@ -95,7 +191,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   };
 
   return (
-    <TabContext value={value}>
+    <StyledTabContext value={value}>
       <TabList
         aria-label='tabs'
         onChange={handleChange}
@@ -119,7 +215,6 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           />
         </Container>
       </TabList>
-
 
       <Container maxWidth={'lg'}>
         <Box>
@@ -258,45 +353,45 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               {messages['course_details.trainer']}
             </Box>
             {course?.trainers &&
-            course.trainers.map((trainer: any, index: number) => (
-              <Box
-                key={index}
-                className={clsx(
-                  classes.dFlexAlignCenter,
-                  classes.trainerBox,
-                )}>
-                <Avatar
-                  sx={{height: 60, width: 60}}
-                  src={
-                    'http://lorempixel.com/80/80?id=1' +
-                    trainer?.trainer_name_en
-                  }
-                />
-                <Box className={classes.trainerNameAndAboutBox}>
-                  <Box fontWeight={'bold'}>
-                    {trainer?.trainer_name || trainer?.trainer_name_en}
+              course.trainers.map((trainer: any, index: number) => (
+                <Box
+                  key={index}
+                  className={clsx(
+                    classes.dFlexAlignCenter,
+                    classes.trainerBox,
+                  )}>
+                  <Avatar
+                    sx={{height: 60, width: 60}}
+                    src={
+                      'http://lorempixel.com/80/80?id=1' +
+                      trainer?.trainer_name_en
+                    }
+                  />
+                  <Box className={classes.trainerNameAndAboutBox}>
+                    <Box fontWeight={'bold'}>
+                      {trainer?.trainer_name || trainer?.trainer_name_en}
+                    </Box>
+                    <Typography variant={'caption'}>
+                      {trainer?.about}
+                    </Typography>
+                    <Link
+                      href={'#more-courses'}
+                      style={{textDecoration: 'none'}}>
+                      <IntlMessages
+                        id='course_details.view_more_courses_by'
+                        values={{
+                          subject:
+                            trainer?.trainer_name || trainer?.trainer_name_en,
+                        }}
+                      />
+                    </Link>
                   </Box>
-                  <Typography variant={'caption'}>
-                    {trainer?.about}
-                  </Typography>
-                  <Link
-                    href={'#more-courses'}
-                    style={{textDecoration: 'none'}}>
-                    <IntlMessages
-                      id='course_details.view_more_courses_by'
-                      values={{
-                        subject:
-                          trainer?.trainer_name || trainer?.trainer_name_en,
-                      }}
-                    />
-                  </Link>
                 </Box>
-              </Box>
-            ))}
+              ))}
           </Box>
         </Box>
       </Container>
-    </TabContext>
+    </StyledTabContext>
   );
 };
 

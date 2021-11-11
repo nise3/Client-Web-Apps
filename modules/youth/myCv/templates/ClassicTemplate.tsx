@@ -1,16 +1,28 @@
 import React, {FC, useCallback} from 'react';
-import useStyles from '../index.style';
+import {styled} from '@mui/material/styles';
 import {Box, Slide} from '@mui/material';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
+
+const PREFIX = 'ClassicTemplate';
+
+const classes = {
+  classicRoot: `${PREFIX}-classicRoot`,
+};
+
+const StyledSlide = styled(Slide)(({theme}) => ({
+  [`& .${classes.classicRoot}`]: {
+    border: '2px solid #d3d4d4',
+    background: '#fff',
+    padding: 20,
+  },
+}));
 
 interface ClassicTemplateProps {
   userData: any;
 }
 
 const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
-  const classes: any = useStyles();
-
   const LanguageProficiencyType: any = {
     '1': 'Easily',
     '2': 'Not Easily',
@@ -142,13 +154,13 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
   }, []);
 
   return (
-    <Slide direction={'right'} in={true}>
+    <StyledSlide direction={'right'} in={true}>
       <Box
         className={classes.classicRoot}
         sx={{padding: '0 !important'}}
         ref={theCB}
       />
-    </Slide>
+    </StyledSlide>
   );
 };
 

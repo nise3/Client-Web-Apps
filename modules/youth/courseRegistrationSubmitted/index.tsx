@@ -1,13 +1,21 @@
 import React from 'react';
-
+import {styled} from '@mui/material/styles';
 import {Box, Button, CardMedia, Container, Typography} from '@mui/material';
-import useStyles from './index.style';
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  height: 'calc(100vh - 70px)',
+  display: 'flex',
+  [theme.breakpoints.only('xs')]: {
+    height: 'calc(100vh - 56px)',
+  },
+  [theme.breakpoints.only('sm')]: {
+    height: 'calc(100vh - 75px)',
+  },
+}));
 
 const YouthCourseRegistrationSubmittedPage = () => {
-  const classes: any = useStyles();
-
   return (
-    <Container maxWidth={'lg'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'lg'}>
       <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
         <CardMedia
           component='img'
@@ -27,7 +35,7 @@ const YouthCourseRegistrationSubmittedPage = () => {
           Next
         </Button>
       </Box>
-    </Container>
+    </StyledContainer>
   );
 };
 
