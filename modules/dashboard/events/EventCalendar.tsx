@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import moment from 'moment';
@@ -19,20 +19,20 @@ const localizer = momentLocalizer(moment);
 // // const chkDate = new Date('2021-11-11');
 // console.log('chkDate ', toDate);
 
-// const events = [
-//   {
-//     id: "1",
-//     start: '2021-11-08',
-//     end: '2021-11-08',
-//     title: 'Partners'
-//   },
-//   {
-//     id: "2",
-//     start: '2021-11-09',
-//     end: '2021-11-11',
-//     title: 'Event Project'
-//   }
-// ];
+const events1 = [
+  {
+    id: "1",
+    start: '2021-11-08',
+    end: '2021-11-08',
+    title: 'Partners'
+  },
+  {
+    id: "2",
+    start: '2021-11-09',
+    end: '2021-11-11',
+    title: 'Event Project'
+  }
+];
 
 const EventCalendar = () => {
   const {messages} = useIntl();
@@ -45,7 +45,8 @@ const EventCalendar = () => {
   const [viewFilters, setViewFilters] = useState<any>({
     type: 'month',
   });
-
+  const [eventsList, setEventsList] = useState([]);
+  
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -83,16 +84,18 @@ const EventCalendar = () => {
   };
 
   // refreshCalendar();
-  let {data: events, isLoading: isLoadingEvents} =
-    useFetchCalenderEvents(viewFilters);
+
+  let {data: events, isLoading: isLoadingEvents} = useFetchCalenderEvents(viewFilters);
+  
+    
 
   const refreshDataTable = useCallback((e) => {
     // console.log('refresh calendar', e);
     // setIsToggleTable((previousToggle) => !previousToggle);
-    events = events.filter(el=> e.id !== e)
+    // events = events.filter(el=> e.id !== e)
   }, []);
 
-  // console.log('events ', events);
+  // // console.log('events ', events);
   if (events) {
     events = events.map((e:any)=> {
       return {
@@ -104,6 +107,10 @@ const EventCalendar = () => {
     })
     // console.log('events ', events);
   }
+
+  useEffect(()=> {
+    setEventsList(events);
+  }, [events])
 
   const onSelectSlot = (e: any) => {
     setSelectedStartDate(e.start);
@@ -123,7 +130,7 @@ const EventCalendar = () => {
           </>
         }>
         <Calendar
-          events={events}
+          events={eventsList}
           selectable='true'
           localizer={localizer}
           style={{height: '100vh'}}
