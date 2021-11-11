@@ -953,5 +953,6 @@
   "common.facebook": "Facebook",
   "common.youtube": "Youtube",
   "notice_type.notice": "Notice",
-  "notice_type.news": "News"
+  "notice_type.news": "News",
+  "common.partner": "Partner"
 }

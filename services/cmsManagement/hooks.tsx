@@ -44,11 +44,11 @@ export function useFetchCMSGlobalConfig() {
 }
 
 export function useFetchPartners(params: any) {
-  return useAxiosSWR(API_PARTNERS);
+  return useAxiosSWR([API_PARTNERS, params]);
 }
 
-export function useFetchPartner(partnerId: number) {
-  return useAxiosSWR(API_PARTNERS + '/' + partnerId);
+export function useFetchPartner(partnerId: number | null) {
+  return useAxiosSWR(partnerId ? API_PARTNERS + '/' + partnerId : null);
 }
 
 /******* For Gallery Albums ******/
@@ -90,4 +90,3 @@ export function useFetchCalenderEvents(params: any) {
 export function useFetchCalendarEvent(faqId: number | null) {
   return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
 }
-

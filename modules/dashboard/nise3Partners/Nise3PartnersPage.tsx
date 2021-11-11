@@ -11,22 +11,21 @@ import Nise3PartnersAddEditPopup from './Nise3PartnersAddEditPopup';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPartners} from '../../../services/cmsManagement/hooks';
 import {deletePartner} from '../../../services/cmsManagement/PartnersService';
+import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 
 const Nise3PartnersPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [jobSectorFilters] = useState({});
+  const [partnersFilters] = useState({});
   const {
-    data: jobSectors,
+    data: partners,
     isLoading,
-    mutate: mutateJobSectors,
-  // }: any = useFetchJobSectors(jobSectorFilters);
-  }: any = useFetchPartners(jobSectorFilters);
+    mutate: mutatePartners,
+  }: any = useFetchPartners(partnersFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -35,7 +34,7 @@ const Nise3PartnersPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-    mutateJobSectors();
+    mutatePartners();
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
@@ -62,7 +61,7 @@ const Nise3PartnersPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='nise.partners' />}}
+          values={{subject: <IntlMessages id='common.partner' />}}
         />,
       );
 
@@ -71,8 +70,8 @@ const Nise3PartnersPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    mutateJobSectors();
-  }, [mutateJobSectors]);
+    mutatePartners();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -88,10 +87,6 @@ const Nise3PartnersPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
-      },
-      {
-        Header: messages['partner.grid_image_path'],
-        accessor: 'grid_image_path',
       },
       {
         Header: messages['common.actions'],
@@ -119,7 +114,7 @@ const Nise3PartnersPage = () => {
       <PageBlock
         title={
           <>
-            <IconJobSector /> <IntlMessages id='nise.partners' />
+            <IconNise3Partner /> <IntlMessages id='common.partner' />
           </>
         }
         extra={[
@@ -131,7 +126,7 @@ const Nise3PartnersPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['job_sectors.label'],
+                  subject: messages['common.partner'],
                 }}
               />
             }
@@ -139,8 +134,9 @@ const Nise3PartnersPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={jobSectors || []}
+          data={partners || []}
           loading={isLoading}
+          skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (
           <Nise3PartnersAddEditPopup
