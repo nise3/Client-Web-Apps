@@ -1,71 +1,76 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {Card, Container, Grid} from '@mui/material';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fade} from 'react-awesome-reveal';
 import {H3, Text} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    youthBoxItem: {
-      background: '#1B69BC',
-      textAlign: 'center',
-      padding: theme.spacing(3),
-      color: '#fff',
-      '& h3': {
-        marginTop: '30px !important',
-        marginBottom: '10px !important',
-        fontSize: '28px !important',
-        fontWeight: '600 !important',
-      },
-      '& p': {
-        fontSize: '16px !important',
-        lineHeight: '22px',
-      },
+const PREFIX = 'InfoCardSection';
+
+const classes = {
+  youthBoxItem: `${PREFIX}-youthBoxItem`,
+  skillBoxItem: `${PREFIX}-skillBoxItem`,
+  industryBoxItem: `${PREFIX}-industryBoxItem`,
+};
+
+const StyledFade = styled(Fade)(({theme}) => ({
+  [`& .${classes.youthBoxItem}`]: {
+    background: '#1B69BC',
+    textAlign: 'center',
+    padding: theme.spacing(3),
+    color: '#fff',
+    '& h3': {
+      marginTop: '30px !important',
+      marginBottom: '10px !important',
+      fontSize: '28px !important',
+      fontWeight: '600 !important',
     },
-    skillBoxItem: {
-      background: '#682988',
-      textAlign: 'center',
-      padding: theme.spacing(3),
-      color: '#fff',
-      '& h3': {
-        marginTop: '30px !important',
-        marginBottom: '10px !important',
-        fontSize: '28px !important',
-        fontWeight: '600 !important',
-      },
-      '& p': {
-        fontSize: '16px !important',
-        lineHeight: '22px',
-      },
+    '& p': {
+      fontSize: '16px !important',
+      lineHeight: '22px',
     },
-    industryBoxItem: {
-      background: '#E77F38',
-      textAlign: 'center',
-      padding: theme.spacing(3),
-      color: '#fff',
-      '& h3': {
-        marginTop: '30px !important',
-        marginBottom: '10px !important',
-        fontSize: '28px !important',
-        fontWeight: '600 !important',
-      },
-      '& p': {
-        fontSize: '16px !important',
-        lineHeight: '22px',
-      },
+  },
+
+  [`& .${classes.skillBoxItem}`]: {
+    background: '#682988',
+    textAlign: 'center',
+    padding: theme.spacing(3),
+    color: '#fff',
+    '& h3': {
+      marginTop: '30px !important',
+      marginBottom: '10px !important',
+      fontSize: '28px !important',
+      fontWeight: '600 !important',
     },
-  }),
-);
+    '& p': {
+      fontSize: '16px !important',
+      lineHeight: '22px',
+    },
+  },
+
+  [`& .${classes.industryBoxItem}`]: {
+    background: '#E77F38',
+    textAlign: 'center',
+    padding: theme.spacing(3),
+    color: '#fff',
+    '& h3': {
+      marginTop: '30px !important',
+      marginBottom: '10px !important',
+      fontSize: '28px !important',
+      fontWeight: '600 !important',
+    },
+    '& p': {
+      fontSize: '16px !important',
+      lineHeight: '22px',
+    },
+  },
+}));
 
 const InfoCardSection = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Fade direction='up'>
+    <StyledFade direction='up'>
       <Container maxWidth='lg'>
         <Grid
           container
@@ -95,7 +100,7 @@ const InfoCardSection = () => {
           </Grid>
         </Grid>
       </Container>
-    </Fade>
+    </StyledFade>
   );
 };
 export default InfoCardSection;

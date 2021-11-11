@@ -11,7 +11,7 @@ const classes = {
   softbdImage: `${PREFIX}-softbdImage`,
 };
 
-const StyledGrid = styled(Grid)(({theme: Theme}) => ({
+const StyledGrid = styled(Grid)(({theme}) => ({
   marginTop: '100px',
   background: '#F7F7F7',
   paddingTop: '100px',

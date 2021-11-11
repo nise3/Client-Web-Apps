@@ -1,8 +1,7 @@
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import React, {useState} from 'react';
 import {useFetchCourseList} from '../../services/youthManagement/hooks';
 import {getModulePath} from '../../@softbd/utilities/helpers';
@@ -12,50 +11,32 @@ import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import Link from 'next/link';
 import {H3} from '../../@softbd/elements/common';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      marginTop: '50px',
-      backgroundColor: '#fff',
-    },
-    title: {
-      color: '#682988',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    vBar: {
-      height: '33px',
-      width: '2px',
-      background: 'linear-gradient(45deg, #ec5c17,#5affab)',
-      marginRight: '10px',
-    },
-    courseItem: {
-      position: 'relative',
-      boxShadow: '2px 8px 7px #ddd',
-      border: '1px solid #ddd',
-    },
-    image: {
-      width: '100%',
-      height: '200px',
-    },
-    timeDetails: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-    priceDetails: {
-      position: 'absolute',
-      background: '#6f459b',
-      color: '#fff',
-      padding: '5px',
-      minWidth: '70px',
-      textAlign: 'center',
-      borderRadius: '2px',
-    },
-  }),
-);
+const PREFIX = 'PopularCourse';
+
+const classes = {
+  title: `${PREFIX}-title`,
+  vBar: `${PREFIX}-vBar`,
+};
+
+const StyledGrid = styled(Grid)(() => ({
+  marginTop: '50px',
+  backgroundColor: '#fff',
+
+  [`& .${classes.title}`]: {
+    color: '#682988',
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.vBar}`]: {
+    height: '33px',
+    width: '2px',
+    background: 'linear-gradient(45deg, #ec5c17,#5affab)',
+    marginRight: '10px',
+  },
+}));
 
 const PopularCourse = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   const router = useRouter();
@@ -65,7 +46,7 @@ const PopularCourse = () => {
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
 
   return (
-    <Grid container xl={12} className={classes.root}>
+    <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
         <H3 style={{fontSize: '33px', fontWeight: 'bold'}}>
           <Box
@@ -116,7 +97,7 @@ const PopularCourse = () => {
           </Grid>
         )}
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 
