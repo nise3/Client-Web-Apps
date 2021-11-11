@@ -8,6 +8,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
 import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 
 type Props = {
   itemId: number;
@@ -20,16 +22,6 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchFAQ(itemId);
 
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
-
-  const languageLabel = (key: string) => {
-    let label: string = '';
-    cmsGlobalConfig?.language_configs.map((lang: any) => {
-      if (lang.code === key) {
-        label = lang.native_name;
-      }
-    });
-    return label;
-  };
 
   return (
     <>
@@ -56,7 +48,12 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={12}>
             <fieldset>
-              <legend>{messages['common.bangla']}</legend>
+              <legend>
+                {getLanguageLabel(
+                  cmsGlobalConfig?.language_configs,
+                  LanguageCodes.BANGLA,
+                )}
+              </legend>
               <p>
                 {messages['faq.question']}: <br />
                 {itemData?.question}
@@ -72,7 +69,14 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               itemData?.other_language_fields.hasOwnProperty(key) && (
                 <Grid item xs={12} md={12}>
                   <fieldset>
-                    {<legend>{languageLabel(key)}</legend>}
+                    {
+                      <legend>
+                        {getLanguageLabel(
+                          cmsGlobalConfig?.language_configs,
+                          key,
+                        )}
+                      </legend>
+                    }
                     <p>
                       {messages['faq.question']}: <br />
                       {itemData?.other_language_fields[key].question}

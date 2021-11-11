@@ -940,7 +940,7 @@
   "common.thumb_image_path": "থাম্ব ছবি পাথ",
   "common.grid_image_path": "গ্রিড ছবি পাথ",
   "common.image_alt_title_en": "ছবি ওল্ট টাইটেল (ইংরেজী)",
-  "common.image_alt_title": "ছবি্র অল্টারনেটিভ টাইটেল",
+  "common.image_alt_title": "ছবির অল্টারনেটিভ টাইটেল",
   "common.published_by": "প্রকাশিত",
   "common.main_image_path": "প্রধান ছবি পাথ",
   "common.file_path": "ফাইল পাথ",
@@ -955,6 +955,9 @@
   "partner.thumb_image_path": "থাম ছবির ইউআরএল",
   "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি",
   "common.event_start_date": "ঘটনা শুরুর তারিখ",
-  "common.event_end_date": "ঘটনার শেষ তারিখ"
+  "common.event_end_date": "ঘটনার শেষ তারিখ",
+  "content_type.image": "ছবি",
+  "content_type.video": "ভিডিও",
+  "content_type.youtube_video": "ইউটিউব ভিডিও"
 
 }

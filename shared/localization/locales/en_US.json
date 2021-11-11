@@ -884,7 +884,7 @@
   "nise.partners": "Partners",
   "course_details.enrolled": "{total} enrolled",
   "common.profile_picture_upload": "Upload picture",
-  "institute_home.at_a_glance" : "At a Glance",
+  "institute_home.at_a_glance": "At a Glance",
   "institute_home.course_management_stat": "Course Management System Statistics",
   "institute_home.total_course_subject": "subjects training provided",
   "institute_home.total_youth_trained": "youth has received training",
@@ -904,10 +904,10 @@
   "common.alt_title": "Alter Title",
   "common.is_button_available": "Is button available?",
   "visitor_feedback.label": "Visitor Feedback",
-  "common.read_at" : "Read at",
-  "common.achieved_at" : "Achieved at",
-  "common.comment" : "Comment",
-  "organization_association.label" : "Organization association",
+  "common.read_at": "Read at",
+  "common.achieved_at": "Achieved at",
+  "common.comment": "Comment",
+  "organization_association.label": "Organization association",
   "common.show_in": "Show in",
   "common.content_slug_or_id": "Content slug or Id",
   "common.content_type": "Content type",
@@ -940,5 +940,8 @@
   "partner.grid_image_path": "Grid Image Path",
   "common.no_similar_course_found": "No similar course found",
   "common.event_start_date": "Event Start Date",
-  "common.event_end_date": "Event End Date"
+  "common.event_end_date": "Event End Date",
+  "content_type.image": "Image",
+  "content_type.video": "Video",
+  "content_type.youtube_video": "Youtube Video"
 }
