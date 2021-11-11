@@ -19,20 +19,20 @@ const localizer = momentLocalizer(moment);
 // // const chkDate = new Date('2021-11-11');
 // console.log('chkDate ', toDate);
 
-const events = [
-  {
-    id: "1",
-    start: '2021-11-08',
-    end: '2021-11-08',
-    title: 'Partners'
-  },
-  {
-    id: "2",
-    start: '2021-11-09',
-    end: '2021-11-11',
-    title: 'Event Project'
-  }
-];
+// const events = [
+//   {
+//     id: "1",
+//     start: '2021-11-08',
+//     end: '2021-11-08',
+//     title: 'Partners'
+//   },
+//   {
+//     id: "2",
+//     start: '2021-11-09',
+//     end: '2021-11-11',
+//     title: 'Event Project'
+//   }
+// ];
 
 const EventCalendar = () => {
   const {messages} = useIntl();
@@ -82,14 +82,15 @@ const EventCalendar = () => {
     }
   };
 
-  const refreshCalendar = e =>{
-    // let {data: events, isLoading: isLoadingEvents} =
-    // useFetchCalenderEvents(viewFilters);
-  }
-
   // refreshCalendar();
   let {data: events, isLoading: isLoadingEvents} =
     useFetchCalenderEvents(viewFilters);
+
+  const refreshDataTable = useCallback((e) => {
+    // console.log('refresh calendar', e);
+    // setIsToggleTable((previousToggle) => !previousToggle);
+    events = events.filter(el=> e.id !== e)
+  }, []);
 
   // console.log('events ', events);
   if (events) {
@@ -139,7 +140,7 @@ const EventCalendar = () => {
             itemId={selectedItemId}
             startDate={selectedStartDate}
             endDate={selectedEndDate}
-            refreshDataTable={refreshCalendar}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>

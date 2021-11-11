@@ -36,16 +36,17 @@ import {
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import { useFetchCalendarEvent } from '../../../services/cmsManagement/hooks';
 import moment from 'moment';
-import { createCalendar, updateCalendar } from '../../../services/cmsManagement/EventService';
+import { createCalendar, deleteEvent, updateCalendar } from '../../../services/cmsManagement/EventService';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null;
   startDate: string | null;
   endDate: string | null;
   onClose: () => void;
-  refreshDataTable: () => void;
+  refreshDataTable: (item?:any) => void;
 }
 
 let initialValues = {
@@ -81,7 +82,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const {
     data: itemData,
     isLoading,
-    mutate: mutateBranch,
+    mutate: mutateCalendar,
   } = useFetchCalendarEvent(itemId);
 
   // const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
@@ -138,7 +139,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
       if (itemId) {
         await updateCalendar(itemId, data);
         updateSuccessMessage('menu.events');
-        // mutateBranch();
+        mutateCalendar();
       } else {
         await createCalendar(data);
         createSuccessMessage('menu.events');
@@ -150,6 +151,17 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     }
 
   };
+
+  const onDelete = async () => {
+    // console.log('delete this: ', itemId)
+    if (itemId) {
+      await deleteEvent(itemId);
+      updateSuccessMessage('menu.events');
+      props.onClose();
+      refreshDataTable(itemId);
+      // mutateBranch();
+    }
+  }
 
   return (
     <HookFormMuiModal
@@ -177,6 +189,10 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          <DeleteButton
+            deleteAction={onDelete}
+            deleteTitle={messages['common.delete_confirm'] as string}
+          />
         </>
       }>
       <Grid container spacing={5}>
