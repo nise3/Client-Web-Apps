@@ -906,5 +906,8 @@
   "common.content_slug_or_id": "কন্টেন্ট স্লাগ অর আইডি",
   "common.content_type": "কন্টেন্ট টাইপ",
   "common.content": "কন্টেন্ট",
-  "common.contents": "কন্টেন্টস"
+  "common.contents": "কন্টেন্টস",
+  "common.event_start_date": "ঘটনা শুরুর তারিখ",
+  "common.event_end_date": "ঘটনার শেষ তারিখ"
+
 }

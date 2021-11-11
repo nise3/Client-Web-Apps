@@ -893,6 +893,8 @@
   "organization_association.label" : "Organization association",
   "common.show_in": "Show in",
   "common.content_slug_or_id": "Content slug or Id",
-  "common.content_type": "Content type"
+  "common.content_type": "Content type",
+  "common.event_start_date": "Event Start Date",
+  "common.event_end_date": "Event End Date"
 }
 

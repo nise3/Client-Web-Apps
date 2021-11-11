@@ -79,16 +79,15 @@ const EventCalendar = () => {
           values={{subject: <IntlMessages id='user.label' />}}
         />,
       );
-
-      refreshDataTable();
     }
   };
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
-  }, [isToggleTable]);
-  
+  const refreshCalendar = e =>{
+    // let {data: events, isLoading: isLoadingEvents} =
+    // useFetchCalenderEvents(viewFilters);
+  }
 
+  // refreshCalendar();
   let {data: events, isLoading: isLoadingEvents} =
     useFetchCalenderEvents(viewFilters);
 
@@ -111,7 +110,7 @@ const EventCalendar = () => {
     openAddEditModal(e.id);
   };
   const onSelectEvent = (e: any) => {
-    console.log('onSelectEvent ', e);
+    // console.log('onSelectEvent ', e);
     openAddEditModal(e.id);
   };
   return (
@@ -140,7 +139,7 @@ const EventCalendar = () => {
             itemId={selectedItemId}
             startDate={selectedStartDate}
             endDate={selectedEndDate}
-            refreshDataTable={refreshDataTable}
+            refreshDataTable={refreshCalendar}
           />
         )}
       </PageBlock>

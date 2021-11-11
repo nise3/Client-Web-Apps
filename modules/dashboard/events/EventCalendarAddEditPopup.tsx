@@ -1,14 +1,14 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState, useCallback} from 'react';
+import { Grid } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { FC, useEffect, useMemo, useState, useCallback } from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -22,7 +22,7 @@ import {
   useFetchInstitutes,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -38,6 +38,7 @@ import { useFetchCalendarEvent } from '../../../services/cmsManagement/hooks';
 import moment from 'moment';
 import { createCalendar, updateCalendar } from '../../../services/cmsManagement/EventService';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null;
@@ -68,14 +69,14 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const { messages } = useIntl();
+  const { errorStack } = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
-  console.log('useAuthUser ', authUser);
-  
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  
+  // console.log('useAuthUser ', authUser);
+
+  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
+
 
   const {
     data: itemData,
@@ -95,8 +96,8 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         .title()
         .required()
         .label(messages['common.title'] as string),
-        start_date: yup.string().trim().required(),
-        end_date: yup.string().trim().required()
+      start_date: yup.string().trim().required(),
+      end_date: yup.string().trim().required()
     });
   }, [messages]);
   const {
@@ -105,7 +106,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: { errors, isSubmitting },
   } = useForm<Calendar>({
     resolver: yupResolver(validationSchema),
   });
@@ -116,23 +117,23 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         ...itemData,
         // title: itemData?.title,
         start_date: itemData?.start_date,
-        end_date:  itemData?.end_date
+        end_date: itemData?.end_date
       });
 
     } else {
       initialValues.organization_id = authUser.organization_id,
-      initialValues.institute_id = authUser.institute_id,
-      initialValues.youth_id = authUser.youth_id,
-      initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
-      initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
-      reset(initialValues);
+        initialValues.institute_id = authUser.institute_id,
+        initialValues.youth_id = authUser.youth_id,
+        initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
+        initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
+        reset(initialValues);
     }
-  }, [itemData]);  
+  }, [itemData]);
 
-  const onSubmit: SubmitHandler<Calendar> = async (data:Calendar) => {
-  // const onSubmit: any = (data:Calendar) => {
+  const onSubmit: SubmitHandler<Calendar> = async (data: Calendar) => {
+    // const onSubmit: any = (data:Calendar) => {
     // console.log(data);
-    
+
     try {
       if (itemId) {
         await updateCalendar(itemId, data);
@@ -145,7 +146,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({error, setError, validationSchema, errorStack});
+      processServerSideErrors({ error, setError, validationSchema, errorStack });
     }
 
   };
@@ -160,12 +161,12 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='menu.events' />}}
+              values={{ subject: <IntlMessages id='menu.events' /> }}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='menu.events' />}}
+              values={{ subject: <IntlMessages id='menu.events' /> }}
             />
           )}
         </>
@@ -178,6 +179,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
+      <Grid container spacing={5}>
         <Grid item xs={12} md={12}>
           <CustomTextInput
             required
@@ -189,6 +191,27 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            required
+            id='start_date'
+            label={messages['common.event_start_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            required
+            id='end_date'
+            label={messages['common.event_end_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+      </Grid>
     </HookFormMuiModal>
   );
 };
