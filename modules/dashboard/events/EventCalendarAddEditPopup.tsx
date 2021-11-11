@@ -23,15 +23,6 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
-} from '../../../services/locationManagement/hooks';
-import {
-  filterDistrictsByDivisionId,
-  filterUpazilasByDistrictId,
-} from '../../../services/locationManagement/locationUtils';
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import { useFetchCalendarEvent } from '../../../services/cmsManagement/hooks';
@@ -74,7 +65,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const { errorStack } = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
-  // console.log('useAuthUser ', authUser);
+  console.log('useAuthUser ', itemId);
 
   const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
 
@@ -120,14 +111,13 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         start_date: itemData?.start_date,
         end_date: itemData?.end_date
       });
-
     } else {
       initialValues.organization_id = authUser.organization_id,
-        initialValues.institute_id = authUser.institute_id,
-        initialValues.youth_id = authUser.youth_id,
-        initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
-        initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
-        reset(initialValues);
+      initialValues.institute_id = authUser.institute_id,
+      initialValues.youth_id = authUser.youth_id,
+      initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
+      initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
+      reset(initialValues);
     }
   }, [itemData]);
 
@@ -139,13 +129,16 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
       if (itemId) {
         await updateCalendar(itemId, data);
         updateSuccessMessage('menu.events');
-        mutateCalendar();
+        // mutateCalendar();
+        refreshDataTable('update', data);
       } else {
-        await createCalendar(data);
+        const create = await createCalendar(data);
+        data.id = create.data.id;
         createSuccessMessage('menu.events');
+        refreshDataTable('create', data);
       }
       props.onClose();
-      refreshDataTable();
+      
     } catch (error: any) {
       processServerSideErrors({ error, setError, validationSchema, errorStack });
     }
@@ -158,7 +151,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
       await deleteEvent(itemId);
       updateSuccessMessage('menu.events');
       props.onClose();
-      refreshDataTable(itemId);
+      refreshDataTable('delete', itemId);
       // mutateBranch();
     }
   }
@@ -189,7 +182,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
-          <DeleteButton
+          <DeleteButton disabled={!itemId}
             deleteAction={onDelete}
             deleteTitle={messages['common.delete_confirm'] as string}
           />

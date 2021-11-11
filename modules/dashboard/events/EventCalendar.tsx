@@ -86,28 +86,34 @@ const EventCalendar = () => {
   // refreshCalendar();
 
   let {data: events, isLoading: isLoadingEvents} = useFetchCalenderEvents(viewFilters);
-  
+  // events = addPropToEventlist(events);
     
 
-  const refreshDataTable = useCallback((e) => {
+  const refreshDataTable = useCallback((event, item) => {
     // console.log('refresh calendar', e);
     // setIsToggleTable((previousToggle) => !previousToggle);
+    // console.log(eventsList)
+    switch (event) {
+      case 'delete':
+        const newList = eventsList.filter(e=> e.id != item);
+        setEventsList(newList);
+        break;
+      case 'create':
+        setEventsList([item, ...eventsList]);
+        break;
+      default:
+        case 'update':
+          const excludeItemFromList = eventsList.filter(e=> e.id != item.id);
+          setEventsList([item, ...excludeItemFromList]);
+        break;
+    }
     // events = events.filter(el=> e.id !== e)
-  }, []);
-
-  // // console.log('events ', events);
-  if (events) {
-    events = events.map((e:any)=> {
-      return {
-        ...e,
-        start: e.start_date,
-        end: e.end_date,
-        // title: e.title
-      }
-    })
-    // console.log('events ', events);
-  }
-
+    // const newList = eventsList.filter(e=> e.id != e);
+    // setEventsList(newList);
+    console.log(event , item);
+    
+  }, [eventsList]);
+  
   useEffect(()=> {
     setEventsList(events);
   }, [events])
@@ -121,6 +127,7 @@ const EventCalendar = () => {
     // console.log('onSelectEvent ', e);
     openAddEditModal(e.id);
   };
+  
   return (
     <>
       <PageBlock
@@ -134,6 +141,8 @@ const EventCalendar = () => {
           selectable='true'
           localizer={localizer}
           style={{height: '100vh'}}
+          startAccessor="start_date"
+          endAccessor="end_date"
           onView={(view: View) => setViewFilters({type: view})}
           onNavigate={(e: any) => console.log('onNavigate ', e) }
           onSelectEvent={ onSelectEvent }
