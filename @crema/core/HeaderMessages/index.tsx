@@ -1,10 +1,9 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import SmsIcon from '@mui/icons-material/Sms';
 import messages, {MessageData} from '../../services/db/messages/messages';
-import makeStyles from '@mui/styles/makeStyles';
 import MessageItem from './MessageItem';
 import Popover from '@mui/material/Popover';
 import List from '@mui/material/List';
@@ -15,7 +14,6 @@ import IntlMessages from '../../utility/IntlMessages';
 import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const PREFIX = 'HeaderMessages';
 
@@ -26,81 +24,43 @@ const classes = {
   listStyle: `${PREFIX}-listStyle`,
   badgeStyle: `${PREFIX}-badgeStyle`,
   smsIcon: `${PREFIX}-smsIcon`,
-  listRoot: `${PREFIX}-listRoot`
+  listRoot: `${PREFIX}-listRoot`,
 };
-
-// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`& .${classes.crPopover}`]: {
-    '& .MuiPopover-paper': {
-      width: 260,
-      [theme.breakpoints.up('sm')]: {
-        width: 300,
-      },
-      [theme.breakpoints.up('xl')]: {
-        width: 380,
-      },
-    },
-    '& .scroll-submenu': {
-      maxHeight: 200,
-      [theme.breakpoints.up('xl')]: {
-        maxHeight: 380,
-      },
-    },
+const StyledIconButton = styled(IconButton)(({theme}) => ({
+  justifyContent: 'flex-start',
+  width: '100%',
+  height: 56,
+  fontSize: 16,
+  borderRadius: 0,
+  paddingLeft: '1rem',
+  paddingRight: '1rem',
+  color: theme.palette.grey[800],
+  '&:hover, &:focus': {
+    color: theme.palette.text.primary,
+    backgroundColor: 'transparent',
   },
-
-  [`& .${classes.btnPopover}`]: {
-    borderRadius: 0,
-    width: '100%',
-    textTransform: 'capitalize',
+  [theme.breakpoints.up('sm')]: {
+    height: 70,
   },
-
-  [`& .${classes.notiBtn}`]: {
-    justifyContent: 'flex-start',
-    width: '100%',
-    height: 56,
-    fontSize: 16,
-    borderRadius: 0,
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    color: theme.palette.grey[800],
+  [theme.breakpoints.up('md')]: {
+    justifyContent: 'center',
+    width: 'auto',
+    borderLeft: 'solid 1px',
+    borderColor: theme.palette.grey[200],
+    color: theme.palette.grey[400],
     '&:hover, &:focus': {
       color: theme.palette.text.primary,
-      backgroundColor: 'transparent',
-    },
-    [theme.breakpoints.up('sm')]: {
-      height: 70,
-    },
-    [theme.breakpoints.up('md')]: {
-      justifyContent: 'center',
-      width: 'auto',
-      borderLeft: 'solid 1px',
-      borderColor: theme.palette.grey[200],
-      color: theme.palette.grey[400],
-      '&:hover, &:focus': {
-        color: theme.palette.text.primary,
-        backgroundColor: 'rgba(0, 0, 0, 0.08)',
-      },
-    },
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: '1.5rem',
-      paddingRight: '1.5rem',
-    },
-    [theme.breakpoints.up('xl')]: {
-      paddingLeft: '2.5rem',
-      paddingRight: '2.5rem',
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
     },
   },
-
-  [`& .${classes.listStyle}`]: {
-    paddingLeft: 20,
-    paddingRight: 20,
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
   },
-
+  [theme.breakpoints.up('xl')]: {
+    paddingLeft: '2.5rem',
+    paddingRight: '2.5rem',
+  },
   [`& .${classes.badgeStyle}`]: {
     marginRight: 8,
   },
@@ -112,20 +72,47 @@ const Root = styled('div')((
       fontSize: 30,
     },
   },
+}));
+
+const StyledPopover = styled(Popover)(({theme}) => ({
+  '& .MuiPopover-paper': {
+    width: 260,
+    [theme.breakpoints.up('sm')]: {
+      width: 300,
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 380,
+    },
+  },
+  '& .scroll-submenu': {
+    maxHeight: 200,
+    [theme.breakpoints.up('xl')]: {
+      maxHeight: 380,
+    },
+  },
+
+  [`& .${classes.btnPopover}`]: {
+    borderRadius: 0,
+    width: '100%',
+    textTransform: 'capitalize',
+  },
+
+  [`& .${classes.listStyle}`]: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
 
   [`& .${classes.listRoot}`]: {
     paddingTop: 0,
     paddingBottom: 0,
-  }
+  },
 }));
 
 interface HeaderMessagesProps {}
 
 const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
-  const [
-    anchorMessages,
-    setAnchorMessages,
-  ] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorMessages, setAnchorMessages] =
+    React.useState<HTMLButtonElement | null>(null);
 
   const onClickMessagesButton = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -133,16 +120,13 @@ const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
     setAnchorMessages(event.currentTarget);
   };
 
-
-
   return (
-    <Root>
-      <IconButton
-        className={clsx(classes.notiBtn, 'notiBtn')}
+    <>
+      <StyledIconButton
         aria-label='show 4 new mails'
         color='inherit'
         onClick={onClickMessagesButton}
-        size="large">
+        size='large'>
         <Badge
           className={classes.badgeStyle}
           badgeContent={messages.length}
@@ -159,11 +143,10 @@ const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
             <IntlMessages id='dashboard.messages' />
           </Box>
         </Hidden>
-      </IconButton>
-      <Popover
+      </StyledIconButton>
+      <StyledPopover
         anchorEl={anchorMessages}
         id='app-message'
-        className={classes.crPopover}
         open={Boolean(anchorMessages)}
         anchorOrigin={{
           vertical: 'bottom',
@@ -200,8 +183,8 @@ const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
             </Button>
           </Box>
         </Box>
-      </Popover>
-    </Root>
+      </StyledPopover>
+    </>
   );
 };
 
