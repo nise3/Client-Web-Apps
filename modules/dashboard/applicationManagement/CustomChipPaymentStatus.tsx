@@ -2,23 +2,11 @@ import React from 'react';
 import {CheckCircleOutline} from '@mui/icons-material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import FormLabel from '@mui/material/FormLabel';
-import makeStyles from '@mui/styles/makeStyles';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import {Fonts} from '../../../shared/constants/AppEnums';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-
-const useStyles = makeStyles(() => {
-  return {
-    label: {
-      fontWeight: Fonts.BOLD,
-      fontSize: 14,
-      marginBottom: '12px',
-      display: 'block',
-    },
-  };
-});
+import {Fonts} from '../../../shared/constants/AppEnums';
 
 type Props = {
   value: number;
@@ -27,14 +15,21 @@ type Props = {
 };
 
 const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
-  const classes = useStyles();
-
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <>
-      {label && <FormLabel className={classes.label}>{label}</FormLabel>}
-
+      {label && (
+        <FormLabel
+          style={{
+            fontWeight: Fonts.BOLD,
+            fontSize: 14,
+            marginBottom: '12px',
+            display: 'block',
+          }}>
+          {label}
+        </FormLabel>
+      )}
       <CustomChip
         icon={value == 1 ? <CheckCircleOutline /> : <CancelIcon />}
         color={value == 1 ? 'primary' : 'secondary'}

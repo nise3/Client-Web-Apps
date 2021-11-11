@@ -1,17 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useRouter} from 'next/router';
 import {
-  map as lodashMap,
   forEach as lodashForEach,
   groupBy as lodashGroupBy,
+  map as lodashMap,
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
 import {Box, Checkbox, Divider, Grid} from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import {makeStyles} from '@mui/styles';
-import {Theme} from '@mui/material/styles';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -21,22 +19,27 @@ import {useFetchPermissionSubGroup} from '../../../services/userManagement/hooks
 import {assignPermissions} from '../../../services/userManagement/PermissionSubGroupService';
 import {getPermissionGroupWithPermissions} from '../../../services/userManagement/PermissionGroupService';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    permissionGroup: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    checkboxGroupWrapper: {
-      boxShadow: '0px 0px 5px 1px #e9e9e9',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  }),
-);
+const PREFIX = 'AssignPermissionToPermissionSubGroupPage';
+
+const classes = {
+  permissionGroup: `${PREFIX}-permissionGroup`,
+  checkboxGroupWrapper: `${PREFIX}-checkboxGroupWrapper`,
+};
+
+const StyledPageBlock = styled(PageBlock)(({theme}) => ({
+  [`& .${classes.permissionGroup}`]: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  [`& .${classes.checkboxGroupWrapper}`]: {
+    boxShadow: '0px 0px 5px 1px #e9e9e9',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}));
 
 const AssignPermissionToPermissionSubGroupPage = () => {
-  const classes = useStyles();
   const router = useRouter();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -172,7 +175,7 @@ const AssignPermissionToPermissionSubGroupPage = () => {
   }, [permissionSubGroupId, checkedPermissions]);
 
   return (
-    <PageBlock
+    <StyledPageBlock
       title={'Assign Permission'}
       extra={[
         <SubmitButton
@@ -215,7 +218,7 @@ const AssignPermissionToPermissionSubGroupPage = () => {
           </Grid>
         ))}
       </Grid>
-    </PageBlock>
+    </StyledPageBlock>
   );
 };
 

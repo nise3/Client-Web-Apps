@@ -1,4 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -10,7 +11,6 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import PermissionSubGroupAddEditPopup from './PermissionSubGroupAddEditPopup';
 import PermissionSubGroupDetailsPopup from './PermissionSubGroupDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -18,23 +18,18 @@ import {useFetchPermissionSubGroups} from '../../../services/userManagement/hook
 import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGroup';
 import {deletePermissionSubGroup} from '../../../services/userManagement/PermissionSubGroupService';
 import {Button} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {LINK_PERMISSION_SUB_GROUP} from '../../../@softbd/common/appLinks';
 
-const useStyles = makeStyles((theme) => {
+const PrimaryLightButton = styled(Button)(({theme}) => {
   return {
-    button: {
-      color: theme.palette.primary.light,
-      border: 'none',
-    },
+    color: theme.palette.primary.light,
+    border: 'none',
   };
 });
 
 const PermissionSubGroupPage = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -139,12 +134,11 @@ const PermissionSubGroupPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={URL} passHref>
-                <Button
-                  className={clsx(classes.button)}
+                <PrimaryLightButton
                   variant={'outlined'}
                   startIcon={<AccountTreeOutlined />}>
                   {messages['permission.label']}
-                </Button>
+                </PrimaryLightButton>
               </Link>
             </DatatableButtonGroup>
           );
