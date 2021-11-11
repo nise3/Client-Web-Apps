@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -109,7 +102,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<CommonAuthUser>();
-  const textEditorRef = useRef<any>(null);
 
   const isEdit = recentActivityId != null;
   const {
@@ -171,6 +163,11 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+      description: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.description'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -235,27 +232,14 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
     register,
     control,
     reset,
+    setValue,
     setError,
+    clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
-  const isValidDescription = () => {
-    if (textEditorRef.current?.editor?.getContent()?.length < 5) {
-      setError('description', {
-        // @ts-ignore
-        message: {
-          key: 'yup_validation_required_field',
-          values: {path: messages['common.description']},
-        },
-      });
-
-      return false;
-    }
-    return true;
-  };
 
   useEffect(() => {
     if (cmsGlobalConfig) {
@@ -267,12 +251,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
     }
   }, [cmsGlobalConfig]);
-
-  useEffect(() => {
-    if (isSubmitting) {
-      isValidDescription();
-    }
-  }, [isSubmitting]);
 
   useEffect(() => {
     if (recentActivityItem) {
@@ -292,7 +270,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         embedded_id: recentActivityItem?.embedded_id,
         embedded_url: recentActivityItem?.embedded_url,
         row_status: recentActivityItem?.row_status,
-        other_language_fields: recentActivityItem?.other_language_fields,
+        description: recentActivityItem?.description,
       };
 
       const otherLangData = recentActivityItem?.other_language_fields;
@@ -385,18 +363,12 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    if (!isValidDescription()) {
-      return false;
-    }
-
     try {
       formData.recentActivityId = formData.recentActivityId
         ? formData.recentActivityId
         : null;
 
       formData.other_language_fields = '';
-
-      formData.description = textEditorRef.current?.editor?.getContent();
 
       formData.collage_image_path = 'http://lorempixel.com/400/200/';
       formData.thumb_image_path = 'http://lorempixel.com/400/200/';
@@ -430,6 +402,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       delete data['language_en'];
       delete data['language_hi'];
       delete data['language_te'];
+      delete data['language_list'];
 
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
@@ -658,10 +631,13 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             id={'description'}
             label={messages['common.description']}
             errorInstance={errors}
-            ref={textEditorRef}
             value={recentActivityItem?.description || initialValues.description}
             height={'300px'}
             key={1}
+            register={register}
+            setValue={setValue}
+            clearErrors={clearErrors}
+            setError={setError}
           />
         </Grid>
 
@@ -731,10 +707,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                   <Grid item xs={12}>
                     <TextEditor
                       required
-                      id={'language_' + language.code + ['description']}
+                      id={'language_' + language.code + '[description]'}
                       label={messages['common.description']}
                       errorInstance={errors}
-                      ref={textEditorRef}
                       value={
                         recentActivityItem?.other_language_fields?.[
                           language.code
@@ -742,6 +717,10 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                       }
                       height={'300px'}
                       key={1}
+                      register={register}
+                      setValue={setValue}
+                      clearErrors={clearErrors}
+                      setError={setError}
                     />
                   </Grid>
                 </Grid>
