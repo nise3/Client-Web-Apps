@@ -10,6 +10,7 @@ interface EditorProps {
   errorInstance: any;
   label: string;
   required?: boolean;
+  value: string;
 
   [x: string]: any;
 }
@@ -28,7 +29,7 @@ interface EditorProps {
 const TextEditor = React.forwardRef(
   (
     {
-      defaultValue = '',
+      value,
       height,
       onEditorChange,
       id,
@@ -55,7 +56,7 @@ const TextEditor = React.forwardRef(
             id={id}
             onEditorChange={onEditorChange}
             ref={ref}
-            initialValue={defaultValue}
+            initialValue={value}
             init={{
               height: height ? height : 700,
               menubar: false,
@@ -72,12 +73,8 @@ const TextEditor = React.forwardRef(
               toolbar_mode: 'wrap',
               setup: function (editor: any) {
                 editor.on('init', function (e: any) {});
-                editor.on('focus', function () {
-                  console.log('focus', toolbar);
-                });
-                editor.on('blur', function () {
-                  console.log('blur', toolbar);
-                });
+                editor.on('focus', function () {});
+                editor.on('blur', function () {});
               },
             }}
           />

@@ -16,6 +16,8 @@ import RecentActivitiesAddEditPopup from './RecentActivitiesAddEditPopup';
 import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const contentType: any = {
   1: 'Image',
@@ -26,13 +28,25 @@ const contentType: any = {
 const RecentActivitiesPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
-    useReactTableFetchData({urlPath: CMS_RECENT_ACTIVITY});
+    useReactTableFetchData({
+      urlPath: CMS_RECENT_ACTIVITY,
+      paramsValueModifier: (params: any) => {
+        if (authUser?.isInstituteUser)
+          params['institute_id'] = authUser?.institute_id;
+        else if (authUser?.isOrganizationUser)
+          params['organization_id'] = authUser?.organization_id;
+        return params;
+      },
+    });
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -66,7 +80,6 @@ const RecentActivitiesPage = () => {
       await refreshDataTable();
     }
   };
-
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
