@@ -1,17 +1,23 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {grey} from '@mui/material/colors';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {initialUrl} from '../../../shared/constants/AppConst';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles(() => {
+const PREFIX = 'Maintenance';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledBox = styled(Box)(() => {
   return {
-    button: {
+    [`& .${classes.button}`]: {
       fontWeight: Fonts.BOLD,
       fontSize: 16,
       textTransform: 'capitalize',
@@ -26,10 +32,8 @@ const Maintenance = () => {
     router.push(initialUrl);
   };
 
-  const classes = useStyles();
-
   return (
-    <Box
+    <StyledBox
       py={{xl: 8}}
       flex={1}
       display='flex'
@@ -68,7 +72,7 @@ const Maintenance = () => {
       <Box mb={5} maxWidth={{xs: 300, sm: 400, xl: 672}} width='100%'>
         <img src={'/images/errorPageImages/maintenance.png'} alt='404' />
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

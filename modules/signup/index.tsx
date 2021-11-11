@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
-import {Box, Container, Grid, Paper, Typography} from '@mui/material';
-import useStyles from './index.style';
+import {Box, Grid, Paper, Typography} from '@mui/material';
 import BusinessIcon from '@mui/icons-material/Business';
 import PeopleIcon from '@mui/icons-material/People';
 import clsx from 'clsx';
@@ -12,17 +11,17 @@ import {
   LINK_YOUTH_SIGNUP,
 } from '../../@softbd/common/appLinks';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
+import {classes, StyledContainer} from './index.style';
 
 const YouthSignupPage = () => {
   const {messages} = useIntl();
-  const classes = useStyles();
 
   const redirectToSSO = useCallback(() => {
     window.location.href = getSSOLoginUrl();
   }, []);
 
   return (
-    <Container sx={{display: 'flex'}}>
+    <StyledContainer sx={{display: 'flex'}}>
       <Paper className={classes.paperBox}>
         <Typography variant={'h6'} align={'center'} mb={4}>
           {messages['signup.label']}
@@ -69,7 +68,7 @@ const YouthSignupPage = () => {
           </Link>
         </Typography>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

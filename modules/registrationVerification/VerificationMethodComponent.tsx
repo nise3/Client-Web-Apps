@@ -1,14 +1,15 @@
 import React, {FC, useCallback, useMemo, useState} from 'react';
-import useStyles from './index.style';
+
 import {useIntl} from 'react-intl';
 import yup from '../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {Grid, Paper, Typography} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {MOBILE_NUMBER_REGEX} from '../../@softbd/common/patternRegex';
+import {StyledPaper} from './index.style';
 
 const VERIFICATION_METHOD = {
   MOBILE: '1',
@@ -32,7 +33,6 @@ interface VerificationMethodComponentProps {
 const VerificationMethodComponent: FC<VerificationMethodComponentProps> = ({
   onSendSuccess,
 }) => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
 
@@ -79,7 +79,7 @@ const VerificationMethodComponent: FC<VerificationMethodComponentProps> = ({
   };
 
   return (
-    <Paper className={classes.paperBox}>
+    <StyledPaper>
       <Typography
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
@@ -137,7 +137,7 @@ const VerificationMethodComponent: FC<VerificationMethodComponentProps> = ({
           </Grid>
         </Grid>
       </form>
-    </Paper>
+    </StyledPaper>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Checkbox} from '@mui/material';
@@ -7,55 +8,60 @@ import * as yup from 'yup';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Grid from '@mui/material/Grid';
 import {GridContainer} from '../../../@crema';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  formRoot: {
+const PREFIX = 'SignupJwtAuth';
+
+const classes = {
+  formRoot: `${PREFIX}-formRoot`,
+  myTextFieldRoot: `${PREFIX}-myTextFieldRoot`,
+  checkboxRoot: `${PREFIX}-checkboxRoot`,
+  pointer: `${PREFIX}-pointer`,
+  btnRoot: `${PREFIX}-btnRoot`,
+  colorTextPrimary: `${PREFIX}-colorTextPrimary`,
+  underlineNone: `${PREFIX}-underlineNone`,
+  textGrey: `${PREFIX}-textGrey`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.formRoot}`]: {
     textAlign: 'left',
   },
-  myTextFieldRoot: {
+
+  [`& .${classes.myTextFieldRoot}`]: {
     width: '100%',
   },
-  checkboxRoot: {
+
+  [`& .${classes.checkboxRoot}`]: {
     marginLeft: -12,
   },
-  pointer: {
+
+  [`& .${classes.pointer}`]: {
     cursor: 'pointer',
   },
-  btnRoot: {
-    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
+
+  [`& .${classes.btnRoot}`]: {
+    // @ts-ignore
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius, // TODO: css issue - CRITICAL
     width: '10rem',
     fontWeight: Fonts.LIGHT,
     fontSize: 16,
     textTransform: 'capitalize',
   },
-  btnRootFull: {
-    width: '100%',
-  },
-  dividerRoot: {
-    marginBottom: 10,
-    marginLeft: -48,
-    marginRight: -48,
-    [theme.breakpoints.up('xl')]: {
-      marginBottom: 20,
-    },
-  },
-  textPrimary: {
-    color: theme.palette.text.primary,
-  },
-  colorTextPrimary: {
+
+  [`& .${classes.colorTextPrimary}`]: {
     color: theme.palette.primary.main,
   },
-  underlineNone: {
+
+  [`& .${classes.underlineNone}`]: {
     textDecoration: 'none',
   },
-  textGrey: {
+
+  [`& .${classes.textGrey}`]: {
     color: theme.palette.grey[500],
   },
 }));
@@ -89,9 +95,8 @@ const SignupJwtAuth: React.FC<{}> = () => {
       .required(messages['validation.reTypePassword'] as string),
   });
 
-  const classes = useStyles();
   return (
-    <Box flex={1} display='flex' flexDirection='column'>
+    <StyledBox flex={1} display='flex' flexDirection='column'>
       <Box
         px={{xs: 6, sm: 10, xl: 15}}
         pt={8}
@@ -109,6 +114,7 @@ const SignupJwtAuth: React.FC<{}> = () => {
           validationSchema={validationSchema}
           onSubmit={(data, {setErrors, setSubmitting}) => {
             if (data.password !== data.confirmPassword) {
+              ``;
               setErrors({
                 confirmPassword: messages[
                   'validation.passwordMisMatch'
@@ -228,7 +234,7 @@ const SignupJwtAuth: React.FC<{}> = () => {
           )}
         </Formik>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

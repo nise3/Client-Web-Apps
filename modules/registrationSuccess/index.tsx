@@ -5,16 +5,14 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Container,
   Typography,
 } from '@mui/material';
 import {Link} from '../../@softbd/elements/common';
-import useStyles from './index.style';
+import {StyledContainer} from './index.style';
 
 const RegistrationSuccess = () => {
-  const classes: any = useStyles();
   return (
-    <Container maxWidth={'lg'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'lg'}>
       <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
         <Card>
           <CardContent>
@@ -38,7 +36,7 @@ const RegistrationSuccess = () => {
           </CardContent>
         </Card>
       </Box>
-    </Container>
+    </StyledContainer>
   );
 };
 
