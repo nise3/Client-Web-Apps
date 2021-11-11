@@ -1,12 +1,10 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import makeStyles from '@mui/styles/makeStyles';
-import {Box, alpha} from '@mui/material';
+import {alpha, Box} from '@mui/material';
 import clsx from 'clsx';
 import SearchIcon from '@mui/icons-material/Search';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const PREFIX = 'AppSearch';
 
@@ -19,21 +17,15 @@ const classes = {
   inputRoot: `${PREFIX}-inputRoot`,
   inputInput: `${PREFIX}-inputInput`,
   inputBase: `${PREFIX}-inputBase`,
-  searchIconBox: `${PREFIX}-searchIconBox`
+  searchIconBox: `${PREFIX}-searchIconBox`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`&.${classes.root}`]: {
-    display: 'flex',
-    marginRight: 10,
-    position: 'relative',
-    [theme.breakpoints.up('sm')]: {
-      marginRight: 20,
-    },
+const StyledBox = styled(Box)(({theme}) => ({
+  display: 'flex',
+  marginRight: 10,
+  position: 'relative',
+  [theme.breakpoints.up('sm')]: {
+    marginRight: 20,
   },
 
   [`& .${classes.menuButton}`]: {
@@ -146,7 +138,7 @@ const StyledBox = styled(Box)((
       paddingLeft: 6,
       paddingRight: 6,
     },
-  }
+  },
 }));
 
 interface AppSearchProps {
@@ -177,7 +169,6 @@ const AppSearch: React.FC<AppSearchProps> = ({
   inputStyle,
   ...rest
 }) => {
-
   return (
     <StyledBox className={classes.root} style={containerStyle}>
       <Box
