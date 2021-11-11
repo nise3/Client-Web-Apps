@@ -1,26 +1,10 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
-import {styled} from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
-import clsx from 'clsx';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {RiEditBoxFill} from 'react-icons/ri';
 import {ButtonProps} from '@mui/material/Button/Button';
-
-const PREFIX = 'EditButton';
-
-const classes = {
-  button: `${PREFIX}-button`,
-};
-
-const StyledTooltip = styled(Tooltip)(({theme}) => {
-  return {
-    [`& .${classes.button}`]: {
-      color: theme.palette.success.main,
-    },
-  };
-});
 
 interface Props extends ButtonProps {
   onClick: () => void;
@@ -40,17 +24,18 @@ const EditButton = ({
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
-    <StyledTooltip title={<IntlMessages id='common.edit_btn' />}>
+    <Tooltip title={<IntlMessages id='common.edit_btn' />}>
       <Button
         startIcon={<RiEditBoxFill />}
         onClick={onClick}
-        className={className ? clsx(classes.button, className) : className}
+        sx={{color: 'success.main'}}
+        className={className ? className : className}
         color={extra?.color || 'secondary'}
         variant={variant}
         {...extra}>
         <IntlMessages id='common.edit_btn' />
       </Button>
-    </StyledTooltip>
+    </Tooltip>
   );
 };
 

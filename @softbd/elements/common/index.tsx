@@ -5,18 +5,29 @@ import {Typography} from '@mui/material';
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
 
+const CustomATag = ({
+  children,
+  className,
+  extraClassName = '',
+  ...props
+}: LinkProp) => {
+  return (
+    <a className={clsx(classes.linkText, className, extraClassName)} {...props}>
+      {children}
+    </a>
+  );
+};
+
 const PREFIX = 'Link';
 
 const classes = {
   linkText: `${PREFIX}-linkText`,
 };
 
-const StyledNextLink = styled(NextLink)(() => ({
-  [`& .${classes.linkText}`]: {
-    textDecoration: 'none',
-    fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
-    color: 'inherit',
-  },
+const StyledCustomATag = styled(CustomATag)(() => ({
+  textDecoration: 'none',
+  fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
+  color: 'inherit',
 }));
 
 interface LinkProp {
@@ -50,11 +61,11 @@ export const Link = ({
   ...props
 }: LinkProp) => {
   return (
-    <StyledNextLink href={href}>
-      <a className={clsx(classes.linkText, className)} {...props}>
+    <NextLink href={href}>
+      <StyledCustomATag href={href} extraClassName={className} {...props}>
         {children}
-      </a>
-    </StyledNextLink>
+      </StyledCustomATag>
+    </NextLink>
   );
 };
 
@@ -67,11 +78,14 @@ export const NavLink = ({
   const route = useRouter();
   const active = route.pathname == href ? 'active' : '';
   return (
-    <StyledNextLink href={href}>
-      <a className={clsx(classes.linkText, className, active)} {...props}>
+    <NextLink href={href}>
+      <StyledCustomATag
+        href={href}
+        extraClassName={clsx(className, active)}
+        {...props}>
         {children}
-      </a>
-    </StyledNextLink>
+      </StyledCustomATag>
+    </NextLink>
   );
 };
 
