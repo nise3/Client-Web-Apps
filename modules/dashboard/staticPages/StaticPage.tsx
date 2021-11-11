@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -17,12 +17,15 @@ import {deleteStaticPage} from '../../../services/cmsManagement/StaticPageServic
 import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 import {useFetchStaticPages} from '../../../services/cmsManagement/hooks';
 import ContentTypes from '../recentActivities/ContentTypes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const StaticPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
 
-  const [staticPagesFilters] = useState({});
+  const [staticPagesFilters, setStaticPagesFilters] = useState({});
   const {
     data: staticPages,
     isLoading,
@@ -32,6 +35,20 @@ const StaticPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.isInstituteUser) {
+        setStaticPagesFilters({
+          institute_id: authUser.institute_id,
+        });
+      } else if (authUser.isOrganizationUser) {
+        setStaticPagesFilters({
+          organization_id: authUser.organization_id,
+        });
+      }
+    }
+  }, [authUser]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);

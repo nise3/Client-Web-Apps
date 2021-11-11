@@ -5,7 +5,10 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const VideosPage = asyncComponent(
-  () => import('../../../modules/dashboard/galleryAlbumContents/ContentsPage'),
+  () =>
+    import(
+      '../../../modules/dashboard/galleryAlbumContents/GalleryAlbumContentsPage'
+    ),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

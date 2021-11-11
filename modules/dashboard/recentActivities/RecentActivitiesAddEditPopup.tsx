@@ -383,7 +383,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       delete data['language_en'];
       delete data['language_hi'];
       delete data['language_te'];
-      delete data['language_list'];
 
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;

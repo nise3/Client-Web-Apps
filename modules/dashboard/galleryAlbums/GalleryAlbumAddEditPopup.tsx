@@ -153,10 +153,13 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['gallery_album.album_type'] as string),
-      show_in: yup
-        .string()
-        .required()
-        .label(messages['common.show_in'] as string),
+      show_in:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.show_in'] as string)
+          : yup.string(),
       institute_id: yup
         .mixed()
         .label(messages['institute.label'] as string)
@@ -199,7 +202,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               .label(messages['common.title'] as string),
           }),
     });
-  }, [messages]);
+  }, [messages, authUser]);
   const {
     register,
     reset,
@@ -379,7 +382,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       delete data['language_en'];
       delete data['language_hi'];
       delete data['language_te'];
-      delete data['language_list'];
 
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;

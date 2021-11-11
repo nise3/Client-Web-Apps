@@ -961,6 +961,8 @@
   "content_type.youtube_video": "ইউটিউব ভিডিও",
   "album_type.image": "ছবি",
   "album_type.video": "ভিডিও",
-  "album_type.mixed": "মিক্সড"
+  "album_type.mixed": "মিক্সড",
+  "common.facebook": "ফেসবুক",
+  "common.youtube": "ইউটিউব"
 
 }

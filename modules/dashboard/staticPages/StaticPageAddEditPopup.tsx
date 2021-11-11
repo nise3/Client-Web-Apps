@@ -305,7 +305,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       let data = {...formData};
 
       let otherLanguagesFields: any = {};
-      delete formData.language_list;
+      delete data.language_list;
 
       selectedLanguageList.map((language: any) => {
         const langObj = formData['language_' + language.code];
@@ -319,7 +319,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       delete data['language_en'];
       delete data['language_hi'];
       delete data['language_te'];
-      delete data['language_list'];
 
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
