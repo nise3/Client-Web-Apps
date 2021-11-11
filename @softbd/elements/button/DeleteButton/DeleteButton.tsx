@@ -1,16 +1,22 @@
 import React, {useCallback, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import ConfirmationDialog from '../../../../@crema/core/ConfirmationDialog';
 import {Button} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {FiTrash2} from 'react-icons/fi';
 import {ButtonProps} from '@mui/material/Button/Button';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'DeleteButton';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledTooltip = styled(Tooltip)(({theme}) => {
   return {
-    button: {
+    [`& .${classes.button}`]: {
       color: theme.palette.error.main,
     },
   };
@@ -29,7 +35,6 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   ...extra
 }) => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const classes = useStyles();
 
   const onConfirm = useCallback(() => {
     deleteAction();
@@ -42,7 +47,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 
   return (
     <>
-      <Tooltip title={<IntlMessages id='common.delete_btn' />}>
+      <StyledTooltip title={<IntlMessages id='common.delete_btn' />}>
         <Button
           startIcon={<FiTrash2 />}
           onClick={() => setDeleteDialogOpen(true)}
@@ -50,8 +55,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
           {...extra}>
           {<IntlMessages id='common.delete_btn' />}
         </Button>
-      </Tooltip>
-
+      </StyledTooltip>
       {isDeleteDialogOpen ? (
         <ConfirmationDialog
           open={isDeleteDialogOpen}

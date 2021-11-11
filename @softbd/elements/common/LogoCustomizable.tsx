@@ -1,40 +1,58 @@
 import React, {useContext} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box} from '@mui/material';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import AppContext from '../../../@crema/utility/AppContext';
-import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((/*theme*/) => ({
-  logoRoot: {
+const PREFIX = 'LogoCustomizable';
+
+const classes = {
+  logoRoot: `${PREFIX}-logoRoot`,
+  logo: `${PREFIX}-logo`,
+  texts: `${PREFIX}-texts`,
+  textTop: `${PREFIX}-textTop`,
+  textBottom: `${PREFIX}-textBottom`,
+  logoLast: `${PREFIX}-logoLast`,
+  logoInstitute: `${PREFIX}-logoInstitute`,
+};
+
+const StyledBox = styled(Box)((/*theme*/) => ({
+  [`& .${classes.logoRoot}`]: {
     display: 'flex',
     flexDirection: 'row',
     cursor: 'pointer',
     alignItems: 'flex-start',
     marginTop: 20,
   },
-  logo: {
+
+  [`& .${classes.logo}`]: {
     height: 48,
     marginRight: 10,
   },
-  texts: {
+
+  [`& .${classes.texts}`]: {
     maxWidth: 256,
     textAlign: 'center',
   },
-  textTop: {
+
+  [`& .${classes.textTop}`]: {
     fontSize: 12,
     fontWeight: 600,
     marginTop: 3,
   },
-  textBottom: {
+
+  [`& .${classes.textBottom}`]: {
     fontSize: 9,
     color: '#6f95ca', //theme.palette.primary.main,
   },
-  logoLast: {
+
+  [`& .${classes.logoLast}`]: {
     marginLeft: 10,
     width: 48,
   },
-  logoInstitute: {
+
+  [`& .${classes.logoInstitute}`]: {
     width: '100%',
     height: 48,
     objectFit: 'contain',
@@ -49,9 +67,9 @@ type Prop = {
 
 const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
-  const classes = useStyles();
+
   return (
-    <Box className={className}>
+    <StyledBox className={className}>
       <Box className={classes.logoRoot}>
         <Box sx={{display: {md: 'none', sm: 'block'}}}>
           <img
@@ -90,7 +108,7 @@ const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
           />
         </Box>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 
