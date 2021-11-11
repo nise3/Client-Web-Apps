@@ -17,7 +17,7 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
-import CustomFilterableSelect from './components/customfilterableselect';
+import CustomFilterableSelect from './components/CustomFilterableSelect';
 
 const PREFIX = 'CustomListHeaderSection';
 
