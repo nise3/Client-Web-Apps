@@ -16,8 +16,6 @@ import {
   ListItemText,
   TextField,
 } from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import FeaturedFreelanceSection from './FeaturedFreelanceSection';
@@ -38,7 +36,7 @@ const classes = {
   selectStyle: `${PREFIX}-selectStyle`,
 };
 
-const StyledContainer = styled(Container)(({theme: CremaTheme}) => ({
+const StyledContainer = styled(Container)(({theme}) => ({
   [`&.${classes.container}`]: {
     marginTop: 20,
     marginBottom: 20,
