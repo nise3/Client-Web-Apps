@@ -1,25 +1,11 @@
 import React, {FC} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Box, Typography} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
-const PREFIX = 'Tile';
-
-const classes = {
-  tile: `${PREFIX}-tile`
-};
-
-const StyledBox = styled(Box)((
-  {
-    theme: CremaTheme
-  }
-): any => ({
-  [`&.${classes.tile}`]: {
-    color: '#FFF',
-    padding: '10px 0px',
-    borderRadius: 4,
-  }
+const StyledBox = styled(Box)(({theme}): any => ({
+  color: '#FFF',
+  padding: '10px 0px',
+  borderRadius: 4,
 }));
 
 interface TileProps {
@@ -29,13 +15,11 @@ interface TileProps {
 }
 
 const Tile: FC<TileProps> = ({amount, label, backgroundColor}) => {
-
   const colorCode = backgroundColor ? backgroundColor : '#0984e2';
   const background = `linear-gradient(45deg, ${colorCode}, ${colorCode}, ${colorCode})`;
 
   return (
     <StyledBox
-      className={classes.tile}
       style={{backgroundImage: background}}
       display={'flex'}
       flexDirection={'column'}

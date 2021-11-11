@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
@@ -7,9 +7,7 @@ import PostSection from './PostSection';
 import RecentJobSection from './RecentJobSection';
 import CourseListSection from './CourseListSection';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Container, Grid} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {debounce} from 'lodash';
 
@@ -20,14 +18,10 @@ const classes = {
   root: `${PREFIX}-root`,
   scrollBarStyle: `${PREFIX}-scrollBarStyle`,
   rootScrollBar: `${PREFIX}-rootScrollBar`,
-  scrollBar: `${PREFIX}-scrollBar`
+  scrollBar: `${PREFIX}-scrollBar`,
 };
 
-const StyledContainer = styled(Container)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledContainer = styled(Container)(({theme}) => ({
   [`&.${classes.container}`]: {
     marginTop: '0px',
     [theme.breakpoints.up('md')]: {
@@ -73,11 +67,10 @@ const StyledContainer = styled(Container)((
         overflowY: 'auto',
       },
     },
-  }
+  },
 }));
 
 const YouthFeedPage = () => {
-
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
   const isSearching = useRef<boolean>(false);
 
