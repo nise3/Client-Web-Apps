@@ -74,6 +74,7 @@ const CustomFilterableSelect = ({
       }}
       renderInput={(params) => (
         <TextField
+          style={{borderRadius: '5px'}}
           {...params}
           name={id}
           label={
