@@ -311,6 +311,7 @@
   "menu.services": "Service",
   "menu.static_page": "Static Page",
   "menu.gallery_album": "Gallery Album",
+  "menu.gallery_album_content": "Gallery Album Content",
   "menu.gallery_image_video": "Gallery Image Video",
   "menu.visitor_feedback": "Visitor Feedback",
   "menu.notices_and_news": "Notices and News",
@@ -943,5 +944,9 @@
   "common.event_end_date": "Event End Date",
   "content_type.image": "Image",
   "content_type.facebook_video": "Facebook Video",
-  "content_type.youtube_video": "Youtube Video"
+  "content_type.youtube_video": "Youtube Video",
+  "common.static_page": "Static Page",
+  "album_type.image": "Image",
+  "album_type.video": "Video",
+  "album_type.mixed": "Mixed"
 }

@@ -30,7 +30,6 @@ import IconGallery from '../../../@softbd/icons/IconGallery';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
@@ -42,6 +41,8 @@ import {
   getAllIndustries,
   getAllInstitutes,
 } from '../../../services/cmsManagement/FAQService';
+import AlbumTypes from './AlbumTypes';
+
 interface GalleryAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -64,48 +65,6 @@ const initialValues = {
   archived_at: '',
   row_status: '1',
 };
-export const showIns = [
-  {
-    id: 1,
-    label: 'Nise3',
-  },
-  {
-    id: 2,
-    label: 'Youth',
-  },
-  {
-    id: 3,
-    label: 'TSP',
-  },
-  {
-    id: 4,
-    label: 'Industry',
-  },
-];
-export const features = [
-  {
-    id: '0',
-    label: 'No',
-  },
-  {
-    id: '1',
-    label: 'Yes',
-  },
-];
-export const albumTypes = [
-  {
-    id: 1,
-    label: 'Image',
-  },
-  {
-    id: 2,
-    label: 'Video',
-  },
-  {
-    id: 3,
-    label: 'Mixed',
-  },
-];
 const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
@@ -202,14 +161,14 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         .mixed()
         .label(messages['institute.label'] as string)
         .when('show_in', {
-          is: (value: any) => value === '3',
+          is: (value: number) => value == ShowInTypes.TSP,
           then: yup.string().required(),
         }),
       organization_id: yup
         .mixed()
         .label(messages['organization.label'] as string)
         .when('show_in', {
-          is: (value: any) => value === '4',
+          is: (value: number) => value == ShowInTypes.INDUSTRY,
           then: yup.string().required(),
         }),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
@@ -220,11 +179,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            image_alt_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.image_alt_title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
         ? yup.object().shape({})
@@ -234,11 +188,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            image_alt_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.image_alt_title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
         ? yup.object().shape({})
@@ -248,11 +197,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            image_alt_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.image_alt_title'] as string),
           }),
     });
   }, [messages]);
@@ -266,24 +210,55 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-  console.log(errors);
+
+  const albumTypes = useMemo(
+    () => [
+      {
+        id: AlbumTypes.IMAGE,
+        label: messages['album_type.image'],
+      },
+      {
+        id: AlbumTypes.VIDEO,
+        label: messages['album_type.video'],
+      },
+      {
+        id: AlbumTypes.MIXED,
+        label: messages['album_type.mixed'],
+      },
+    ],
+    [messages],
+  );
+
+  const features = useMemo(
+    () => [
+      {
+        id: 0,
+        label: messages['common.no'],
+      },
+      {
+        id: 1,
+        label: messages['common.yes'],
+      },
+    ],
+    [messages],
+  );
+
   useEffect(() => {
     if (itemData) {
       let data: any = {
         title: itemData?.title,
         institute_id: itemData?.institute_id,
-        //institute_id: itemData.institute_id ? itemData.institute_id : '',
         parent_gallery_album_id: itemData?.parent_gallery_album_id,
         organization_id: itemData?.organization_id,
         batch_id: itemData?.batch_id,
         programme_id: itemData?.programme_id,
         image_alt_title: itemData?.image_alt_title,
         featured: String(itemData?.featured),
-        show_in: String(itemData?.show_in),
+        show_in: itemData?.show_in,
         album_type: itemData?.album_type,
         published_at: itemData?.published_at,
         archived_at: itemData?.archived_at,
-        row_status: itemData?.row_status,
+        row_status: String(itemData?.row_status),
       };
 
       const otherLangData = itemData?.other_language_fields;
@@ -313,7 +288,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, allLanguages]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -372,24 +347,23 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     },
     [selectedLanguageList, languageList, selectedCodes],
   );
-  const onSubmit: SubmitHandler<any> = async (formdata: any) => {
-    formdata.itemId = formdata.itemId ? formdata.itemId : null;
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
     //demo file url
-    formdata.main_image_path = 'http://lorempixel.com/400/200/';
-    formdata.thumb_image_path = 'http://lorempixel.com/400/200/';
-    formdata.grid_image_path = 'http://lorempixel.com/400/200/';
+    formData.main_image_path = 'http://lorempixel.com/400/200/?4';
+    formData.thumb_image_path = 'http://lorempixel.com/400/200/?5';
+    formData.grid_image_path = 'http://lorempixel.com/400/200/?6';
     try {
       if (authUser?.isInstituteUser) {
-        formdata.institute_id = authUser?.institute_id;
-        formdata.show_in = ShowInTypes.TSP;
+        formData.institute_id = authUser?.institute_id;
+        formData.show_in = ShowInTypes.TSP;
       }
 
       if (authUser?.isOrganizationUser) {
-        formdata.organization_id = authUser?.organization_id;
-        formdata.show_in = ShowInTypes.INDUSTRY;
+        formData.organization_id = authUser?.organization_id;
+        formData.show_in = ShowInTypes.INDUSTRY;
       }
 
-      let data = {...formdata};
+      let data = {...formData};
 
       let otherLanguagesFields: any = {};
       delete data.language_list;
@@ -405,9 +379,11 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       delete data['language_en'];
       delete data['language_hi'];
       delete data['language_te'];
+      delete data['language_list'];
 
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
+
       if (itemId) {
         await updateGalleryAlbum(itemId, data);
         updateSuccessMessage('common.gallery_album');
@@ -454,7 +430,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         {authUser && authUser.isSystemUser && (
           <React.Fragment>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id={'show_in'}
                 label={messages['common.show_in']}
@@ -468,8 +444,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               />
             </Grid>
 
-            {showInId == ShowInTypes.TSP && (
-              <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6}>
+              {showInId == ShowInTypes.TSP && (
                 <CustomFilterableFormSelect
                   required
                   id={'institute_id'}
@@ -481,10 +457,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   optionTitleProp={['title']}
                   errorInstance={errors}
                 />
-              </Grid>
-            )}
-            {showInId == ShowInTypes.INDUSTRY && (
-              <Grid item xs={12} md={6}>
+              )}
+              {showInId == ShowInTypes.INDUSTRY && (
                 <CustomFilterableFormSelect
                   required
                   id={'organization_id'}
@@ -496,12 +470,12 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   optionTitleProp={['title']}
                   errorInstance={errors}
                 />
-              </Grid>
-            )}
+              )}
+            </Grid>
           </React.Fragment>
         )}
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -511,7 +485,16 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomTextInput
+            id='image_alt_title'
+            label={messages['gallery_album.image_alt_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
             isLoading={false}
             id='featured'
             label={messages['gallery_album.featured_status']}
@@ -523,7 +506,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             isLoading={false}
             id='album_type'
             label={messages['gallery_album.album_type']}
@@ -536,7 +519,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='programme_id'
             label={messages['programme.label']}
             isLoading={isLoadingProgramme}
@@ -549,7 +532,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='batch_id'
             label={messages['batches.label']}
             isLoading={isLoadingBatch}
@@ -561,7 +544,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='parent_gallery_album_id'
             label={messages['gallery_album.parent_gallery_album']}
             isLoading={isLoadingGalleryAlbums}
@@ -570,15 +553,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title']}
             errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='image_alt_title'
-            label={messages['gallery_album.image_alt_title']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -604,41 +578,18 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             {messages['gallery_album.main_image_path']}
             <input id='main_image_path' type='file' hidden />
           </Button>
-          {/*<CustomTextInput
-            id='main_image_path'
-            label={messages['gallery_album.main_image_path']}
-            type={'file'}
-            register={register}
-            errorInstance={errors}
-          />*/}
         </Grid>
         <Grid item xs={12} md={6}>
           <Button className='btn-choose' variant='outlined' component='label'>
             {messages['gallery_album.grid_image_path']}
             <input id='grid_image_path' type='file' hidden />
           </Button>
-          {/* <CustomTextInput
-            id='grid_image_path'
-            label={messages['gallery_album.grid_image_path']}
-            type={'file'}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />*/}
         </Grid>
         <Grid item xs={12}>
           <Button className='btn-choose' variant='outlined' component='label'>
             {messages['gallery_album.thumb_image_path']}
             <input id='thumb_image_path' type='file' hidden />
           </Button>
-          {/*<CustomTextInput
-            id='thumb_image_path'
-            label={messages['gallery_album.thumb_image_path']}
-            type={'file'}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />*/}
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
@@ -683,7 +634,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   </Grid>
                   <Grid item md={5}>
                     <CustomTextInput
-                      required
                       id={'language_' + language.code + '[image_alt_title]'}
                       label={messages['common.image_alt_title']}
                       register={register}

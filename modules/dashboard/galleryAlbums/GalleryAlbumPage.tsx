@@ -17,6 +17,7 @@ import {deleteGalleryAlbum} from '../../../services/cmsManagement/GalleryAlbumSe
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import AlbumTypes from './AlbumTypes';
 
 const GalleryAlbumPage = () => {
   const {messages} = useIntl();
@@ -66,6 +67,19 @@ const GalleryAlbumPage = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
+  const getAlbumTypeTitle = (albumType: number) => {
+    switch (albumType) {
+      case AlbumTypes.IMAGE:
+        return messages['album_type.image'];
+      case AlbumTypes.VIDEO:
+        return messages['album_type.video'];
+      case AlbumTypes.MIXED:
+        return messages['album_type.mixed'];
+      default:
+        return '';
+    }
+  };
+
   const columns = useMemo(() => {
     return [
       {
@@ -79,6 +93,12 @@ const GalleryAlbumPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+      },
+      {
+        Header: messages['gallery_album.album_type'],
+        Cell: (props: any) => {
+          return getAlbumTypeTitle(props.row.original.album_type);
+        },
       },
       {
         Header: messages['gallery_album.featured_status'],

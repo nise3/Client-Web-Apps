@@ -17,7 +17,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {
-  useFetchCMSGlobalConfigs,
+  useFetchCMSGlobalConfig,
   useFetchStaticPage,
 } from '../../../services/cmsManagement/hooks';
 import {
@@ -62,9 +62,8 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
-  const [globalConfigFilters] = useState<any>({});
   const {data: cmsGlobalConfig, isLoading: isLoadingConfigData} =
-    useFetchCMSGlobalConfigs(globalConfigFilters);
+    useFetchCMSGlobalConfig();
 
   const {
     data: itemData,
