@@ -60,14 +60,16 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
+  const [languageList, setLanguageList] = useState<any>([]);
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
+
   const [allLanguages, setAllLanguages] = useState<any>([]);
-  const [languageList, setLanguageList] = useState<any>([]);
+
   const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
   const [selectedLanguageCode, setSelectedLanguageCode] = useState<
     string | null

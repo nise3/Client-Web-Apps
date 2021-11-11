@@ -81,11 +81,6 @@ const GalleryAlbumPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
-      },
-      {
         Header: messages['gallery_album.featured_status'],
         Cell: (props: any) => {
           let data = props.row.original;

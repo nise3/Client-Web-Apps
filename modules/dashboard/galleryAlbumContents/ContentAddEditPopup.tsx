@@ -1,8 +1,8 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, Grid} from '@mui/material';
+import {Box, Button, Grid, IconButton} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -26,9 +26,13 @@ import {
   updateGalleryAlbumContent,
 } from '../../../services/cmsManagement/GalleryAlbumContentService';
 import {
+  useFetchCMSGlobalConfig,
   useFetchGalleryAlbumContent,
   useFetchGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {Add, Delete} from '@mui/icons-material';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 
 interface ContentAddEditPopupProps {
   itemId: number | null;
@@ -50,8 +54,9 @@ const initialValues = {
   published_at: '',
   archived_at: '',
   row_status: '1',
-  image_url: 'http://lorempixel.com/400/200/',
-  video_url: 'http://lorempixel.com/400/200/',
+  embedded_id: '',
+  content_path: '',
+  embedded_url: '',
 };
 export const contentTypes = [
   {
@@ -108,7 +113,16 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
 
   const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
     useFetchGalleryAlbums(galleryAlbumFilters);
+  const {data: cmsGlobalConfig, isLoading: isFetching} =
+    useFetchCMSGlobalConfig();
+  const [languageList, setLanguageList] = useState<any>([]);
+  const [allLanguages, setAllLanguages] = useState<any>([]);
 
+  const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
+  const [selectedLanguageCode, setSelectedLanguageCode] = useState<
+    string | null
+  >(null);
+  const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -134,22 +148,129 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.content_title'] as string),
-      image_url: yup
+      video_type: yup
         .string()
-        .label(messages['common.image'] as string)
-        .when('content_type', {
-          is: (value: any) => value === '1',
-          then: yup.string().required(),
-        }),
-      video_url: yup
-        .string()
-        .label(messages['common.video'] as string)
+        .label(messages['common.video_type'] as string)
         .when('content_type', {
           is: (value: any) => value === '2',
           then: yup.string().required(),
         }),
+      content_path: yup
+        .mixed()
+        .label(messages['common.content_path'] as string)
+        .when('content_type', {
+          is: (value: any) => value === '1',
+          then: yup.string().required(),
+        }),
+      embedded_id: yup
+        .string()
+        .label(messages['common.embedded_id'] as string)
+        .when('content_type', {
+          is: (value: any) => value === '2',
+          then: yup.string().required(),
+        }),
+      embedded_url: yup
+        .string()
+        .label(messages['common.embedded_id'] as string)
+        .when('content_type', {
+          is: (value: any) => value === '2',
+          then: yup.string().required(),
+        }),
+      language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            content_title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.content_title'] as string),
+            content_description: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.content_description'] as string),
+            alt_title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.image_alt_title'] as string),
+          }),
+      language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            content_title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.content_title'] as string),
+            content_description: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.content_description'] as string),
+            alt_title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.image_alt_title'] as string),
+          }),
+      language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            content_title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.content_title'] as string),
+            content_description: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.content_description'] as string),
+            alt_title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.image_alt_title'] as string),
+          }),
     });
   }, [messages]);
+
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
+        (item: any) => item.code != LanguageCodes.BANGLA,
+      );
+
+      setAllLanguages(filteredLanguage);
+      setLanguageList(filteredLanguage);
+    }
+  }, [cmsGlobalConfig]);
+
+  const onAddOtherLanguageClick = useCallback(() => {
+    if (selectedLanguageCode) {
+      let lists = [...selectedLanguageList];
+      const lang = allLanguages.find(
+        (item: any) => item.code == selectedLanguageCode,
+      );
+
+      if (lang) {
+        lists.push(lang);
+        setSelectedLanguageList(lists);
+        setSelectedCodes((prev) => [...prev, lang.code]);
+
+        setLanguageList((prevState: any) =>
+          prevState.filter((item: any) => item.code != selectedLanguageCode),
+        );
+        setSelectedLanguageCode(null);
+      }
+    }
+  }, [selectedLanguageCode, selectedLanguageList]);
+
+  const onLanguageListChange = useCallback((selected: any) => {
+    setSelectedLanguageCode(selected);
+  }, []);
+
   const {
     register,
     reset,
@@ -163,11 +284,14 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
   console.log(errors);
   useEffect(() => {
     if (itemData) {
-      reset({
+      let data: any = {
         gallery_album_id: itemData?.gallery_album_id,
         content_type: itemData?.content_type,
         video_type: itemData?.video_type,
         content_title: itemData?.content_title,
+        content_path: itemData?.content_path,
+        embedded_url: itemData?.embedded_url,
+        embedded_id: itemData?.embedded_id,
         content_description: itemData?.content_description,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
@@ -176,27 +300,76 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
         published_at: itemData?.published_at,
         archived_at: itemData?.archived_at,
         row_status: itemData?.row_status,
-        image_url: 'http://lorempixel.com/400/200/',
-      });
+      };
+      const otherLangData = itemData?.other_language_fields;
+
+      if (otherLangData) {
+        let keys: any = Object.keys(otherLangData);
+        keys.map((key: string) => {
+          data['language_' + key] = {
+            code: key,
+            content_title: otherLangData[key].content_title,
+            content_description: otherLangData[key].content_description,
+            alt_title: otherLangData[key].alt_title,
+          };
+        });
+        setSelectedCodes(keys);
+
+        setSelectedLanguageList(
+          allLanguages.filter((item: any) => keys.includes(item.code)),
+        );
+
+        setLanguageList(
+          allLanguages.filter((item: any) => !keys.includes(item.code)),
+        );
+      }
+      reset(data);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
+  const onDeleteLanguage = useCallback(
+    (language: any) => {
+      if (language) {
+        setSelectedLanguageList((prevState: any) =>
+          prevState.filter((item: any) => item.code != language.code),
+        );
+
+        let languages = [...languageList];
+        languages.push(language);
+        setLanguageList(languages);
+
+        setSelectedCodes((prev) =>
+          prev.filter((code: any) => code != language.code),
+        );
+      }
+    },
+    [selectedLanguageList, languageList, selectedCodes],
+  );
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     //demo file url
     data.content_cover_image_url = 'http://lorempixel.com/400/200/';
-    if (data.content_type == 1) {
-      data.image_url = 'http://lorempixel.com/400/200/';
-      data.video_url = '';
-    }
-
-    if (data.content_type == 2) {
-      data.video_url = 'http://lorempixel.com/400/200/';
-      data.image_url = '';
-    }
     data.content_grid_image_url = 'http://lorempixel.com/400/200/';
     data.content_thumb_image_url = 'http://lorempixel.com/200/100/';
     try {
+      let otherLanguagesFields: any = {};
+      delete data.language_list;
+
+      selectedLanguageList.map((language: any) => {
+        const langObj = data['language_' + language.code];
+
+        otherLanguagesFields[language.code] = {
+          content_title: langObj.content_title,
+          content_description: langObj.content_description,
+          alt_title: langObj.alt_title,
+        };
+      });
+      delete data['language_en'];
+      delete data['language_hi'];
+      delete data['language_te'];
+
+      if (selectedLanguageList.length > 0)
+        data.other_language_fields = otherLanguagesFields;
       if (itemId) {
         await updateGalleryAlbumContent(itemId, data);
         updateSuccessMessage('common.gallery_album');
@@ -281,6 +454,51 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
             onChange={onContentChange}
           />
         </Grid>
+        {contentStatus === 1 && (
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='content_path'
+              label={messages['common.content_path']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
+        {contentStatus === 2 && (
+          <>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                isLoading={false}
+                id='video_type'
+                label={messages['common.video_type']}
+                control={control}
+                options={videoTypes}
+                optionValueProp={'id'}
+                optionTitleProp={['label']}
+                errorInstance={errors}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='embedded_url'
+                label={messages['common.embedded_url']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='embedded_id'
+                label={messages['common.embedded_id']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='content_title'
@@ -288,18 +506,6 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            isLoading={false}
-            id='video_type'
-            label={messages['common.video_type']}
-            control={control}
-            options={videoTypes}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
           />
         </Grid>
 
@@ -347,36 +553,16 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {contentStatus === 1 && (
-          <Grid item xs={12} md={6}>
-            <Button className='btn-choose' variant='outlined' component='label'>
-              {messages['common.image_url']}
-              <input id='image_url' type='file' hidden />
-            </Button>
-            {/* <CustomTextInput
-              id='image_url'
-              label={messages['common.image_url']}
-              type={'file'}
-              register={register}
-              errorInstance={errors}
-            />*/}
-          </Grid>
-        )}
-        {contentStatus === 2 && (
-          <Grid item xs={12} md={6}>
-            <Button className='btn-choose' variant='outlined' component='label'>
-              {messages['common.video_url']}
-              <input id='video_url' type='file' hidden />
-            </Button>
-            {/*<CustomTextInput
-              id='video_url'
-              label={messages['common.video_url']}
-              type={'file'}
-              register={register}
-              errorInstance={errors}
-            />*/}
-          </Grid>
-        )}
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='alt_title'
+            label={messages['gallery_album.image_alt_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12} md={6}>
           <Button className='btn-choose' variant='outlined' component='label'>
             {messages['gallery_album_content.content_cover_image_url']}
@@ -418,14 +604,82 @@ const ContentAddEditPopup: FC<ContentAddEditPopupProps> = ({
             isLoading={isLoading}
           />*/}
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='alt_title'
-            label={messages['gallery_album.image_alt_title']}
-            register={register}
+
+        <Grid item xs={6}>
+          <CustomFilterableFormSelect
+            id={'language_list'}
+            label={messages['common.language']}
+            isLoading={isFetching}
+            control={control}
+            options={languageList}
+            optionValueProp={'code'}
+            optionTitleProp={['native_name']}
             errorInstance={errors}
-            isLoading={isLoading}
+            onChange={onLanguageListChange}
           />
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            variant={'outlined'}
+            color={'primary'}
+            onClick={onAddOtherLanguageClick}
+            disabled={!selectedLanguageCode}>
+            <Add />
+            {messages['faq.add_language']}
+          </Button>
+        </Grid>
+
+        <Grid item xs={12}>
+          {selectedLanguageList.map((language: any) => (
+            <Box key={language.code} sx={{marginTop: '10px'}}>
+              <fieldset style={{border: '1px solid #7e7e7e'}}>
+                <legend style={{color: '#0a8fdc'}}>
+                  {language.native_name}
+                </legend>
+                <Grid container spacing={5}>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[content_title]'}
+                      label={messages['common.content_title']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={5}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[alt_title]'}
+                      label={messages['common.image_alt_title']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={1} md={1}>
+                    <IconButton
+                      aria-label='delete'
+                      color={'error'}
+                      onClick={(event) => {
+                        onDeleteLanguage(language);
+                      }}>
+                      <Delete color={'error'} />
+                    </IconButton>
+                  </Grid>
+                  <Grid item md={12}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[content_description]'}
+                      label={messages['common.content_description']}
+                      register={register}
+                      errorInstance={errors}
+                      multiline={true}
+                      rows={3}
+                    />
+                  </Grid>
+                </Grid>
+              </fieldset>
+            </Box>
+          ))}
         </Grid>
         <Grid item xs={12} md={6}>
           <FormRowStatus
