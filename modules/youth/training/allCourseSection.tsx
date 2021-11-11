@@ -1,11 +1,25 @@
 import React, {useCallback, useState} from 'react';
-import {Container, Grid} from '@mui/material';
+import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
 import PopularCoursesSection from './PopularCoursesSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {useRouter} from 'next/router';
-import {classes, StyledBox} from './index.style';
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'AllCourseSection';
+
+export const classes = {
+  mainContent: `${PREFIX}-mainContent`,
+};
+
+export const StyledCourseSection = styled(Box)(({theme}) => ({
+  margin: '0px auto 20px',
+
+  [`& .${classes.mainContent}`]: {
+    marginTop: 20,
+  },
+}));
 
 const CourseListPage = () => {
   const [filters, setFilters] = useState<any>({});
@@ -25,7 +39,7 @@ const CourseListPage = () => {
   );
 
   return (
-    <StyledBox className={classes.trainingViewRoot}>
+    <StyledCourseSection>
       <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container spacing={5}>
@@ -47,7 +61,7 @@ const CourseListPage = () => {
           )}
         </Grid>
       </Container>
-    </StyledBox>
+    </StyledCourseSection>
   );
 };
 
