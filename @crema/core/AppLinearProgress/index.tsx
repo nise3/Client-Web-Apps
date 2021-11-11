@@ -1,55 +1,11 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import LinearProgress from '@mui/material/LinearProgress';
 
-const PREFIX = 'AppLinearProgress';
-
-const classes = {
-  root: `${PREFIX}-root`,
-  colorPrimary: `${PREFIX}-colorPrimary`,
-  bar: `${PREFIX}-bar`
-};
-
-const StyledCustomLinearProgress
- = styled(CustomLinearProgress
-)({
-  [`& .${classes.root}`]: {
-    height: (props: {
-      thickness: number;
-      borderRadius: number;
-      pathColor: string;
-      activeColor: string;
-    }) => props.thickness,
-    borderRadius: (props: {
-      thickness: number;
-      borderRadius: number;
-      pathColor: string;
-      activeColor: string;
-    }) => props.borderRadius,
-  },
-  [`& .${classes.colorPrimary}`]: {
-    backgroundColor: (props: {
-      thickness: number;
-      borderRadius: number;
-      pathColor: string;
-      activeColor: string;
-    }) => props.pathColor,
-  },
-  [`& .${classes.bar}`]: {
-    borderRadius: (props: {
-      thickness: number;
-      borderRadius: number;
-      pathColor: string;
-      activeColor: string;
-    }) => props.borderRadius,
-    backgroundColor: (props: {
-      thickness: number;
-      borderRadius: number;
-      pathColor: string;
-      activeColor: string;
-    }) => props.activeColor,
-  },
+const StyledLinearProgress = styled(LinearProgress)({
+  height: 5,
+  borderRadius: 10,
+  backgroundColor: '#d6d6d6',
 });
 
 interface CustomLinearProgressProps {
@@ -68,19 +24,7 @@ const CustomLinearProgress: React.FC<CustomLinearProgressProps> = ({
   borderRadius,
   ...rest
 }) => {
-
-    pathColor,
-    activeColor,
-    thickness,
-    borderRadius,
-  });
-  return (
-    <LinearProgress
-      className={classes.root}
-      classes={{colorPrimary: classes.colorPrimary, bar: classes.bar}}
-      {...rest}
-    />
-  );
+  return <StyledLinearProgress {...rest} />;
 };
 
 interface AppLinearProgressProps {
