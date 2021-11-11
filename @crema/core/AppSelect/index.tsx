@@ -1,23 +1,17 @@
 import React, {useState} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Select from '@mui/material/Select';
-import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
 import clsx from 'clsx';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const PREFIX = 'AppSelect';
 
 const classes = {
   selectBox: `${PREFIX}-selectBox`,
-  selectOption: `${PREFIX}-selectOption`
+  selectOption: `${PREFIX}-selectOption`,
 };
 
-const StyledSelect = styled(Select)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledSelect = styled(Select)(({theme}) => ({
   [`&.${classes.selectBox}`]: {
     marginLeft: 8,
     cursor: 'pointer',
@@ -34,7 +28,7 @@ const StyledSelect = styled(Select)((
     cursor: 'pointer',
     padding: 8,
     fontSize: 14,
-  }
+  },
 }));
 
 interface AppSelectProps {
