@@ -1,38 +1,62 @@
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/material/styles';
+import {Box} from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  trainingViewRoot: {
+const PREFIX = 'CustomFilterableSelect';
+
+export const classes = {
+  trainingViewRoot: `${PREFIX}-trainingViewRoot`,
+  mainContent: `${PREFIX}-mainContent`,
+  pageRootHeader: `${PREFIX}-pageRootHeader`,
+  searchBox: `${PREFIX}-searchBox`,
+  searchButton: `${PREFIX}-searchButton`,
+  thinSearchButton: `${PREFIX}-thinSearchButton`,
+  searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
+  selectStyle: `${PREFIX}-selectStyle`,
+  sectionTitle: `${PREFIX}-sectionTitle`,
+  trainingCardRoot: `${PREFIX}-trainingCardRoot`,
+  trainingCardImage: `${PREFIX}-trainingCardImage`,
+  providerLogo: `${PREFIX}-providerLogo`,
+  tagBox: `${PREFIX}-tagBox`,
+  addressTextStyle: `${PREFIX}-addressTextStyle`,
+};
+
+export const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.trainingViewRoot}`]: {
     margin: '0px auto 20px',
   },
-  mainContent: {
+
+  [`& .${classes.mainContent}`]: {
     marginTop: 20,
   },
-  pageRootHeader: {
+
+  [`& .${classes.pageRootHeader}`]: {
     background: theme.palette.primary.main,
     color: '#fff',
     paddingTop: 20,
     paddingBottom: 20,
   },
-  searchBox: {
+
+  [`& .${classes.searchBox}`]: {
     padding: '10px',
     alignItems: 'center',
     marginTop: 10,
   },
-  searchButton: {
+
+  [`& .${classes.searchButton}`]: {
     color: '#fff',
     padding: '16px 14px',
     width: '100%',
     height: '100%',
   },
 
-  thinSearchButton: {
+  [`& .${classes.thinSearchButton}`]: {
     color: '#fff',
     padding: '11px 0',
     width: '97%',
     height: '100%',
   },
 
-  searchInputBorderHide: {
+  [`& .${classes.searchInputBorderHide}`]: {
     padding: 0,
     '& fieldset': {
       border: 'none',
@@ -43,25 +67,30 @@ const useStyles = makeStyles((theme) => ({
       // padding: '14px 0px',
     },
   },
-  selectStyle: {
+
+  [`& .${classes.selectStyle}`]: {
     background: '#fff',
     borderRadius: '5px',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
   },
-  sectionTitle: {
+
+  [`& .${classes.sectionTitle}`]: {
     fontWeight: 'bold',
   },
-  trainingCardRoot: {
+
+  [`& .${classes.trainingCardRoot}`]: {
     maxWidth: 345,
     minWidth: '100%',
     position: 'relative',
   },
-  trainingCardImage: {
+
+  [`& .${classes.trainingCardImage}`]: {
     height: 140,
   },
-  providerLogo: {
+
+  [`& .${classes.providerLogo}`]: {
     height: 55,
     width: 55,
     border: '1px solid ' + theme.palette.grey['300'],
@@ -69,15 +98,14 @@ const useStyles = makeStyles((theme) => ({
     top: 110,
     left: 10,
   },
-  tagBox: {
+
+  [`& .${classes.tagBox}`]: {
     marginTop: 15,
   },
 
-  addressTextStyle: {
+  [`& .${classes.addressTextStyle}`]: {
     fontWeight: 'bold',
     fontSize: 14,
     marginRight: 10,
   },
 }));
-
-export default useStyles;

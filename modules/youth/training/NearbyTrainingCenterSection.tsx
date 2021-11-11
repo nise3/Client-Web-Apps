@@ -1,16 +1,14 @@
 import React, {useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import useStyles from './index.style';
 import {useIntl} from 'react-intl';
-import TrainingCenterCard from './conponents/TrainingCenterCard';
+import TrainingCenterCard from './components/TrainingCenterCard';
 import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const NearbyTrainingCenterSection = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   const authUser = useAuthUser<YouthAuthUser>();
@@ -29,7 +27,7 @@ const NearbyTrainingCenterSection = () => {
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
-            <Typography variant={'h5'} className={classes.sectionTitle}>
+            <Typography variant={'h5'} fontWeight={'bold'}>
               {messages['common.nearby_training_center']}
             </Typography>
           </Grid>

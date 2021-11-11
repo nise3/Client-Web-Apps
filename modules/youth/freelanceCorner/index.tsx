@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -26,7 +26,7 @@ import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
-import CustomFilterableSelect from '../training/conponents/CustomFilterableSelect';
+import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
 
 const PREFIX = 'FreelanceCorner';
 
@@ -35,14 +35,10 @@ const classes = {
   root: `${PREFIX}-root`,
   searchButton: `${PREFIX}-searchButton`,
   searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
-  selectStyle: `${PREFIX}-selectStyle`
+  selectStyle: `${PREFIX}-selectStyle`,
 };
 
-const StyledContainer = styled(Container)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledContainer = styled(Container)(({theme: CremaTheme}) => ({
   [`&.${classes.container}`]: {
     marginTop: 20,
     marginBottom: 20,
@@ -76,11 +72,10 @@ const StyledContainer = styled(Container)((
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
-  }
+  },
 }));
 
 const FreelanceCorner = () => {
-
   const {messages} = useIntl();
 
   const [selectedSkills, setSelectedSkills] = useState<Array<number>>([]);

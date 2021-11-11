@@ -7,9 +7,39 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import useStyles from '../index.style';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
+
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'CustomFilterableSelect';
+
+export const classes = {
+  providerLogo: `${PREFIX}-providerLogo`,
+  tagBox: `${PREFIX}-tagBox`,
+  addressTextStyle: `${PREFIX}-addressTextStyle`,
+};
+
+export const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.providerLogo}`]: {
+    height: 55,
+    width: 55,
+    border: '1px solid ' + theme.palette.grey['300'],
+    position: 'absolute',
+    top: 110,
+    left: 10,
+  },
+
+  [`& .${classes.tagBox}`]: {
+    marginTop: 15,
+  },
+
+  [`& .${classes.addressTextStyle}`]: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginRight: 10,
+  },
+}));
 
 interface TrainingCenterCardComponentProps {
   trainingCenter: any;
@@ -18,16 +48,11 @@ interface TrainingCenterCardComponentProps {
 const TrainingCenterCardComponent: FC<TrainingCenterCardComponentProps> = ({
   trainingCenter,
 }) => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Card className={classes.trainingCardRoot}>
-      <CardMedia
-        className={classes.trainingCardImage}
-        image={trainingCenter.image}
-        title={trainingCenter.name}
-      />
+    <StyledCard>
+      <CardMedia image={trainingCenter.image} title={trainingCenter.name} />
       <CardContent>
         <Avatar
           className={classes.providerLogo}
@@ -50,7 +75,7 @@ const TrainingCenterCardComponent: FC<TrainingCenterCardComponentProps> = ({
           })}
         </Box>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

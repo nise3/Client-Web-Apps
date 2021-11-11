@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Grid, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import useStyles from './index.style';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
@@ -18,7 +17,6 @@ const TrendingCoursesSection = ({
   filters,
   page_size,
 }: TrendingCoursesSectionProps) => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const router = useRouter();
   const path = router.pathname;
@@ -42,7 +40,7 @@ const TrendingCoursesSection = ({
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
-            <Typography variant={'h5'} className={classes.sectionTitle}>
+            <Typography variant={'h5'} fontWeight={'bold'}>
               {messages['common.trending_courses']}
             </Typography>
           </Grid>
