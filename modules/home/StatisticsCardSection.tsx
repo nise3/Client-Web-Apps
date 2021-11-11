@@ -107,7 +107,9 @@ const StatisticsCardSection = () => {
             </Grid>
             <Grid item xs={12} md={3}>
               <Card className={classes.cardColor4}>
-                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩৫,০০০০০</H3>
+                <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                  ৩,৫০০,০০০
+                </H3>
                 <Text style={{fontSize: '25px'}}>যুব</Text>
               </Card>
             </Grid>
