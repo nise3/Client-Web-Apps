@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {
   Button,
   Card,
@@ -9,7 +9,6 @@ import {
   TextField,
 } from '@mui/material';
 import Tile from './components/Tile';
-import {makeStyles} from '@mui/styles';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
@@ -21,11 +20,10 @@ const classes = {
   searchBox: `${PREFIX}-searchBox`,
   searchButton: `${PREFIX}-searchButton`,
   searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
-  location: `${PREFIX}-location`
+  location: `${PREFIX}-location`,
 };
 
-// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((): any => ({
+const StyledGrid = styled(Grid)(({theme}): any => ({
   [`& .${classes.searchBox}`]: {
     padding: '10px',
     alignItems: 'center',
@@ -50,7 +48,7 @@ const Root = styled('div')((): any => ({
   [`& .${classes.location}`]: {
     display: 'flex',
     alignItems: 'center',
-  }
+  },
 }));
 
 interface OverviewSectionProps {
@@ -58,7 +56,6 @@ interface OverviewSectionProps {
 }
 
 const OverviewSection = ({addFilter}: OverviewSectionProps) => {
-
   const {messages, formatNumber} = useIntl();
   const [selectedUpazilaId, setSelectedUpazilaId] = useState<any>('');
   const [upazilasFilter] = useState({});
@@ -112,8 +109,8 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   );
 
   return (
-    (<Root>
-      <Grid container spacing={3}>
+    <>
+      <StyledGrid container spacing={3}>
         <Grid item xs={12} md={12}>
           <Grid container spacing={2}>
             {overviewItems.map((overview: any) => {
@@ -186,8 +183,8 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
             </Grid>
           </Card>
         </Grid>
-      </Grid>
-    </Root>)
+      </StyledGrid>
+    </>
   );
 };
 
