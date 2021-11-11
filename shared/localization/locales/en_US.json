@@ -950,5 +950,7 @@
   "album_type.video": "Video",
   "album_type.mixed": "Mixed",
   "common.facebook": "Facebook",
-  "common.youtube": "Youtube"
+  "common.youtube": "Youtube",
+  "notice_type.notice": "Notice",
+  "notice_type.news": "News"
 }

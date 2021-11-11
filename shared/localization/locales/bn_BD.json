@@ -921,10 +921,10 @@
   "common.banner_template": "ব্যানার টেম্পলেট",
   "common.is_button_available": "বাটন আছে?",
   "visitor_feedback.label": "ভিজিটর ফিডব্যাক",
-  "common.read_at" : "পড়া হইয়াছে",
-  "common.achieved_at" : "অর্জিত হইয়াছে",
-  "common.comment" : "কমেন্ট",
-  "organization_association.label" : "সংস্থা সংঘ",
+  "common.read_at": "পড়া হইয়াছে",
+  "common.achieved_at": "অর্জিত হইয়াছে",
+  "common.comment": "কমেন্ট",
+  "organization_association.label": "সংস্থা সংঘ",
   "common.static_page": "স্ট্যাটিক পেজ",
   "static_page.label": "স্ট্যাটিক পেজ",
   "common.content_slug_or_id": "কন্টেন্ট স্লাগ অর আইডি",
@@ -944,7 +944,7 @@
   "common.published_by": "প্রকাশিত",
   "common.main_image_path": "প্রধান ছবি পাথ",
   "common.file_path": "ফাইল পাথ",
-  "common.file_alt_title": "ফাইল পাথ",
+  "common.file_alt_title": "ফাইলের অল্টারনেটিভ টাইটেল",
   "common.notice_or_news": "বিজ্ঞপ্তি বা সংবাদ",
   "common.other_language_fields": "অন্যান্য ভাষার ক্ষেত্র",
   "common.embedded_id": "এমবেডেড আইডি",
@@ -963,6 +963,7 @@
   "album_type.video": "ভিডিও",
   "album_type.mixed": "মিক্সড",
   "common.facebook": "ফেসবুক",
-  "common.youtube": "ইউটিউব"
-
+  "common.youtube": "ইউটিউব",
+  "notice_type.notice": "বিজ্ঞপ্তি",
+  "notice_type.news": "খবর"
 }
