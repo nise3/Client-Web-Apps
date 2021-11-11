@@ -1,23 +1,17 @@
 import React, {FC} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Avatar, Box, Button, Card, CardContent} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
 const PREFIX = 'FreelancerCardComponent';
 
 const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
-  colorGray: `${PREFIX}-colorGray`
+  colorGray: `${PREFIX}-colorGray`,
 };
 
-const StyledCard = styled(Card)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.titleStyle}`]: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
@@ -25,7 +19,7 @@ const StyledCard = styled(Card)((
 
   [`& .${classes.colorGray}`]: {
     color: theme.palette.grey['600'],
-  }
+  },
 }));
 
 interface FreelancerCardComponentProps {
@@ -35,7 +29,6 @@ interface FreelancerCardComponentProps {
 const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
   freelancer,
 }) => {
-
   const {messages} = useIntl();
 
   return (
