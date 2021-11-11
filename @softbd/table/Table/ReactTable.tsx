@@ -6,9 +6,8 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Theme,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import React, {ReactElement} from 'react';
 import {
   HeaderProps,
@@ -40,30 +39,46 @@ import {useIntl} from 'react-intl';
 import {AiOutlineInbox} from 'react-icons/ai';
 import {camelToWords} from '../../utilities/helpers';
 
-const useStyles = makeStyles((theme: Theme): any => ({
-  tableRoot: {
+const PREFIX = 'ReactTable';
+
+const classes = {
+  tableRoot: `${PREFIX}-tableRoot`,
+  tableCell: `${PREFIX}-tableCell`,
+  tableRow: `${PREFIX}-tableRow`,
+  tablePagination: `${PREFIX}-tablePagination`,
+  noDataIcon: `${PREFIX}-noDataIcon`,
+  noDataText: `${PREFIX}-noDataText`,
+};
+
+const StyledGrid = styled(Grid)(({theme}): any => ({
+  [`& .${classes.tableRoot}`]: {
     borderCollapse: 'separate !important',
     borderSpacing: '0px 10px !important',
   },
-  tableCell: {
+
+  [`& .${classes.tableCell}`]: {
     border: 'none !important',
     padding: '10px 15px',
     verticalAlign: 'unset',
   },
-  tableRow: {
+
+  [`& .${classes.tableRow}`]: {
     boxShadow:
       theme.palette.mode === ThemeMode.DARK
         ? '0px 0px 10px 1px #222'
         : '0px 0px 10px 1px #e9e9e9',
   },
-  tablePagination: {
+
+  [`& .${classes.tablePagination}`]: {
     display: 'flex',
     justifyContent: 'center',
   },
-  noDataIcon: {
+
+  [`& .${classes.noDataIcon}`]: {
     color: theme.palette.mode === ThemeMode.DARK ? '#6c6c6c' : '#ddd',
   },
-  noDataText: {
+
+  [`& .${classes.noDataText}`]: {
     display: 'block',
     color: theme.palette.mode === ThemeMode.DARK ? '#7d7d7d' : '#a0a0a0',
   },
@@ -200,8 +215,6 @@ export default function ReactTable<T extends object>({
   const {messages} = useIntl();
   const isServerSideTable = typeof fetchData !== 'undefined';
 
-  const classes: any = useStyles();
-
   const clientSideOptions = {
     ...props,
     columns,
@@ -295,110 +308,105 @@ export default function ReactTable<T extends object>({
   };
 
   return (
-    <>
-      <Grid container>
-        <Grid item md={12}>
-          {!hideToolbar && (
-            <TableToolbar
-              instance={instance}
-              leftToolbarHtml={leftToolbarHtml}
-            />
-          )}
-          {!hideToolbar && <FilterChipBar<T> instance={instance} />}
-        </Grid>
-
-        <Grid item md={12}>
-          <AppTableContainer>
-            <Table
-              {...(getTableProps() as any)}
-              size='small'
-              aria-label='a dense table'
-              className={classes.tableRoot}>
-              <TableHead>
-                {headerGroups.map((headerGroup, index) => (
-                  <TableRow key={index} className={classes.tableRow}>
-                    {headerGroup.headers.map((column, index) => (
-                      <TableCell
-                        key={index}
-                        className={classes.tableCell}
-                        style={{
-                          fontWeight: 'bold',
-                          border: '1px solid rgba(224, 224, 224, 1)',
-                        }}>
-                        {column.render('Header')}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableHead>
-              {loading ? (
-                <TableSkeleton
-                  rowSize={pageSize}
-                  columnNumbers={headerGroups[0].headers.length}
-                />
-              ) : (
-                <TableBody {...(getTableBodyProps() as any)}>
-                  {page.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <TableRow key={row.id} className={classes.tableRow}>
-                        {row.cells.map((cell, index) => {
-                          return (
-                            <TableCell
-                              style={{
-                                border: '1px solid rgba(224, 224, 224, 1)',
-                                textAlign: 'left',
-                              }}
-                              key={index}
-                              className={classes.tableCell}>
-                              {cell.render('Cell')}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-                  {page.length == 0 && (
-                    <TableRow key={0} className={classes.tableRow}>
-                      <TableCell
-                        style={{
-                          border: '1px solid rgba(224, 224, 224, 1)',
-                          textAlign: 'center',
-                        }}
-                        colSpan={columns?.length}
-                        key={0}
-                        className={classes.tableCell}>
-                        <AiOutlineInbox
-                          className={classes.noDataIcon}
-                          size={'5em'}
-                        />
-                        <span className={classes.noDataText}>
-                          {messages['common.no_data_found']}
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              )}
-            </Table>
-          </AppTableContainer>
-        </Grid>
-
-        {page.length > 0 && (
-          <Grid item md={12}>
-            <TablePagination
-              component='div'
-              className={classes.tablePagination}
-              rowsPerPageOptions={pageSizeData}
-              count={totalCount}
-              rowsPerPage={pageSize}
-              page={pageIndex}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Grid>
+    <StyledGrid container>
+      <Grid item md={12}>
+        {!hideToolbar && (
+          <TableToolbar instance={instance} leftToolbarHtml={leftToolbarHtml} />
         )}
+        {!hideToolbar && <FilterChipBar<T> instance={instance} />}
       </Grid>
-    </>
+
+      <Grid item md={12}>
+        <AppTableContainer>
+          <Table
+            {...(getTableProps() as any)}
+            size='small'
+            aria-label='a dense table'
+            className={classes.tableRoot}>
+            <TableHead>
+              {headerGroups.map((headerGroup, index) => (
+                <TableRow key={index} className={classes.tableRow}>
+                  {headerGroup.headers.map((column, index) => (
+                    <TableCell
+                      key={index}
+                      className={classes.tableCell}
+                      style={{
+                        fontWeight: 'bold',
+                        border: '1px solid rgba(224, 224, 224, 1)',
+                      }}>
+                      {column.render('Header')}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHead>
+            {loading ? (
+              <TableSkeleton
+                rowSize={pageSize}
+                columnNumbers={headerGroups[0].headers.length}
+              />
+            ) : (
+              <TableBody {...(getTableBodyProps() as any)}>
+                {page.map((row) => {
+                  prepareRow(row);
+                  return (
+                    <TableRow key={row.id} className={classes.tableRow}>
+                      {row.cells.map((cell, index) => {
+                        return (
+                          <TableCell
+                            style={{
+                              border: '1px solid rgba(224, 224, 224, 1)',
+                              textAlign: 'left',
+                            }}
+                            key={index}
+                            className={classes.tableCell}>
+                            {cell.render('Cell')}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+                {page.length == 0 && (
+                  <TableRow key={0} className={classes.tableRow}>
+                    <TableCell
+                      style={{
+                        border: '1px solid rgba(224, 224, 224, 1)',
+                        textAlign: 'center',
+                      }}
+                      colSpan={columns?.length}
+                      key={0}
+                      className={classes.tableCell}>
+                      <AiOutlineInbox
+                        className={classes.noDataIcon}
+                        size={'5em'}
+                      />
+                      <span className={classes.noDataText}>
+                        {messages['common.no_data_found']}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            )}
+          </Table>
+        </AppTableContainer>
+      </Grid>
+
+      {page.length > 0 && (
+        <Grid item md={12}>
+          <TablePagination
+            component='div'
+            className={classes.tablePagination}
+            rowsPerPageOptions={pageSizeData}
+            count={totalCount}
+            rowsPerPage={pageSize}
+            page={pageIndex}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Grid>
+      )}
+    </StyledGrid>
   );
 }
