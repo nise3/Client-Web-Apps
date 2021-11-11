@@ -353,7 +353,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     });
   };
 
-  const onSubmit: SubmitHandler<StaticPage> = async (data: StaticPage) => {
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       if (authUser?.isInstituteUser) {
         data.institute_id = authUser?.institute_id;
@@ -374,8 +374,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         const langObj = formData['language_' + language.code];
 
         otherLanguagesFields[language.code] = {
-          question: langObj.question,
-          answer: langObj.answer,
+          title: langObj.title,
+          sub_title: langObj.sub_title,
+          contents: langObj.contents,
         };
       });
       delete formData['language_en'];
