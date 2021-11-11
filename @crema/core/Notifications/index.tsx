@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import notification, {
@@ -7,7 +7,6 @@ import notification, {
 } from '../../services/db/notifications/notification';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import {Popover} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -17,83 +16,49 @@ import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import NotificationItem from './NotificationItem';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
 const PREFIX = 'Notifications';
 
 const classes = {
-  crPopover: `${PREFIX}-crPopover`,
   btnPopover: `${PREFIX}-btnPopover`,
-  notiBtn: `${PREFIX}-notiBtn`,
   notiIcon: `${PREFIX}-notiIcon`,
   list: `${PREFIX}-list`,
-  badge: `${PREFIX}-badge`
+  badge: `${PREFIX}-badge`,
 };
 
-// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`& .${classes.crPopover}`]: {
-    '& .MuiPopover-paper': {
-      width: 260,
-      [theme.breakpoints.up('sm')]: {
-        width: 300,
-      },
-      [theme.breakpoints.up('xl')]: {
-        width: 380,
-      },
-    },
-    '& .scroll-submenu': {
-      maxHeight: 200,
-      [theme.breakpoints.up('xl')]: {
-        maxHeight: 380,
-      },
-    },
+const StyledIconButton = styled(IconButton)(({theme}) => ({
+  justifyContent: 'flex-start',
+  width: '100%',
+  height: 56,
+  fontSize: 16,
+  borderRadius: 0,
+  paddingLeft: '1rem',
+  paddingRight: '1rem',
+  color: theme.palette.grey[800],
+  '&:hover, &:focus': {
+    color: theme.palette.text.primary,
+    backgroundColor: 'transparent',
   },
-
-  [`& .${classes.btnPopover}`]: {
-    borderRadius: 0,
-    width: '100%',
-    textTransform: 'capitalize',
+  [theme.breakpoints.up('sm')]: {
+    height: 70,
   },
-
-  [`& .${classes.notiBtn}`]: {
-    justifyContent: 'flex-start',
-    width: '100%',
-    height: 56,
-    fontSize: 16,
-    borderRadius: 0,
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    color: theme.palette.grey[800],
+  [theme.breakpoints.up('md')]: {
+    justifyContent: 'center',
+    width: 'auto',
+    borderLeft: 'solid 1px',
+    borderLeftColor: theme.palette.grey[200],
+    color: theme.palette.grey[400],
     '&:hover, &:focus': {
       color: theme.palette.text.primary,
-      backgroundColor: 'transparent',
     },
-    [theme.breakpoints.up('sm')]: {
-      height: 70,
-    },
-    [theme.breakpoints.up('md')]: {
-      justifyContent: 'center',
-      width: 'auto',
-      borderLeft: 'solid 1px',
-      borderLeftColor: theme.palette.grey[200],
-      color: theme.palette.grey[400],
-      '&:hover, &:focus': {
-        color: theme.palette.text.primary,
-      },
-    },
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: '1.5rem',
-      paddingRight: '1.5rem',
-    },
-    [theme.breakpoints.up('xl')]: {
-      paddingLeft: '2.5rem',
-      paddingRight: '2.5rem',
-    },
+  },
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+  },
+  [theme.breakpoints.up('xl')]: {
+    paddingLeft: '2.5rem',
+    paddingRight: '2.5rem',
   },
 
   [`& .${classes.notiIcon}`]: {
@@ -104,14 +69,38 @@ const Root = styled('div')((
     },
   },
 
+  [`& .${classes.badge}`]: {
+    marginRight: 8,
+  },
+}));
+
+const StyledPopOver = styled(Popover)(({theme}) => ({
+  '& .MuiPopover-paper': {
+    width: 260,
+    [theme.breakpoints.up('sm')]: {
+      width: 300,
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 380,
+    },
+  },
+  '& .scroll-submenu': {
+    maxHeight: 200,
+    [theme.breakpoints.up('xl')]: {
+      maxHeight: 380,
+    },
+  },
+
+  [`& .${classes.btnPopover}`]: {
+    borderRadius: 0,
+    width: '100%',
+    textTransform: 'capitalize',
+  },
+
   [`& .${classes.list}`]: {
     paddingTop: 0,
     paddingBottom: 0,
   },
-
-  [`& .${classes.badge}`]: {
-    marginRight: 8,
-  }
 }));
 
 interface NotificationsProps {}
@@ -126,12 +115,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
     setAnchorNotification(event.currentTarget);
   };
 
-
-
   return (
-    (<Root>
-      <IconButton
-        className={clsx(classes.notiBtn, 'notiBtn')}
+    <>
+      <StyledIconButton
         aria-label='show 17 new notifications'
         color='inherit'
         onClick={onClickNotificationButton}
@@ -154,11 +140,10 @@ const Notifications: React.FC<NotificationsProps> = () => {
             <IntlMessages id='common.notifications' />
           </Box>
         </Hidden>
-      </IconButton>
-      <Popover
+      </StyledIconButton>
+      <StyledPopOver
         anchorEl={anchorNotification}
         id='language-switcher'
-        className={classes.crPopover}
         keepMounted
         open={Boolean(anchorNotification)}
         anchorOrigin={{
@@ -196,8 +181,8 @@ const Notifications: React.FC<NotificationsProps> = () => {
             </Button>
           </Box>
         </Box>
-      </Popover>
-    </Root>)
+      </StyledPopOver>
+    </>
   );
 };
 

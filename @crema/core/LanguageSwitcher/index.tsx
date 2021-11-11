@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import languageData, {LanguageProps} from './data';
 import Menu from '@mui/material/Menu';
 import AppContext from '../../utility/AppContext';
@@ -7,11 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppContextPropsType, {
-  CremaTheme,
-} from '../../../redux/types/AppContextPropsType';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 const PREFIX = 'LanguageSwitcher';
 
@@ -19,15 +16,11 @@ const classes = {
   langBtn: `${PREFIX}-langBtn`,
   overflowHidden: `${PREFIX}-overflowHidden`,
   alignMiddle: `${PREFIX}-alignMiddle`,
-  textUppercase: `${PREFIX}-textUppercase`
+  textUppercase: `${PREFIX}-textUppercase`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`& .${classes.langBtn}`]: {
+const StyledIconButton = styled(IconButton)(({theme}) => ({
+  [`&.${classes.langBtn}`]: {
     justifyContent: 'flex-start',
     width: '100%',
     height: '100%',
@@ -73,7 +66,7 @@ const StyledBox = styled(Box)((
 
   [`& .${classes.textUppercase}`]: {
     textTransform: 'uppercase',
-  }
+  },
 }));
 
 interface LanguageSwitcherProps {
@@ -101,11 +94,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     setAnchorElLng(null);
   };
 
-
-
   return (
-    <StyledBox height={'100%'}>
-      <IconButton
+    <Box height={'100%'}>
+      <StyledIconButton
         className={clsx(
           classes.langBtn,
           {
@@ -144,7 +135,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             <i className={`flag flag-24 flag-${locale.icon}`} />
           </Box>
         )}
-      </IconButton>
+      </StyledIconButton>
       <Menu
         anchorEl={anchorElLng}
         id='language-switcher'
@@ -166,7 +157,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           </MenuItem>
         ))}
       </Menu>
-    </StyledBox>
+    </Box>
   );
 };
 
