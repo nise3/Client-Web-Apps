@@ -1,6 +1,6 @@
 import React, {FC, useMemo} from 'react';
+import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import useStyles from './Settings.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Button, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -12,13 +12,27 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {changePassword} from '../../../services/youthManagement/SettingsService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
+const PREFIX = 'ChangePasswordView';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.button}`]: {
+    margin: theme.spacing(1),
+    width: '100px',
+    marginLeft: '10px',
+  },
+}));
+
 interface ChangePasswordViewprops {
   onBack: () => void;
 }
 
 const ChangePasswordView: FC<ChangePasswordViewprops> = ({onBack}) => {
   const {messages} = useIntl();
-  const classes = useStyles();
+
   const {errorStack, successStack} = useNotiStack();
 
   const validationSchema = useMemo(() => {
@@ -57,7 +71,7 @@ const ChangePasswordView: FC<ChangePasswordViewprops> = ({onBack}) => {
     }
   };
   return (
-    <Card>
+    <StyledCard>
       <CardHeader
         title={messages['common.change_password']}
         fontWeight={'bold'}
@@ -106,7 +120,7 @@ const ChangePasswordView: FC<ChangePasswordViewprops> = ({onBack}) => {
           </Grid>
         </form>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 
