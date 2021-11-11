@@ -1,65 +1,19 @@
 import React, {FC} from 'react';
-import { styled } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Avatar, Box, Button} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 
 const PREFIX = 'RecentJobComponent';
 
 const classes = {
-  `&.${classes.recentJobCompRoot}`: `${PREFIX}-undefined`,
-  `& .${classes.jobProviderImage}`: `${PREFIX}-undefined`,
-  `& .${classes.jobTitle}`: `${PREFIX}-undefined`,
-  `& .${classes.jobProviderName}`: `${PREFIX}-undefined`
-};
-
-const StyledStyledBox = styled(StyledBox)((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    padding: '5px 10px 0px 20px',
-  },
-
-  [`& .${classes.undefined}`]: {
-    height: 45,
-    width: 45,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    fontWeight: Fonts.BOLD,
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.grey['600'],
-    marginBottom: 10,
-  }
-}));
-
-const PREFIX = 'RecentJobComponent';
-
-const classes = {
-  recentJobCompRoot: `${PREFIX}-recentJobCompRoot`,
   jobProviderImage: `${PREFIX}-jobProviderImage`,
   jobTitle: `${PREFIX}-jobTitle`,
-  jobProviderName: `${PREFIX}-jobProviderName`
+  jobProviderName: `${PREFIX}-jobProviderName`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`&.${classes.recentJobCompRoot}`]: {
-    padding: '5px 10px 0px 20px',
-  },
+const StyledBox = styled(Box)(({theme}) => ({
+  padding: '5px 10px 0px 20px',
 
   [`& .${classes.jobProviderImage}`]: {
     height: 45,
@@ -74,34 +28,7 @@ const StyledBox = styled(Box)((
   [`& .${classes.jobProviderName}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
-  }
-}));
-
-const useStyle = makeStyles((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    padding: '5px 10px 0px 20px',
   },
-
-  [`& .${classes.undefined}`]: {
-    height: 45,
-    width: 45,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    fontWeight: Fonts.BOLD,
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.grey['600'],
-    marginBottom: 10,
-  }
 }));
 
 interface RecentJobProps {
@@ -114,11 +41,10 @@ interface RecentJobProps {
 }
 
 const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   return (
-    <StyledStyledBox display={'flex'} className={classes.recentJobCompRoot}>
+    <StyledBox display={'flex'}>
       <Box>
         <Avatar
           alt='provider image'
@@ -140,7 +66,7 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
           </Button>
         </Box>
       </Box>
-    </StyledStyledBox>
+    </StyledBox>
   );
 };
 

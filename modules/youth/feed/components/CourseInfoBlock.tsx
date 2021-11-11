@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
-import { styled } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {
   courseDuration,
@@ -17,77 +14,6 @@ import {useRouter} from 'next/router';
 const PREFIX = 'CourseInfoBlock';
 
 const classes = {
-  `&.${classes.courseBlockRoot}`: `${PREFIX}-undefined`,
-  `& .${classes.jobProviderImage}`: `${PREFIX}-undefined`,
-  `& .${classes.totalEnrolled}`: `${PREFIX}-undefined`,
-  `& .${classes.titleStyle}`: `${PREFIX}-undefined`,
-  `& .${classes.colorGray}`: `${PREFIX}-undefined`,
-  `& .${classes.enrollButton}`: `${PREFIX}-undefined`,
-  `& .${classes.courseDescription}`: `${PREFIX}-undefined`,
-  `& .${classes.tagChipStyle}`: `${PREFIX}-undefined`,
-  `& .${classes.courseDetailsButton}`: `${PREFIX}-undefined`
-};
-
-const StyledStyledCard = styled(StyledCard)((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    padding: 15,
-  },
-
-  [`& .${classes.undefined}`]: {
-    borderRadius: '50%',
-    height: 60,
-    width: 60,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    alignItems: 'flex-end',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.grey['600'],
-    display: 'inline',
-  },
-
-  [`& .${classes.undefined}`]: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    flexDirection: 'column',
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginTop: 15,
-    marginBottom: 15,
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginBottom: 0,
-  },
-
-  [`& .${classes.undefined}`]: {
-    position: 'absolute',
-    left: 19,
-    top: 19,
-  }
-}));
-
-const PREFIX = 'CourseInfoBlock';
-
-const classes = {
-  courseBlockRoot: `${PREFIX}-courseBlockRoot`,
   jobProviderImage: `${PREFIX}-jobProviderImage`,
   totalEnrolled: `${PREFIX}-totalEnrolled`,
   titleStyle: `${PREFIX}-titleStyle`,
@@ -95,17 +21,11 @@ const classes = {
   enrollButton: `${PREFIX}-enrollButton`,
   courseDescription: `${PREFIX}-courseDescription`,
   tagChipStyle: `${PREFIX}-tagChipStyle`,
-  courseDetailsButton: `${PREFIX}-courseDetailsButton`
+  courseDetailsButton: `${PREFIX}-courseDetailsButton`,
 };
 
-const StyledCard = styled(Card)((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`&.${classes.courseBlockRoot}`]: {
-    padding: 15,
-  },
+const StyledCard = styled(Card)(({theme}) => ({
+  padding: 15,
 
   [`& .${classes.jobProviderImage}`]: {
     borderRadius: '50%',
@@ -149,76 +69,19 @@ const StyledCard = styled(Card)((
     position: 'absolute',
     left: 19,
     top: 19,
-  }
+  },
 }));
 
 interface CourseInfoBlockProps {
   course: any;
 }
 
-const useStyle = makeStyles((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    padding: 15,
-  },
-
-  [`& .${classes.undefined}`]: {
-    borderRadius: '50%',
-    height: 60,
-    width: 60,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    alignItems: 'flex-end',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.grey['600'],
-    display: 'inline',
-  },
-
-  [`& .${classes.undefined}`]: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    flexDirection: 'column',
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginTop: 15,
-    marginBottom: 15,
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginBottom: 0,
-  },
-
-  [`& .${classes.undefined}`]: {
-    position: 'absolute',
-    left: 19,
-    top: 19,
-  }
-}));
-
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
-  const classes = useStyle();
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
 
   return (
-    <StyledStyledCard className={classes.courseBlockRoot}>
+    <StyledCard>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2} sx={{position: 'relative'}}>
           <CardMedia
@@ -317,7 +180,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
           </Grid>
         </Grid>
       </Grid>
-    </StyledStyledCard>
+    </StyledCard>
   );
 };
 

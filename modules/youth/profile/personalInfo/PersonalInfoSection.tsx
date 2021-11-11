@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor, BusinessCenter, Verified} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
@@ -15,8 +15,6 @@ import SkillInfo from '../SkillInfo';
 import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {createStyles, makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import PersonalInformationEdit from './PersonalInformationEdit';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {useDispatch} from 'react-redux';
@@ -35,14 +33,10 @@ const classes = {
   aboutYouth: `${PREFIX}-aboutYouth`,
   editButton: `${PREFIX}-editButton`,
   dividerStyle: `${PREFIX}-dividerStyle`,
-  skillInfoGrid: `${PREFIX}-skillInfoGrid`
+  skillInfoGrid: `${PREFIX}-skillInfoGrid`,
 };
 
-const StyledCard = styled(Card)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.aboutYouth}`]: {
     [theme.breakpoints.between('xs', 'sm')]: {
       justifyContent: 'center',
@@ -70,7 +64,7 @@ const StyledCard = styled(Card)((
     [theme.breakpoints.only('xs')]: {
       flexDirection: 'column',
     },
-  }
+  },
 }));
 
 const PersonalInfoSection = () => {

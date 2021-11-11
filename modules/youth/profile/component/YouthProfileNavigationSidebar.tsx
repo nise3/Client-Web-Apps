@@ -1,8 +1,7 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Divider, ListItemText, MenuItem, MenuList, Paper} from '@mui/material';
 import Link from 'next/link';
-import makeStyles from '@mui/styles/makeStyles';
 
 const PREFIX = 'YouthProfileNavigationSidebar';
 

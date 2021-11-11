@@ -1,9 +1,6 @@
 import React, {useCallback, useState} from 'react';
-import { styled } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {ChevronRight} from '@mui/icons-material';
 import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
@@ -14,62 +11,6 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-const PREFIX = 'CourseListSection';
-
-const classes = {
-  `& .${classes.recentCourseSectionRoot}`: `${PREFIX}-undefined`,
-  `& .${classes.featureSectionTitle}`: `${PREFIX}-undefined`,
-  `& .${classes.courseItem}`: `${PREFIX}-undefined`,
-  `& .${classes.divider}`: `${PREFIX}-undefined`,
-  `& .${classes.selectStyle}`: `${PREFIX}-undefined`,
-  `& .${classes.seeMoreButton}`: `${PREFIX}-undefined`,
-  `& .${classes.selectControl}`: `${PREFIX}-undefined`
-};
-
-const StyledStyledCard = styled(StyledCard)((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    marginTop: 0,
-    paddingBottom: 10,
-    paddingTop: 20,
-  },
-
-  [`& .${classes.undefined}`]: {
-    fontSize: 17,
-    fontWeight: 'bold',
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginBottom: 10,
-  },
-
-  [`& .${classes.undefined}`]: {
-    width: '100%',
-    height: 1,
-    marginBottom: 5,
-  },
-
-  [`& .${classes.undefined}`]: {
-    '& .MuiSelect-select': {
-      padding: '10px 30px 10px 15px',
-    },
-  },
-
-  [`& .${classes.undefined}`]: {
-    boxShadow: 'none',
-    marginTop: 10,
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginLeft: 20,
-    marginBottom: 10,
-  }
-}));
 
 const PREFIX = 'CourseListSection';
 
@@ -80,14 +21,10 @@ const classes = {
   divider: `${PREFIX}-divider`,
   selectStyle: `${PREFIX}-selectStyle`,
   seeMoreButton: `${PREFIX}-seeMoreButton`,
-  selectControl: `${PREFIX}-selectControl`
+  selectControl: `${PREFIX}-selectControl`,
 };
 
-const StyledCard = styled(Card)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.recentCourseSectionRoot}`]: {
     marginTop: 0,
     paddingBottom: 10,
@@ -123,56 +60,10 @@ const StyledCard = styled(Card)((
   [`& .${classes.selectControl}`]: {
     marginLeft: 20,
     marginBottom: 10,
-  }
-}));
-
-const useStyle = makeStyles((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    marginTop: 0,
-    paddingBottom: 10,
-    paddingTop: 20,
   },
-
-  [`& .${classes.undefined}`]: {
-    fontSize: 17,
-    fontWeight: 'bold',
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginBottom: 10,
-  },
-
-  [`& .${classes.undefined}`]: {
-    width: '100%',
-    height: 1,
-    marginBottom: 5,
-  },
-
-  [`& .${classes.undefined}`]: {
-    '& .MuiSelect-select': {
-      padding: '10px 30px 10px 15px',
-    },
-  },
-
-  [`& .${classes.undefined}`]: {
-    boxShadow: 'none',
-    marginTop: 10,
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginLeft: 20,
-    marginBottom: 10,
-  }
 }));
 
 const CourseListSection = () => {
-  const classes = useStyle();
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState('recent');
   const URL = `/youth/course-list/${selectedValue}`;
@@ -200,7 +91,7 @@ const CourseListSection = () => {
   }, []);
 
   return (
-    <StyledStyledCard>
+    <StyledCard>
       <Grid container className={classes.recentCourseSectionRoot}>
         <Grid item xs={12} md={12}>
           <Select
@@ -252,7 +143,7 @@ const CourseListSection = () => {
           <NoDataFoundComponent messageTextType={'subtitle2'} />
         )}
       </Grid>
-    </StyledStyledCard>
+    </StyledCard>
   );
 };
 

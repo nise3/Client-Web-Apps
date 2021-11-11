@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   Container,
@@ -9,7 +10,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import useStyles from './NoticeBoard.style';
 import NoticeCard from './NoticeCard';
 import SearchIcon from '@mui/icons-material/Search';
 import {Pagination} from '@mui/lab';
@@ -18,10 +18,44 @@ import {useFetchNoticeBoard} from '../../../services/niseManagement/hooks';
 import {debounce} from 'lodash';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
+const PREFIX = 'YouthNoticeBoard';
+
+const classes = {
+  noticeBoardText: `${PREFIX}-noticeBoardText`,
+  paperSearch: `${PREFIX}-paperSearch`,
+  noticeTopBox: `${PREFIX}-noticeTopBox`,
+  paginationBox: `${PREFIX}-paginationBox`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  padding: 20,
+  [`& .${classes.noticeBoardText}`]: {
+    fontWeight: 'bold',
+  },
+
+  [`& .${classes.paperSearch}`]: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.noticeTopBox}`]: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+  },
+
+  [`& .${classes.paginationBox}`]: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+}));
+
 const YouthNoticeBoard = () => {
   const {data: noticeList} = useFetchNoticeBoard();
 
-  const classes = useStyles();
   const {messages} = useIntl();
 
   const onChangeSearchInput = useCallback((e: any) => {
@@ -29,7 +63,7 @@ const YouthNoticeBoard = () => {
   }, []);
 
   return (
-    <Container maxWidth={'lg'} className={classes.containerBox}>
+    <StyledContainer maxWidth={'lg'}>
       <Box className={classes.noticeTopBox}>
         <Typography variant={'h5'} className={classes.noticeBoardText}>
           {messages['common.notice_board']}
@@ -71,7 +105,7 @@ const YouthNoticeBoard = () => {
           <Pagination count={3} color={'primary'} shape='rounded' />
         </Stack>
       </Box>
-    </Container>
+    </StyledContainer>
   );
 };
 

@@ -1,78 +1,24 @@
 import React, {FC} from 'react';
-import { styled } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {Avatar, Box, Button} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
-
-const PREFIX = 'NearbyFreelancerComponent';
-
-const classes = {
-  `& .${classes.userImage}`: `${PREFIX}-undefined`,
-  `& .${classes.designation}`: `${PREFIX}-undefined`
-};
-
-const StyledStyledBox = styled(StyledBox)((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    height: 45,
-    width: 45,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.grey['600'],
-    marginBottom: 10,
-  }
-}));
-
-const PREFIX = 'NearbyFreelancerComponent';
+const PREFIX = 'NearbyFreelancer';
 
 const classes = {
   userImage: `${PREFIX}-userImage`,
-  designation: `${PREFIX}-designation`
+  designation: `${PREFIX}-designation`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledStyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.userImage}`]: {
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
   },
-
   [`& .${classes.designation}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
-  }
-}));
-
-const useStyle = makeStyles((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    height: 45,
-    width: 45,
-    border: '1px solid ' + theme.palette.grey['300'],
   },
-
-  [`& .${classes.undefined}`]: {
-    color: theme.palette.grey['600'],
-    marginBottom: 10,
-  }
 }));
 
 interface NearbyFreelancerComponentProps {
@@ -82,7 +28,6 @@ interface NearbyFreelancerComponentProps {
 const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
   freelanceUser,
 }) => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   return (

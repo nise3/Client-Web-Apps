@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -8,13 +9,41 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
+const PREFIX = 'YouthSignIn';
+
+const classes = {
+  PaperBox: `${PREFIX}-PaperBox`,
+  toggle: `${PREFIX}-toggle`,
+  forgotpass: `${PREFIX}-forgotpass`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.PaperBox}`]: {
+    padding: 40,
+  },
+
+  [`& .${classes.toggle}`]: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.forgotpass}`]: {
+    marginTop: '7px',
+    textAlign: 'right',
+    // [theme.breakpoints.up('lg')]: {
+    //   textAlign: 'right',
+    // },
+    // [theme.breakpoints.down('md')]: {
+    //   textAlign: 'left',
+    // },
+  },
+}));
+
 const YouthSignIn = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const isLoading = false;
   const {
@@ -25,7 +54,7 @@ const YouthSignIn = () => {
 
   const onSubmit: SubmitHandler<any> = async () => {};
   return (
-    <Container maxWidth={'sm'}>
+    <StyledContainer maxWidth={'sm'}>
       <Paper className={classes.PaperBox}>
         <Typography
           variant={'h6'}
@@ -74,7 +103,7 @@ const YouthSignIn = () => {
           Don't have an account? Sign up here
         </Typography>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

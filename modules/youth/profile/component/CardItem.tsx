@@ -1,30 +1,22 @@
 import {Box, Card} from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Image from 'next/image';
 import React from 'react';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
-import {createStyles, makeStyles} from '@mui/styles';
 
 const PREFIX = 'CardItem';
 
 const classes = {
-  image: `${PREFIX}-image`
+  image: `${PREFIX}-image`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.image}`]: {
     width: '100%',
     height: '200px',
-  }
+  },
 }));
 
 const CardItem = (item: any, key: number) => {
-
-
   return (
     <StyledBox mr={6} key={key}>
       <Card>

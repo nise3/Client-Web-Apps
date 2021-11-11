@@ -1,6 +1,5 @@
 import {Box, Button, Card, CardMedia} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import {createStyles, makeStyles} from '@mui/styles';
+import {styled} from '@mui/material/styles';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from './CircularDeleteButton';

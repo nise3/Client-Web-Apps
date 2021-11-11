@@ -1,83 +1,22 @@
 import React, {FC} from 'react';
-import { styled } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 
 const PREFIX = 'FeatureJobComponent';
 
 const classes = {
-  `&.${classes.featureJobRoot}`: `${PREFIX}-undefined`,
-  `& .${classes.jobProviderImage}`: `${PREFIX}-undefined`,
-  `& .${classes.tagStyle}`: `${PREFIX}-undefined`,
-  `& .${classes.jobTitle}`: `${PREFIX}-undefined`
-};
-
-const StyledStyledCard = styled(StyledCard)((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    background: '#fff',
-    borderRadius: 4,
-    position: 'relative',
-    padding: '10px 5px',
-  },
-
-  [`& .${classes.undefined}`]: {
-    marginLeft: 6,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: '#fca67e',
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    borderRadius: 4,
-    height: 25,
-    background: '#fff2ed',
-    borderColor: '#fdab85',
-    '& .MuiChip-label': {
-      padding: '0px 5px',
-    },
-  },
-
-  [`& .${classes.undefined}`]: {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    color: theme.palette.primary.main,
-    fontWeight: Fonts.BOLD,
-  }
-}));
-
-const PREFIX = 'FeatureJobComponent';
-
-const classes = {
-  featureJobRoot: `${PREFIX}-featureJobRoot`,
   jobProviderImage: `${PREFIX}-jobProviderImage`,
   tagStyle: `${PREFIX}-tagStyle`,
-  jobTitle: `${PREFIX}-jobTitle`
+  jobTitle: `${PREFIX}-jobTitle`,
 };
 
-const StyledCard = styled(Card)((
-  {
-    theme: CremaTheme
-  }
-) => ({
-  [`&.${classes.featureJobRoot}`]: {
-    background: '#fff',
-    borderRadius: 4,
-    position: 'relative',
-    padding: '10px 5px',
-  },
+const StyledCard = styled(Card)(({theme}) => ({
+  background: '#fff',
+  borderRadius: 4,
+  position: 'relative',
+  padding: '10px 5px',
 
   [`& .${classes.jobProviderImage}`]: {
     marginLeft: 6,
@@ -104,49 +43,7 @@ const StyledCard = styled(Card)((
     textOverflow: 'ellipsis',
     color: theme.palette.primary.main,
     fontWeight: Fonts.BOLD,
-  }
-}));
-
-const useStyle = makeStyles((
-  {
-    theme: {
-      theme: CremaTheme
-    }
-  }
-) => ({
-  [`& .${classes.undefined}`]: {
-    background: '#fff',
-    borderRadius: 4,
-    position: 'relative',
-    padding: '10px 5px',
   },
-
-  [`& .${classes.undefined}`]: {
-    marginLeft: 6,
-    border: '1px solid ' + theme.palette.grey['300'],
-  },
-
-  [`& .${classes.undefined}`]: {
-    color: '#fca67e',
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    borderRadius: 4,
-    height: 25,
-    background: '#fff2ed',
-    borderColor: '#fdab85',
-    '& .MuiChip-label': {
-      padding: '0px 5px',
-    },
-  },
-
-  [`& .${classes.undefined}`]: {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    color: theme.palette.primary.main,
-    fontWeight: Fonts.BOLD,
-  }
 }));
 
 interface FeatureJobProps {
@@ -158,11 +55,10 @@ interface FeatureJobProps {
 }
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   return (
-    <StyledStyledCard className={classes.featureJobRoot}>
+    <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
         <Grid item xs={2} mr={1}>
           <Avatar
@@ -185,7 +81,7 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
           />
         </Grid>
       </Grid>
-    </StyledStyledCard>
+    </StyledCard>
   );
 };
 
