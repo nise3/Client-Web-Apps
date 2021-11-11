@@ -1,21 +1,37 @@
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import {Container} from '@mui/material';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  paperBox: {
+const PREFIX = 'YouthSignupPage';
+
+export const classes = {
+  paperBox: `${PREFIX}-paperBox`,
+  iconBoxYouth: `${PREFIX}-iconBoxYouth`,
+  iconBoxTc: `${PREFIX}-iconBoxTc`,
+  iconBoxIndustry: `${PREFIX}-iconBoxIndustry`,
+  icon: `${PREFIX}-icon`,
+  text: `${PREFIX}-text`,
+  signInStyle: `${PREFIX}-signInStyle`,
+};
+
+export const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.paperBox}`]: {
     margin: 'auto',
     padding: '20px',
   },
-  iconBoxYouth: {
+
+  [`& .${classes.iconBoxYouth}`]: {
     background: '#0069bc',
   },
-  iconBoxTc: {
+
+  [`& .${classes.iconBoxTc}`]: {
     background: '#661686',
   },
-  iconBoxIndustry: {
+
+  [`& .${classes.iconBoxIndustry}`]: {
     background: '#e67f22',
   },
-  icon: {
+
+  [`& .${classes.icon}`]: {
     display: 'flex',
     flexDirection: 'column',
     padding: '35px',
@@ -31,15 +47,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       width: '100px',
     },
   },
-  text: {
+
+  [`& .${classes.text}`]: {
     color: theme.palette.grey['300'],
     whiteSpace: 'nowrap',
     marginTop: '10px',
   },
-  signInStyle: {
+
+  [`& .${classes.signInStyle}`]: {
     color: theme.palette.primary.main + ' !important',
     textDecoration: 'underline !important',
   },
 }));
-
-export default useStyles;

@@ -1,58 +1,29 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {H3, H6, Link} from '../../@softbd/elements/common';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'RecentActivities';
+
+const classes = {
+  titleTypography: `${PREFIX}-titleTypography`,
+  vBar: `${PREFIX}-vBar`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => {
   return {
-    typographyNumber: {
-      color: theme.palette.primary.dark,
-      marginLeft: '5px',
-      backgroundColor: theme.palette.primary.light,
-      padding: '0 5px',
-    },
-    cardMainGrid: {
-      marginRight: 'auto',
-      marginLeft: 'auto',
-    },
-    filterMainGrid: {
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      justifyContent: 'space-between',
-    },
-    dateInfo: {
-      background: theme.palette.common.white,
-      color: theme.palette.primary.light,
-      display: 'flex',
-      padding: '4px',
-      width: '180px',
-      borderRadius: '5px',
-      marginBottom: '10px',
-    },
-    titleTypography: {
+    [`& .${classes.titleTypography}`]: {
       color: theme.palette.primary.dark,
       display: 'flex',
       fontSize: '33px',
       fontWeight: 'bold',
       marginBottom: '38px',
     },
-    pagination: {
-      marginRight: 'auto',
-      marginLeft: 'auto',
-    },
-    image: {
-      overflow: 'hidden',
-    },
-    imageTexts: {
-      position: 'absolute',
-      bottom: '5%',
-      left: '4%',
-    },
-    vBar: {
+    [`& .${classes.vBar}`]: {
       height: '33px',
       width: '2px',
       background: 'linear-gradient(45deg, #ec5c17,#5affab)',
@@ -62,12 +33,11 @@ const useStyles = makeStyles((theme) => {
 });
 
 const RecentActivities = () => {
-  const classes = useStyles();
   const {data: recentActivitiesItems} = useFetchInstitutesRecentActivity();
   const {messages} = useIntl();
 
   return (
-    <Container maxWidth={'lg'} style={{marginTop: '78px'}}>
+    <StyledContainer maxWidth={'lg'} style={{marginTop: '78px'}}>
       <Grid container>
         <Grid item md={12}>
           <H3 className={classes.titleTypography}>
@@ -95,7 +65,7 @@ const RecentActivities = () => {
           </Link>
         </Grid>
       )}
-    </Container>
+    </StyledContainer>
   );
 };
 export default RecentActivities;

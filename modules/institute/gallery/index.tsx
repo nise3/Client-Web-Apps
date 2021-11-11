@@ -1,4 +1,5 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
+import {styled} from '@mui/material/styles';
 import {
   Grid,
   Typography,
@@ -22,20 +23,28 @@ import {
   useFetchInstitutesGalleryCategory,
 } from '../../../services/instituteManagement/hooks';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import GalleryItemCardView from './GalleryItemCardView';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  searchIcon: {
+const PREFIX = 'InstituteGallery';
+
+const classes = {
+  searchIcon: `${PREFIX}-searchIcon`,
+  filterIcon: `${PREFIX}-filterIcon`,
+  resetButton: `${PREFIX}-resetButton`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.searchIcon}`]: {
     position: 'absolute',
     right: 0,
   },
-  filterIcon: {
+
+  [`& .${classes.filterIcon}`]: {
     display: 'flex',
     alignItems: 'center',
   },
-  resetButton: {
+
+  [`& .${classes.resetButton}`]: {
     [theme.breakpoints.up('md')]: {
       paddingLeft: '3% !important',
     },
@@ -44,7 +53,6 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 
 const InstituteGallery = () => {
   const {messages} = useIntl();
-  const classes = useStyles();
 
   const {data: galleryCategories, isLoading: isLoadingGalleryCategories} =
     useFetchInstitutesGalleryCategory();
@@ -117,6 +125,8 @@ const InstituteGallery = () => {
     setFilteredGalleryItems(newArr);
   };
 
+  // TODO: css issue - fix grid responsiveness
+
   return (
     <>
       <Grid container sx={{maxWidth: '100%'}}>
@@ -128,7 +138,7 @@ const InstituteGallery = () => {
           </Paper>
         </Grid>
       </Grid>
-      <Container maxWidth='lg'>
+      <StyledContainer maxWidth='lg'>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
             <Grid container spacing={{xs: 2, md: 6}}>
@@ -214,7 +224,7 @@ const InstituteGallery = () => {
             <Pagination count={3} variant='outlined' shape='rounded' />
           </Grid>
         </Grid>
-      </Container>
+      </StyledContainer>
     </>
   );
 };

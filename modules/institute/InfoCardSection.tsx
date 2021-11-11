@@ -1,7 +1,5 @@
 import React from 'react';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import {Assignment, HomeWork, People, PeopleAlt} from '@mui/icons-material';
@@ -9,54 +7,66 @@ import UnderlinedHeading from './UnderlinedHeading';
 import {H4, H5} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      [theme.breakpoints.up('md')]: {
-        marginTop: '50px',
-      },
-      [theme.breakpoints.down('xl')]: {
-        // marginTop: '200px',
-      },
-    },
-    subheading: {
-      textAlign: 'center',
-      marginBottom: 48,
-    },
-    boxItem: {
-      boxShadow: theme.shadows[4],
-      background: theme.palette.background.paper,
-      textAlign: 'center',
-      padding: theme.spacing(3),
-      height: 250,
-      borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-      // color: '#000',
-      [theme.breakpoints.down('md')]: {
-        margin: theme.spacing(1.25),
-      },
-    },
-    icon: {
-      fontSize: '72px',
-      color: theme.palette.primary.main,
-    },
-    desc: {
-      color: theme.palette.secondary.main,
-    },
+const PREFIX = 'InfoCardSection';
 
-    rootMobileView: {
-      [theme.breakpoints.down('xl')]: {
-        marginTop: '80px',
-      },
+const classes = {
+  root: `${PREFIX}-root`,
+  subheading: `${PREFIX}-subheading`,
+  boxItem: `${PREFIX}-boxItem`,
+  icon: `${PREFIX}-icon`,
+  desc: `${PREFIX}-desc`,
+  rootMobileView: `${PREFIX}-rootMobileView`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`&.${classes.root}`]: {
+    [theme.breakpoints.up('md')]: {
+      marginTop: '50px',
     },
-  }),
-);
+    [theme.breakpoints.down('xl')]: {
+      // marginTop: '200px',
+    },
+  },
+
+  [`& .${classes.subheading}`]: {
+    textAlign: 'center',
+    marginBottom: 48,
+  },
+
+  [`& .${classes.boxItem}`]: {
+    boxShadow: theme.shadows[4],
+    background: theme.palette.background.paper,
+    textAlign: 'center',
+    padding: theme.spacing(3),
+    height: 250,
+    borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
+    // color: '#000',
+    [theme.breakpoints.down('md')]: {
+      margin: theme.spacing(1.25),
+    },
+  },
+
+  [`& .${classes.icon}`]: {
+    fontSize: '72px',
+    color: theme.palette.primary.main,
+  },
+
+  [`& .${classes.desc}`]: {
+    color: theme.palette.secondary.main,
+  },
+
+  [`& .${classes.rootMobileView}`]: {
+    [theme.breakpoints.down('xl')]: {
+      marginTop: '80px',
+    },
+  },
+}));
 
 const InfoCardSection = () => {
-  const classes = useStyles();
   const {messages, formatNumber} = useIntl();
 
   return (
-    <Grid container xl={12} className={classes.root}>
+    <StyledGrid container xl={12} className={classes.root}>
       <Container maxWidth='lg' className={classes.rootMobileView}>
         <Fade direction='up'>
           <UnderlinedHeading>
@@ -113,7 +123,7 @@ const InfoCardSection = () => {
           </Grid>
         </Fade>
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 export default InfoCardSection;

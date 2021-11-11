@@ -1,4 +1,5 @@
 import React, {useState, SyntheticEvent} from 'react';
+import {styled} from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -7,16 +8,22 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
-import makeStyles from '@mui/styles/makeStyles';
 import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'InstituteFAQ';
+
+const classes = {
+  accordion: `${PREFIX}-accordion`,
+  heading: `${PREFIX}-heading`,
+};
+
+const StyledGrid = styled(Grid)(() => {
   return {
-    accordion: {
+    [`& .${classes.accordion}`]: {
       marginBottom: '10px',
     },
-    heading: {
+    [`& .${classes.heading}`]: {
       boxShadow: '0px 2px 2px #8888',
     },
   };
@@ -25,7 +32,6 @@ const useStyles = makeStyles((theme) => {
 const InstituteFAQ = () => {
   const [expandedState, setExpanded] = useState<string | false>(false);
   const {messages} = useIntl();
-  const classes = useStyles();
 
   const {data: faqItems} = useFetchInstitutesFAQ();
 
@@ -35,7 +41,7 @@ const InstituteFAQ = () => {
     };
 
   return (
-    <Grid sx={{maxWidth: '100%'}}>
+    <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
         <H2 py={3} fontWeight={'bold'}>
           {messages['faq.institute']}
@@ -74,7 +80,7 @@ const InstituteFAQ = () => {
           </Grid>
         </Grid>
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 

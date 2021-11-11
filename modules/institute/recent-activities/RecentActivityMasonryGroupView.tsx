@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import {DateRangeOutlined} from '@mui/icons-material';
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
 import {
@@ -16,9 +16,17 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'RecentActivityMasonryGroupView';
+
+const classes = {
+  dateInfo: `${PREFIX}-dateInfo`,
+  image: `${PREFIX}-image`,
+  imageTexts: `${PREFIX}-imageTexts`,
+};
+
+const StyledImageList = styled(ImageList)(({theme}) => {
   return {
-    dateInfo: {
+    [`& .${classes.dateInfo}`]: {
       background: theme.palette.common.white,
       color: theme.palette.primary.light,
       display: 'flex',
@@ -32,10 +40,10 @@ const useStyles = makeStyles((theme) => {
         bottom: '10vh',
       },
     },
-    image: {
+    [`&.${classes.image}`]: {
       overflow: 'hidden',
     },
-    imageTexts: {
+    [`& .${classes.imageTexts}`]: {
       position: 'relative',
     },
   };
@@ -72,11 +80,11 @@ const masonryPositions = [
 function RecentActivityMasonryGroupView({items}: any) {
   const router = useRouter();
   const path = router.pathname;
-  const classes = useStyles();
+
   const {formatDate} = useIntl();
 
   return (
-    <ImageList
+    <StyledImageList
       sx={{width: '100%', height: 'auto'}}
       variant='quilted'
       cols={4}
@@ -111,7 +119,7 @@ function RecentActivityMasonryGroupView({items}: any) {
           </Box>
         </ImageListItem>
       ))}
-    </ImageList>
+    </StyledImageList>
   );
 }
 

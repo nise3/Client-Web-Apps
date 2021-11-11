@@ -1,15 +1,21 @@
 import {CardMedia, Container, Grid, Tooltip} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles(() => {
+const PREFIX = 'StaticContent';
+
+const classes = {
+  icon: `${PREFIX}-icon`,
+};
+
+const StyledContainer = styled(Container)(() => {
   return {
-    icon: {
+    [`& .${classes.icon}`]: {
       color: '#ffff',
       padding: '2px',
       borderRadius: '3px',
@@ -20,10 +26,9 @@ const useStyles = makeStyles(() => {
 
 const StaticContent = ({data}: any) => {
   const {messages} = useIntl();
-  const classes = useStyles();
 
   return (
-    <Container maxWidth={'lg'}>
+    <StyledContainer maxWidth={'lg'}>
       {data && data.title ? (
         <Grid container spacing={3}>
           <Grid item xs={12} textAlign={'right'} mt={5}>
@@ -78,7 +83,7 @@ const StaticContent = ({data}: any) => {
           </Grid>
         </Grid>
       )}
-    </Container>
+    </StyledContainer>
   );
 };
 export default StaticContent;

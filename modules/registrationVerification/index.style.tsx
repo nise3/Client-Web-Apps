@@ -1,21 +1,26 @@
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import {Paper} from '@mui/material';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  paperBox: {
-    margin: 'auto',
-    padding: '20px',
-    width: '100%',
-    maxWidth: '400px',
-  },
-  sendCode: {
+const PREFIX = 'VerifyCodeComponent';
+
+export const classes = {
+  sendCode: `${PREFIX}-sendCode`,
+  errorMessage: `${PREFIX}-errorMessage`,
+};
+
+export const StyledPaper = styled(Paper)(({theme}) => ({
+  margin: 'auto',
+  padding: '20px',
+  width: '100%',
+  maxWidth: '400px',
+
+  [`& .${classes.sendCode}`]: {
     marginTop: '15px',
     marginBottom: '15px',
   },
-  errorMessage: {
+
+  [`& .${classes.errorMessage}`]: {
     color: theme.palette.error.main,
     marginTop: '5px',
   },
 }));
-
-export default useStyles;

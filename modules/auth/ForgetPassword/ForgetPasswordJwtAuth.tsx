@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -7,19 +8,34 @@ import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Link from 'next/link';
 import clsx from 'clsx';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  image: {
+const PREFIX = 'ForgetPasswordJwtAuth';
+
+const classes = {
+  image: `${PREFIX}-image`,
+  card: `${PREFIX}-card`,
+  form: `${PREFIX}-form`,
+  textField: `${PREFIX}-textField`,
+  btnRoot: `${PREFIX}-btnRoot`,
+  textSecondary: `${PREFIX}-textSecondary`,
+  underlineNone: `${PREFIX}-underlineNone`,
+  textGrey: `${PREFIX}-textGrey`,
+};
+
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.image}`]: {
     display: 'inline-block',
     cursor: 'pointer',
     width: 140,
   },
-  card: {
+
+  [`& .${classes.card}`]: {
     maxWidth: 576,
     width: '100%',
     textAlign: 'center',
@@ -51,29 +67,36 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       backgroundColor: theme.palette.primary.main,
     },
   },
-  form: {
+
+  [`& .${classes.form}`]: {
     textAlign: 'left',
   },
-  textField: {
+
+  [`& .${classes.textField}`]: {
     width: '100%',
   },
-  btnRoot: {
+
+  [`& .${classes.btnRoot}`]: {
     width: '100%',
     fontWeight: Fonts.REGULAR,
     textTransform: 'capitalize',
     fontSize: 16,
     paddingTop: 12,
     paddingBottom: 12,
-    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
+    // @ts-ignore
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius, // TODO: css issue - CRITICAL
   },
-  textSecondary: {
+
+  [`& .${classes.textSecondary}`]: {
     color: theme.palette.primary.main,
     marginLeft: 10,
   },
-  underlineNone: {
+
+  [`& .${classes.underlineNone}`]: {
     textDecoration: 'none',
   },
-  textGrey: {
+
+  [`& .${classes.textGrey}`]: {
     color: theme.palette.grey[500],
   },
 }));
@@ -101,10 +124,12 @@ const validationSchema = yup.object({
 interface ForgetPasswordProps {}
 
 const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
-  const classes = useStyles();
-
   return (
-    <Box flex={1} display='flex' flexDirection='column' justifyContent='center'>
+    <StyledBox
+      flex={1}
+      display='flex'
+      flexDirection='column'
+      justifyContent='center'>
       <Box mb={{xs: 6, md: 8, xl: 18}} textAlign='center'>
         <img
           className={classes.image}
@@ -189,7 +214,7 @@ const ForgetPasswordJwtAuth: React.FC<ForgetPasswordProps> = () => {
           </Formik>
         </Card>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 
