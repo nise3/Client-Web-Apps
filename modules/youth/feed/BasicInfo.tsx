@@ -20,8 +20,7 @@ const classes = {
   completeProfile: `${PREFIX}-completeProfile`,
 };
 
-// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')(({theme: CremaTheme}): any => ({
+const StyledCard = styled(Card)(({theme}): any => ({
   [`& .${classes.container}`]: {
     padding: 20,
     position: 'relative',
@@ -58,8 +57,8 @@ const BasicInfo = () => {
   const authUser = useAuthUser<YouthAuthUser>();
 
   return (
-    <Root>
-      <Card>
+    <>
+      <StyledCard>
         <Box className={classes.topCover} />
         <Box className={classes.container}>
           <Avatar
@@ -91,8 +90,8 @@ const BasicInfo = () => {
             </Link>
           </Box>
         </Box>
-      </Card>
-    </Root>
+      </StyledCard>
+    </>
   );
 };
 
