@@ -83,8 +83,8 @@ const RecentActivitiesPage = () => {
     switch (contentType) {
       case ContentTypes.IMAGE:
         return messages['content_type.image'];
-      case ContentTypes.VIDEO:
-        return messages['content_type.video'];
+      case ContentTypes.FACEBOOK_SOURCE:
+        return messages['content_type.facebook_video'];
       case ContentTypes.YOUTUBE_SOURCE:
         return messages['content_type.youtube_video'];
       default:

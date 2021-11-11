@@ -35,8 +35,8 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
     switch (contentType) {
       case ContentTypes.IMAGE:
         return messages['content_type.image'];
-      case ContentTypes.VIDEO:
-        return messages['content_type.video'];
+      case ContentTypes.FACEBOOK_SOURCE:
+        return messages['content_type.facebook_video'];
       case ContentTypes.YOUTUBE_SOURCE:
         return messages['content_type.youtube_video'];
       default:
@@ -74,20 +74,24 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['institute.label']}
-              value={recentActivityData?.institute_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['organization.label']}
-              value={recentActivityData?.organization_title}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {recentActivityData?.institute_title && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.label']}
+                value={recentActivityData?.institute_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+          {recentActivityData?.organization_title && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['organization.label']}
+                value={recentActivityData?.organization_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.content_type']}

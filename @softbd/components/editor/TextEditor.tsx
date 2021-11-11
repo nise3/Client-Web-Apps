@@ -72,13 +72,14 @@ const TextEditor = React.forwardRef(
               setValue(key, content);
 
               if (content) clearErrors(key);
-              else
+              else if (required) {
                 setError(key, {
                   message: {
                     key: 'yup_validation_required_field',
                     values: {path: label},
                   },
                 });
+              }
             }}
             ref={ref}
             initialValue={value}

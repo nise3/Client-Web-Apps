@@ -2,14 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import Grid from '@mui/material/Grid';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -72,11 +65,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const [globalConfigFilters] = useState<any>({});
   const {data: cmsGlobalConfig, isLoading: isLoadingConfigData} =
     useFetchCMSGlobalConfigs(globalConfigFilters);
-  let showIns = useRef(cmsGlobalConfig?.show_in);
-
-  useEffect(() => {
-    showIns.current = cmsGlobalConfig?.show_in;
-  }, [cmsGlobalConfig]);
 
   const {
     data: itemData,
@@ -96,8 +84,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     string | null
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
-  const textEditorRef = useRef<any>(null);
-  const contentRefs = useRef<Array<any | null>>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -116,9 +102,8 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      sub_title: yup.string(),
       institute_id: yup
-        .string()
+        .mixed()
         .label(messages['common.institute'] as string)
         .when('show_in', {
           is: (val: number) => {
@@ -127,7 +112,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           then: yup.string().required(),
         }),
       organization_id: yup
-        .string()
+        .mixed()
         .label(messages['common.organization_bn'] as string)
         .when('show_in', {
           is: (val: number) => {
@@ -139,7 +124,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.content_type'] as string),
-      contents: yup.string(),
       row_status: yup.string().trim().required(),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
@@ -149,16 +133,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            sub_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.sub_title'] as string),
-            contents: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.contents'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
         ? yup.object().shape({})
@@ -168,16 +142,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            sub_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.sub_title'] as string),
-            contents: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.contents'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
         ? yup.object().shape({})
@@ -187,16 +151,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            sub_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.sub_title'] as string),
-            contents: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.contents'] as string),
           }),
     });
   }, [messages, selectedCodes, authUser]);
@@ -205,7 +159,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     register,
     reset,
     control,
+    setValue,
     setError,
+    clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<StaticPage>({
@@ -265,15 +221,15 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, allLanguages]);
 
   const CONTENT_TYPES = useMemo(
     () => [
-      {id: 1, title: 'Image', title_en: 'Image'},
-      {id: 2, title: 'Video', title_en: 'Video'},
-      {id: 3, title: 'Youtube', title_en: 'Youtube'},
+      {id: 1, title: messages['content_type.image']},
+      {id: 2, title: messages['content_type.facebook_video']},
+      {id: 3, title: messages['content_type.youtube_video']},
     ],
-    [],
+    [messages],
   );
 
   const changeShowInAction = useCallback((id: number) => {
@@ -335,37 +291,19 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     [selectedLanguageList, languageList, selectedCodes],
   );
 
-  const isValidContents = () => {
-    contentRefs.current.map((refs: any) => {
-      console.log('refs:', refs);
-      if (refs?.editor?.getContent()?.length < 5) {
-        setError(refs.id, {
-          // @ts-ignore
-          message: {
-            key: 'yup_validation_required_field',
-            values: {path: messages['common.contents']},
-          },
-        });
-
-        return false;
-      }
-      return true;
-    });
-  };
-
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       if (authUser?.isInstituteUser) {
-        data.institute_id = authUser?.institute_id;
-        data.show_in = ShowInTypes.TSP;
+        formData.institute_id = authUser?.institute_id;
+        formData.show_in = ShowInTypes.TSP;
       }
 
       if (authUser?.isOrganizationUser) {
-        data.organization_id = authUser?.organization_id;
-        data.show_in = ShowInTypes.INDUSTRY;
+        formData.organization_id = authUser?.organization_id;
+        formData.show_in = ShowInTypes.INDUSTRY;
       }
 
-      let formData = {...data};
+      let data = {...formData};
 
       let otherLanguagesFields: any = {};
       delete formData.language_list;
@@ -379,12 +317,13 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           contents: langObj.contents,
         };
       });
-      delete formData['language_en'];
-      delete formData['language_hi'];
-      delete formData['language_te'];
+      delete data['language_en'];
+      delete data['language_hi'];
+      delete data['language_te'];
+      delete data['language_list'];
 
       if (selectedLanguageList.length > 0)
-        formData.other_language_fields = otherLanguagesFields;
+        data.other_language_fields = otherLanguagesFields;
 
       if (itemId) {
         await updateStaticPage(itemId, data);
@@ -429,49 +368,53 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={2}>
+      <Grid container spacing={5}>
         {authUser && authUser.isSystemUser && (
-          <Grid item xs={12} md={6}>
-            <CustomFormSelect
-              id='show_in'
-              label={messages['common.show_in']}
-              control={control}
-              isLoading={isLoadingConfigData}
-              options={showIns.current}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-              onChange={changeShowInAction}
-            />
-          </Grid>
-        )}
-        {authUser && authUser.isSystemUser && showInId == ShowInTypes.TSP && (
-          <Grid item xs={12} md={6}>
-            <CustomFormSelect
-              id='institute_id'
-              label={messages['institute.label']}
-              isLoading={isLoadingSectionNameList}
-              control={control}
-              options={instituteList}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
-        {authUser && authUser.isSystemUser && showInId == ShowInTypes.INDUSTRY && (
-          <Grid item xs={12} md={6}>
-            <CustomFormSelect
-              id='organization_id'
-              label={messages['organization.label']}
-              isLoading={isLoadingSectionNameList}
-              control={control}
-              options={industryList}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                required
+                id={'show_in'}
+                label={messages['common.show_in']}
+                isLoading={isLoadingConfigData}
+                control={control}
+                options={cmsGlobalConfig?.show_in}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={changeShowInAction}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              {showInId == ShowInTypes.TSP && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'institute_id'}
+                  label={messages['institute.label']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={instituteList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+              {showInId == ShowInTypes.INDUSTRY && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'organization_id'}
+                  label={messages['organization.label']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+            </Grid>
+          </React.Fragment>
         )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
@@ -505,7 +448,8 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='content_type'
             label={messages['common.content_type']}
             isLoading={isLoading}
@@ -519,13 +463,16 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
         <Grid item xs={12} md={12}>
           <TextEditor
-            id='contents'
-            label={messages['common.contents']}
+            id={'contents'}
+            label={messages['common.content']}
             errorInstance={errors}
-            ref={(el) => (contentRefs.current[0] = el?.editor)}
-            initialValue={initialValues.contents}
-            height={'200px'}
+            value={itemData?.contents || initialValues.contents}
+            height={'300px'}
             key={1}
+            register={register}
+            setValue={setValue}
+            clearErrors={clearErrors}
+            setError={setError}
           />
         </Grid>
 
@@ -572,7 +519,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
                   </Grid>
                   <Grid item xs={5}>
                     <CustomTextInput
-                      required
                       id={'language_' + language.code + '[sub_title]'}
                       label={messages['common.sub_title']}
                       register={register}
@@ -593,15 +539,18 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
                   <Grid item xs={12}>
                     <TextEditor
                       id={'language_' + language.code + '[contents]'}
-                      label={messages['common.contents']}
+                      label={messages['common.content']}
                       errorInstance={errors}
-                      ref={(el) => {
-                        console.log('el', el?.editor?.id);
-                        return (contentRefs.current[index + 1] = el?.editor);
-                      }}
-                      initialValue={initialValues.contents}
-                      height={'200px'}
-                      key={language.code}
+                      value={
+                        itemData?.other_language_fields?.[language.code]
+                          ?.contents || initialValues.contents
+                      }
+                      height={'300px'}
+                      key={1}
+                      register={register}
+                      setValue={setValue}
+                      clearErrors={clearErrors}
+                      setError={setError}
                     />
                   </Grid>
                 </Grid>

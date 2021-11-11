@@ -942,6 +942,6 @@
   "common.event_start_date": "Event Start Date",
   "common.event_end_date": "Event End Date",
   "content_type.image": "Image",
-  "content_type.video": "Video",
+  "content_type.facebook_video": "Facebook Video",
   "content_type.youtube_video": "Youtube Video"
 }

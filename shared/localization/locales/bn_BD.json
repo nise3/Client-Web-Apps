@@ -928,7 +928,6 @@
   "static_page.label": "স্ট্যাটিক পেজ",
   "common.content_slug_or_id": "কন্টেন্ট স্লাগ অর আইডি",
   "common.content": "কন্টেন্ট",
-  "common.contents": "কন্টেন্টস",
   "common.activity_date": "কার্যকলাপের তারিখ",
   "common.published_at": "প্রকাশের তারিখ",
   "common.institute_id": "প্রতিষ্ঠান আইডি",
@@ -957,7 +956,7 @@
   "common.event_start_date": "ঘটনা শুরুর তারিখ",
   "common.event_end_date": "ঘটনার শেষ তারিখ",
   "content_type.image": "ছবি",
-  "content_type.video": "ভিডিও",
+  "content_type.facebook_video": "ফেসবুক ভিডিও",
   "content_type.youtube_video": "ইউটিউব ভিডিও"
 
 }

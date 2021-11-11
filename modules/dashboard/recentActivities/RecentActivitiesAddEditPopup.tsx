@@ -33,27 +33,13 @@ import {
 } from '../../../services/cmsManagement/FAQService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
+import ContentTypes from './ContentTypes';
 
 interface RecentActivitiesAddEditPopupProps {
   recentActivityId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const contentType = [
-  {
-    id: 1,
-    label: 'Image',
-  },
-  {
-    id: 2,
-    label: 'Video',
-  },
-  {
-    id: 3,
-    label: 'Youtube Source',
-  },
-];
 
 const collagePosition = [
   {
@@ -125,6 +111,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
     string | null
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
+  const [selectedContentType, setSelectedContentType] = useState<number | null>(
+    null,
+  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -137,6 +126,24 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.content_type'] as string),
+      embedded_id: yup
+        .mixed()
+        .label(messages['common.embedded_id'] as string)
+        .when('content_type', {
+          is: (val: number) => {
+            return val != ContentTypes.IMAGE;
+          },
+          then: yup.string().required(),
+        }),
+      embedded_url: yup
+        .mixed()
+        .label(messages['common.embedded_url'] as string)
+        .when('content_type', {
+          is: (val: number) => {
+            return val != ContentTypes.IMAGE;
+          },
+          then: yup.string().required(),
+        }),
       show_in:
         authUser && authUser.isSystemUser
           ? yup
@@ -163,11 +170,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
-      description: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.description'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -176,16 +178,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            image_alt_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.image_alt_title'] as string),
-            description: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.description'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
         ? yup.object().shape({})
@@ -195,16 +187,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            image_alt_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.image_alt_title'] as string),
-            description: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.description'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
         ? yup.object().shape({})
@@ -214,16 +196,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               .trim()
               .required()
               .label(messages['common.title'] as string),
-            image_alt_title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.image_alt_title'] as string),
-            description: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.description'] as string),
           }),
     });
   }, [messages, selectedCodes, authUser]);
@@ -240,6 +212,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  const CONTENT_TYPES = useMemo(
+    () => [
+      {id: 1, title: messages['content_type.image']},
+      {id: 2, title: messages['content_type.facebook_video']},
+      {id: 3, title: messages['content_type.youtube_video']},
+    ],
+    [messages],
+  );
 
   useEffect(() => {
     if (cmsGlobalConfig) {
@@ -503,6 +484,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             control={control}
@@ -518,10 +500,13 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             isLoading={false}
             label={messages['common.content_type']}
             control={control}
-            options={contentType}
+            options={CONTENT_TYPES}
             optionValueProp={'id'}
-            optionTitleProp={['label']}
+            optionTitleProp={['title']}
             errorInstance={errors}
+            onChange={(id: number) => {
+              setSelectedContentType(id);
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -568,7 +553,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            required
             id='image_alt_title'
             label={messages['common.image_alt_title']}
             control={control}
@@ -599,6 +583,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required={
+              selectedContentType && selectedContentType != ContentTypes.IMAGE
+            }
             id='embedded_id'
             label={messages['common.embedded_id']}
             control={control}
@@ -609,6 +596,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required={
+              selectedContentType && selectedContentType != ContentTypes.IMAGE
+            }
             id='embedded_url'
             label={messages['common.embedded_url']}
             control={control}
@@ -627,7 +617,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <TextEditor
-            required
             id={'description'}
             label={messages['common.description']}
             errorInstance={errors}
@@ -694,7 +683,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                   </Grid>
                   <Grid item md={12}>
                     <CustomTextInput
-                      required
                       id={'language_' + language.code + '[image_alt_title]'}
                       label={messages['common.image_alt_title']}
                       register={register}
@@ -706,7 +694,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
                   <Grid item xs={12}>
                     <TextEditor
-                      required
                       id={'language_' + language.code + '[description]'}
                       label={messages['common.description']}
                       errorInstance={errors}
