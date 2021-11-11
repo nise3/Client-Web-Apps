@@ -1,8 +1,8 @@
 import React, {FC, useEffect, useMemo} from 'react';
-import {Box, Grid, Input, Link, Paper, Typography} from '@mui/material';
+import {Box, Grid, Input, Link, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useStyles from './index.style';
+
 import {useIntl} from 'react-intl';
 import yup from '../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -12,6 +12,7 @@ import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
+import {classes, StyledPaper} from './index.style';
 
 const inputProps = {
   maxLength: 1,
@@ -27,7 +28,6 @@ interface VerifyCodeComponentProps {
 const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   userEmailAndMobile,
 }) => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
 
@@ -87,7 +87,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
     }
   };
   return (
-    <Paper className={classes.paperBox}>
+    <StyledPaper>
       <Typography
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
@@ -170,7 +170,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
           />
         </Grid>
       </form>
-    </Paper>
+    </StyledPaper>
   );
 };
 

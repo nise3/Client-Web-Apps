@@ -1,8 +1,7 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import useStyles from './Registration.style';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Container, Grid, Paper, Typography} from '@mui/material';
+import {Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../@softbd/libs/yup';
@@ -30,10 +29,10 @@ import {Link} from '../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {useRouter} from 'next/router';
 import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
+import {classes, StyledContainer} from './Registration.style';
 
 const InstituteRegistration = () => {
   const router = useRouter();
-  const classes = useStyles();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [filters] = useState({});
@@ -190,7 +189,7 @@ const InstituteRegistration = () => {
   );
 
   return (
-    <Container maxWidth={'md'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'md'}>
       <Paper className={classes.PaperBox}>
         <Typography
           align={'center'}
@@ -418,7 +417,7 @@ const InstituteRegistration = () => {
           </Grid>
         </form>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 
