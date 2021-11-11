@@ -1,11 +1,10 @@
 import React, {useCallback, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import {useDispatch} from 'react-redux';
 import {onJWTAuthSignout} from '../../../redux/actions';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AppContext from '../../../@crema/utility/AppContext';
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -17,45 +16,52 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'UserInfo';
+
+const classes = {
+  profilePic: `${PREFIX}-profilePic`,
+  userInfo: `${PREFIX}-userInfo`,
+  userName: `${PREFIX}-userName`,
+  designation: `${PREFIX}-designation`,
+  pointer: `${PREFIX}-pointer`,
+};
+
+const StyledBox = styled(Box)(({theme}) => {
   return {
-    crUserInfo: {
-      backgroundColor: 'rgba(0,0,0,.08)',
-      paddingTop: 9,
-      paddingBottom: 9,
-      minHeight: 56,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      [theme.breakpoints.up('sm')]: {
-        paddingTop: 10,
-        paddingBottom: 10,
-        minHeight: 70,
-      },
+    backgroundColor: 'rgba(0,0,0,.08)',
+    paddingTop: 9,
+    paddingBottom: 9,
+    minHeight: 56,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: 10,
+      paddingBottom: 10,
+      minHeight: 70,
     },
-    profilePic: {
+    [`& .${classes.profilePic}`]: {
       fontSize: 24,
       backgroundColor: orange[500],
     },
-    userInfo: {
+    [`& .${classes.userInfo}`]: {
       width: 'calc(100% - 75px)',
     },
-    userName: {
+    [`& .${classes.userName}`]: {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       fontSize: 16,
       fontWeight: Fonts.MEDIUM,
-      color: (props: {themeMode: ThemeMode}) =>
-        props.themeMode === ThemeMode.LIGHT ? '#313541' : 'white',
+      color: theme.palette.mode === ThemeMode.LIGHT ? '#313541' : 'white',
     },
-    designation: {
+    [`& .${classes.designation}`]: {
       marginTop: -2,
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       color: theme.palette.text.secondary,
     },
-    pointer: {
+    [`& .${classes.pointer}`]: {
       cursor: 'pointer',
     },
   };
@@ -103,24 +109,20 @@ const UserInfo: React.FC = () => {
     }
   };
 
-  const classes = useStyles({themeMode});
-
   return (
-    <Box
-      px={{xs: 4, xl: 7}}
-      className={clsx(classes.crUserInfo, 'cr-user-info')}>
+    <StyledBox px={{xs: 4, xl: 7}}>
       <Box display='flex' alignItems='center'>
         {user && user.photoURL ? (
           <Avatar className={classes.profilePic} src={user.photoURL} />
         ) : (
           <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>
         )}
-        <Box ml={4} className={clsx(classes.userInfo, 'user-info')}>
+        <Box ml={4} className={classes.userInfo}>
           <Box
             display='flex'
             alignItems='center'
             justifyContent='space-between'>
-            <Box mb={0} className={clsx(classes.userName)}>
+            <Box mb={0} className={classes.userName}>
               {user && (user.displayName ? user.displayName : 'Admin User ')}
             </Box>
             <Box
@@ -154,7 +156,7 @@ const UserInfo: React.FC = () => {
       {isOpenEditModal && (
         <UserInfoEditPopup key={1} onClose={closeEditModal} />
       )}
-    </Box>
+    </StyledBox>
   );
 };
 
