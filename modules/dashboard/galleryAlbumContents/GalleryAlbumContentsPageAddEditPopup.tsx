@@ -34,6 +34,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import TextEditor from '../../../@softbd/components/editor/TextEditor';
 
 interface GalleryAlbumContentsPageAddEditPopupProps {
   itemId: number | null;
@@ -111,13 +112,13 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .string()
           .required()
           .label(messages['common.content_title'] as string),
-        content_path: yup
-          .mixed()
-          .label(messages['common.content_path'] as string)
-          .when('content_type', {
-            is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
-            then: yup.string().required(),
-          }),
+        /* content_path: yup
+           .mixed()
+           .label(messages['common.content_path'] as string)
+           .when('content_type', {
+             is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
+             then: yup.string().required(),
+           }),*/
         video_type: yup
           .mixed()
           .label(messages['common.video_type'] as string)
@@ -167,7 +168,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 .label(messages['common.content_title'] as string),
             }),
       });
-    }, [messages]);
+    }, [messages, selectedCodes]);
 
     const features = useMemo(
       () => [
@@ -265,7 +266,9 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
     const {
       register,
       reset,
+      setValue,
       setError,
+      clearErrors,
       control,
       handleSubmit,
       formState: {errors, isSubmitting},
@@ -280,7 +283,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           content_type: itemData?.content_type,
           video_type: itemData?.video_type,
           content_title: itemData?.content_title,
-          content_path: itemData?.content_path,
           embedded_url: itemData?.embedded_url,
           embedded_id: itemData?.embedded_id,
           content_description: itemData?.content_description,
@@ -347,6 +349,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         formData.content_cover_image_url = 'http://lorempixel.com/400/200/';
         formData.content_grid_image_url = 'http://lorempixel.com/400/200/';
         formData.content_thumb_image_url = 'http://lorempixel.com/200/100/';
+        formData.content_path = 'http://lorempixel.com/200/200/';
 
         let data = {...formData};
         let otherLanguagesFields: any = {};
@@ -483,6 +486,11 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                   required
                   id='content_path'
                   label={messages['common.content_path']}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  control={control}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -529,6 +537,59 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
             )}
 
           <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='content_cover_image_url'
+              label={messages['common.main_image_path']}
+              type={'file'}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              control={control}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='content_grid_image_url'
+              label={messages['common.grid_image_path']}
+              type={'file'}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              control={control}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='content_thumb_image_url'
+              label={messages['common.thumb_image_path']}
+              type={'file'}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              control={control}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='alt_title'
+              label={messages['gallery_album.image_alt_title']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
             <CustomDateTimeField
               id='published_at'
               label={messages['common.publish_at']}
@@ -548,44 +609,21 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           </Grid>
 
           <Grid item xs={12}>
-            <CustomTextInput
-              id='content_description'
+            <TextEditor
+              id={'content_description'}
               label={messages['common.content_description']}
-              register={register}
               errorInstance={errors}
-              isLoading={isLoading}
-              multiline={true}
-              rows={3}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <CustomTextInput
-              id='alt_title'
-              label={messages['gallery_album.image_alt_title']}
+              value={
+                itemData?.content_description ||
+                initialValues.content_description
+              }
+              height={'300px'}
+              key={1}
               register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
+              setValue={setValue}
+              clearErrors={clearErrors}
+              setError={setError}
             />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Button className='btn-choose' variant='outlined' component='label'>
-              {messages['gallery_album_content.content_cover_image_url']}
-              <input id='content_cover_image_url' type='file' hidden />
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button className='btn-choose' variant='outlined' component='label'>
-              {messages['gallery_album_content.content_grid_image_url']}
-              <input id='content_grid_image_url' type='file' hidden />
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button className='btn-choose' variant='outlined' component='label'>
-              {messages['gallery_album_content.content_thumb_image_url']}
-              <input id='content_thumb_image_url' type='file' hidden />
-            </Button>
           </Grid>
 
           <Grid item xs={6}>
@@ -648,15 +686,23 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                       </IconButton>
                     </Grid>
                     <Grid item md={12}>
-                      <CustomTextInput
+                      <TextEditor
                         id={
                           'language_' + language.code + '[content_description]'
                         }
                         label={messages['common.content_description']}
-                        register={register}
                         errorInstance={errors}
-                        multiline={true}
-                        rows={3}
+                        value={
+                          itemData?.other_language_fields?.[language.code]
+                            ?.content_description ||
+                          initialValues.content_description
+                        }
+                        height={'300px'}
+                        key={1}
+                        register={register}
+                        setValue={setValue}
+                        clearErrors={clearErrors}
+                        setError={setError}
                       />
                     </Grid>
                   </Grid>

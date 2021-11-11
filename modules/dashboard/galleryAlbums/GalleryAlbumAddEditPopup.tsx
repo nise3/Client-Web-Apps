@@ -477,7 +477,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           </React.Fragment>
         )}
 
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title'
             label={messages['common.title']}
@@ -495,6 +495,33 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id='program_id'
+            label={messages['programme.label']}
+            isLoading={isLoadingProgramme}
+            control={control}
+            options={programmes}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={onProgrammeChange}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id='batch_id'
+            label={messages['batches.label']}
+            isLoading={isLoadingBatch}
+            control={control}
+            options={batches}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             isLoading={false}
@@ -522,31 +549,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
-            id='programme_id'
-            label={messages['programme.label']}
-            isLoading={isLoadingProgramme}
-            control={control}
-            options={programmes}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onProgrammeChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='batch_id'
-            label={messages['batches.label']}
-            isLoading={isLoadingBatch}
-            control={control}
-            options={batches}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
             id='parent_gallery_album_id'
             label={messages['gallery_album.parent_gallery_album']}
             isLoading={isLoadingGalleryAlbums}
@@ -557,6 +559,50 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='main_image_path'
+            label={messages['common.main_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='grid_image_path'
+            label={messages['common.grid_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='thumb_image_path'
+            label={messages['common.thumb_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='published_at'
@@ -575,24 +621,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Button className='btn-choose' variant='outlined' component='label'>
-            {messages['gallery_album.main_image_path']}
-            <input id='main_image_path' type='file' hidden />
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Button className='btn-choose' variant='outlined' component='label'>
-            {messages['gallery_album.grid_image_path']}
-            <input id='grid_image_path' type='file' hidden />
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Button className='btn-choose' variant='outlined' component='label'>
-            {messages['gallery_album.thumb_image_path']}
-            <input id='thumb_image_path' type='file' hidden />
-          </Button>
-        </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             id={'language_list'}

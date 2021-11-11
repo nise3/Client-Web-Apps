@@ -926,6 +926,7 @@
   "common.image_alt_title_en": "Image alt title (EN)",
   "common.image_alt_title": "Image alt title",
   "common.published_by": "Published by",
+  "common.publish_at": "Publish at",
   "common.archived_at": "Archived at",
   "common.main_image_path": "Main Image Path",
   "common.file_path": "File Path",

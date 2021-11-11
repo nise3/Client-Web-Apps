@@ -51,7 +51,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='galleries.institute' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -65,14 +65,14 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.show_in']}
               value={itemData?.show_in_label}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['gallery_album.featured_status']}
               value={
@@ -83,7 +83,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['gallery_album.album_type']}
               value={getAlbumTypeTitle(itemData?.album_type)}
@@ -91,16 +91,16 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['gallery_album.parent_gallery_album']}
-              value={itemData?.parent_gallery_album_id}
+              value={itemData?.parent_gallery_album_title}
               isLoading={isLoading}
             />
           </Grid>
 
-          {itemData?.institute_title && (
-            <Grid item xs={6}>
+          {itemData?.institute_id && (
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['institute.label']}
                 value={itemData?.institute_title}
@@ -109,8 +109,8 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          {itemData?.organization_title && (
-            <Grid item xs={6}>
+          {itemData?.organization_id && (
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization.label']}
                 value={itemData?.organization_title}
@@ -119,14 +119,52 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['programme.label']}
+              value={itemData?.program_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['batches.label']}
+              value={itemData?.batch_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.main_image_path']}
+              value={itemData?.main_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.grid_image_path']}
+              value={itemData?.grid_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.thumb_image_path']}
+              value={itemData?.thumb_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.publish_at']}
               value={itemData?.published_at}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.archived_at']}
               value={itemData?.archived_at}
@@ -143,7 +181,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 )}
               </legend>
               <Grid container spacing={5}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.title']}
                     value={itemData?.title}
@@ -151,7 +189,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['gallery_album.image_alt_title']}
                     value={itemData?.image_alt_title}
@@ -170,7 +208,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                     {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
                   </legend>
                   <Grid container spacing={5}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                       <DetailsInputView
                         label={messages['common.title']}
                         value={itemData.other_language_fields[key]?.title}
@@ -178,7 +216,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                       />
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                       <DetailsInputView
                         label={messages['gallery_album.image_alt_title']}
                         value={
@@ -193,7 +231,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             ),
           )}
 
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
               label={messages['common.status']}
               value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}

@@ -67,7 +67,7 @@ const GalleryAlbumContentDetailsPopup = ({
             <IntlMessages id='galleries.institute' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -147,6 +147,28 @@ const GalleryAlbumContentDetailsPopup = ({
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.main_image_path']}
+              value={itemData?.content_cover_image_url}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.grid_image_path']}
+              value={itemData?.content_grid_image_url}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.thumb_image_path']}
+              value={itemData?.content_thumb_image_url}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.publish_at']}
               value={
                 itemData?.published_at
@@ -195,7 +217,13 @@ const GalleryAlbumContentDetailsPopup = ({
                 <Grid item xs={12}>
                   <DetailsInputView
                     label={messages['common.content_description']}
-                    value={itemData?.content_description}
+                    value={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: itemData?.content_description,
+                        }}
+                      />
+                    }
                     isLoading={isLoading}
                   />
                 </Grid>
@@ -235,8 +263,13 @@ const GalleryAlbumContentDetailsPopup = ({
                       <DetailsInputView
                         label={messages['common.content_description']}
                         value={
-                          itemData.other_language_fields[key]
-                            ?.content_description
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                itemData.other_language_fields[key]
+                                  ?.content_description,
+                            }}
+                          />
                         }
                         isLoading={isLoading}
                       />
