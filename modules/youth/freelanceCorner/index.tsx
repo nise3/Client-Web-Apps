@@ -1,4 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
+import { styled } from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -27,24 +28,41 @@ import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import CustomFilterableSelect from '../training/conponents/CustomFilterableSelect';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  container: {
+const PREFIX = 'FreelanceCorner';
+
+const classes = {
+  container: `${PREFIX}-container`,
+  root: `${PREFIX}-root`,
+  searchButton: `${PREFIX}-searchButton`,
+  searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
+  selectStyle: `${PREFIX}-selectStyle`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`&.${classes.container}`]: {
     marginTop: 20,
     marginBottom: 20,
   },
-  root: {
+
+  [`& .${classes.root}`]: {
     [theme.breakpoints.down('md')]: {
       alignItems: 'center',
       flexDirection: 'column',
     },
   },
-  searchButton: {
+
+  [`& .${classes.searchButton}`]: {
     color: '#fff',
     padding: '13px 14px',
     width: '100%',
     height: '100%',
   },
-  searchInputBorderHide: {
+
+  [`& .${classes.searchInputBorderHide}`]: {
     '& fieldset': {
       border: 'none',
     },
@@ -52,16 +70,17 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       padding: '14px 0px',
     },
   },
-  selectStyle: {
+
+  [`& .${classes.selectStyle}`]: {
     background: '#fff',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
-  },
+  }
 }));
 
 const FreelanceCorner = () => {
-  const classes = useStyles();
+
   const {messages} = useIntl();
 
   const [selectedSkills, setSelectedSkills] = useState<Array<number>>([]);
@@ -101,7 +120,7 @@ const FreelanceCorner = () => {
   );
 
   return (
-    <Container maxWidth={'lg'} className={classes.container}>
+    <StyledContainer maxWidth={'lg'} className={classes.container}>
       <Grid container spacing={3} className={classes.root}>
         <Grid item xs={12} md={3}>
           <Grid container spacing={3}>
@@ -218,7 +237,7 @@ const FreelanceCorner = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

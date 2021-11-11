@@ -1,21 +1,32 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {createStyles, makeStyles} from '@mui/styles';
 import {Button} from '@mui/material';
 
-const useStyles = makeStyles((theme: CremaTheme) =>
-  createStyles({
-    CustomParabolaButton: {
-      borderRadius: 40,
+const PREFIX = 'CustomParabolaButton';
+
+const classes = {
+  CustomParabolaButton: `${PREFIX}-CustomParabolaButton`,
+  shrinking: `${PREFIX}-shrinking`
+};
+
+const StyledButton = styled(Button)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`&.${classes.CustomParabolaButton}`]: {
+    borderRadius: 40,
+  },
+
+  [`& .${classes.shrinking}`]: {
+    fontSize: 0,
+    '&:first-line': {
+      fontSize: '0.875rem',
     },
-    shrinking: {
-      fontSize: 0,
-      '&:first-line': {
-        fontSize: '0.875rem',
-      },
-    },
-  }),
-);
+  }
+}));
 
 type CustomParabolaButtonProps = {
   icon?: any;
@@ -30,17 +41,17 @@ const CustomParabolaButton = ({
   title,
   onClick,
 }: CustomParabolaButtonProps) => {
-  const classes = useStyles();
+
 
   return (
-    <Button
+    <StyledButton
       variant={buttonVariant ? buttonVariant : 'contained'}
       startIcon={icon}
       className={classes.CustomParabolaButton}
       color={'primary'}
       onClick={onClick}>
       <span className={classes.shrinking}>{title}</span>
-    </Button>
+    </StyledButton>
   );
 };
 

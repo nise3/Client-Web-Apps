@@ -1,7 +1,26 @@
 import React, {FC} from 'react';
+import { styled } from '@mui/material/styles';
 import {Box, Typography} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+
+const PREFIX = 'Tile';
+
+const classes = {
+  tile: `${PREFIX}-tile`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme: CremaTheme
+  }
+): any => ({
+  [`&.${classes.tile}`]: {
+    color: '#FFF',
+    padding: '10px 0px',
+    borderRadius: 4,
+  }
+}));
 
 interface TileProps {
   amount: number | string;
@@ -9,21 +28,13 @@ interface TileProps {
   backgroundColor?: string;
 }
 
-const useStyles = makeStyles((theme: CremaTheme): any => ({
-  tile: {
-    color: '#FFF',
-    padding: '10px 0px',
-    borderRadius: 4,
-  },
-}));
-
 const Tile: FC<TileProps> = ({amount, label, backgroundColor}) => {
-  const classes: any = useStyles();
+
   const colorCode = backgroundColor ? backgroundColor : '#0984e2';
   const background = `linear-gradient(45deg, ${colorCode}, ${colorCode}, ${colorCode})`;
 
   return (
-    <Box
+    <StyledBox
       className={classes.tile}
       style={{backgroundImage: background}}
       display={'flex'}
@@ -31,7 +42,7 @@ const Tile: FC<TileProps> = ({amount, label, backgroundColor}) => {
       alignItems={'center'}>
       <Typography variant={'h6'}>{amount}</Typography>
       <Typography variant={'caption'}>{label}</Typography>
-    </Box>
+    </StyledBox>
   );
 };
 

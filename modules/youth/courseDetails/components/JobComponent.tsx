@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -7,35 +8,48 @@ import {
   CardMedia,
   Divider,
 } from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {BusinessCenter, Room} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  jobCardRoot: {
-    maxWidth: 345,
-    minWidth: '100%',
-  },
-  jobCardImage: {
+const PREFIX = 'JobComponent';
+
+const classes = {
+  jobCardImage: `${PREFIX}-jobCardImage`,
+  jobTitleBox: `${PREFIX}-jobTitleBox`,
+  dFlex: `${PREFIX}-dFlex`,
+  marginRight10: `${PREFIX}-marginRight10`,
+  marginTop10: `${PREFIX}-marginTop10`,
+  buttonBox: `${PREFIX}-buttonBox`,
+};
+
+const StyledCard = styled(Card)(({theme: CremaTheme}) => ({
+  maxWidth: 345,
+  minWidth: '100%',
+
+  [`& .${classes.jobCardImage}`]: {
     height: 140,
   },
-  jobTitleBox: {
+
+  [`& .${classes.jobTitleBox}`]: {
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 5,
   },
-  dFlex: {
+
+  [`& .${classes.dFlex}`]: {
     display: 'flex',
   },
-  marginRight10: {
+
+  [`& .${classes.marginRight10}`]: {
     marginRight: 10,
   },
-  marginTop10: {
+
+  [`& .${classes.marginTop10}`]: {
     marginTop: 10,
   },
-  buttonBox: {
+
+  [`& .${classes.buttonBox}`]: {
     marginTop: 10,
     textAlign: 'center',
   },
@@ -46,11 +60,10 @@ interface JobComponentProps {
 }
 
 const JobComponent: FC<JobComponentProps> = ({job}) => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Card className={classes.jobCardRoot}>
+    <StyledCard>
       <CardContent>
         <CardMedia
           component={'img'}
@@ -78,7 +91,7 @@ const JobComponent: FC<JobComponentProps> = ({job}) => {
           </Button>
         </Box>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

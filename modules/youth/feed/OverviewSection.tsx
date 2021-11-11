@@ -1,4 +1,5 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
+import { styled } from '@mui/material/styles';
 import {
   Button,
   Card,
@@ -14,18 +15,30 @@ import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
 
-const useStyles = makeStyles((): any => ({
-  searchBox: {
+const PREFIX = 'OverviewSection';
+
+const classes = {
+  searchBox: `${PREFIX}-searchBox`,
+  searchButton: `${PREFIX}-searchButton`,
+  searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
+  location: `${PREFIX}-location`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((): any => ({
+  [`& .${classes.searchBox}`]: {
     padding: '10px',
     alignItems: 'center',
   },
-  searchButton: {
+
+  [`& .${classes.searchButton}`]: {
     color: '#fff',
     padding: '8px 14px',
     width: '100%',
     height: '100%',
   },
-  searchInputBorderHide: {
+
+  [`& .${classes.searchInputBorderHide}`]: {
     '& fieldset': {
       border: 'none',
     },
@@ -33,10 +46,11 @@ const useStyles = makeStyles((): any => ({
       padding: '14px 0px',
     },
   },
-  location: {
+
+  [`& .${classes.location}`]: {
     display: 'flex',
     alignItems: 'center',
-  },
+  }
 }));
 
 interface OverviewSectionProps {
@@ -44,7 +58,7 @@ interface OverviewSectionProps {
 }
 
 const OverviewSection = ({addFilter}: OverviewSectionProps) => {
-  const classes: any = useStyles();
+
   const {messages, formatNumber} = useIntl();
   const [selectedUpazilaId, setSelectedUpazilaId] = useState<any>('');
   const [upazilasFilter] = useState({});
@@ -98,7 +112,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   );
 
   return (
-    <>
+    (<Root>
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
           <Grid container spacing={2}>
@@ -173,7 +187,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
           </Card>
         </Grid>
       </Grid>
-    </>
+    </Root>)
   );
 };
 

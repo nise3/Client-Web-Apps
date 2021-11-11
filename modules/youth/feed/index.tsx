@@ -1,4 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
+import { styled } from '@mui/material/styles';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
 import FeatureJobSection from './FeatureJobSection';
@@ -12,8 +13,22 @@ import {makeStyles} from '@mui/styles';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {debounce} from 'lodash';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  container: {
+const PREFIX = 'YouthFeedPage';
+
+const classes = {
+  container: `${PREFIX}-container`,
+  root: `${PREFIX}-root`,
+  scrollBarStyle: `${PREFIX}-scrollBarStyle`,
+  rootScrollBar: `${PREFIX}-rootScrollBar`,
+  scrollBar: `${PREFIX}-scrollBar`
+};
+
+const StyledContainer = styled(Container)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`&.${classes.container}`]: {
     marginTop: '0px',
     [theme.breakpoints.up('md')]: {
       height: 'calc(100vh - 90px)',
@@ -21,13 +36,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       overflowY: 'hidden',
     },
   },
-  root: {
+
+  [`& .${classes.root}`]: {
     [theme.breakpoints.down('md')]: {
       alignItems: 'center',
       flexDirection: 'column',
     },
   },
-  scrollBarStyle: {
+
+  [`& .${classes.scrollBarStyle}`]: {
     paddingTop: 20,
     paddingBottom: '1px',
     [theme.breakpoints.up('md')]: {
@@ -44,11 +61,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
   },
 
-  rootScrollBar: {
+  [`& .${classes.rootScrollBar}`]: {
     overflowY: 'hidden',
   },
 
-  scrollBar: {
+  [`& .${classes.scrollBar}`]: {
     height: '82.5vh',
     overflowY: 'hidden',
     '&:hover': {
@@ -56,11 +73,11 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
         overflowY: 'auto',
       },
     },
-  },
+  }
 }));
 
 const YouthFeedPage = () => {
-  const classes: any = useStyles();
+
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
   const isSearching = useRef<boolean>(false);
 
@@ -102,7 +119,7 @@ const YouthFeedPage = () => {
   };
 
   return (
-    <Container maxWidth={'lg'} className={classes.container}>
+    <StyledContainer maxWidth={'lg'} className={classes.container}>
       <Grid container columnSpacing={3}>
         <Grid item xs={12} md={3}>
           <Scrollbar className={classes.scrollBarStyle}>
@@ -152,7 +169,7 @@ const YouthFeedPage = () => {
           </Scrollbar>
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

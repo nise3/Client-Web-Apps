@@ -1,15 +1,59 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {Box, Grid} from '@mui/material';
 import FeatureJobComponent from './components/FeatureJobComponent';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {useIntl} from 'react-intl';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  featureSectionTitle: {
+const PREFIX = 'FeatureJobSection';
+
+const classes = {
+  `& .${classes.featureSectionTitle}`: `${PREFIX}-undefined`
+};
+
+const StyledStyledGrid = styled(StyledGrid)((
+  {
+    theme: {
+      theme: CremaTheme
+    }
+  }
+) => ({
+  [`& .${classes.undefined}`]: {
     fontSize: 17,
     fontWeight: 'bold',
-  },
+  }
+}));
+
+const PREFIX = 'FeatureJobSection';
+
+const classes = {
+  featureSectionTitle: `${PREFIX}-featureSectionTitle`
+};
+
+const StyledGrid = styled(Grid)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.featureSectionTitle}`]: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  }
+}));
+
+const useStyle = makeStyles((
+  {
+    theme: {
+      theme: CremaTheme
+    }
+  }
+) => ({
+  [`& .${classes.undefined}`]: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  }
 }));
 
 const FeatureJobSection = () => {
@@ -40,7 +84,7 @@ const FeatureJobSection = () => {
   ];
 
   return (
-    <Grid container spacing={2}>
+    <StyledStyledGrid container spacing={2}>
       <Grid item xs={12}>
         <Box className={classes.featureSectionTitle}>
           {messages['common.featured']}
@@ -53,7 +97,7 @@ const FeatureJobSection = () => {
           </Grid>
         );
       })}
-    </Grid>
+    </StyledStyledGrid>
   );
 };
 

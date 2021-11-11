@@ -1,11 +1,22 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import {Divider, ListItemText, MenuItem, MenuList, Paper} from '@mui/material';
 import Link from 'next/link';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'YouthProfileNavigationSidebar';
+
+const classes = {
+  link: `${PREFIX}-link`
+};
+
+const StyledPaper = styled(Paper)((
+  {
+    theme
+  }
+) => {
   return {
-    link: {
+    [`& .${classes.link}`]: {
       color: theme.palette.primary.dark,
       textDecoration: 'none',
     },
@@ -13,10 +24,10 @@ const useStyles = makeStyles((theme) => {
 });
 
 const YouthProfileNavigationSidebar = () => {
-  const classes = useStyles();
+
 
   return (
-    <Paper>
+    <StyledPaper>
       <MenuList>
         <MenuItem>
           <Link href={'../../youth-profile-edit/job-experience/null'}>
@@ -66,7 +77,7 @@ const YouthProfileNavigationSidebar = () => {
           </Link>
         </MenuItem>
       </MenuList>
-    </Paper>
+    </StyledPaper>
   );
 };
 

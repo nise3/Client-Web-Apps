@@ -1,4 +1,6 @@
 import React, {useCallback, useState} from 'react';
+import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
@@ -12,37 +14,161 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  recentCourseSectionRoot: {
+const PREFIX = 'CourseListSection';
+
+const classes = {
+  `& .${classes.recentCourseSectionRoot}`: `${PREFIX}-undefined`,
+  `& .${classes.featureSectionTitle}`: `${PREFIX}-undefined`,
+  `& .${classes.courseItem}`: `${PREFIX}-undefined`,
+  `& .${classes.divider}`: `${PREFIX}-undefined`,
+  `& .${classes.selectStyle}`: `${PREFIX}-undefined`,
+  `& .${classes.seeMoreButton}`: `${PREFIX}-undefined`,
+  `& .${classes.selectControl}`: `${PREFIX}-undefined`
+};
+
+const StyledStyledCard = styled(StyledCard)((
+  {
+    theme: {
+      theme: CremaTheme
+    }
+  }
+) => ({
+  [`& .${classes.undefined}`]: {
     marginTop: 0,
     paddingBottom: 10,
     paddingTop: 20,
   },
-  featureSectionTitle: {
+
+  [`& .${classes.undefined}`]: {
     fontSize: 17,
     fontWeight: 'bold',
   },
-  courseItem: {
+
+  [`& .${classes.undefined}`]: {
     marginBottom: 10,
   },
-  divider: {
+
+  [`& .${classes.undefined}`]: {
     width: '100%',
     height: 1,
     marginBottom: 5,
   },
-  selectStyle: {
+
+  [`& .${classes.undefined}`]: {
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
   },
-  seeMoreButton: {
+
+  [`& .${classes.undefined}`]: {
     boxShadow: 'none',
     marginTop: 10,
   },
-  selectControl: {
+
+  [`& .${classes.undefined}`]: {
     marginLeft: 20,
     marginBottom: 10,
+  }
+}));
+
+const PREFIX = 'CourseListSection';
+
+const classes = {
+  recentCourseSectionRoot: `${PREFIX}-recentCourseSectionRoot`,
+  featureSectionTitle: `${PREFIX}-featureSectionTitle`,
+  courseItem: `${PREFIX}-courseItem`,
+  divider: `${PREFIX}-divider`,
+  selectStyle: `${PREFIX}-selectStyle`,
+  seeMoreButton: `${PREFIX}-seeMoreButton`,
+  selectControl: `${PREFIX}-selectControl`
+};
+
+const StyledCard = styled(Card)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.recentCourseSectionRoot}`]: {
+    marginTop: 0,
+    paddingBottom: 10,
+    paddingTop: 20,
   },
+
+  [`& .${classes.featureSectionTitle}`]: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+
+  [`& .${classes.courseItem}`]: {
+    marginBottom: 10,
+  },
+
+  [`& .${classes.divider}`]: {
+    width: '100%',
+    height: 1,
+    marginBottom: 5,
+  },
+
+  [`& .${classes.selectStyle}`]: {
+    '& .MuiSelect-select': {
+      padding: '10px 30px 10px 15px',
+    },
+  },
+
+  [`& .${classes.seeMoreButton}`]: {
+    boxShadow: 'none',
+    marginTop: 10,
+  },
+
+  [`& .${classes.selectControl}`]: {
+    marginLeft: 20,
+    marginBottom: 10,
+  }
+}));
+
+const useStyle = makeStyles((
+  {
+    theme: {
+      theme: CremaTheme
+    }
+  }
+) => ({
+  [`& .${classes.undefined}`]: {
+    marginTop: 0,
+    paddingBottom: 10,
+    paddingTop: 20,
+  },
+
+  [`& .${classes.undefined}`]: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+
+  [`& .${classes.undefined}`]: {
+    marginBottom: 10,
+  },
+
+  [`& .${classes.undefined}`]: {
+    width: '100%',
+    height: 1,
+    marginBottom: 5,
+  },
+
+  [`& .${classes.undefined}`]: {
+    '& .MuiSelect-select': {
+      padding: '10px 30px 10px 15px',
+    },
+  },
+
+  [`& .${classes.undefined}`]: {
+    boxShadow: 'none',
+    marginTop: 10,
+  },
+
+  [`& .${classes.undefined}`]: {
+    marginLeft: 20,
+    marginBottom: 10,
+  }
 }));
 
 const CourseListSection = () => {
@@ -74,7 +200,7 @@ const CourseListSection = () => {
   }, []);
 
   return (
-    <Card>
+    <StyledStyledCard>
       <Grid container className={classes.recentCourseSectionRoot}>
         <Grid item xs={12} md={12}>
           <Select
@@ -126,7 +252,7 @@ const CourseListSection = () => {
           <NoDataFoundComponent messageTextType={'subtitle2'} />
         )}
       </Grid>
-    </Card>
+    </StyledStyledCard>
   );
 };
 

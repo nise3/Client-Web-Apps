@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {
   Button,
@@ -16,21 +18,98 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  nearbyYouthSectionRoot: {},
-  divider: {
+const PREFIX = 'NearbySkilledYouthSection';
+
+const classes = {
+  `& .${classes.nearbyYouthSectionRoot}`: `${PREFIX}-undefined`,
+  `& .${classes.divider}`: `${PREFIX}-undefined`,
+  `& .${classes.seeMoreButton}`: `${PREFIX}-undefined`,
+  `& .${classes.selectControl}`: `${PREFIX}-undefined`
+};
+
+const StyledStyledCard = styled(StyledCard)((
+  {
+    theme: {
+      theme: CremaTheme
+    }
+  }
+) => ({
+  [`& .${classes.undefined}`]: {},
+
+  [`& .${classes.undefined}`]: {
     width: '100%',
     height: 1,
     marginBottom: 5,
   },
-  seeMoreButton: {
+
+  [`& .${classes.undefined}`]: {
     boxShadow: 'none',
     marginTop: 10,
   },
-  selectControl: {
+
+  [`& .${classes.undefined}`]: {
     marginLeft: 20,
     marginBottom: 10,
+  }
+}));
+
+const PREFIX = 'NearbySkilledYouthSection';
+
+const classes = {
+  nearbyYouthSectionRoot: `${PREFIX}-nearbyYouthSectionRoot`,
+  divider: `${PREFIX}-divider`,
+  seeMoreButton: `${PREFIX}-seeMoreButton`,
+  selectControl: `${PREFIX}-selectControl`
+};
+
+const StyledCard = styled(Card)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.nearbyYouthSectionRoot}`]: {},
+
+  [`& .${classes.divider}`]: {
+    width: '100%',
+    height: 1,
+    marginBottom: 5,
   },
+
+  [`& .${classes.seeMoreButton}`]: {
+    boxShadow: 'none',
+    marginTop: 10,
+  },
+
+  [`& .${classes.selectControl}`]: {
+    marginLeft: 20,
+    marginBottom: 10,
+  }
+}));
+
+const useStyle = makeStyles((
+  {
+    theme: {
+      theme: CremaTheme
+    }
+  }
+) => ({
+  [`& .${classes.undefined}`]: {},
+
+  [`& .${classes.undefined}`]: {
+    width: '100%',
+    height: 1,
+    marginBottom: 5,
+  },
+
+  [`& .${classes.undefined}`]: {
+    boxShadow: 'none',
+    marginTop: 10,
+  },
+
+  [`& .${classes.undefined}`]: {
+    marginLeft: 20,
+    marginBottom: 10,
+  }
 }));
 
 const NearbySkilledYouthSection = () => {
@@ -46,7 +125,7 @@ const NearbySkilledYouthSection = () => {
   const {data: nearbySkilledYouths} = useFetchYouths(youthListFilters);
 
   return (
-    <Card>
+    <StyledStyledCard>
       <CardContent>
         <Typography variant={'h5'} sx={{marginBottom: 3, fontWeight: 'bold'}}>
           {messages['freelance_corner.nearby_skilled_youth']}
@@ -81,7 +160,7 @@ const NearbySkilledYouthSection = () => {
           </Grid>
         </Grid>
       </CardContent>
-    </Card>
+    </StyledStyledCard>
   );
 };
 
