@@ -1,9 +1,20 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import LinearProgress from '@mui/material/LinearProgress';
 
-const useStyles = makeStyles({
-  root: {
+const PREFIX = 'AppLinearProgress';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  colorPrimary: `${PREFIX}-colorPrimary`,
+  bar: `${PREFIX}-bar`
+};
+
+const StyledCustomLinearProgress
+ = styled(CustomLinearProgress
+)({
+  [`& .${classes.root}`]: {
     height: (props: {
       thickness: number;
       borderRadius: number;
@@ -17,7 +28,7 @@ const useStyles = makeStyles({
       activeColor: string;
     }) => props.borderRadius,
   },
-  colorPrimary: {
+  [`& .${classes.colorPrimary}`]: {
     backgroundColor: (props: {
       thickness: number;
       borderRadius: number;
@@ -25,7 +36,7 @@ const useStyles = makeStyles({
       activeColor: string;
     }) => props.pathColor,
   },
-  bar: {
+  [`& .${classes.bar}`]: {
     borderRadius: (props: {
       thickness: number;
       borderRadius: number;
@@ -57,7 +68,7 @@ const CustomLinearProgress: React.FC<CustomLinearProgressProps> = ({
   borderRadius,
   ...rest
 }) => {
-  const classes = useStyles({
+
     pathColor,
     activeColor,
     thickness,

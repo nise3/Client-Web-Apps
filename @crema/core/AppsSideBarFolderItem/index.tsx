@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import {NavLink} from '../../index';
 import Box from '@mui/material/Box';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,8 +9,20 @@ import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Icon from '@mui/material/Icon';
 
-const useStyle = makeStyles(theme => ({
-  listItem: {
+const PREFIX = 'AppsSideBarFolderItem';
+
+const classes = {
+  listItem: `${PREFIX}-listItem`,
+  listItemIcon: `${PREFIX}-listItemIcon`,
+  listItemText: `${PREFIX}-listItemText`
+};
+
+const StyledListItem = styled(ListItem)((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.listItem}`]: {
     paddingLeft: '10px',
     paddingRight: '0',
     paddingTop: '5px',
@@ -52,13 +65,74 @@ const useStyle = makeStyles(theme => ({
       },
     },
   },
-  listItemIcon: {
+
+  [`& .${classes.listItemIcon}`]: {
     minWidth: 10,
     paddingTop: 4,
   },
-  listItemText: {
+
+  [`& .${classes.listItemText}`]: {
     fontFamily: 'inherit',
+  }
+}));
+
+const useStyle = makeStyles((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.listItem}`]: {
+    paddingLeft: '10px',
+    paddingRight: '0',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+
+    '& .MuiListItemText-root': {
+      [theme.breakpoints.down('xl')]: {
+        marginTop: 0,
+        marginBottom: 0,
+      },
+    },
+
+    '& .MuiTypography-body1': {
+      fontSize: 15,
+      fontWeight: Fonts.MEDIUM,
+    },
+
+    '& svg': {
+      fontSize: '18px',
+    },
+
+    '&:hover,&:focus,&.active': {
+      backgroundColor: 'transparent',
+      color: theme.palette.primary.main,
+
+      '& svg': {
+        color: theme.palette.primary.main,
+      },
+
+      '& .MuiTypography-root': {
+        color: theme.palette.primary.main,
+      },
+    },
+
+    '&.active': {
+      color: theme.palette.primary.main,
+
+      '& svg, & .MuiTypography-root': {
+        color: theme.palette.primary.main,
+      },
+    },
   },
+
+  [`& .${classes.listItemIcon}`]: {
+    minWidth: 10,
+    paddingTop: 4,
+  },
+
+  [`& .${classes.listItemText}`]: {
+    fontFamily: 'inherit',
+  }
 }));
 
 interface WrappedIconProps {
@@ -82,7 +156,7 @@ const AppsSideBarFolderItem: React.FC<AppsSideBarFolderItemProps> = ({
 }) => {
   const classes = useStyle();
   return (
-    <ListItem
+    <StyledListItem
       button
       key={item.id}
       to={path}
@@ -95,7 +169,7 @@ const AppsSideBarFolderItem: React.FC<AppsSideBarFolderItemProps> = ({
         </ListItemIcon>
       </Box>
       <ListItemText primary={item.name} className={classes.listItemText} />
-    </ListItem>
+    </StyledListItem>
   );
 };
 

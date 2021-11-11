@@ -1,10 +1,21 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 
-const useStyles = makeStyles(theme => ({
-  root: {
+const PREFIX = 'index';
+
+const classes = {
+  root: `${PREFIX}-root`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.root}`]: {
     padding: '0 7px',
     fontSize: 11,
     fontWeight: 600,
@@ -14,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     color: theme.palette.secondary.contrastText,
-  },
+  }
 }));
 
 interface BadgeProps {
@@ -28,7 +39,7 @@ const Badge: React.FC<BadgeProps> = ({
   count,
   color = 'secondary',
 }) => {
-  const classes = useStyles();
+
 
   if (color === 'primary') {
     color = 'primary.main';
@@ -36,9 +47,9 @@ const Badge: React.FC<BadgeProps> = ({
     color = 'secondary.main';
   }
   return (
-    <Box bgcolor={color} className={clsx(classes.root, className)}>
+    <StyledBox bgcolor={color} className={clsx(classes.root, className)}>
       {count}
-    </Box>
+    </StyledBox>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import notification, {
@@ -18,8 +19,24 @@ import NotificationItem from './NotificationItem';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  crPopover: {
+const PREFIX = 'Notifications';
+
+const classes = {
+  crPopover: `${PREFIX}-crPopover`,
+  btnPopover: `${PREFIX}-btnPopover`,
+  notiBtn: `${PREFIX}-notiBtn`,
+  notiIcon: `${PREFIX}-notiIcon`,
+  list: `${PREFIX}-list`,
+  badge: `${PREFIX}-badge`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.crPopover}`]: {
     '& .MuiPopover-paper': {
       width: 260,
       [theme.breakpoints.up('sm')]: {
@@ -36,12 +53,14 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   },
-  btnPopover: {
+
+  [`& .${classes.btnPopover}`]: {
     borderRadius: 0,
     width: '100%',
     textTransform: 'capitalize',
   },
-  notiBtn: {
+
+  [`& .${classes.notiBtn}`]: {
     justifyContent: 'flex-start',
     width: '100%',
     height: 56,
@@ -76,20 +95,23 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingRight: '2.5rem',
     },
   },
-  notiIcon: {
+
+  [`& .${classes.notiIcon}`]: {
     fontSize: 22,
     color: theme.palette.text.secondary,
     [theme.breakpoints.up('xl')]: {
       fontSize: 30,
     },
   },
-  list: {
+
+  [`& .${classes.list}`]: {
     paddingTop: 0,
     paddingBottom: 0,
   },
-  badge: {
+
+  [`& .${classes.badge}`]: {
     marginRight: 8,
-  },
+  }
 }));
 
 interface NotificationsProps {}
@@ -104,10 +126,10 @@ const Notifications: React.FC<NotificationsProps> = () => {
     setAnchorNotification(event.currentTarget);
   };
 
-  const classes = useStyles();
+
 
   return (
-    <>
+    (<Root>
       <IconButton
         className={clsx(classes.notiBtn, 'notiBtn')}
         aria-label='show 17 new notifications'
@@ -133,7 +155,6 @@ const Notifications: React.FC<NotificationsProps> = () => {
           </Box>
         </Hidden>
       </IconButton>
-
       <Popover
         anchorEl={anchorNotification}
         id='language-switcher'
@@ -176,7 +197,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
           </Box>
         </Box>
       </Popover>
-    </>
+    </Root>)
   );
 };
 

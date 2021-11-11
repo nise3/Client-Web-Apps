@@ -1,10 +1,23 @@
 import React, {ReactNode} from 'react';
+import { styled } from '@mui/material/styles';
 import {Box} from '@mui/material';
 import {grey} from '@mui/material/colors';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) => ({
-  appHeader: {
+const PREFIX = 'AppsHeader';
+
+const classes = {
+  appHeader: `${PREFIX}-appHeader`,
+  checkboxRoot: `${PREFIX}-checkboxRoot`,
+  pointer: `${PREFIX}-pointer`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.appHeader}`]: {
     height: 60,
     display: 'flex',
     alignItems: 'center',
@@ -13,12 +26,14 @@ const useStyles = makeStyles((theme) => ({
       height: 77,
     },
   },
-  checkboxRoot: {
+
+  [`& .${classes.checkboxRoot}`]: {
     marginRight: 8,
   },
-  pointer: {
+
+  [`& .${classes.pointer}`]: {
     cursor: 'pointer',
-  },
+  }
 }));
 
 interface AppsFooterProps {
@@ -26,11 +41,11 @@ interface AppsFooterProps {
 }
 
 const AppsHeader: React.FC<AppsFooterProps> = ({children}) => {
-  const classes = useStyles();
+
   return (
-    <Box px={6} className={classes.appHeader}>
+    <StyledBox px={6} className={classes.appHeader}>
       {children}
-    </Box>
+    </StyledBox>
   );
 };
 

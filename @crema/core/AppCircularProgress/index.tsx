@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import ProtoTypes from 'prop-types';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -6,8 +7,22 @@ import Box from '@mui/material/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  root: {
+const PREFIX = 'AppCircularProgress';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  circularProgressRoot: `${PREFIX}-circularProgressRoot`,
+  circularProgressPrimary: `${PREFIX}-circularProgressPrimary`,
+  centerContent: `${PREFIX}-centerContent`,
+  circle: `${PREFIX}-circle`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`&.${classes.root}`]: {
     position: 'relative',
     minWidth: (props: {
       pathColor: string;
@@ -23,12 +38,14 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     }) => props.maxWidth,
     margin: '0 auto',
   },
-  circularProgressRoot: (props: any) => ({
+
+  [`& .${classes.circularProgressRoot}`]: (props: any) => ({
     color: props.pathColor,
     width: '100% !important',
     height: '100% !important',
   }),
-  circularProgressPrimary: (props: any) => ({
+
+  [`& .${classes.circularProgressPrimary}`]: (props: any) => ({
     color: props.activeColor,
     animationDuration: '550ms',
     position: 'absolute',
@@ -37,7 +54,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     width: '100% !important',
     height: '100% !important',
   }),
-  centerContent: {
+
+  [`& .${classes.centerContent}`]: {
     position: 'absolute',
     left: 0,
     top: 0,
@@ -49,9 +67,10 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circle: {
+
+  [`& .${classes.circle}`]: {
     strokeLinecap: 'round',
-  },
+  }
 }));
 
 interface AppCircularProgressProps {
@@ -79,7 +98,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
   thickness = 10,
   ...props
 }) => {
-  const classes = useStyles({
+
     pathColor,
     activeColor,
     minWidth,
@@ -87,7 +106,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
   });
 
   return (
-    <Box className={classes.root}>
+    <StyledBox className={classes.root}>
       <Box position='relative'>
         <CircularProgress
           variant="determinate"
@@ -119,7 +138,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
           </Box>
         )}
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 export default AppCircularProgress;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
@@ -9,20 +10,36 @@ import clsx from 'clsx';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {MessageData} from '../../services/db/messages/messages';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  textBase: {
+const PREFIX = 'MessageItem';
+
+const classes = {
+  textBase: `${PREFIX}-textBase`,
+  avatar: `${PREFIX}-avatar`,
+  minWidth0: `${PREFIX}-minWidth0`,
+  listItemRoot: `${PREFIX}-listItemRoot`
+};
+
+const StyledListItem = styled(ListItem)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.textBase}`]: {
     fontSize: 14,
   },
-  avatar: {
+
+  [`& .${classes.avatar}`]: {
     width: 48,
     height: 48,
   },
-  minWidth0: {
+
+  [`& .${classes.minWidth0}`]: {
     minWidth: 0,
   },
-  listItemRoot: {
+
+  [`&.${classes.listItemRoot}`]: {
     padding: '8px 20px',
-  },
+  }
 }));
 
 interface MessageItemProps {
@@ -30,10 +47,10 @@ interface MessageItemProps {
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({item}) => {
-  const classes = useStyles();
+
 
   return (
-    <ListItem className={clsx(classes.listItemRoot, 'item-hover')}>
+    <StyledListItem className={clsx(classes.listItemRoot, 'item-hover')}>
       <Box mr={4}>
         <ListItemAvatar className={classes.minWidth0}>
           <Avatar className={classes.avatar} src={item.image} />
@@ -47,7 +64,7 @@ const MessageItem: React.FC<MessageItemProps> = ({item}) => {
           {item.message}
         </Box>
       </Box>
-    </ListItem>
+    </StyledListItem>
   );
 };
 

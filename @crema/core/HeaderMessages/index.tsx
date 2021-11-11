@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -16,8 +17,25 @@ import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  crPopover: {
+const PREFIX = 'HeaderMessages';
+
+const classes = {
+  crPopover: `${PREFIX}-crPopover`,
+  btnPopover: `${PREFIX}-btnPopover`,
+  notiBtn: `${PREFIX}-notiBtn`,
+  listStyle: `${PREFIX}-listStyle`,
+  badgeStyle: `${PREFIX}-badgeStyle`,
+  smsIcon: `${PREFIX}-smsIcon`,
+  listRoot: `${PREFIX}-listRoot`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.crPopover}`]: {
     '& .MuiPopover-paper': {
       width: 260,
       [theme.breakpoints.up('sm')]: {
@@ -34,12 +52,14 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   },
-  btnPopover: {
+
+  [`& .${classes.btnPopover}`]: {
     borderRadius: 0,
     width: '100%',
     textTransform: 'capitalize',
   },
-  notiBtn: {
+
+  [`& .${classes.notiBtn}`]: {
     justifyContent: 'flex-start',
     width: '100%',
     height: 56,
@@ -75,24 +95,28 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingRight: '2.5rem',
     },
   },
-  listStyle: {
+
+  [`& .${classes.listStyle}`]: {
     paddingLeft: 20,
     paddingRight: 20,
   },
-  badgeStyle: {
+
+  [`& .${classes.badgeStyle}`]: {
     marginRight: 8,
   },
-  smsIcon: {
+
+  [`& .${classes.smsIcon}`]: {
     fontSize: 22,
     color: theme.palette.text.secondary,
     [theme.breakpoints.up('xl')]: {
       fontSize: 30,
     },
   },
-  listRoot: {
+
+  [`& .${classes.listRoot}`]: {
     paddingTop: 0,
     paddingBottom: 0,
-  },
+  }
 }));
 
 interface HeaderMessagesProps {}
@@ -109,75 +133,76 @@ const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
     setAnchorMessages(event.currentTarget);
   };
 
-  const classes = useStyles();
 
-  return <>
-    <IconButton
-      className={clsx(classes.notiBtn, 'notiBtn')}
-      aria-label='show 4 new mails'
-      color='inherit'
-      onClick={onClickMessagesButton}
-      size="large">
-      <Badge
-        className={classes.badgeStyle}
-        badgeContent={messages.length}
-        color='secondary'>
-        <SmsIcon className={clsx(classes.smsIcon, 'smsIcon')} />
-      </Badge>
-      <Hidden mdUp>
-        <Box
-          ml={4}
-          fontSize={16}
-          fontFamily='Poppins'
-          fontWeight={Fonts.REGULAR}
-          component='span'>
-          <IntlMessages id='dashboard.messages' />
-        </Box>
-      </Hidden>
-    </IconButton>
 
-    <Popover
-      anchorEl={anchorMessages}
-      id='app-message'
-      className={classes.crPopover}
-      open={Boolean(anchorMessages)}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-      }}
-      onClose={() => setAnchorMessages(null)}>
-      <Box>
-        <Box px={5} py={3}>
-          <Box component='h5' fontWeight={Fonts.MEDIUM}>
-            <IntlMessages id='dashboard.messages' />({messages.length})
+  return (
+    <Root>
+      <IconButton
+        className={clsx(classes.notiBtn, 'notiBtn')}
+        aria-label='show 4 new mails'
+        color='inherit'
+        onClick={onClickMessagesButton}
+        size="large">
+        <Badge
+          className={classes.badgeStyle}
+          badgeContent={messages.length}
+          color='secondary'>
+          <SmsIcon className={clsx(classes.smsIcon, 'smsIcon')} />
+        </Badge>
+        <Hidden mdUp>
+          <Box
+            ml={4}
+            fontSize={16}
+            fontFamily='Poppins'
+            fontWeight={Fonts.REGULAR}
+            component='span'>
+            <IntlMessages id='dashboard.messages' />
+          </Box>
+        </Hidden>
+      </IconButton>
+      <Popover
+        anchorEl={anchorMessages}
+        id='app-message'
+        className={classes.crPopover}
+        open={Boolean(anchorMessages)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        onClose={() => setAnchorMessages(null)}>
+        <Box>
+          <Box px={5} py={3}>
+            <Box component='h5' fontWeight={Fonts.MEDIUM}>
+              <IntlMessages id='dashboard.messages' />({messages.length})
+            </Box>
+          </Box>
+          <Scrollbar className='scroll-submenu'>
+            <List
+              className={classes.listRoot}
+              onClick={() => {
+                setAnchorMessages(null);
+              }}>
+              {messages.map((item: MessageData, index) => (
+                <MessageItem key={item.id} item={item} />
+              ))}
+            </List>
+          </Scrollbar>
+          <Box mt={2}>
+            <Button
+              className={classes.btnPopover}
+              variant='contained'
+              color='primary'>
+              <IntlMessages id='common.viewAll' />
+            </Button>
           </Box>
         </Box>
-        <Scrollbar className='scroll-submenu'>
-          <List
-            className={classes.listRoot}
-            onClick={() => {
-              setAnchorMessages(null);
-            }}>
-            {messages.map((item: MessageData, index) => (
-              <MessageItem key={item.id} item={item} />
-            ))}
-          </List>
-        </Scrollbar>
-        <Box mt={2}>
-          <Button
-            className={classes.btnPopover}
-            variant='contained'
-            color='primary'>
-            <IntlMessages id='common.viewAll' />
-          </Button>
-        </Box>
-      </Box>
-    </Popover>
-  </>;
+      </Popover>
+    </Root>
+  );
 };
 
 export default HeaderMessages;

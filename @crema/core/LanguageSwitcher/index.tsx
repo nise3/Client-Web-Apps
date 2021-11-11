@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import { styled } from '@mui/material/styles';
 import languageData, {LanguageProps} from './data';
 import Menu from '@mui/material/Menu';
 import AppContext from '../../utility/AppContext';
@@ -12,8 +13,21 @@ import AppContextPropsType, {
   CremaTheme,
 } from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  langBtn: {
+const PREFIX = 'LanguageSwitcher';
+
+const classes = {
+  langBtn: `${PREFIX}-langBtn`,
+  overflowHidden: `${PREFIX}-overflowHidden`,
+  alignMiddle: `${PREFIX}-alignMiddle`,
+  textUppercase: `${PREFIX}-textUppercase`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme: CremaTheme
+  }
+) => ({
+  [`& .${classes.langBtn}`]: {
     justifyContent: 'flex-start',
     width: '100%',
     height: '100%',
@@ -47,16 +61,19 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   },
-  overflowHidden: {
+
+  [`& .${classes.overflowHidden}`]: {
     overflow: 'hidden',
   },
-  alignMiddle: {
+
+  [`& .${classes.alignMiddle}`]: {
     verticalAlign: 'middle',
     display: 'inline-block',
   },
-  textUppercase: {
+
+  [`& .${classes.textUppercase}`]: {
     textTransform: 'uppercase',
-  },
+  }
 }));
 
 interface LanguageSwitcherProps {
@@ -84,10 +101,10 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     setAnchorElLng(null);
   };
 
-  const classes = useStyles();
+
 
   return (
-    <Box height={'100%'}>
+    <StyledBox height={'100%'}>
       <IconButton
         className={clsx(
           classes.langBtn,
@@ -149,7 +166,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           </MenuItem>
         ))}
       </Menu>
-    </Box>
+    </StyledBox>
   );
 };
 
