@@ -1,16 +1,27 @@
 import React, {FC, useCallback} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Slide} from '@mui/material';
-import useStyles from '../index.style';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Modern';
+
+const PREFIX = 'ModernTemplate';
+
+const classes = {
+  modernRoot: `${PREFIX}-modernRoot`,
+};
+
+const StyledSlide = styled(Slide)(({theme}) => ({
+  [`& .${classes.modernRoot}`]: {
+    border: '2px solid #d3d4d4',
+    background: '#fff',
+  },
+}));
 
 interface ModernTemplateProps {
   userData: any;
 }
 
 const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
-  const classes: any = useStyles();
-
   const LanguageProficiencyType: any = {
     '1': 'Easily',
     '2': 'Not Easily',
@@ -149,9 +160,9 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
   }, []);
 
   return (
-    <Slide direction={'right'} in={true}>
+    <StyledSlide direction={'right'} in={true}>
       <Box className={classes.modernRoot} ref={theCB} />
-    </Slide>
+    </StyledSlide>
   );
 };
 

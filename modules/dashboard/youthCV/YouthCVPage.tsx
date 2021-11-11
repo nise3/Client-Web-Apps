@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
+import {styled} from '@mui/material/styles';
 import CVTemplateKeys from '../../youth/myCv/CVTemplateKeys';
-import useStyles from '../../youth/myCv/index.style';
 import {useIntl} from 'react-intl';
 import React, {useCallback, useRef, useState} from 'react';
 import ClassicTemplate from '../../youth/myCv/templates/ClassicTemplate';
@@ -8,6 +8,36 @@ import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {Button, CardMedia, Container, Grid, Typography} from '@mui/material';
 import clsx from 'clsx';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
+
+const PREFIX = 'YouthCVPage';
+
+const classes = {
+  rootContent: `${PREFIX}-rootContent`,
+  templateImage: `${PREFIX}-templateImage`,
+  templateSelected: `${PREFIX}-templateSelected`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  marginTop: 20,
+  marginBottom: 20,
+
+  [`& .${classes.rootContent}`]: {
+    marginTop: 0,
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row-reverse',
+    },
+  },
+
+  [`& .${classes.templateImage}`]: {
+    cursor: 'pointer',
+  },
+
+  [`& .${classes.templateSelected}`]: {
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: theme.palette.primary.main,
+  },
+}));
 
 const resumeTemplates = [
   {
@@ -28,7 +58,6 @@ const resumeTemplates = [
 ];
 
 const YouthCVPage = () => {
-  const classes: any = useStyles();
   const {messages} = useIntl();
   const router: any = useRouter();
   const {youthId} = router.query;
@@ -83,7 +112,7 @@ const YouthCVPage = () => {
   };
 
   return (
-    <Container maxWidth={'lg'} className={classes.root}>
+    <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={5}>
         <Grid item xs={10} sm={10} md={6}>
           <Typography variant={'h5'} fontWeight={'bold'}>
@@ -133,7 +162,7 @@ const YouthCVPage = () => {
           {youthData && getTemplate()}
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

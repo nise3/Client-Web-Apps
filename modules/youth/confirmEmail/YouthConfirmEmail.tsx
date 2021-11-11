@@ -1,11 +1,38 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {Button, Container, Paper, Typography} from '@mui/material';
-import useStyles from './ConfirmEmail.style';
+
+const PREFIX = 'YouthConfirmEmail';
+
+const classes = {
+  PaperBox: `${PREFIX}-PaperBox`,
+  btn: `${PREFIX}-btn`,
+  text: `${PREFIX}-text`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.PaperBox}`]: {
+    padding: 40,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.btn}`]: {
+    width: '200px',
+    height: '50px',
+    marginTop: '40px',
+  },
+
+  [`& .${classes.text}`]: {
+    marginBottom: '10px',
+    fontWeight: 'bold',
+  },
+}));
 
 const YouthConfirmEmail = () => {
-  const classes = useStyles();
   return (
-    <Container maxWidth={'sm'} style={{marginTop: '100px'}}>
+    <StyledContainer maxWidth={'sm'} style={{marginTop: '100px'}}>
       <Paper className={classes.PaperBox}>
         <Typography variant={'h5'} className={classes.text}>
           Confirm your email address
@@ -17,7 +44,7 @@ const YouthConfirmEmail = () => {
           Confirm email
         </Button>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

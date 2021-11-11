@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import useStyle from './index.style';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -18,16 +18,36 @@ import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 
+const PREFIX = 'CourseDetailsHeaderSection';
+
+const classes = {
+  courseFee: `${PREFIX}-courseFee`,
+  courseFeeStyle: `${PREFIX}-courseFeeStyle`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.courseFee}`]: {
+    textTransform: 'uppercase',
+    marginTop: 25,
+    display: 'flex',
+    marginBottom: 10,
+  },
+
+  [`& .${classes.courseFeeStyle}`]: {
+    marginLeft: 10,
+    color: theme.palette.primary.main,
+  },
+}));
+
 interface CourseDetailsHeaderProps {
   course: any;
 }
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
-  const classes: any = useStyle();
   const {messages, formatNumber} = useIntl();
 
   return (
-    <Container maxWidth={'lg'}>
+    <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={6}>
           <Box className={classes.courseFee}>
@@ -75,7 +95,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
           />
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

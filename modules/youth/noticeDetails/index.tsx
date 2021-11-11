@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   CardMedia,
@@ -12,15 +13,39 @@ import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import useStyles from './index.style';
 import {useIntl} from 'react-intl';
 
+const PREFIX = 'NoticeDetails';
+
+const classes = {
+  date: `${PREFIX}-date`,
+  icon: `${PREFIX}-icon`,
+  container: `${PREFIX}-container`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.date}`]: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.icon}`]: {
+    color: '#ffff',
+    padding: '2px',
+    borderRadius: '3px',
+    '&:not(:last-child)': {marginRight: '10px'},
+  },
+
+  [`& .${classes.container}`]: {
+    marginTop: '50px',
+  },
+}));
+
 const NoticeDetails = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Container maxWidth={'lg'}>
+    <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
         <Grid item xs={12} mt={5}>
           <Grid container>
@@ -100,7 +125,7 @@ const NoticeDetails = () => {
           suscipit voluptatibus?
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

@@ -1,20 +1,40 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import useStyles from './index.style';
 import {useForm} from 'react-hook-form';
 import {Button, Container, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
+const PREFIX = 'ChoosePayment';
+
+const classes = {
+  paperBox: `${PREFIX}-paperBox`,
+  btn: `${PREFIX}-btn`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  display: 'flex',
+  height: 'calc(100vh - 70px)',
+
+  [`& .${classes.paperBox}`]: {
+    margin: 'auto',
+  },
+
+  [`& .${classes.btn}`]: {
+    marginTop: '12px',
+    width: '100px',
+  },
+}));
+
 const ChoosePayment = () => {
   const {messages} = useIntl();
-  const classes = useStyles();
 
   const {
     register,
     formState: {errors},
   } = useForm<any>();
   return (
-    <Container maxWidth={'sm'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'sm'}>
       <Paper style={{padding: '20px'}} className={classes.paperBox}>
         <Typography variant={'h6'} style={{fontWeight: 'bold'}} mb={5}>
           {messages['common.enter_bkash_number']}
@@ -31,7 +51,7 @@ const ChoosePayment = () => {
           </Button>
         </form>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

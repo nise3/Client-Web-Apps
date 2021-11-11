@@ -1,18 +1,27 @@
 import React from 'react';
-
 import {Box, Button, CardMedia, Container, Typography} from '@mui/material';
-import useStyles from './index.style';
 import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
+import {styled} from '@mui/material/styles';
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  height: 'calc(100vh - 70px)',
+  display: 'flex',
+  [theme.breakpoints.only('xs')]: {
+    height: 'calc(100vh - 56px)',
+  },
+  [theme.breakpoints.only('sm')]: {
+    height: 'calc(100vh - 75px)',
+  },
+}));
 
 const YouthCourseRegistrationSuccessPage = () => {
-  const classes: any = useStyles();
   const router = useRouter();
   const {courseId} = router.query;
 
   return (
-    <Container maxWidth={'lg'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'lg'}>
       <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
         <CardMedia
           component='img'
@@ -32,7 +41,7 @@ const YouthCourseRegistrationSuccessPage = () => {
           </Button>
         </Link>
       </Box>
-    </Container>
+    </StyledContainer>
   );
 };
 
