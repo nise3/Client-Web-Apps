@@ -953,5 +953,8 @@
   "common.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
   "partner.main_image_path": "মূল ছবির ইউআরএল",
   "partner.thumb_image_path": "থাম ছবির ইউআরএল",
-  "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি"
+  "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি",
+  "common.event_start_date": "ঘটনা শুরুর তারিখ",
+  "common.event_end_date": "ঘটনার শেষ তারিখ"
+
 }

@@ -938,5 +938,7 @@
   "partner.main_image_path": "Main Image Path",
   "partner.thumb_image_path": "Thumb Image Path",
   "partner.grid_image_path": "Grid Image Path",
-  "common.no_similar_course_found": "No similar course found"
+  "common.no_similar_course_found": "No similar course found",
+  "common.event_start_date": "Event Start Date",
+  "common.event_end_date": "Event End Date"
 }

@@ -1,6 +1,7 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_CMS_GLOBAL_CONFIGS,
+  API_CALENDAR_EVENTS,
   API_SLIDERS,
   API_STATIC_PAGES,
   API_VISITOR_FEEDBACKS,
@@ -83,3 +84,14 @@ export function useFetchCMSGlobalConfigs(params: any) {
 export function useFetchStaticPage(pageId: number | null) {
   return useAxiosSWR(pageId ? API_STATIC_PAGES + '/' + pageId : null);
 }
+
+export function useFetchCalenderEvents(params: any) {
+  console.log('axis: ', params);
+  return useAxiosSWR([API_CALENDAR_EVENTS, params]);
+}
+
+/** fetches a single calendar event */
+export function useFetchCalendarEvent(faqId: number | null) {
+  return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
+}
+
