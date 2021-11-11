@@ -1,7 +1,6 @@
 import CourseListHeaderSection from './youth/training/CourseListHeaderSection';
 import {Box, Container, Grid} from '@mui/material';
 import React, {useCallback, useEffect, useState} from 'react';
-import useStyles from './youth/training/index.style';
 import {useRouter} from 'next/router';
 import {useFetchCourseDetails} from '../services/instituteManagement/hooks';
 import {useFetchCourseList} from '../services/youthManagement/hooks';
@@ -11,9 +10,9 @@ import CourseCardComponent from '../@softbd/elements/CourseCardComponent';
 import NoDataFoundComponent from './youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
 import BoxContentSkeleton from './youth/profile/component/BoxContentSkeleton';
+import StyledBox from './youth/training/index.style';
 
 const SimilarCourseList = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const [filters, setFilters] = useState<any>({});
   const router = useRouter();
@@ -53,38 +52,42 @@ const SimilarCourseList = () => {
   const {data: courseList} = useFetchCourseList(pathValue, filters);
 
   return (
-    <Box className={classes.trainingViewRoot}>
-      <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
-      <Container maxWidth={'lg'} className={classes.mainContent}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Grid container spacing={3}>
-              {courseList && courseList.length > 0 ? (
-                courseList.map((course: any) => {
-                  return (
-                    <Grid item xs={12} sm={6} md={3} key={course.id}>
-                      <Link
-                        href={
-                          getModulePath(router.asPath) +
-                          `/course-details/${course.id}`
-                        }>
-                        <CourseCardComponent course={course} />
-                      </Link>
-                    </Grid>
-                  );
-                })
-              ) : isCourseListLoading ? (
-                <BoxContentSkeleton />
-              ) : (
-                <NoDataFoundComponent
-                  message={messages['common.no_similar_course_found'] as string}
-                />
-              )}
+    <StyledBox>
+      <Box>
+        <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
+        <Container maxWidth={'lg'}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container spacing={3}>
+                {courseList && courseList.length > 0 ? (
+                  courseList.map((course: any) => {
+                    return (
+                      <Grid item xs={12} sm={6} md={3} key={course.id}>
+                        <Link
+                          href={
+                            getModulePath(router.asPath) +
+                            `/course-details/${course.id}`
+                          }>
+                          <CourseCardComponent course={course} />
+                        </Link>
+                      </Grid>
+                    );
+                  })
+                ) : isCourseListLoading ? (
+                  <BoxContentSkeleton />
+                ) : (
+                  <NoDataFoundComponent
+                    message={
+                      messages['common.no_similar_course_found'] as string
+                    }
+                  />
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </StyledBox>
   );
 };
 

@@ -8,7 +8,6 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material';
-import useStyles from './index.style';
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {
@@ -17,14 +16,47 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import CustomFilterableSelect from './conponents/CustomFilterableSelect';
+import {styled} from '@mui/material/styles';
+import CustomFilterableSelect from './components/customfilterableselect';
+
+const PREFIX = 'CustomListHeaderSection';
+
+export const classes = {
+  thinSearchButton: `${PREFIX}-thinSearchButton`,
+  searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
+};
+
+export const StyledBox = styled(Box)(({theme}) => ({
+  background: theme.palette.primary.main,
+  color: '#fff',
+  paddingTop: 20,
+  paddingBottom: 20,
+
+  [`& .${classes.thinSearchButton}`]: {
+    color: '#fff',
+    padding: '11px 0',
+    width: '97%',
+    height: '100%',
+  },
+
+  [`& .${classes.searchInputBorderHide}`]: {
+    padding: 0,
+    '& fieldset': {
+      border: 'none',
+    },
+    '& input': {
+      display: 'flex',
+      alignItems: 'center',
+      // padding: '14px 0px',
+    },
+  },
+}));
 
 interface CourseListHeaderSection {
   addFilterKey: (filterKey: string, filterValue: number | null) => void;
 }
 
 const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
-  const classes: any = useStyles();
   const {messages} = useIntl();
 
   const SKILL_LEVELS = useMemo(
@@ -144,7 +176,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   }, []);
 
   return (
-    <Box className={classes.pageRootHeader}>
+    <StyledBox>
       <Container maxWidth={'lg'}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
@@ -275,7 +307,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
           </Grid>
         </Grid>
       </Container>
-    </Box>
+    </StyledBox>
   );
 };
 

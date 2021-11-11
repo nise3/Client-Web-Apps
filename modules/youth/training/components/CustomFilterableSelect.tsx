@@ -3,7 +3,6 @@ import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import {Autocomplete, Box, TextField} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TextInputSkeleton from '../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import useStyles from '../index.style';
 
 type Props = {
   id: string;
@@ -29,7 +28,6 @@ const CustomFilterableSelect = ({
   optionTitleProp,
 }: Props) => {
   const {messages} = useIntl();
-  const classes: any = useStyles();
 
   const getTitle = (
     option: any,
@@ -90,7 +88,6 @@ const CustomFilterableSelect = ({
           }
           variant={'outlined'}
           size={size ? size : 'small'}
-          className={classes.selectStyle}
         />
       )}
     />
