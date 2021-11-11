@@ -1,48 +1,51 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Dialog,
   DialogTitle as MuiDialogTitle,
   IconButton,
   Typography,
 } from '@mui/material';
-import {Theme} from '@mui/material/styles';
-import {WithStyles} from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
-import withStyles from '@mui/styles/withStyles';
 import {Close as CloseIcon} from '@mui/icons-material';
 import Slide from '@mui/material/Slide';
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(3),
-    },
-    pageTitle: {
-      display: 'flex',
-      alignItems: 'center',
-      '& svg': {
-        marginRight: '12px',
-      },
-    },
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    },
-  });
+const PREFIX = 'CustomMuiModal';
 
-export interface DialogTitleProps extends WithStyles<typeof styles> {
+const classes = {
+  pageTitle: `${PREFIX}-pageTitle`,
+  closeButton: `${PREFIX}-closeButton`,
+};
+
+const StyledDialog = styled(Dialog)(({theme}) => ({
+  margin: 0,
+  padding: theme.spacing(3),
+
+  [`& .${classes.pageTitle}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    '& svg': {
+      marginRight: '12px',
+    },
+  },
+
+  [`& .${classes.closeButton}`]: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+}));
+
+export interface DialogTitleProps {
   children: React.ReactNode;
   onClose: () => void;
 }
 
-export const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const {children, classes, onClose, ...other} = props;
+export const DialogTitle = (props: DialogTitleProps) => {
+  const {children, onClose, ...other} = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other}>
+    <MuiDialogTitle {...other}>
       <Typography className={classes.pageTitle}>{children}</Typography>
       {onClose ? (
         <IconButton
@@ -55,7 +58,7 @@ export const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
       ) : null}
     </MuiDialogTitle>
   );
-});
+};
 
 const Transition = React.forwardRef(function Transition(props: any, ref: any) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -75,7 +78,7 @@ const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
   ...props
 }) => {
   return (
-    <Dialog
+    <StyledDialog
       aria-labelledby='simple-modal-title'
       TransitionComponent={Transition}
       aria-describedby='simple-modal-description'
@@ -89,7 +92,7 @@ const CustomMuiModal: React.FC<CustomMuiModalProps> = ({
         }
       }}>
       {children}
-    </Dialog>
+    </StyledDialog>
   );
 };
 
