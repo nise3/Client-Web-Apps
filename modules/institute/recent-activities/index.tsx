@@ -1,5 +1,5 @@
 import {Container, Grid, Typography} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {
   useFetchInstitutesAllActivity,
   useFetchInstitutesRecentActivity,
@@ -8,30 +8,37 @@ import {useIntl} from 'react-intl';
 import RecentActivityCardView from './RecentActivityCardView';
 import RecentActivityMasonryGroupView from './RecentActivityMasonryGroupView';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'RecentActivities';
+
+const classes = {
+  titleTypography: `${PREFIX}-titleTypography`,
+  pagination: `${PREFIX}-pagination`,
+  image: `${PREFIX}-image`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => {
   return {
-    titleTypography: {
+    [`& .${classes.titleTypography}`]: {
       color: theme.palette.primary.dark,
     },
-    pagination: {
+    [`& .${classes.pagination}`]: {
       marginRight: 'auto',
       marginLeft: 'auto',
     },
-    image: {
+    [`& .${classes.image}`]: {
       overflow: 'hidden',
     },
   };
 });
 
 const RecentActivities = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   const {data: recentActivitiesItems} = useFetchInstitutesRecentActivity();
   const {data: allActivitiesItems} = useFetchInstitutesAllActivity();
 
   return (
-    <Container maxWidth={'lg'}>
+    <StyledContainer maxWidth={'lg'}>
       <Grid container my={5}>
         <Grid item md={12}>
           <Typography
@@ -73,7 +80,7 @@ const RecentActivities = () => {
           )}
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

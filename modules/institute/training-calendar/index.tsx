@@ -16,40 +16,48 @@ import {useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
-import makeStyles from '@mui/styles/makeStyles';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import yup from '../../../@softbd/libs/yup';
 import {H2} from '../../../@softbd/elements/common';
+
+const PREFIX = 'InstituteTrainingCalendar';
+
+const classes = {
+  typographyNumber: `${PREFIX}-typographyNumber`,
+  cardMainGrid: `${PREFIX}-cardMainGrid`,
+  filterMainGrid: `${PREFIX}-filterMainGrid`,
+  heading: `${PREFIX}-heading`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => {
+  return {
+    [`& .${classes.typographyNumber}`]: {
+      color: theme.palette.primary.dark,
+      marginLeft: '5px',
+      backgroundColor: theme.palette.primary.light,
+      padding: '0 5px',
+    },
+    [`& .${classes.cardMainGrid}`]: {
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    },
+    [`& .${classes.filterMainGrid}`]: {
+      marginRight: 'auto',
+      marginLeft: 'auto',
+      justifyContent: 'space-between',
+    },
+    [`& .${classes.heading}`]: {
+      boxShadow: '0px 2px 2px #8888',
+      padding: '40px 0px',
+    },
+  };
+});
 
 const List = styled('ul')({
   listStyle: 'none',
   padding: 0,
   margin: 0,
   display: 'flex',
-});
-
-const useStyles = makeStyles((theme) => {
-  return {
-    typographyNumber: {
-      color: theme.palette.primary.dark,
-      marginLeft: '5px',
-      backgroundColor: theme.palette.primary.light,
-      padding: '0 5px',
-    },
-    cardMainGrid: {
-      marginRight: 'auto',
-      marginLeft: 'auto',
-    },
-    filterMainGrid: {
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      justifyContent: 'space-between',
-    },
-    heading: {
-      boxShadow: '0px 2px 2px #8888',
-      padding: '40px 0px',
-    },
-  };
 });
 
 const InstituteTrainingCalendar = () => {
@@ -102,7 +110,6 @@ const InstituteTrainingCalendar = () => {
 
   const {messages} = useIntl();
   const [itemData, setItemData] = useState<any>('');
-  const classes = useStyles();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -132,7 +139,7 @@ const InstituteTrainingCalendar = () => {
   }, [itemData.select_video, itemData.video_category, reset]);
 
   return (
-    <Grid sx={{maxWidth: '100%'}}>
+    <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
         <H2>পছন্দের কোর্স সমূহ</H2>
       </Grid>
@@ -265,7 +272,7 @@ const InstituteTrainingCalendar = () => {
           </Grid>
         </Grid>
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 

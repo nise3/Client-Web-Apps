@@ -1,72 +1,87 @@
 import React from 'react';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import {H3, H4, S1} from '../../@softbd/elements/common';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      position: 'relative',
-      padding: '50px',
-      background: theme.palette.grey[200],
-      color: theme.palette.text.primary,
-      [theme.breakpoints.up('md')]: {
-        marginTop: '120px',
-      },
-      [theme.breakpoints.down('xl')]: {
-        // marginTop: '120px',
-      },
+const PREFIX = 'AboutSection';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  heading: `${PREFIX}-heading`,
+  desc: `${PREFIX}-desc`,
+  detailsButton: `${PREFIX}-detailsButton`,
+  assessmentImage: `${PREFIX}-assessmentImage`,
+  youtubePlayerBox: `${PREFIX}-youtubePlayerBox`,
+  youtubePlayerMobileView: `${PREFIX}-youtubePlayerMobileView`,
+  youtubePlayer: `${PREFIX}-youtubePlayer`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`&.${classes.root}`]: {
+    position: 'relative',
+    padding: '50px',
+    background: theme.palette.grey[200],
+    color: theme.palette.text.primary,
+    [theme.breakpoints.up('md')]: {
+      marginTop: '120px',
     },
-    heading: {
-      color: theme.palette.primary.main,
+    [theme.breakpoints.down('xl')]: {
+      // marginTop: '120px',
     },
-    desc: {
-      color: theme.palette.text.primary,
+  },
+
+  [`& .${classes.heading}`]: {
+    color: theme.palette.primary.main,
+  },
+
+  [`& .${classes.desc}`]: {
+    color: theme.palette.text.primary,
+  },
+
+  [`& .${classes.detailsButton}`]: {
+    background: '#fff',
+    color: '#682988',
+  },
+
+  [`& .${classes.assessmentImage}`]: {
+    height: '340px',
+  },
+
+  [`& .${classes.youtubePlayerBox}`]: {
+    [theme.breakpoints.up('md')]: {
+      transform: 'translate(0px, -100px)',
     },
-    detailsButton: {
-      background: '#fff',
-      color: '#682988',
-    },
-    assessmentImage: {
-      height: '340px',
-    },
-    youtubePlayerBox: {
-      [theme.breakpoints.up('md')]: {
-        transform: 'translate(0px, -100px)',
-      },
-    },
-    youtubePlayerMobileView: {
-      height: '360px',
-      borderRadius: '15px',
-      border: 'none',
-      bottom: '80px',
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-    youtubePlayer: {
-      // position: 'absolute',
-      height: '420px',
-      borderRadius: '15px',
-      border: 'none',
-      bottom: '120px',
-      width: '100%',
+  },
+
+  [`& .${classes.youtubePlayerMobileView}`]: {
+    height: '360px',
+    borderRadius: '15px',
+    border: 'none',
+    bottom: '80px',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
       display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
     },
-  }),
-);
+  },
+
+  [`& .${classes.youtubePlayer}`]: {
+    // position: 'absolute',
+    height: '420px',
+    borderRadius: '15px',
+    border: 'none',
+    bottom: '120px',
+    width: '100%',
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+}));
 
 const AboutSection = () => {
-  const classes = useStyles();
   return (
-    <Grid container xl={12} className={classes.root}>
+    <StyledGrid container xl={12} className={classes.root}>
       <Container maxWidth='lg'>
         <Grid
           container
@@ -119,7 +134,7 @@ const AboutSection = () => {
           </Grid>
         </Grid>
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 
