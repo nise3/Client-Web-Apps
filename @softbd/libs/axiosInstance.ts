@@ -36,8 +36,23 @@ axiosInstance.interceptors.request.use(
   },
 );
 
+// Response interceptor for API calls
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async function (error) {
+    if (error?.response?.status === 401) {
+      cookieInstance.remove(COOKIE_KEY_APP_ACCESS_TOKEN);
+      cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    }
+    return Promise.reject(error);
+  },
+);
+
 export async function loadAppAccessToken() {
   const accessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
+
   if (!accessToken?.length) {
     try {
       let response = await axios.get(
