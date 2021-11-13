@@ -7,6 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {debounce} from 'lodash';
 
 interface EditorProps {
   height?: string;
@@ -67,7 +68,7 @@ const TextEditor = React.forwardRef(
         <FormControl>
           <TinymceEditor
             id={id}
-            onEditorChange={(content: string, editor: any) => {
+            onEditorChange={debounce((content: string, editor: any) => {
               const key = matches ? matches[1] + '.' + matches[2] : id;
               setValue(key, content);
 
@@ -80,7 +81,7 @@ const TextEditor = React.forwardRef(
                   },
                 });
               }
-            }}
+            }, 500)}
             ref={ref}
             initialValue={value}
             init={{

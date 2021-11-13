@@ -16,19 +16,18 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ContentTypes from './ContentTypes';
 
 interface RecentActivitiesDetailsPopupProps {
-  recentActivityId: number | null;
+  itemId: number | null;
   onClose: () => void;
   openEditModal: (id: number) => void;
 }
 
 const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
-  recentActivityId,
+  itemId,
   openEditModal,
   ...props
 }) => {
   const {messages} = useIntl();
-  const {data: recentActivityData, isLoading} =
-    useFetchRecentActivity(recentActivityId);
+  const {data: itemData, isLoading} = useFetchRecentActivity(itemId);
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   const getContentTypeTitle = (contentType: number) => {
@@ -57,10 +56,10 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
-            {recentActivityData && (
+            {itemData && (
               <EditButton
                 variant='contained'
-                onClick={() => openEditModal(recentActivityData.id)}
+                onClick={() => openEditModal(itemData.id)}
                 isLoading={isLoading}
               />
             )}
@@ -70,24 +69,24 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.show_in']}
-              value={recentActivityData?.show_in_label}
+              value={itemData?.show_in_label}
               isLoading={isLoading}
             />
           </Grid>
-          {recentActivityData?.institute_title && (
+          {itemData?.institute_title && (
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['institute.label']}
-                value={recentActivityData?.institute_title}
+                value={itemData?.institute_title}
                 isLoading={isLoading}
               />
             </Grid>
           )}
-          {recentActivityData?.organization_title && (
+          {itemData?.organization_title && (
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['organization.label']}
-                value={recentActivityData?.organization_title}
+                value={itemData?.organization_title}
                 isLoading={isLoading}
               />
             </Grid>
@@ -95,36 +94,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.content_type']}
-              value={getContentTypeTitle(recentActivityData?.content_type)}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.collage_image_path']}
-              value={recentActivityData?.collage_image_path}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.collage_position']}
-              value={recentActivityData?.collage_position}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.thumb_image_path']}
-              value={recentActivityData?.thumb_image_path}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.grid_image_path']}
-              value={recentActivityData?.grid_image_path}
+              value={getContentTypeTitle(itemData?.content_type)}
               isLoading={isLoading}
             />
           </Grid>
@@ -132,28 +102,53 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.content_path']}
-              value={recentActivityData?.content_path}
+              value={itemData?.content_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.collage_position']}
+              value={itemData?.collage_position}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.content_properties']}
-              value={recentActivityData?.content_properties}
+              label={messages['common.collage_image_path']}
+              value={itemData?.collage_image_path}
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.grid_image_path']}
+              value={itemData?.grid_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.thumb_image_path']}
+              value={itemData?.thumb_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.embedded_id']}
-              value={recentActivityData?.embedded_id}
+              value={itemData?.embedded_id}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.embedded_url']}
-              value={recentActivityData?.embedded_url}
+              value={itemData?.embedded_url}
               isLoading={isLoading}
             />
           </Grid>
@@ -170,14 +165,14 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
                 <Grid item xs={6}>
                   <DetailsInputView
                     label={messages['common.title']}
-                    value={recentActivityData?.title}
+                    value={itemData?.title}
                     isLoading={isLoading}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <DetailsInputView
                     label={messages['common.image_alt_title']}
-                    value={recentActivityData?.image_alt_title}
+                    value={itemData?.image_alt_title}
                     isLoading={isLoading}
                   />
                 </Grid>
@@ -187,7 +182,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
                     value={
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: recentActivityData?.description,
+                          __html: itemData?.description,
                         }}
                       />
                     }
@@ -198,7 +193,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             </fieldset>
           </Grid>
 
-          {Object.keys(recentActivityData?.other_language_fields || {}).map(
+          {Object.keys(itemData?.other_language_fields || {}).map(
             (key: string) => (
               <Grid item xs={12} key={key}>
                 <fieldset>
@@ -209,9 +204,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
                     <Grid item xs={6}>
                       <DetailsInputView
                         label={messages['common.title']}
-                        value={
-                          recentActivityData.other_language_fields[key]?.title
-                        }
+                        value={itemData.other_language_fields[key]?.title}
                         isLoading={isLoading}
                       />
                     </Grid>
@@ -219,8 +212,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
                       <DetailsInputView
                         label={messages['common.image_alt_title']}
                         value={
-                          recentActivityData.other_language_fields[key]
-                            ?.image_alt_title
+                          itemData.other_language_fields[key]?.image_alt_title
                         }
                         isLoading={isLoading}
                       />
@@ -232,7 +224,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
                           <div
                             dangerouslySetInnerHTML={{
                               __html:
-                                recentActivityData.other_language_fields[key]
+                                itemData.other_language_fields[key]
                                   ?.description,
                             }}
                           />
@@ -249,7 +241,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.row_status']}
-              value={recentActivityData?.row_status}
+              value={itemData?.row_status}
               isLoading={isLoading}
             />
           </Grid>

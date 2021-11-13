@@ -461,6 +461,22 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='file_path'
+            label={messages['common.file_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={noticeIsLoading}
+          />
+        </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='main_image_path'
@@ -493,20 +509,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           <CustomTextInput
             id='thumb_image_path'
             label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={noticeIsLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='file_path'
-            label={messages['common.file_path']}
             type={'file'}
             InputLabelProps={{
               shrink: true,

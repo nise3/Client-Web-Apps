@@ -243,7 +243,7 @@ const RecentActivitiesPage = () => {
             key={1}
             onClose={closeAddEditModal}
             refreshDataTable={refreshDataTable}
-            recentActivityId={selectedItemId}
+            itemId={selectedItemId}
           />
         )}
         {isOpenDetailsModal && selectedItemId && (
@@ -251,7 +251,7 @@ const RecentActivitiesPage = () => {
             key={1}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
-            recentActivityId={selectedItemId}
+            itemId={selectedItemId}
           />
         )}
       </PageBlock>

@@ -104,6 +104,14 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.file_path']}
+              value={itemData?.file_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.main_image_path']}
               value={itemData?.main_image_path}
               isLoading={isLoading}
@@ -120,14 +128,6 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
             <DetailsInputView
               label={messages['common.thumb_image_path']}
               value={itemData?.thumb_image_path}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.file_path']}
-              value={itemData?.file_path}
               isLoading={isLoading}
             />
           </Grid>

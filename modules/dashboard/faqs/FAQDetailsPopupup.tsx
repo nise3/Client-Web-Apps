@@ -10,6 +10,7 @@ import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
 import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 
 type Props = {
   itemId: number;
@@ -44,8 +45,35 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </>
         }>
-        <h3 style={{textAlign: 'center'}}>{itemData?.show_in_label}</h3>
         <Grid container spacing={5}>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.show_in']}
+              value={itemData?.show_in_label}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          {itemData?.institute_id && (
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['institute.label']}
+                value={itemData?.institute_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+
+          {itemData?.organization_id && (
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['organization.label']}
+                value={itemData?.organization_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12} md={12}>
             <fieldset>
               <legend>
@@ -54,40 +82,51 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                   LanguageCodes.BANGLA,
                 )}
               </legend>
-              <p>
-                {messages['faq.question']}: <br />
-                {itemData?.question}
-              </p>
-              <p>
-                {messages['faq.answer']}: <br />
-                {itemData?.answer}
-              </p>
+              <Grid container spacing={5}>
+                <Grid item xs={12}>
+                  <DetailsInputView
+                    label={messages['faq.question']}
+                    value={itemData?.question}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <DetailsInputView
+                    label={messages['faq.answer']}
+                    value={itemData?.answer}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              </Grid>
             </fieldset>
           </Grid>
+
           {Object.keys(itemData?.other_language_fields || {}).map(
-            (key: string) =>
-              itemData?.other_language_fields.hasOwnProperty(key) && (
-                <Grid item xs={12} md={12}>
-                  <fieldset>
-                    {
-                      <legend>
-                        {getLanguageLabel(
-                          cmsGlobalConfig?.language_configs,
-                          key,
-                        )}
-                      </legend>
-                    }
-                    <p>
-                      {messages['faq.question']}: <br />
-                      {itemData?.other_language_fields[key].question}
-                    </p>
-                    <p>
-                      {messages['faq.answer']}: <br />
-                      {itemData?.other_language_fields[key].answer}
-                    </p>
-                  </fieldset>
-                </Grid>
-              ),
+            (key: string) => (
+              <Grid item xs={12} md={12} key={key}>
+                <fieldset>
+                  <legend>
+                    {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
+                  </legend>
+                  <Grid container spacing={5}>
+                    <Grid item xs={12}>
+                      <DetailsInputView
+                        label={messages['faq.question']}
+                        value={itemData?.other_language_fields[key].question}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <DetailsInputView
+                        label={messages['faq.answer']}
+                        value={itemData?.other_language_fields[key].answer}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                  </Grid>
+                </fieldset>
+              </Grid>
+            ),
           )}
         </Grid>
       </CustomDetailsViewMuiModal>

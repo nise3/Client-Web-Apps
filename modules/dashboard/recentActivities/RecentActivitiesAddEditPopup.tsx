@@ -36,7 +36,7 @@ import {Add, Delete} from '@mui/icons-material';
 import ContentTypes from './ContentTypes';
 
 interface RecentActivitiesAddEditPopupProps {
-  recentActivityId: number | null;
+  itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -80,7 +80,7 @@ const initialValues = {
 };
 
 const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
-  recentActivityId,
+  itemId,
   refreshDataTable,
   ...props
 }) => {
@@ -89,12 +89,12 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<CommonAuthUser>();
 
-  const isEdit = recentActivityId != null;
+  const isEdit = itemId != null;
   const {
-    data: recentActivityItem,
+    data: itemData,
     isLoading,
     mutate: mutateRecentActivity,
-  } = useFetchRecentActivity(recentActivityId);
+  } = useFetchRecentActivity(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
@@ -126,22 +126,25 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.content_type'] as string),
+      /*content_path: yup
+        .mixed()
+        .label(messages['common.content_path'] as string)
+        .when('content_type', {
+          is: (val: number) => val == ContentTypes.IMAGE,
+          then: yup.string().required(),
+        }),*/
       embedded_id: yup
         .mixed()
         .label(messages['common.embedded_id'] as string)
         .when('content_type', {
-          is: (val: number) => {
-            return val != ContentTypes.IMAGE;
-          },
+          is: (val: number) => val != ContentTypes.IMAGE,
           then: yup.string().required(),
         }),
       embedded_url: yup
         .mixed()
         .label(messages['common.embedded_url'] as string)
         .when('content_type', {
-          is: (val: number) => {
-            return val != ContentTypes.IMAGE;
-          },
+          is: (val: number) => val != ContentTypes.IMAGE,
           then: yup.string().required(),
         }),
       show_in:
@@ -215,9 +218,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
   const CONTENT_TYPES = useMemo(
     () => [
-      {id: 1, title: messages['content_type.image']},
-      {id: 2, title: messages['content_type.facebook_video']},
-      {id: 3, title: messages['content_type.youtube_video']},
+      {id: ContentTypes.IMAGE, title: messages['content_type.image']},
+      {
+        id: ContentTypes.FACEBOOK_SOURCE,
+        title: messages['content_type.facebook_video'],
+      },
+      {
+        id: ContentTypes.YOUTUBE_SOURCE,
+        title: messages['content_type.youtube_video'],
+      },
     ],
     [messages],
   );
@@ -234,27 +243,23 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   }, [cmsGlobalConfig]);
 
   useEffect(() => {
-    if (recentActivityItem) {
+    if (itemData) {
       let data: any = {
-        title: recentActivityItem?.title,
-        institute_id: recentActivityItem?.institute_id,
-        organization_id: recentActivityItem?.organization_id,
-        show_in: recentActivityItem?.show_in,
-        content_type: recentActivityItem?.content_type,
-        collage_image_path: recentActivityItem?.collage_image_path,
-        collage_position: recentActivityItem?.collage_position,
-        thumb_image_path: recentActivityItem?.thumb_image_path,
-        grid_image_path: recentActivityItem?.grid_image_path,
-        image_alt_title: recentActivityItem?.image_alt_title,
-        content_path: recentActivityItem?.content_path,
-        content_properties: recentActivityItem?.content_properties,
-        embedded_id: recentActivityItem?.embedded_id,
-        embedded_url: recentActivityItem?.embedded_url,
-        row_status: recentActivityItem?.row_status,
-        description: recentActivityItem?.description,
+        title: itemData?.title,
+        institute_id: itemData?.institute_id,
+        organization_id: itemData?.organization_id,
+        show_in: itemData?.show_in,
+        content_type: itemData?.content_type,
+        collage_position: itemData?.collage_position,
+        image_alt_title: itemData?.image_alt_title,
+        content_properties: itemData?.content_properties,
+        embedded_id: itemData?.embedded_id,
+        embedded_url: itemData?.embedded_url,
+        row_status: itemData?.row_status,
+        description: itemData?.description,
       };
 
-      const otherLangData = recentActivityItem?.other_language_fields;
+      const otherLangData = itemData?.other_language_fields;
 
       if (otherLangData) {
         let keys: any = Object.keys(otherLangData);
@@ -277,12 +282,12 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         );
       }
       reset(data);
-      setShowInId(recentActivityItem?.show_in);
-      changeShowInAction(recentActivityItem?.show_in);
+      setShowInId(itemData?.show_in);
+      changeShowInAction(itemData?.show_in);
     } else {
       reset(initialValues);
     }
-  }, [recentActivityItem, allLanguages, reset]);
+  }, [itemData, allLanguages, reset]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -354,6 +359,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       formData.collage_image_path = 'http://lorempixel.com/400/200/';
       formData.thumb_image_path = 'http://lorempixel.com/400/200/';
       formData.grid_image_path = 'http://lorempixel.com/400/200/';
+      formData.content_path = 'http://lorempixel.com/400/200/';
 
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
@@ -387,8 +393,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
 
-      if (recentActivityId) {
-        await updateRecentActivity(recentActivityId, data);
+      if (itemId) {
+        await updateRecentActivity(itemId, data);
         updateSuccessMessage('recent_activities.institute');
         mutateRecentActivity();
       } else {
@@ -508,69 +514,25 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='collage_image_path'
-            label={messages['common.collage_image_path']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='collage_position'
-            label={messages['common.collage_position']}
-            isLoading={false}
-            control={control}
-            options={collagePosition}
-            optionValueProp={'label'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='image_alt_title'
-            label={messages['common.image_alt_title']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='content_path'
-            label={messages['common.content_path']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
+
+        {selectedContentType && selectedContentType == ContentTypes.IMAGE && (
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='content_path'
+              label={messages['common.content_path']}
+              type={'file'}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              control={control}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
+
+        {/*<Grid item xs={12} md={6}>
           <CustomTextInput
             id='content_properties'
             label={messages['common.content_properties']}
@@ -579,7 +541,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
-        </Grid>
+        </Grid>*/}
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required={
@@ -606,20 +569,80 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
-          <FormRowStatus
-            id='row_status'
+          <CustomFormSelect
+            id='collage_position'
+            label={messages['common.collage_position']}
+            isLoading={false}
             control={control}
-            defaultValue={initialValues.row_status}
+            options={collagePosition}
+            optionValueProp={'label'}
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='collage_image_path'
+            label={messages['common.collage_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='grid_image_path'
+            label={messages['common.grid_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='thumb_image_path'
+            label={messages['common.thumb_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='image_alt_title'
+            label={messages['common.image_alt_title']}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <TextEditor
             id={'description'}
             label={messages['common.description']}
             errorInstance={errors}
-            value={recentActivityItem?.description || initialValues.description}
+            value={itemData?.description || initialValues.description}
             height={'300px'}
             key={1}
             register={register}
@@ -697,9 +720,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                       label={messages['common.description']}
                       errorInstance={errors}
                       value={
-                        recentActivityItem?.other_language_fields?.[
-                          language.code
-                        ]?.description || initialValues.description
+                        itemData?.other_language_fields?.[language.code]
+                          ?.description || initialValues.description
                       }
                       height={'300px'}
                       key={1}
@@ -713,6 +735,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               </fieldset>
             </Box>
           ))}
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
         </Grid>
       </Grid>
     </HookFormMuiModal>
