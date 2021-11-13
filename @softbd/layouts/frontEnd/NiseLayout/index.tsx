@@ -1,7 +1,7 @@
 import React from 'react';
 import AppHeader from './AppHeader';
 import Box from '@mui/material/Box';
-import useStyles from './index.style';
+import {classes, StyledBox} from './index.style';
 import clsx from 'clsx';
 import ContentView from '../../../../@crema/core/ContentView';
 import Footer from '../../../../modules/home/Footer';
@@ -11,9 +11,8 @@ interface HorLightNavProps {
 }
 
 const NiseLayout: React.FC<HorLightNavProps> = (props) => {
-  const classes = useStyles(props);
   return (
-    <Box className={clsx(classes.appMain, 'appMainHor')}>
+    <StyledBox className={clsx(classes.appMain, 'appMainHor')}>
       <AppHeader />
       <Box className={classes.mainContent}>
         <Box className={classes.mainContainer}>
@@ -21,7 +20,7 @@ const NiseLayout: React.FC<HorLightNavProps> = (props) => {
         </Box>
       </Box>
       <Footer />
-    </Box>
+    </StyledBox>
   );
 };
 

@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
-import Drawer from '@mui/material/Drawer';
 import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import {useDispatch, useSelector} from 'react-redux';
 import Box from '@mui/material/Box';
-import useStyles from './AppSidebar.style';
+import {classes, StyledDrawer} from './AppSidebar.style';
 import {AppState} from '../../../../redux/store';
 import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {AppContext, Scrollbar} from '../../../../@crema';
@@ -30,10 +29,9 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
     dispatch(toggleNavCollapsed());
   };
 
-  const classes = useStyles({themeMode});
   return (
     <Hidden lgUp>
-      <Drawer
+      <StyledDrawer
         anchor={position}
         open={navCollapsed}
         onClose={(ev) => handleToggleDrawer()}
@@ -54,7 +52,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
             </Scrollbar>
           </Box>
         </Box>
-      </Drawer>
+      </StyledDrawer>
     </Hidden>
   );
 };

@@ -1,12 +1,11 @@
 import React, {useContext} from 'react';
-import Drawer from '@mui/material/Drawer';
 import clsx from 'clsx';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../../../@crema/core/Navigation/VerticleNav';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import Box from '@mui/material/Box';
-import useStyles from './AppSidebar.style';
+import {classes, StyledBox, StyledDrawer} from './AppSidebar.style';
 import Scrollbar from '../../../../@crema/core/Scrollbar';
 import AppContext from '../../../../@crema/utility/AppContext';
 import {AppState} from '../../../../redux/store';
@@ -32,7 +31,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   const handleToggleDrawer = () => {
     dispatch(toggleNavCollapsed());
   };
-  const classes = useStyles({themeMode});
+
   let sidebarClasses = classes.sidebarStandard;
 
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
@@ -42,16 +41,18 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   return (
     <>
       {breakpointMDUp ? (
-        <Box height='100%' className={clsx(classes.container, 'app-sidebar')}>
+        <StyledBox
+          height='100%'
+          className={clsx(classes.container, 'app-sidebar')}>
           <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
             <UserInfo />
             <Scrollbar className={classes.scrollAppSidebar}>
               <Navigation />
             </Scrollbar>
           </Box>
-        </Box>
+        </StyledBox>
       ) : (
-        <Drawer
+        <StyledDrawer
           anchor={position}
           open={navCollapsed}
           onClose={() => handleToggleDrawer()}
@@ -68,7 +69,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
               </Scrollbar>
             </Box>
           </Box>
-        </Drawer>
+        </StyledDrawer>
       )}
     </>
   );

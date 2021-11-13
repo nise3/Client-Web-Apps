@@ -1,9 +1,18 @@
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
-const useStyles = makeStyles((theme: CremaTheme) => {
+const PREFIX = 'NiseLayout';
+
+export const classes = {
+  appMain: `${PREFIX}-appMain`,
+  mainContent: `${PREFIX}-mainContent`,
+  mainContainer: `${PREFIX}-mainContainer`,
+  boxedLayout: `${PREFIX}-boxedLayout`,
+};
+
+export const StyledBox = styled(Box)(({theme}) => {
   return {
-    appMain: {
+    [`&.${classes.appMain}`]: {
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -52,11 +61,11 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         },
       },
     },
-    mainContent: {
+    [`& .${classes.mainContent}`]: {
       flex: 1,
       display: 'flex',
     },
-    mainContainer: {
+    [`& .${classes.mainContainer}`]: {
       width: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
@@ -68,7 +77,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         },
       },
     },
-    boxedLayout: {
+    [`& .${classes.boxedLayout}`]: {
       [theme.breakpoints.up('lg')]: {
         maxWidth: 1260,
         marginLeft: 'auto',
@@ -106,4 +115,3 @@ const useStyles = makeStyles((theme: CremaTheme) => {
     },
   };
 });
-export default useStyles;
