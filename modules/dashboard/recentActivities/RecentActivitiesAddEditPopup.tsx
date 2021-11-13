@@ -41,25 +41,6 @@ interface RecentActivitiesAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
-const collagePosition = [
-  {
-    id: 1,
-    label: '1.1',
-  },
-  {
-    id: 2,
-    label: '1.2.1',
-  },
-  {
-    id: 2,
-    label: '1.2.2.1',
-  },
-  {
-    id: 4,
-    label: '1.2.2.2',
-  },
-];
-
 const initialValues = {
   title: '',
   institute_id: '',
@@ -226,6 +207,28 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       {
         id: ContentTypes.YOUTUBE_SOURCE,
         title: messages['content_type.youtube_video'],
+      },
+    ],
+    [messages],
+  );
+
+  const collagePosition = useMemo(
+    () => [
+      {
+        id: 1,
+        label: messages['collage_position.left'],
+      },
+      {
+        id: 2,
+        label: messages['collage_position.right_top'],
+      },
+      {
+        id: 3,
+        label: messages['collage_position.right_bottom_1'],
+      },
+      {
+        id: 4,
+        label: messages['collage_position.right_bottom_2'],
       },
     ],
     [messages],
@@ -543,32 +546,30 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           />
         </Grid>*/}
 
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required={
-              selectedContentType && selectedContentType != ContentTypes.IMAGE
-            }
-            id='embedded_id'
-            label={messages['common.embedded_id']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required={
-              selectedContentType && selectedContentType != ContentTypes.IMAGE
-            }
-            id='embedded_url'
-            label={messages['common.embedded_url']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {selectedContentType && selectedContentType != ContentTypes.IMAGE && (
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='embedded_id'
+                label={messages['common.embedded_id']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='embedded_url'
+                label={messages['common.embedded_url']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </React.Fragment>
+        )}
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect

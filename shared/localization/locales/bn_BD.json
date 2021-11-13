@@ -968,5 +968,9 @@
   "slider.banner_template_code": "ব্যানার টেম্পলেট কোড",
   "slider.template_code_bt_cb": "পাঠ্য কেন্দ্র এবং ছবির ব্যাকগ্রাউন্ড সহ ব্যানার",
   "slider.template_code_bt_lr": "টেক্সট বাম এবং ছবি ডান সঙ্গে ব্যানার",
-  "slider.template_code_bt_rl": "টেক্সট ডান এবং ছবি বাম সঙ্গে ব্যানার"
+  "slider.template_code_bt_rl": "টেক্সট ডান এবং ছবি বাম সঙ্গে ব্যানার",
+  "collage_position.left": "বামে",
+  "collage_position.right_top": "ডানে উপরে",
+  "collage_position.right_bottom_1": "ডানে নিচের বামে",
+  "collage_position.right_bottom_2": "ডানে নিচের ডানে"
 }
