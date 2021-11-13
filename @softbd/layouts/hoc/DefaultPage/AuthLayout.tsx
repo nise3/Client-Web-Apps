@@ -1,30 +1,27 @@
 import React, {ReactNode} from 'react';
+import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import {makeStyles} from '@mui/styles';
-import useStyles from '../../../../shared/jss/common/common.style';
 
-const useStyle = makeStyles(() => ({
-  appAuth: {
+const StyledBox = styled(Box)(() => ({
+  flex: 1,
+  display: 'flex',
+  position: 'relative',
+  minHeight: '100vh',
+  backgroundColor: '#f7fafc',
+  /*background: `url(/images/auth-background.jpg) no-repeat center center`,*/
+  backgroundSize: 'cover',
+
+  '& .scrollbar-container': {
     flex: 1,
     display: 'flex',
-    position: 'relative',
-    minHeight: '100vh',
-    backgroundColor: '#f7fafc',
-    /*background: `url(/images/auth-background.jpg) no-repeat center center`,*/
-    backgroundSize: 'cover',
-
-    '& .scrollbar-container': {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    '& .main-content-view': {
-      padding: 20,
-    },
-    '& .footer': {
-      marginRight: 0,
-      marginLeft: 0,
-    },
+    flexDirection: 'column',
+  },
+  '& .main-content-view': {
+    padding: 20,
+  },
+  '& .footer': {
+    marginRight: 0,
+    marginLeft: 0,
   },
 }));
 
@@ -33,9 +30,7 @@ interface AuthLayoutProps {
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({children}) => {
-  useStyles();
-  const classes = useStyle();
-  return <Box className={classes.appAuth}>{children}</Box>;
+  return <StyledBox>{children}</StyledBox>;
 };
 
 export default AuthLayout;
