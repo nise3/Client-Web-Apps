@@ -298,6 +298,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='https://example.xyz'
           />
         </Grid>
 
@@ -375,8 +376,8 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
                 <legend style={{color: '#0a8fdc'}}>
                   {language.native_name}
                 </legend>
-                <Grid container spacing={5}>
-                  <Grid item xs={11} md={6}>
+                <Grid container spacing={{xs: 2, md: 5}}>
+                  <Grid item xs={10} md={6}>
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[title]'}
@@ -385,7 +386,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12} md={5}>
+                  <Grid item xs={12} md={5} order={{xs: 3, md: 2}}>
                     <CustomTextInput
                       id={'language_' + language.code + '[image_alt_title]'}
                       label={messages['common.image_alt_title']}
@@ -393,7 +394,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={2} md={1} order={{xs: 2, md: 3}}>
                     <IconButton
                       aria-label='delete'
                       color={'error'}

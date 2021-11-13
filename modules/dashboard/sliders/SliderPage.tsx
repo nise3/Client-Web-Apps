@@ -23,9 +23,9 @@ const SliderPage = () => {
 
   const [sliderFilters] = useState({});
   const {
-    data: jobSectors,
+    data: sliders,
     isLoading,
-    mutate: mutateJobSectors,
+    mutate: mutateSliders,
   }: any = useFetchSliders(sliderFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -35,7 +35,6 @@ const SliderPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-    mutateJobSectors();
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
@@ -71,8 +70,8 @@ const SliderPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    mutateJobSectors();
-  }, [mutateJobSectors]);
+    mutateSliders();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -183,7 +182,7 @@ const SliderPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={jobSectors || []}
+          data={sliders || []}
           loading={isLoading}
         />
         {isOpenAddEditModal && (

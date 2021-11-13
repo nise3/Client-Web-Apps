@@ -951,8 +951,6 @@
   "common.embedded_url": "এমবেডেড ইউআরএল",
   "faq.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
   "common.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
-  "partner.main_image_path": "মূল ছবির ইউআরএল",
-  "partner.thumb_image_path": "থাম ছবির ইউআরএল",
   "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি",
   "common.event_start_date": "ঘটনা শুরুর তারিখ",
   "common.event_end_date": "ঘটনার শেষ তারিখ",
@@ -966,5 +964,9 @@
   "common.youtube": "ইউটিউব",
   "notice_type.notice": "বিজ্ঞপ্তি",
   "notice_type.news": "খবর",
-  "common.partner": "পার্টনার"
+  "common.partner": "পার্টনার",
+  "slider.banner_template_code": "ব্যানার টেম্পলেট কোড",
+  "slider.template_code_bt_cb": "পাঠ্য কেন্দ্র এবং ছবির ব্যাকগ্রাউন্ড সহ ব্যানার",
+  "slider.template_code_bt_lr": "টেক্সট বাম এবং ছবি ডান সঙ্গে ব্যানার",
+  "slider.template_code_bt_rl": "টেক্সট ডান এবং ছবি বাম সঙ্গে ব্যানার"
 }

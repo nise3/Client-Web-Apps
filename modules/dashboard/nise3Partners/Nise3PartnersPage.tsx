@@ -34,7 +34,6 @@ const Nise3PartnersPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-    mutatePartners();
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {

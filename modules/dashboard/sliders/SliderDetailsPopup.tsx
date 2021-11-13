@@ -12,6 +12,9 @@ import {
   useFetchCMSGlobalConfig,
   useFetchSlider,
 } from '../../../services/cmsManagement/hooks';
+import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import SliderTemplateShowTypes from './SliderTemplateShowTypes';
 
 type Props = {
   itemId: number;
@@ -20,19 +23,21 @@ type Props = {
 };
 
 const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const {data: itemData, isLoading} = useFetchSlider(itemId);
   const {messages} = useIntl();
-
+  const {data: itemData, isLoading} = useFetchSlider(itemId);
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
-  const languageLabel = (key: string) => {
-    let label: string = '';
-    cmsGlobalConfig?.language_configs.map((lang: any) => {
-      if (lang.code === key) {
-        label = lang.native_name;
-      }
-    });
-    return label;
+  const getTemplateCodeTitle = (templateCode: string) => {
+    switch (templateCode) {
+      case SliderTemplateShowTypes.BT_CB:
+        return messages['slider.template_code_bt_cb'];
+      case SliderTemplateShowTypes.BT_LR:
+        return messages['slider.template_code_bt_lr'];
+      case SliderTemplateShowTypes.BT_RL:
+        return messages['slider.template_code_bt_rl'];
+      default:
+        return '';
+    }
   };
 
   return (
@@ -57,22 +62,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title']}
-              value={itemData?.title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.sub_title']}
-              value={itemData?.sub_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['faq.show_in']}
               value={itemData?.show_in_label}
@@ -81,7 +71,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
 
           {itemData?.institute_title && (
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['common.institute_name']}
                 value={itemData?.institute_title}
@@ -91,7 +81,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           )}
 
           {itemData?.organization_title && (
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization.label']}
                 value={itemData?.organization_title}
@@ -100,15 +90,19 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.is_button_available']}
-              value={itemData?.is_button_available ? 'Yes' : 'No'}
+              value={
+                itemData?.is_button_available == 1
+                  ? messages['common.yes']
+                  : messages['common.no']
+              }
               isLoading={isLoading}
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.link']}
               value={itemData?.link}
@@ -116,27 +110,20 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.button_text']}
-              value={itemData?.button_text}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.alt_title']}
-              value={itemData?.alt_title}
+              label={messages['slider.banner_template_code']}
+              value={getTemplateCodeTitle(itemData?.banner_template_code)}
               isLoading={isLoading}
             />
           </Grid>
 
           {itemData?.slider_images?.length > 0 &&
-            itemData?.slider_images.map((image: string) => {
+            itemData?.slider_images.map((image: string, index: number) => {
               return (
-                <Grid item xs={6} key={new Date().getTime()}>
+                <Grid item xs={12} md={6} key={index}>
                   <DetailsInputView
-                    label={messages['slider.images']}
+                    label={messages['slider.images'] + '#' + (index + 1)}
                     value={image}
                     isLoading={isLoading}
                   />
@@ -144,28 +131,91 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               );
             })}
 
+          <Grid item xs={12}>
+            <fieldset>
+              <legend>
+                {getLanguageLabel(
+                  cmsGlobalConfig?.language_configs,
+                  LanguageCodes.BANGLA,
+                )}
+              </legend>
+              <Grid container spacing={5}>
+                <Grid item xs={12} md={6}>
+                  <DetailsInputView
+                    label={messages['common.title']}
+                    value={itemData?.title}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <DetailsInputView
+                    label={messages['common.sub_title']}
+                    value={itemData?.sub_title}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <DetailsInputView
+                    label={messages['common.alt_title']}
+                    value={itemData?.alt_title}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <DetailsInputView
+                    label={messages['common.button_text']}
+                    value={itemData?.button_text}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              </Grid>
+            </fieldset>
+          </Grid>
+
           {Object.keys(itemData?.other_language_fields || {}).map(
             (key: string) =>
               itemData?.other_language_fields.hasOwnProperty(key) && (
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12}>
                   <fieldset>
-                    {<legend>{languageLabel(key)}</legend>}
-                    <p>
-                      {messages['common.title']}: <br />
-                      {itemData?.other_language_fields[key].title}
-                    </p>
-                    <p>
-                      {messages['common.sub_title']}: <br />
-                      {itemData?.other_language_fields[key].sub_title}
-                    </p>
-                    <p>
-                      {messages['common.button_text']}: <br />
-                      {itemData?.other_language_fields[key].button_text}
-                    </p>
-                    <p>
-                      {messages['common.alt_title']}: <br />
-                      {itemData?.other_language_fields[key].alt_title}
-                    </p>
+                    <legend>
+                      {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
+                    </legend>
+                    <Grid container spacing={5}>
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.title']}
+                          value={itemData.other_language_fields[key]?.title}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.sub_title']}
+                          value={itemData.other_language_fields[key]?.sub_title}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.alt_title']}
+                          value={itemData.other_language_fields[key]?.alt_title}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.button_text']}
+                          value={
+                            itemData.other_language_fields[key]?.button_text
+                          }
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    </Grid>
                   </fieldset>
                 </Grid>
               ),

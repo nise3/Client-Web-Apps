@@ -937,9 +937,6 @@
   "common.embedded_url": "Embedded url",
   "faq.add_language": "Add FAQ in other language",
   "common.add_language": "Add FAQ in other language",
-  "partner.main_image_path": "Main Image Path",
-  "partner.thumb_image_path": "Thumb Image Path",
-  "partner.grid_image_path": "Grid Image Path",
   "common.no_similar_course_found": "No similar course found",
   "common.event_start_date": "Event Start Date",
   "common.event_end_date": "Event End Date",
@@ -954,5 +951,9 @@
   "common.youtube": "Youtube",
   "notice_type.notice": "Notice",
   "notice_type.news": "News",
-  "common.partner": "Partner"
+  "common.partner": "Partner",
+  "slider.banner_template_code": "Banner template code",
+  "slider.template_code_bt_cb": "Banner with text center and image background",
+  "slider.template_code_bt_lr": "Banner with text left and image right",
+  "slider.template_code_bt_rl": "Banner with text right and image left"
 }

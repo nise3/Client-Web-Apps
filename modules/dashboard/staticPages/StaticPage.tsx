@@ -53,7 +53,6 @@ const StaticPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
-    mutateStaticPages();
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {

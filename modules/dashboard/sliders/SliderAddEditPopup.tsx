@@ -31,6 +31,12 @@ import {
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import {Box, Button, IconButton} from '@mui/material';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import {
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import SliderTemplateShowTypes from './SliderTemplateShowTypes';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -42,6 +48,10 @@ const initialValues = {
   title_en: '',
   title: '',
   sub_title: '',
+  institute_id: '',
+  organization_id: '',
+  slider_images: [{value: ''}],
+  banner_template_code: '',
   link: '',
   button_text: '',
   alt_title: '',
@@ -112,26 +122,32 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         }),
       title: yup
         .string()
-        .title()
+        .trim()
+        .required()
         .label(messages['common.title'] as string),
       sub_title: yup
         .string()
         .required()
         .label(messages['common.sub_title'] as string),
       slider_images: yup
-        .string()
-        .required()
+        .array()
+        .of(
+          yup.object().shape({
+            value: yup
+              .string()
+              .required()
+              .label(messages['slider.images'] as string),
+          }),
+        )
+        .min(1)
         .label(messages['slider.images'] as string),
       is_button_available: yup
         .string()
         .required()
         .label('common.is_button_available'),
-      link: yup.string(),
-      button_text: yup.string(),
-      alt_title: yup.string(),
-      row_status: yup.string().trim().required(),
     });
   }, [messages, selectedCodes, authUser]);
+
   const {
     register,
     reset,
@@ -142,6 +158,24 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  const templateCodes = useMemo(
+    () => [
+      {
+        code: SliderTemplateShowTypes.BT_CB,
+        title: messages['slider.template_code_bt_cb'],
+      },
+      {
+        code: SliderTemplateShowTypes.BT_LR,
+        title: messages['slider.template_code_bt_lr'],
+      },
+      {
+        code: SliderTemplateShowTypes.BT_RL,
+        title: messages['slider.template_code_bt_rl'],
+      },
+    ],
+    [messages],
+  );
 
   useEffect(() => {
     if (cmsGlobalConfig) {
@@ -160,13 +194,14 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         show_in: itemData?.show_in,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
-        industry_association_id: itemData?.industry_association_id,
         title: itemData?.title,
         sub_title: itemData?.sub_title,
         is_button_available: itemData?.is_button_available,
         button_text: itemData?.button_text,
         link: itemData?.link,
         alt_title: itemData?.alt_title,
+        banner_template_code: itemData?.banner_template_code,
+        slider_images: getObjectArrayFromValueArray(itemData?.slider_images),
         row_status: String(itemData?.row_status),
       };
 
@@ -272,6 +307,8 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         formData.organization_id = authUser?.organization_id;
         formData.show_in = ShowInTypes.INDUSTRY;
       }
+
+      formData.slider_images = getValuesFromObjectArray(formData.slider_images);
 
       let data = {...formData};
 
@@ -387,7 +424,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           </React.Fragment>
         )}
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='title'
@@ -397,7 +434,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='sub_title'
             label={messages['common.sub_title']}
@@ -407,7 +444,27 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='alt_title'
+            label={messages['common.alt_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='link'
+            label={messages['common.link']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <FormRadioButtons
             id='is_button_available'
             label={'common.is_button_available'}
@@ -419,24 +476,14 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
               },
               {
                 label: messages['common.no'],
-                key: 2,
+                key: 0,
               },
             ]}
             defaultValue={initialValues.is_button_available}
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='link'
-            label={messages['common.link']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='button_text'
             label={messages['common.button_text']}
@@ -446,49 +493,57 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
+        <Grid item container xs={12} md={6}>
+          <CustomFieldArray
             id='slider_images'
-            label={messages['slider.images']}
-            register={register}
-            errorInstance={errors}
+            labelLanguageId={'slider.images'}
             isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='alt_title'
-            label={messages['common.alt_title']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFilterableFormSelect
-            id={'language_list'}
-            label={messages['common.language']}
-            isLoading={isFetching}
             control={control}
-            options={languageList}
-            optionValueProp={'code'}
-            optionTitleProp={['native_name']}
-            errorInstance={errors}
-            onChange={onLanguageListChange}
+            register={register}
+            errors={errors}
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <Button
-            variant={'outlined'}
-            color={'primary'}
-            onClick={onAddOtherLanguageClick}
-            disabled={!selectedLanguageCode}>
-            <Add />
-            {messages['faq.add_language']}
-          </Button>
+        <Grid item container xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id={'banner_template_code'}
+            label={messages['slider.banner_template_code']}
+            isLoading={false}
+            control={control}
+            options={templateCodes}
+            optionValueProp={'code'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id={'language_list'}
+                label={messages['common.language']}
+                isLoading={isFetching}
+                control={control}
+                options={languageList}
+                optionValueProp={'code'}
+                optionTitleProp={['native_name']}
+                errorInstance={errors}
+                onChange={onLanguageListChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Button
+                variant={'outlined'}
+                color={'primary'}
+                onClick={onAddOtherLanguageClick}
+                disabled={!selectedLanguageCode}>
+                <Add />
+                {messages['faq.add_language']}
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
 
         <Grid item xs={12}>
@@ -499,18 +554,24 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
                   {language.native_name}
                 </legend>
                 <Grid container spacing={5}>
-                  <Grid item md={11}>
+                  <Grid item xs={10} md={6}>
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[title]'}
                       label={messages['common.title']}
                       register={register}
                       errorInstance={errors}
-                      multiline={true}
-                      rows={3}
                     />
                   </Grid>
-                  <Grid item xs={1} md={1}>
+                  <Grid item xs={12} md={5} order={{xs: 3, md: 2}}>
+                    <CustomTextInput
+                      id={'language_' + language.code + '[sub_title]'}
+                      label={messages['common.sub_title']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={2} md={1} order={{xs: 2, md: 3}}>
                     <IconButton
                       aria-label='delete'
                       color={'error'}
@@ -520,37 +581,21 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
                       <Delete color={'error'} />
                     </IconButton>
                   </Grid>
-                  <Grid item md={12}>
+
+                  <Grid item xs={12} md={6} order={{xs: 4}}>
                     <CustomTextInput
-                      required
-                      id={'language_' + language.code + '[sub_title]'}
-                      label={messages['common.sub_title']}
-                      register={register}
-                      errorInstance={errors}
-                      multiline={true}
-                      rows={3}
-                    />
-                  </Grid>
-                  <Grid item md={12}>
-                    <CustomTextInput
-                      required
                       id={'language_' + language.code + '[alt_title]'}
                       label={messages['common.alt_title']}
                       register={register}
                       errorInstance={errors}
-                      multiline={true}
-                      rows={3}
                     />
                   </Grid>
-                  <Grid item md={12}>
+                  <Grid item xs={12} md={6} order={{xs: 5}}>
                     <CustomTextInput
-                      required
                       id={'language_' + language.code + '[button_text]'}
                       label={messages['common.button_text']}
                       register={register}
                       errorInstance={errors}
-                      multiline={true}
-                      rows={3}
                     />
                   </Grid>
                 </Grid>

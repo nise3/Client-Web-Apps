@@ -360,7 +360,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_visitor_feedback',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/visitor-feedback',
+            url: '/dashboard/visitor-feedbacks',
           },
           {
             id: 'notices_and_news',

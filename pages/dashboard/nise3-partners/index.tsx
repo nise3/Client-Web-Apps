@@ -11,7 +11,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
+      <PageMeta title={messages['common.partner'] as string} />
       <Nise3PartnersPage />
     </>
   );
