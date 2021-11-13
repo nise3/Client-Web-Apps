@@ -89,6 +89,7 @@ const CustomFilterableSelect = ({
           }
           variant={'outlined'}
           size={size ? size : 'small'}
+          sx={{background: '#fff'}}
         />
       )}
     />
