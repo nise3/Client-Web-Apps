@@ -1,50 +1,48 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import moment from 'moment';
-import {momentLocalizer, View} from 'react-big-calendar';
+import { momentLocalizer, View } from 'react-big-calendar';
 import IconEvents from '../../../@softbd/icons/IconEvents';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {deleteEvent} from '../../../services/cmsManagement/EventService';
+import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
+import { deleteEvent } from '../../../services/cmsManagement/EventService';
 import Calendar from '../../../@softbd/calendar/Calendar';
-import {useFetchBranches} from '../../../services/instituteManagement/hooks';
-import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
+import { useFetchCalenderEvents } from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
-
 const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
 // // const chkDate = new Date('2021-11-11');
 // console.log('chkDate ', toDate);
 
-const events = [
+const events1 = [
   {
     id: "1",
-    start: '2021-11-08',
-    end: '2021-11-08',
+    start: new Date('2021-11-08'),
+    end: new Date('2021-11-08'),
     title: 'Partners'
   },
-  {
-    id: "2",
-    start: '2021-11-09',
-    end: '2021-11-11',
-    title: 'Event Project'
-  }
+  // {
+  //   id: "2",
+  //   start: '2021-11-09',
+  //   end: '2021-11-11',
+  //   title: 'Event Project'
+  // }
 ];
 
 const EventCalendar = () => {
-  const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const { messages } = useIntl();
+  const { successStack } = useNotiStack();
   /*const authUser = useAuthUser();*/
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
   const [viewFilters, setViewFilters] = useState<any>({
-    type: 'month',
+    type: 'day',
   });
+  const [eventsList, setEventsList] = useState(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -76,33 +74,56 @@ const EventCalendar = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='user.label' />}}
+          values={{ subject: <IntlMessages id='user.label' /> }}
         />,
       );
     }
   };
 
-  const refreshCalendar = e =>{
-    // let {data: events, isLoading: isLoadingEvents} =
-    // useFetchCalenderEvents(viewFilters);
-  }
-
   // refreshCalendar();
-  let {data: events, isLoading: isLoadingEvents} =
-    useFetchCalenderEvents(viewFilters);
 
-  // console.log('events ', events);
-  if (events) {
-    events = events.map((e:any)=> {
-      return {
-        ...e,
-        start: e.start_date,
-        end: e.end_date,
-        // title: e.title
-      }
-    })
-    // console.log('events ', events);
-  }
+  let { data: events, isLoading: isLoadingEvents } = useFetchCalenderEvents(viewFilters);
+  // events = addPropToEventlist(events);
+
+
+  const refreshDataTable = useCallback((event, item) => {
+    // console.log('refresh calendar', e);
+    // setIsToggleTable((previousToggle) => !previousToggle);
+    // console.log(eventsList)
+    switch (event) {
+      case 'delete':
+        const newList = eventsList.filter(e => e.id != item);
+        setEventsList(newList);
+        break;
+      case 'create':
+        setEventsList([item, ...eventsList]);
+        break;
+      default:
+      case 'update':
+        const excludeItemFromList = eventsList.filter(e => e.id != item.id);
+        setEventsList([item, ...excludeItemFromList]);
+        break;
+    }
+    // events = events.filter(el=> e.id !== e)
+    // const newList = eventsList.filter(e=> e.id != e);
+    // setEventsList(newList);
+    // console.log(event , item);
+
+  }, [eventsList]);
+
+  useEffect(() => {
+
+    if (events) {
+      events
+        .map(e => {
+          e.start_date = new Date(e.start_date)
+          e.end_date = new Date(e.end_date)
+          return e;
+        })
+      setEventsList(events);
+    }
+
+  }, [events])
 
   const onSelectSlot = (e: any) => {
     setSelectedStartDate(e.start);
@@ -113,6 +134,7 @@ const EventCalendar = () => {
     // console.log('onSelectEvent ', e);
     openAddEditModal(e.id);
   };
+
   return (
     <>
       <PageBlock
@@ -121,17 +143,26 @@ const EventCalendar = () => {
             <IconEvents /> <IntlMessages id='menu.events' />
           </>
         }>
+
+
         <Calendar
-          events={events}
-          selectable='true'
+          events={eventsList}
+          // events={events1}
+          selectable={true}
           localizer={localizer}
-          style={{height: '100vh'}}
-          onView={(view: View) => setViewFilters({type: view})}
-          onNavigate={(e: any) => console.log('onNavigate ', e) }
-          onSelectEvent={ onSelectEvent }
-          onSelectSlot={ onSelectSlot }
+          style={{ height: '100vh' }}
+          startAccessor="start_date"
+          endAccessor="end_date"
+          defaultDate={moment().toDate()}
+          onView={(view: View) => setViewFilters({ type: view })}
+          onNavigate={(e: any) => console.log('onNavigate ', e)}
+          onSelectEvent={onSelectEvent}
+          onSelectSlot={onSelectSlot}
+        // messages={{ showMore: (target) => <span className="ml-2" role="presentation" onClick={() => setViewFilters({ type: 'day' })}> ...{target} more</span> }}
+
         />
-        
+
+
         {isOpenAddEditModal && (
           <CalendarAddEditPopup
             key={1}
@@ -139,7 +170,7 @@ const EventCalendar = () => {
             itemId={selectedItemId}
             startDate={selectedStartDate}
             endDate={selectedEndDate}
-            refreshDataTable={refreshCalendar}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>

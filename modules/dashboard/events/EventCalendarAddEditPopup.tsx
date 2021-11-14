@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import React, { FC, useEffect, useMemo, useState, useCallback } from 'react';
@@ -23,29 +23,23 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
-} from '../../../services/locationManagement/hooks';
-import {
-  filterDistrictsByDivisionId,
-  filterUpazilasByDistrictId,
-} from '../../../services/locationManagement/locationUtils';
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import { useFetchCalendarEvent } from '../../../services/cmsManagement/hooks';
 import moment from 'moment';
-import { createCalendar, updateCalendar } from '../../../services/cmsManagement/EventService';
+import { createCalendar, deleteEvent, updateCalendar } from '../../../services/cmsManagement/EventService';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import { LocalizationProvider, TimePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null;
   startDate: string | null;
   endDate: string | null;
   onClose: () => void;
-  refreshDataTable: () => void;
+  refreshDataTable: (item?:any) => void;
 }
 
 let initialValues = {
@@ -73,15 +67,15 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const { errorStack } = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
-  // console.log('useAuthUser ', authUser);
-
+  console.log('useAuthUser ', itemId);
+  // const [value, setValue] = React.useState(null);
   const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
 
 
   const {
     data: itemData,
     isLoading,
-    mutate: mutateBranch,
+    mutate: mutateCalendar,
   } = useFetchCalendarEvent(itemId);
 
   // const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
@@ -119,14 +113,13 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         start_date: itemData?.start_date,
         end_date: itemData?.end_date
       });
-
     } else {
       initialValues.organization_id = authUser.organization_id,
-        initialValues.institute_id = authUser.institute_id,
-        initialValues.youth_id = authUser.youth_id,
-        initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
-        initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
-        reset(initialValues);
+      initialValues.institute_id = authUser.institute_id,
+      initialValues.youth_id = authUser.youth_id,
+      initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
+      initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
+      reset(initialValues);
     }
   }, [itemData]);
 
@@ -138,18 +131,32 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
       if (itemId) {
         await updateCalendar(itemId, data);
         updateSuccessMessage('menu.events');
-        // mutateBranch();
+        // mutateCalendar();
+        refreshDataTable('update', data);
       } else {
-        await createCalendar(data);
+        const create = await createCalendar(data);
+        data.id = create.data.id;
         createSuccessMessage('menu.events');
+        refreshDataTable('create', data);
       }
       props.onClose();
-      refreshDataTable();
+      
     } catch (error: any) {
       processServerSideErrors({ error, setError, validationSchema, errorStack });
     }
 
   };
+
+  const onDelete = async () => {
+    // console.log('delete this: ', itemId)
+    if (itemId) {
+      await deleteEvent(itemId);
+      updateSuccessMessage('menu.events');
+      props.onClose();
+      refreshDataTable('delete', itemId);
+      // mutateBranch();
+    }
+  }
 
   return (
     <HookFormMuiModal
@@ -177,6 +184,13 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          {
+            itemId && <DeleteButton
+              deleteAction={onDelete}
+              deleteTitle={messages['common.delete_confirm'] as string}
+            />
+          }
+          
         </>
       }>
       <Grid container spacing={5}>
@@ -211,6 +225,18 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        {/* <Grid item xs={12} md={6}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <TimePicker
+              label="Basic example"
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Grid> */}
       </Grid>
     </HookFormMuiModal>
   );
