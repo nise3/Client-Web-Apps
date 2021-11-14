@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import {useDispatch} from 'react-redux';
 import {onJWTAuthSignout} from '../../../redux/actions';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Box from '@mui/material/Box';
@@ -11,33 +11,42 @@ import {orange} from '@mui/material/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Hidden from '@mui/material/Hidden';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'HorUserInfo';
+
+const classes = {
+  userRoot: `${PREFIX}-userRoot`,
+  avatar: `${PREFIX}-avatar`,
+  userInfo: `${PREFIX}-userInfo`,
+  pointer: `${PREFIX}-pointer`,
+  userName: `${PREFIX}-userName`,
+};
+
+const StyledBox = styled(Box)(({theme}) => {
   return {
-    userRoot: {
+    [`& .${classes.userRoot}`]: {
       display: 'flex',
       alignItems: 'center',
       cursor: 'pointer',
       justifyContent: 'center',
     },
-    avatar: {
+    [`& .${classes.avatar}`]: {
       fontSize: 24,
       backgroundColor: orange[500],
     },
-    userInfo: {
+    [`& .${classes.userInfo}`]: {
       width: 'calc(100% - 75px)',
     },
-    pointer: {
+    [`& .${classes.pointer}`]: {
       cursor: 'pointer',
     },
-    userName: {
+    [`& .${classes.userName}`]: {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       cursor: 'pointer',
       whiteSpace: 'nowrap',
       fontSize: 15,
       fontWeight: Fonts.MEDIUM,
-      color: (props: {bgType: string}) =>
-        props.bgType === 'colored' ? 'white' : theme.palette.text.primary,
+      color: theme.palette.primary.contrastText,
     },
   };
 });
@@ -46,7 +55,7 @@ interface HorUserInfoProps {
   bgType?: string;
 }
 
-const HorUserInfo: FC<HorUserInfoProps> = ({bgType = 'colored'}) => {
+const HorUserInfo: FC<HorUserInfoProps> = () => {
   const dispatch = useDispatch();
   const user = useAuthUser();
 
@@ -68,10 +77,9 @@ const HorUserInfo: FC<HorUserInfoProps> = ({bgType = 'colored'}) => {
       return user.email.charAt(0).toUpperCase();
     }
   };
-  const classes = useStyles({bgType});
 
   return (
-    <Box py={2} pl={{xs: 2, sm: 3, md: 5}}>
+    <StyledBox py={2} pl={{xs: 2, sm: 3, md: 5}}>
       <Box className={classes.userRoot} display='flex' onClick={handleClick}>
         {user && user.photoURL ? (
           <Avatar className={classes.avatar} src={user.photoURL} />
@@ -100,7 +108,7 @@ const HorUserInfo: FC<HorUserInfoProps> = ({bgType = 'colored'}) => {
           </MenuItem>
         </Menu>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 
