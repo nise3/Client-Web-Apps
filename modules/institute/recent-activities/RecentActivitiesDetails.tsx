@@ -1,4 +1,4 @@
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   CardMedia,
@@ -16,13 +16,21 @@ import {H4} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 
-const useStyles = makeStyles((theme) => ({
-  date: {
+const PREFIX = 'RecentActivitiesDetails';
+
+const classes = {
+  date: `${PREFIX}-date`,
+  icon: `${PREFIX}-icon`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.date}`]: {
     display: 'flex',
     alignItems: 'center',
     color: theme.palette.primary.main,
   },
-  icon: {
+
+  [`& .${classes.icon}`]: {
     color: '#ffff',
     padding: '2px',
     borderRadius: '3px',
@@ -31,11 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecentActivitiesDetails = ({data}: any) => {
-  const classes = useStyles();
   const {messages, formatDate} = useIntl();
 
   return (
-    <Container maxWidth={'lg'}>
+    <StyledContainer maxWidth={'lg'}>
       <Grid container>
         <Grid item xs={12} mt={5}>
           <Grid container>
@@ -93,7 +100,7 @@ const RecentActivitiesDetails = ({data}: any) => {
           <Typography dangerouslySetInnerHTML={{__html: data.content}} />
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

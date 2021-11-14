@@ -1,4 +1,5 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
+import {styled} from '@mui/material/styles';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import React, {FC, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -8,11 +9,16 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {useIntl} from 'react-intl';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Avatar from '@mui/material/Avatar';
-import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
 
-const useStyles = makeStyles({
-  ProfileImage: {
+const PREFIX = 'UserInfoEditPopup';
+
+const classes = {
+  ProfileImage: `${PREFIX}-ProfileImage`,
+};
+
+const StyledHookFormMuiModal = styled(HookFormMuiModal)({
+  [`& .${classes.ProfileImage}`]: {
     height: '200px',
     width: '200px',
   },
@@ -27,7 +33,6 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
     '/images/userPageImages/profileImage.jpeg',
   );
   const {messages} = useIntl();
-  const classes = useStyles();
 
   const imageHandler = (event: any) => {
     console.log(event);
@@ -52,7 +57,7 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
   const onSubmit: SubmitHandler<any> = async (data: []) => {};
 
   return (
-    <HookFormMuiModal
+    <StyledHookFormMuiModal
       {...props}
       open={true}
       title={
@@ -141,7 +146,7 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
           />
         </Grid>
       </Grid>
-    </HookFormMuiModal>
+    </StyledHookFormMuiModal>
   );
 };
 

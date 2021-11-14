@@ -16,11 +16,11 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
-import {styled} from '@mui/styles';
+import {styled} from '@mui/material/styles';
 
 const PREFIX = 'DivisionPage';
 const classes = {root: `${PREFIX}-root`};
-const StyledDiv = styled('div')((theme: any) => ({
+const StyledDiv = styled('div')((theme) => ({
   [`&.${classes.root}`]: {},
 }));
 

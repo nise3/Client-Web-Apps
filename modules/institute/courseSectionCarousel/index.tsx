@@ -1,42 +1,47 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Button} from '@mui/material';
 import {Link} from '../../../@softbd/elements/common';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import Carousel from 'react-multi-carousel';
-import makeStyles from '@mui/styles/makeStyles';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    boxItem: {
-      background: theme.palette.background.paper,
-      borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-      padding: '20px 10px 60px 10px',
-      margin: 0,
-    },
-    button: {
-      borderRadius: 20,
-    },
-  }),
-);
+const PREFIX = 'CourseSectionCarousel';
+
+const classes = {
+  boxItem: `${PREFIX}-boxItem`,
+  button: `${PREFIX}-button`,
+};
+
+const StyledCarouselBox = styled(Box)(({theme}) => ({
+  [`& .${classes.boxItem}`]: {
+    background: theme.palette.background.paper,
+    borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
+    padding: '20px 10px 60px 10px',
+    margin: 0,
+  },
+}));
+
+const StyledBoxCentered = styled(Box)(() => ({
+  [`& .${classes.button}`]: {
+    borderRadius: 20,
+  },
+}));
 
 const img =
   'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60';
 
 const CourseSectionCarousel = ({courses}: any) => {
-  const classes = useStyles();
   const router = useRouter();
   const path = router.pathname;
   const {messages} = useIntl();
 
   return (
     <>
-      <Box>
+      <StyledCarouselBox>
         <Carousel
           additionalTransfrom={0}
           arrows
@@ -106,8 +111,8 @@ const CourseSectionCarousel = ({courses}: any) => {
             </Box>
           ))}
         </Carousel>
-      </Box>
-      <Box display='flex' justifyContent='center'>
+      </StyledCarouselBox>
+      <StyledBoxCentered display='flex' justifyContent='center'>
         <Link href={`${path}/courses`}>
           <Button
             variant='outlined'
@@ -117,7 +122,7 @@ const CourseSectionCarousel = ({courses}: any) => {
             {messages['common.see_more']}
           </Button>
         </Link>
-      </Box>
+      </StyledBoxCentered>
     </>
   );
 };

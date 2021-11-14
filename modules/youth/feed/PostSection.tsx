@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Grid} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  featuredCourseSectionTitle: {
+const PREFIX = 'PostSection';
+
+const classes = {
+  featuredCourseSectionTitle: `${PREFIX}-featuredCourseSectionTitle`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.featuredCourseSectionTitle}`]: {
     fontSize: 17,
     fontWeight: 'bold',
   },
@@ -34,7 +39,6 @@ const PostSection = ({
   setLoadingMainPostData,
   isSearching,
 }: PostSectionProps) => {
-  const classes = useStyle();
   const {messages} = useIntl();
   const [courseFilters, setCourseFilters] = useState({});
 
@@ -70,7 +74,7 @@ const PostSection = ({
   }, [courseList]);
 
   return (
-    <Grid container spacing={2}>
+    <StyledGrid container spacing={2}>
       <Grid item xs={12} sm={12} md={12}>
         <Box className={classes.featuredCourseSectionTitle}>
           {messages['youth_feed.recent_post']}
@@ -98,7 +102,7 @@ const PostSection = ({
           <PostLoadingSkeleton />
         </Grid>
       )}
-    </Grid>
+    </StyledGrid>
   );
 };
 

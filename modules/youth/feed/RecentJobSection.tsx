@@ -1,47 +1,63 @@
 import React, {useCallback, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import RecentJobComponent from './components/RecentJobComponet';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {ChevronRight} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  recentSectionRoot: {
+const PREFIX = 'RecentJobSection';
+
+const classes = {
+  recentSectionRoot: `${PREFIX}-recentSectionRoot`,
+  featureSectionTitle: `${PREFIX}-featureSectionTitle`,
+  jobItem: `${PREFIX}-jobItem`,
+  divider: `${PREFIX}-divider`,
+  selectStyle: `${PREFIX}-selectStyle`,
+  seeMoreButton: `${PREFIX}-seeMoreButton`,
+  selectControl: `${PREFIX}-selectControl`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.recentSectionRoot}`]: {
     marginTop: 0,
     paddingBottom: 10,
     paddingTop: 20,
   },
-  featureSectionTitle: {
+
+  [`& .${classes.featureSectionTitle}`]: {
     fontSize: 17,
     fontWeight: 'bold',
   },
-  jobItem: {
+
+  [`& .${classes.jobItem}`]: {
     marginBottom: 10,
   },
-  divider: {
+
+  [`& .${classes.divider}`]: {
     width: '100%',
     height: 1,
     marginBottom: 5,
   },
-  selectStyle: {
+
+  [`& .${classes.selectStyle}`]: {
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
   },
-  seeMoreButton: {
+
+  [`& .${classes.seeMoreButton}`]: {
     boxShadow: 'none',
     marginTop: 10,
   },
-  selectControl: {
+
+  [`& .${classes.selectControl}`]: {
     marginLeft: 20,
     marginBottom: 10,
   },
 }));
 
 const RecentJobSection = () => {
-  const classes = useStyle();
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState(1);
 
@@ -71,7 +87,7 @@ const RecentJobSection = () => {
   }, []);
 
   return (
-    <Card>
+    <StyledCard>
       <Grid container className={classes.recentSectionRoot}>
         <Grid item xs={12} sm={12} md={12}>
           <Select
@@ -114,7 +130,7 @@ const RecentJobSection = () => {
           </Button>
         </Grid>
       </Grid>
-    </Card>
+    </StyledCard>
   );
 };
 

@@ -1,19 +1,26 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 import IntlMessages from '../../utility/IntlMessages';
 import Box from '@mui/material/Box';
-import makeStyles from '@mui/styles/makeStyles';
 import {grey} from '@mui/material/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
-const useStyle = makeStyles({
-  btn: {
+const PREFIX = 'ConfirmationDialog';
+
+const classes = {
+  btn: `${PREFIX}-btn`,
+  contentText: `${PREFIX}-contentText`,
+};
+
+const StyledDialog = styled(Dialog)({
+  [`& .${classes.btn}`]: {
     marginLeft: 8,
     fontWeight: Fonts.MEDIUM,
   },
-  contentText: {
+  [`& .${classes.contentText}`]: {
     color: grey[600],
   },
 });
@@ -33,10 +40,8 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   title,
   dialogTitle,
 }) => {
-  const classes = useStyle();
-
   return (
-    <Dialog open={open} onClose={onDeny}>
+    <StyledDialog open={open} onClose={onDeny}>
       <Box px={{xs: 5, md: 7}} pt={{xs: 4, md: 6}} pb={{xs: 2, md: 4}}>
         <Box
           mb={3}
@@ -66,7 +71,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
           </Button>
         </Box>
       </Box>
-    </Dialog>
+    </StyledDialog>
   );
 };
 

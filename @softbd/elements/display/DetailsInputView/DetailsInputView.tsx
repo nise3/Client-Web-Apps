@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import Grid from '@mui/material/Grid';
 import FormLabel from '@mui/material/FormLabel';
@@ -6,9 +6,16 @@ import TextInputSkeleton from '../skeleton/TextInputSkeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import React from 'react';
 
-const useStyles = makeStyles(() => {
+const PREFIX = 'DetailsInputView';
+
+const classes = {
+  inputView: `${PREFIX}-inputView`,
+  label: `${PREFIX}-label`,
+};
+
+const StyledGrid = styled(Grid)(() => {
   return {
-    inputView: {
+    [`& .${classes.inputView}`]: {
       fontWeight: Fonts.MEDIUM,
       fontSize: 14,
       width: '100%',
@@ -22,7 +29,7 @@ const useStyles = makeStyles(() => {
       overflow: 'auto',
     },
 
-    label: {
+    [`& .${classes.label}`]: {
       fontWeight: Fonts.BOLD,
       fontSize: 14,
       marginBottom: '5px',
@@ -37,15 +44,13 @@ type Props = {
 };
 
 const DetailsInputView = ({label, value, isLoading}: Props) => {
-  const classes = useStyles();
-
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <Grid item xs={12}>
+    <StyledGrid item xs={12}>
       <FormLabel className={classes.label}>{label}</FormLabel>
       <div className={classes.inputView}>{value}</div>
-    </Grid>
+    </StyledGrid>
   );
 };
 

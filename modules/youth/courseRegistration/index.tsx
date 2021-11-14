@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -14,7 +15,6 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import AddressForm from './AddressForm';
 import yup from '../../../@softbd/libs/yup';
-import useStyles from './index.style';
 import EducationalQualificationForm from './EducationalQualificationForm';
 import OccupationalInfoForm from './OccupationalInfoForm';
 import GuardiansInfoForm from './GuardiansInfoForm';
@@ -42,6 +42,29 @@ import {
   ResultCodeGradeId,
 } from '../profile/utilities/EducationEnums';
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
+
+const PREFIX = 'YouthCourseRegistrationPage';
+
+const classes = {
+  rootContainer: `${PREFIX}-rootContainer`,
+  paperBox: `${PREFIX}-paperBox`,
+  btnGroup: `${PREFIX}-btnGroup`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  marginTop: 20,
+  marginBottom: 20,
+
+  [`& .${classes.paperBox}`]: {
+    padding: 15,
+  },
+
+  [`& .${classes.btnGroup}`]: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '15px 0px',
+  },
+}));
 
 const tabKeys = [
   CourseConfigKeys.EDUCATION_KEY.toString(),
@@ -211,7 +234,6 @@ const initialValues = {
 };
 
 const YouthCourseRegistrationPage = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const router = useRouter();
@@ -1333,9 +1355,8 @@ const YouthCourseRegistrationPage = () => {
     }
   };
 
-  console.log('err', errors);
   return (
-    <Container maxWidth={'lg'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'lg'}>
       <Paper className={classes.paperBox}>
         <Box sx={{textAlign: 'center', marginBottom: 5}}>
           <Typography variant={'h4'}>
@@ -1393,7 +1414,7 @@ const YouthCourseRegistrationPage = () => {
           )}
         </Box>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Checkbox} from '@mui/material';
@@ -7,61 +8,66 @@ import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  formRoot: {
+const PREFIX = 'SigninJwtAuth';
+
+const classes = {
+  formRoot: `${PREFIX}-formRoot`,
+  myTextFieldRoot: `${PREFIX}-myTextFieldRoot`,
+  checkboxRoot: `${PREFIX}-checkboxRoot`,
+  pointer: `${PREFIX}-pointer`,
+  btnRoot: `${PREFIX}-btnRoot`,
+  colorTextPrimary: `${PREFIX}-colorTextPrimary`,
+  underlineNone: `${PREFIX}-underlineNone`,
+  textGrey: `${PREFIX}-textGrey`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.formRoot}`]: {
     textAlign: 'left',
     [theme.breakpoints.up('xl')]: {
       marginBottom: 24,
     },
   },
-  myTextFieldRoot: {
+
+  [`& .${classes.myTextFieldRoot}`]: {
     width: '100%',
   },
-  checkboxRoot: {
+
+  [`& .${classes.checkboxRoot}`]: {
     marginLeft: -12,
   },
-  pointer: {
+
+  [`& .${classes.pointer}`]: {
     cursor: 'pointer',
   },
-  btnRoot: {
+
+  [`& .${classes.btnRoot}`]: {
     // @ts-ignore
-    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
+    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius, // TODO: css issue - CRITICAL
     width: '10rem',
     fontWeight: Fonts.REGULAR,
     fontSize: 16,
     textTransform: 'capitalize',
   },
-  btnRootFull: {
-    width: '100%',
-  },
-  dividerRoot: {
-    marginBottom: 16,
-    marginLeft: -48,
-    marginRight: -48,
-    [theme.breakpoints.up('xl')]: {
-      marginBottom: 32,
-    },
-  },
-  textPrimary: {
-    color: theme.palette.text.primary,
-  },
-  colorTextPrimary: {
+
+  [`& .${classes.colorTextPrimary}`]: {
     color: theme.palette.primary.main,
   },
-  underlineNone: {
+
+  [`& .${classes.underlineNone}`]: {
     textDecoration: 'none',
   },
-  textGrey: {
+
+  [`& .${classes.textGrey}`]: {
     color: theme.palette.grey[500],
   },
 }));
+
 const MyTextField = (props: any) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : '';
@@ -91,10 +97,8 @@ const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
 
   const {messages} = useIntl();
 
-  const classes = useStyles(props);
-
   return (
-    <Box flex={1} display='flex' flexDirection='column'>
+    <StyledBox flex={1} display='flex' flexDirection='column'>
       <Box
         px={{xs: 6, sm: 10, xl: 15}}
         pt={8}
@@ -198,7 +202,7 @@ const SigninJwtAuth: React.FC<UserSigninProps> = (props) => {
           )}
         </Formik>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

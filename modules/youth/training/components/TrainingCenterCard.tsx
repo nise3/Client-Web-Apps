@@ -14,7 +14,6 @@ const TrainingCenterCard = ({trainingCenter}: TrainingCenterCardProps) => {
             <Avatar
               alt={trainingCenter.institute_title}
               variant='square'
-              //src={trainingCenter.logo}
               src={'http://lorempixel.com/300/200?id=' + trainingCenter?.id}
               sx={{
                 width: 110,

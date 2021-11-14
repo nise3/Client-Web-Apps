@@ -1,13 +1,20 @@
 import React, {ReactNode} from 'react';
+import {styled} from '@mui/material/styles';
 import Hidden from '@mui/material/Hidden';
 import Drawer from '@mui/material/Drawer';
 import {onToggleAppDrawer} from '../../../redux/actions';
 import clsx from 'clsx';
 import Card from '@mui/material/Card';
 import {Box} from '@mui/material';
-import useStyles from './index.style';
 import {useDispatch} from 'react-redux';
 import {NavStyle} from '../../../shared/constants/AppEnums';
+
+const PREFIX = 'AppSidebar';
+
+const classes = {
+  appsSidebar: `${PREFIX}-appsSidebar`,
+  appSidebarDrawer: `${PREFIX}-appSidebarDrawer`,
+};
 
 interface AppSidebarProps {
   isAppDrawerOpen: boolean;
@@ -17,10 +24,10 @@ interface AppSidebarProps {
   sidebarContent: ReactNode;
 }
 
-const AppSidebar: React.FC<AppSidebarProps> = props => {
-  const {isAppDrawerOpen, footer, navStyle, fullView, sidebarContent} = props;
+const UnstyledAppSidebar: React.FC<AppSidebarProps> = (props) => {
+  const {isAppDrawerOpen, sidebarContent} = props;
   const dispatch = useDispatch();
-  const classes = useStyles({footer, navStyle, fullView});
+
   return (
     <Box className={classes.appsSidebar}>
       <Hidden lgUp>
@@ -40,5 +47,23 @@ const AppSidebar: React.FC<AppSidebarProps> = props => {
     </Box>
   );
 };
+
+const AppSidebar = styled(UnstyledAppSidebar)(({theme}) => ({
+  [`& .${classes.appsSidebar}`]: {
+    height: '100%',
+    [theme.breakpoints.up('lg')]: {
+      width: '17rem',
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: '20rem',
+    },
+  },
+  [`& .${classes.appSidebarDrawer} `]: {
+    width: '19rem',
+    '& .listItem': {
+      zIndex: 1305,
+    },
+  },
+}));
 
 export default AppSidebar;

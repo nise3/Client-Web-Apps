@@ -1,9 +1,28 @@
-import {alpha} from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {alpha, styled} from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  appToolbar: {
+const PREFIX = 'AppHeader';
+
+export const classes = {
+  appToolbar: `${PREFIX}-appToolbar`,
+  grow: `${PREFIX}-grow`,
+  menuButton: `${PREFIX}-menuButton`,
+  menuIcon: `${PREFIX}-menuIcon`,
+  title: `${PREFIX}-title`,
+  search: `${PREFIX}-search`,
+  searchIcon: `${PREFIX}-searchIcon`,
+  inputRoot: `${PREFIX}-inputRoot`,
+  inputInput: `${PREFIX}-inputInput`,
+  sectionDesktop: `${PREFIX}-sectionDesktop`,
+  sectionMobile: `${PREFIX}-sectionMobile`,
+  appBar: `${PREFIX}-appBar`,
+  menuItemRoot: `${PREFIX}-menuItemRoot`,
+  pointer: `${PREFIX}-pointer`,
+  logoRoot: `${PREFIX}-logoRoot`,
+};
+
+export const StyledToolbar = styled(Toolbar)(({theme}) => ({
+  [`&.${classes.appToolbar}`]: {
     paddingLeft: 20,
     paddingRight: 20,
     minHeight: 56,
@@ -15,24 +34,30 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingRight: 30,
     },
   },
-  grow: {
+
+  [`& .${classes.grow}`]: {
     flexGrow: 1,
   },
-  menuButton: {
+
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2),
   },
-  menuIcon: {
+
+  [`& .${classes.menuIcon}`]: {
     width: 35,
     height: 35,
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
   },
-  search: {
+
+  [`& .${classes.search}`]: {
     position: 'relative',
+    // @ts-ignore
     borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
@@ -46,7 +71,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       width: 'auto',
     },
   },
-  searchIcon: {
+
+  [`& .${classes.searchIcon}`]: {
     width: theme.spacing(7),
     height: '100%',
     position: 'absolute',
@@ -55,10 +81,12 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  inputRoot: {
+
+  [`& .${classes.inputRoot}`]: {
     color: 'inherit',
   },
-  inputInput: {
+
+  [`& .${classes.inputInput}`]: {
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -66,7 +94,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       width: 200,
     },
   },
-  sectionDesktop: {
+
+  [`& .${classes.sectionDesktop}`]: {
     height: '100%',
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -74,13 +103,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       alignItems: 'center',
     },
   },
-  sectionMobile: {
+
+  [`& .${classes.sectionMobile}`]: {
     display: 'flex',
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
-  appBar: {
+
+  [`& .${classes.appBar}`]: {
     width: '100%',
     boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
     [theme.breakpoints.up('lg')]: {
@@ -90,16 +121,18 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       width: 'calc(100vw - 21.6rem)',
     },
   },
-  menuItemRoot: {
+
+  [`& .${classes.menuItemRoot}`]: {
     padding: 0,
   },
-  pointer: {
+
+  [`& .${classes.pointer}`]: {
     cursor: 'pointer',
   },
-  logoRoot: {
+
+  [`& .${classes.logoRoot}`]: {
     verticalAlign: 'middle',
     display: 'inline-block',
     height: 30,
   },
 }));
-export default useStyles;

@@ -1,22 +1,29 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import makeStyles from '@mui/styles/makeStyles';
 import {grey} from '@mui/material/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {initialUrl} from '../../../shared/constants/AppConst';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles(() => {
+const PREFIX = 'Error500';
+
+const classes = {
+  button: `${PREFIX}-button`,
+  image: `${PREFIX}-image`,
+};
+
+const StyledBox = styled(Box)(() => {
   return {
-    button: {
+    [`& .${classes.button}`]: {
       fontWeight: Fonts.BOLD,
       fontSize: 16,
       textTransform: 'capitalize',
     },
-    image: {
+    [`& .${classes.image}`]: {
       width: '100%',
     },
   };
@@ -29,10 +36,8 @@ const Error500 = () => {
     router.push(initialUrl);
   };
 
-  const classes = useStyles();
-
   return (
-    <Box
+    <StyledBox
       py={{xl: 8}}
       flex={1}
       display='flex'
@@ -77,7 +82,7 @@ const Error500 = () => {
           <IntlMessages id='error.goBackToHome' />
         </Button>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

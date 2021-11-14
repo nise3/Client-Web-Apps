@@ -1,6 +1,5 @@
-import { Button, IconButton, Theme, Toolbar, Tooltip } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import {Button, IconButton, Toolbar, Tooltip} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ViewColumnsIcon from '@mui/icons-material/ViewColumn';
 import React, {
@@ -17,32 +16,42 @@ import {FilterPage} from './FilterPage';
 import CircularProgress from '@mui/material/CircularProgress';
 import clsx from 'clsx';
 
-export const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    toolbar: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      height: '30px',
-      minHeight: '30px',
+const PREFIX = 'LabeledActionButton';
+
+const classes = {
+  leftButtons: `${PREFIX}-leftButtons`,
+  rightButtons: `${PREFIX}-rightButtons`,
+  leftIcons: `${PREFIX}-leftIcons`,
+  rightIcons: `${PREFIX}-rightIcons`,
+};
+
+const StyledToolbar = styled(Toolbar)(({theme}) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  height: '30px',
+  minHeight: '30px',
+
+  [`& .${classes.leftButtons}`]: {},
+  [`& .${classes.rightButtons}`]: {},
+
+  [`& .${classes.leftIcons}`]: {
+    '&:first-of-type': {
+      marginLeft: -12,
     },
-    leftButtons: {},
-    rightButtons: {},
-    leftIcons: {
-      '&:first-of-type': {
-        marginLeft: -12,
-      },
+  },
+
+  [`& .${classes.rightIcons}`]: {
+    padding: 12,
+    marginTop: '-6px',
+    width: 48,
+    height: 48,
+    '&:last-of-type': {
+      marginRight: -12,
     },
-    rightIcons: {
-      padding: 12,
-      marginTop: '-6px',
-      width: 48,
-      height: 48,
-      '&:last-of-type': {
-        marginRight: -12,
-      },
-    },
-  }),
-);
+  },
+}));
+
+export {};
 type ActionButton<T extends object> = {
   icon?: JSX.Element;
   onClick: MouseEventHandler;
@@ -76,7 +85,6 @@ export const SmallIconActionButton = <T extends object>({
   enabled = true,
   variant,
 }: ActionButton<T>) => {
-  const classes = useStyles({});
   return (
     <Tooltip title={label} aria-label={label}>
       <span>
@@ -87,7 +95,7 @@ export const SmallIconActionButton = <T extends object>({
           })}
           onClick={onClick}
           disabled={!enabled}
-          size="large">
+          size='large'>
           {icon}
         </IconButton>
       </span>
@@ -107,7 +115,7 @@ export function TableToolbar<T extends object>({
   loading,
 }: PropsWithChildren<TableToolbar<T>>): ReactElement | null {
   const {columns} = instance;
-  const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = useState<Element | undefined>(undefined);
   const [columnsOpen, setColumnsOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -139,7 +147,7 @@ export function TableToolbar<T extends object>({
 
   // toolbar with add, edit, delete, filter/search column select.
   return (
-    <Toolbar className={classes.toolbar}>
+    <StyledToolbar>
       <div className={classes.leftButtons}>{leftToolbarHtml}</div>
       <div className={classes.rightButtons}>
         <ColumnHidePage<T>
@@ -170,6 +178,6 @@ export function TableToolbar<T extends object>({
           variant='right'
         />
       </div>
-    </Toolbar>
+    </StyledToolbar>
   );
 }

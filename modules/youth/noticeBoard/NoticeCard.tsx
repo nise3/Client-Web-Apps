@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import useStyles from './NoticeBoard.style';
+import {styled} from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -13,6 +13,45 @@ import Link from 'next/link';
 import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 
+const PREFIX = 'NoticeCard';
+
+const classes = {
+  avatar: `${PREFIX}-avatar`,
+  avatarImage: `${PREFIX}-avatarImage`,
+  creativaItText: `${PREFIX}-creativaItText`,
+  btn: `${PREFIX}-btn`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  padding: '10px',
+
+  [`& .${classes.avatar}`]: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.avatarImage}`]: {
+    maxHeight: '80px',
+    maxWidth: '80px',
+    width: '100%',
+    height: '100%',
+  },
+
+  [`& .${classes.creativaItText}`]: {
+    marginTop: '5px',
+    marginBottom: '15px',
+    color: '#687882',
+  },
+
+  [`& .${classes.btn}`]: {
+    marginRight: '20px',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '10px',
+    },
+  },
+}));
+
 interface NoticeCardProps {
   notice: any;
 }
@@ -20,11 +59,10 @@ interface NoticeCardProps {
 const logo = '/images/creativeIt.png';
 
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
-  const classes = useStyles();
   const {messages, formatDate} = useIntl();
   const URL = `/youth/notice-details/${notice.id}`;
   return (
-    <Card style={{padding: '10px'}}>
+    <StyledCard>
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={3} md={3}>
@@ -69,7 +107,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
           </Grid>
         </Grid>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

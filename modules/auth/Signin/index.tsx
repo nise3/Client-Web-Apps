@@ -1,19 +1,27 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import SigninSSO from './SigninSSO';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  imgRoot: {
+const PREFIX = 'Signin';
+
+const classes = {
+  imgRoot: `${PREFIX}-imgRoot`,
+  cardRoot: `${PREFIX}-cardRoot`,
+  textUppercase: `${PREFIX}-textUppercase`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.imgRoot}`]: {
     cursor: 'pointer',
     display: 'inline-block',
     width: 140,
   },
-  cardRoot: {
+
+  [`& .${classes.cardRoot}`]: {
     maxWidth: '36rem',
     width: '100%',
     overflow: 'hidden',
@@ -39,16 +47,19 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       backgroundColor: theme.palette.primary.main,
     },
   },
-  textUppercase: {
+
+  [`& .${classes.textUppercase}`]: {
     textTransform: 'uppercase',
   },
 }));
 
 const Signin: React.FC<{}> = () => {
-  const classes = useStyles();
-
   return (
-    <Box flex={1} display='flex' flexDirection='column' justifyContent='center'>
+    <StyledBox
+      flex={1}
+      display='flex'
+      flexDirection='column'
+      justifyContent='center'>
       <Box mb={{xs: 6, md: 8, xl: 18}} textAlign='center'>
         <img
           className={classes.imgRoot}
@@ -76,7 +87,7 @@ const Signin: React.FC<{}> = () => {
           <SigninSSO />
         </Card>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

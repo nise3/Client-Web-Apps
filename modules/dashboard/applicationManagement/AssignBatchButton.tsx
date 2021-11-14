@@ -1,14 +1,20 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {ButtonProps} from '@mui/material/Button/Button';
 import ButtonSkeleton from '../../../@softbd/elements/display/skeleton/ButtonSkeleton/ButtonSkeleton';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'AssignBatchButton';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledButton = styled(Button)(({theme}) => {
   return {
-    button: {
+    [`& .${classes.button}`]: {
       color: theme.palette.success.main,
     },
   };
@@ -33,12 +39,10 @@ const AssignBatchButton = ({
   startIcon,
   ...extra
 }: Props) => {
-  const classes = useStyles();
-
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
-    <Button
+    <StyledButton
       startIcon={startIcon}
       onClick={onClick}
       className={extra?.color ? clsx(classes.button, className) : className}
@@ -46,7 +50,7 @@ const AssignBatchButton = ({
       variant={variant}
       {...extra}>
       <IntlMessages id={btnText} />
-    </Button>
+    </StyledButton>
   );
 };
 

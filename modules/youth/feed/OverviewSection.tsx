@@ -1,4 +1,5 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Button,
   Card,
@@ -8,24 +9,34 @@ import {
   TextField,
 } from '@mui/material';
 import Tile from './components/Tile';
-import {makeStyles} from '@mui/styles';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
 
-const useStyles = makeStyles((): any => ({
-  searchBox: {
+const PREFIX = 'OverviewSection';
+
+const classes = {
+  searchBox: `${PREFIX}-searchBox`,
+  searchButton: `${PREFIX}-searchButton`,
+  searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
+  location: `${PREFIX}-location`,
+};
+
+const StyledGrid = styled(Grid)(({theme}): any => ({
+  [`& .${classes.searchBox}`]: {
     padding: '10px',
     alignItems: 'center',
   },
-  searchButton: {
+
+  [`& .${classes.searchButton}`]: {
     color: '#fff',
     padding: '8px 14px',
     width: '100%',
     height: '100%',
   },
-  searchInputBorderHide: {
+
+  [`& .${classes.searchInputBorderHide}`]: {
     '& fieldset': {
       border: 'none',
     },
@@ -33,7 +44,8 @@ const useStyles = makeStyles((): any => ({
       padding: '14px 0px',
     },
   },
-  location: {
+
+  [`& .${classes.location}`]: {
     display: 'flex',
     alignItems: 'center',
   },
@@ -44,7 +56,6 @@ interface OverviewSectionProps {
 }
 
 const OverviewSection = ({addFilter}: OverviewSectionProps) => {
-  const classes: any = useStyles();
   const {messages, formatNumber} = useIntl();
   const [selectedUpazilaId, setSelectedUpazilaId] = useState<any>('');
   const [upazilasFilter] = useState({});
@@ -99,7 +110,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
 
   return (
     <>
-      <Grid container spacing={3}>
+      <StyledGrid container spacing={3}>
         <Grid item xs={12} md={12}>
           <Grid container spacing={2}>
             {overviewItems.map((overview: any) => {
@@ -172,7 +183,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
             </Grid>
           </Card>
         </Grid>
-      </Grid>
+      </StyledGrid>
     </>
   );
 };

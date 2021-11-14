@@ -6,16 +6,23 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
+import {styled} from '@mui/material/styles';
 import {DateRangeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
-import makeStyles from '@mui/styles/makeStyles';
 import {useRouter} from 'next/router';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'RecentActivityCardView';
+
+const classes = {
+  dateInfo: `${PREFIX}-dateInfo`,
+  image: `${PREFIX}-image`,
+};
+
+const StyledCard = styled(Card)(({theme}) => {
   return {
-    dateInfo: {
+    [`& .${classes.dateInfo}`]: {
       background: theme.palette.common.white,
       color: theme.palette.primary.light,
       display: 'flex',
@@ -24,20 +31,19 @@ const useStyles = makeStyles((theme) => {
       borderRadius: '5px',
       marginBottom: '10px',
     },
-    image: {
+    [`& .${classes.image}`]: {
       overflow: 'hidden',
     },
   };
 });
 
 function RecentActivityCardView({activity}: any) {
-  const classes = useStyles();
   const router = useRouter();
   const path = router.pathname;
   const {formatDate} = useIntl();
 
   return (
-    <Card>
+    <StyledCard>
       <Link href={`${path}/${activity.id}`} passHref>
         <CardActionArea>
           <CardMedia
@@ -64,7 +70,7 @@ function RecentActivityCardView({activity}: any) {
           </CardContent>
         </CardActionArea>
       </Link>
-    </Card>
+    </StyledCard>
   );
 }
 

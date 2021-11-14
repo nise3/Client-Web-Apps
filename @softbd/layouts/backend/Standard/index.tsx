@@ -3,7 +3,7 @@ import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {ContentView, ThemeSetting} from '../../../../@crema';
 import Box from '@mui/material/Box';
-import useStyles from './index.style';
+import {classes, StyledBox} from './index.style';
 import clsx from 'clsx';
 import AppContext from '../../../../@crema/utility/AppContext';
 import AppFixedFooter from './AppFixedFooter';
@@ -17,16 +17,15 @@ interface StandardLayoutProps {
 }
 
 const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
-  const {footer, themeStyle, layoutType, footerType} =
+  const {footer, layoutType, footerType} =
     useContext<AppContextPropsType>(AppContext);
-  const classes = useStyles({footer, themeStyle});
 
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
 
   return (
-    <Box
+    <StyledBox
       className={clsx(
         classes.appMain,
         layoutType === LayoutType.BOXED ? classes.boxedLayout : '',
@@ -53,7 +52,7 @@ const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
         )}
       </Box>
       <ThemeSetting />
-    </Box>
+    </StyledBox>
   );
 };
 

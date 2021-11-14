@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Breakpoint} from '@mui/system';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {useTheme} from '@mui/styles';
+import {useTheme} from '@mui/material/styles';
 
 export interface HiddenProps {
   /**

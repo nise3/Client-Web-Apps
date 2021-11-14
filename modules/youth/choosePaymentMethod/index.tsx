@@ -1,12 +1,42 @@
 import React from 'react';
-import useStyles from './index.style';
+import {styled} from '@mui/material/styles';
 import {CardMedia, Container, Grid, Paper, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
+
+const PREFIX = 'ChoosePayment';
+
+const classes = {
+  paperBox: `${PREFIX}-paperBox`,
+  btn: `${PREFIX}-btn`,
+  img: `${PREFIX}-img`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  display: 'flex',
+  height: 'calc(100vh - 70px)',
+
+  [`& .${classes.paperBox}`]: {
+    margin: 'auto',
+  },
+
+  [`& .${classes.btn}`]: {
+    marginTop: '12px',
+    width: '100px',
+  },
+
+  [`& .${classes.img}`]: {
+    '&:hover': {
+      border: '1px solid #42b326',
+      cursor: 'pointer',
+      borderRadius: '10px',
+    },
+  },
+}));
+
 const ChoosePayment = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   return (
-    <Container maxWidth={'md'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'md'}>
       <Paper style={{padding: '20px'}} className={classes.paperBox}>
         <Typography variant={'h6'} style={{fontWeight: 'bold'}} mb={5}>
           {messages['common.choose_payment_method']}
@@ -58,7 +88,7 @@ const ChoosePayment = () => {
           </Grid>
         </Grid>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

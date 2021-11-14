@@ -1,56 +1,57 @@
 import React, {ReactNode} from 'react';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {Box, Typography} from '@mui/material';
-// import {Fade} from 'react-awesome-reveal';
+const PREFIX = 'UnderlinedHeading';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    heading: {
-      color: theme.palette.primary.main,
-      textAlign: 'center',
-      marginBottom: 20,
-    },
-    line: {
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      marginBottom: 48,
-    },
-    lineOne: {
-      background: '#33c2a7',
-      width: 120,
-      height: 3,
-    },
-    lineTwo: {
-      background: '#f5a000',
-      width: 100,
-      height: 3,
-    },
-  }),
-);
+const classes = {
+  heading: `${PREFIX}-heading`,
+  line: `${PREFIX}-line`,
+  lineOne: `${PREFIX}-lineOne`,
+  lineTwo: `${PREFIX}-lineTwo`,
+};
+
+const StyledBoxLine = styled(Box)(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  marginBottom: 48,
+
+  [`& .${classes.lineOne}`]: {
+    background: '#33c2a7',
+    width: 120,
+    height: 3,
+  },
+
+  [`& .${classes.lineTwo}`]: {
+    background: '#f5a000',
+    width: 100,
+    height: 3,
+  },
+}));
 
 type Props = {
   children?: ReactNode;
 };
 
 const UnderlinedHeading = ({children}: Props) => {
-  const classes = useStyles();
   return (
     <>
       <Typography
         variant='h3'
-        style={{fontSize: '30px'}}
+        sx={{
+          fontSize: '30px',
+          color: 'primary.main',
+          textAlign: 'center',
+          marginBottom: '20px',
+        }}
         gutterBottom={true}
-        fontWeight='fontWeightBold'
-        className={classes.heading}>
+        fontWeight='fontWeightBold'>
         {children}
       </Typography>
-      <Box className={classes.line} mb={12}>
+      <StyledBoxLine mb={12}>
         <Box className={classes.lineOne} />
         <Box className={classes.lineTwo} />
-      </Box>
+      </StyledBoxLine>
     </>
   );
 };

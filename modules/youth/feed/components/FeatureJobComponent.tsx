@@ -1,22 +1,29 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  featureJobRoot: {
-    background: '#fff',
-    borderRadius: 4,
-    position: 'relative',
-    padding: '10px 5px',
-  },
-  jobProviderImage: {
+const PREFIX = 'FeatureJobComponent';
+
+const classes = {
+  jobProviderImage: `${PREFIX}-jobProviderImage`,
+  tagStyle: `${PREFIX}-tagStyle`,
+  jobTitle: `${PREFIX}-jobTitle`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  background: '#fff',
+  borderRadius: 4,
+  position: 'relative',
+  padding: '10px 5px',
+
+  [`& .${classes.jobProviderImage}`]: {
     marginLeft: 6,
     border: '1px solid ' + theme.palette.grey['300'],
   },
-  tagStyle: {
+
+  [`& .${classes.tagStyle}`]: {
     color: '#fca67e',
     position: 'absolute',
     top: 10,
@@ -29,7 +36,8 @@ const useStyle = makeStyles((theme: CremaTheme) => ({
       padding: '0px 5px',
     },
   },
-  jobTitle: {
+
+  [`& .${classes.jobTitle}`]: {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -47,11 +55,10 @@ interface FeatureJobProps {
 }
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   return (
-    <Card className={classes.featureJobRoot}>
+    <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
         <Grid item xs={2} mr={1}>
           <Avatar
@@ -74,7 +81,7 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
           />
         </Grid>
       </Grid>
-    </Card>
+    </StyledCard>
   );
 };
 

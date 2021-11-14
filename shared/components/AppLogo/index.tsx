@@ -1,24 +1,20 @@
 import React, {useContext} from 'react';
 import {Box} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import AppContext from '../../../@crema/utility/AppContext';
 import {ThemeMode} from '../../constants/AppEnums';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles(() => ({
-  logoRoot: {
-    display: 'flex',
-    flexDirection: 'row',
-    cursor: 'pointer',
-    alignItems: 'center',
-  },
-}));
-
 const AppLogo = ({height = 40}) => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
-  const classes = useStyles();
+
   return (
-    <Box className={classes.logoRoot}>
+    <Box
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        cursor: 'pointer',
+        alignItems: 'center',
+      }}>
       <Box sx={{display: {md: 'none', sm: 'block'}}}>
         <img
           style={{height}}

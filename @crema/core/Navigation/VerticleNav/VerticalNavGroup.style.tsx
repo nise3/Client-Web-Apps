@@ -1,10 +1,16 @@
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
+import {ListItem} from '@mui/material';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => {
+const PREFIX = 'NavVerticalGroup';
+
+export const classes = {
+  navItem: `${PREFIX}-navItem`,
+};
+
+export const StyledListItem = styled(ListItem)(({theme}) => {
   return {
-    navItem: {
+    [`&.${classes.navItem}`]: {
       height: 40,
       marginTop: 2,
       marginBottom: 2,
@@ -38,5 +44,3 @@ const useStyles = makeStyles((theme: CremaTheme) => {
     },
   };
 });
-
-export default useStyles;

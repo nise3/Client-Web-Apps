@@ -1,12 +1,18 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IntlMessages from '../../utility/IntlMessages';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
-const useStyle = makeStyles({
-  btn: {
+const PREFIX = 'EmptyResult';
+
+const classes = {
+  btn: `${PREFIX}-btn`,
+};
+
+const StyledBox = styled(Box)({
+  [`& .${classes.btn}`]: {
     marginBottom: 8,
   },
 });
@@ -24,9 +30,8 @@ const EmptyResult: React.FC<EmptyResultProps> = ({
   actionTitle,
   onAction,
 }) => {
-  const classes = useStyle();
   return (
-    <Box
+    <StyledBox
       display='flex'
       flexDirection='column'
       flex={1}
@@ -56,7 +61,7 @@ const EmptyResult: React.FC<EmptyResultProps> = ({
           {actionTitle}
         </Button>
       ) : null}
-    </Box>
+    </StyledBox>
   );
 };
 

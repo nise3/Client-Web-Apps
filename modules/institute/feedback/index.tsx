@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react';
+import {styled} from '@mui/material/styles';
 import {Button, Card, CardContent, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -9,19 +10,26 @@ import {createRankType} from '../../../services/organaizationManagement/RankType
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import makeStyles from '@mui/styles/makeStyles';
 import {H3} from '../../../@softbd/elements/common';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
-const useStyles = makeStyles((theme) => {
+const PREFIX = 'InstituteFeedback';
+
+const classes = {
+  buttons: `${PREFIX}-buttons`,
+  box: `${PREFIX}-box`,
+  heading: `${PREFIX}-heading`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => {
   return {
-    buttons: {
+    [`& .${classes.buttons}`]: {
       background: theme.palette.primary.dark,
     },
-    box: {
+    [`& .${classes.box}`]: {
       background: theme.palette.primary.light,
     },
-    heading: {
+    [`& .${classes.heading}`]: {
       boxShadow: '0px 2px 2px #8888',
     },
   };
@@ -31,7 +39,6 @@ const InstituteFeedback = () => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
-  const classes = useStyles();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -82,7 +89,7 @@ const InstituteFeedback = () => {
   };
 
   return (
-    <Grid sx={{maxWidth: '100%'}}>
+    <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
         <H3 fontWeight={'bold'} py={3}>
           {messages['feedback.institution']}
@@ -152,7 +159,7 @@ const InstituteFeedback = () => {
           </Card>
         </Grid>
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

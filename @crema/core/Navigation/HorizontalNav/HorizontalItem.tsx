@@ -1,10 +1,10 @@
 import React from 'react';
-import {Icon, ListItem, ListItemText} from '@mui/material';
+import {Icon, ListItemText} from '@mui/material';
 import {Badge} from '../../../../@crema';
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
 import IntlMessages from '../../../utility/IntlMessages';
-import useStyles from './HorizontalItem.style';
+import {classes, StyledListItem} from './HorizontalItem.style';
 import Box from '@mui/material/Box';
 import {NavItemProps} from '../../../../modules/routesConfig';
 
@@ -14,7 +14,6 @@ interface HorizontalItemProps {
 }
 
 const HorizontalItem: React.FC<HorizontalItemProps> = ({item, dense}) => {
-  const classes = useStyles();
   const router = useRouter();
   const {pathname} = router;
   const active = isUrlInChildren(item, pathname);
@@ -43,7 +42,7 @@ const HorizontalItem: React.FC<HorizontalItemProps> = ({item, dense}) => {
   }
 
   return (
-    <ListItem
+    <StyledListItem
       onClick={() => router.push(item.url ? item.url : '/')}
       className={clsx('navItemSubmenu', classes.root, dense && 'dense', {
         active: pathname === item.url,
@@ -62,9 +61,8 @@ const HorizontalItem: React.FC<HorizontalItemProps> = ({item, dense}) => {
           <Badge count={item.count} color={item.color} />
         </Box>
       )}
-    </ListItem>
+    </StyledListItem>
   );
 };
-
 
 export default React.memo(HorizontalItem);

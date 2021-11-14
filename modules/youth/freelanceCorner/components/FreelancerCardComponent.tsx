@@ -1,32 +1,38 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {Avatar, Box, Button, Card, CardContent} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+
+const PREFIX = 'FreelancerCardComponent';
+
+const classes = {
+  titleStyle: `${PREFIX}-titleStyle`,
+  colorGray: `${PREFIX}-colorGray`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.titleStyle}`]: {
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+  },
+
+  [`& .${classes.colorGray}`]: {
+    color: theme.palette.grey['600'],
+  },
+}));
 
 interface FreelancerCardComponentProps {
   freelancer: any;
 }
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  titleStyle: {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-  },
-  colorGray: {
-    color: theme.palette.grey['600'],
-  },
-}));
-
 const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
   freelancer,
 }) => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Card>
+    <StyledCard>
       {freelancer && (
         <CardContent>
           <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
@@ -63,7 +69,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
           </Box>
         </CardContent>
       )}
-    </Card>
+    </StyledCard>
   );
 };
 

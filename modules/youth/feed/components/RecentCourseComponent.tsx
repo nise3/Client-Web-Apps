@@ -1,36 +1,43 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {Avatar, Box, Button} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  recentCourseCompRoot: {
-    padding: '5px 10px 0px 20px',
-  },
-  courseProviderImage: {
+const PREFIX = 'RecentCourseComponent';
+
+const classes = {
+  courseProviderImage: `${PREFIX}-courseProviderImage`,
+  courseTitle: `${PREFIX}-courseTitle`,
+  courseProviderName: `${PREFIX}-courseProviderName`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  padding: '5px 10px 0px 20px',
+
+  [`& .${classes.courseProviderImage}`]: {
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
   },
-  courseTitle: {
+
+  [`& .${classes.courseTitle}`]: {
     fontWeight: Fonts.BOLD,
   },
-  courseProviderName: {
+
+  [`& .${classes.courseProviderName}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
   },
 }));
 
 const RecentCourseComponent = ({data: course}: any) => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   return (
     <>
-      <Box display={'flex'} className={classes.recentCourseCompRoot}>
+      <StyledBox display={'flex'}>
         <Box>
           <Avatar
             alt='provider image'
@@ -57,7 +64,7 @@ const RecentCourseComponent = ({data: course}: any) => {
             </Link>
           </Box>
         </Box>
-      </Box>
+      </StyledBox>
     </>
   );
 };

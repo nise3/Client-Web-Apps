@@ -1,7 +1,6 @@
 import React, {useCallback, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {ChevronRight} from '@mui/icons-material';
 import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
@@ -12,41 +11,59 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  recentCourseSectionRoot: {
+
+const PREFIX = 'CourseListSection';
+
+const classes = {
+  recentCourseSectionRoot: `${PREFIX}-recentCourseSectionRoot`,
+  featureSectionTitle: `${PREFIX}-featureSectionTitle`,
+  courseItem: `${PREFIX}-courseItem`,
+  divider: `${PREFIX}-divider`,
+  selectStyle: `${PREFIX}-selectStyle`,
+  seeMoreButton: `${PREFIX}-seeMoreButton`,
+  selectControl: `${PREFIX}-selectControl`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.recentCourseSectionRoot}`]: {
     marginTop: 0,
     paddingBottom: 10,
     paddingTop: 20,
   },
-  featureSectionTitle: {
+
+  [`& .${classes.featureSectionTitle}`]: {
     fontSize: 17,
     fontWeight: 'bold',
   },
-  courseItem: {
+
+  [`& .${classes.courseItem}`]: {
     marginBottom: 10,
   },
-  divider: {
+
+  [`& .${classes.divider}`]: {
     width: '100%',
     height: 1,
     marginBottom: 5,
   },
-  selectStyle: {
+
+  [`& .${classes.selectStyle}`]: {
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
   },
-  seeMoreButton: {
+
+  [`& .${classes.seeMoreButton}`]: {
     boxShadow: 'none',
     marginTop: 10,
   },
-  selectControl: {
+
+  [`& .${classes.selectControl}`]: {
     marginLeft: 20,
     marginBottom: 10,
   },
 }));
 
 const CourseListSection = () => {
-  const classes = useStyle();
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState('recent');
   const URL = `/youth/course-list/${selectedValue}`;
@@ -74,7 +91,7 @@ const CourseListSection = () => {
   }, []);
 
   return (
-    <Card>
+    <StyledCard>
       <Grid container className={classes.recentCourseSectionRoot}>
         <Grid item xs={12} md={12}>
           <Select
@@ -126,7 +143,7 @@ const CourseListSection = () => {
           <NoDataFoundComponent messageTextType={'subtitle2'} />
         )}
       </Grid>
-    </Card>
+    </StyledCard>
   );
 };
 

@@ -1,4 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -9,13 +10,49 @@ import {createRankType} from '../../../services/organaizationManagement/RankType
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import makeStyles from '@mui/styles/makeStyles';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {H3} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
 import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+
+const PREFIX = 'InstituteContact';
+
+const classes = {
+  buttons: `${PREFIX}-buttons`,
+  mainGrid: `${PREFIX}-mainGrid`,
+  heading: `${PREFIX}-heading`,
+  formCard: `${PREFIX}-formCard`,
+  mapDiv: `${PREFIX}-mapDiv`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => {
+  return {
+    [`& .${classes.buttons}`]: {
+      background: theme.palette.primary.dark,
+      width: '100%',
+    },
+    [`& .${classes.mainGrid}`]: {
+      background: theme.palette.primary.light,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: '100%',
+    },
+    [`& .${classes.heading}`]: {
+      boxShadow: '0px 2px 2px #8888',
+    },
+    [`& .${classes.formCard}`]: {
+      [theme.breakpoints.up('md')]: {
+        height: '465px',
+      },
+    },
+    [`& .${classes.mapDiv}`]: {
+      height: '293px',
+      width: '100%',
+    },
+  };
+});
 
 type MapProp = {
   text: string;
@@ -34,37 +71,9 @@ const MapComponent = ({text}: MapProp) => (
   </div>
 );
 
-const useStyles = makeStyles((theme) => {
-  return {
-    buttons: {
-      background: theme.palette.primary.dark,
-      width: '100%',
-    },
-    mainGrid: {
-      background: theme.palette.primary.light,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      width: '100%',
-    },
-    heading: {
-      boxShadow: '0px 2px 2px #8888',
-    },
-    formCard: {
-      [theme.breakpoints.up('md')]: {
-        height: '465px',
-      },
-    },
-    mapDiv: {
-      height: '293px',
-      width: '100%',
-    },
-  };
-});
-
 const InstituteContact = () => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
-  const classes = useStyles();
 
   const {data: mapsData} = useFetchInstitutesContactMap();
 
@@ -140,7 +149,7 @@ const InstituteContact = () => {
   };
 
   return (
-    <Grid sx={{maxWidth: '100%'}}>
+    <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
         <H3 py={3} fontWeight={'bold'}>
           {messages['contact.institute']}
@@ -274,7 +283,7 @@ const InstituteContact = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

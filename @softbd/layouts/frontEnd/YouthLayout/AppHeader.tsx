@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -7,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import useStyles from './AppHeader.style';
+import {classes, StyledAppBar} from './AppHeader.style';
 import {Badge, CastForEducation, ExitToApp, Home} from '@mui/icons-material';
 // import WorkIcon from '@mui/icons-material/Work';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -20,12 +19,11 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
 import {NavLink as Link} from '../../../elements/common';
 import {
-  LINK_FRONTEND_YOUTH_ROOT,
-  LINK_FRONTEND_YOUTH_TRAINING,
-  // LINK_FRONTEND_YOUTH_JOBS,
+  LINK_FRONTEND_YOUTH_FEED,
   LINK_FRONTEND_YOUTH_NOTICE_BOARD,
   LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
-  LINK_FRONTEND_YOUTH_FEED,
+  LINK_FRONTEND_YOUTH_ROOT,
+  LINK_FRONTEND_YOUTH_TRAINING,
   LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
@@ -40,7 +38,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
   const isMDDown = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );
-  const classes = useStyles();
+
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -109,7 +107,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <AppBar
+      <StyledAppBar
         position='relative'
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
@@ -200,7 +198,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
             </Box>
           </Container>
         </Toolbar>
-      </AppBar>
+      </StyledAppBar>
       {renderMobileMenu}
     </>
   );

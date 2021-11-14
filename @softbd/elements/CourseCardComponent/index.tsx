@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -9,24 +10,34 @@ import {
   Typography,
 } from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
-import {makeStyles} from '@mui/styles';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {courseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  trainingCardRoot: {
-    maxWidth: 345,
-    minWidth: '100%',
-    position: 'relative',
-    height: '100%',
-  },
-  trainingCardImage: {
+const PREFIX = 'CourseCardComponent';
+
+const classes = {
+  trainingCardImage: `${PREFIX}-trainingCardImage`,
+  providerLogo: `${PREFIX}-providerLogo`,
+  courseFee: `${PREFIX}-courseFee`,
+  courseFeeStyle: `${PREFIX}-courseFeeStyle`,
+  tagBox: `${PREFIX}-tagBox`,
+  courseTitle: `${PREFIX}-courseTitle`,
+  overflowDottedText: `${PREFIX}-overflowDottedText`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  maxWidth: 345,
+  minWidth: '100%',
+  position: 'relative',
+  height: '100%',
+
+  [`& .${classes.trainingCardImage}`]: {
     height: 140,
   },
-  providerLogo: {
+
+  [`& .${classes.providerLogo}`]: {
     height: 55,
     width: 55,
     border: '1px solid ' + theme.palette.grey['300'],
@@ -38,25 +49,30 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       height: 'auto',
     },
   },
-  courseFee: {
+
+  [`& .${classes.courseFee}`]: {
     textTransform: 'uppercase',
     marginTop: 20,
     display: 'flex',
     marginBottom: 5,
   },
-  courseFeeStyle: {
+
+  [`& .${classes.courseFeeStyle}`]: {
     marginLeft: 10,
     color: theme.palette.primary.main,
   },
-  tagBox: {
+
+  [`& .${classes.tagBox}`]: {
     marginTop: 5,
   },
-  courseTitle: {
+
+  [`& .${classes.courseTitle}`]: {
     fontWeight: 'bold',
     color: '#424242',
     textDecoration: 'none',
   },
-  overflowDottedText: {
+
+  [`& .${classes.overflowDottedText}`]: {
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -68,14 +84,13 @@ interface CourseCardComponentProps {
 }
 
 const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
-  const classes = useStyles();
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const pathname = router.pathname;
   const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
 
   return (
-    <Card className={classes.trainingCardRoot}>
+    <StyledCard>
       <CardMedia
         component={'img'}
         className={classes.trainingCardImage}
@@ -145,7 +160,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           </Box>
         )}
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

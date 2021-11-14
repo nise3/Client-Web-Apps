@@ -1,10 +1,18 @@
-import makeStyles from '@mui/styles/makeStyles';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
 
-const useStyles = makeStyles((theme: CremaTheme) => {
+const PREFIX = 'AppSidebar';
+
+export const classes = {
+  drawerContainer: `${PREFIX}-drawerContainer`,
+  sidebarBg: `${PREFIX}-sidebarBg`,
+  drawerScrollAppSidebar: `${PREFIX}-drawerScrollAppSidebar`,
+};
+
+export const StyledDrawer = styled(Drawer)(({theme}) => {
   return {
-    drawerContainer: {
+    [`& .${classes.drawerContainer}`]: {
       paddingLeft: 0,
       paddingTop: 0,
       paddingBottom: 0,
@@ -14,7 +22,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         width: '21.6rem',
       },
     },
-    sidebarBg: {
+    [`& .${classes.sidebarBg}`]: {
       overflow: 'hidden',
       backgroundColor: (props: {themeMode: ThemeMode}) =>
         props.themeMode === ThemeMode.SEMI_DARK
@@ -23,11 +31,10 @@ const useStyles = makeStyles((theme: CremaTheme) => {
           ? 'white'
           : '#313541',
     },
-    drawerScrollAppSidebar: {
+    [`& .${classes.drawerScrollAppSidebar}`]: {
       paddingTop: 8,
       paddingBottom: 32,
       height: 'calc(100vh - 58px) !important',
     },
   };
 });
-export default useStyles;

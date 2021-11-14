@@ -1,4 +1,5 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
+import {styled} from '@mui/material/styles';
 import {
   Button,
   Card,
@@ -25,21 +26,18 @@ import {
   useFetchInstitutesVideoCategory,
   useFetchInstitutesVideos,
 } from '../../../services/instituteManagement/hooks';
-import makeStyles from '@mui/styles/makeStyles';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useRouter} from 'next/router';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
-const useStyles = makeStyles((theme) => ({
-  searchIcon: {
-    position: 'absolute',
-    right: 0,
-  },
-  filterIcon: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  resetButton: {
+const PREFIX = 'InstituteVideos';
+
+const classes = {
+  resetButton: `${PREFIX}-resetButton`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.resetButton}`]: {
     [theme.breakpoints.up('md')]: {
       paddingLeft: '3% !important',
     },
@@ -48,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const InstituteVideos = () => {
   const {messages} = useIntl();
-  const classes = useStyles();
+
   const router = useRouter();
   const path = router.pathname;
 
@@ -134,11 +132,15 @@ const InstituteVideos = () => {
           </Paper>
         </Grid>
       </Grid>
-      <Container maxWidth='lg'>
+      <StyledContainer maxWidth='lg'>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
             <Grid container spacing={{xs: 2, md: 6}}>
-              <Grid item xs={12} md={1} className={classes.filterIcon}>
+              <Grid
+                item
+                xs={12}
+                md={1}
+                sx={{display: 'flex', alignItems: 'center'}}>
                 <FilterListIcon />
                 <Typography sx={{marginLeft: '10px'}}>
                   {messages['filter.institute']}
@@ -172,7 +174,7 @@ const InstituteVideos = () => {
                     register={register}
                   />
                   <IconButton
-                    className={classes.searchIcon}
+                    sx={{position: 'absolute', right: 0}}
                     type={'submit'}
                     disabled={isSubmitting}>
                     <SearchIcon />
@@ -239,7 +241,7 @@ const InstituteVideos = () => {
             <Pagination count={3} variant='outlined' shape='rounded' />
           </Grid>
         </Grid>
-      </Container>
+      </StyledContainer>
     </>
   );
 };

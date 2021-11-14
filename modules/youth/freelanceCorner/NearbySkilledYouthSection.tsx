@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {
   Button,
@@ -9,32 +10,39 @@ import {
   Typography,
 } from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  nearbyYouthSectionRoot: {},
-  divider: {
+const PREFIX = 'NearbySkilledYouthSection';
+
+const classes = {
+  nearbyYouthSectionRoot: `${PREFIX}-nearbyYouthSectionRoot`,
+  divider: `${PREFIX}-divider`,
+  seeMoreButton: `${PREFIX}-seeMoreButton`,
+  selectControl: `${PREFIX}-selectControl`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.divider}`]: {
     width: '100%',
     height: 1,
     marginBottom: 5,
   },
-  seeMoreButton: {
+
+  [`& .${classes.seeMoreButton}`]: {
     boxShadow: 'none',
     marginTop: 10,
   },
-  selectControl: {
+
+  [`& .${classes.selectControl}`]: {
     marginLeft: 20,
     marginBottom: 10,
   },
 }));
 
 const NearbySkilledYouthSection = () => {
-  const classes = useStyle();
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const [youthListFilters] = useState<any>({
@@ -46,12 +54,12 @@ const NearbySkilledYouthSection = () => {
   const {data: nearbySkilledYouths} = useFetchYouths(youthListFilters);
 
   return (
-    <Card>
+    <StyledCard>
       <CardContent>
         <Typography variant={'h5'} sx={{marginBottom: 3, fontWeight: 'bold'}}>
           {messages['freelance_corner.nearby_skilled_youth']}
         </Typography>
-        <Grid container className={classes.nearbyYouthSectionRoot}>
+        <Grid container>
           {nearbySkilledYouths &&
             nearbySkilledYouths.map((youth: any, index: number) => {
               return (
@@ -81,7 +89,7 @@ const NearbySkilledYouthSection = () => {
           </Grid>
         </Grid>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

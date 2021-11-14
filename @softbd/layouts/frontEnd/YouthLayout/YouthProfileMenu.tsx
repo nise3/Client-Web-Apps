@@ -8,7 +8,7 @@ import {
   MenuItem,
   MenuProps,
 } from '@mui/material';
-import {styled} from '@mui/styles';
+import {styled} from '@mui/material/styles';
 import {Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_YOUTH_FREELANCE_CORNER,

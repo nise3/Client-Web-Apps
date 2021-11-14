@@ -2,8 +2,8 @@ import React, {useContext, useEffect} from 'react';
 import {
   createTheme,
   StyledEngineProvider,
-  Theme,
   ThemeProvider,
+  Theme,
 } from '@mui/material/styles';
 
 import AppContext from '../AppContext';
@@ -18,15 +18,7 @@ import {
 import {useUrlSearchParams} from 'use-url-search-params';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
-
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
-
-declare module '@mui/styles/defaultTheme' {
+declare module '@mui/material/styles' {
   interface DefaultTheme extends Theme {}
 }
 
@@ -95,7 +87,6 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
     updateQuerySetting();
   }, [params.theme_style, theme, isBelowMd, updateTheme, updateThemeStyle]);
 
-  /* Inject emotion before JSS */
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>

@@ -1,21 +1,35 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {ChevronLeft, Delete} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import useStyles from './Settings.style';
+
+const PREFIX = 'DeleteAccountView';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.button}`]: {
+    margin: theme.spacing(1),
+    width: '100px',
+    marginLeft: '10px',
+  },
+}));
 
 interface DeleteAccountViewProps {
   onBack: () => void;
 }
+
 const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
   const {messages} = useIntl();
-  const classes = useStyles();
 
   const handleClick = () => {};
 
   return (
-    <Card>
+    <StyledCard>
       <Box sx={{backgroundColor: '#f510100f', padding: '20px'}}>
         <Box style={{display: 'flex'}}>
           <DeleteIcon
@@ -57,7 +71,7 @@ const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
           </Grid>
         </Grid>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

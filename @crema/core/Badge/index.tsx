@@ -1,10 +1,16 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 
-const useStyles = makeStyles(theme => ({
-  root: {
+const PREFIX = 'index';
+
+const classes = {
+  root: `${PREFIX}-root`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`&.${classes.root}`]: {
     padding: '0 7px',
     fontSize: 11,
     fontWeight: 600,
@@ -28,17 +34,15 @@ const Badge: React.FC<BadgeProps> = ({
   count,
   color = 'secondary',
 }) => {
-  const classes = useStyles();
-
   if (color === 'primary') {
     color = 'primary.main';
   } else if (color === 'secondary') {
     color = 'secondary.main';
   }
   return (
-    <Box bgcolor={color} className={clsx(classes.root, className)}>
+    <StyledBox bgcolor={color} className={clsx(classes.root, className)}>
       {count}
-    </Box>
+    </StyledBox>
   );
 };
 

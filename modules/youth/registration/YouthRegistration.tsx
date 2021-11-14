@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomSelectAutoComplete from './CustomSelectAutoComplete';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useStyles from './Registration.style';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Container, Grid, Paper, Typography} from '@mui/material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
@@ -39,6 +39,33 @@ import {Link} from '../../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
+const PREFIX = 'YouthRegistration';
+
+const classes = {
+  rootContainer: `${PREFIX}-rootContainer`,
+  PaperBox: `${PREFIX}-PaperBox`,
+  signInStyle: `${PREFIX}-signInStyle`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  display: 'flex',
+  [theme.breakpoints.only('xs')]: {
+    height: 'calc(100vh - 56px)',
+  },
+  [theme.breakpoints.only('sm')]: {
+    height: 'calc(100vh - 75px)',
+  },
+
+  [`& .${classes.PaperBox}`]: {
+    padding: 40,
+    margin: '70px auto',
+  },
+
+  [`& .${classes.signInStyle}`]: {
+    color: theme.palette.primary.main + ' !important',
+  },
+}));
+
 const initialValues = {
   first_name: '',
   last_name: '',
@@ -56,7 +83,6 @@ const initialValues = {
 };
 
 const YouthRegistration = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
   const router = useRouter();
@@ -265,7 +291,7 @@ const YouthRegistration = () => {
     window.location.href = getSSOLoginUrl();
   }, []);
   return (
-    <Container maxWidth={'md'} className={classes.rootContainer}>
+    <StyledContainer maxWidth={'md'}>
       <Paper className={classes.PaperBox}>
         <Typography
           variant={'h6'}
@@ -506,7 +532,7 @@ const YouthRegistration = () => {
           </Grid>
         </form>
       </Paper>
-    </Container>
+    </StyledContainer>
   );
 };
 

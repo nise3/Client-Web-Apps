@@ -1,54 +1,72 @@
 import {Box, Button, Card, CardMedia} from '@mui/material';
-import {createStyles, makeStyles} from '@mui/styles';
+import {styled} from '@mui/material/styles';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from './CircularDeleteButton';
 import React from 'react';
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    image: {
-      width: '100%',
-      height: '150px',
-    },
-    buttons: {
-      position: 'absolute',
-      left: '5%',
-      top: '4%',
-      zIndex: 1,
-      display: 'none',
-      background: '#fff',
-    },
-    deleteButtons: {
-      position: 'absolute',
-      right: '5%',
-      top: '4%',
-      zIndex: 1,
-      display: 'none',
-      background: '#fff',
+const PREFIX = 'CardItemWithButton';
+
+const classes = {
+  image: `${PREFIX}-image`,
+  buttons: `${PREFIX}-buttons`,
+  deleteButtons: `${PREFIX}-deleteButtons`,
+  circularDeleteButton: `${PREFIX}-circularDeleteButton`,
+  box: `${PREFIX}-box`,
+  editButton: `${PREFIX}-editButton`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.image}`]: {
+    width: '100%',
+    height: '150px',
+  },
+
+  [`& .${classes.buttons}`]: {
+    position: 'absolute',
+    left: '5%',
+    top: '4%',
+    zIndex: 1,
+    display: 'none',
+    background: '#fff',
+  },
+
+  [`& .${classes.deleteButtons}`]: {
+    position: 'absolute',
+    right: '5%',
+    top: '4%',
+    zIndex: 1,
+    display: 'none',
+    background: '#fff',
+    borderRadius: 40,
+    border: '1px solid',
+    borderColor: theme.palette.error.main,
+  },
+
+  [`& .${classes.circularDeleteButton}`]: {
+    border: 'none',
+  },
+
+  [`& .${classes.box}`]: {
+    position: 'relative',
+    '&:hover $buttons': {
+      display: 'block !important',
       borderRadius: 40,
-      border: '1px solid',
-      borderColor: theme.palette.error.main,
     },
-    circularDeleteButton: {
-      border: 'none',
-    },
-    box: {
-      position: 'relative',
-      '&:hover $buttons': {
-        display: 'block !important',
-        borderRadius: 40,
-      },
-      '&:hover $deleteButtons': {
-        display: 'block !important',
-        borderRadius: 40,
-      },
-    },
-    editButton: {
+    '&:hover $deleteButtons': {
+      display: 'block !important',
       borderRadius: 40,
     },
-  }),
-);
+  },
+
+  [`& .${classes.editButton}`]: {
+    borderRadius: 40,
+  }
+}));
 
 interface cardItemWithButtonProps {
   portfolio: any;
@@ -61,11 +79,11 @@ const CardItemWithButton = ({
   onClick: onclickHandler,
   onDeletePortfolio,
 }: cardItemWithButtonProps) => {
-  const classes = useStyles();
+
   const {messages} = useIntl();
 
   return (
-    <Box mr={1} ml={1} key={portfolio?.id}>
+    <StyledBox mr={1} ml={1} key={portfolio?.id}>
       <Card>
         <Box className={classes.box}>
           <div className={classes.buttons}>
@@ -111,7 +129,7 @@ const CardItemWithButton = ({
           />*/}
         </Box>
       </Card>
-    </Box>
+    </StyledBox>
   );
 };
 

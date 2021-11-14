@@ -1,43 +1,41 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import ProtoTypes from 'prop-types';
+import {styled} from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  root: {
-    position: 'relative',
-    minWidth: (props: {
-      pathColor: string;
-      activeColor: string;
-      minWidth: number;
-      maxWidth: number;
-    }) => props.minWidth,
-    maxWidth: (props: {
-      pathColor: string;
-      activeColor: string;
-      minWidth: number;
-      maxWidth: number;
-    }) => props.maxWidth,
-    margin: '0 auto',
-  },
-  circularProgressRoot: (props: any) => ({
-    color: props.pathColor,
+const PREFIX = 'AppCircularProgress';
+
+const classes = {
+  circularProgressRoot: `${PREFIX}-circularProgressRoot`,
+  circularProgressPrimary: `${PREFIX}-circularProgressPrimary`,
+  centerContent: `${PREFIX}-centerContent`,
+  circle: `${PREFIX}-circle`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  position: 'relative',
+  minWidth: 130,
+  maxWidth: 200,
+  margin: '0 auto',
+
+  [`& .${classes.circularProgressRoot}`]: {
+    color: '#d6d6d6',
     width: '100% !important',
     height: '100% !important',
-  }),
-  circularProgressPrimary: (props: any) => ({
-    color: props.activeColor,
+  },
+
+  [`& .${classes.circularProgressPrimary}`]: {
+    color: '#23fa23',
     animationDuration: '550ms',
     position: 'absolute',
     left: theme.direction === 'rtl' ? -2 : 2,
     top: -2,
     width: '100% !important',
     height: '100% !important',
-  }),
-  centerContent: {
+  },
+
+  [`& .${classes.centerContent}`]: {
     position: 'absolute',
     left: 0,
     top: 0,
@@ -49,7 +47,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circle: {
+
+  [`& .${classes.circle}`]: {
     strokeLinecap: 'round',
   },
 }));
@@ -79,18 +78,11 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
   thickness = 10,
   ...props
 }) => {
-  const classes = useStyles({
-    pathColor,
-    activeColor,
-    minWidth,
-    maxWidth,
-  });
-
   return (
-    <Box className={classes.root}>
+    <StyledBox>
       <Box position='relative'>
         <CircularProgress
-          variant="determinate"
+          variant='determinate'
           value={100}
           className={classes.circularProgressRoot}
           thickness={thickness}
@@ -98,7 +90,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
         />
         <CircularProgress
           className={classes.circularProgressPrimary}
-          variant="determinate"
+          variant='determinate'
           value={value}
           thickness={thickness}
           classes={{
@@ -119,24 +111,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
           </Box>
         )}
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 export default AppCircularProgress;
-AppCircularProgress.prototype = {
-  hidePercentage: ProtoTypes.bool,
-  pathColor: ProtoTypes.string,
-  activeColor: ProtoTypes.string,
-  value: ProtoTypes.number,
-  thickness: ProtoTypes.number,
-  valueStyle: ProtoTypes.object,
-};
-
-AppCircularProgress.defaultProps = {
-  hidePercentage: false,
-  minWidth: 130,
-  maxWidth: 200,
-  pathColor: '#d6d6d6',
-  activeColor: '#23fa23',
-  thickness: 10,
-};

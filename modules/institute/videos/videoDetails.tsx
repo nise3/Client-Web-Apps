@@ -1,13 +1,22 @@
 import {useIntl} from 'react-intl';
+import {styled} from '@mui/material/styles';
 import {Card, CardContent, Container, Grid} from '@mui/material';
 import {H3, H5} from '../../../@softbd/elements/common';
 import VideoPlayer from './videoPlayer';
 import {useEffect, useState} from 'react';
 import {PlayCircleFilledWhiteOutlined} from '@mui/icons-material';
-import {makeStyles} from '@mui/styles';
 
-const useStyle = makeStyles(() => ({
-  customPlayer: {
+const PREFIX = 'VideoDetails';
+
+const classes = {
+  customPlayer: `${PREFIX}-customPlayer`,
+  playIcon: `${PREFIX}-playIcon`,
+  customPlayerCard: `${PREFIX}-customPlayerCard`,
+  playButtonText: `${PREFIX}-playButtonText`,
+};
+
+const StyledContainer = styled(Container)(() => ({
+  [`& .${classes.customPlayer}`]: {
     width: '100%',
     height: '280px',
     justifyContent: 'center',
@@ -15,15 +24,18 @@ const useStyle = makeStyles(() => ({
     display: 'flex',
     textDecoration: 'none',
   },
-  playIcon: {
+
+  [`& .${classes.playIcon}`]: {
     fontSize: '90px',
     position: 'absolute',
   },
-  customPlayerCard: {
+
+  [`& .${classes.customPlayerCard}`]: {
     backgroundColor: '#b8c6db',
     backgroundImage: 'linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%)',
   },
-  playButtonText: {
+
+  [`& .${classes.playButtonText}`]: {
     position: 'absolute',
     color: 'rgb(134 145 46)',
     textShadow: '#437436 1px 1px',
@@ -49,7 +61,6 @@ const data = {
 
 const VideoDetails = () => {
   const {messages} = useIntl();
-  const classes = useStyle();
 
   const [videoUrl, setVideoUrl] = useState('');
 
@@ -98,7 +109,7 @@ const VideoDetails = () => {
   }, [videoUrl]);
 
   return (
-    <Container maxWidth={'md'}>
+    <StyledContainer maxWidth={'md'}>
       {data && data.video_url ? (
         <Grid container spacing={3} mt={2}>
           {!isOtherUrl ? (
@@ -108,7 +119,7 @@ const VideoDetails = () => {
           ) : (
             <Grid item xs={12}>
               <Card className={classes.customPlayerCard}>
-                <a href={data.video_url} target={'_blank'}>
+                <a href={data.video_url} target='_blank' rel='noreferrer'>
                   <CardContent className={classes.customPlayer}>
                     <PlayCircleFilledWhiteOutlined
                       className={classes.playIcon}
@@ -135,7 +146,7 @@ const VideoDetails = () => {
           </Grid>
         </Grid>
       )}
-    </Container>
+    </StyledContainer>
   );
 };
 

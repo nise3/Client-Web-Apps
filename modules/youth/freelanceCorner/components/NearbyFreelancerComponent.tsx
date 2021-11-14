@@ -1,16 +1,21 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {Avatar, Box, Button} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+const PREFIX = 'NearbyFreelancer';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  userImage: {
+const classes = {
+  userImage: `${PREFIX}-userImage`,
+  designation: `${PREFIX}-designation`,
+};
+
+const StyledStyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.userImage}`]: {
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
   },
-  designation: {
+  [`& .${classes.designation}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
   },
@@ -23,11 +28,10 @@ interface NearbyFreelancerComponentProps {
 const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
   freelanceUser,
 }) => {
-  const classes = useStyle();
   const {messages} = useIntl();
 
   return (
-    <Box display={'flex'}>
+    <StyledStyledBox display={'flex'}>
       <Box>
         <Avatar
           alt='youth image'
@@ -49,7 +53,7 @@ const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
           </Button>
         </Box>
       </Box>
-    </Box>
+    </StyledStyledBox>
   );
 };
 

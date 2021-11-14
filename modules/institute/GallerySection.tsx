@@ -1,6 +1,4 @@
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid} from '@mui/material';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
@@ -13,32 +11,37 @@ import {useRouter} from 'next/router';
 import {useIntl} from 'react-intl';
 import React from 'react';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    boxItem: {
-      background: theme.palette.background.paper,
-      borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-      padding: '20px 15px 60px 15px',
-      margin: 0,
-      [theme.breakpoints.down('xl')]: {
-        padding: '20px 10px 60px 10px',
-      },
+const PREFIX = 'GallerySection';
+
+const classes = {
+  boxItem: `${PREFIX}-boxItem`,
+  button: `${PREFIX}-button`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.boxItem}`]: {
+    background: theme.palette.background.paper,
+    borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
+    padding: '20px 15px 60px 15px',
+    margin: 0,
+    [theme.breakpoints.down('xl')]: {
+      padding: '20px 10px 60px 10px',
     },
-    button: {
-      borderRadius: 20,
-    },
-  }),
-);
+  },
+
+  [`& .${classes.button}`]: {
+    borderRadius: 20,
+  },
+}));
 
 const GallerySection = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const {data: galleryItems} = useFetchInstitutesGallery();
   const router = useRouter();
   const path = router.pathname;
 
   return (
-    <Container maxWidth='lg'>
+    <StyledContainer maxWidth='lg'>
       <Grid container mt={{xs: 5}}>
         <Grid item xs={12}>
           <Fade direction='up'>
@@ -118,7 +121,7 @@ const GallerySection = () => {
           </Fade>
         </Grid>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 export default GallerySection;

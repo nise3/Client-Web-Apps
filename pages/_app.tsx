@@ -5,7 +5,6 @@ import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
 import ContextProvider from '../@crema/utility/ContextProvider';
 import CremaThemeProvider from '../@crema/utility/CremaThemeProvider';
-import CremaStyleProvider from '../@crema/utility/CremaStyleProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
@@ -45,21 +44,19 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                   revalidateOnReconnect: false,
                 }}>
                 <CremaThemeProvider>
-                  <CremaStyleProvider>
-                    <LocaleProvider>
-                      <AuthRoutes>
-                        <CssBaseline />
-                        <SnackbarProvider
-                          maxSnack={20}
-                          anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                          }}>
-                          <Component {...pageProps} />
-                        </SnackbarProvider>
-                      </AuthRoutes>
-                    </LocaleProvider>
-                  </CremaStyleProvider>
+                  <LocaleProvider>
+                    <AuthRoutes>
+                      <CssBaseline />
+                      <SnackbarProvider
+                        maxSnack={20}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}>
+                        <Component {...pageProps} />
+                      </SnackbarProvider>
+                    </AuthRoutes>
+                  </LocaleProvider>
                 </CremaThemeProvider>
               </SWRConfig>
             </Provider>

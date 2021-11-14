@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
+import {styled} from '@mui/material/styles';
 import Select from '@mui/material/Select';
-import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
 import clsx from 'clsx';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  selectBox: {
+const PREFIX = 'AppSelect';
+
+const classes = {
+  selectBox: `${PREFIX}-selectBox`,
+  selectOption: `${PREFIX}-selectOption`,
+};
+
+const StyledSelect = styled(Select)(({theme}) => ({
+  [`&.${classes.selectBox}`]: {
     marginLeft: 8,
     cursor: 'pointer',
     fontSize: 14,
@@ -17,7 +23,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingLeft: 10,
     },
   },
-  selectOption: {
+
+  [`& .${classes.selectOption}`]: {
     cursor: 'pointer',
     padding: 8,
     fontSize: 14,
@@ -43,9 +50,9 @@ const AppSelect: React.FC<AppSelectProps> = ({
     setSelectionType(event.target.value);
     onChange(event.target.value);
   };
-  const classes = useStyles();
+
   return (
-    <Select
+    <StyledSelect
       defaultValue={defaultValue}
       value={selectionType}
       onChange={handleSelectionType}
@@ -58,7 +65,7 @@ const AppSelect: React.FC<AppSelectProps> = ({
           {selectionKey ? menu[selectionKey] : menu}
         </MenuItem>
       ))}
-    </Select>
+    </StyledSelect>
   );
 };
 

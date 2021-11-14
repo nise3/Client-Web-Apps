@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {useDispatch} from 'react-redux';
@@ -9,29 +10,37 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {grey} from '@mui/material/colors';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles(() => {
+const PREFIX = 'ComingSoon';
+
+const classes = {
+  form: `${PREFIX}-form`,
+  textField: `${PREFIX}-textField`,
+  button: `${PREFIX}-button`,
+};
+
+const StyledBox = styled(Box)(() => {
   return {
-    form: {
+    [`& .${classes.form}`]: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       marginBottom: 12,
     },
-    textField: {
+    [`& .${classes.textField}`]: {
       width: '100%',
       marginBottom: 20,
     },
-    button: {
+    [`& .${classes.button}`]: {
       fontWeight: Fonts.BOLD,
       fontSize: 16,
       textTransform: 'capitalize',
     },
   };
 });
+
 const MyTextField = (props: any) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : '';
@@ -55,11 +64,10 @@ const validationSchema = yup.object({
 const ComingSoon = () => {
   const dispatch = useDispatch();
 
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Box
+    <StyledBox
       py={{xl: 8}}
       flex={1}
       display='flex'
@@ -125,7 +133,7 @@ const ComingSoon = () => {
           <img src={'/images/errorPageImages/comingsoon.png'} alt='404' />
         </Box>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

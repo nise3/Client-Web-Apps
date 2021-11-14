@@ -1,26 +1,34 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {grey} from '@mui/material/colors';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {initialUrl} from '../../../shared/constants/AppConst';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles(() => {
+const PREFIX = 'Error404';
+
+const classes = {
+  button: `${PREFIX}-button`,
+  image: `${PREFIX}-image`,
+};
+
+const StyledBox = styled(Box)(() => {
   return {
-    button: {
+    [`& .${classes.button}`]: {
       fontWeight: Fonts.BOLD,
       fontSize: 16,
       textTransform: 'capitalize',
     },
-    image: {
+    [`& .${classes.image}`]: {
       width: '100%',
     },
   };
 });
+
 const Error404 = () => {
   const router = useRouter();
 
@@ -28,10 +36,8 @@ const Error404 = () => {
     router.push(initialUrl);
   };
 
-  const classes = useStyles();
-
   return (
-    <Box
+    <StyledBox
       py={{xl: 8}}
       flex={1}
       display='flex'
@@ -76,7 +82,7 @@ const Error404 = () => {
           <IntlMessages id='error.goBackToHome' />
         </Button>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

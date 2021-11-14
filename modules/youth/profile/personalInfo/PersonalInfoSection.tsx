@@ -7,6 +7,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor, BusinessCenter, Verified} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
@@ -14,8 +15,6 @@ import SkillInfo from '../SkillInfo';
 import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {createStyles, makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import PersonalInformationEdit from './PersonalInformationEdit';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {useDispatch} from 'react-redux';
@@ -28,40 +27,49 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 
-const useStyles = makeStyles((theme: CremaTheme) =>
-  createStyles({
-    aboutYouth: {
-      [theme.breakpoints.between('xs', 'sm')]: {
-        justifyContent: 'center',
-      },
-    },
-    editButton: {
-      textAlign: 'right',
-      [theme.breakpoints.only('xs')]: {
-        textAlign: 'center',
-      },
-    },
+const PREFIX = 'PersonalInfoSection';
 
-    dividerStyle: {
-      margin: '10px 30px',
-      borderWidth: 1,
-      [theme.breakpoints.only('xs')]: {
-        height: 25,
-        marginLeft: 10,
-        width: 1,
-      },
+const classes = {
+  aboutYouth: `${PREFIX}-aboutYouth`,
+  editButton: `${PREFIX}-editButton`,
+  dividerStyle: `${PREFIX}-dividerStyle`,
+  skillInfoGrid: `${PREFIX}-skillInfoGrid`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.aboutYouth}`]: {
+    [theme.breakpoints.between('xs', 'sm')]: {
+      justifyContent: 'center',
     },
-    skillInfoGrid: {
-      [theme.breakpoints.only('xs')]: {
-        flexDirection: 'column',
-      },
+  },
+
+  [`& .${classes.editButton}`]: {
+    textAlign: 'right',
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'center',
     },
-  }),
-);
+  },
+
+  [`& .${classes.dividerStyle}`]: {
+    margin: '10px 30px',
+    borderWidth: 1,
+    [theme.breakpoints.only('xs')]: {
+      height: 25,
+      marginLeft: 10,
+      width: 1,
+    },
+  },
+
+  [`& .${classes.skillInfoGrid}`]: {
+    [theme.breakpoints.only('xs')]: {
+      flexDirection: 'column',
+    },
+  },
+}));
 
 const PersonalInfoSection = () => {
   const {messages, formatNumber} = useIntl();
-  const classes = useStyles();
+
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
   console.log('profile ', authUser);
@@ -95,7 +103,7 @@ const PersonalInfoSection = () => {
   return isOpenPersonalInformationEditForm ? (
     <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
   ) : (
-    <Card>
+    <StyledCard>
       <CardContent>
         <Grid item container spacing={2} className={classes.aboutYouth}>
           <Grid item xs={12} sm={2}>
@@ -192,7 +200,7 @@ const PersonalInfoSection = () => {
           </Grid>
         </Grid>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

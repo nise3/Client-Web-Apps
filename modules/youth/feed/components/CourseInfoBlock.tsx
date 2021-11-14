@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {
   courseDuration,
@@ -12,62 +11,77 @@ import Link from 'next/link';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../../@softbd/common/appLinks';
 import {useRouter} from 'next/router';
 
-interface CourseInfoBlockProps {
-  course: any;
-}
+const PREFIX = 'CourseInfoBlock';
 
-const useStyle = makeStyles((theme: CremaTheme) => ({
-  courseBlockRoot: {
-    padding: 15,
-  },
-  jobProviderImage: {
+const classes = {
+  jobProviderImage: `${PREFIX}-jobProviderImage`,
+  totalEnrolled: `${PREFIX}-totalEnrolled`,
+  titleStyle: `${PREFIX}-titleStyle`,
+  colorGray: `${PREFIX}-colorGray`,
+  enrollButton: `${PREFIX}-enrollButton`,
+  courseDescription: `${PREFIX}-courseDescription`,
+  tagChipStyle: `${PREFIX}-tagChipStyle`,
+  courseDetailsButton: `${PREFIX}-courseDetailsButton`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  padding: 15,
+
+  [`& .${classes.jobProviderImage}`]: {
     borderRadius: '50%',
     height: 60,
     width: 60,
     border: '1px solid ' + theme.palette.grey['300'],
   },
 
-  totalEnrolled: {
+  [`& .${classes.totalEnrolled}`]: {
     alignItems: 'flex-end',
     display: 'flex',
     flexDirection: 'column',
   },
-  titleStyle: {
+
+  [`& .${classes.titleStyle}`]: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
   },
 
-  colorGray: {
+  [`& .${classes.colorGray}`]: {
     color: theme.palette.grey['600'],
     display: 'inline',
   },
 
-  enrollButton: {
+  [`& .${classes.enrollButton}`]: {
     display: 'flex',
     alignItems: 'flex-end',
     flexDirection: 'column',
   },
-  courseDescription: {
+
+  [`& .${classes.courseDescription}`]: {
     marginTop: 15,
     marginBottom: 15,
   },
-  tagChipStyle: {
+
+  [`& .${classes.tagChipStyle}`]: {
     marginBottom: 0,
   },
-  courseDetailsButton: {
+
+  [`& .${classes.courseDetailsButton}`]: {
     position: 'absolute',
     left: 19,
     top: 19,
   },
 }));
 
+interface CourseInfoBlockProps {
+  course: any;
+}
+
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
-  const classes = useStyle();
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
 
   return (
-    <Card className={classes.courseBlockRoot}>
+    <StyledCard>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2} sx={{position: 'relative'}}>
           <CardMedia
@@ -166,7 +180,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
           </Grid>
         </Grid>
       </Grid>
-    </Card>
+    </StyledCard>
   );
 };
 

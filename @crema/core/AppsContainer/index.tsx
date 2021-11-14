@@ -1,26 +1,29 @@
-import React, {ReactNode, useContext} from 'react';
+import React, {ReactNode} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box} from '@mui/material';
 import Card from '@mui/material/Card';
-import useStyles from './index.style';
-import {AppContext} from '../../index';
 import clsx from 'clsx';
 
-interface AppsContainerProps {
+const PREFIX = 'UnstyledAppsContainer';
+
+const classes = {
+  appsContainer: `${PREFIX}-appsContainer`,
+  appsMainContent: `${PREFIX}-appsMainContent`,
+};
+
+interface UnstyledAppsContainerProps {
   fullView?: boolean;
   fullHeight?: boolean;
   cardStyle?: any;
   children: ReactNode;
 }
 
-const AppsContainer: React.FC<AppsContainerProps> = ({
+const UnstyledAppsContainer: React.FC<UnstyledAppsContainerProps> = ({
   cardStyle,
   fullView = false,
   children,
   fullHeight = false,
 }) => {
-  const {footer, navStyle} = useContext(AppContext);
-  const classes = useStyles({footer, navStyle, fullView});
-
   return (
     <Box flex={1} display='flex' flexDirection='column'>
       <Box className={classes.appsContainer}>
@@ -39,5 +42,60 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
     </Box>
   );
 };
+
+const getHeaderHeight = (screenSize: number) => {
+  return screenSize >= 600 ? 70 : 60;
+};
+
+const AppsContainer = styled(UnstyledAppsContainer)(({theme}) => ({
+  minHeight: `calc(100vh - ${
+    55 + // AppContainerHeader Height
+    20 + //Container Padding
+    getHeaderHeight(0)
+  }px) !important`,
+  [theme.breakpoints.up('sm')]: {
+    minHeight: `calc(100vh - ${
+      55 + // AppContainerHeader Height
+      20 + //Container Padding
+      getHeaderHeight(600)
+    }px) !important`,
+  },
+  [theme.breakpoints.up('md')]: {
+    minHeight: `calc(100vh - ${
+      55 + // AppContainerHeader Height
+      30 + //Container Padding
+      getHeaderHeight(960)
+    }px) !important`,
+  },
+  [theme.breakpoints.up('lg')]: {
+    minHeight: `calc(100vh - ${
+      43 + // AppContainerHeader Height
+      30 + //Container Padding
+      getHeaderHeight(1280)
+    }px) !important`,
+  },
+  [theme.breakpoints.up('xl')]: {
+    minHeight: `calc(100vh - ${
+      64 + // AppContainerHeader Height
+      30 + //Container Padding
+      getHeaderHeight(1920)
+    }px) !important`,
+  },
+  display: 'flex',
+  [`& .${classes.appsMainContent}`]: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    // [theme.breakpoints.up('lg')]: {
+    //   width: `${(props: any) =>
+    //     'calc(100% - ' + (props.fullView ? 0 : 17) + 'rem)'}`,
+    //   paddingLeft: `${(props: any) => (props.fullView ? 0 : 40)}`,
+    // },
+    // [theme.breakpoints.up('xl')]: {
+    //   width: `${(props: any) =>
+    //     'calc(100% - ' + (props.fullView ? 0 : 20) + 'rem)'}`,
+    // },
+  },
+}));
 
 export default AppsContainer;

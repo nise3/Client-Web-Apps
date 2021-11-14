@@ -1,7 +1,6 @@
 import CourseListHeaderSection from './youth/training/CourseListHeaderSection';
 import {Box, Container, Grid} from '@mui/material';
 import React, {useCallback, useEffect, useState} from 'react';
-import useStyles from './youth/training/index.style';
 import {useRouter} from 'next/router';
 import {useFetchCourseDetails} from '../services/instituteManagement/hooks';
 import {useFetchCourseList} from '../services/youthManagement/hooks';
@@ -12,8 +11,23 @@ import NoDataFoundComponent from './youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
 import BoxContentSkeleton from './youth/profile/component/BoxContentSkeleton';
 
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'SimilarCourseList';
+
+export const classes = {
+  mainContent: `${PREFIX}-mainContent`,
+};
+
+export const StyledBox = styled(Box)(({theme}) => ({
+  margin: '0px auto 20px',
+
+  [`& .${classes.mainContent}`]: {
+    marginTop: 20,
+  },
+}));
+
 const SimilarCourseList = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const [filters, setFilters] = useState<any>({});
   const router = useRouter();
@@ -53,7 +67,7 @@ const SimilarCourseList = () => {
   const {data: courseList} = useFetchCourseList(pathValue, filters);
 
   return (
-    <Box className={classes.trainingViewRoot}>
+    <StyledBox>
       <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container>
@@ -84,7 +98,7 @@ const SimilarCourseList = () => {
           </Grid>
         </Grid>
       </Container>
-    </Box>
+    </StyledBox>
   );
 };
 

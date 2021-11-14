@@ -1,25 +1,35 @@
-import { Chip, Theme } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import {Chip} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import React, {useCallback} from 'react';
 import {ColumnInstance, FilterValue, IdType, TableInstance} from 'react-table';
 import {getRowStatusLabel} from '../../utilities/RowStatus';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 
-const useStyles = makeStyles((theme: Theme): any => ({
-  filtersActiveLabel: {
+const PREFIX = 'FilterChipBar';
+
+const classes = {
+  filtersActiveLabel: `${PREFIX}-filtersActiveLabel`,
+  chipZone: `${PREFIX}-chipZone`,
+  chipLabel: `${PREFIX}-chipLabel`,
+  filterChip: `${PREFIX}-filterChip`,
+};
+
+const Root = styled('div')(({theme}): any => ({
+  padding: '18px 0 5px 10px',
+  width: '100%',
+
+  [`& .${classes.filtersActiveLabel}`]: {
     color: theme.palette.mode === ThemeMode.DARK ? '#FFF' : '#998',
     fontSize: '14px',
     paddingRight: 10,
   },
-  chipZone: {
-    padding: '18px 0 5px 10px',
-    width: '100%',
-  },
-  chipLabel: {
+
+  [`& .${classes.chipLabel}`]: {
     fontWeight: 500,
     marginRight: 5,
   },
-  filterChip: {
+
+  [`& .${classes.filterChip}`]: {
     marginRight: 4,
     color: theme.palette.mode === ThemeMode.DARK ? '#FFF' : '#222',
   },
@@ -46,7 +56,6 @@ const getFilterValue = (
 };
 
 export function FilterChipBar<T extends object>({instance}: FilterChipBar<T>) {
-  const classes: any = useStyles();
   const {
     allColumns,
     setFilter,
@@ -60,7 +69,7 @@ export function FilterChipBar<T extends object>({instance}: FilterChipBar<T>) {
   );
 
   return Object.keys(filters).length > 0 ? (
-    <div className={classes.chipZone}>
+    <Root>
       <span className={classes.filtersActiveLabel}>Active filters:</span>
       {filters &&
         allColumns.map((column) => {
@@ -85,6 +94,6 @@ export function FilterChipBar<T extends object>({instance}: FilterChipBar<T>) {
             )
           );
         })}
-    </div>
+    </Root>
   ) : null;
 }

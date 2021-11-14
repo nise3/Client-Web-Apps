@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import AppContext from '../../utility/AppContext';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -11,7 +12,6 @@ import clsx from 'clsx';
 import {Scrollbar} from '../../index';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../utility/IntlMessages';
-import useStyles from './index.style';
 import themeColorSets from '../../../shared/constants/ColorSets';
 import CustomColorCell from './CustomColorCell';
 import {
@@ -20,11 +20,189 @@ import {
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import {orange} from '@mui/material/colors';
+
+const PREFIX = 'ThemeSetting';
+
+const classes = {
+  customizerButton: `${PREFIX}-customizerButton`,
+  rightSidebar: `${PREFIX}-rightSidebar`,
+  rightSidebarHeader: `${PREFIX}-rightSidebarHeader`,
+  rightSidebarMain: `${PREFIX}-rightSidebarMain`,
+  customizerItem: `${PREFIX}-customizerItem`,
+  colorRow: `${PREFIX}-colorRow`,
+  navOption: `${PREFIX}-navOption`,
+  navOptionItem: `${PREFIX}-navOptionItem`,
+  navOptionContent: `${PREFIX}-navOptionContent`,
+  navOptionRightIcon: `${PREFIX}-navOptionRightIcon`,
+  selectBox: `${PREFIX}-selectBox`,
+  toggleBtn: `${PREFIX}-toggleBtn`,
+  colorOptionList: `${PREFIX}-colorOptionList`,
+  wFull: `${PREFIX}-wFull`,
+  textWhite: `${PREFIX}-textWhite`,
+  mb5: `${PREFIX}-mb5`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  position: 'absolute',
+  right: 0,
+  bottom: 20,
+  zIndex: 1110,
+  [theme.breakpoints.up('xl')]: {
+    bottom: 20,
+  },
+
+  [`& .${classes.customizerButton}`]: {
+    borderRadius: '30px 0 0 30px',
+    backgroundColor: orange[500],
+    '&:hover': {
+      backgroundColor: orange[700],
+    },
+    '& button': {
+      borderRadius: '30px 0 0 30px',
+
+      '&:focus': {
+        borderRadius: '30px 0 0 30px',
+      },
+    },
+  },
+
+  [`& .${classes.rightSidebar}`]: {
+    width: 300,
+    [theme.breakpoints.up('xl')]: {
+      width: 400,
+    },
+  },
+
+  [`& .${classes.rightSidebarHeader}`]: {
+    padding: '20px',
+    borderBottom: '1px solid #e0e0e0',
+    [theme.breakpoints.up('xl')]: {
+      padding: '28px 22px',
+    },
+  },
+
+  [`& .${classes.rightSidebarMain}`]: {
+    padding: '20px',
+    [theme.breakpoints.up('xl')]: {
+      padding: '28px 22px',
+    },
+  },
+
+  [`& .${classes.customizerItem}`]: {
+    '&:not(:last-child)': {
+      borderBottom: ['1px solid #e0e0e0'],
+      paddingBottom: 20,
+      marginBottom: 20,
+      [theme.breakpoints.up('xl')]: {
+        paddingBottom: 30,
+        marginBottom: 30,
+      },
+    },
+  },
+
+  [`& .${classes.colorRow}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    position: 'relative',
+  },
+
+  [`& .${classes.navOption}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginLeft: '-10px',
+    marginRight: '-10px',
+  },
+
+  [`& .${classes.navOptionItem}`]: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 20,
+  },
+
+  [`& .${classes.navOptionContent}`]: {
+    position: 'relative',
+    cursor: 'pointer',
+  },
+
+  [`& .${classes.navOptionRightIcon}`]: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 20,
+    height: 20,
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.primary.main,
+    color: '',
+  },
+
+  [`& .${classes.selectBox}`]: {
+    '& .MuiOutlinedInput-input': {
+      padding: '12px 32px 12px 14px',
+    },
+  },
+
+  [`& .${classes.toggleBtn}`]: {
+    height: 36,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
+    '&:not(:first-child)': {
+      borderColor: theme.palette.primary.main,
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 48,
+      minWidth: 96,
+    },
+    '&:hover,&:focus': {
+      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.primary.main,
+    },
+    '&.active': {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      '&:hover,&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+      },
+    },
+  },
+
+  [`& .${classes.colorOptionList}`]: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '0 -5px',
+    padding: 0,
+    listStyle: 'none',
+    '& > li': {
+      padding: '0 5px',
+      marginBottom: 10,
+    },
+  },
+
+  [`& .${classes.wFull}`]: {
+    width: '100%',
+  },
+
+  [`& .${classes.textWhite}`]: {
+    color: 'white',
+  },
+
+  [`& .${classes.mb5}`]: {
+    marginBottom: 20,
+  },
+}));
 
 interface ThemeSettingProps {
   props?: any;
 }
-
 const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
   const [open, setCustomizerStatus] = useState(false);
   const [themeColor, setThemeColor] = useState('preset');
@@ -66,10 +244,9 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
     theme.palette.sidebar.bgColor = colorSet.SidebarColor;
     updateTheme?.(theme);
   };
-  const classes = useStyles(props);
 
   return (
-    <Box className={clsx(classes.customizerOption, 'customizerOption')}>
+    <StyledBox>
       <Box className={classes.customizerButton}>
         <IconButton onClick={() => setCustomizerStatus(!open)} size='large'>
           <i
@@ -215,7 +392,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
           </Box>
         </Scrollbar>
       </Drawer>
-    </Box>
+    </StyledBox>
   );
 };
 

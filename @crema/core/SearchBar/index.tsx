@@ -1,32 +1,46 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import makeStyles from '@mui/styles/makeStyles';
-import {Box, alpha} from '@mui/material';
+import {alpha, Box} from '@mui/material';
 import clsx from 'clsx';
 import SearchIcon from '@mui/icons-material/Search';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  root: {
-    display: 'flex',
-    marginRight: 10,
-    position: 'relative',
-    [theme.breakpoints.up('sm')]: {
-      marginRight: 20,
-    },
+const PREFIX = 'AppSearch';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  menuButton: `${PREFIX}-menuButton`,
+  title: `${PREFIX}-title`,
+  search: `${PREFIX}-search`,
+  searchIcon: `${PREFIX}-searchIcon`,
+  inputRoot: `${PREFIX}-inputRoot`,
+  inputInput: `${PREFIX}-inputInput`,
+  inputBase: `${PREFIX}-inputBase`,
+  searchIconBox: `${PREFIX}-searchIconBox`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  display: 'flex',
+  marginRight: 10,
+  position: 'relative',
+  [theme.breakpoints.up('sm')]: {
+    marginRight: 20,
   },
-  menuButton: {
+
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2),
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     flexGrow: 1,
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
   },
-  search: (props: {borderLight: boolean; align: string}) => ({
+
+  [`& .${classes.search}`]: (props: {borderLight: boolean; align: string}) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -44,7 +58,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   }),
-  searchIcon: {
+
+  [`& .${classes.searchIcon}`]: {
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -64,11 +79,13 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   },
-  inputRoot: {
+
+  [`& .${classes.inputRoot}`]: {
     color: 'inherit',
     width: '100%',
   },
-  inputInput: {
+
+  [`& .${classes.inputInput}`]: {
     padding: theme.spacing(2, 2, 2, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
@@ -90,7 +107,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   },
-  inputBase: {
+
+  [`& .${classes.inputBase}`]: {
     backgroundColor: 'transparent',
     fontWeight: Fonts.MEDIUM,
     border: '1px solid',
@@ -103,7 +121,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       borderColor: 'red',
     },
   },
-  searchIconBox: {
+
+  [`& .${classes.searchIconBox}`]: {
     position: 'relative',
     '& $inputInput': {
       width: 35,
@@ -150,9 +169,8 @@ const AppSearch: React.FC<AppSearchProps> = ({
   inputStyle,
   ...rest
 }) => {
-  const classes = useStyles({borderLight, align});
   return (
-    <Box className={classes.root} style={containerStyle}>
+    <StyledBox className={classes.root} style={containerStyle}>
       <Box
         className={clsx(
           classes.search,
@@ -177,7 +195,7 @@ const AppSearch: React.FC<AppSearchProps> = ({
           inputProps={{'aria-label': 'search'}}
         />
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

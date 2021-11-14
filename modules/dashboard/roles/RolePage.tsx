@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -17,19 +18,15 @@ import RoleAddEditPopup from './RoleAddEditPopup';
 import RoleDetailsPopup from './RoleDetailsPopup';
 import IconRole from '../../../@softbd/icons/IconRole';
 import {Button} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {LINK_ROLE} from '../../../@softbd/common/appLinks';
 
-const useStyles = makeStyles((theme) => {
+const PrimaryLightButton = styled(Button)(({theme}) => {
   return {
-    button: {
-      color: theme.palette.primary.light,
-      border: 'none',
-    },
+    color: theme.palette.primary.light,
+    border: 'none',
   };
 });
 
@@ -50,7 +47,6 @@ const filter = (authUser: AuthUser | null) => {
 */
 
 const RolePage = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser();
@@ -173,12 +169,11 @@ const RolePage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={URL} passHref>
-                <Button
-                  className={clsx(classes.button)}
+                <PrimaryLightButton
                   variant={'outlined'}
                   startIcon={<AccountTreeOutlined />}>
                   {messages['permission.label']}
-                </Button>
+                </PrimaryLightButton>
               </Link>
             </DatatableButtonGroup>
           );
@@ -190,53 +185,51 @@ const RolePage = () => {
   );
 
   return (
-    <>
-      <PageBlock
-        title={
-          <>
-            <IconRole /> <IntlMessages id='role.label' />
-          </>
-        }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={isLoading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['role.label'],
-                }}
-              />
-            }
-          />,
-        ]}>
-        <ReactTable
-          columns={columns}
-          data={roles || []}
-          loading={isLoading}
-          skipDefaultFilter={true}
+    <PageBlock
+      title={
+        <>
+          <IconRole /> <IntlMessages id='role.label' />
+        </>
+      }
+      extra={[
+        <AddButton
+          key={1}
+          onClick={() => openAddEditModal(null)}
+          isLoading={isLoading}
+          tooltip={
+            <IntlMessages
+              id={'common.add_new'}
+              values={{
+                subject: messages['role.label'],
+              }}
+            />
+          }
+        />,
+      ]}>
+      <ReactTable
+        columns={columns}
+        data={roles || []}
+        loading={isLoading}
+        skipDefaultFilter={true}
+      />
+      {isOpenAddEditModal && (
+        <RoleAddEditPopup
+          key={1}
+          onClose={closeAddEditModal}
+          itemId={selectedItemId}
+          refreshDataTable={refreshDataTable}
         />
-        {isOpenAddEditModal && (
-          <RoleAddEditPopup
-            key={1}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
+      )}
 
-        {isOpenDetailsModal && selectedItemId && (
-          <RoleDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-          />
-        )}
-      </PageBlock>
-    </>
+      {isOpenDetailsModal && selectedItemId && (
+        <RoleDetailsPopup
+          key={1}
+          itemId={selectedItemId}
+          onClose={closeDetailsModal}
+          openEditModal={openAddEditModal}
+        />
+      )}
+    </PageBlock>
   );
 };
 

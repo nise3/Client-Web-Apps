@@ -1,44 +1,47 @@
 import {Box, Card, Container, Grid} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginTop: '50px',
-    },
-    title: {
-      color: '#682988',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    vBar: {
-      height: '33px',
-      width: '2px',
-      background: 'linear-gradient(45deg, #ec5c17,#5affab)',
-      marginRight: '10px',
-    },
-    courseItem: {
-      position: 'relative',
-      boxShadow: '2px 8px 7px #ddd',
-      border: '1px solid #ddd',
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    image: {
-      width: '100%',
-    },
-    timeDetails: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  }),
-);
+const PREFIX = 'Partners';
+
+const classes = {
+  title: `${PREFIX}-title`,
+  vBar: `${PREFIX}-vBar`,
+  courseItem: `${PREFIX}-courseItem`,
+  image: `${PREFIX}-image`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  marginTop: '50px',
+
+  [`& .${classes.title}`]: {
+    color: '#682988',
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.vBar}`]: {
+    height: '33px',
+    width: '2px',
+    background: 'linear-gradient(45deg, #ec5c17,#5affab)',
+    marginRight: '10px',
+  },
+
+  [`& .${classes.courseItem}`]: {
+    position: 'relative',
+    boxShadow: '2px 8px 7px #ddd',
+    border: '1px solid #ddd',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  [`& .${classes.image}`]: {
+    width: '100%',
+  },
+}));
 
 let items = [
   {
@@ -60,7 +63,6 @@ let items = [
 ];
 
 const Partners = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
   const cardItem = (item: any, key: number) => {
     return (
@@ -79,7 +81,7 @@ const Partners = () => {
     );
   };
   return (
-    <Grid container xl={12} className={classes.root}>
+    <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
         <H3 style={{fontSize: '33px', fontWeight: 'bold'}}>
           <Box
@@ -96,7 +98,7 @@ const Partners = () => {
           </CustomCarousel>
         </Box>
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 

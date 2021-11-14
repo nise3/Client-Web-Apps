@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {
   Grow,
   Icon,
@@ -7,7 +8,6 @@ import {
   ListItemText,
   Paper,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 import {Manager, Popper, Reference} from 'react-popper';
@@ -16,20 +16,30 @@ import HorizontalGroup from './HorizontalGroup';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import AppContext from '../../../utility/AppContext';
-import AppContextPropsType, {
-  CremaTheme,
-} from '../../../../redux/types/AppContextPropsType';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import ClientOnlyPortal from './ClientPortal';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  root: {
+const PREFIX = 'HorizontalCollapse';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  button: `${PREFIX}-button`,
+  popper: `${PREFIX}-popper`,
+  popperClose: `${PREFIX}-popperClose`,
+  icon: `${PREFIX}-icon`,
+  pl0: `${PREFIX}-pl0`,
+};
+
+const Root = styled('ul')(({theme}) => ({
+  [`&.${classes.root}`]: {
     '& .list-item-text': {
       padding: '0 0 0 16px',
     },
   },
-  button: {
+
+  [`& .${classes.button}`]: {
     color: theme.palette.text.primary,
     minHeight: 48,
     '&.active, &.active:hover, &.active:focus': {
@@ -47,17 +57,21 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       },
     },
   },
-  popper: {
+
+  [`& .${classes.popper}`]: {
     zIndex: 999,
   },
-  popperClose: {
+
+  [`& .${classes.popperClose}`]: {
     pointerEvents: 'none',
   },
-  icon: {
+
+  [`& .${classes.icon}`]: {
     fontsSize: 18,
     marginRight: 14,
   },
-  pl0: {
+
+  [`& .${classes.pl0}`]: {
     paddingLeft: 0,
   },
 }));
@@ -73,7 +87,6 @@ const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({
   nestedLevel,
   dense,
 }) => {
-  const classes = useStyles();
   const [opened, setOpened] = useState(false);
   const {theme} = useContext<AppContextPropsType>(AppContext);
   const router = useRouter();
@@ -107,7 +120,7 @@ const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({
   }
 
   return (
-    <ul className={clsx(classes.root, 'navbarNavSubmenu')}>
+    <Root className={clsx(classes.root, 'navbarNavSubmenu')}>
       <Manager>
         <Reference>
           {({ref}) => (
@@ -202,7 +215,7 @@ const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({
           </Popper>
         </ClientOnlyPortal>
       </Manager>
-    </ul>
+    </Root>
   );
 };
 

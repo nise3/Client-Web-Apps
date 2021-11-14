@@ -1,47 +1,54 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import SectionTitle from './SectionTitle';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      marginTop: '50px',
-    },
-    mapButtonGroup: {
-      border: '1px solid #eee',
-      borderRadius: '5px',
-    },
-    skillButton: {
-      background: '#682988',
-      color: '#fff',
-      justifyContent: 'center',
-      marginRight: '2px',
-    },
-    map: {
-      position: 'relative',
-      border: '1px solid #eee',
-      borderRadius: '2px',
-      backgroundColor: '#fff',
-    },
-    mapSidePoints: {
-      borderRadius: '50%',
-      height: '5px',
-      width: '5px',
-      marginTop: '5px',
-      marginLeft: '5px',
-    },
-  }),
-);
+const PREFIX = 'BdMap';
+
+const classes = {
+  mapButtonGroup: `${PREFIX}-mapButtonGroup`,
+  skillButton: `${PREFIX}-skillButton`,
+  map: `${PREFIX}-map`,
+  mapSidePoints: `${PREFIX}-mapSidePoints`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  marginTop: '50px',
+
+  [`& .${classes.mapButtonGroup}`]: {
+    border: '1px solid #eee',
+    borderRadius: '5px',
+  },
+
+  [`& .${classes.skillButton}`]: {
+    background: '#682988',
+    color: '#fff',
+    justifyContent: 'center',
+    marginRight: '2px',
+  },
+
+  [`& .${classes.map}`]: {
+    position: 'relative',
+    border: '1px solid #eee',
+    borderRadius: '2px',
+    backgroundColor: '#fff',
+  },
+
+  [`& .${classes.mapSidePoints}`]: {
+    borderRadius: '50%',
+    height: '5px',
+    width: '5px',
+    marginTop: '5px',
+    marginLeft: '5px',
+  },
+}));
 
 const BdMap = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   return (
-    <Grid container xl={12} className={classes.root}>
+    <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
         <SectionTitle title={messages['common.map'] as string} center={true} />
 
@@ -179,7 +186,7 @@ const BdMap = () => {
           </Container>
         </Box>
       </Container>
-    </Grid>
+    </StyledGrid>
   );
 };
 export default BdMap;

@@ -3,7 +3,6 @@ import {Box, Button, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import useStyles from './Settings.style';
 import {ChevronLeft} from '@mui/icons-material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
@@ -11,6 +10,21 @@ import {changeUserId} from '../../../services/youthManagement/SettingsService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'ChangeUserIdView';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.button}`]: {
+    margin: theme.spacing(1),
+    width: '100px',
+    marginLeft: '10px',
+  },
+}));
 
 interface ChangeUserIdProps {
   onBack: () => void;
@@ -18,7 +32,7 @@ interface ChangeUserIdProps {
 
 const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
   const {messages} = useIntl();
-  const classes = useStyles();
+
   const {errorStack, successStack} = useNotiStack();
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -55,7 +69,7 @@ const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
   };
 
   return (
-    <Card>
+    <StyledCard>
       <CardHeader
         title={messages['common.change_userId']}
         fontWeight={'bold'}
@@ -97,7 +111,7 @@ const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
           </Grid>
         </form>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 export default ChangeUserIdView;
