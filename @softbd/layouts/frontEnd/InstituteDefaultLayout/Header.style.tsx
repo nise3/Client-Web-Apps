@@ -1,16 +1,48 @@
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+
+const PREFIX = 'Header';
+
+export const classes = {
+  appBar: `${PREFIX}-appBar`,
+  logoArea: `${PREFIX}-logoArea`,
+  header: `${PREFIX}-header`,
+  headerHalf: `${PREFIX}-headerHalf`,
+  headerMain: `${PREFIX}-headerMain`,
+  headerMainFlex: `${PREFIX}-headerMainFlex`,
+  headerFixedHeight: `${PREFIX}-headerFixedHeight`,
+  headerMenu: `${PREFIX}-headerMenu`,
+  headerMenuGroup: `${PREFIX}-headerMenuGroup`,
+  menuButton: `${PREFIX}-menuButton`,
+  grow: `${PREFIX}-grow`,
+  sectionDesktop: `${PREFIX}-sectionDesktop`,
+  sectionMobile: `${PREFIX}-sectionMobile`,
+  mobileMenuButton: `${PREFIX}-mobileMenuButton`,
+  menuIcons: `${PREFIX}-menuIcons`,
+  menuItem: `${PREFIX}-menuItem`,
+  firstMenuItem: `${PREFIX}-firstMenuItem`,
+  menuItemActive: `${PREFIX}-menuItemActive`,
+  menuItemAction: `${PREFIX}-menuItemAction`,
+  menuItemMobile: `${PREFIX}-menuItemMobile`,
+  headerNav: `${PREFIX}-headerNav`,
+  pointer: `${PREFIX}-pointer`,
+  languageSwitcher: `${PREFIX}-languageSwitcher`,
+  menuItemRegOrLogin: `${PREFIX}-menuItemRegOrLogin`,
+  logoInstitute: `${PREFIX}-logoInstitute`,
+};
 
 const headerFixedHeight = {
   height: 60,
   minHeight: 60,
 };
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  appBar: {
-    // boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
-    boxShadow: 'none',
-  },
-  logoArea: {
+
+export const StyledBox = styled(Box)(({theme}) => ({
+  width: '100%',
+  minHeight: 80,
+  margin: '0px auto',
+
+  [`& .${classes.logoArea}`]: {
     flexDirection: 'column',
     justifyContent: 'center',
     [theme.breakpoints.up('md')]: {
@@ -18,12 +50,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       justifyContent: 'space-between',
     },
   },
-  header: {
-    width: '100%',
-    minHeight: 80,
-    margin: '0px auto',
-  },
-  headerHalf: {
+
+  [`& .${classes.headerHalf}`]: {
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'end',
@@ -33,7 +61,23 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       justifyContent: 'unset',
     },
   },
-  headerMain: {
+
+  [`& .${classes.menuIcons}`]: {
+    height: '0.6em',
+  },
+
+  [`& .${classes.logoInstitute}`]: {
+    width: '100%',
+    height: 48,
+    objectFit: 'contain',
+  },
+}));
+
+export const StyledAppBar = styled(AppBar)(({theme}) => ({
+  // boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+  boxShadow: 'none',
+
+  [`& .${classes.headerMain}`]: {
     minHeight: 56,
     paddingRight: 0,
     paddingLeft: 0,
@@ -46,33 +90,40 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     marginLeft: 'auto',
     width: '100%',
   },
-  headerMainFlex: {
+
+  [`& .${classes.headerMainFlex}`]: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'right',
     width: '100%',
   },
-  headerFixedHeight: {
+
+  [`& .${classes.headerFixedHeight}`]: {
     ...headerFixedHeight,
   },
-  headerMenu: {
+
+  [`& .${classes.headerMenu}`]: {
     width: '100%',
     maxWidth: theme.breakpoints.values.xl,
     justifyContent: 'space-between',
     display: 'flex',
   },
-  headerMenuGroup: {
+
+  [`& .${classes.headerMenuGroup}`]: {
     ...headerFixedHeight,
     justifyContent: 'center',
     display: 'flex',
   },
-  menuButton: {
+
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2),
   },
-  grow: {
+
+  [`& .${classes.grow}`]: {
     flexGrow: 1,
   },
-  sectionDesktop: {
+
+  [`& .${classes.sectionDesktop}`]: {
     display: 'none',
     width: '100%',
     maxWidth: theme.breakpoints.values.xl,
@@ -81,7 +132,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       alignItems: 'center',
     },
   },
-  sectionMobile: {
+
+  [`& .${classes.sectionMobile}`]: {
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
       marginLeft: 'auto',
@@ -90,13 +142,16 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       display: 'none',
     },
   },
-  mobileMenuButton: {
+
+  [`& .${classes.mobileMenuButton}`]: {
     color: theme.palette.primary.contrastText,
   },
-  menuIcons: {
+
+  [`& .${classes.menuIcons}`]: {
     height: '0.6em',
   },
-  menuItem: {
+
+  [`& .${classes.menuItem}`]: {
     ...headerFixedHeight,
     padding: '20px 10px',
     color: theme.palette.primary.contrastText,
@@ -104,7 +159,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       backgroundColor: theme.palette.primary.light,
     },
   },
-  firstMenuItem: {
+
+  [`& .${classes.firstMenuItem}`]: {
     ...headerFixedHeight,
     padding: '20px 10px',
     paddingLeft: 0,
@@ -114,19 +170,23 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       paddingLeft: 10,
     },
   },
-  menuItemActive: {
+
+  [`& .${classes.menuItemActive}`]: {
     backgroundColor: theme.palette.primary.light,
   },
-  menuItemAction: {
+
+  [`& .${classes.menuItemAction}`]: {
     backgroundColor: theme.palette.warning.main,
   },
-  menuItemMobile: {
+
+  [`& .${classes.menuItemMobile}`]: {
     padding: '18px 20px 18px 12px',
     '& .active': {
       color: theme.palette.primary.main,
     },
   },
-  headerNav: {
+
+  [`& .${classes.headerNav}`]: {
     backgroundColor: theme.palette.primary.contrastText,
     color: theme.palette.grey[800],
     '& .navbarNav': {
@@ -159,15 +219,18 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       fontSize: 20,
     },
   },
-  pointer: {
+
+  [`& .${classes.pointer}`]: {
     cursor: 'pointer',
   },
-  languageSwitcher: {
+
+  [`& .${classes.languageSwitcher}`]: {
     height: '100%',
     background: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
   },
-  menuItemRegOrLogin: {
+
+  [`& .${classes.menuItemRegOrLogin}`]: {
     background: theme.palette.warning.main,
     color: theme.palette.primary.contrastText,
     width: '200px',
@@ -175,11 +238,4 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logoInstitute: {
-    width: '100%',
-    height: 48,
-    objectFit: 'contain',
-  },
 }));
-
-export default useStyles;

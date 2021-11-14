@@ -1,15 +1,39 @@
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  appBar: {
+const PREFIX = 'AppHeader';
+
+export const classes = {
+  appBar: `${PREFIX}-appBar`,
+  signinButton: `${PREFIX}-signinButton`,
+  headerMain: `${PREFIX}-headerMain`,
+  headerMainFlex: `${PREFIX}-headerMainFlex`,
+  menuButton: `${PREFIX}-menuButton`,
+  grow: `${PREFIX}-grow`,
+  sectionDesktop: `${PREFIX}-sectionDesktop`,
+  sectionMobile: `${PREFIX}-sectionMobile`,
+  menuIcons: `${PREFIX}-menuIcons`,
+  menuItem: `${PREFIX}-menuItem`,
+  menuItemMobile: `${PREFIX}-menuItemMobile`,
+  desktopMenu: `${PREFIX}-desktopMenu`,
+  headerNav: `${PREFIX}-headerNav`,
+  menuItemRoot: `${PREFIX}-menuItemRoot`,
+  pointer: `${PREFIX}-pointer`,
+  menuIconRoot: `${PREFIX}-menuIconRoot`,
+  logoRoot: `${PREFIX}-logoRoot`,
+};
+
+export const StyledAppBar = styled(AppBar)(({theme}) => ({
+  [`&.${classes.appBar}`]: {
     boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
   },
-  signinButton: {
+
+  [`& .${classes.signinButton}`]: {
     color: '#fff',
     background: '#682988',
   },
-  headerMain: {
+
+  [`& .${classes.headerMain}`]: {
     minHeight: 56,
     paddingRight: 0,
     paddingLeft: 0,
@@ -17,24 +41,29 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       minHeight: 70,
     },
   },
-  headerMainFlex: {
+
+  [`& .${classes.headerMainFlex}`]: {
     display: 'flex',
     alignItems: 'center',
   },
-  menuButton: {
+
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2),
   },
-  grow: {
+
+  [`& .${classes.grow}`]: {
     flexGrow: 1,
   },
-  sectionDesktop: {
+
+  [`& .${classes.sectionDesktop}`]: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
       alignItems: 'center',
     },
   },
-  sectionMobile: {
+
+  [`& .${classes.sectionMobile}`]: {
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
       marginLeft: 'auto',
@@ -43,10 +72,12 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       display: 'none',
     },
   },
-  menuIcons: {
+
+  [`& .${classes.menuIcons}`]: {
     height: '0.6em',
   },
-  menuItem: {
+
+  [`& .${classes.menuItem}`]: {
     fontSize: '16px',
     padding: '20px 10px',
     color: '#746F6F',
@@ -61,7 +92,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       marginRight: '5px',
     },
   },
-  menuItemMobile: {
+
+  [`& .${classes.menuItemMobile}`]: {
     padding: '18px 20px 18px 12px',
     '&>a': {
       display: 'flex',
@@ -70,13 +102,15 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       color: theme.palette.primary.main,
     },
   },
-  desktopMenu: {
+
+  [`& .${classes.desktopMenu}`]: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
   },
-  headerNav: {
+
+  [`& .${classes.headerNav}`]: {
     backgroundColor: theme.palette.primary.contrastText,
     color: theme.palette.grey[800],
     '& .navbarNav': {
@@ -109,18 +143,21 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       fontSize: 20,
     },
   },
-  menuItemRoot: {
+
+  [`& .${classes.menuItemRoot}`]: {
     padding: 0,
   },
-  pointer: {
+
+  [`& .${classes.pointer}`]: {
     cursor: 'pointer',
   },
-  menuIconRoot: {
+
+  [`& .${classes.menuIconRoot}`]: {
     width: '2.5rem',
     height: '2.5rem',
   },
-  logoRoot: {
+
+  [`& .${classes.logoRoot}`]: {
     height: 30,
   },
 }));
-export default useStyles;

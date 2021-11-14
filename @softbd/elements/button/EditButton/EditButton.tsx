@@ -1,19 +1,10 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
+import Tooltip from '@mui/material/Tooltip';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {RiEditBoxFill} from 'react-icons/ri';
 import {ButtonProps} from '@mui/material/Button/Button';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    button: {
-      color: theme.palette.success.main,
-    },
-  };
-});
 
 interface Props extends ButtonProps {
   onClick: () => void;
@@ -30,20 +21,21 @@ const EditButton = ({
   variant = 'contained',
   ...extra
 }: Props) => {
-  const classes = useStyles();
-
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
-    <Button
-      startIcon={<RiEditBoxFill />}
-      onClick={onClick}
-      className={className ? clsx(classes.button, className) : className}
-      color={extra?.color || 'secondary'}
-      variant={variant}
-      {...extra}>
-      <IntlMessages id='common.edit_btn' />
-    </Button>
+    <Tooltip title={<IntlMessages id='common.edit_btn' />}>
+      <Button
+        startIcon={<RiEditBoxFill />}
+        onClick={onClick}
+        sx={{color: 'success.main'}}
+        className={className ? className : className}
+        color={extra?.color || 'secondary'}
+        variant={variant}
+        {...extra}>
+        <IntlMessages id='common.edit_btn' />
+      </Button>
+    </Tooltip>
   );
 };
 

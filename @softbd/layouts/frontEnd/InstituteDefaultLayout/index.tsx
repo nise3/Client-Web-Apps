@@ -1,40 +1,42 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Header from './Header';
 import Footer from './Footer';
 import {ContentView} from '../../../../@crema';
 import Box from '@mui/material/Box';
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    appMain: {
-      width: '100%',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      // alignItems: 'center',
-    },
-    mainContent: {
-      flex: 1,
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-    },
-    mainContainer: {
-      flex: 1,
-      width: '100%',
-      color: theme.palette.text.primary,
-      marginRight: 'auto',
-      marginLeft: 'auto',
-    },
-  }),
-);
+const PREFIX = 'InstituteDefaultLayout';
+
+const classes = {
+  mainContent: `${PREFIX}-mainContent`,
+  mainContainer: `${PREFIX}-mainContainer`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  width: '100%',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  // alignItems: 'center',
+
+  [`& .${classes.mainContent}`]: {
+    flex: 1,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.mainContainer}`]: {
+    flex: 1,
+    width: '100%',
+    color: theme.palette.text.primary,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  },
+}));
 
 interface InstituteDefaultLayoutProps {
   props?: any;
@@ -43,9 +45,8 @@ interface InstituteDefaultLayoutProps {
 const InstituteDefaultLayout: React.FC<InstituteDefaultLayoutProps> = (
   props,
 ) => {
-  const classes = useStyles(props);
   return (
-    <Box className={clsx(classes.appMain, 'appMainHor')}>
+    <StyledBox className={'appMainHor'}>
       <Header />
       <Box className={classes.mainContent}>
         <Box className={classes.mainContainer}>
@@ -53,7 +54,7 @@ const InstituteDefaultLayout: React.FC<InstituteDefaultLayoutProps> = (
         </Box>
       </Box>
       <Footer />
-    </Box>
+    </StyledBox>
   );
 };
 

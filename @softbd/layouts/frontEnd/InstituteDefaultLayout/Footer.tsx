@@ -1,11 +1,8 @@
 import React, {useCallback} from 'react';
+import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
-import {Theme} from '@mui/material/styles';
-
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
-import {H6, Text, Link} from '../../../elements/common';
+import {H6, Link, Text} from '../../../elements/common';
 import {
   ArrowForwardIos,
   ArrowRightAlt,
@@ -13,46 +10,65 @@ import {
   Home,
   LocalPhone,
 } from '@mui/icons-material';
-import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import GoToTop from '../../../../modules/goToTop';
 import {LINK_SIGNUP} from '../../../common/appLinks';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginTop: '50px',
-      background: theme.palette.grey.A100,
-    },
-    foot: {
-      marginTop: '50px',
-    },
-    container: {
-      padding: '20px',
-    },
-    footerImage: {
-      width: '280px',
-    },
-    softbdImage: {
-      width: '147px',
-    },
+const PREFIX = 'Footer';
 
-    primary: {
-      color: theme.palette.primary.main,
-    },
-    bullet: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginBottom: 15,
-    },
-  }),
-);
+const classes = {
+  foot: `${PREFIX}-foot`,
+  container: `${PREFIX}-container`,
+  footerImage: `${PREFIX}-footerImage`,
+  softbdImage: `${PREFIX}-softbdImage`,
+  primary: `${PREFIX}-primary`,
+  bullet: `${PREFIX}-bullet`,
+};
+
+const StyledContainer = styled(Grid)(({theme}) => ({
+  marginTop: '50px',
+  background: theme.palette.grey.A100,
+  padding: '20px',
+
+  [`& .${classes.primary}`]: {
+    color: theme.palette.primary.main,
+  },
+
+  [`& .${classes.bullet}`]: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+}));
+
+const StyledFoot = styled(Grid)(({theme}) => ({
+  marginTop: '50px',
+
+  [`& .${classes.footerImage}`]: {
+    width: '280px',
+  },
+
+  [`& .${classes.softbdImage}`]: {
+    width: '147px',
+  },
+
+  [`& .${classes.primary}`]: {
+    color: theme.palette.primary.main,
+  },
+
+  [`& .${classes.bullet}`]: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+}));
 
 const Footer = () => {
-  const classes = useStyles();
   const {messages} = useIntl();
 
   const redirectToSSO = useCallback(() => {
@@ -61,7 +77,7 @@ const Footer = () => {
 
   return (
     <>
-      <Grid container className={clsx(classes.root, classes.container)}>
+      <StyledContainer container>
         <Container maxWidth='lg'>
           <Grid container spacing={8}>
             <Grid item xs={12} md={6} lg={4} p={0}>
@@ -203,9 +219,8 @@ const Footer = () => {
             </Grid>
           </Grid>
         </Container>
-      </Grid>
-
-      <Grid container className={classes.foot}>
+      </StyledContainer>
+      <StyledFoot container>
         <Container maxWidth='lg'>
           <Grid item container spacing={7}>
             <Grid item md={4}>
@@ -243,7 +258,7 @@ const Footer = () => {
             </Grid>
           </Grid>
         </Container>
-      </Grid>
+      </StyledFoot>
       <GoToTop />
     </>
   );

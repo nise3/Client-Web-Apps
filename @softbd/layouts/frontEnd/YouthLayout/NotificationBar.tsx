@@ -1,21 +1,29 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  headerTop: {
+const PREFIX = 'NotificationBar';
+
+const classes = {
+  headerTop: `${PREFIX}-headerTop`,
+  headerContainer: `${PREFIX}-headerContainer`,
+  alertStyle: `${PREFIX}-alertStyle`,
+};
+
+const StyledCollapse = styled(Collapse)(({theme}) => ({
+  [`& .${classes.headerTop}`]: {
     borderBottom: 'solid 1px',
     borderBottomColor: 'rgba(255, 255, 255, 0.2)',
     padding: '2px 0',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
   },
-  headerContainer: {
+
+  [`& .${classes.headerContainer}`]: {
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -28,7 +36,8 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
       maxWidth: 1720,
     },
   },
-  alertStyle: {
+
+  [`& .${classes.alertStyle}`]: {
     backgroundColor: 'transparent !important',
     color: theme.palette.primary.contrastText,
     padding: 0,
@@ -45,11 +54,10 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
 interface NotificationBarProps {}
 
 const NotificationBar: React.FC<NotificationBarProps> = () => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
   return (
-    <Collapse in={open}>
+    <StyledCollapse in={open}>
       <Box className={classes.headerTop}>
         <Box className={classes.headerContainer}>
           <Alert
@@ -70,7 +78,7 @@ const NotificationBar: React.FC<NotificationBarProps> = () => {
           </Alert>
         </Box>
       </Box>
-    </Collapse>
+    </StyledCollapse>
   );
 };
 export default NotificationBar;

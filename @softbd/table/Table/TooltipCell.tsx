@@ -1,18 +1,16 @@
-import makeStyles from '@mui/styles/makeStyles';
-import React, { CSSProperties } from 'react';
-import { CellProps } from 'react-table';
+import {styled} from '@mui/material/styles';
+import React, {CSSProperties} from 'react';
+import {CellProps} from 'react-table';
 
-const useStyles = makeStyles({
-  truncated: {
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap'
-  }
+const Root = styled('div')({
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
 });
 
 export const TooltipCell: React.FC<CellProps<any>> = ({
-  cell: { value },
-  column: { align = 'left' }
+  cell: {value},
+  column: {align = 'left'},
 }) => <Tooltip text={value} align={align} />;
 
 interface Tooltip {
@@ -21,11 +19,10 @@ interface Tooltip {
   align: string;
 }
 
-export const Tooltip: React.FC<Tooltip> = ({ text, tooltip = text, align }) => {
-  const classes = useStyles({});
+export const Tooltip: React.FC<Tooltip> = ({text, tooltip = text, align}) => {
   return (
-    <div className={classes.truncated} style={{ textAlign: align } as CSSProperties}>
+    <Root style={{textAlign: align} as CSSProperties}>
       <span title={tooltip}>{text}</span>
-    </div>
+    </Root>
   );
 };
