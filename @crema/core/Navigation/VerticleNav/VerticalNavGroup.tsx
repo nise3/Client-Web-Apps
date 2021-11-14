@@ -1,11 +1,9 @@
-import React, {useContext} from 'react';
-import {ListItem} from '@mui/material';
+import React from 'react';
 import clsx from 'clsx';
 import VerticalCollapse from './VerticalCollapse';
 import VerticalItem from './VerticalItem';
 import IntlMessages from '../../../utility/IntlMessages';
-import useStyles from './VerticalNavGroup.style';
-import AppContext from '../../../utility/AppContext';
+import {classes, StyledListItem} from './VerticalNavGroup.style';
 import {NavItemProps} from '../../../../modules/routesConfig';
 
 interface VerticalNavGroupProps {
@@ -14,15 +12,14 @@ interface VerticalNavGroupProps {
 }
 
 const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
-  const {themeMode} = useContext(AppContext);
-  const classes = useStyles({level, themeMode});
   return (
     <>
-      <ListItem
+      <StyledListItem
+        // @ts-ignore
         component='li'
         className={clsx(classes.navItem, 'nav-item nav-item-header')}>
         {<IntlMessages id={item.messageId} />}
-      </ListItem>
+      </StyledListItem>
 
       {item.children && Array.isArray(item.children) && (
         <>

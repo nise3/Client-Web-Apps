@@ -1,17 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Collapse,
-  Icon,
-  IconButton,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import {Collapse, Icon, IconButton, ListItemText} from '@mui/material';
 import clsx from 'clsx';
 import VerticalItem from './VerticalItem';
 import AppContext from '../../../utility/AppContext';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
-import useStyles from './VerticalCollapase.style';
+import {classes, StyledListItem} from './VerticalCollapase.style';
 import {useRouter} from 'next/router';
 import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {NavItemProps} from '../../../../modules/routesConfig';
@@ -52,8 +46,8 @@ interface VerticalCollapseProps {
 }
 
 const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
-  const {theme, themeMode} = useContext<AppContextPropsType>(AppContext);
-  const classes = useStyles({level, themeMode});
+  const {theme} = useContext<AppContextPropsType>(AppContext);
+
   const {pathname} = useRouter();
   const [open, setOpen] = useState(() => needsToBeOpened(pathname, item));
 
@@ -68,7 +62,8 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
   };
   return (
     <>
-      <ListItem
+      <StyledListItem
+        // @ts-ignore
         button
         component='li'
         className={clsx(classes.navItem, 'nav-item', open && 'open')}
@@ -97,7 +92,7 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
             </Icon>
           </IconButton>
         </Box>
-      </ListItem>
+      </StyledListItem>
 
       {item.children && Array.isArray(item.children) && (
         <Collapse in={open} className='collapse-children'>
