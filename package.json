@@ -23,7 +23,6 @@
     "@mui/icons-material": "^5.0.0",
     "@mui/lab": "^5.0.0-alpha.49",
     "@mui/material": "^5.0.2",
-    "@mui/styles": "^5.0.1",
     "@popperjs/core": "^2.9.3",
     "@tinymce/tinymce-react": "^3.13.0",
     "@types/google-map-react": "^2.1.3",
