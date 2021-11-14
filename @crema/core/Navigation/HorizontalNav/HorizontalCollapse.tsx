@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {
   Grow,
   Icon,
@@ -8,7 +8,6 @@ import {
   ListItemText,
   Paper,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 import {Manager, Popper, Reference} from 'react-popper';
@@ -17,9 +16,7 @@ import HorizontalGroup from './HorizontalGroup';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
 import AppContext from '../../../utility/AppContext';
-import AppContextPropsType, {
-  CremaTheme,
-} from '../../../../redux/types/AppContextPropsType';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import ClientOnlyPortal from './ClientPortal';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {useRouter} from 'next/router';

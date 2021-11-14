@@ -1,5 +1,5 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import React, {FC, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -9,13 +9,12 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {useIntl} from 'react-intl';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Avatar from '@mui/material/Avatar';
-import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
 
 const PREFIX = 'UserInfoEditPopup';
 
 const classes = {
-  ProfileImage: `${PREFIX}-ProfileImage`
+  ProfileImage: `${PREFIX}-ProfileImage`,
 };
 
 const StyledHookFormMuiModal = styled(HookFormMuiModal)({
@@ -34,7 +33,6 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
     '/images/userPageImages/profileImage.jpeg',
   );
   const {messages} = useIntl();
-
 
   const imageHandler = (event: any) => {
     console.log(event);

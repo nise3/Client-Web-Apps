@@ -1,10 +1,8 @@
 import React, {useContext, useState} from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import AppContext from '../../utility/AppContext';
 import {SketchPicker} from 'react-color';
-import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {grey} from '@mui/material/colors';
 
 const PREFIX = 'PrimaryColorPicker';
@@ -12,15 +10,11 @@ const PREFIX = 'PrimaryColorPicker';
 const classes = {
   cpSwatch: `${PREFIX}-cpSwatch`,
   cpColor: `${PREFIX}-cpColor`,
-  cpPopover: `${PREFIX}-cpPopover`
+  cpPopover: `${PREFIX}-cpPopover`,
 };
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((
-  {
-    theme: CremaTheme
-  }
-) => {
+const Root = styled('div')(({theme: CremaTheme}) => {
   return {
     [`& .${classes.cpSwatch}`]: {
       display: 'flex',
@@ -58,10 +52,8 @@ const PrimaryColorPicker: React.FC<PrimaryColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
   const {primary, theme, updateTheme} = useContext(AppContext);
 
-
-
   return (
-    (<Root>
+    <Root>
       <Box className={classes.cpSwatch} onClick={() => setVisibility(!visible)}>
         <Box className={classes.cpColor} />
         <Box component='span' className='font-extrabold'>
@@ -81,7 +73,7 @@ const PrimaryColorPicker: React.FC<PrimaryColorPickerProps> = (props) => {
           />
         </Box>
       ) : null}
-    </Root>)
+    </Root>
   );
 };
 

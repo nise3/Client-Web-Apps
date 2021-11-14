@@ -18,17 +18,17 @@ import {
 import {useUrlSearchParams} from 'use-url-search-params';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
-
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
-
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
+// declare module '@mui/material/styles/defaultTheme' {
+//   interface DefaultTheme extends Theme {}
+// }
+//
+// declare module '@mui/material/styles/defaultTheme' {
+//   interface DefaultTheme extends Theme {}
+// }
+//
+// declare module 'mui/material/styles/defaultTheme' {
+//   interface DefaultTheme extends Theme {}
+// }
 
 const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   const {

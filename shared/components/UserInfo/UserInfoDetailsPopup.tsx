@@ -1,5 +1,5 @@
 import IconRole from '../../../@softbd/icons/IconRole';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import Grid from '@mui/material/Grid';
@@ -8,13 +8,12 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useIntl} from 'react-intl';
 import Avatar from '@mui/material/Avatar';
-import makeStyles from '@mui/styles/makeStyles';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 
 const PREFIX = 'UserInfoDetailsPopup';
 
 const classes = {
-  ProfileImage: `${PREFIX}-ProfileImage`
+  ProfileImage: `${PREFIX}-ProfileImage`,
 };
 
 const StyledCustomDetailsViewMuiModal = styled(CustomDetailsViewMuiModal)({
@@ -32,7 +31,6 @@ type Props = {
 export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
   const user: CommonAuthUser | null = useAuthUser();
   const {messages} = useIntl();
-
 
   return (
     <StyledCustomDetailsViewMuiModal

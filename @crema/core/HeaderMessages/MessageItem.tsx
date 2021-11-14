@@ -1,13 +1,11 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
-import makeStyles from '@mui/styles/makeStyles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import clsx from 'clsx';
-import {CremaTheme} from '../../../redux/types/AppContextPropsType';
 import {MessageData} from '../../services/db/messages/messages';
 
 const PREFIX = 'MessageItem';
