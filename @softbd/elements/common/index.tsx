@@ -1,9 +1,34 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import NextLink from 'next/link';
-import {Theme, Typography} from '@mui/material';
+import {Typography} from '@mui/material';
 import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import {useRouter} from 'next/router';
+
+const CustomATag = ({
+  children,
+  className,
+  extraClassName = '',
+  ...props
+}: LinkProp) => {
+  return (
+    <a className={clsx(classes.linkText, className, extraClassName)} {...props}>
+      {children}
+    </a>
+  );
+};
+
+const PREFIX = 'Link';
+
+const classes = {
+  linkText: `${PREFIX}-linkText`,
+};
+
+const StyledCustomATag = styled(CustomATag)(() => ({
+  textDecoration: 'none',
+  fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
+  color: 'inherit',
+}));
 
 interface LinkProp {
   children?: any;
@@ -29,26 +54,17 @@ interface HeadingProp {
   [x: string]: any;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  linkText: {
-    textDecoration: 'none',
-    fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
-    color: 'inherit',
-  },
-}));
-
 export const Link = ({
   children,
   href = '',
   className = '',
   ...props
 }: LinkProp) => {
-  const classes = useStyles();
   return (
     <NextLink href={href}>
-      <a className={clsx(classes.linkText, className)} {...props}>
+      <StyledCustomATag href={href} extraClassName={className} {...props}>
         {children}
-      </a>
+      </StyledCustomATag>
     </NextLink>
   );
 };
@@ -59,14 +75,16 @@ export const NavLink = ({
   className = '',
   ...props
 }: LinkProp) => {
-  const classes = useStyles();
   const route = useRouter();
   const active = route.pathname == href ? 'active' : '';
   return (
     <NextLink href={href}>
-      <a className={clsx(classes.linkText, className, active)} {...props}>
+      <StyledCustomATag
+        href={href}
+        extraClassName={clsx(className, active)}
+        {...props}>
         {children}
-      </a>
+      </StyledCustomATag>
     </NextLink>
   );
 };

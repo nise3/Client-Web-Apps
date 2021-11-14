@@ -1,10 +1,21 @@
-import makeStyles from '@mui/styles/makeStyles';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
 
-const useStyles = makeStyles((theme: CremaTheme) => {
+const PREFIX = 'AppSidebar';
+
+export const classes = {
+  container: `${PREFIX}-container`,
+  sidebarBg: `${PREFIX}-sidebarBg`,
+  scrollAppSidebar: `${PREFIX}-scrollAppSidebar`,
+  drawerScrollAppSidebar: `${PREFIX}-drawerScrollAppSidebar`,
+  sidebarStandard: `${PREFIX}-sidebarStandard`,
+};
+
+export const StyledBox = styled(Box)(({theme}) => {
   return {
-    container: {
+    [`&.${classes.container}`]: {
       paddingLeft: 0,
       paddingTop: 0,
       paddingBottom: 0,
@@ -20,7 +31,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         width: '21.6rem',
       },
     },
-    sidebarBg: {
+    [`& .${classes.sidebarBg}`]: {
       backgroundColor: (props: {themeMode: ThemeMode}) =>
         props.themeMode === ThemeMode.SEMI_DARK
           ? theme.palette.sidebar.bgColor
@@ -28,7 +39,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
           ? 'white'
           : '#313541',
     },
-    scrollAppSidebar: {
+    [`& .${classes.scrollAppSidebar}`]: {
       paddingTop: 8,
       paddingBottom: 20,
       height: 'calc(100vh - 58px) !important',
@@ -37,7 +48,36 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         height: 'calc(100vh - 65px) !important',
       },
     },
-    drawerScrollAppSidebar: {
+  };
+});
+
+export const StyledDrawer = styled(Drawer)(({theme}) => {
+  return {
+    [`& .${classes.container}`]: {
+      paddingLeft: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      position: 'relative',
+      top: 0,
+      left: 0,
+      width: '19rem',
+      maxHeight: '100vh',
+      [theme.breakpoints.up('lg')]: {
+        position: 'fixed',
+      },
+      [theme.breakpoints.up('xl')]: {
+        width: '21.6rem',
+      },
+    },
+    [`& .${classes.sidebarBg}`]: {
+      backgroundColor: (props: {themeMode: ThemeMode}) =>
+        props.themeMode === ThemeMode.SEMI_DARK
+          ? theme.palette.sidebar.bgColor
+          : props.themeMode === ThemeMode.LIGHT
+          ? 'white'
+          : '#313541',
+    },
+    [`& .${classes.scrollAppSidebar}`]: {
       paddingTop: 8,
       paddingBottom: 20,
       height: 'calc(100vh - 58px) !important',
@@ -46,7 +86,16 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         height: 'calc(100vh - 65px) !important',
       },
     },
-    sidebarStandard: {
+    [`& .${classes.drawerScrollAppSidebar}`]: {
+      paddingTop: 8,
+      paddingBottom: 20,
+      height: 'calc(100vh - 58px) !important',
+
+      [theme.breakpoints.up('xl')]: {
+        height: 'calc(100vh - 65px) !important',
+      },
+    },
+    [`& .${classes.sidebarStandard}`]: {
       height: '100%',
       width: '100%',
       color: 'white',
@@ -54,4 +103,3 @@ const useStyles = makeStyles((theme: CremaTheme) => {
     },
   };
 });
-export default useStyles;

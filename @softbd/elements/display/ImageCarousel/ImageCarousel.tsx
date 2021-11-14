@@ -1,11 +1,63 @@
 import Carousel from 'react-multi-carousel';
+import {styled} from '@mui/material/styles';
 import 'react-multi-carousel/lib/styles.css';
 import React, {ReactNode} from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
 import {Box, CardMedia, Container, Typography} from '@mui/material';
 import {rgba} from 'polished';
+
+const PREFIX = 'ImageCarousel';
+
+const classes = {
+  imageBox: `${PREFIX}-imageBox`,
+  image: `${PREFIX}-image`,
+  heading: `${PREFIX}-heading`,
+  customLeftArrow: `${PREFIX}-customLeftArrow`,
+  reactMultipleCarousalArrow: `${PREFIX}-reactMultipleCarousalArrow`,
+};
+
+const StyledCarousel = styled(Carousel)(({theme}) => ({
+  [`& .${classes.imageBox}`]: {
+    height: 500,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    pointerEvents: 'none',
+    display: 'flex',
+  },
+
+  [`& .${classes.image}`]: {
+    zIndex: -1,
+    position: 'absolute',
+    objectFit: 'cover',
+    height: '100%',
+    width: '100%',
+  },
+
+  [`& .${classes.heading}`]: {
+    color: theme.palette.background.paper,
+    margin: '20px 40px',
+    textAlign: 'center',
+    flex: 1,
+  },
+
+  [`& .${classes.customLeftArrow}`]: {
+    left: 'calc(8.5% +1px)',
+  },
+
+  [`& .${classes.reactMultipleCarousalArrow}`]: {
+    position: 'absolute',
+    outline: 0,
+    transition: 'all .5s',
+    borderRadius: '35px',
+    zIndex: 1000,
+    border: 0,
+    background: rgba(0, 0, 0, 0.5),
+    minWidth: '43px',
+    minHeight: '43px',
+    opacity: 1,
+    cursor: 'pointer',
+  },
+}));
 
 type Props = {
   children?: ReactNode;
@@ -13,53 +65,9 @@ type Props = {
   headings: Array<string>;
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    imageBox: {
-      height: 500,
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      pointerEvents: 'none',
-      display: 'flex',
-    },
-    image: {
-      zIndex: -1,
-      position: 'absolute',
-      objectFit: 'cover',
-      height: '100%',
-      width: '100%',
-    },
-    heading: {
-      color: theme.palette.background.paper,
-      margin: '20px 40px',
-      textAlign: 'center',
-      flex: 1,
-    },
-    customLeftArrow: {
-      left: 'calc(8.5% +1px)',
-    },
-    reactMultipleCarousalArrow: {
-      position: 'absolute',
-      outline: 0,
-      transition: 'all .5s',
-      borderRadius: '35px',
-      zIndex: 1000,
-      border: 0,
-      background: rgba(0, 0, 0, 0.5),
-      minWidth: '43px',
-      minHeight: '43px',
-      opacity: 1,
-      cursor: 'pointer',
-    },
-  }),
-);
-
 const ImageCarousel = ({images, headings}: Props) => {
-  const classes = useStyles();
-
   // const customLeftArrow = useCallback(() => {
-  //   const classes = useStyles();
+
   //
   //   return (
   //     <button
@@ -74,7 +82,7 @@ const ImageCarousel = ({images, headings}: Props) => {
   // }, []);
 
   return (
-    <Carousel
+    <StyledCarousel
       additionalTransfrom={0}
       arrows
       autoPlaySpeed={3000}
@@ -142,7 +150,7 @@ const ImageCarousel = ({images, headings}: Props) => {
           </Container>
         </Box>
       ))}
-    </Carousel>
+    </StyledCarousel>
   );
 };
 

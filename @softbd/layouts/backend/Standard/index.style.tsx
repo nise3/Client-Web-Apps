@@ -1,15 +1,24 @@
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {useContext} from 'react';
 import AppContext from '../../../../@crema/utility/AppContext';
 import {ThemeStyle} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType, {
-  CremaTheme,
-} from '../../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => {
+const PREFIX = 'StandardLayout';
+
+export const classes = {
+  appMain: `${PREFIX}-appMain`,
+  mainContent: `${PREFIX}-mainContent`,
+  mainContainer: `${PREFIX}-mainContainer`,
+  mainContainerFull: `${PREFIX}-mainContainerFull`,
+  boxedLayout: `${PREFIX}-boxedLayout`,
+};
+
+export const StyledBox = styled(Box)(({theme}) => {
   const {themeStyle, footer} = useContext<AppContextPropsType>(AppContext);
   return {
-    appMain: {
+    [`&.${classes.appMain}`]: {
       height: '100vh',
       display: 'flex',
       flexDirection: 'row',
@@ -41,7 +50,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         },
       },
     },
-    mainContent: {
+    [`& .${classes.mainContent}`]: {
       flex: 1,
       display: 'flex',
       [theme.breakpoints.up('lg')]: {
@@ -51,7 +60,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         marginLeft: '21.6rem',
       },
     },
-    mainContainer: {
+    [`& .${classes.mainContainer}`]: {
       paddingBottom: footer ? 0 : 10,
       width: '100%',
       [theme.breakpoints.up('lg')]: {
@@ -70,7 +79,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         },
       },
     },
-    mainContainerFull: {
+    [`& .${classes.mainContainerFull}`]: {
       width: '100vw',
       paddingBottom: footer ? 0 : 10,
       '& > .scrollbar-container': {
@@ -83,7 +92,7 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         },
       },
     },
-    boxedLayout: {
+    [`& .${classes.boxedLayout}`]: {
       [theme.breakpoints.up('lg')]: {
         maxWidth: 1260,
         marginLeft: 'auto',
@@ -121,4 +130,3 @@ const useStyles = makeStyles((theme: CremaTheme) => {
     },
   };
 });
-export default useStyles;

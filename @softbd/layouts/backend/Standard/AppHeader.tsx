@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -11,7 +10,7 @@ import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import Box from '@mui/material/Box';
 import SearchBar from '../../../../@crema/core/SearchBar';
-import useStyles from './AppHeader.style';
+import {classes, StyledToolbar} from './AppHeader.style';
 import HeaderMessages from '../../../../@crema/core/HeaderMessages';
 import Notifications from '../../../../@crema/core/Notifications';
 import AppLogo from '../../../../shared/components/AppLogo';
@@ -22,7 +21,6 @@ import {Theme} from '@mui/system';
 interface AppHeaderProps {}
 
 const AppHeader: React.FC<AppHeaderProps> = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -61,7 +59,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
   return (
     <>
       <AppBar color='inherit' className={clsx(classes.appBar, 'app-bar')}>
-        <Toolbar className={classes.appToolbar}>
+        <StyledToolbar className={classes.appToolbar}>
           {!breakpointMDUp && (
             <IconButton
               edge='start'
@@ -92,7 +90,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <MoreIcon />
             </IconButton>
           </Box>
-        </Toolbar>
+        </StyledToolbar>
       </AppBar>
       {renderMobileMenu}
     </>

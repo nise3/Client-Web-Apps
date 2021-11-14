@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -19,7 +18,7 @@ import {
   LINK_FRONTEND_INSTITUTE_VIDEOS,
   LINK_SIGNUP,
 } from '../../../common/appLinks';
-import useStyles from './Header.style';
+import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
 import {Container, Grid} from '@mui/material';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
@@ -31,7 +30,7 @@ interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
-  const classes = useStyles();
+
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -96,7 +95,7 @@ const Header: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <Box className={classes.header}>
+      <StyledBox>
         <Container
           maxWidth='lg'
           sx={{margin: 'auto', display: 'flex'}}
@@ -145,9 +144,8 @@ const Header: React.FC<AppHeaderProps> = () => {
             </H6>*/}
           </Grid>
         </Container>
-      </Box>
-
-      <AppBar
+      </StyledBox>
+      <StyledAppBar
         position='relative'
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
@@ -231,8 +229,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             </Box>
           </Container>
         </Toolbar>
-      </AppBar>
-
+      </StyledAppBar>
       {renderMobileMenu}
     </>
   );

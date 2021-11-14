@@ -1,12 +1,18 @@
 import React, {ReactNode} from 'react';
+import {styled} from '@mui/material/styles';
 import AppsHeader from '../../@crema/core/AppsContainer/AppsHeader';
-import { Box, Theme, Typography } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import {Box, Typography} from '@mui/material';
 import AppsContent from '../../@crema/core/AppsContainer/AppsContent';
 import AppsContainer from '../../@crema/core/AppsContainer';
 
-const useStyles = makeStyles((theme: Theme): any => ({
-  pageTitle: {
+const PREFIX = 'PageBlock';
+
+const classes = {
+  pageTitle: `${PREFIX}-pageTitle`,
+};
+
+const StyledAppsContainer = styled(AppsContainer)(({theme}): any => ({
+  [`& .${classes.pageTitle}`]: {
     display: 'flex',
     alignItems: 'center',
     '& svg': {
@@ -25,10 +31,8 @@ interface PageBlockProps {
 }
 
 const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
-  const classes: any = useStyles();
-
   return (
-    <AppsContainer fullView>
+    <StyledAppsContainer fullView>
       <AppsHeader>
         <Box display='flex' flexDirection='row' alignItems='center' width={1}>
           {title && (
@@ -52,7 +56,7 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
       <AppsContent>
         <div style={{margin: '10px'}}>{children}</div>
       </AppsContent>
-    </AppsContainer>
+    </StyledAppsContainer>
   );
 };
 
