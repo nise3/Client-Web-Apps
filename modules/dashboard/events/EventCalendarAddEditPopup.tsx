@@ -67,7 +67,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const { errorStack } = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
-  console.log('useAuthUser ', itemId);
+  console.log('useAuthUser ', authUser);
   // const [value, setValue] = React.useState(null);
   const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
 
