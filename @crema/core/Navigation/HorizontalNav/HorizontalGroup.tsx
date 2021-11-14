@@ -1,23 +1,31 @@
 import React, {useState} from 'react';
-import {Grow, Icon, IconButton, ListItem, ListItemText, Paper} from '@mui/material';
+import {
+  Grow,
+  Icon,
+  IconButton,
+  ListItem,
+  ListItemText,
+  Paper,
+} from '@mui/material';
 import clsx from 'clsx';
-import {Manager, Popper, Reference} from 'react-popper';
+import {Popper, Reference} from 'react-popper';
 import HorizontalCollapse from './HorizontalCollapse';
 import HorizontalItem from './HorizontalItem';
 import ClientOnlyPortal from './ClientPortal';
 import IntlMessages from '../../../utility/IntlMessages';
-import useStyles from './HorizontalGroup.style';
+import {classes, StyledManager} from './HorizontalGroup.style';
 import {NavItemProps} from '../../../../modules/routesConfig';
 import {useRouter} from 'next/router';
 
 interface HorizontalGroupProps {
   item: NavItemProps;
-  nestedLevel?: number
+  nestedLevel?: number;
 }
 
-const HorizontalGroup: React.FC<HorizontalGroupProps> = ({item, nestedLevel = 0}) => {
-
-  const classes = useStyles();
+const HorizontalGroup: React.FC<HorizontalGroupProps> = ({
+  item,
+  nestedLevel = 0,
+}) => {
   const router = useRouter();
   const [opened, setOpened] = useState(false);
 
@@ -49,7 +57,7 @@ const HorizontalGroup: React.FC<HorizontalGroupProps> = ({item, nestedLevel = 0}
   }
 
   return (
-    <Manager>
+    <StyledManager>
       <Reference>
         {({ref}) => (
           <ListItem
@@ -67,11 +75,11 @@ const HorizontalGroup: React.FC<HorizontalGroupProps> = ({item, nestedLevel = 0}
               </Icon>
             )}
             <ListItemText
-              primary={<IntlMessages id={item.messageId}/>}
+              primary={<IntlMessages id={item.messageId} />}
               classes={{primary: clsx(classes.fontBold, 'uppercase')}}
             />
             {nestedLevel > 0 && (
-              <IconButton disableRipple className={classes.ml2} size="large">
+              <IconButton disableRipple className={classes.ml2} size='large'>
                 <Icon className={clsx(classes.textLg, 'arrow-icon')}>
                   keyboard_arrow_right
                 </Icon>
@@ -135,7 +143,7 @@ const HorizontalGroup: React.FC<HorizontalGroupProps> = ({item, nestedLevel = 0}
           }
         </Popper>
       </ClientOnlyPortal>
-    </Manager>
+    </StyledManager>
   );
 };
 export default React.memo(HorizontalGroup);

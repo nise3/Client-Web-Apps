@@ -1,12 +1,11 @@
-import React, {useContext} from 'react';
-import {Icon, ListItem, ListItemText} from '@mui/material';
+import React from 'react';
+import {Icon, ListItemText} from '@mui/material';
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
 import {Badge} from '../../../index';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../utility/IntlMessages';
-import useStyles from './VerticalItem.style';
-import AppContext from '../../../utility/AppContext';
+import {classes, StyledListItem} from './VerticalItem.style';
 import Link from 'next/link';
 import {NavItemProps} from '../../../../modules/routesConfig';
 
@@ -16,13 +15,12 @@ interface VerticalItemProps {
 }
 
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
-  const {themeMode} = useContext(AppContext);
-  const classes = useStyles({level, themeMode});
   const router = useRouter();
   const {pathname} = router;
   return (
     <Link href={item.url!} as={item.as}>
-      <ListItem
+      <StyledListItem
+        // @ts-ignore
         button
         className={clsx(classes.navItem, 'nav-item', {
           active: item.url === pathname,
@@ -45,7 +43,7 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
             <Badge count={item.count} color={item.color} />
           </Box>
         )}
-      </ListItem>
+      </StyledListItem>
     </Link>
   );
 };

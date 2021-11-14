@@ -1,8 +1,14 @@
-import makeStyles from '@mui/styles/makeStyles';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
+import {styled} from '@mui/material/styles';
+import {ListItem} from '@mui/material';
 
-const useStyles = makeStyles((theme: CremaTheme) => ({
-  root: {
+const PREFIX = 'HorizontalItem';
+
+export const classes = {
+  root: `${PREFIX}-root`,
+};
+
+export const StyledListItem = styled(ListItem)(({theme}) => ({
+  [`&.${classes.root}`]: {
     minHeight: 48,
     '&.active': {
       backgroundColor: theme.palette.primary.main,
@@ -30,4 +36,3 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
   },
 }));
-export default useStyles;

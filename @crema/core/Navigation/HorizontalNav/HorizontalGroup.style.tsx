@@ -1,10 +1,23 @@
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/material/styles';
+import {Manager} from 'react-popper';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {CremaTheme} from '../../../../redux/types/AppContextPropsType';
 
-const useStyles = makeStyles((theme: CremaTheme) => {
+const PREFIX = 'HorizontalGroup';
+
+export const classes = {
+  root: `${PREFIX}-root`,
+  children: `${PREFIX}-children`,
+  popper: `${PREFIX}-popper`,
+  popperClose: `${PREFIX}-popperClose`,
+  pl0: `${PREFIX}-pl0`,
+  fontBold: `${PREFIX}-fontBold`,
+  ml2: `${PREFIX}-ml2`,
+  textLg: `${PREFIX}-textLg`,
+};
+
+export const StyledManager = styled(Manager)(({theme}) => {
   return {
-    root: {
+    [`& .${classes.root}`]: {
       color: theme.palette.secondary.contrastText + '!important',
       '&.active, &.active:hover, &.active:focus': {
         backgroundColor: theme.palette.primary.main + '!important',
@@ -31,25 +44,24 @@ const useStyles = makeStyles((theme: CremaTheme) => {
         },
       },
     },
-    children: {},
-    popper: {
+    [`& .${classes.children}`]: {},
+    [`& .${classes.popper}`]: {
       zIndex: 999,
     },
-    popperClose: {
+    [`& .${classes.popperClose}`]: {
       pointerEvents: 'none',
     },
-    pl0: {
+    [`& .${classes.pl0}`]: {
       paddingLeft: 0,
     },
-    fontBold: {
+    [`& .${classes.fontBold}`]: {
       fontWeight: Fonts.MEDIUM,
     },
-    ml2: {
+    [`& .${classes.ml2}`]: {
       marginLeft: 8,
     },
-    textLg: {
+    [`& .${classes.textLg}`]: {
       fontSize: 18,
     },
   };
 });
-export default useStyles;
