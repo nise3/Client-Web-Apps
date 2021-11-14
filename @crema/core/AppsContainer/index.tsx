@@ -86,15 +86,15 @@ const AppsContainer = styled(UnstyledAppsContainer)(({theme}) => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    [theme.breakpoints.up('lg')]: {
-      width: `${(props: any) =>
-        'calc(100% - ' + (props.fullView ? 0 : 17) + 'rem)'}`,
-      paddingLeft: `${(props: any) => (props.fullView ? 0 : 40)}`,
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: `${(props: any) =>
-        'calc(100% - ' + (props.fullView ? 0 : 20) + 'rem)'}`,
-    },
+    // [theme.breakpoints.up('lg')]: {
+    //   width: `${(props: any) =>
+    //     'calc(100% - ' + (props.fullView ? 0 : 17) + 'rem)'}`,
+    //   paddingLeft: `${(props: any) => (props.fullView ? 0 : 40)}`,
+    // },
+    // [theme.breakpoints.up('xl')]: {
+    //   width: `${(props: any) =>
+    //     'calc(100% - ' + (props.fullView ? 0 : 20) + 'rem)'}`,
+    // },
   },
 }));
 
