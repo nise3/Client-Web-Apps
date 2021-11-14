@@ -407,6 +407,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'room',
             url: '/dashboard/sliders',
           },
+          {
+            id: 'calendar',
+            title: 'Calendar',
+            messageId: 'menu.calendar',
+            permissionKey: 'view_any_slider',
+            type: 'item',
+            icon: 'room',
+            url: '/dashboard/events/calendar',
+          }
         ],
       },
     ],
