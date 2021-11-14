@@ -1,6 +1,7 @@
 import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
+import ShowInTypes from './ShowInTypes';
 
 export const genders = [
   {
@@ -313,6 +314,19 @@ export const getModulePath = (path: string) => {
     return '/institute';
   } else {
     return '';
+  }
+};
+
+export const getShowInTypes = (path: string) => {
+  switch (path) {
+    case 'youth':
+      return ShowInTypes.YOUTH;
+    case 'institute':
+      return ShowInTypes.TSP;
+    case 'organization':
+      return ShowInTypes.INDUSTRY;
+    default:
+      return ShowInTypes.NICE3;
   }
 };
 

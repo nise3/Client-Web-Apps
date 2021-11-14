@@ -23,6 +23,7 @@ import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterSt
 import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
 import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
+import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -41,6 +42,8 @@ export const onSSOSignInCallback = (tokenData: TOnSSOSignInCallback) => {
           path: '/',
         },
       );
+      //TODO: temporary
+      setDefaultAuthorizationHeader(tokenData?.access_token);
       dispatch(setAuthAccessTokenData(tokenData));
       await loadAuthUser(dispatch, tokenData);
     } catch (err: any) {

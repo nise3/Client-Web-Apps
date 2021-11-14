@@ -5,6 +5,7 @@ export const INSTITUTE_SERVICE_PATH = '/institute';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
+export const CMS_PUBLIC_SERVICE_PATH = CMS_SERVICE_PATH + '/public';
 
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
@@ -156,6 +157,8 @@ export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
 export const API_VISITOR_FEEDBACKS =
   CMS_SERVICE_PATH + '/visitor-feedback-suggestions';
 export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';
+export const API_FRONT_END_STATIC_PAGES =
+  CMS_PUBLIC_SERVICE_PATH + '/static-pages';
 
 /** Routes for calendar events */
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';

@@ -10,6 +10,7 @@ import {
   API_GALLERY_ALBUMS,
   API_CMS_GLOBAL_CONFIG,
   API_PARTNERS,
+  API_FRONT_END_STATIC_PAGES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -89,4 +90,8 @@ export function useFetchCalenderEvents(params: any) {
 /** fetches a single calendar event */
 export function useFetchCalendarEvent(faqId: number | null) {
   return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
+}
+
+export function useFetchSelfAssessment(params: any) {
+  return useAxiosSWR([API_FRONT_END_STATIC_PAGES, params]);
 }
