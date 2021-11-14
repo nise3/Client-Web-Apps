@@ -1,4 +1,4 @@
-import {styled} from '@mui/styles';
+import {styled} from '@mui/material/styles';
 import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/DeleteButton';
 
 const CircularDeleteButton = styled(DeleteButton)(({theme}) => ({

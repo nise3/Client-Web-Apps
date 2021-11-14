@@ -8,7 +8,6 @@ export {default as ThemeSetting} from './core/ThemeSetting';
 export {default as ContentView} from './core/ContentView';
 
 export {default as CremaThemeProvider} from './utility/CremaThemeProvider';
-export {default as CremaStyleProvider} from './utility/CremaStyleProvider';
 export {default as LocaleProvider} from './utility/LocaleProvider';
 export {default as AppContext} from './utility/AppContext';
 export {default as ContextProvider} from './utility/ContextProvider';
