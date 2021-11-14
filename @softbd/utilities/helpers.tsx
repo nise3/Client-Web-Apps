@@ -1,6 +1,7 @@
 import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
+import ShowInTypes from './ShowInTypes';
 
 export const genders = [
   {
@@ -345,4 +346,15 @@ export const getLanguageLabel = (language_configs: any, key: string) => {
     }
   });
   return label;
+};
+
+export const getShowInTypeFromPath = (path: string) => {
+  const pathArray = path.split('/');
+  if (pathArray.indexOf('youth') > -1) {
+    return ShowInTypes.YOUTH;
+  } else if (pathArray.indexOf('institute') > -1) {
+    return ShowInTypes.TSP;
+  } else {
+    return ShowInTypes.NICE3;
+  }
 };

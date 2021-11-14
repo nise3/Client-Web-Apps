@@ -5,6 +5,7 @@ export const INSTITUTE_SERVICE_PATH = '/institute';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
+export const CMS_SERVICE_PUBLIC_PATH = CMS_SERVICE_PATH + '/public';
 
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
@@ -145,6 +146,8 @@ export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_NOTICE_BOARD = '/notice-board/';
 export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/' + 'notice-or-news';
+export const API_PUBLIC_NOTICE_OR_NEWS =
+  CMS_SERVICE_PUBLIC_PATH + '/notice-or-news';
 
 /** Routes for FAQ page */
 export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
@@ -153,6 +156,7 @@ export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
 export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
 export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
+export const API_BANNERS = CMS_SERVICE_PATH + '/banners';
 export const API_VISITOR_FEEDBACKS =
   CMS_SERVICE_PATH + '/visitor-feedback-suggestions';
 export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';

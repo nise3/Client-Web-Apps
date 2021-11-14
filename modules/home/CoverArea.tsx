@@ -40,7 +40,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     transition: 'all ease 0.5s',
     right: 0,
     bottom: 0,
-    '&:hover $foldStyle': {
+    [`&:hover .${classes.foldStyle}`]: {
       width: '150px',
       height: '150px',
       transition: 'all ease 0.5s',
@@ -49,14 +49,14 @@ const StyledBox = styled(Box)(({theme}) => ({
         height: '200px',
       },
     },
-    '&:hover $foldStyle::before': {
+    [`&:hover .${classes.foldStyle}::before`]: {
       borderWidth: '0 150px 150px 0',
       transition: 'all ease 0.5s',
       [theme.breakpoints.up('xl')]: {
         borderWidth: '0 200px 200px 0',
       },
     },
-    '&:hover $certifiedImage': {
+    [`&:hover .${classes.certifiedImage}`]: {
       width: '150px',
       height: '150px',
       transition: 'all ease 0.5s',
@@ -76,12 +76,15 @@ const StyledBox = styled(Box)(({theme}) => ({
     width: '80px',
     height: '80px',
     backgroundPosition: 'top right',
-    backgroundSize: '300px',
+    backgroundSize: '110px',
+    backgroundColor: '#fff',
+    backgroundRepeat: 'no-repeat',
     transition: 'all ease 0.5s',
     cursor: 'pointer',
     [theme.breakpoints.up('xl')]: {
       width: '150px',
       height: '150px',
+      backgroundSize: '180px',
     },
   },
 
@@ -132,7 +135,7 @@ const CoverArea = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const coverImageUrl = '/images/cover-area.png';
-  const certifiedImageUrl = 'https://lorempixel.com/400/200/?20';
+  const certifiedImageUrl = '/images/icon_certified.svg';
 
   return (
     <StyledBox sx={{position: 'relative'}}>

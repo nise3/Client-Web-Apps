@@ -1,64 +1,65 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {
-  useFetchCMSGlobalConfig,
-  useFetchNoticeOrNews,
-} from '../../../services/cmsManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import Grid from '@mui/material/Grid';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  createNoticeOrNews,
-  updateNoticeOrNews,
-} from '../../../services/cmsManagement/NoticeOrNewsService';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {Box, Button, Grid, IconButton} from '@mui/material';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import TextEditor from '../../../@softbd/components/editor/TextEditor';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {Add, Delete, WorkOutline} from '@mui/icons-material';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useIntl} from 'react-intl';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
+  createSlider,
   getAllIndustries,
   getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
+  updateSlider,
+} from '../../../services/cmsManagement/SliderService';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchSlider,
+} from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {Add, Delete} from '@mui/icons-material';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import {Box, Button, IconButton} from '@mui/material';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import {
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import SliderTemplateShowTypes from '../sliderBanners/SliderTemplateShowTypes';
 
-interface NoticeOrNewsAddEditPopupProps {
+interface SliderBannerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  type: '',
+  title_en: '',
   title: '',
+  sub_title: '',
   institute_id: '',
   organization_id: '',
-  details: '',
-  main_image_path: '',
-  grid_image_path: '',
-  thumb_image_path: '',
-  file_path: '',
-  image_alt_title: '',
-  show_in: '',
-  file_alt_title: '',
+  slider_images: [{value: ''}],
+  banner_template_code: '',
+  link: '',
+  button_text: '',
+  alt_title: '',
+  is_button_available: '1',
   row_status: '1',
-  other_language_fields: '',
 };
 
-const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
+const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -66,17 +67,17 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const authUser = useAuthUser();
+
   const isEdit = itemId != null;
-  const authUser = useAuthUser<CommonAuthUser>();
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateSlider,
+  } = useFetchSlider(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
-
-  const {
-    data: itemData,
-    isLoading: noticeIsLoading,
-    mutate: mutateNoticeOrNews,
-  } = useFetchNoticeOrNews(itemId);
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
@@ -93,22 +94,13 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.title'] as string),
-      type: yup
-        .string()
-        .required()
-        .label(messages['common.type'] as string),
       show_in:
         authUser && authUser.isSystemUser
           ? yup
               .string()
               .trim()
               .required()
-              .label(messages['common.show_in'] as string)
+              .label(messages['faq.show_in'] as string)
           : yup.string(),
       institute_id: yup
         .mixed()
@@ -128,75 +120,89 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
-      language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            title: yup
+      title: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title'] as string),
+      sub_title: yup
+        .string()
+        .required()
+        .label(messages['common.sub_title'] as string),
+      slider_images: yup
+        .array()
+        .of(
+          yup.object().shape({
+            value: yup
               .string()
-              .trim()
               .required()
-              .label(messages['common.title'] as string),
+              .label(messages['slider.images'] as string),
           }),
-      language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.title'] as string),
-          }),
-      language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.title'] as string),
-          }),
+        )
+        .min(1)
+        .label(messages['slider.images'] as string),
+      is_button_available: yup
+        .string()
+        .required()
+        .label('common.is_button_available'),
     });
-  }, [selectedCodes, messages, authUser]);
-
-  const type = useMemo(
-    () => [
-      {
-        id: NoticeOrNewsTypes.NOTICE,
-        label: messages['notice_type.notice'],
-      },
-      {
-        id: NoticeOrNewsTypes.NEWS,
-        label: messages['notice_type.news'],
-      },
-    ],
-    [messages],
-  );
+  }, [messages, selectedCodes, authUser]);
 
   const {
     register,
-    control,
     reset,
-    setValue,
+    control,
     setError,
-    clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
+  const templateCodes = useMemo(
+    () => [
+      {
+        code: SliderTemplateShowTypes.BT_CB,
+        title: messages['slider.template_code_bt_cb'],
+      },
+      {
+        code: SliderTemplateShowTypes.BT_LR,
+        title: messages['slider.template_code_bt_lr'],
+      },
+      {
+        code: SliderTemplateShowTypes.BT_RL,
+        title: messages['slider.template_code_bt_rl'],
+      },
+    ],
+    [messages],
+  );
+
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
+        (item: any) => item.code != LanguageCodes.BANGLA,
+      );
+
+      setAllLanguages(filteredLanguage);
+      setLanguageList(filteredLanguage);
+    }
+  }, [cmsGlobalConfig]);
+
   useEffect(() => {
     if (itemData) {
       let data: any = {
-        type: itemData?.type,
-        title: itemData?.title,
-        institute_id: itemData?.institute_id,
-        organization_id: itemData?.organization_id,
-        details: itemData?.details,
-        image_alt_title: itemData?.image_alt_title,
         show_in: itemData?.show_in,
-        file_alt_title: itemData?.file_alt_title,
-        row_status: itemData?.row_status,
+        organization_id: itemData?.organization_id,
+        institute_id: itemData?.institute_id,
+        title: itemData?.title,
+        sub_title: itemData?.sub_title,
+        is_button_available: itemData?.is_button_available,
+        button_text: itemData?.button_text,
+        link: itemData?.link,
+        alt_title: itemData?.alt_title,
+        banner_template_code: itemData?.banner_template_code,
+        slider_images: getObjectArrayFromValueArray(itemData?.slider_images),
+        row_status: String(itemData?.row_status),
       };
 
       const otherLangData = itemData?.other_language_fields;
@@ -207,9 +213,9 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           data['language_' + key] = {
             code: key,
             title: otherLangData[key].title,
-            details: otherLangData[key].details,
-            image_alt_title: otherLangData[key].image_alt_title,
-            file_alt_title: otherLangData[key].file_alt_title,
+            sub_title: otherLangData[key].sub_title,
+            alt_title: otherLangData[key].alt_title,
+            button_text: otherLangData[key].button_text,
           };
         });
         setSelectedCodes(keys);
@@ -230,17 +236,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [itemData, allLanguages]);
-
-  useEffect(() => {
-    if (cmsGlobalConfig) {
-      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
-        (item: any) => item.code != LanguageCodes.BANGLA,
-      );
-
-      setAllLanguages(filteredLanguage);
-      setLanguageList(filteredLanguage);
-    }
-  }, [cmsGlobalConfig]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -303,11 +298,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.main_image_path = 'http://lorempixel.com/400/200/';
-      formData.thumb_image_path = 'http://lorempixel.com/400/200/';
-      formData.grid_image_path = 'http://lorempixel.com/400/200/';
-      formData.file_path = 'http://lorempixel.com/400/200/';
-
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;
@@ -317,6 +307,8 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         formData.organization_id = authUser?.organization_id;
         formData.show_in = ShowInTypes.INDUSTRY;
       }
+
+      formData.slider_images = getValuesFromObjectArray(formData.slider_images);
 
       let data = {...formData};
 
@@ -328,11 +320,12 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
         otherLanguagesFields[language.code] = {
           title: langObj.title,
-          details: langObj.details,
-          image_alt_title: langObj.image_alt_title,
-          file_alt_title: langObj.file_alt_title,
+          sub_title: langObj.sub_title,
+          alt_title: langObj.alt_title,
+          button_text: langObj.button_text,
         };
       });
+
       delete data['language_en'];
       delete data['language_hi'];
       delete data['language_te'];
@@ -341,13 +334,12 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         data.other_language_fields = otherLanguagesFields;
 
       if (itemId) {
-        await updateNoticeOrNews(itemId, data);
-        updateSuccessMessage('common.notice_or_news');
-        mutateNoticeOrNews();
+        await updateSlider(itemId, data);
+        updateSuccessMessage('slider.label');
+        mutateSlider();
       } else {
-        await createNoticeOrNews(data);
-        createSuccessMessage('common.notice_or_news');
-        mutateNoticeOrNews();
+        await createSlider(data);
+        createSuccessMessage('slider.label');
       }
       props.onClose();
       refreshDataTable();
@@ -362,31 +354,26 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       {...props}
       title={
         <>
+          <WorkOutline />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{
-                subject: <IntlMessages id='common.notice_or_news' />,
-              }}
+              values={{subject: <IntlMessages id='slider.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{
-                subject: <IntlMessages id='common.notice_or_news' />,
-              }}
+              values={{subject: <IntlMessages id='slider.label' />}}
             />
           )}
         </>
       }
+      maxWidth={'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={noticeIsLoading} />
-          <SubmitButton
-            isSubmitting={isSubmitting}
-            isLoading={noticeIsLoading}
-          />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
       <Grid container spacing={5}>
@@ -442,153 +429,132 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             required
             id='title'
             label={messages['common.title']}
-            control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            isLoading={false}
-            id='type'
-            label={messages['common.type']}
-            control={control}
-            options={type}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
+          <CustomTextInput
+            id='sub_title'
+            label={messages['common.sub_title']}
+            register={register}
             errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='file_path'
-            label={messages['common.file_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
+            id='alt_title'
+            label={messages['common.alt_title']}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='main_image_path'
-            label={messages['common.main_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
+            id='link'
+            label={messages['common.link']}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
+          <FormRadioButtons
+            id='is_button_available'
+            label={'common.is_button_available'}
             control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={noticeIsLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={noticeIsLoading}
+            radios={[
+              {
+                label: messages['common.yes'],
+                key: 1,
+              },
+              {
+                label: messages['common.no'],
+                key: 0,
+              },
+            ]}
+            defaultValue={initialValues.is_button_available}
           />
         </Grid>
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='image_alt_title'
-            label={messages['common.image_alt_title']}
-            control={control}
+            id='button_text'
+            label={messages['common.button_text']}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='file_alt_title'
-            label={messages['common.file_alt_title']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
 
-        <Grid item xs={12}>
-          <TextEditor
-            id={'details'}
-            label={messages['common.details']}
-            errorInstance={errors}
-            value={itemData?.details || initialValues.details}
-            height={'300px'}
-            key={1}
+        <Grid item container xs={12} md={6}>
+          <CustomFieldArray
+            id='slider_images'
+            labelLanguageId={'slider.images'}
+            isLoading={isLoading}
+            control={control}
             register={register}
-            setValue={setValue}
-            clearErrors={clearErrors}
-            setError={setError}
+            errors={errors}
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item container xs={12} md={6}>
           <CustomFilterableFormSelect
-            id={'language_list'}
-            label={messages['common.language']}
-            isLoading={isFetching}
+            id={'banner_template_code'}
+            label={messages['slider.banner_template_code']}
+            isLoading={false}
             control={control}
-            options={languageList}
+            options={templateCodes}
             optionValueProp={'code'}
-            optionTitleProp={['native_name']}
+            optionTitleProp={['title']}
             errorInstance={errors}
-            onChange={onLanguageListChange}
           />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Button
-            variant={'outlined'}
-            color={'primary'}
-            onClick={onAddOtherLanguageClick}
-            disabled={!selectedLanguageCode}>
-            <Add />
-            {messages['faq.add_language']}
-          </Button>
         </Grid>
 
         <Grid item xs={12}>
-          {selectedLanguageList.map((language: any, index: number) => (
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id={'language_list'}
+                label={messages['common.language']}
+                isLoading={isFetching}
+                control={control}
+                options={languageList}
+                optionValueProp={'code'}
+                optionTitleProp={['native_name']}
+                errorInstance={errors}
+                onChange={onLanguageListChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Button
+                variant={'outlined'}
+                color={'primary'}
+                onClick={onAddOtherLanguageClick}
+                disabled={!selectedLanguageCode}>
+                <Add />
+                {messages['faq.add_language']}
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12}>
+          {selectedLanguageList.map((language: any) => (
             <Box key={language.code} sx={{marginTop: '10px'}}>
               <fieldset style={{border: '1px solid #7e7e7e'}}>
                 <legend style={{color: '#0a8fdc'}}>
                   {language.native_name}
                 </legend>
                 <Grid container spacing={5}>
-                  <Grid item xs={11}>
+                  <Grid item xs={10} md={6}>
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[title]'}
@@ -597,49 +563,39 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={12} md={5} order={{xs: 3, md: 2}}>
+                    <CustomTextInput
+                      id={'language_' + language.code + '[sub_title]'}
+                      label={messages['common.sub_title']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={2} md={1} order={{xs: 2, md: 3}}>
                     <IconButton
                       aria-label='delete'
                       color={'error'}
-                      onClick={() => {
+                      onClick={(event) => {
                         onDeleteLanguage(language);
                       }}>
                       <Delete color={'error'} />
                     </IconButton>
                   </Grid>
 
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={6} order={{xs: 4}}>
                     <CustomTextInput
-                      id={'language_' + language.code + '[image_alt_title]'}
-                      label={messages['common.image_alt_title']}
+                      id={'language_' + language.code + '[alt_title]'}
+                      label={messages['common.alt_title']}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={6} order={{xs: 5}}>
                     <CustomTextInput
-                      id={'language_' + language.code + '[file_alt_title]'}
-                      label={messages['common.file_alt_title']}
+                      id={'language_' + language.code + '[button_text]'}
+                      label={messages['common.button_text']}
                       register={register}
                       errorInstance={errors}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <TextEditor
-                      id={'language_' + language.code + '[details]'}
-                      label={messages['common.details']}
-                      errorInstance={errors}
-                      value={
-                        itemData?.other_language_fields?.[language.code]
-                          ?.details || initialValues.details
-                      }
-                      height={'300px'}
-                      key={1}
-                      register={register}
-                      setValue={setValue}
-                      clearErrors={clearErrors}
-                      setError={setError}
                     />
                   </Grid>
                 </Grid>
@@ -653,7 +609,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             id='row_status'
             control={control}
             defaultValue={initialValues.row_status}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>
@@ -661,4 +617,4 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
   );
 };
 
-export default NoticeOrNewsAddEditPopup;
+export default SliderBannerAddEditPopup;

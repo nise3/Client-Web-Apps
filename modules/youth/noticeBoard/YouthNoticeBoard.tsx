@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -14,9 +14,12 @@ import NoticeCard from './NoticeCard';
 import SearchIcon from '@mui/icons-material/Search';
 import {Pagination} from '@mui/lab';
 import {useIntl} from 'react-intl';
-import {useFetchNoticeBoard} from '../../../services/niseManagement/hooks';
-import {debounce} from 'lodash';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import {useFetchPublicNoticeOrNewses} from '../../../services/cmsManagement/hooks';
+import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {useRouter} from 'next/router';
+import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'YouthNoticeBoard';
 
@@ -54,12 +57,50 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const YouthNoticeBoard = () => {
-  const {data: noticeList} = useFetchNoticeBoard();
-
   const {messages} = useIntl();
+  const router = useRouter();
+  const showInType = getShowInTypeFromPath(router.asPath);
+  const inputFieldRef = useRef<any>();
+  const page = useRef<any>(1);
 
-  const onChangeSearchInput = useCallback((e: any) => {
-    console.log(e.target.value);
+  const [noticeFilters, setNoticeFilters] = useState<any>({
+    page: 1,
+    page_size: 8,
+    type: NoticeOrNewsTypes.NOTICE,
+  });
+
+  const {data: noticeList, metaData} =
+    useFetchPublicNoticeOrNewses(noticeFilters);
+
+  useEffect(() => {
+    if (showInType) {
+      let params: any = {
+        show_in: showInType,
+      };
+
+      if (showInType == ShowInTypes.TSP) {
+        //params.institute_id = 1;
+      }
+
+      setNoticeFilters((prev: any) => {
+        return {...prev, ...params};
+      });
+    }
+  }, [showInType]);
+
+  const onSearchClick = useCallback(() => {
+    console.log(inputFieldRef.current);
+    console.log(inputFieldRef.current?.value);
+    setNoticeFilters((params: any) => {
+      return {...params, ...{search_text: inputFieldRef.current?.value}};
+    });
+  }, []);
+
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setNoticeFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
   }, []);
 
   return (
@@ -74,9 +115,12 @@ const YouthNoticeBoard = () => {
               sx={{ml: 1, flex: 1, paddingLeft: '20px'}}
               placeholder={messages['common.search'] as string}
               inputProps={{'aria-label': 'Search'}}
-              onChange={debounce(onChangeSearchInput, 1000)}
+              ref={inputFieldRef}
             />
-            <IconButton sx={{p: '10px'}} aria-label='search'>
+            <IconButton
+              sx={{p: '10px'}}
+              aria-label='search'
+              onClick={onSearchClick}>
               <SearchIcon />
             </IconButton>
           </Paper>
@@ -100,11 +144,19 @@ const YouthNoticeBoard = () => {
         />
       )}
 
-      <Box className={classes.paginationBox}>
-        <Stack spacing={2}>
-          <Pagination count={3} color={'primary'} shape='rounded' />
-        </Stack>
-      </Box>
+      {metaData && metaData.total_page && metaData.total_page > 1 && (
+        <Box className={classes.paginationBox}>
+          <Stack spacing={2}>
+            <Pagination
+              page={page.current}
+              count={metaData.total_page}
+              color={'primary'}
+              shape='rounded'
+              onChange={onPaginationChange}
+            />
+          </Stack>
+        </Box>
+      )}
     </StyledContainer>
   );
 };

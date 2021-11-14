@@ -91,6 +91,7 @@
   "permission.label": "Permission",
   "menu.role": "Role",
   "menu.user": "User",
+  "menu.slider_banners": "Banners",
   "permission_group.label": "Permission group",
   "permission_group.unique_value": "Unique value",
   "customizer.modern": "Modern",
@@ -960,5 +961,6 @@
   "collage_position.left": "Left",
   "collage_position.right_top": "Right Top",
   "collage_position.right_bottom_1": "Right Bottom Left",
-  "collage_position.right_bottom_2": "Right Bottom Right"
+  "collage_position.right_bottom_2": "Right Bottom Right",
+  "banners.label": "Banners"
 }

@@ -10,6 +10,8 @@ import {
   API_GALLERY_ALBUMS,
   API_CMS_GLOBAL_CONFIG,
   API_PARTNERS,
+  API_PUBLIC_NOTICE_OR_NEWS,
+  API_BANNERS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -22,6 +24,14 @@ export function useFetchSliders(params: any) {
 
 export function useFetchSlider(sliderId: number | null) {
   return useAxiosSWR(sliderId ? API_SLIDERS + '/' + sliderId : null);
+}
+
+export function useFetchSliderBanners(params: any) {
+  return useAxiosSWR([API_BANNERS, params]);
+}
+
+export function useFetchSliderBanner(bannerId: number | null) {
+  return useAxiosSWR(bannerId ? API_BANNERS + '/' + bannerId : null);
 }
 
 export function useFetchStaticPages(params: any) {
@@ -89,4 +99,14 @@ export function useFetchCalenderEvents(params: any) {
 /** fetches a single calendar event */
 export function useFetchCalendarEvent(faqId: number | null) {
   return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
+}
+
+export function useFetchPublicNoticeOrNewses(params: any) {
+  return useAxiosSWR([API_PUBLIC_NOTICE_OR_NEWS, params]);
+}
+
+export function useFetchPublicNoticeOrNews(noticeId: number | null) {
+  return useAxiosSWR(
+    noticeId ? API_PUBLIC_NOTICE_OR_NEWS + '/' + noticeId : null,
+  );
 }

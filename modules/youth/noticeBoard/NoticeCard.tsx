@@ -68,7 +68,11 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
           <Grid item xs={3} md={3}>
             <Box className={classes.avatar}>
               {/*Todo: logo have to implement after real api ready*/}
-              <Avatar src={logo} className={classes.avatarImage} />
+              <Avatar
+                src={notice?.grid_image_path ? notice?.grid_image_path : logo}
+                alt={notice?.image_alt_title}
+                className={classes.avatarImage}
+              />
             </Box>
           </Grid>
           <Grid item xs={9} md={9}>
@@ -83,23 +87,14 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
             </Typography>
 
             <Box>
-              {/*<Chip
-                label={getIntlDateFromString(formatDate, notice.noticeDate)}
-                variant={'outlined'}
-                color={'primary'}
-                sx={{
-                  marginRight: '10px',
-                  borderRadius: 0,
-                  background: '#e4f1ea',
-                  border: 'none',
-                }}
-              />*/}
-              <Button
-                variant='outlined'
-                className={classes.btn}
-                sx={{background: '#e4f1ea', border: 'none'}}>
-                {getIntlDateFromString(formatDate, notice.noticeDate)}
-              </Button>
+              {notice?.published_at && (
+                <Button
+                  variant='outlined'
+                  className={classes.btn}
+                  sx={{background: '#e4f1ea', border: 'none'}}>
+                  {getIntlDateFromString(formatDate, notice.published_at)}
+                </Button>
+              )}
               <Button color={'primary'} variant={'outlined'}>
                 {messages['common.download']}
               </Button>

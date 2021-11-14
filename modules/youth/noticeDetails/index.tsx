@@ -14,6 +14,9 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {useIntl} from 'react-intl';
+import {useRouter} from 'next/router';
+import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'NoticeDetails';
 
@@ -42,7 +45,10 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const NoticeDetails = () => {
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
+  const router = useRouter();
+  const {noticeId} = router.query;
+  const {data: notice} = useFetchPublicNoticeOrNews(Number(noticeId));
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -52,7 +58,9 @@ const NoticeDetails = () => {
             <Grid item xs={6}>
               <Box className={classes.date}>
                 <DateRangeIcon />
-                <Typography>Friday,9th july,2021</Typography>
+                <Typography>
+                  {getIntlDateFromString(formatDate, notice?.published_at)}
+                </Typography>
               </Box>
             </Grid>
             <Grid item xs={6} textAlign={'right'}>
@@ -86,43 +94,28 @@ const NoticeDetails = () => {
 
         <Grid item xs={12}>
           <Typography variant={'h6'} fontWeight={'bold'}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur,
-            sit.
+            {notice?.title}
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <CardMedia
             component='img'
             height='300'
-            image='/images/notice_details.jpg'
-            alt='image'
-            title={'Lorem ipsum dolor sit amet'}
+            image={
+              notice?.main_image_path
+                ? notice?.main_image_path
+                : '/images/notice_details.jpg'
+            }
+            alt={notice?.image_alt_title}
+            title={notice?.title}
           />
         </Grid>
         <Grid item xs={12}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus
-          aperiam architecto aut corporis delectus deleniti dolor, dolorum eius
-          eos esse ex ipsa laborum magnam magni quisquam quos tempore tenetur
-          ullam veniam vero. Asperiores blanditiis delectus, facilis, fuga in
-          laboriosam maxime obcaecati perferendis quod totam vel, velit vero
-          voluptatum. Accusamus accusantium adipisci animi, aperiam at aut
-          blanditiis commodi delectus deleniti dicta dolorum error esse
-          exercitationem facere id illum magni maxime minus, mollitia nam neque
-          nostrum numquam perspiciatis quae qui quibusdam recusandae reiciendis
-          repellendus rerum sapiente sed temporibus velit veniam. Alias aliquid
-          distinctio esse, facere facilis in iste libero necessitatibus nemo
-          nihil non nulla omnis possimus quo quos, ullam veritatis. Id labore
-          laboriosam sapiente voluptates? Deleniti eius harum modi officiis
-          pariatur quasi quidem saepe. Ab animi architecto asperiores atque
-          debitis dignissimos dolores eius enim facere fugiat impedit itaque
-          iure modi neque nisi nobis officia possimus praesentium provident
-          quisquam, repellat veniam vero voluptatem! Accusantium aliquam
-          assumenda beatae consequuntur cumque dicta dolor ea eaque, eligendi
-          eos esse hic illum inventore ipsa ipsum itaque maxime neque nostrum
-          odit perferendis quaerat quia quidem ratione, sequi tempora unde
-          veniam? Alias blanditiis cupiditate ea eos esse eum expedita
-          explicabo, facere illum inventore iusto laborum numquam, omnis
-          suscipit voluptatibus?
+          <div
+            dangerouslySetInnerHTML={{
+              __html: notice?.details,
+            }}
+          />
         </Grid>
       </Grid>
     </StyledContainer>
