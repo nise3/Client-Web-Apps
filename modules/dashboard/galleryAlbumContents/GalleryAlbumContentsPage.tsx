@@ -7,8 +7,8 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ContentAddEditPopup from './ContentAddEditPopup';
-import ContentDetailsPopup from './ContentDetailsPopup';
+import GalleryAlbumContentsPageAddEditPopup from './GalleryAlbumContentsPageAddEditPopup';
+import GalleryAlbumContentDetailsPopup from './GalleryAlbumContentDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -17,17 +17,18 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
-const ContentsPage = () => {
+const GalleryAlbumContentsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
-  const {data, loading, pageCount, totalCount, onFetchData} =
-    useReactTableFetchData({urlPath: API_GALLERY_ALBUM_CONTENTS});
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -49,7 +50,7 @@ const ContentsPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteGalleryItem = async (itemId: number) => {
+  const deleteGalleryAlbumContentItem = async (itemId: number) => {
     let response = await deleteGalleryAlbumContent(itemId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -77,6 +78,10 @@ const ContentsPage = () => {
         disableSortBy: true,
       },
       {
+        Header: messages['common.content_title'],
+        accessor: 'content_title',
+      },
+      {
         Header: messages['common.content_type'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -85,13 +90,9 @@ const ContentsPage = () => {
           } else if (data.content_type === 2) {
             return <p>{messages['common.video']}</p>;
           } else {
-            return <p>{messages['common.none']}</p>;
+            return '';
           }
         },
-      },
-      {
-        Header: messages['common.content_title'],
-        accessor: 'content_title',
       },
       {
         Header: messages['gallery_album.featured_status'],
@@ -107,8 +108,14 @@ const ContentsPage = () => {
         },
       },
       {
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
+        isVisible: false,
+      },
+      {
         Header: messages['organization.label'],
         accessor: 'organization_title',
+        isVisible: false,
       },
 
       {
@@ -129,7 +136,7 @@ const ContentsPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteGalleryItem(data.id)}
+                deleteAction={() => deleteGalleryAlbumContentItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -139,6 +146,19 @@ const ContentsPage = () => {
       },
     ];
   }, [messages]);
+
+  const {data, loading, pageCount, totalCount, onFetchData} =
+    useReactTableFetchData({
+      urlPath: API_GALLERY_ALBUM_CONTENTS,
+      paramsValueModifier: (params: any) => {
+        if (authUser?.isInstituteUser)
+          params['institute_id'] = authUser?.institute_id;
+        else if (authUser?.isOrganizationUser)
+          params['organization_id'] = authUser?.organization_id;
+        return params;
+      },
+    });
+
   return (
     <>
       <PageBlock
@@ -172,7 +192,7 @@ const ContentsPage = () => {
           totalCount={totalCount}
         />
         {isOpenAddEditModal && (
-          <ContentAddEditPopup
+          <GalleryAlbumContentsPageAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -181,7 +201,7 @@ const ContentsPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <ContentDetailsPopup
+          <GalleryAlbumContentDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -193,4 +213,4 @@ const ContentsPage = () => {
   );
 };
 
-export default ContentsPage;
+export default GalleryAlbumContentsPage;

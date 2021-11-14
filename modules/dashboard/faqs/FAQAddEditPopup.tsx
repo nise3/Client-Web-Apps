@@ -37,11 +37,11 @@ interface FAQAddEditPopupProps {
 }
 
 const initialValues = {
+  question: '',
+  answer: '',
   show_in: '',
   institute_id: '',
   organization_id: '',
-  question: '',
-  answer: '',
   row_status: '1',
 };
 
@@ -184,12 +184,11 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
+        question: itemData?.question,
+        answer: itemData?.answer,
         show_in: itemData?.show_in,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
-        industry_association_id: itemData?.industry_association_id,
-        question: itemData?.question,
-        answer: itemData?.answer,
         row_status: itemData?.row_status,
       };
 
@@ -412,6 +411,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             label={messages['faq.question']}
             register={register}
             errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12}>
@@ -421,6 +421,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             label={messages['faq.answer']}
             register={register}
             errorInstance={errors}
+            isLoading={isLoading}
             multiline={true}
             rows={3}
           />

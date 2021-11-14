@@ -18,12 +18,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-
-const contentType: any = {
-  1: 'Image',
-  2: 'Facebook source',
-  3: 'Youtube source',
-};
+import ContentTypes from './ContentTypes';
 
 const RecentActivitiesPage = () => {
   const {messages} = useIntl();
@@ -84,6 +79,19 @@ const RecentActivitiesPage = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
+  const getContentTypeTitle = (contentType: number) => {
+    switch (contentType) {
+      case ContentTypes.IMAGE:
+        return messages['content_type.image'];
+      case ContentTypes.FACEBOOK_SOURCE:
+        return messages['content_type.facebook_video'];
+      case ContentTypes.YOUTUBE_SOURCE:
+        return messages['content_type.youtube_video'];
+      default:
+        return '';
+    }
+  };
+
   const columns = useMemo(() => {
     return [
       {
@@ -101,10 +109,12 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
+        isVisible: false,
       },
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
+        isVisible: false,
       },
       {
         Header: messages['common.show_in'],
@@ -118,8 +128,7 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.content_type'],
         Cell: (props: any) => {
-          let data = props.row.original?.content_type;
-          return data in contentType ? contentType[data] : '';
+          return getContentTypeTitle(props.row.original.content_type);
         },
       },
 
@@ -234,7 +243,7 @@ const RecentActivitiesPage = () => {
             key={1}
             onClose={closeAddEditModal}
             refreshDataTable={refreshDataTable}
-            recentActivityId={selectedItemId}
+            itemId={selectedItemId}
           />
         )}
         {isOpenDetailsModal && selectedItemId && (
@@ -242,7 +251,7 @@ const RecentActivitiesPage = () => {
             key={1}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
-            recentActivityId={selectedItemId}
+            itemId={selectedItemId}
           />
         )}
       </PageBlock>

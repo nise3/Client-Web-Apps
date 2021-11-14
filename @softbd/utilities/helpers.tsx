@@ -336,3 +336,13 @@ export const getIntlNumber = (formatFn: any, value: any) => {
       })
     : '';
 };
+
+export const getLanguageLabel = (language_configs: any, key: string) => {
+  let label: string = '';
+  (language_configs || []).map((lang: any) => {
+    if (lang.code === key) {
+      label = lang.native_name;
+    }
+  });
+  return label;
+};

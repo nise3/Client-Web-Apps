@@ -8,7 +8,13 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchStaticPage} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchStaticPage,
+} from '../../../services/cmsManagement/hooks';
+import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import ContentTypes from '../recentActivities/ContentTypes';
 
 type Props = {
   itemId: number;
@@ -19,6 +25,20 @@ type Props = {
 const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchStaticPage(itemId);
   const {messages} = useIntl();
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+
+  const getContentTypeTitle = (contentType: number) => {
+    switch (contentType) {
+      case ContentTypes.IMAGE:
+        return messages['content_type.image'];
+      case ContentTypes.FACEBOOK_SOURCE:
+        return messages['content_type.facebook_video'];
+      case ContentTypes.YOUTUBE_SOURCE:
+        return messages['content_type.youtube_video'];
+      default:
+        return '';
+    }
+  };
 
   return (
     <>
@@ -45,7 +65,7 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.show_in']}
-              value={itemData?.show_in_title}
+              value={itemData?.show_in_label}
               isLoading={isLoading}
             />
           </Grid>
@@ -53,21 +73,6 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.content_slug_or_id']}
               value={itemData?.content_slug_or_id}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.title']}
-              value={itemData?.title}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.sub_title']}
-              value={itemData?.sub_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -94,25 +99,93 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.organization_association_id']}
-              value={itemData?.organization_association_id}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.content_type']}
-              value={itemData?.content_type}
+              value={getContentTypeTitle(itemData?.content_type)}
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.contents']}
-              value={itemData?.contents}
-              isLoading={isLoading}
-            />
+            <fieldset>
+              <legend>
+                {getLanguageLabel(
+                  cmsGlobalConfig?.language_configs,
+                  LanguageCodes.BANGLA,
+                )}
+              </legend>
+              <Grid container spacing={5}>
+                <Grid item xs={6}>
+                  <DetailsInputView
+                    label={messages['common.title']}
+                    value={itemData?.title}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <DetailsInputView
+                    label={messages['common.sub_title']}
+                    value={itemData?.sub_title}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <DetailsInputView
+                    label={messages['common.content']}
+                    value={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: itemData?.contents,
+                        }}
+                      />
+                    }
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              </Grid>
+            </fieldset>
           </Grid>
+
+          {Object.keys(itemData?.other_language_fields || {}).map(
+            (key: string) => (
+              <Grid item xs={12} key={key}>
+                <fieldset>
+                  <legend>
+                    {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
+                  </legend>
+                  <Grid container spacing={5}>
+                    <Grid item xs={6}>
+                      <DetailsInputView
+                        label={messages['common.title']}
+                        value={itemData.other_language_fields[key]?.title}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <DetailsInputView
+                        label={messages['common.sub_title']}
+                        value={itemData.other_language_fields[key]?.sub_title}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <DetailsInputView
+                        label={messages['common.content']}
+                        value={
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                itemData.other_language_fields[key]?.contents,
+                            }}
+                          />
+                        }
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                  </Grid>
+                </fieldset>
+              </Grid>
+            ),
+          )}
 
           <Grid item xs={12}>
             <CustomChipRowStatus

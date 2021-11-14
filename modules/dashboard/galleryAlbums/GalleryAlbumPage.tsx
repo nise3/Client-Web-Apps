@@ -17,17 +17,19 @@ import {deleteGalleryAlbum} from '../../../services/cmsManagement/GalleryAlbumSe
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import AlbumTypes from './AlbumTypes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const GalleryAlbumPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
-  const {data, loading, pageCount, totalCount, onFetchData} =
-    useReactTableFetchData({urlPath: API_GALLERY_ALBUMS});
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -66,6 +68,19 @@ const GalleryAlbumPage = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
+  const getAlbumTypeTitle = (albumType: number) => {
+    switch (albumType) {
+      case AlbumTypes.IMAGE:
+        return messages['album_type.image'];
+      case AlbumTypes.VIDEO:
+        return messages['album_type.video'];
+      case AlbumTypes.MIXED:
+        return messages['album_type.mixed'];
+      default:
+        return '';
+    }
+  };
+
   const columns = useMemo(() => {
     return [
       {
@@ -79,6 +94,12 @@ const GalleryAlbumPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+      },
+      {
+        Header: messages['gallery_album.album_type'],
+        Cell: (props: any) => {
+          return getAlbumTypeTitle(props.row.original.album_type);
+        },
       },
       {
         Header: messages['gallery_album.featured_status'],
@@ -121,6 +142,19 @@ const GalleryAlbumPage = () => {
       },
     ];
   }, [messages]);
+
+  const {data, loading, pageCount, totalCount, onFetchData} =
+    useReactTableFetchData({
+      urlPath: API_GALLERY_ALBUMS,
+      paramsValueModifier: (params: any) => {
+        if (authUser?.isInstituteUser)
+          params['institute_id'] = authUser?.institute_id;
+        else if (authUser?.isOrganizationUser)
+          params['organization_id'] = authUser?.organization_id;
+        return params;
+      },
+    });
+
   return (
     <>
       <PageBlock

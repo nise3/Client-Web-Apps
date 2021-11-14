@@ -1,44 +1,56 @@
-import React, {FC} from 'react';
+import React from 'react';
+import {Grid} from '@mui/material';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconGallery from '../../../@softbd/icons/IconGallery';
+import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {
   useFetchCMSGlobalConfig,
-  useFetchNoticeOrNews,
+  useFetchGalleryAlbumContent,
 } from '../../../services/cmsManagement/hooks';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {Grid} from '@mui/material';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import NoticeOrNewsTypes from './NoticeOrNewsTypes';
-import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 import {
   getLanguageLabel,
   getMomentDateFormat,
 } from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 
-interface NoticeOrNewsDetailsPopupProps {
-  itemId: number | null;
+type Props = {
+  itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
-}
+};
 
-const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
+const GalleryAlbumContentDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
-}) => {
+}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchNoticeOrNews(itemId);
+  const {data: itemData, isLoading} = useFetchGalleryAlbumContent(itemId);
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
-  const getNoticeOrNewsTitle = (type: number) => {
-    switch (type) {
-      case NoticeOrNewsTypes.NOTICE:
-        return messages['notice_type.notice'];
-      case NoticeOrNewsTypes.NEWS:
-        return messages['notice_type.news'];
+  const getContentTypeTitle = (contentType: number) => {
+    switch (contentType) {
+      case GalleryAlbumContentTypes.IMAGE:
+        return messages['common.image'];
+      case GalleryAlbumContentTypes.VIDEO:
+        return messages['common.video'];
+      default:
+        return '';
+    }
+  };
+
+  const getVideoTypeTitle = (videoType: number) => {
+    switch (videoType) {
+      case 1:
+        return messages['common.youtube'];
+      case 2:
+        return messages['common.facebook'];
       default:
         return '';
     }
@@ -51,9 +63,11 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
         {...props}
         title={
           <>
-            <IntlMessages id='common.notice_or_news' />
+            <IconGallery />
+            <IntlMessages id='galleries.institute' />
           </>
         }
+        maxWidth={'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -69,65 +83,86 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.show_in']}
-              value={itemData?.show_in_label}
+              label={messages['common.gallery_album']}
+              value={itemData?.gallery_album_title}
               isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.type']}
-              value={getNoticeOrNewsTitle(itemData?.type)}
+              label={messages['gallery_album.featured_status']}
+              value={
+                itemData?.featured == 1
+                  ? messages['common.yes']
+                  : messages['common.no']
+              }
               isLoading={isLoading}
             />
           </Grid>
-          {itemData?.institute_title && (
-            <Grid item xs={12} md={6}>
-              <DetailsInputView
-                label={messages['institute.label']}
-                value={itemData?.institute_title}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-
-          {itemData?.organization_title && (
-            <Grid item xs={12} md={6}>
-              <DetailsInputView
-                label={messages['organization.label']}
-                value={itemData?.organization_title}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.file_path']}
-              value={itemData?.file_path}
+              label={messages['common.content_type']}
+              value={getContentTypeTitle(itemData?.content_type)}
               isLoading={isLoading}
             />
           </Grid>
+
+          {itemData?.content_type == GalleryAlbumContentTypes.IMAGE && (
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['common.content_path']}
+                value={itemData?.content_path}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+
+          {itemData?.content_type == GalleryAlbumContentTypes.VIDEO && (
+            <React.Fragment>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.video_type']}
+                  value={getVideoTypeTitle(itemData?.video_type)}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.embedded_id']}
+                  value={itemData?.embedded_id}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.embedded_url']}
+                  value={itemData?.embedded_url}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </React.Fragment>
+          )}
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.main_image_path']}
-              value={itemData?.main_image_path}
+              value={itemData?.content_cover_image_url}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.grid_image_path']}
-              value={itemData?.grid_image_path}
+              value={itemData?.content_grid_image_url}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.thumb_image_path']}
-              value={itemData?.thumb_image_path}
+              value={itemData?.content_thumb_image_url}
               isLoading={isLoading}
             />
           </Grid>
@@ -164,35 +199,28 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
                 )}
               </legend>
               <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <DetailsInputView
-                    label={messages['common.title']}
-                    value={itemData?.title}
-                    isLoading={isLoading}
-                  />
-                </Grid>
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['common.image_alt_title']}
-                    value={itemData?.image_alt_title}
+                    label={messages['common.content_title']}
+                    value={itemData?.content_title}
                     isLoading={isLoading}
                   />
                 </Grid>
 
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['common.file_alt_title']}
-                    value={itemData?.file_alt_title}
+                    label={messages['gallery_album.image_alt_title']}
+                    value={itemData?.image_alt_title}
                     isLoading={isLoading}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <DetailsInputView
-                    label={messages['common.details']}
+                    label={messages['common.content_description']}
                     value={
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: itemData?.details,
+                          __html: itemData?.content_description,
                         }}
                       />
                     }
@@ -211,18 +239,11 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
                     {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
                   </legend>
                   <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <DetailsInputView
-                        label={messages['common.title']}
-                        value={itemData.other_language_fields[key]?.title}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
                     <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['common.image_alt_title']}
+                        label={messages['common.content_title']}
                         value={
-                          itemData.other_language_fields[key]?.image_alt_title
+                          itemData.other_language_fields[key]?.content_title
                         }
                         isLoading={isLoading}
                       />
@@ -230,21 +251,23 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
 
                     <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['common.file_alt_title']}
+                        label={messages['gallery_album.image_alt_title']}
                         value={
-                          itemData.other_language_fields[key]?.file_alt_title
+                          itemData.other_language_fields[key]?.image_alt_title
                         }
                         isLoading={isLoading}
                       />
                     </Grid>
+
                     <Grid item xs={12}>
                       <DetailsInputView
-                        label={messages['common.details']}
+                        label={messages['common.content_description']}
                         value={
                           <div
                             dangerouslySetInnerHTML={{
                               __html:
-                                itemData.other_language_fields[key]?.details,
+                                itemData.other_language_fields[key]
+                                  ?.content_description,
                             }}
                           />
                         }
@@ -270,4 +293,4 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
   );
 };
 
-export default NoticeOrNewsDetailsPopup;
+export default GalleryAlbumContentDetailsPopup;

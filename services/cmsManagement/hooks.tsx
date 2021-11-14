@@ -1,6 +1,5 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_CMS_GLOBAL_CONFIGS,
   API_CALENDAR_EVENTS,
   API_SLIDERS,
   API_STATIC_PAGES,
@@ -9,7 +8,8 @@ import {
   CMS_RECENT_ACTIVITY,
   API_GALLERY_ALBUM_CONTENTS,
   API_GALLERY_ALBUMS,
-  API_CMS_GLOBAL_CONFIG, API_PARTNERS
+  API_CMS_GLOBAL_CONFIG,
+  API_PARTNERS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -33,6 +33,7 @@ export function useFetchRecentActivity(recentActivityId: number | null) {
     recentActivityId ? CMS_RECENT_ACTIVITY + '/' + recentActivityId : null,
   );
 }
+
 export function useFetchNoticeOrNews(itemId: number | null) {
   return useAxiosSWR(itemId ? CMS_NOTICE_OR_NEWS + '/' + itemId : null);
 }
@@ -43,13 +44,12 @@ export function useFetchCMSGlobalConfig() {
 }
 
 export function useFetchPartners(params: any) {
-  return useAxiosSWR(API_PARTNERS);
+  return useAxiosSWR([API_PARTNERS, params]);
 }
 
-export function useFetchPartner(partnerId: number) {
-  return useAxiosSWR(API_PARTNERS + '/' + partnerId);
+export function useFetchPartner(partnerId: number | null) {
+  return useAxiosSWR(partnerId ? API_PARTNERS + '/' + partnerId : null);
 }
-
 
 /******* For Gallery Albums ******/
 export function useFetchGalleryAlbums(params: any) {
@@ -77,10 +77,6 @@ export function useFetchGalleryAlbumContent(
   );
 }
 
-export function useFetchCMSGlobalConfigs(params: any) {
-  return useAxiosSWR([API_CMS_GLOBAL_CONFIGS, params]);
-}
-
 export function useFetchStaticPage(pageId: number | null) {
   return useAxiosSWR(pageId ? API_STATIC_PAGES + '/' + pageId : null);
 }
@@ -94,4 +90,3 @@ export function useFetchCalenderEvents(params: any) {
 export function useFetchCalendarEvent(faqId: number | null) {
   return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
 }
-

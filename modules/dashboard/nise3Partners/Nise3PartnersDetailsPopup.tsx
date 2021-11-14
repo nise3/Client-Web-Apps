@@ -3,14 +3,17 @@ import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
+import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
-import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchPartner,
+} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 
 type Props = {
   itemId: number;
@@ -18,28 +21,31 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const Nise3PartnersDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchFAQ(itemId);
 
+  const {data: itemData, isLoading} = useFetchPartner(itemId);
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   return (
     <>
       <CustomDetailsViewMuiModal
-        {...props}
         open={true}
+        {...props}
         title={
           <>
-            <IconInstitute />
-            <IntlMessages id='menu.faq' />
+            <WorkOutline />
+            <IntlMessages id='nise.partners' />
           </>
         }
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              variant={'contained'}
               onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
             />
@@ -48,33 +54,34 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.show_in']}
-              value={itemData?.show_in_label}
+              label={messages['common.domain']}
+              value={itemData?.domain}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.main_image_path']}
+              value={itemData?.main_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.thumb_image_path']}
+              value={itemData?.thumb_image_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.grid_image_path']}
+              value={itemData?.grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
 
-          {itemData?.institute_id && (
-            <Grid item xs={12} md={6}>
-              <DetailsInputView
-                label={messages['institute.label']}
-                value={itemData?.institute_title}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-
-          {itemData?.organization_id && (
-            <Grid item xs={12} md={6}>
-              <DetailsInputView
-                label={messages['organization.label']}
-                value={itemData?.organization_title}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12}>
             <fieldset>
               <legend>
                 {getLanguageLabel(
@@ -83,17 +90,17 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 )}
               </legend>
               <Grid container spacing={5}>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['faq.question']}
-                    value={itemData?.question}
+                    label={messages['common.title']}
+                    value={itemData?.title}
                     isLoading={isLoading}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['faq.answer']}
-                    value={itemData?.answer}
+                    label={messages['common.image_alt_title']}
+                    value={itemData?.image_alt_title}
                     isLoading={isLoading}
                   />
                 </Grid>
@@ -103,23 +110,25 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           {Object.keys(itemData?.other_language_fields || {}).map(
             (key: string) => (
-              <Grid item xs={12} md={12} key={key}>
+              <Grid item xs={12} key={key}>
                 <fieldset>
                   <legend>
                     {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
                   </legend>
                   <Grid container spacing={5}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['faq.question']}
-                        value={itemData?.other_language_fields[key].question}
+                        label={messages['common.title']}
+                        value={itemData.other_language_fields[key]?.title}
                         isLoading={isLoading}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['faq.answer']}
-                        value={itemData?.other_language_fields[key].answer}
+                        label={messages['common.image_alt_title']}
+                        value={
+                          itemData.other_language_fields[key]?.image_alt_title
+                        }
                         isLoading={isLoading}
                       />
                     </Grid>
@@ -128,9 +137,17 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               </Grid>
             ),
           )}
+
+          <Grid item xs={12}>
+            <CustomChipRowStatus
+              label={messages['common.status']}
+              value={itemData?.row_status}
+              isLoading={isLoading}
+            />
+          </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
     </>
   );
 };
-export default FAQDetailsPopup;
+export default Nise3PartnersDetailsPopup;

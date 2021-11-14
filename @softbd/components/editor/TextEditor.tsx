@@ -1,7 +1,13 @@
 import React, {ForwardedRef} from 'react';
 import {Editor as TinymceEditor} from '@tinymce/tinymce-react';
-import {FormHelperText, InputLabel, FormControl} from '@mui/material';
+import {
+  FormHelperText,
+  InputLabel,
+  FormControl,
+  TextField,
+} from '@mui/material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {debounce} from 'lodash';
 
 interface EditorProps {
   height?: string;
@@ -11,6 +17,10 @@ interface EditorProps {
   label: string;
   required?: boolean;
   value: string;
+  setValue: any;
+  register: any;
+  clearErrors: any;
+  setError: any;
 
   [x: string]: any;
 }
@@ -36,6 +46,10 @@ const TextEditor = React.forwardRef(
       errorInstance,
       required = false,
       label,
+      register,
+      setValue,
+      clearErrors,
+      setError,
     }: EditorProps,
     ref: ForwardedRef<any>,
   ) => {
@@ -54,7 +68,20 @@ const TextEditor = React.forwardRef(
         <FormControl>
           <TinymceEditor
             id={id}
-            onEditorChange={onEditorChange}
+            onEditorChange={debounce((content: string, editor: any) => {
+              const key = matches ? matches[1] + '.' + matches[2] : id;
+              setValue(key, content);
+
+              if (content) clearErrors(key);
+              else if (required) {
+                setError(key, {
+                  message: {
+                    key: 'yup_validation_required_field',
+                    values: {path: label},
+                  },
+                });
+              }
+            }, 500)}
             ref={ref}
             initialValue={value}
             init={{
@@ -77,6 +104,12 @@ const TextEditor = React.forwardRef(
                 editor.on('blur', function () {});
               },
             }}
+          />
+          <TextField
+            id={id}
+            type={'hidden'}
+            {...register(id)}
+            sx={{display: 'none'}}
           />
 
           <FormHelperText sx={{color: 'error.main'}}>

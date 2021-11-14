@@ -5,13 +5,13 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const Nise3PartnersPage = asyncComponent(
-  () => import('../../../modules/dashboard/nise3-partners/Nise3PartnersPage'),
+  () => import('../../../modules/dashboard/nise3Partners/Nise3PartnersPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
+      <PageMeta title={messages['common.partner'] as string} />
       <Nise3PartnersPage />
     </>
   );

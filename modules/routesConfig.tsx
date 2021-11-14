@@ -329,7 +329,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'gallery_albums',
             title: 'Gallery Album',
-            messageId: 'menu.galleryAlbum',
+            messageId: 'menu.gallery_album',
             permissionKey: 'view_any_gallery_album',
             type: 'item',
             icon: 'room',
@@ -338,8 +338,8 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'gallery_album-contents',
             title: 'Gallery Album Content',
-            messageId: 'menu.galleryAlbumContent',
-            permissionKey: 'view_any_gallery_album-content',
+            messageId: 'menu.gallery_album_content',
+            permissionKey: 'view_any_gallery_album_content',
             type: 'item',
             icon: 'room',
             url: '/dashboard/gallery-album-contents',
@@ -360,7 +360,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_visitor_feedback',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/visitor-feedback',
+            url: '/dashboard/visitor-feedbacks',
           },
           {
             id: 'notices_and_news',

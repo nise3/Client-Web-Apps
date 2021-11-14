@@ -9,32 +9,25 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {Add, Delete, WorkOutline} from '@mui/icons-material';
+import {Add, Delete} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {
+  createPartner,
+  updatePartner,
+} from '../../../services/cmsManagement/PartnersService';
 import {
   useFetchCMSGlobalConfig,
-  useFetchStaticPage,
+  useFetchPartner,
 } from '../../../services/cmsManagement/hooks';
-import {
-  createStaticPage,
-  updateStaticPage,
-} from '../../../services/cmsManagement/StaticPageService';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import {
-  getAllIndustries,
-  getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
+import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Box, Button, IconButton} from '@mui/material';
-import TextEditor from '../../../@softbd/components/editor/TextEditor';
 
-interface StaticPageAddEditPopupProps {
+interface PartnerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -42,17 +35,10 @@ interface StaticPageAddEditPopupProps {
 
 const initialValues = {
   title: '',
-  sub_title: '',
-  show_in: '',
-  content_slug_or_id: '',
-  institute_id: '',
-  organization_id: '',
-  content_type: '',
-  contents: '',
   row_status: '1',
 };
 
-const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
+const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -60,22 +46,16 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const isEdit = itemId != null;
-  const authUser = useAuthUser();
-  const {data: cmsGlobalConfig, isLoading: isLoadingConfigData} =
-    useFetchCMSGlobalConfig();
 
+  const isEdit = itemId != null;
   const {
     data: itemData,
     isLoading,
-    mutate: mutateStaticPage,
-  } = useFetchStaticPage(itemId);
+    mutate: mutatePartners,
+  } = useFetchPartner(itemId);
+  const {data: cmsGlobalConfig, isLoading: isFetching} =
+    useFetchCMSGlobalConfig();
 
-  const [instituteList, setInstituteList] = useState([]);
-  const [industryList, setIndustryList] = useState([]);
-  const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
-    useState<boolean>(false);
-  const [showInId, setShowInId] = useState<number | null>(null);
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);
   const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
@@ -86,44 +66,11 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      show_in:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .required()
-              .label(messages['common.show_in'] as string)
-          : yup.string(),
-      content_slug_or_id: yup
-        .string()
-        .required()
-        .label(messages['common.content_slug_or_id'] as string),
       title: yup
         .string()
-        .title()
-        .label(messages['common.title'] as string),
-      institute_id: yup
-        .mixed()
-        .label(messages['common.institute'] as string)
-        .when('show_in', {
-          is: (val: number) => {
-            return val == ShowInTypes.TSP;
-          },
-          then: yup.string().required(),
-        }),
-      organization_id: yup
-        .mixed()
-        .label(messages['common.organization_bn'] as string)
-        .when('show_in', {
-          is: (val: number) => {
-            return val == ShowInTypes.INDUSTRY;
-          },
-          then: yup.string().required(),
-        }),
-      content_type: yup
-        .string()
+        .trim()
         .required()
-        .label(messages['common.content_type'] as string),
-      row_status: yup.string().trim().required(),
+        .label(messages['common.title'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -152,43 +99,24 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
               .label(messages['common.title'] as string),
           }),
     });
-  }, [messages, selectedCodes, authUser]);
-
+  }, [selectedCodes, messages]);
   const {
     register,
     reset,
     control,
-    setValue,
     setError,
-    clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<StaticPage>({
+  } = useForm<Partner>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    if (cmsGlobalConfig) {
-      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
-        (item: any) => item.code != LanguageCodes.BANGLA,
-      );
-
-      setAllLanguages(filteredLanguage);
-      setLanguageList(filteredLanguage);
-    }
-  }, [cmsGlobalConfig]);
-
-  useEffect(() => {
     if (itemData) {
       let data: any = {
-        show_in: itemData?.show_in,
-        content_slug_or_id: itemData?.content_slug_or_id,
         title: itemData?.title,
-        sub_title: itemData?.sub_title,
-        organization_id: itemData?.organization_id,
-        institute_id: itemData?.institute_id,
-        content_type: itemData?.content_type,
-        contents: itemData?.contents,
+        domain: itemData?.domain,
+        image_alt_title: itemData?.image_alt_title,
         row_status: String(itemData?.row_status),
       };
 
@@ -200,8 +128,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           data['language_' + key] = {
             code: key,
             title: otherLangData[key].title,
-            sub_title: otherLangData[key].sub_title,
-            contents: otherLangData[key].contents,
+            image_alt_title: otherLangData[key].image_alt_title,
           };
         });
         setSelectedCodes(keys);
@@ -216,40 +143,21 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       }
 
       reset(data);
-      changeShowInAction(itemData?.show_in);
     } else {
       reset(initialValues);
     }
   }, [itemData, allLanguages]);
 
-  const CONTENT_TYPES = useMemo(
-    () => [
-      {id: 1, title: messages['content_type.image']},
-      {id: 2, title: messages['content_type.facebook_video']},
-      {id: 3, title: messages['content_type.youtube_video']},
-    ],
-    [messages],
-  );
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
+        (item: any) => item.code != LanguageCodes.BANGLA,
+      );
 
-  const changeShowInAction = useCallback((id: number) => {
-    (async () => {
-      setIsLoadingSectionNameList(true);
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
-      }
-
-      setShowInId(id);
-      setIsLoadingSectionNameList(false);
-    })();
-  }, []);
-
-  const onLanguageListChange = useCallback((selected: any) => {
-    setSelectedLanguageCode(selected);
-  }, []);
+      setAllLanguages(filteredLanguage);
+      setLanguageList(filteredLanguage);
+    }
+  }, [cmsGlobalConfig]);
 
   const onAddOtherLanguageClick = useCallback(() => {
     if (selectedLanguageCode) {
@@ -270,6 +178,10 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       }
     }
   }, [selectedLanguageCode, selectedLanguageList]);
+
+  const onLanguageListChange = useCallback((selected: any) => {
+    setSelectedLanguageCode(selected);
+  }, []);
 
   const onDeleteLanguage = useCallback(
     (language: any) => {
@@ -292,15 +204,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
-      }
+      formData.main_image_path = 'http://lorempixel.com/400/200/';
+      formData.thumb_image_path = 'http://lorempixel.com/400/200/';
+      formData.grid_image_path = 'http://lorempixel.com/400/200/';
 
       let data = {...formData};
 
@@ -312,8 +218,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
         otherLanguagesFields[language.code] = {
           title: langObj.title,
-          sub_title: langObj.sub_title,
-          contents: langObj.contents,
+          image_alt_title: langObj.image_alt_title,
         };
       });
       delete data['language_en'];
@@ -324,12 +229,13 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         data.other_language_fields = otherLanguagesFields;
 
       if (itemId) {
-        await updateStaticPage(itemId, data);
-        updateSuccessMessage('static_page.label');
-        mutateStaticPage();
+        await updatePartner(itemId, data);
+        updateSuccessMessage('nise.partners');
+        mutatePartners();
       } else {
-        await createStaticPage(data);
-        createSuccessMessage('static_page.label');
+        // data.title_en = 'aa'
+        await createPartner(data);
+        createSuccessMessage('nise.partners');
       }
       props.onClose();
       refreshDataTable();
@@ -344,21 +250,20 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <WorkOutline />
+          <IconNise3Partner />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='static_page.label' />}}
+              values={{subject: <IntlMessages id='common.partner' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='static_page.label' />}}
+              values={{subject: <IntlMessages id='common.partner' />}}
             />
           )}
         </>
       }
-      maxWidth={'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -367,64 +272,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
-          <React.Fragment>
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                required
-                id={'show_in'}
-                label={messages['common.show_in']}
-                isLoading={isLoadingConfigData}
-                control={control}
-                options={cmsGlobalConfig?.show_in}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-                onChange={changeShowInAction}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              {showInId == ShowInTypes.TSP && (
-                <CustomFilterableFormSelect
-                  required
-                  id={'institute_id'}
-                  label={messages['institute.label']}
-                  isLoading={isLoadingSectionNameList}
-                  control={control}
-                  options={instituteList}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  errorInstance={errors}
-                />
-              )}
-              {showInId == ShowInTypes.INDUSTRY && (
-                <CustomFilterableFormSelect
-                  required
-                  id={'organization_id'}
-                  label={messages['organization.label']}
-                  isLoading={isLoadingSectionNameList}
-                  control={control}
-                  options={industryList}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  errorInstance={errors}
-                />
-              )}
-            </Grid>
-          </React.Fragment>
-        )}
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='content_slug_or_id'
-            label={messages['common.content_slug_or_id']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
@@ -437,8 +284,61 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='sub_title'
-            label={messages['common.sub_title']}
+            id='image_alt_title'
+            label={messages['common.image_alt_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='domain'
+            label={messages['common.domain']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            placeholder='https://example.xyz'
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='main_image_path'
+            label={messages['common.main_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='grid_image_path'
+            label={messages['common.grid_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='thumb_image_path'
+            label={messages['common.thumb_image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -447,38 +347,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
-            required
-            id='content_type'
-            label={messages['common.content_type']}
-            isLoading={isLoading}
-            control={control}
-            options={CONTENT_TYPES}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={12}>
-          <TextEditor
-            id={'contents'}
-            label={messages['common.content']}
-            errorInstance={errors}
-            value={itemData?.contents || initialValues.contents}
-            height={'300px'}
-            key={1}
-            register={register}
-            setValue={setValue}
-            clearErrors={clearErrors}
-            setError={setError}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFilterableFormSelect
             id={'language_list'}
             label={messages['common.language']}
-            isLoading={isLoadingConfigData}
+            isLoading={isFetching}
             control={control}
             options={languageList}
             optionValueProp={'code'}
@@ -487,7 +358,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
             onChange={onLanguageListChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Button
             variant={'outlined'}
             color={'primary'}
@@ -505,8 +376,8 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
                 <legend style={{color: '#0a8fdc'}}>
                   {language.native_name}
                 </legend>
-                <Grid container spacing={5}>
-                  <Grid item xs={5}>
+                <Grid container spacing={{xs: 2, md: 5}}>
+                  <Grid item xs={10} md={6}>
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[title]'}
@@ -515,15 +386,15 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={12} md={5} order={{xs: 3, md: 2}}>
                     <CustomTextInput
-                      id={'language_' + language.code + '[sub_title]'}
-                      label={messages['common.sub_title']}
+                      id={'language_' + language.code + '[image_alt_title]'}
+                      label={messages['common.image_alt_title']}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={1} md={1}>
+                  <Grid item xs={2} md={1} order={{xs: 2, md: 3}}>
                     <IconButton
                       aria-label='delete'
                       color={'error'}
@@ -532,24 +403,6 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
                       }}>
                       <Delete color={'error'} />
                     </IconButton>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <TextEditor
-                      id={'language_' + language.code + '[contents]'}
-                      label={messages['common.content']}
-                      errorInstance={errors}
-                      value={
-                        itemData?.other_language_fields?.[language.code]
-                          ?.contents || initialValues.contents
-                      }
-                      height={'300px'}
-                      key={1}
-                      register={register}
-                      setValue={setValue}
-                      clearErrors={clearErrors}
-                      setError={setError}
-                    />
                   </Grid>
                 </Grid>
               </fieldset>
@@ -570,4 +423,4 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   );
 };
 
-export default StaticPageAddEditPopup;
+export default Nise3PartnersAddEditPopup;
