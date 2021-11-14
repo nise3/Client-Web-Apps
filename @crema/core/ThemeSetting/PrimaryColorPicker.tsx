@@ -14,7 +14,7 @@ const classes = {
 };
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')(({theme: CremaTheme}) => {
+const Root = styled('div')(({theme}) => {
   return {
     [`& .${classes.cpSwatch}`]: {
       display: 'flex',

@@ -29,14 +29,10 @@ const classes = {
   popper: `${PREFIX}-popper`,
   popperClose: `${PREFIX}-popperClose`,
   icon: `${PREFIX}-icon`,
-  pl0: `${PREFIX}-pl0`
+  pl0: `${PREFIX}-pl0`,
 };
 
-const Root = styled('ul')((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const Root = styled('ul')(({theme}) => ({
   [`&.${classes.root}`]: {
     '& .list-item-text': {
       padding: '0 0 0 16px',
@@ -77,7 +73,7 @@ const Root = styled('ul')((
 
   [`& .${classes.pl0}`]: {
     paddingLeft: 0,
-  }
+  },
 }));
 
 interface HorizontalCollapseProps {
@@ -91,7 +87,6 @@ const HorizontalCollapse: React.FC<HorizontalCollapseProps> = ({
   nestedLevel,
   dense,
 }) => {
-
   const [opened, setOpened] = useState(false);
   const {theme} = useContext<AppContextPropsType>(AppContext);
   const router = useRouter();

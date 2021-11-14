@@ -14,14 +14,10 @@ const classes = {
   textBase: `${PREFIX}-textBase`,
   avatar: `${PREFIX}-avatar`,
   minWidth0: `${PREFIX}-minWidth0`,
-  listItemRoot: `${PREFIX}-listItemRoot`
+  listItemRoot: `${PREFIX}-listItemRoot`,
 };
 
-const StyledListItem = styled(ListItem)((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const StyledListItem = styled(ListItem)(({theme}) => ({
   [`& .${classes.textBase}`]: {
     fontSize: 14,
   },
@@ -37,7 +33,7 @@ const StyledListItem = styled(ListItem)((
 
   [`&.${classes.listItemRoot}`]: {
     padding: '8px 20px',
-  }
+  },
 }));
 
 interface MessageItemProps {
@@ -45,8 +41,6 @@ interface MessageItemProps {
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({item}) => {
-
-
   return (
     <StyledListItem className={clsx(classes.listItemRoot, 'item-hover')}>
       <Box mr={4}>

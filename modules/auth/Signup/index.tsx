@@ -1,17 +1,26 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import makeStyles from '@mui/styles/makeStyles';
 import SignupJwtAuth from './SignupJwtAuth';
 
-const useStyles = makeStyles((theme) => ({
-  imgRoot: {
+const PREFIX = 'Signup';
+
+const classes = {
+  imgRoot: `${PREFIX}-imgRoot`,
+  cardRoot: `${PREFIX}-cardRoot`,
+  textUppercase: `${PREFIX}-textUppercase`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.imgRoot}`]: {
     cursor: 'pointer',
     display: 'inline-block',
     width: 140,
   },
-  cardRoot: {
+
+  [`& .${classes.cardRoot}`]: {
     maxWidth: '36rem',
     width: '100%',
     overflow: 'hidden',
@@ -37,15 +46,19 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.main,
     },
   },
-  textUppercase: {
+
+  [`& .${classes.textUppercase}`]: {
     textTransform: 'uppercase',
   },
 }));
-const Signup: React.FC<{}> = () => {
-  const classes = useStyles();
 
+const Signup: React.FC<{}> = () => {
   return (
-    <Box flex={1} display='flex' flexDirection='column' justifyContent='center'>
+    <StyledBox
+      flex={1}
+      display='flex'
+      flexDirection='column'
+      justifyContent='center'>
       <Box mb={{xs: 6, md: 8, xl: 18}} textAlign='center'>
         <img
           className={classes.imgRoot}
@@ -72,7 +85,7 @@ const Signup: React.FC<{}> = () => {
           <SignupJwtAuth />
         </Card>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };
 

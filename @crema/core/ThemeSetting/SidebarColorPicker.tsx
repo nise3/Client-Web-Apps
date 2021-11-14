@@ -10,15 +10,11 @@ const PREFIX = 'SidebarColorPicker';
 const classes = {
   cpSwatch: `${PREFIX}-cpSwatch`,
   cpColor: `${PREFIX}-cpColor`,
-  cpPopover: `${PREFIX}-cpPopover`
+  cpPopover: `${PREFIX}-cpPopover`,
 };
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((
-  {
-    theme: CremaTheme
-  }
-) => ({
+const Root = styled('div')(({theme}) => ({
   [`& .${classes.cpSwatch}`]: {
     display: 'flex',
     alignItems: 'center',
@@ -45,7 +41,7 @@ const Root = styled('div')((
     left: 0,
     top: 0,
     zIndex: 1,
-  }
+  },
 }));
 
 interface SidebarColorPickerProps {
@@ -56,10 +52,8 @@ const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
   const {theme, sidebarColor, updateTheme} = useContext(AppContext);
 
-
-
   return (
-    (<Root>
+    <Root>
       <Box className={classes.cpSwatch} onClick={() => setVisibility(!visible)}>
         <Box className={classes.cpColor} />
         <span className='font-extrabold'>Sidebar</span>
@@ -75,7 +69,7 @@ const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
           />
         </Box>
       ) : null}
-    </Root>)
+    </Root>
   );
 };
 
