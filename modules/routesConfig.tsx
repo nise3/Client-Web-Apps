@@ -13,7 +13,7 @@ export interface NavItemProps {
   permissionKey?: string;
   children?: NavItemProps[] | NavItemProps;
 }
-
+const instituteId = 1;
 const routesConfig: NavItemProps[] = [
   {
     id: 'pages',
@@ -414,7 +414,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_slider',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/events/calendar',
+            url: '/dashboard/events/' + instituteId,
           }
         ],
       },

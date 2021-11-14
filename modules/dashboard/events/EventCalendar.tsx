@@ -31,10 +31,12 @@ const events1 = [
   // }
 ];
 
-const EventCalendar = () => {
+const EventCalendar = ({routeQeury}) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   /*const authUser = useAuthUser();*/
+  console.log('from component ', routeQeury.calendar_inst_id);
+  
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
