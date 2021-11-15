@@ -424,8 +424,8 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_calender',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/events/' + instituteId,
-          },
+            url: '/dashboard/events',
+          }
         ],
       },
     ],
