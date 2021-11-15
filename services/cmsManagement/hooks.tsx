@@ -116,7 +116,7 @@ export function useFetchSelfAssessment(params: any) {
   return useAxiosSWR([API_FRONT_END_STATIC_PAGES, params]);
 }
 
-export function useFetchStaticPage(contentId: any, params: any) {
+export function useFetchSingleStaticPage(contentId: any, params: any) {
   return useAxiosSWR([
     contentId
       ? API_FRONT_END_STATIC_PAGES + '/' + contentId

@@ -35,6 +35,8 @@ export async function getServerSideProps(context: any) {
         headers: {Authorization: 'Bearer ' + cookies?.app_access_token},
       },
     );
+
+    console.log('data', res?.data?.data);
     return {props: {data: res?.data?.data}};
   } catch (e) {
     // console.log('e', e);

@@ -3,6 +3,7 @@ import {styled} from '@mui/material/styles';
 import {Box, Container, Grid, Typography} from '@mui/material';
 import {Link} from '../../@softbd/elements/common';
 import GoToTop from '../goToTop';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'Footer';
 
@@ -27,6 +28,8 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const Footer = () => {
+  const {messages} = useIntl();
+
   return (
     <StyledGrid container>
       <Container maxWidth='lg'>
@@ -34,44 +37,44 @@ const Footer = () => {
           <Grid item md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                আমাদের সম্পর্কে
+                {messages['footer.about_us']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
               <Link href={'/sc/about-us'} component={'span'} mt={2}>
-                আমাদের সম্পর্কে
+                {messages['footer.about_us']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Link href={'/sc/terms-and-conditions'} component={'span'} mt={2}>
-                শর্তাবলী এবং নীতিমালা
+                {messages['footer.terms_and_condition']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Box component={'span'} mt={2}>
-                সহযোগী
+                {messages['footer.partner']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
               <Link href={'/sc/privacy-policy'} component={'span'} mt={2}>
-                প্রাইভেসি পলিসি
+                {messages['footer.privacy_policy']}
               </Link>
             </Typography>
-            {/*<Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  যোগাযোগ
-                </Box>
-              </Typography>*/}
+            <Typography gutterBottom={true}>
+              <Box component={'span'} mt={2}>
+                যোগাযোগ
+              </Box>
+            </Typography>
             <Typography gutterBottom={true}>
               <Link href={'https://www.bdjobs.com/'} component={'span'} mt={2}>
-                বিডি জবস
+                {messages['footer.bd_jobs']}
               </Link>
             </Typography>
           </Grid>
           <Grid item md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                চাকরি প্রার্থীদের জন্য
+                {messages['footer.for_job_seeker']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
@@ -80,47 +83,47 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                ক্যারিয়ার পরামর্শ
-              </Box>
+              <Link href={'career-advice'} component={'span'} mt={2}>
+                {messages['footer.career_advice']}
+              </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Box component={'span'} mt={2}>
-                মাই জবস
+                {messages['footer.my_jobs']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                প্রশ্নাবলী
-              </Box>
+              <Link href={'/faq'} component={'span'} mt={2}>
+                {messages['footer.faq']}
+              </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                গাইডলাইন
-              </Box>
+              <Link href={'/sc/guideline'} component={'span'} mt={2}>
+                {messages['footer.guideline']}
+              </Link>
             </Typography>
           </Grid>
           <Grid item md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                চাকরিদাতা
+                {messages['footer.job_provider']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                আমাদের সম্পর্কে
-              </Box>
+              <Link href={'/sc/about-us'} component={'span'} mt={2}>
+                {messages['footer.about_us']}
+              </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                শর্তাবলী এবং নীতিমালা
-              </Box>
+              <Link href={'/sc/terms-and-condition'} component={'span'} mt={2}>
+                {messages['footer.terms_and_condition']}
+              </Link>
             </Typography>
           </Grid>
           <Grid item md={4}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                বাস্তবায়নে
+                {messages['footer.in_implementation']}
               </Box>
             </Typography>
             <Link href={'https://a2i.gov.bd/'}>
@@ -136,7 +139,7 @@ const Footer = () => {
           <Grid item md={2} textAlign={'right'}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                কারিগরি সহায়তায়
+                {messages['common.technical_support']}
               </Box>
             </Typography>
             <Link href={'https://softbdltd.com/'}>
