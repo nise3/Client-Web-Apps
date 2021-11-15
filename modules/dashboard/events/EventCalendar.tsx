@@ -50,7 +50,7 @@ const EventCalendar = ({calendarFor}) => {
       requestQuery.youth_id = authUser.youthId;
       break;
     case 'institute':
-      requestQuery.institute_id = 2;
+      requestQuery.institute_id = authUser.institute_id;
       break
     default:
       break;
