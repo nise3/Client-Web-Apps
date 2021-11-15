@@ -57,8 +57,8 @@ const NoticeDetails = () => {
           <Grid container>
             <Grid item xs={6}>
               <Box className={classes.date}>
-                <DateRangeIcon />
-                <Typography>
+                <DateRangeIcon color={'primary'}/>
+                <Typography color={'primary'}>
                   {getIntlDateFromString(formatDate, notice?.published_at)}
                 </Typography>
               </Box>

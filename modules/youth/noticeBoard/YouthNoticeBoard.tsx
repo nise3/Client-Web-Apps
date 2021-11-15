@@ -106,7 +106,10 @@ const YouthNoticeBoard = () => {
   return (
     <StyledContainer maxWidth={'lg'}>
       <Box className={classes.noticeTopBox}>
-        <Typography variant={'h5'} className={classes.noticeBoardText}>
+        <Typography
+          color={'primary'}
+          variant={'h5'}
+          className={classes.noticeBoardText}>
           {messages['common.notice_board']}
         </Typography>
         <Box>
