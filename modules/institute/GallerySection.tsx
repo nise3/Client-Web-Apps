@@ -6,10 +6,11 @@ import UnderlinedHeading from './UnderlinedHeading';
 import Carousel from 'react-multi-carousel';
 import {useFetchInstitutesGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';
-import {H6, Link} from '../../@softbd/elements/common';
+import {Link} from '../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {useIntl} from 'react-intl';
 import React from 'react';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'GallerySection';
 
@@ -116,7 +117,7 @@ const GallerySection = () => {
                 </Box>
               </Box>
             ) : (
-              <H6>{messages['common.no_data_found']}</H6>
+              <NoDataFoundComponent />
             )}
           </Fade>
         </Grid>

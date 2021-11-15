@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 const FAQPage = asyncComponent(() => import('../modules/institute/faq'));
 export default NiseFrontPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
       <PageMeta title={messages['footer.faq']} />

@@ -93,7 +93,7 @@ const Footer = () => {
                 </Text>
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
-                <Link href={'/sc/about-us'}>
+                <Link href={'/institute/sc/about-us'}>
                   <Button
                     variant='contained'
                     color='primary'
@@ -157,7 +157,9 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.events']}
                   </Link>
-                  <Link href={'/sc/about-us'} className={classes.bullet}>
+                  <Link
+                    href={'/institute/sc/about-us'}
+                    className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
@@ -180,10 +182,7 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.question_and_answer']}
                   </Link>
-                  <Link
-                    href={''}
-                    onClick={redirectToSSO}
-                    className={classes.bullet}>
+                  <Link onClick={redirectToSSO} className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
@@ -198,7 +197,7 @@ const Footer = () => {
                     {messages['footer.sign_up']}
                   </Link>
                   <Link
-                    href={'/sc/terms-and-conditions'}
+                    href={'/institute/sc/terms-and-conditions'}
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
@@ -206,7 +205,9 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.terms_and_conditions']}
                   </Link>
-                  <Link href={'/sc/privacy-policy'} className={classes.bullet}>
+                  <Link
+                    href={'/institute/sc/privacy-policy'}
+                    className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
