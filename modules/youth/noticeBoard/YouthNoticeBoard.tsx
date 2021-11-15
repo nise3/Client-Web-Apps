@@ -71,7 +71,7 @@ const YouthNoticeBoard = () => {
 
   const {data: noticeList, metaData} =
     useFetchPublicNoticeOrNewses(noticeFilters);
-
+  console.log('metadata--', metaData);
   useEffect(() => {
     if (showInType) {
       let params: any = {

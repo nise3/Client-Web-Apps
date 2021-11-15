@@ -9,7 +9,7 @@ import GalleryItemCardView from './gallery/GalleryItemCardView';
 import {H6, Link} from '../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {useIntl} from 'react-intl';
-import React from 'react';
+import React, {useState} from 'react';
 
 const PREFIX = 'GallerySection';
 
@@ -36,16 +36,21 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const GallerySection = () => {
   const {messages} = useIntl();
-  const {data: galleryItems} = useFetchInstitutesGallery();
+  const pageSize = 10;
+  const [galleryFilter] = useState<any>({
+    page_size: pageSize,
+  });
+  const {data: galleryItems} = useFetchInstitutesGallery(galleryFilter);
   const router = useRouter();
   const path = router.pathname;
-
   return (
     <StyledContainer maxWidth='lg'>
       <Grid container mt={{xs: 5}}>
         <Grid item xs={12}>
           <Fade direction='up'>
-            <UnderlinedHeading>{messages['common.gallery']}</UnderlinedHeading>
+            <UnderlinedHeading>
+              {messages['common.gallery_album']}
+            </UnderlinedHeading>
             {galleryItems && galleryItems.length ? (
               <Box>
                 <Box>
@@ -104,7 +109,7 @@ const GallerySection = () => {
                   </Carousel>
                 </Box>
                 <Box display='flex' justifyContent='center'>
-                  <Link href={`${path}/gallery`}>
+                  <Link href={`${path}/gallery-albums`}>
                     <Button
                       variant='outlined'
                       size='large'
@@ -116,7 +121,9 @@ const GallerySection = () => {
                 </Box>
               </Box>
             ) : (
-              <H6>{messages['common.no_data_found']}</H6>
+              <H6 style={{textAlign: 'center'}}>
+                {messages['common.no_data_found']}
+              </H6>
             )}
           </Fade>
         </Grid>

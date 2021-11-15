@@ -26,6 +26,9 @@ export const useAuthToken = () => {
 
   useEffect(() => {
     const validateAuth = async () => {
+      //TODO: temporary
+      await loadAppAccessToken();
+
       dispatch(fetchStart());
       const authAccessTokenData = cookieInstance.get(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
@@ -33,7 +36,6 @@ export const useAuthToken = () => {
       if (!authAccessTokenData) {
         dispatch(fetchSuccess());
         dispatch({type: USER_LOADED});
-        await loadAppAccessToken();
         return;
       }
       dispatch(setAuthAccessTokenData(authAccessTokenData));

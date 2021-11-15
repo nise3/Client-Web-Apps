@@ -24,7 +24,7 @@ import noticeList from '../mock-db/noticeBoard';
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
   const mock = new MockAdapter(axiosInstance);
-  // mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: gallery-album-contents});
+  // mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: gallery-albums-album-contents});
 
   /*  mock
     .onGet(API_APPLICATION_MANAGEMENT)
