@@ -3,7 +3,6 @@ import {AxiosInstance} from 'axios';
 import {
   API_FONT_END_CONTACT_MAP,
   API_FRONT_END_ALL_ACTIVITY_LIST,
-  API_FRONT_END_FAQ,
   API_FRONT_END_GALLERY,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_RECENT_ACTIVITY_DETAIL,
@@ -17,7 +16,6 @@ import galleries, {galleryCategories} from '../mock-db/gallery';
 import contactMapData from '../mock-db/contactMap';
 import allActivityItems from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
-import faqData from '../mock-db/faq';
 import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
 
@@ -61,8 +59,6 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock
     .onGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL)
     .reply(200, {data: recentActivityDetails[0]});
-
-  mock.onGet(API_FRONT_END_FAQ).reply(200, {data: faqData});
 
   mock.onGet(API_FRONT_SC).reply(200, {data: staticContent[0]});
 

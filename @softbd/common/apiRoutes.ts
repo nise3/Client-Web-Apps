@@ -153,7 +153,7 @@ export const API_PUBLIC_NOTICE_OR_NEWS =
   CMS_SERVICE_PUBLIC_PATH + '/notice-or-news';
 
 /** Routes for FAQ page */
-export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
+export const API_FRONT_END_FAQ = CMS_SERVICE_PUBLIC_PATH + '/faqs';
 export const API_FRONT_SC = '/sc';
 export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
