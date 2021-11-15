@@ -8,7 +8,6 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -27,6 +26,8 @@ import {
   useFetchSlider,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import IconSlider from '../../../@softbd/icons/IconSlider';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -68,6 +69,11 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      title: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title'] as string),
       show_in:
         authUser && authUser.isSystemUser
           ? yup
@@ -99,6 +105,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
 
   const {
     reset,
+    register,
     control,
     setError,
     handleSubmit,
@@ -110,6 +117,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
+        title: itemData?.title,
         show_in: itemData?.show_in,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
@@ -173,7 +181,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <WorkOutline />
+          <IconSlider />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -242,6 +250,17 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
             </Grid>
           </React.Fragment>
         )}
+
+        <Grid item xs={12}>
+          <CustomTextInput
+            required
+            id='title'
+            label={messages['common.title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
 
         <Grid item xs={12}>
           <FormRowStatus

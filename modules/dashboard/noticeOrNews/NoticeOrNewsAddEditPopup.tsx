@@ -34,6 +34,8 @@ import {
 } from '../../../services/cmsManagement/FAQService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 interface NoticeOrNewsAddEditPopupProps {
   itemId: number | null;
@@ -74,7 +76,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const {
     data: itemData,
-    isLoading: noticeIsLoading,
+    isLoading,
     mutate: mutateNoticeOrNews,
   } = useFetchNoticeOrNews(itemId);
 
@@ -196,6 +198,12 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         image_alt_title: itemData?.image_alt_title,
         show_in: itemData?.show_in,
         file_alt_title: itemData?.file_alt_title,
+        published_at: itemData?.published_at
+          ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
+          : '',
+        archived_at: itemData?.archived_at
+          ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
+          : '',
         row_status: itemData?.row_status,
       };
 
@@ -382,11 +390,8 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={noticeIsLoading} />
-          <SubmitButton
-            isSubmitting={isSubmitting}
-            isLoading={noticeIsLoading}
-          />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
       <Grid container spacing={5}>
@@ -445,7 +450,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -473,7 +478,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
 
@@ -488,7 +493,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -502,7 +507,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -516,7 +521,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
 
@@ -527,7 +532,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -537,7 +542,26 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             control={control}
             register={register}
             errorInstance={errors}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='published_at'
+            label={messages['common.publish_at']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='archived_at'
+            label={messages['common.archived_at']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
 
@@ -653,7 +677,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             id='row_status'
             control={control}
             defaultValue={initialValues.row_status}
-            isLoading={noticeIsLoading}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

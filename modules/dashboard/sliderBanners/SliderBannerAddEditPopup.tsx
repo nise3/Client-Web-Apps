@@ -9,34 +9,28 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {Add, Delete, WorkOutline} from '@mui/icons-material';
+import {Add, Delete} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {
-  createSlider,
-  getAllIndustries,
-  getAllInstitutes,
-  updateSlider,
-} from '../../../services/cmsManagement/SliderService';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
   useFetchCMSGlobalConfig,
-  useFetchSlider,
+  useFetchSliderBanner,
+  useFetchSliders,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import {Box, Button, IconButton} from '@mui/material';
-import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
-import {
-  getObjectArrayFromValueArray,
-  getValuesFromObjectArray,
-} from '../../../@softbd/utilities/helpers';
 import SliderTemplateShowTypes from '../sliderBanners/SliderTemplateShowTypes';
+import {
+  createSliderBanner,
+  updateSliderBanner,
+} from '../../../services/cmsManagement/SliderBannerService';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 
 interface SliderBannerAddEditPopupProps {
   itemId: number | null;
@@ -45,16 +39,13 @@ interface SliderBannerAddEditPopupProps {
 }
 
 const initialValues = {
-  title_en: '',
+  slider_id: '',
   title: '',
   sub_title: '',
-  institute_id: '',
-  organization_id: '',
-  slider_images: [{value: ''}],
   banner_template_code: '',
   link: '',
   button_text: '',
-  alt_title: '',
+  alt_image_title: '',
   is_button_available: '1',
   row_status: '1',
 };
@@ -73,17 +64,18 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   const {
     data: itemData,
     isLoading,
-    mutate: mutateSlider,
-  } = useFetchSlider(itemId);
+    mutate: mutateSliderBanner,
+  } = useFetchSliderBanner(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
 
-  const [instituteList, setInstituteList] = useState([]);
-  const [industryList, setIndustryList] = useState([]);
-  const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
-    useState<boolean>(false);
-  const [showInId, setShowInId] = useState<number | null>(null);
+  const [sliderFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: sliders, isLoading: isSliderLoading} =
+    useFetchSliders(sliderFilters);
+
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);
   const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
@@ -92,59 +84,46 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
 
+  const [isButtonAvailable, setIsButtonAvailable] = useState<boolean>(true);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      show_in:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.show_in'] as string)
-          : yup.string(),
-      institute_id: yup
-        .mixed()
-        .label(messages['common.institute'] as string)
-        .when('show_in', {
-          is: (val: number) => {
-            return val == ShowInTypes.TSP;
-          },
-          then: yup.string().required(),
-        }),
-      organization_id: yup
-        .mixed()
-        .label(messages['common.organization_bn'] as string)
-        .when('show_in', {
-          is: (val: number) => {
-            return val == ShowInTypes.INDUSTRY;
-          },
-          then: yup.string().required(),
-        }),
+      slider_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['slider.label'] as string),
       title: yup
         .string()
         .trim()
         .required()
         .label(messages['common.title'] as string),
-      sub_title: yup
-        .string()
-        .required()
-        .label(messages['common.sub_title'] as string),
-      slider_images: yup
-        .array()
-        .of(
-          yup.object().shape({
-            value: yup
-              .string()
-              .required()
-              .label(messages['slider.images'] as string),
-          }),
-        )
-        .min(1)
-        .label(messages['slider.images'] as string),
       is_button_available: yup
         .string()
         .required()
         .label('common.is_button_available'),
+      link: yup
+        .string()
+        .label(messages['common.link'] as string)
+        .when('is_button_available', {
+          is: (val: number) => {
+            return val == 1;
+          },
+          then: yup.string().required(),
+        }),
+      button_text: yup
+        .string()
+        .label(messages['common.button_text'] as string)
+        .when('is_button_available', {
+          is: (val: number) => {
+            return val == 1;
+          },
+          then: yup.string().required(),
+        }),
+      /*banner_image_url: yup
+        .string()
+        .required()
+        .label('common.banner_image_url'),*/
     });
   }, [messages, selectedCodes, authUser]);
 
@@ -191,17 +170,14 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
-        show_in: itemData?.show_in,
-        organization_id: itemData?.organization_id,
-        institute_id: itemData?.institute_id,
+        slider_id: itemData?.slider_id,
         title: itemData?.title,
         sub_title: itemData?.sub_title,
         is_button_available: itemData?.is_button_available,
         button_text: itemData?.button_text,
         link: itemData?.link,
-        alt_title: itemData?.alt_title,
+        alt_image_title: itemData?.alt_image_title,
         banner_template_code: itemData?.banner_template_code,
-        slider_images: getObjectArrayFromValueArray(itemData?.slider_images),
         row_status: String(itemData?.row_status),
       };
 
@@ -214,7 +190,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             code: key,
             title: otherLangData[key].title,
             sub_title: otherLangData[key].sub_title,
-            alt_title: otherLangData[key].alt_title,
+            alt_image_title: otherLangData[key].alt_image_title,
             button_text: otherLangData[key].button_text,
           };
         });
@@ -230,28 +206,12 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
       }
 
       reset(data);
-      setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      setIsButtonAvailable(itemData?.is_button_available == 1);
     } else {
       reset(initialValues);
+      setIsButtonAvailable(true);
     }
   }, [itemData, allLanguages]);
-
-  const changeShowInAction = useCallback((id: number) => {
-    (async () => {
-      setIsLoadingSectionNameList(true);
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
-      }
-
-      setShowInId(id);
-      setIsLoadingSectionNameList(false);
-    })();
-  }, []);
 
   const onAddOtherLanguageClick = useCallback(() => {
     if (selectedLanguageCode) {
@@ -298,17 +258,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
-      }
-
-      formData.slider_images = getValuesFromObjectArray(formData.slider_images);
+      formData.banner_image_url = 'http://lorempixel.com/400/200/';
 
       let data = {...formData};
 
@@ -334,12 +284,12 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         data.other_language_fields = otherLanguagesFields;
 
       if (itemId) {
-        await updateSlider(itemId, data);
-        updateSuccessMessage('slider.label');
-        mutateSlider();
+        await updateSliderBanner(itemId, data);
+        updateSuccessMessage('banners.label');
+        mutateSliderBanner();
       } else {
-        await createSlider(data);
-        createSuccessMessage('slider.label');
+        await createSliderBanner(data);
+        createSuccessMessage('banners.label');
       }
       props.onClose();
       refreshDataTable();
@@ -354,16 +304,16 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <WorkOutline />
+          <IconSliderBanner />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='slider.label' />}}
+              values={{subject: <IntlMessages id='banners.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='slider.label' />}}
+              values={{subject: <IntlMessages id='banners.label' />}}
             />
           )}
         </>
@@ -377,52 +327,19 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
-          <React.Fragment>
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                required
-                id={'show_in'}
-                label={messages['faq.show_in']}
-                isLoading={isFetching}
-                control={control}
-                options={cmsGlobalConfig?.show_in}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-                onChange={changeShowInAction}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {showInId == ShowInTypes.TSP && (
-                <CustomFilterableFormSelect
-                  required
-                  id={'institute_id'}
-                  label={messages['institute.label']}
-                  isLoading={isLoadingSectionNameList}
-                  control={control}
-                  options={instituteList}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  errorInstance={errors}
-                />
-              )}
-              {showInId == ShowInTypes.INDUSTRY && (
-                <CustomFilterableFormSelect
-                  required
-                  id={'organization_id'}
-                  label={messages['organization.label']}
-                  isLoading={isLoadingSectionNameList}
-                  control={control}
-                  options={industryList}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  errorInstance={errors}
-                />
-              )}
-            </Grid>
-          </React.Fragment>
-        )}
+        <Grid item container xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'slider_id'}
+            label={messages['slider.label']}
+            isLoading={isSliderLoading}
+            control={control}
+            options={sliders}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
@@ -446,18 +363,8 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='alt_title'
+            id='alt_image_title'
             label={messages['common.alt_title']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='link'
-            label={messages['common.link']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -480,29 +387,36 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
               },
             ]}
             defaultValue={initialValues.is_button_available}
+            onChange={useCallback(() => {
+              setIsButtonAvailable((prev) => !prev);
+            }, [])}
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='button_text'
-            label={messages['common.button_text']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item container xs={12} md={6}>
-          <CustomFieldArray
-            id='slider_images'
-            labelLanguageId={'slider.images'}
-            isLoading={isLoading}
-            control={control}
-            register={register}
-            errors={errors}
-          />
-        </Grid>
+        {isButtonAvailable && (
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='link'
+                label={messages['common.link']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='button_text'
+                label={messages['common.button_text']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </React.Fragment>
+        )}
 
         <Grid item container xs={12} md={6}>
           <CustomFilterableFormSelect
@@ -584,20 +498,23 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
                   <Grid item xs={12} md={6} order={{xs: 4}}>
                     <CustomTextInput
-                      id={'language_' + language.code + '[alt_title]'}
+                      id={'language_' + language.code + '[alt_image_title]'}
                       label={messages['common.alt_title']}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6} order={{xs: 5}}>
-                    <CustomTextInput
-                      id={'language_' + language.code + '[button_text]'}
-                      label={messages['common.button_text']}
-                      register={register}
-                      errorInstance={errors}
-                    />
-                  </Grid>
+                  {isButtonAvailable && (
+                    <Grid item xs={12} md={6} order={{xs: 5}}>
+                      <CustomTextInput
+                        required
+                        id={'language_' + language.code + '[button_text]'}
+                        label={messages['common.button_text']}
+                        register={register}
+                        errorInstance={errors}
+                      />
+                    </Grid>
+                  )}
                 </Grid>
               </fieldset>
             </Box>

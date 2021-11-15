@@ -11,6 +11,7 @@ import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 type Props = {
   itemId: number;
@@ -54,7 +55,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          {itemData?.institute_id && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['institute.label']}
@@ -64,7 +65,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          {itemData?.organization_id && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.INDUSTRY && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization.label']}

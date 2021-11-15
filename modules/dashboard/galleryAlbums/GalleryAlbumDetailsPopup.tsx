@@ -13,8 +13,12 @@ import {
 } from '../../../services/cmsManagement/hooks';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import AlbumTypes from './AlbumTypes';
-import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
+import {
+  getLanguageLabel,
+  getMomentDateFormat,
+} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 type Props = {
   itemId: number;
@@ -99,7 +103,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          {itemData?.institute_id && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['institute.label']}
@@ -109,7 +113,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          {itemData?.organization_id && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.INDUSTRY && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization.label']}
@@ -160,14 +164,22 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.publish_at']}
-              value={itemData?.published_at}
+              value={
+                itemData?.published_at
+                  ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
+                  : ''
+              }
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.archived_at']}
-              value={itemData?.archived_at}
+              value={
+                itemData?.archived_at
+                  ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
+                  : ''
+              }
               isLoading={isLoading}
             />
           </Grid>

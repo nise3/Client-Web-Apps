@@ -42,6 +42,7 @@ import {
   getAllInstitutes,
 } from '../../../services/cmsManagement/FAQService';
 import AlbumTypes from './AlbumTypes';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -259,8 +260,12 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         featured: String(itemData?.featured),
         show_in: itemData?.show_in,
         album_type: itemData?.album_type,
-        published_at: itemData?.published_at,
-        archived_at: itemData?.archived_at,
+        published_at: itemData?.published_at
+          ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
+          : '',
+        archived_at: itemData?.archived_at
+          ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
+          : '',
         row_status: String(itemData?.row_status),
       };
 
@@ -479,6 +484,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='title'
             label={messages['common.title']}
             register={register}
@@ -493,6 +499,19 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id='parent_gallery_album_id'
+            label={messages['gallery_album.parent_gallery_album']}
+            isLoading={isLoadingGalleryAlbums}
+            control={control}
+            options={filteredGalleryAlbums}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
           />
         </Grid>
 
@@ -524,6 +543,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
+            required
             isLoading={false}
             id='featured'
             label={messages['gallery_album.featured_status']}
@@ -536,6 +556,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
+            required
             isLoading={false}
             id='album_type'
             label={messages['gallery_album.album_type']}
@@ -543,19 +564,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             options={albumTypes}
             optionValueProp={'id'}
             optionTitleProp={['label']}
-            errorInstance={errors}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='parent_gallery_album_id'
-            label={messages['gallery_album.parent_gallery_album']}
-            isLoading={isLoadingGalleryAlbums}
-            control={control}
-            options={filteredGalleryAlbums}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

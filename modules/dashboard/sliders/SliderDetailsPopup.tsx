@@ -5,10 +5,10 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchSlider} from '../../../services/cmsManagement/hooks';
+import IconSlider from '../../../@softbd/icons/IconSlider';
 
 type Props = {
   itemId: number;
@@ -28,7 +28,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         {...props}
         title={
           <>
-            <WorkOutline />
+            <IconSlider />
             <IntlMessages id='slider.label' />
           </>
         }
@@ -69,6 +69,14 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               />
             </Grid>
           )}
+
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.title']}
+              value={itemData?.title}
+              isLoading={isLoading}
+            />
+          </Grid>
 
           <Grid item xs={12}>
             <CustomChipRowStatus
