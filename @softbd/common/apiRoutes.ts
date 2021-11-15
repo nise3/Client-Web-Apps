@@ -98,12 +98,15 @@ export const API_YOUTH_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 /** Routes for gallery page map */
 
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
+export const API_PUBLIC_GALLERY_ALBUMS =
+  CMS_SERVICE_PUBLIC_PATH + '/gallery-albums';
 export const API_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PATH + '/gallery-images-videos';
 export const API_FRONT_END_GALLERY = CMS_SERVICE_PATH + '/gallery';
 export const API_FRONT_END_GALLERY_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/gallery-category';
-
+export const API_PUBLIC_GALLERY_IMAGE_VIDEOS =
+  CMS_SERVICE_PUBLIC_PATH + 'gallery-albums-images-videos';
 /** Routes for video page map */
 export const API_FRONT_END_VIDEOS_LIST =
   INSTITUTE_SERVICE_PATH + '/gallery-album-contents';
@@ -157,6 +160,7 @@ export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
 export const API_FRONT_SC = '/sc';
 export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
+export const API_PUBLIC_PARTNERS = CMS_SERVICE_PATH + '/public/nise3-partners';
 export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
 export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
 export const API_BANNERS = CMS_SERVICE_PATH + '/banners';

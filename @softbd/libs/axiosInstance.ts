@@ -16,6 +16,21 @@ axiosInstance.defaults.headers.common['Content-Type'] = 'application/json';
 
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
+    const authAccessTokenData = cookieInstance.get(
+      COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+    );
+    const userAccessToken = authAccessTokenData?.access_token;
+
+    //TODO: temporary
+    if (!config.headers['Authorization']) {
+      if (userAccessToken) {
+        config.headers['Authorization'] = `Bearer ${userAccessToken}`;
+      } else {
+        const appAccessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
+        config.headers['Authorization'] = `Bearer ${appAccessToken}`;
+      }
+    }
+
     return config;
   },
   (error) => {
@@ -29,16 +44,16 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
-    if (error?.response?.status === 401) {
-      cookieInstance.remove(COOKIE_KEY_APP_ACCESS_TOKEN);
-      cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-    }
+    // if (error?.response?.status === 401) {
+    //   cookieInstance.remove(COOKIE_KEY_APP_ACCESS_TOKEN);
+    //   cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    // }
     return Promise.reject(error);
   },
 );
 
 export function setDefaultAuthorizationHeader(accessToken?: string) {
-  console.log('setDefaultAuthorizationHeader', accessToken);
+  // console.log('setDefaultAuthorizationHeader', accessToken);
   axiosInstance.defaults.headers.common['Authorization'] =
     'Bearer ' + accessToken || '';
 }
@@ -58,6 +73,7 @@ export async function loadAppAccessToken() {
           path: '/',
         },
       );
+      //TODO: temporary
       setDefaultAuthorizationHeader(response?.data?.access_token);
     } catch (e) {
       console.log(e);

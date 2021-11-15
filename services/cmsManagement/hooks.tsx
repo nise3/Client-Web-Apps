@@ -13,6 +13,8 @@ import {
   API_PUBLIC_NOTICE_OR_NEWS,
   API_BANNERS,
   API_FRONT_END_STATIC_PAGES,
+  API_PUBLIC_PARTNERS,
+  API_PUBLIC_GALLERY_ALBUMS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -57,6 +59,9 @@ export function useFetchCMSGlobalConfig() {
 export function useFetchPartners(params: any) {
   return useAxiosSWR([API_PARTNERS, params]);
 }
+export function useFetchPublicPartners(params: any) {
+  return useAxiosSWR([API_PUBLIC_PARTNERS, params]);
+}
 
 export function useFetchPartner(partnerId: number | null) {
   return useAxiosSWR(partnerId ? API_PARTNERS + '/' + partnerId : null);
@@ -70,6 +75,11 @@ export function useFetchGalleryAlbums(params: any) {
 export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
   return useAxiosSWR(
     galleryAlbumId ? API_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
+  );
+}
+export function useFetchPublicGalleryAlbum(galleryAlbumId: number | null) {
+  return useAxiosSWR(
+    galleryAlbumId ? API_PUBLIC_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
   );
 }
 

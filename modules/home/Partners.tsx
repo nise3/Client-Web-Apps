@@ -1,17 +1,19 @@
 import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import React from 'react';
+import React, {useState} from 'react';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-
+import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
+import {H6} from '../../@softbd/elements/common';
 const PREFIX = 'Partners';
 
 const classes = {
   title: `${PREFIX}-title`,
   vBar: `${PREFIX}-vBar`,
-  courseItem: `${PREFIX}-courseItem`,
+  cardItem: `${PREFIX}-courseItem`,
   image: `${PREFIX}-image`,
+  imageAlt: `${PREFIX}-imageAlt`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -30,20 +32,26 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     marginRight: '10px',
   },
 
-  [`& .${classes.courseItem}`]: {
+  [`& .${classes.cardItem}`]: {
     position: 'relative',
     boxShadow: '2px 8px 7px #ddd',
     border: '1px solid #ddd',
     display: 'flex',
     justifyContent: 'center',
+    height: '135px',
   },
 
   [`& .${classes.image}`]: {
     width: '100%',
   },
+  [`& .${classes.imageAlt}`]: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
-let items = [
+/*let items = [
   {
     img: '/images/partner1.png',
     title: 'partner1',
@@ -60,20 +68,22 @@ let items = [
     img: '/images/partner2.png',
     title: 'partner4',
   },
-];
+];*/
 
 const Partners = () => {
   const {messages} = useIntl();
-  const cardItem = (item: any, key: number) => {
+  const [partnerFilters] = useState({});
+  const {data: partners} = useFetchPublicPartners(partnerFilters);
+  const cardItem = (partner: any, key: number) => {
     return (
       <Box mr={1} ml={1} key={key}>
-        <Card className={classes.courseItem}>
-          <Box>
+        <Card className={classes.cardItem}>
+          <Box className={classes.imageAlt}>
             <img
               className={classes.image}
-              src={item.img}
-              alt={item.title}
-              title={item.title}
+              src={partner?.main_image_path}
+              alt={partner?.image_alt_title}
+              title={partner?.title}
             />
           </Box>
         </Card>
@@ -93,9 +103,17 @@ const Partners = () => {
           </Box>
         </H3>
         <Box mb={2}>
-          <CustomCarousel>
-            {items.map((item: any, key: number) => cardItem(item, key))}
-          </CustomCarousel>
+          {partners && partners.length > 0 ? (
+            <CustomCarousel>
+              {partners.map((partner: any, key: number) =>
+                cardItem(partner, key),
+              )}
+            </CustomCarousel>
+          ) : (
+            <H6 style={{textAlign: 'center'}}>
+              {messages['common.no_data_found']}
+            </H6>
+          )}
         </Box>
       </Container>
     </StyledGrid>
