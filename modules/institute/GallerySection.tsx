@@ -122,10 +122,10 @@ const GallerySection = () => {
                 </Box>
               </Box>
             ) : (
-              <H6 style={{textAlign: 'center'}}>
-                {messages['common.no_data_found']}
-              </H6>
-              <NoDataFoundComponent />
+              <NoDataFoundComponent
+                message={messages['common.no_data_found']}
+                messageTextType={'h6'}
+              />
             )}
           </Fade>
         </Grid>
