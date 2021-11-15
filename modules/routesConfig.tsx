@@ -425,15 +425,6 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'room',
             url: '/dashboard/events',
-          },
-          {
-            id: 'calendar',
-            title: 'Calendar',
-            messageId: 'menu.calendar',
-            permissionKey: 'view_any_calender',
-            type: 'item',
-            icon: 'room',
-            url: '/institute/events',
           }
         ],
       },
