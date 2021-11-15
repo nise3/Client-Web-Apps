@@ -52,7 +52,7 @@ const NoticeDetails = () => {
             <Grid item xs={6}>
               <Box className={classes.date}>
                 <DateRangeIcon />
-                <Typography>Friday,9th july,2021</Typography>
+                <Typography color={'primary'}>Friday,9th july,2021</Typography>
               </Box>
             </Grid>
             <Grid item xs={6} textAlign={'right'}>

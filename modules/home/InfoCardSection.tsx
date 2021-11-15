@@ -74,7 +74,7 @@ const InfoCardSection = () => {
       <Container maxWidth='lg'>
         <Grid
           container
-          spacing={2}
+          spacing={4}
           mb={{xs: 2, md: 5}}
           sx={{marginTop: '115px'}}>
           <Grid item xs={12} md={4}>

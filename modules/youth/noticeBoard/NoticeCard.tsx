@@ -100,7 +100,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
                 sx={{background: '#e4f1ea', border: 'none'}}>
                 {getIntlDateFromString(formatDate, notice.noticeDate)}
               </Button>
-              <Button color={'primary'} variant={'outlined'}>
+              <Button color={'primary'} variant={'contained'}>
                 {messages['common.download']}
               </Button>
             </Box>
