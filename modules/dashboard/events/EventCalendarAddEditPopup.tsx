@@ -125,8 +125,8 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<Calendar> = async (data: Calendar) => {
     // const onSubmit: any = (data:Calendar) => {
-    // console.log(data);
-
+    // console.log(data, authUser);
+    data.youth_id = authUser.youthId;
     try {
       if (itemId) {
         await updateCalendar(itemId, data);

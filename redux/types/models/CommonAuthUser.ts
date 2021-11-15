@@ -29,6 +29,7 @@ export interface CommonAuthUser extends AuthUser {
   role: Role | any;
   permissions: string[];
   mobile?: string;
+  youthId?: string;
 }
 
 export interface YouthAuthUser extends AuthUser {
