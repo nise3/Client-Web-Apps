@@ -11,6 +11,7 @@ const classes = {
   courseProviderImage: `${PREFIX}-courseProviderImage`,
   courseTitle: `${PREFIX}-courseTitle`,
   courseProviderName: `${PREFIX}-courseProviderName`,
+  detailsButton: `${PREFIX}-detailsButton`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -29,6 +30,11 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.courseProviderName}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
+  },
+  [`& .${classes.detailsButton}`]: {
+    backgroundColor: theme.palette.grey['300'],
+    color: theme.palette.common.black,
+    boxShadow: 'none',
   },
 }));
 
@@ -56,6 +62,7 @@ const RecentCourseComponent = ({data: course}: any) => {
               href={'../../youth/course-details/__'.replace('__', course.id)}
               passHref>
               <Button
+                className={classes.detailsButton}
                 variant='contained'
                 size={'small'}
                 style={{marginLeft: 10}}>

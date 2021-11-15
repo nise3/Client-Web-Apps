@@ -25,7 +25,7 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
 
   [`& .${classes.tagStyle}`]: {
-    color: '#F16B2D',
+    color: theme.palette.warning.main,
     position: 'absolute',
     top: 14,
     right: 9,
@@ -33,7 +33,6 @@ const StyledCard = styled(Card)(({theme}) => ({
     height: 21,
     width: 21,
     background: '#FEF0EA',
-    borderColor: '#F16B2D',
     '& .MuiChip-label': {
       padding: '0px 5px',
     },

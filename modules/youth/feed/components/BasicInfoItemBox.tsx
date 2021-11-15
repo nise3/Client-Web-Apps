@@ -16,6 +16,8 @@ const StyledBox = styled(Box)(({theme}): any => ({
   paddingTop: 5,
   '& .itemIcon': {
     float: 'right',
+    width: '1rem',
+    height: '1rem',
   },
 
   [`& .${classes.displayInline}`]: {

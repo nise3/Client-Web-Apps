@@ -11,6 +11,7 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {Fonts} from '../../../shared/constants/AppEnums';
 
 const PREFIX = 'CourseListSection';
 
@@ -50,11 +51,14 @@ const StyledCard = styled(Card)(({theme}) => ({
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
+    backgroundColor: theme.palette.grey['100'],
+    fontWeight: Fonts.BOLD,
   },
 
   [`& .${classes.seeMoreButton}`]: {
     boxShadow: 'none',
     marginTop: 10,
+    fontWeight: Fonts.BOLD,
   },
 
   [`& .${classes.selectControl}`]: {
