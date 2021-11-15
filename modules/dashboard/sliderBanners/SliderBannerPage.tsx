@@ -11,11 +11,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IconSlider from '../../../@softbd/icons/IconSlider';
 import {useFetchSliderBanners} from '../../../services/cmsManagement/hooks';
 import SliderBannerAddEditPopup from './SliderBannerAddEditPopup';
 import SliderBannerDetailsPopup from './SliderBannerDetailsPopup';
 import {deleteSliderBanner} from '../../../services/cmsManagement/SliderBannerService';
+import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 
 const SliderBannerPage = () => {
   const {messages} = useIntl();
@@ -138,7 +138,7 @@ const SliderBannerPage = () => {
       <PageBlock
         title={
           <>
-            <IconSlider /> <IntlMessages id='slider.label' />
+            <IconSliderBanner /> <IntlMessages id='banners.label' />
           </>
         }
         extra={[
@@ -150,7 +150,7 @@ const SliderBannerPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['banner.label'],
+                  subject: messages['banners.label'],
                 }}
               />
             }

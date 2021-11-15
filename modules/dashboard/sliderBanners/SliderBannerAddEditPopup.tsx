@@ -26,7 +26,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
   useFetchCMSGlobalConfig,
-  useFetchSlider,
+  useFetchSliderBanner,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
@@ -45,7 +45,7 @@ interface SliderBannerAddEditPopupProps {
 }
 
 const initialValues = {
-  title_en: '',
+  slider_id: '',
   title: '',
   sub_title: '',
   institute_id: '',
@@ -74,7 +74,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateSlider,
-  } = useFetchSlider(itemId);
+  } = useFetchSliderBanner(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
