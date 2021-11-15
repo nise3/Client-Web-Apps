@@ -962,5 +962,13 @@
   "collage_position.right_top": "Right Top",
   "collage_position.right_bottom_1": "Right Bottom Left",
   "collage_position.right_bottom_2": "Right Bottom Right",
-  "banners.label": "Banners"
+  "banners.label": "Banners",
+  "common.banner_image_url": "Banner image url",
+  "gallery_album.parent_gallery_album": "Parent gallery album",
+  "gallery_album.album_type": "Album type",
+  "common.button_text": "Button text",
+  "common.link": "Link",
+  "static_page.label": "Static page",
+  "static_page_content_type.page_block": "Page Block",
+  "static_page_content_type.static_page": "Static Page"
 }

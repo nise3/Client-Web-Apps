@@ -35,6 +35,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
+import AlbumTypes from '../galleryAlbums/AlbumTypes';
 
 interface GalleryAlbumContentsPageAddEditPopupProps {
   itemId: number | null;
@@ -43,7 +44,6 @@ interface GalleryAlbumContentsPageAddEditPopupProps {
 }
 
 const initialValues = {
-  id: '',
   gallery_album_id: '',
   content_type: '',
   video_type: '',
@@ -87,6 +87,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
       number | null
     >(null);
 
+    const [galleryAlbum, setGalleryAlbum] = useState<any>(null);
+
     const isEdit = itemId != null;
     const {
       data: itemData,
@@ -104,10 +106,13 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .string()
           .required()
           .label(messages['gallery_album.featured_status'] as string),
-        content_type: yup
-          .string()
-          .required()
-          .label(messages['common.content_type'] as string),
+        content_type:
+          galleryAlbum && galleryAlbum.album_type == AlbumTypes.MIXED
+            ? yup
+                .string()
+                .required()
+                .label(messages['common.content_type'] as string)
+            : yup.string(),
         content_title: yup
           .string()
           .required()
@@ -123,21 +128,21 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .mixed()
           .label(messages['common.video_type'] as string)
           .when('content_type', {
-            is: (value: number) => value == GalleryAlbumContentTypes.VIDEO,
+            is: (value: number) => value != GalleryAlbumContentTypes.IMAGE,
             then: yup.string().required(),
           }),
         embedded_id: yup
           .mixed()
           .label(messages['common.embedded_id'] as string)
           .when('content_type', {
-            is: (value: number) => value == GalleryAlbumContentTypes.VIDEO,
+            is: (value: number) => value != GalleryAlbumContentTypes.IMAGE,
             then: yup.string().required(),
           }),
         embedded_url: yup
           .mixed()
           .label(messages['common.embedded_id'] as string)
           .when('content_type', {
-            is: (value: number) => value == GalleryAlbumContentTypes.VIDEO,
+            is: (value: number) => value != GalleryAlbumContentTypes.IMAGE,
             then: yup.string().required(),
           }),
         language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
@@ -168,7 +173,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 .label(messages['common.content_title'] as string),
             }),
       });
-    }, [messages, selectedCodes]);
+    }, [messages, selectedCodes, galleryAlbum]);
 
     const features = useMemo(
       () => [
@@ -320,10 +325,11 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         }
         reset(data);
         setSelectedContentType(itemData?.content_type);
+        onGalleryAlbumChange(itemData?.gallery_album_id);
       } else {
         reset(initialValues);
       }
-    }, [itemData, allLanguages]);
+    }, [itemData, allLanguages, galleryAlbums]);
 
     const onDeleteLanguage = useCallback(
       (language: any) => {
@@ -343,6 +349,23 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
       },
       [selectedLanguageList, languageList, selectedCodes],
     );
+
+    const onGalleryAlbumChange = useCallback(
+      (albumId: number) => {
+        if (albumId && galleryAlbums) {
+          const galleryAlbum = galleryAlbums.find(
+            (album: any) => album.id == albumId,
+          );
+          setSelectedContentType(galleryAlbum.album_type);
+          setGalleryAlbum(galleryAlbum);
+        } else {
+          setGalleryAlbum(null);
+          setSelectedContentType(null);
+        }
+      },
+      [galleryAlbums],
+    );
+
     const onSubmit: SubmitHandler<any> = async (formData: any) => {
       try {
         //demo file url
@@ -350,6 +373,12 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         formData.content_grid_image_url = 'http://lorempixel.com/400/200/';
         formData.content_thumb_image_url = 'http://lorempixel.com/200/100/';
         formData.content_path = 'http://lorempixel.com/200/200/';
+
+        if (galleryAlbum.album_type == AlbumTypes.IMAGE) {
+          formData.content_type = GalleryAlbumContentTypes.IMAGE;
+        } else if (galleryAlbum.album_type == AlbumTypes.VIDEO) {
+          formData.content_type = GalleryAlbumContentTypes.VIDEO;
+        }
 
         let data = {...formData};
         let otherLanguagesFields: any = {};
@@ -438,6 +467,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
               optionValueProp={'id'}
               optionTitleProp={['title']}
               errorInstance={errors}
+              onChange={onGalleryAlbumChange}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -463,22 +493,26 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomFilterableFormSelect
-              required
-              isLoading={false}
-              id='content_type'
-              label={messages['common.content_type']}
-              control={control}
-              options={contentTypes}
-              optionValueProp={'id'}
-              optionTitleProp={['label']}
-              errorInstance={errors}
-              onChange={(contentType: number) => {
-                setSelectedContentType(contentType);
-              }}
-            />
-          </Grid>
+
+          {galleryAlbum && galleryAlbum.album_type == AlbumTypes.MIXED && (
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                required
+                isLoading={false}
+                id='content_type'
+                label={messages['common.content_type']}
+                control={control}
+                options={contentTypes}
+                optionValueProp={'id'}
+                optionTitleProp={['label']}
+                errorInstance={errors}
+                onChange={(contentType: number) => {
+                  setSelectedContentType(contentType);
+                }}
+              />
+            </Grid>
+          )}
+
           {selectedContentType &&
             selectedContentType == GalleryAlbumContentTypes.IMAGE && (
               <Grid item xs={12} md={6}>
