@@ -129,8 +129,8 @@ export function useFetchInstitutesAllActivity() {
   return useAxiosSWR([API_FRONT_END_ALL_ACTIVITY_LIST]);
 }
 
-export function useFetchInstitutesFAQ() {
-  return useAxiosSWR([API_FRONT_END_FAQ]);
+export function useFetchInstitutesFAQ(params: any) {
+  return useAxiosSWR([API_FRONT_END_FAQ, params]);
 }
 
 /** fetches a single application's details */
