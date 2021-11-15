@@ -7,7 +7,10 @@ import selfAssessmentImage from '../../public/images/self-assessment.png';
 import {H3, Text} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {useIntl} from 'react-intl';
-import {useFetchSelfAssessment} from '../../services/cmsManagement/hooks';
+import {
+  useFetchSelfAssessment,
+  useFetchStaticPage,
+} from '../../services/cmsManagement/hooks';
 import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import {SELF_ASSESSMENT_CONTENT_ID} from '../../@softbd/utilities/StaticContentConfigs';
 
@@ -30,8 +33,9 @@ const SelfAssessment = () => {
     show_in: ShowInTypes.NICE3,
     content_slug_or_id: SELF_ASSESSMENT_CONTENT_ID,
   });
-  const {data: selfAssessmentData} =
-    useFetchSelfAssessment(selfAssessmentParams);
+  const {data: selfAssessmentData} = useFetchStaticPage(
+    SELF_ASSESSMENT_CONTENT_ID,
+  );
 
   const {messages} = useIntl();
   return (

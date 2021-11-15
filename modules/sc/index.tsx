@@ -28,8 +28,6 @@ const StyledContainer = styled(Container)(() => {
 const StaticContent = ({data}: any) => {
   const {messages} = useIntl();
 
-  console.log('data', data);
-
   return (
     <StyledContainer maxWidth={'lg'}>
       {data && data.title ? (
@@ -76,7 +74,7 @@ const StaticContent = ({data}: any) => {
             </Grid>
           )}
           <Grid item xs={12}>
-            <div dangerouslySetInnerHTML={{__html: data.content}} />
+            <div dangerouslySetInnerHTML={{__html: data.contents}} />
           </Grid>
         </Grid>
       ) : (
