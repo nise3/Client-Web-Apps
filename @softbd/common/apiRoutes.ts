@@ -5,6 +5,7 @@ export const INSTITUTE_SERVICE_PATH = '/institute';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
+export const CMS_SERVICE_PUBLIC_PATH = CMS_SERVICE_PATH + '/public';
 
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
@@ -122,10 +123,13 @@ export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
-  INSTITUTE_SERVICE_PATH + '/recent-activities';
+  CMS_SERVICE_PATH + '/public/recent-activities';
 export const API_FRONT_END_ALL_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/all-activities';
 export const CMS_RECENT_ACTIVITY = CMS_SERVICE_PATH + '/' + 'recent-activities';
+
+// export const API_FRONT_END_RECENT_ACTIVITIES_LIST =
+//   CMS_SERVICE_PATH + '/public/recent-activities';
 
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';
@@ -145,6 +149,8 @@ export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_NOTICE_BOARD = '/notice-board/';
 export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/' + 'notice-or-news';
+export const API_PUBLIC_NOTICE_OR_NEWS =
+  CMS_SERVICE_PUBLIC_PATH + '/notice-or-news';
 
 /** Routes for FAQ page */
 export const API_FRONT_END_FAQ = INSTITUTE_SERVICE_PATH + '/faq';
@@ -153,9 +159,12 @@ export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
 export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
 export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
+export const API_BANNERS = CMS_SERVICE_PATH + '/banners';
 export const API_VISITOR_FEEDBACKS =
   CMS_SERVICE_PATH + '/visitor-feedback-suggestions';
 export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';
+export const API_FRONT_END_STATIC_PAGES =
+  CMS_SERVICE_PUBLIC_PATH + '/static-pages';
 
 /** Routes for calendar events */
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';

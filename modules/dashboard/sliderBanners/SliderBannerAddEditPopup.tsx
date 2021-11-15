@@ -1,66 +1,65 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {
-  useFetchCMSGlobalConfig,
-  useFetchRecentActivity,
-} from '../../../services/cmsManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import Grid from '@mui/material/Grid';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  createRecentActivities,
-  updateRecentActivity,
-} from '../../../services/cmsManagement/RecentActivityService';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {Box, Button, Grid, IconButton} from '@mui/material';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import TextEditor from '../../../@softbd/components/editor/TextEditor';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {Add, Delete, WorkOutline} from '@mui/icons-material';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useIntl} from 'react-intl';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
+  createSlider,
   getAllIndustries,
   getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
+  updateSlider,
+} from '../../../services/cmsManagement/SliderService';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchSlider,
+} from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {Add, Delete} from '@mui/icons-material';
-import ContentTypes from './ContentTypes';
+import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import {Box, Button, IconButton} from '@mui/material';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import {
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import SliderTemplateShowTypes from '../sliderBanners/SliderTemplateShowTypes';
 
-interface RecentActivitiesAddEditPopupProps {
+interface SliderBannerAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
+  title_en: '',
   title: '',
+  sub_title: '',
   institute_id: '',
   organization_id: '',
-  show_in: '',
-  description: '',
-  content_type: '',
-  collage_image_path: '',
-  collage_position: '',
-  thumb_image_path: '',
-  grid_image_path: '',
-  image_alt_title: '',
-  content_path: '',
-  content_properties: '',
-  embedded_id: '',
-  embedded_url: '',
+  slider_images: [{value: ''}],
+  banner_template_code: '',
+  link: '',
+  button_text: '',
+  alt_title: '',
+  is_button_available: '1',
   row_status: '1',
 };
 
-const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
+const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -68,14 +67,14 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser<CommonAuthUser>();
+  const authUser = useAuthUser();
 
   const isEdit = itemId != null;
   const {
     data: itemData,
     isLoading,
-    mutate: mutateRecentActivity,
-  } = useFetchRecentActivity(itemId);
+    mutate: mutateSlider,
+  } = useFetchSlider(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
@@ -92,49 +91,16 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
     string | null
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
-  const [selectedContentType, setSelectedContentType] = useState<number | null>(
-    null,
-  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title: yup
-        .string()
-        .title()
-        .required()
-        .label(messages['common.title'] as string),
-      content_type: yup
-        .string()
-        .required()
-        .label(messages['common.content_type'] as string),
-      /*content_path: yup
-        .mixed()
-        .label(messages['common.content_path'] as string)
-        .when('content_type', {
-          is: (val: number) => val == ContentTypes.IMAGE,
-          then: yup.string().required(),
-        }),*/
-      embedded_id: yup
-        .mixed()
-        .label(messages['common.embedded_id'] as string)
-        .when('content_type', {
-          is: (val: number) => val != ContentTypes.IMAGE,
-          then: yup.string().required(),
-        }),
-      embedded_url: yup
-        .mixed()
-        .label(messages['common.embedded_url'] as string)
-        .when('content_type', {
-          is: (val: number) => val != ContentTypes.IMAGE,
-          then: yup.string().required(),
-        }),
       show_in:
         authUser && authUser.isSystemUser
           ? yup
               .string()
               .trim()
               .required()
-              .label(messages['common.show_in'] as string)
+              .label(messages['faq.show_in'] as string)
           : yup.string(),
       institute_id: yup
         .mixed()
@@ -154,81 +120,58 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
-      language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            title: yup
+      title: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.title'] as string),
+      sub_title: yup
+        .string()
+        .required()
+        .label(messages['common.sub_title'] as string),
+      slider_images: yup
+        .array()
+        .of(
+          yup.object().shape({
+            value: yup
               .string()
-              .trim()
               .required()
-              .label(messages['common.title'] as string),
+              .label(messages['slider.images'] as string),
           }),
-      language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.title'] as string),
-          }),
-      language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            title: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.title'] as string),
-          }),
+        )
+        .min(1)
+        .label(messages['slider.images'] as string),
+      is_button_available: yup
+        .string()
+        .required()
+        .label('common.is_button_available'),
     });
   }, [messages, selectedCodes, authUser]);
 
   const {
     register,
-    control,
     reset,
-    setValue,
+    control,
     setError,
-    clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
-  const CONTENT_TYPES = useMemo(
-    () => [
-      {id: ContentTypes.IMAGE, title: messages['content_type.image']},
-      {
-        id: ContentTypes.FACEBOOK_SOURCE,
-        title: messages['content_type.facebook_video'],
-      },
-      {
-        id: ContentTypes.YOUTUBE_SOURCE,
-        title: messages['content_type.youtube_video'],
-      },
-    ],
-    [messages],
-  );
-
-  const collagePosition = useMemo(
+  const templateCodes = useMemo(
     () => [
       {
-        id: 1,
-        label: messages['collage_position.left'],
+        code: SliderTemplateShowTypes.BT_CB,
+        title: messages['slider.template_code_bt_cb'],
       },
       {
-        id: 2,
-        label: messages['collage_position.right_top'],
+        code: SliderTemplateShowTypes.BT_LR,
+        title: messages['slider.template_code_bt_lr'],
       },
       {
-        id: 3,
-        label: messages['collage_position.right_bottom_1'],
-      },
-      {
-        id: 4,
-        label: messages['collage_position.right_bottom_2'],
+        code: SliderTemplateShowTypes.BT_RL,
+        title: messages['slider.template_code_bt_rl'],
       },
     ],
     [messages],
@@ -248,18 +191,18 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
-        title: itemData?.title,
-        institute_id: itemData?.institute_id,
-        organization_id: itemData?.organization_id,
         show_in: itemData?.show_in,
-        content_type: itemData?.content_type,
-        collage_position: itemData?.collage_position,
-        image_alt_title: itemData?.image_alt_title,
-        content_properties: itemData?.content_properties,
-        embedded_id: itemData?.embedded_id,
-        embedded_url: itemData?.embedded_url,
-        row_status: itemData?.row_status,
-        description: itemData?.description,
+        organization_id: itemData?.organization_id,
+        institute_id: itemData?.institute_id,
+        title: itemData?.title,
+        sub_title: itemData?.sub_title,
+        is_button_available: itemData?.is_button_available,
+        button_text: itemData?.button_text,
+        link: itemData?.link,
+        alt_title: itemData?.alt_title,
+        banner_template_code: itemData?.banner_template_code,
+        slider_images: getObjectArrayFromValueArray(itemData?.slider_images),
+        row_status: String(itemData?.row_status),
       };
 
       const otherLangData = itemData?.other_language_fields;
@@ -270,8 +213,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           data['language_' + key] = {
             code: key,
             title: otherLangData[key].title,
-            description: otherLangData[key].description,
-            image_alt_title: otherLangData[key].image_alt_title,
+            sub_title: otherLangData[key].sub_title,
+            alt_title: otherLangData[key].alt_title,
+            button_text: otherLangData[key].button_text,
           };
         });
         setSelectedCodes(keys);
@@ -284,13 +228,14 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           allLanguages.filter((item: any) => !keys.includes(item.code)),
         );
       }
+
       reset(data);
       setShowInId(itemData?.show_in);
       changeShowInAction(itemData?.show_in);
     } else {
       reset(initialValues);
     }
-  }, [itemData, allLanguages, reset]);
+  }, [itemData, allLanguages]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -353,17 +298,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.recentActivityId = formData.recentActivityId
-        ? formData.recentActivityId
-        : null;
-
-      formData.other_language_fields = '';
-
-      formData.collage_image_path = 'http://lorempixel.com/400/200/';
-      formData.thumb_image_path = 'http://lorempixel.com/400/200/';
-      formData.grid_image_path = 'http://lorempixel.com/400/200/';
-      formData.content_path = 'http://lorempixel.com/400/200/';
-
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;
@@ -373,6 +307,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         formData.organization_id = authUser?.organization_id;
         formData.show_in = ShowInTypes.INDUSTRY;
       }
+
+      formData.slider_images = getValuesFromObjectArray(formData.slider_images);
 
       let data = {...formData};
 
@@ -384,8 +320,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
         otherLanguagesFields[language.code] = {
           title: langObj.title,
-          description: langObj.description,
-          image_alt_title: langObj.image_alt_title,
+          sub_title: langObj.sub_title,
+          alt_title: langObj.alt_title,
+          button_text: langObj.button_text,
         };
       });
 
@@ -397,13 +334,12 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         data.other_language_fields = otherLanguagesFields;
 
       if (itemId) {
-        await updateRecentActivity(itemId, data);
-        updateSuccessMessage('recent_activities.institute');
-        mutateRecentActivity();
+        await updateSlider(itemId, data);
+        updateSuccessMessage('slider.label');
+        mutateSlider();
       } else {
-        await createRecentActivities(data);
-        createSuccessMessage('recent_activities.institute');
-        mutateRecentActivity();
+        await createSlider(data);
+        createSuccessMessage('slider.label');
       }
       props.onClose();
       refreshDataTable();
@@ -418,23 +354,21 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       {...props}
       title={
         <>
+          <WorkOutline />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{
-                subject: <IntlMessages id='recent_activities.institute' />,
-              }}
+              values={{subject: <IntlMessages id='slider.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{
-                subject: <IntlMessages id='recent_activities.institute' />,
-              }}
+              values={{subject: <IntlMessages id='slider.label' />}}
             />
           )}
         </>
       }
+      maxWidth={'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -449,7 +383,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               <CustomFormSelect
                 required
                 id={'show_in'}
-                label={messages['common.show_in']}
+                label={messages['faq.show_in']}
                 isLoading={isFetching}
                 control={control}
                 options={cmsGlobalConfig?.show_in}
@@ -459,7 +393,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                 onChange={changeShowInAction}
               />
             </Grid>
-
             <Grid item xs={12} md={6}>
               {showInId == ShowInTypes.TSP && (
                 <CustomFilterableFormSelect
@@ -490,191 +423,127 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             </Grid>
           </React.Fragment>
         )}
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='title'
             label={messages['common.title']}
-            control={control}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id='content_type'
-            isLoading={false}
-            label={messages['common.content_type']}
+          <CustomTextInput
+            id='sub_title'
+            label={messages['common.sub_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='alt_title'
+            label={messages['common.alt_title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='link'
+            label={messages['common.link']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <FormRadioButtons
+            id='is_button_available'
+            label={'common.is_button_available'}
             control={control}
-            options={CONTENT_TYPES}
-            optionValueProp={'id'}
+            radios={[
+              {
+                label: messages['common.yes'],
+                key: 1,
+              },
+              {
+                label: messages['common.no'],
+                key: 0,
+              },
+            ]}
+            defaultValue={initialValues.is_button_available}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='button_text'
+            label={messages['common.button_text']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item container xs={12} md={6}>
+          <CustomFieldArray
+            id='slider_images'
+            labelLanguageId={'slider.images'}
+            isLoading={isLoading}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+
+        <Grid item container xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id={'banner_template_code'}
+            label={messages['slider.banner_template_code']}
+            isLoading={false}
+            control={control}
+            options={templateCodes}
+            optionValueProp={'code'}
             optionTitleProp={['title']}
             errorInstance={errors}
-            onChange={(id: number) => {
-              setSelectedContentType(id);
-            }}
-          />
-        </Grid>
-
-        {selectedContentType && selectedContentType == ContentTypes.IMAGE && (
-          <Grid item xs={12} md={6}>
-            <CustomTextInput
-              id='content_path'
-              label={messages['common.content_path']}
-              type={'file'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              control={control}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-        )}
-
-        {/*<Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='content_properties'
-            label={messages['common.content_properties']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>*/}
-
-        {selectedContentType && selectedContentType != ContentTypes.IMAGE && (
-          <React.Fragment>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='embedded_id'
-                label={messages['common.embedded_id']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='embedded_url'
-                label={messages['common.embedded_url']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-          </React.Fragment>
-        )}
-
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='collage_position'
-            label={messages['common.collage_position']}
-            isLoading={false}
-            control={control}
-            options={collagePosition}
-            optionValueProp={'id'}
-            optionTitleProp={['label']}
-            errorInstance={errors}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='collage_image_path'
-            label={messages['common.collage_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='image_alt_title'
-            label={messages['common.image_alt_title']}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
           />
         </Grid>
 
         <Grid item xs={12}>
-          <TextEditor
-            id={'description'}
-            label={messages['common.description']}
-            errorInstance={errors}
-            value={itemData?.description || initialValues.description}
-            height={'300px'}
-            key={1}
-            register={register}
-            setValue={setValue}
-            clearErrors={clearErrors}
-            setError={setError}
-          />
-        </Grid>
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id={'language_list'}
+                label={messages['common.language']}
+                isLoading={isFetching}
+                control={control}
+                options={languageList}
+                optionValueProp={'code'}
+                optionTitleProp={['native_name']}
+                errorInstance={errors}
+                onChange={onLanguageListChange}
+              />
+            </Grid>
 
-        <Grid item xs={6}>
-          <CustomFilterableFormSelect
-            id={'language_list'}
-            label={messages['common.language']}
-            isLoading={isFetching}
-            control={control}
-            options={languageList}
-            optionValueProp={'code'}
-            optionTitleProp={['native_name']}
-            errorInstance={errors}
-            onChange={onLanguageListChange}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Button
-            variant={'outlined'}
-            color={'primary'}
-            onClick={onAddOtherLanguageClick}
-            disabled={!selectedLanguageCode}>
-            <Add />
-            {messages['faq.add_language']}
-          </Button>
+            <Grid item xs={12} md={6}>
+              <Button
+                variant={'outlined'}
+                color={'primary'}
+                onClick={onAddOtherLanguageClick}
+                disabled={!selectedLanguageCode}>
+                <Add />
+                {messages['faq.add_language']}
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
 
         <Grid item xs={12}>
@@ -685,7 +554,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                   {language.native_name}
                 </legend>
                 <Grid container spacing={5}>
-                  <Grid item xs={11}>
+                  <Grid item xs={10} md={6}>
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[title]'}
@@ -694,7 +563,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
-                  <Grid item xs={1} md={1}>
+                  <Grid item xs={12} md={5} order={{xs: 3, md: 2}}>
+                    <CustomTextInput
+                      id={'language_' + language.code + '[sub_title]'}
+                      label={messages['common.sub_title']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={2} md={1} order={{xs: 2, md: 3}}>
                     <IconButton
                       aria-label='delete'
                       color={'error'}
@@ -704,32 +581,21 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
                       <Delete color={'error'} />
                     </IconButton>
                   </Grid>
-                  <Grid item md={12}>
+
+                  <Grid item xs={12} md={6} order={{xs: 4}}>
                     <CustomTextInput
-                      id={'language_' + language.code + '[image_alt_title]'}
-                      label={messages['common.image_alt_title']}
+                      id={'language_' + language.code + '[alt_title]'}
+                      label={messages['common.alt_title']}
                       register={register}
                       errorInstance={errors}
-                      multiline={true}
-                      rows={3}
                     />
                   </Grid>
-
-                  <Grid item xs={12}>
-                    <TextEditor
-                      id={'language_' + language.code + '[description]'}
-                      label={messages['common.description']}
-                      errorInstance={errors}
-                      value={
-                        itemData?.other_language_fields?.[language.code]
-                          ?.description || initialValues.description
-                      }
-                      height={'300px'}
-                      key={1}
+                  <Grid item xs={12} md={6} order={{xs: 5}}>
+                    <CustomTextInput
+                      id={'language_' + language.code + '[button_text]'}
+                      label={messages['common.button_text']}
                       register={register}
-                      setValue={setValue}
-                      clearErrors={clearErrors}
-                      setError={setError}
+                      errorInstance={errors}
                     />
                   </Grid>
                 </Grid>
@@ -738,7 +604,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           ))}
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <FormRowStatus
             id='row_status'
             control={control}
@@ -751,4 +617,4 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   );
 };
 
-export default RecentActivitiesAddEditPopup;
+export default SliderBannerAddEditPopup;

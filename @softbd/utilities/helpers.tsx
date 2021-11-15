@@ -1,6 +1,7 @@
 import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
+import ShowInTypes from './ShowInTypes';
 
 export const genders = [
   {
@@ -316,6 +317,19 @@ export const getModulePath = (path: string) => {
   }
 };
 
+export const getShowInTypes = (path: string) => {
+  switch (path) {
+    case 'youth':
+      return ShowInTypes.YOUTH;
+    case 'institute':
+      return ShowInTypes.TSP;
+    case 'organization':
+      return ShowInTypes.INDUSTRY;
+    default:
+      return ShowInTypes.NICE3;
+  }
+};
+
 export const getIntlDateFromString = (formatFn: any, dateStr: any) => {
   const dt = new Date(dateStr).toLocaleString();
   if (dt !== 'Invalid Date') {
@@ -345,4 +359,15 @@ export const getLanguageLabel = (language_configs: any, key: string) => {
     }
   });
   return label;
+};
+
+export const getShowInTypeFromPath = (path: string) => {
+  const pathArray = path.split('/');
+  if (pathArray.indexOf('youth') > -1) {
+    return ShowInTypes.YOUTH;
+  } else if (pathArray.indexOf('institute') > -1) {
+    return ShowInTypes.TSP;
+  } else {
+    return ShowInTypes.NICE3;
+  }
 };

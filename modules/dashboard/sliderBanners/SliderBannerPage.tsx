@@ -6,27 +6,27 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import SliderDetailsPopup from './SliderDetailsPopup';
-import SliderAddEditPopup from './SliderAddEditPopup';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconSlider from '../../../@softbd/icons/IconSlider';
-import {deleteSlider} from '../../../services/cmsManagement/SliderService';
-import {useFetchSliders} from '../../../services/cmsManagement/hooks';
+import {useFetchSliderBanners} from '../../../services/cmsManagement/hooks';
+import SliderBannerAddEditPopup from './SliderBannerAddEditPopup';
+import SliderBannerDetailsPopup from './SliderBannerDetailsPopup';
+import {deleteSliderBanner} from '../../../services/cmsManagement/SliderBannerService';
 
-const SliderPage = () => {
+const SliderBannerPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [sliderFilters] = useState({});
+  const [sliderBannerFilters] = useState({});
   const {
-    data: sliders,
+    data: sliderBanners,
     isLoading,
-    mutate: mutateSliders,
-  }: any = useFetchSliders(sliderFilters);
+    mutate: mutateSliderBanners,
+  }: any = useFetchSliderBanners(sliderBannerFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -55,13 +55,13 @@ const SliderPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteSliderItem = async (itemId: number) => {
-    let response = await deleteSlider(itemId);
+  const deleteSliderBannerItem = async (itemId: number) => {
+    let response = await deleteSliderBanner(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='slider.label' />}}
+          values={{subject: <IntlMessages id='banners.label' />}}
         />,
       );
 
@@ -70,7 +70,7 @@ const SliderPage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    mutateSliders();
+    mutateSliderBanners();
   }, []);
 
   const columns = useMemo(
@@ -83,13 +83,15 @@ const SliderPage = () => {
           return props.row.index + 1;
         },
       },
+
       {
-        Header: messages['common.show_in'],
-        accessor: 'show_in_label',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['common.sub_title'],
         accessor: 'sub_title',
+        isVisible: false,
       },
       {
         Header: messages['institute.label'],
@@ -99,11 +101,6 @@ const SliderPage = () => {
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.alt_title'],
-        accessor: 'alt_title',
         isVisible: false,
       },
       {
@@ -124,7 +121,7 @@ const SliderPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteSliderItem(data.id)}
+                deleteAction={() => deleteSliderBannerItem(data.id)}
                 deleteTitle={'Are you sure?'}
               />
             </DatatableButtonGroup>
@@ -153,7 +150,7 @@ const SliderPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['slider.label'],
+                  subject: messages['banner.label'],
                 }}
               />
             }
@@ -161,11 +158,11 @@ const SliderPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={sliders || []}
+          data={sliderBanners || []}
           loading={isLoading}
         />
         {isOpenAddEditModal && (
-          <SliderAddEditPopup
+          <SliderBannerAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -174,7 +171,7 @@ const SliderPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <SliderDetailsPopup
+          <SliderBannerDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -186,4 +183,4 @@ const SliderPage = () => {
   );
 };
 
-export default SliderPage;
+export default SliderBannerPage;

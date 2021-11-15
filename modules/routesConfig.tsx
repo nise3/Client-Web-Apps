@@ -13,6 +13,7 @@ export interface NavItemProps {
   permissionKey?: string;
   children?: NavItemProps[] | NavItemProps;
 }
+
 const instituteId = 1;
 const routesConfig: NavItemProps[] = [
   {
@@ -408,14 +409,23 @@ const routesConfig: NavItemProps[] = [
             url: '/dashboard/sliders',
           },
           {
+            id: 'banner',
+            title: 'Banners',
+            messageId: 'menu.slider_banners',
+            permissionKey: 'view_any_banner',
+            type: 'item',
+            icon: 'room',
+            url: '/dashboard/slider-banners',
+          },
+          {
             id: 'calendar',
             title: 'Calendar',
             messageId: 'menu.calendar',
-            permissionKey: 'view_any_slider',
+            permissionKey: 'view_any_calender',
             type: 'item',
             icon: 'room',
             url: '/dashboard/events/' + instituteId,
-          }
+          },
         ],
       },
     ],

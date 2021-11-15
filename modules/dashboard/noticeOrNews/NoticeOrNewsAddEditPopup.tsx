@@ -27,7 +27,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import NoticeOrNewsTypes from './NoticeOrNewsTypes';
+import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import {
   getAllIndustries,
   getAllInstitutes,

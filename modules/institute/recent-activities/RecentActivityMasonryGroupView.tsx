@@ -78,6 +78,7 @@ const masonryPositions = [
 ];
 
 function RecentActivityMasonryGroupView({items}: any) {
+  console.log('recentActivitiesData->', items);
   const router = useRouter();
   const path = router.pathname;
 
@@ -90,35 +91,37 @@ function RecentActivityMasonryGroupView({items}: any) {
       cols={4}
       rowHeight={170}
       className={classes.image}>
-      {items.map((item: any, index: number) => (
-        <ImageListItem
-          key={item.id}
-          cols={masonryPositions[index].cols}
-          rows={masonryPositions[index].rows}
-          style={{position: 'relative'}}>
-          <img
-            {...srcset(
-              item.img,
-              25,
-              masonryPositions[index].rows,
-              masonryPositions[index].cols,
-            )}
-            alt={item.title}
-            loading='lazy'
-          />
-          <Box className={classes.imageTexts}>
-            <Box className={classes.dateInfo}>
-              <DateRangeOutlined />
-              <Typography>
-                {getIntlDateFromString(formatDate, item.date)}
-              </Typography>
+      {items &&
+        items?.map((item: any, i: any) => (
+          <ImageListItem
+            key={item.id}
+            cols={masonryPositions[item.collage_position - 1]?.cols || 1}
+            rows={masonryPositions[item.collage_position - 1]?.rows || 1}
+            style={{position: 'relative'}}>
+            <img
+              {...srcset(
+                item.collage_image_path,
+                25,
+                masonryPositions[item.collage_position - 1]?.rows,
+                masonryPositions[item.collage_position - 1]?.cols,
+              )}
+              alt={item.image_alt_title}
+              loading='lazy'
+            />
+            <Box className={classes.imageTexts}>
+              <Box className={classes.dateInfo}>
+                <DateRangeOutlined />
+                <Typography>
+                  {getIntlDateFromString(formatDate, item.published_at)}
+                </Typography>
+              </Box>
+              <Link
+                href={`${getModulePath(path)}/recent-activities/${item.id}`}>
+                <ImageListItemBar title={item.title} />
+              </Link>
             </Box>
-            <Link href={`${getModulePath(path)}/recent-activities/${item.id}`}>
-              <ImageListItemBar title={item.title} />
-            </Link>
-          </Box>
-        </ImageListItem>
-      ))}
+          </ImageListItem>
+        ))}
     </StyledImageList>
   );
 }

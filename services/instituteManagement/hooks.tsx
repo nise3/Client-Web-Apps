@@ -1,25 +1,25 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_ALL_FAQS,
   API_BATCHES,
   API_BRANCHES,
   API_COURSE_DETAILS,
+  API_COURSE_ENROLLMENTS,
   API_COURSES,
   API_FONT_END_CONTACT_MAP,
-  API_FRONT_END_GALLERY_CATEGORY_LIST,
-  API_GALLERY_ALBUMS,
-  API_FRONT_END_VIDEOS_CATEGORY_LIST,
-  API_FRONT_END_VIDEOS_LIST,
-  API_INSTITUTES,
-  API_PROGRAMMES,
-  API_TRAINERS,
-  API_TRAINING_CENTERS,
-  API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_FAQ,
-  API_PUBLIC_COURSE_LIST,
-  API_COURSE_ENROLLMENTS,
+  API_FRONT_END_GALLERY_CATEGORY_LIST,
+  API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_FRONT_END_VIDEO,
-  API_ALL_FAQS,
+  API_FRONT_END_VIDEOS_CATEGORY_LIST,
+  API_FRONT_END_VIDEOS_LIST,
+  API_GALLERY_ALBUMS,
+  API_INSTITUTES,
+  API_PROGRAMMES,
+  API_PUBLIC_COURSE_LIST,
+  API_TRAINERS,
+  API_TRAINING_CENTERS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -121,8 +121,8 @@ export function useFetchInstitutesContactMap() {
   return useAxiosSWR([API_FONT_END_CONTACT_MAP]);
 }
 
-export function useFetchInstitutesRecentActivity() {
-  return useAxiosSWR([API_FRONT_END_RECENT_ACTIVITY_LIST]);
+export function useFetchInstitutesRecentActivity(params: any) {
+  return useAxiosSWR([API_FRONT_END_RECENT_ACTIVITY_LIST, params]);
 }
 
 export function useFetchInstitutesAllActivity() {

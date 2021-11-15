@@ -18,7 +18,7 @@ import NoticeOrNewsAddEditPopup from './NoticeOrNewsAddEditPopup';
 import NoticeOrNewsDetailsPopup from './NoticeOrNewsDetailsPopup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import NoticeOrNewsTypes from './NoticeOrNewsTypes';
+import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 
 const NoticeOrNewsPage = () => {
   const {messages} = useIntl();

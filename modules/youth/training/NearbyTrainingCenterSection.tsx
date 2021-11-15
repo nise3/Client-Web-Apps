@@ -27,7 +27,7 @@ const NearbyTrainingCenterSection = () => {
       <Grid item xs={12} sm={12} md={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
-            <Typography variant={'h5'} fontWeight={'bold'}>
+            <Typography color={'primary'} variant={'h5'} fontWeight={'bold'}>
               {messages['common.nearby_training_center']}
             </Typography>
           </Grid>

@@ -10,7 +10,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import NoticeOrNewsTypes from './NoticeOrNewsTypes';
+import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {
   getLanguageLabel,

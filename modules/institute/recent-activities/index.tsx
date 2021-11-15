@@ -1,26 +1,20 @@
 import {Container, Grid, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
-import {
-  useFetchInstitutesAllActivity,
-  useFetchInstitutesRecentActivity,
-} from '../../../services/instituteManagement/hooks';
+import {useFetchInstitutesRecentActivity} from '../../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityCardView from './RecentActivityCardView';
 import RecentActivityMasonryGroupView from './RecentActivityMasonryGroupView';
+import {useEffect, useState} from 'react';
 
 const PREFIX = 'RecentActivities';
 
 const classes = {
-  titleTypography: `${PREFIX}-titleTypography`,
   pagination: `${PREFIX}-pagination`,
   image: `${PREFIX}-image`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => {
   return {
-    [`& .${classes.titleTypography}`]: {
-      color: theme.palette.primary.dark,
-    },
     [`& .${classes.pagination}`]: {
       marginRight: 'auto',
       marginLeft: 'auto',
@@ -33,40 +27,48 @@ const StyledContainer = styled(Container)(({theme}) => {
 
 const RecentActivities = () => {
   const {messages} = useIntl();
+  const [recentActivityFilter] = useState<any>({});
+  const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
-  const {data: recentActivitiesItems} = useFetchInstitutesRecentActivity();
-  const {data: allActivitiesItems} = useFetchInstitutesAllActivity();
+  const {data: recentActivitiesItemsData} =
+    useFetchInstitutesRecentActivity(recentActivityFilter);
+  // const {data: allActivitiesItems} = useFetchInstitutesAllActivity();
+
+  useEffect(() => {
+    let data = recentActivitiesItemsData?.filter((item: any) => {
+      return item.collage_position !== null;
+    });
+    setRecentActivitiesList(data);
+  }, [recentActivitiesItemsData]);
 
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container my={5}>
         <Grid item md={12}>
           <Typography
-            className={classes.titleTypography}
+            color={'primary'}
             gutterBottom
             variant='h4'
             component='div'
             display={'flex'}>
             {messages['recent_activities.institute']}
           </Typography>
-          {recentActivitiesItems && (
-            <RecentActivityMasonryGroupView
-              items={recentActivitiesItems.slice(0, 4)}
-            />
+          {recentActivitiesItemsData && (
+            <RecentActivityMasonryGroupView items={recentActivitiesList} />
           )}
         </Grid>
         <Grid item mt={8}>
           <Typography
-            className={classes.titleTypography}
+            color={'primary'}
             gutterBottom
             variant='h4'
             component='div'
             display={'flex'}>
             {messages['all_activities.institute']}
           </Typography>
-          {allActivitiesItems?.length && (
+          {recentActivitiesItemsData?.length && (
             <Grid container spacing={5}>
-              {allActivitiesItems?.map((data: any) => (
+              {recentActivitiesItemsData?.map((data: any) => (
                 <Grid
                   item
                   md={3}

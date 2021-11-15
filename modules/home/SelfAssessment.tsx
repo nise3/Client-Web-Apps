@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Button, Container, Grid} from '@mui/material';
 import {Zoom} from 'react-awesome-reveal';
@@ -7,6 +7,9 @@ import selfAssessmentImage from '../../public/images/self-assessment.png';
 import {H3, Text} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {useIntl} from 'react-intl';
+import {useFetchSelfAssessment} from '../../services/cmsManagement/hooks';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
+import {SELF_ASSESSMENT_CONTENT_ID} from '../../@softbd/utilities/StaticContentConfigs';
 
 const PREFIX = 'SelfAssessment';
 
@@ -23,6 +26,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const SelfAssessment = () => {
+  const [selfAssessmentParams, setSelfAssessmentParams] = useState({
+    show_in: ShowInTypes.NICE3,
+    content_slug_or_id: SELF_ASSESSMENT_CONTENT_ID,
+  });
+  const {data: selfAssessmentData} =
+    useFetchSelfAssessment(selfAssessmentParams);
+
   const {messages} = useIntl();
   return (
     <StyledContainer maxWidth={'lg'}>
