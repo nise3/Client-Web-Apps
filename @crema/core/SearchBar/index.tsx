@@ -9,7 +9,6 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 const PREFIX = 'AppSearch';
 
 const classes = {
-  root: `${PREFIX}-root`,
   menuButton: `${PREFIX}-menuButton`,
   title: `${PREFIX}-title`,
   search: `${PREFIX}-search`,
@@ -40,11 +39,11 @@ const StyledBox = styled(Box)(({theme}) => ({
     },
   },
 
-  [`& .${classes.search}`]: (props: {borderLight: boolean; align: string}) => ({
+  [`& .${classes.search}`]: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
-    marginLeft: props.align === 'right' ? 'auto' : 0,
+    marginLeft: 'auto',
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
@@ -57,7 +56,7 @@ const StyledBox = styled(Box)(({theme}) => ({
         transform: 'translateY(-50%)',
       },
     },
-  }),
+  },
 
   [`& .${classes.searchIcon}`]: {
     padding: theme.spacing(0, 2),
@@ -112,8 +111,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     backgroundColor: 'transparent',
     fontWeight: Fonts.MEDIUM,
     border: '1px solid',
-    borderColor: (props: {borderLight: boolean; align: string}) =>
-      props.borderLight ? '#efefef' : theme.palette.text.secondary,
+    borderColor: theme.palette.text.secondary,
     color: 'black',
     borderRadius: 4,
 
@@ -170,7 +168,7 @@ const AppSearch: React.FC<AppSearchProps> = ({
   ...rest
 }) => {
   return (
-    <StyledBox className={classes.root} style={containerStyle}>
+    <StyledBox style={containerStyle}>
       <Box
         className={clsx(
           classes.search,

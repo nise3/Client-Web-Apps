@@ -154,7 +154,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.primary.main,
     borderColor: theme.palette.primary.main,
-    '&:not(:first-child)': {
+    '&:not(:first-of-type)': {
       borderColor: theme.palette.primary.main,
     },
     [theme.breakpoints.up('xl')]: {
@@ -203,6 +203,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 interface ThemeSettingProps {
   props?: any;
 }
+
 const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
   const [open, setCustomizerStatus] = useState(false);
   const [themeColor, setThemeColor] = useState('preset');
