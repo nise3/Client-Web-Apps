@@ -104,21 +104,6 @@ const SliderBannerPage = () => {
         isVisible: false,
       },
       {
-        Header: messages['common.button_text'],
-        accessor: 'button_text',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.link'],
-        accessor: 'link',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.alt_title'],
-        accessor: 'alt_title',
-        isVisible: false,
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
         filter: 'rowStatusFilter',
