@@ -31,14 +31,6 @@ export const StyledBox = styled(Box)(({theme}) => {
         width: '21.6rem',
       },
     },
-    [`& .${classes.sidebarBg}`]: {
-      backgroundColor: (props: {themeMode: ThemeMode}) =>
-        props.themeMode === ThemeMode.SEMI_DARK
-          ? theme.palette.sidebar.bgColor
-          : props.themeMode === ThemeMode.LIGHT
-          ? 'white'
-          : '#313541',
-    },
     [`& .${classes.scrollAppSidebar}`]: {
       paddingTop: 8,
       paddingBottom: 20,
@@ -68,14 +60,6 @@ export const StyledDrawer = styled(Drawer)(({theme}) => {
       [theme.breakpoints.up('xl')]: {
         width: '21.6rem',
       },
-    },
-    [`& .${classes.sidebarBg}`]: {
-      backgroundColor: (props: {themeMode: ThemeMode}) =>
-        props.themeMode === ThemeMode.SEMI_DARK
-          ? theme.palette.sidebar.bgColor
-          : props.themeMode === ThemeMode.LIGHT
-          ? 'white'
-          : '#313541',
     },
     [`& .${classes.scrollAppSidebar}`]: {
       paddingTop: 8,

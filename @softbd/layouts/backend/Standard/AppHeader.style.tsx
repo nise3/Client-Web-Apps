@@ -1,5 +1,6 @@
 import {alpha, styled} from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
+import {ThemeStyleRadius} from '../../../../shared/constants/AppEnums';
 
 const PREFIX = 'AppHeader';
 
@@ -57,8 +58,7 @@ export const StyledToolbar = styled(Toolbar)(({theme}) => ({
 
   [`& .${classes.search}`]: {
     position: 'relative',
-    // @ts-ignore
-    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
+    borderRadius: ThemeStyleRadius.STANDARD,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
