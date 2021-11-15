@@ -1,7 +1,7 @@
 import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
 import PageMeta from '../../@crema/core/PageMeta';
 import RecentActivitiesDetails from '../../modules/institute/recent-activities/RecentActivitiesDetails';
-import {API_FRONT_END_RECENT_ACTIVITY_DETAIL} from '../../@softbd/common/apiRoutes';
+import {API_FRONT_END_RECENT_ACTIVITY_LIST} from '../../@softbd/common/apiRoutes';
 import {apiGet} from '../../@softbd/common/api';
 
 export default NiseFrontPage(({data, id}: any) => {
@@ -14,11 +14,20 @@ export default NiseFrontPage(({data, id}: any) => {
 });
 
 export async function getServerSideProps(context: any) {
+  const {
+    req: {cookies},
+  } = context;
+
+  let id = context.params.details;
+
   try {
-    const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL);
-    let id = context.params.details;
+    const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_LIST + `/${id}`, {
+      headers: {Authorization: 'Bearer ' + cookies?.app_access_token},
+    });
+
     return {props: {data: res.data.data, id}};
   } catch (e) {
-    return {props: {data: undefined}};
+    console.log('err=>', e);
+    return {props: {data: []}};
   }
 }

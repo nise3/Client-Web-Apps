@@ -6,6 +6,12 @@ import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {H3, H6, Link} from '../../@softbd/elements/common';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
+import {useRouter} from 'next/router';
+import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
+
+let defaultImage =
+  'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
 
 const PREFIX = 'RecentActivities';
 
@@ -33,18 +39,49 @@ const StyledContainer = styled(Container)(({theme}) => {
 });
 
 const RecentActivities = () => {
-  const [recentActivityFilter] = useState<any>({});
+  const [recentActivityFilter, setRecentActivityFilter] = useState<any>({});
   const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
   const {data: recentActivitiesData} =
     useFetchInstitutesRecentActivity(recentActivityFilter);
 
+  const router = useRouter();
+  const showInType = getShowInTypeFromPath(router.asPath);
+
   useEffect(() => {
     let data = recentActivitiesData?.filter((item: any) => {
       return item.collage_position !== null;
     });
-    setRecentActivitiesList(data);
+
+    let final = recentActivitiesData
+      ?.map((item: any, i: number) => ({
+        collage_position: i + 1,
+        collage_image_path: defaultImage,
+      }))
+      .slice(0, 4);
+    if (data)
+      for (let item of data) {
+        let index = item.collage_position - 1;
+        final[index] = {...item};
+      }
+
+    setRecentActivitiesList(final);
   }, [recentActivitiesData]);
+
+  useEffect(() => {
+    if (showInType) {
+      let params: any = {
+        show_in: showInType,
+      };
+
+      if (showInType == ShowInTypes.TSP) {
+        //params.institute_id = 1;
+      }
+      setRecentActivityFilter((prev: any) => {
+        return {...prev, ...params};
+      });
+    }
+  }, [showInType]);
 
   const {messages} = useIntl();
 
