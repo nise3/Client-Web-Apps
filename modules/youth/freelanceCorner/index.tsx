@@ -69,8 +69,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
     background: '#fff',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
-    },
+    }
   },
+    ...freelanceHeader
 }));
 
 const FreelanceCorner = () => {
@@ -120,7 +121,7 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box sx={{fontWeight: 'bold'}}>
+                  <Box className={classes.sectionHeader} sx={{fontWeight: 'bold'}}>
                     {messages['freelance_corner.filter_title']}
                   </Box>
                   <List
@@ -153,7 +154,7 @@ const FreelanceCorner = () => {
                         );
                       })}
                   </List>
-                  <Box sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
+                  <Box className={classes.bodyHeader} sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
 
