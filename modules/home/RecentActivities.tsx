@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid} from '@mui/material';
 import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
@@ -33,7 +33,19 @@ const StyledContainer = styled(Container)(({theme}) => {
 });
 
 const RecentActivities = () => {
-  const {data: recentActivitiesItems} = useFetchInstitutesRecentActivity();
+  const [recentActivityFilter] = useState<any>({});
+  const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
+
+  const {data: recentActivitiesData} =
+    useFetchInstitutesRecentActivity(recentActivityFilter);
+
+  useEffect(() => {
+    let data = recentActivitiesData?.filter((item: any) => {
+      return item.collage_position !== null;
+    });
+    setRecentActivitiesList(data);
+  }, [recentActivitiesData]);
+
   const {messages} = useIntl();
 
   return (
@@ -44,16 +56,14 @@ const RecentActivities = () => {
             <Box className={classes.vBar} />
             <Box>{messages['recent_activities.institute']}</Box>
           </H3>
-          {recentActivitiesItems && recentActivitiesItems.length ? (
-            <RecentActivityMasonryGroupView
-              items={recentActivitiesItems.slice(0, 4)}
-            />
+          {recentActivitiesList && recentActivitiesList.length > 0 ? (
+            <RecentActivityMasonryGroupView items={recentActivitiesList} />
           ) : (
             <H6>{messages['common.no_data_found']}</H6>
           )}
         </Grid>
       </Grid>
-      {recentActivitiesItems && recentActivitiesItems.length > 0 && (
+      {recentActivitiesList && recentActivitiesList.length > 0 && (
         <Grid container justifyContent='flex-end'>
           <Link href={'/recent-activities'}>
             <Button
