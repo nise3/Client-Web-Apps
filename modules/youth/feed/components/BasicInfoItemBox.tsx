@@ -42,18 +42,18 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
       <StyledBox>
         <Box className={classes.displayInline}>{messages['common.mobile']}</Box>
         {youthProfile?.mobile ? (
-          <CheckCircle className='itemIcon' color={'primary'} />
+          <CheckCircle className='itemIcon' color={'secondary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'secondary'} />
+          <AddCircle className='itemIcon' color={'primary'} />
         )}
         <Divider className={classes.divider} />
       </StyledBox>
       <StyledBox>
         <Box className={classes.displayInline}>{messages['common.email']}</Box>
         {youthProfile?.email ? (
-          <CheckCircle className='itemIcon' color={'primary'} />
+          <CheckCircle className='itemIcon' color={'secondary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'secondary'} />
+          <AddCircle className='itemIcon' color={'primary'} />
         )}
         <Divider className={classes.divider} />
       </StyledBox>
@@ -62,9 +62,9 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
           {messages['common.identity_number']}
         </Box>
         {youthProfile?.identity_number ? (
-          <CheckCircle className='itemIcon' color={'primary'} />
+          <CheckCircle className='itemIcon' color={'secondary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'secondary'} />
+          <AddCircle className='itemIcon' color={'primary'} />
         )}
         <Divider className={classes.divider} />
       </StyledBox>
@@ -73,9 +73,9 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
           {messages['common.education']}
         </Box>
         {youthProfile?.educations && youthProfile?.educations.length ? (
-          <CheckCircle className='itemIcon' color={'primary'} />
+          <CheckCircle className='itemIcon' color={'secondary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'secondary'} />
+          <AddCircle className='itemIcon' color={'primary'} />
         )}
         <Divider className={classes.divider} />
       </StyledBox>
@@ -85,9 +85,9 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
         </Box>
         {youthProfile?.languages_proficiencies &&
         youthProfile?.languages_proficiencies.length ? (
-          <CheckCircle className='itemIcon' color={'primary'} />
+          <CheckCircle className='itemIcon' color={'secondary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'secondary'} />
+          <AddCircle className='itemIcon' color={'primary'} />
         )}
         <Divider className={classes.divider} />
       </StyledBox>
@@ -96,9 +96,9 @@ const BasicInfoItemBox = ({youthProfile}: BasicInfoItemBoxProps) => {
           {messages['portfolio.label']}
         </Box>
         {youthProfile?.portfolios && youthProfile?.portfolios.length ? (
-          <CheckCircle className='itemIcon' color={'primary'} />
+          <CheckCircle className='itemIcon' color={'secondary'} />
         ) : (
-          <AddCircle className='itemIcon' color={'secondary'} />
+          <AddCircle className='itemIcon' color={'primary'} />
         )}
       </StyledBox>
     </>
