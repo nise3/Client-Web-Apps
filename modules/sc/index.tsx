@@ -6,6 +6,7 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'StaticContent';
 
@@ -26,6 +27,8 @@ const StyledContainer = styled(Container)(() => {
 
 const StaticContent = ({data}: any) => {
   const {messages} = useIntl();
+
+  console.log('data', data);
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -77,11 +80,7 @@ const StaticContent = ({data}: any) => {
           </Grid>
         </Grid>
       ) : (
-        <Grid container mt={3}>
-          <Grid item xs={12}>
-            <H3>{messages['common.no_data_found']}</H3>
-          </Grid>
-        </Grid>
+        <NoDataFoundComponent />
       )}
     </StyledContainer>
   );

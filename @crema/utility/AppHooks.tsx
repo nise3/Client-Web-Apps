@@ -14,7 +14,10 @@ import {
   CommonAuthUser,
 } from '../../redux/types/models/CommonAuthUser';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
-import {loadAppAccessToken} from '../../@softbd/libs/axiosInstance';
+import {
+  loadAppAccessToken,
+  setDefaultAuthorizationHeader,
+} from '../../@softbd/libs/axiosInstance';
 
 export const useAuthToken = () => {
   const dispatch = useDispatch();
@@ -34,6 +37,8 @@ export const useAuthToken = () => {
         return;
       }
       dispatch(setAuthAccessTokenData(authAccessTokenData));
+      //TODO: temporary
+      setDefaultAuthorizationHeader(authAccessTokenData?.access_token);
       try {
         await loadAuthUser(dispatch, authAccessTokenData);
         dispatch(fetchSuccess());
