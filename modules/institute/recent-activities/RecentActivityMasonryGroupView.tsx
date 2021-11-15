@@ -78,7 +78,6 @@ const masonryPositions = [
 ];
 
 function RecentActivityMasonryGroupView({items}: any) {
-  console.log('recentActivitiesData->', items);
   const router = useRouter();
   const path = router.pathname;
 
@@ -89,7 +88,7 @@ function RecentActivityMasonryGroupView({items}: any) {
       sx={{width: '100%', height: 'auto'}}
       variant='quilted'
       cols={4}
-      rowHeight={170}
+      rowHeight={250}
       className={classes.image}>
       {items &&
         items?.map((item: any, i: any) => (
@@ -109,16 +108,20 @@ function RecentActivityMasonryGroupView({items}: any) {
               loading='lazy'
             />
             <Box className={classes.imageTexts}>
-              <Box className={classes.dateInfo}>
-                <DateRangeOutlined />
-                <Typography>
-                  {getIntlDateFromString(formatDate, item.published_at)}
-                </Typography>
-              </Box>
-              <Link
-                href={`${getModulePath(path)}/recent-activities/${item.id}`}>
-                <ImageListItemBar title={item.title} />
-              </Link>
+              {item.published_at && (
+                <Box className={classes.dateInfo}>
+                  <DateRangeOutlined />
+                  <Typography>
+                    {getIntlDateFromString(formatDate, item.published_at)}
+                  </Typography>
+                </Box>
+              )}
+              {item.title && (
+                <Link
+                  href={`${getModulePath(path)}/recent-activities/${item.id}`}>
+                  <ImageListItemBar title={item.title} />
+                </Link>
+              )}
             </Box>
           </ImageListItem>
         ))}

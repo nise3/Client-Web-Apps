@@ -12,6 +12,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
+import React from 'react';
 
 const PREFIX = 'RecentActivityCardView';
 
@@ -38,7 +39,6 @@ const StyledCard = styled(Card)(({theme}) => {
 });
 
 function RecentActivityCardView({activity}: any) {
-  console.log('activities=>', activity);
   const router = useRouter();
   const path = router.pathname;
   const {formatDate} = useIntl();
@@ -47,13 +47,24 @@ function RecentActivityCardView({activity}: any) {
     <StyledCard>
       <Link href={`${path}/${activity.id}`} passHref>
         <CardActionArea>
-          <CardMedia
-            component='img'
-            height='140'
-            image={activity.thumb_image_path}
-            alt='random image'
-            title={activity?.title}
-          />
+          {activity.content_type && activity.content_type == 1 && (
+            <CardMedia
+              component='img'
+              height='140'
+              image={activity.thumb_image_path}
+              alt='random image'
+              title={activity?.title}
+            />
+          )}
+          {(activity.content_type && activity.content_type == 2) ||
+            (activity.content_type && activity.content_type == 3 && (
+              <iframe
+                width='100%'
+                height='140'
+                src={activity.embedded_url}
+                style={{marginBottom: '-8px'}}
+              />
+            ))}
           <CardContent>
             <Box className={classes.dateInfo}>
               <DateRangeOutlined />
