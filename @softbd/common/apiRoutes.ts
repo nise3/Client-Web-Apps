@@ -123,10 +123,13 @@ export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
-  INSTITUTE_SERVICE_PATH + '/recent-activities';
+  CMS_SERVICE_PATH + '/public/recent-activities';
 export const API_FRONT_END_ALL_ACTIVITY_LIST =
   INSTITUTE_SERVICE_PATH + '/all-activities';
 export const CMS_RECENT_ACTIVITY = CMS_SERVICE_PATH + '/' + 'recent-activities';
+
+// export const API_FRONT_END_RECENT_ACTIVITIES_LIST =
+//   CMS_SERVICE_PATH + '/public/recent-activities';
 
 export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
   INSTITUTE_SERVICE_PATH + '/recent-activity-details';

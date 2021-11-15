@@ -578,7 +578,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             isLoading={false}
             control={control}
             options={collagePosition}
-            optionValueProp={'label'}
+            optionValueProp={'id'}
             optionTitleProp={['label']}
             errorInstance={errors}
           />

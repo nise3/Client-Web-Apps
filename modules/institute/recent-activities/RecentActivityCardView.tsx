@@ -38,6 +38,7 @@ const StyledCard = styled(Card)(({theme}) => {
 });
 
 function RecentActivityCardView({activity}: any) {
+  console.log('activities=>', activity);
   const router = useRouter();
   const path = router.pathname;
   const {formatDate} = useIntl();
@@ -49,7 +50,7 @@ function RecentActivityCardView({activity}: any) {
           <CardMedia
             component='img'
             height='140'
-            image={activity.img}
+            image={activity.thumb_image_path}
             alt='random image'
             title={activity?.title}
           />
@@ -57,7 +58,7 @@ function RecentActivityCardView({activity}: any) {
             <Box className={classes.dateInfo}>
               <DateRangeOutlined />
               <Typography>
-                {getIntlDateFromString(formatDate, activity.date)}
+                {getIntlDateFromString(formatDate, activity.published_at)}
               </Typography>
             </Box>
 

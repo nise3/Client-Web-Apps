@@ -1,22 +1,21 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
 import {
-  API_FRONT_END_GALLERY_CATEGORY_LIST,
-  API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FONT_END_CONTACT_MAP,
-  API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_FRONT_END_ALL_ACTIVITY_LIST,
-  API_FRONT_END_RECENT_ACTIVITY_DETAIL,
   API_FRONT_END_FAQ,
+  API_FRONT_END_GALLERY,
+  API_FRONT_END_GALLERY_CATEGORY_LIST,
+  API_FRONT_END_RECENT_ACTIVITY_DETAIL,
+  API_FRONT_END_VIDEO,
+  API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
   API_NOTICE_BOARD,
-  API_FRONT_END_VIDEO,
-  API_FRONT_END_GALLERY,
 } from '../common/apiRoutes';
 import videos, {videosCategories} from '../mock-db/videos';
 import galleries, {galleryCategories} from '../mock-db/gallery';
 import contactMapData from '../mock-db/contactMap';
-import allActivityItems, {recentActivityItems} from '../mock-db/recentActivity';
+import allActivityItems from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
 import faqData from '../mock-db/faq';
 import staticContent from '../mock-db/staticContent';
@@ -51,9 +50,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // mock.onGet(API_COURSES + '/simillar').reply(200, {data: courses});
   // mock.onGet(API_COURSES + '/my-courses').reply(200, {data: myCourses});
 
-  mock
-    .onGet(API_FRONT_END_RECENT_ACTIVITY_LIST)
-    .reply(200, {data: recentActivityItems});
+  // mock
+  //   .onGet(API_FRONT_END_RECENT_ACTIVITY_LIST)
+  //   .reply(200, {data: recentActivityItems});
+
   mock
     .onGet(API_FRONT_END_ALL_ACTIVITY_LIST)
     .reply(200, {data: allActivityItems});
