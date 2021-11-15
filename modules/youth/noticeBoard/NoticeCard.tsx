@@ -95,7 +95,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
                   {getIntlDateFromString(formatDate, notice.published_at)}
                 </Button>
               )}
-              <Button color={'primary'} variant={'outlined'}>
+              <Button color={'primary'} variant={'contained'}>
                 {messages['common.download']}
               </Button>
             </Box>

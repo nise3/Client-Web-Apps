@@ -9,16 +9,12 @@ import {useEffect, useState} from 'react';
 const PREFIX = 'RecentActivities';
 
 const classes = {
-  titleTypography: `${PREFIX}-titleTypography`,
   pagination: `${PREFIX}-pagination`,
   image: `${PREFIX}-image`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => {
   return {
-    [`& .${classes.titleTypography}`]: {
-      color: theme.palette.primary.dark,
-    },
     [`& .${classes.pagination}`]: {
       marginRight: 'auto',
       marginLeft: 'auto',
@@ -50,7 +46,7 @@ const RecentActivities = () => {
       <Grid container my={5}>
         <Grid item md={12}>
           <Typography
-            className={classes.titleTypography}
+            color={'primary'}
             gutterBottom
             variant='h4'
             component='div'
@@ -63,7 +59,7 @@ const RecentActivities = () => {
         </Grid>
         <Grid item mt={8}>
           <Typography
-            className={classes.titleTypography}
+            color={'primary'}
             gutterBottom
             variant='h4'
             component='div'

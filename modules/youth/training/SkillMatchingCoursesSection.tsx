@@ -55,7 +55,7 @@ const SkillMatchingCoursesSection = ({
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
             <Typography variant={'h5'} fontWeight={'bold'}>
-              {messages['common.skill_matching_course']}
+              color={'primary'} {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
           {page_size && courseListMetaData?.total_page > 1 && (
