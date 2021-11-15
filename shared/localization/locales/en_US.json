@@ -970,5 +970,16 @@
   "common.link": "Link",
   "static_page.label": "Static page",
   "static_page_content_type.page_block": "Page Block",
-  "static_page_content_type.static_page": "Static Page"
+  "static_page_content_type.static_page": "Static Page",
+  "footer.guideline": "Guideline",
+  "footer.terms_and_condition": "Terms and condition",
+  "footer.faq": "FAQ",
+  "footer.career_advice": "Career advice",
+  "footer.bd_jobs": "BD Jobs",
+  "footer.for_job_seeker": "For job seeker",
+  "footer.partner": "Partner",
+  "footer.my_jobs": "My jobs",
+  "footer.job_provider": "Job provider",
+  "footer.in_implementation": "In implementation",
+  "common.technical_support": "Technical Support"
 }

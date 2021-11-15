@@ -125,3 +125,12 @@ export function useFetchPublicNoticeOrNews(noticeId: number | null) {
 export function useFetchSelfAssessment(params: any) {
   return useAxiosSWR([API_FRONT_END_STATIC_PAGES, params]);
 }
+
+export function useFetchSingleStaticPage(contentId: any, params: any) {
+  return useAxiosSWR([
+    contentId
+      ? API_FRONT_END_STATIC_PAGES + '/' + contentId
+      : API_FRONT_END_STATIC_PAGES,
+    params,
+  ]);
+}

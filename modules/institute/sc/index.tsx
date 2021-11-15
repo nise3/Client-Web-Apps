@@ -4,9 +4,9 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
-import {H3} from '../../@softbd/elements/common';
+import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'StaticContent';
 

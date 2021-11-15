@@ -1,12 +1,12 @@
-import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
-import PageMeta from '../../@crema/core/PageMeta';
-import {apiGet} from '../../@softbd/common/api';
-import {API_FRONT_END_STATIC_PAGES} from '../../@softbd/common/apiRoutes';
-import StaticContent from '../../modules/sc';
-import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
+import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
+import PageMeta from '../../../@crema/core/PageMeta';
+import {apiGet} from '../../../@softbd/common/api';
+import {API_FRONT_END_STATIC_PAGES} from '../../../@softbd/common/apiRoutes';
+import StaticContent from '../../../modules/sc';
+import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 import {snakeCase} from 'lodash';
 
-export default NiseFrontPage(({data}: any) => {
+export default InstituteDefaultFrontPage(({data}: any) => {
   return (
     <>
       <PageMeta title={data.title} />
@@ -23,9 +23,15 @@ export async function getServerSideProps(context: any) {
   const {pageId} = context.query;
   const STATIC_PAGE_CONTENT_ID_OR_SLUG = snakeCase(pageId);
   const SHOW_IN = getShowInTypeFromPath(context.resolvedUrl);
-  const params = {
+  let params: any = {
     show_in: SHOW_IN,
   };
+
+  console.log('context', context);
+
+  // if (authUser?.isInstituteUser) {
+  //   params['institute_id'] = authUser.institute_id;
+  // }
 
   try {
     const res = await apiGet(

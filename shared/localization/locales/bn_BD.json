@@ -966,9 +966,20 @@
   "collage_position.right_top": "ডানে উপরে",
   "collage_position.right_bottom_1": "ডানে নিচের বামে",
   "collage_position.right_bottom_2": "ডানে নিচের ডানে",
-  "banners.label": "ব্যানার",
   "common.banner_image_url": "ব্যানার ছবি পাথ",
   "yup_validation_integer": "{path} অবশ্যই নাম্বার হতে হবে",
   "static_page_content_type.page_block": "পেজ ব্লক",
-  "static_page_content_type.static_page": "স্ট্যাটিক পেজ"
+  "static_page_content_type.static_page": "স্ট্যাটিক পেজ",
+  "banners.label": "ব্যানার",
+  "footer.guideline": "গাইডলাইন",
+  "footer.terms_and_condition": "শর্তাবলী এবং নীতিমালা",
+  "footer.faq": "প্রশ্নাবলী",
+  "footer.career_advice": "ক্যারিয়ার পরামর্শ",
+  "footer.bd_jobs": "বিডি জবস",
+  "footer.for_job_seeker": "চাকরি প্রার্থীদের জন্য",
+  "footer.partner": "সহযোগী",
+  "footer.my_jobs": "মাই জবস",
+  "footer.job_provider": "চাকরিদাতা",
+  "footer.in_implementation": "বাস্তবায়নে",
+  "common.technical_support": "কারিগরি সহায়তায়"
 }
