@@ -79,3 +79,4 @@ export const LINK_FRONTEND_NISE_TRAINING = '/training';
 export const LINK_FRONTEND_NISE_JOBS = '/jobs';
 export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';
+export const LINK_FRONTEND_NISE_CALENDAR = '/calendar';

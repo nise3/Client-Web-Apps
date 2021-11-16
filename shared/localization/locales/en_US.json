@@ -844,6 +844,8 @@
   "common.bangla": "Bengali",
   "course.paid": "Paid",
   "common.free": "Free",
+  "common.start_time": "Start Time",
+  "common.end_time": "End Time",
   "common.guardian_types": [
     "Father",
     "Mother",

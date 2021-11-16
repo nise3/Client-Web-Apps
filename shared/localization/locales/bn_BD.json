@@ -849,6 +849,8 @@
   "common.expert": "দক্ষ",
   "course.paid": "পেড",
   "common.free": "ফ্রী",
+  "common.start_time": "শুরুর সময়",
+  "common.end_time": "শেষ সময়",
   "apply_liked_course.institute": "পছন্দের কোর্সে আবেদন করুন",
   "common.guardian_types": [
     "বাবা",

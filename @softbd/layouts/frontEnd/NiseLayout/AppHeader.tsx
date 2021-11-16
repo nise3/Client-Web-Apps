@@ -16,6 +16,7 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
 import {NavLink as Link} from '../../../elements/common';
 import {
+  LINK_FRONTEND_NISE_CALENDAR,
   LINK_FRONTEND_NISE_NOTICE_BOARD,
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
   LINK_FRONTEND_NISE_ROOT,
@@ -93,6 +94,12 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           {messages['menu.recent_activity']}
         </Link>
       </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_NISE_CALENDAR}>
+          <LocalActivityOutlined className={classes.menuIcons} />
+          {messages['menu.calendar']}
+        </Link>
+      </MenuItem>
       {/*<MenuItem className={classes.menuItemRoot}>*/}
       {/*  <Notifications />*/}
       {/*</MenuItem>*/}
@@ -155,6 +162,15 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                       sx={{fontSize: 42}}
                     />{' '}
                     {messages['menu.recent_activity']}
+                  </Link>
+                </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_NISE_CALENDAR}>
+                    <LocalActivityOutlined
+                      className={classes.menuIcons}
+                      sx={{fontSize: 42}}
+                    />{' '}
+                    {messages['menu.calendar']}
                   </Link>
                 </Box>
                 {/*<Notifications />*/}

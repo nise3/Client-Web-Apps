@@ -12,6 +12,7 @@ import Calendar from '../../../@softbd/calendar/Calendar';
 import { useFetchCalenderEvents } from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
 // // const chkDate = new Date('2021-11-11');
@@ -21,27 +22,28 @@ interface IQuery{
   youth_id?: number;
   institute_id?: number;
 }
-const events1 = [
-  {
-    id: "1",
-    start: new Date('2021-11-08'),
-    end: new Date('2021-11-08'),
-    title: 'Partners'
-  },
-  // {
-  //   id: "2",
-  //   start: '2021-11-09',
-  //   end: '2021-11-11',
-  //   title: 'Event Project'
-  // }
-];
+// const events1 = [
+//   {
+//     id: "1",
+//     start: new Date('2021-11-08'),
+//     end: new Date('2021-11-08'),
+//     title: 'Partners'
+//   },
+//   // {
+//   //   id: "2",
+//   //   start: '2021-11-09',
+//   //   end: '2021-11-11',
+//   //   title: 'Event Project'
+//   // }
+// ];
 
-const EventCalendar = ({calendarFor}) => {
+const EventCalendar = ({calendarFor, editable}) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
+  const isEditable = editable ? editable : false;
   /*const authUser = useAuthUser();*/
-  console.log('from component ', calendarFor);
+  // console.log('from component ', calendarFor);
   let requestQuery: IQuery = {
     type: 'month'
   }
@@ -151,7 +153,8 @@ const EventCalendar = ({calendarFor}) => {
   };
   const onSelectEvent = (e: any) => {
     // console.log('onSelectEvent ', e);
-    openAddEditModal(e.id);
+    // openAddEditModal(e.id);
+    openDetailsModal(e.id);
   };
 
   return (
@@ -167,7 +170,7 @@ const EventCalendar = ({calendarFor}) => {
         <Calendar
           events={eventsList}
           // events={events1}
-          selectable={true}
+          selectable={isEditable}
           localizer={localizer}
           style={{ height: '100vh' }}
           startAccessor="start_date"
@@ -190,6 +193,14 @@ const EventCalendar = ({calendarFor}) => {
             startDate={selectedStartDate}
             endDate={selectedEndDate}
             refreshDataTable={refreshDataTable}
+          />
+        )}
+        {editable && isOpenDetailsModal && selectedItemId && (
+          <EventCalendarDetailsPopup
+            key={1}
+            itemId={selectedItemId}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
           />
         )}
       </PageBlock>

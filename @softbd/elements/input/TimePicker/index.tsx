@@ -1,7 +1,10 @@
-import { LocalizationProvider, TimePicker } from "@mui/lab";
-import { TextField } from "@mui/material";
-import IntlMessages from "../../../../@crema/utility/IntlMessages";
-import TextInputSkeleton from "../../display/skeleton/TextInputSkeleton/TextInputSkeleton";
+import * as React from 'react';
+import TextField from "@mui/material/TextField";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { MessageFormatElement } from '@formatjs/icu-messageformat-parser';
+import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
     id: string;
@@ -17,34 +20,35 @@ type Props = {
     disabled?: boolean;
   };
 
+  const CustomTimePicker: any = (inputProps: Props) => {
+    // const [value, setValue] = React.useState<DateRange<Date | null>>([
+    //   null,
+    //   null,
+    // ]);
+
+  return inputProps.isLoading ? (<TextInputSkeleton />) : (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <TextField
+        id={inputProps.id}
+        label={inputProps.label}
+        type="time"
+        defaultValue={inputProps.defaultValue}
+        variant={inputProps.variant ? inputProps.variant : 'outlined'}
+        size={inputProps.size ? inputProps.size : 'small'}
+        className={inputProps.className}
+        InputLabelProps={{
+          shrink: true,
+          required: inputProps.required || false
+        }}
+        inputProps={{
+          step: 300, // 5 min
+        }}
+        fullWidth
+        {...inputProps.register(inputProps.id)}
+      />
+    </LocalizationProvider>
+  );
+};
+
   
-const CustomTimeField = ({
-    id,
-    label,
-    className,
-    variant,
-    size,
-    isLoading = false,
-    required = false,
-    register,
-    errorInstance,
-    defaultValue,
-    disabled = false,
-  }: Props) => {
-    return isLoading ? (
-      <TextInputSkeleton />
-    ) : (
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <TimePicker
-          label="Basic example"
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-    );
-  };
-  
-  export default CustomTimeField;
+  export default CustomTimePicker;
