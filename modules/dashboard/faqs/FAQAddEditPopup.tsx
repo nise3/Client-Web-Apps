@@ -84,7 +84,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .string()
               .trim()
               .required()
-              .label(messages['faqs.show_in'] as string)
+              .label(messages['faq.show_in'] as string)
           : yup.string(),
       institute_id: yup
         .mixed()
@@ -108,12 +108,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['faqs.question'] as string),
+        .label(messages['faq.question'] as string),
       answer: yup
         .string()
         .trim()
         .required()
-        .label(messages['faqs.answer'] as string),
+        .label(messages['faq.answer'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -121,12 +121,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .string()
               .trim()
               .required()
-              .label(messages['faqs.question'] as string),
+              .label(messages['faq.question'] as string),
             answer: yup
               .string()
               .trim()
               .required()
-              .label(messages['faqs.answer'] as string),
+              .label(messages['faq.answer'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
         ? yup.object().shape({})
@@ -135,12 +135,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .string()
               .trim()
               .required()
-              .label(messages['faqs.question'] as string),
+              .label(messages['faq.question'] as string),
             answer: yup
               .string()
               .trim()
               .required()
-              .label(messages['faqs.answer'] as string),
+              .label(messages['faq.answer'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
         ? yup.object().shape({})
@@ -149,12 +149,12 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               .string()
               .trim()
               .required()
-              .label(messages['faqs.question'] as string),
+              .label(messages['faq.question'] as string),
             answer: yup
               .string()
               .trim()
               .required()
-              .label(messages['faqs.answer'] as string),
+              .label(messages['faq.answer'] as string),
           }),
     });
   }, [messages, selectedCodes, authUser]);
@@ -364,7 +364,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
               <CustomFormSelect
                 required
                 id={'show_in'}
-                label={messages['faqs.show_in']}
+                label={messages['faq.show_in']}
                 isLoading={isFetching}
                 control={control}
                 options={cmsGlobalConfig?.show_in}
@@ -408,7 +408,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           <CustomTextInput
             required
             id={'question'}
-            label={messages['faqs.question']}
+            label={messages['faq.question']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -418,7 +418,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
           <CustomTextInput
             required
             id={'answer'}
-            label={messages['faqs.answer']}
+            label={messages['faq.answer']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -447,7 +447,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faqs.add_language']}
+            {messages['faq.add_language']}
           </Button>
         </Grid>
 
@@ -463,7 +463,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[question]'}
-                      label={messages['faqs.question']}
+                      label={messages['faq.question']}
                       register={register}
                       errorInstance={errors}
                     />
@@ -482,7 +482,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                     <CustomTextInput
                       required
                       id={'language_' + language.code + '[answer]'}
-                      label={messages['faqs.answer']}
+                      label={messages['faq.answer']}
                       register={register}
                       errorInstance={errors}
                       multiline={true}

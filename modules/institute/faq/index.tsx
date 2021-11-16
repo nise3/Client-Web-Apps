@@ -51,7 +51,7 @@ const InstituteFAQ = () => {
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
         <H2 py={3} fontWeight={'bold'}>
-          {messages['faqs.institute']}
+          {messages['faq.institute']}
         </H2>
       </Grid>
       <Container maxWidth='lg'>

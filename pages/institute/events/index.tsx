@@ -14,7 +14,7 @@ const EventCalendarPage = asyncComponent(
 
 //   return (
 //     <>
-//       <PageMeta title={messages['menu.faqs'] as string} />
+//       <PageMeta title={messages['menu.faq'] as string} />
 //       <EventCalendarPage calendarFor="youth" />
 //     </>
 //   );
@@ -23,7 +23,7 @@ const EventCalendarPage = asyncComponent(
 export default InstituteDefaultFrontPage(() => {
   return (
     <>
-      <PageMeta title={messages['menu.faqs'] as string} />
+      <PageMeta title={messages['menu.faq'] as string} />
       <EventCalendarPage calendarFor='institute' />
     </>
   );

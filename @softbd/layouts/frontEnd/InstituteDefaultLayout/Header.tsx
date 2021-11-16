@@ -84,7 +84,7 @@ const Header: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INSTITUTE_FAQ}>{messages['menu.faqs']}</Link>
+        <Link href={LINK_FRONTEND_INSTITUTE_FAQ}>{messages['menu.faq']}</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INSTITUTE_CALENDAR}>

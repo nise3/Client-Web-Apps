@@ -312,7 +312,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'faqs',
             title: 'FAQs',
-            messageId: 'menu.faqs',
+            messageId: 'menu.faq',
             permissionKey: 'view_any_faq',
             type: 'item',
             icon: 'room',

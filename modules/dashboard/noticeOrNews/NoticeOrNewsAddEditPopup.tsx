@@ -401,7 +401,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
               <CustomFormSelect
                 required
                 id={'show_in'}
-                label={messages['faqs.show_in']}
+                label={messages['faq.show_in']}
                 isLoading={isFetching}
                 control={control}
                 options={cmsGlobalConfig?.show_in}
@@ -600,7 +600,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faqs.add_language']}
+            {messages['faq.add_language']}
           </Button>
         </Grid>
 
