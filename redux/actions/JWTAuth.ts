@@ -24,6 +24,8 @@ import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
 import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
+import axios from 'axios';
+import SSOConfig from '../../@softbd/common/SSOConfig';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -32,9 +34,27 @@ type TOnSSOSignInCallback = {
   session_state: string; // I don't know.
 };
 
-export const onSSOSignInCallback = (tokenData: TOnSSOSignInCallback) => {
+type TOnSSOSignInCallbackCode = string;
+
+export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode) => {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
+      const {data: tokenData} = await axios.post(
+        'https://bus-staging.softbdltd.com/core/sso-authorize-code-grant',
+        {
+          code,
+          redirect_uri: 'http://localhost:3000/callback',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization:
+              'Basic ' +
+              Base64.encode(SSOConfig.clientKey + ':' + SSOConfig.clientSecret),
+          },
+        },
+      );
+      console.log('tokenData', tokenData);
       cookieInstance.set(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify(tokenData),
