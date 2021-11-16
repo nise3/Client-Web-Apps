@@ -15,6 +15,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import {H4} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
+import VideoPlayer from '../videos/videoPlayer';
 
 const PREFIX = 'RecentActivitiesDetails';
 
@@ -39,6 +40,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const RecentActivitiesDetails = ({data}: any) => {
+  console.log('data->', data);
   const {messages, formatDate} = useIntl();
 
   return (
@@ -50,7 +52,7 @@ const RecentActivitiesDetails = ({data}: any) => {
               <Box className={classes.date}>
                 <DateRangeIcon />
                 <Typography>
-                  {getIntlDateFromString(formatDate, data.date)}
+                  {getIntlDateFromString(formatDate, data.published_at)}
                 </Typography>
               </Box>
             </Grid>
@@ -87,17 +89,24 @@ const RecentActivitiesDetails = ({data}: any) => {
           <H4 fontWeight={'bold'}>{data.title}</H4>
         </Grid>
         <Grid item xs={12} my={3}>
-          <CardMedia
-            component='img'
-            height='300'
-            image={data.img}
-            alt={data?.title}
-            title={data?.title}
-          />
+          {data.content_type && data.content_type == 1 && (
+            <CardMedia
+              component='img'
+              height='300'
+              image={data.content_path}
+              alt={data?.title}
+              title={data?.title}
+            />
+          )}
+
+          {(data.content_type && data.content_type == 2) ||
+            (data.content_type && data.content_type == 3 && (
+              <VideoPlayer url={data.embedded_url} />
+            ))}
         </Grid>
 
         <Grid item xs={12}>
-          <Typography dangerouslySetInnerHTML={{__html: data.content}} />
+          <Typography dangerouslySetInnerHTML={{__html: data.description}} />
         </Grid>
       </Grid>
     </StyledContainer>

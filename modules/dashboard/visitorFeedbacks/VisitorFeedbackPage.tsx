@@ -29,11 +29,6 @@ const VisitorFeedbackPage = () => {
         accessor: 'name',
       },
       {
-        Header: messages['common.name_en'],
-        accessor: 'name_en',
-        isVisible: false,
-      },
-      {
         Header: messages['common.mobile'],
         accessor: 'mobile',
       },
@@ -44,11 +39,6 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.address'],
         accessor: 'address',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.read_at'],
-        accessor: 'read_at',
         isVisible: false,
       },
       {
@@ -69,11 +59,6 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization_association.label'],
-        accessor: 'organization_association_title',
         isVisible: false,
       },
     ],

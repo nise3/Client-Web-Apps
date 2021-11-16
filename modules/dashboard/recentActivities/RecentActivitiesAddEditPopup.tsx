@@ -34,6 +34,8 @@ import {
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
 import ContentTypes from './ContentTypes';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 interface RecentActivitiesAddEditPopupProps {
   itemId: number | null;
@@ -258,6 +260,12 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         content_properties: itemData?.content_properties,
         embedded_id: itemData?.embedded_id,
         embedded_url: itemData?.embedded_url,
+        published_at: itemData?.published_at
+          ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
+          : '',
+        archived_at: itemData?.archived_at
+          ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
+          : '',
         row_status: itemData?.row_status,
         description: itemData?.description,
       };
@@ -632,6 +640,25 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             id='image_alt_title'
             label={messages['common.image_alt_title']}
             control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='published_at'
+            label={messages['common.publish_at']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='archived_at'
+            label={messages['common.archived_at']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

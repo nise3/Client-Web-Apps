@@ -18,6 +18,7 @@ import {
   API_INSTITUTES,
   API_PROGRAMMES,
   API_PUBLIC_COURSE_LIST,
+  API_PUBLIC_GALLERY_ALBUMS,
   API_TRAINERS,
   API_TRAINING_CENTERS,
 } from '../../@softbd/common/apiRoutes';
@@ -30,10 +31,12 @@ export function useFetchInstitutes(params: any) {
   return useAxiosSWR([API_INSTITUTES, params]);
 }
 
-export function useFetchInstitutesGallery() {
-  return useAxiosSWR(API_GALLERY_ALBUMS);
+export function useFetchInstitutesGallery(params: any) {
+  return useAxiosSWR([API_GALLERY_ALBUMS, params]);
 }
-
+export function useFetchInstitutesPublicGallery(params: any) {
+  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
+}
 export function useFetchInstitutesGalleryCategory() {
   return useAxiosSWR(API_FRONT_END_GALLERY_CATEGORY_LIST);
 }
@@ -129,8 +132,8 @@ export function useFetchInstitutesAllActivity() {
   return useAxiosSWR([API_FRONT_END_ALL_ACTIVITY_LIST]);
 }
 
-export function useFetchInstitutesFAQ() {
-  return useAxiosSWR([API_FRONT_END_FAQ]);
+export function useFetchInstitutesFAQ(params: any) {
+  return useAxiosSWR([API_FRONT_END_FAQ, params]);
 }
 
 /** fetches a single application's details */

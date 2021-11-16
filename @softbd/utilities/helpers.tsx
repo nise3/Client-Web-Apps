@@ -317,19 +317,6 @@ export const getModulePath = (path: string) => {
   }
 };
 
-export const getShowInTypes = (path: string) => {
-  switch (path) {
-    case 'youth':
-      return ShowInTypes.YOUTH;
-    case 'institute':
-      return ShowInTypes.TSP;
-    case 'organization':
-      return ShowInTypes.INDUSTRY;
-    default:
-      return ShowInTypes.NICE3;
-  }
-};
-
 export const getIntlDateFromString = (formatFn: any, dateStr: any) => {
   const dt = new Date(dateStr).toLocaleString();
   if (dt !== 'Invalid Date') {

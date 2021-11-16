@@ -5,16 +5,16 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {
   useFetchCMSGlobalConfig,
-  useFetchSlider,
+  useFetchSliderBanner,
 } from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import SliderTemplateShowTypes from './SliderTemplateShowTypes';
+import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 
 type Props = {
   itemId: number;
@@ -24,7 +24,7 @@ type Props = {
 
 const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchSlider(itemId);
+  const {data: itemData, isLoading} = useFetchSliderBanner(itemId);
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   const getTemplateCodeTitle = (templateCode: string) => {
@@ -48,8 +48,8 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         {...props}
         title={
           <>
-            <WorkOutline />
-            <IntlMessages id='slider.label' />
+            <IconSliderBanner />
+            <IntlMessages id='banners.label' />
           </>
         }
         actions={
@@ -62,6 +62,14 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }>
         <Grid container spacing={5}>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['slider.label']}
+              value={itemData?.slider_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['faq.show_in']}
@@ -118,19 +126,6 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          {itemData?.slider_images?.length > 0 &&
-            itemData?.slider_images.map((image: string, index: number) => {
-              return (
-                <Grid item xs={12} md={6} key={index}>
-                  <DetailsInputView
-                    label={messages['slider.images'] + '#' + (index + 1)}
-                    value={image}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              );
-            })}
-
           <Grid item xs={12}>
             <fieldset>
               <legend>
@@ -158,7 +153,7 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.alt_title']}
-                    value={itemData?.alt_title}
+                    value={itemData?.alt_image_title}
                     isLoading={isLoading}
                   />
                 </Grid>
@@ -201,7 +196,9 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                       <Grid item xs={12} md={6}>
                         <DetailsInputView
                           label={messages['common.alt_title']}
-                          value={itemData.other_language_fields[key]?.alt_title}
+                          value={
+                            itemData.other_language_fields[key]?.alt_image_title
+                          }
                           isLoading={isLoading}
                         />
                       </Grid>

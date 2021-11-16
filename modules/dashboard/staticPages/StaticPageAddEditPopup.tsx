@@ -224,9 +224,8 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
   const CONTENT_TYPES = useMemo(
     () => [
-      {id: 1, title: messages['content_type.image']},
-      {id: 2, title: messages['content_type.facebook_video']},
-      {id: 3, title: messages['content_type.youtube_video']},
+      {id: 1, title: messages['static_page_content_type.page_block']},
+      {id: 2, title: messages['static_page_content_type.static_page']},
     ],
     [messages],
   );

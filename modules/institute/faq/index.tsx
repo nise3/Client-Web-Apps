@@ -10,6 +10,8 @@ import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
+import {useRouter} from 'next/router';
+import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -32,8 +34,12 @@ const StyledGrid = styled(Grid)(() => {
 const InstituteFAQ = () => {
   const [expandedState, setExpanded] = useState<string | false>(false);
   const {messages} = useIntl();
+  const router = useRouter();
+  const pathName = router.pathname;
+  const show_in = getShowInTypeFromPath(pathName);
 
-  const {data: faqItems} = useFetchInstitutesFAQ();
+  const [params] = useState({show_in: show_in});
+  const {data: faqItems} = useFetchInstitutesFAQ(params);
 
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {

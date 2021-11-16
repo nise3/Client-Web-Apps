@@ -11,7 +11,10 @@ import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
+import {
+  getLanguageLabel,
+  getMomentDateFormat,
+} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ContentTypes from './ContentTypes';
 
@@ -149,6 +152,29 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             <DetailsInputView
               label={messages['common.embedded_url']}
               value={itemData?.embedded_url}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.publish_at']}
+              value={
+                itemData?.published_at
+                  ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
+                  : ''
+              }
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.archived_at']}
+              value={
+                itemData?.archived_at
+                  ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
+                  : ''
+              }
               isLoading={isLoading}
             />
           </Grid>

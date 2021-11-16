@@ -61,11 +61,11 @@ const TextEditor = React.forwardRef(
     }
 
     let toolbar =
-      'undo redo formatselect fontselect fontsizeselect bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image';
+      'undo redo formatselect bold italic underline | alignleft aligncenter alignright alignjustify';
     return (
       <>
         <InputLabel required={required}>{label}</InputLabel>
-        <FormControl>
+        <FormControl fullWidth>
           <TinymceEditor
             id={id}
             onEditorChange={debounce((content: string, editor: any) => {

@@ -88,8 +88,8 @@ const SliderPage = () => {
         accessor: 'show_in_label',
       },
       {
-        Header: messages['common.sub_title'],
-        accessor: 'sub_title',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['institute.label'],
@@ -99,11 +99,6 @@ const SliderPage = () => {
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.alt_title'],
-        accessor: 'alt_title',
         isVisible: false,
       },
       {
