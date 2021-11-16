@@ -20,6 +20,7 @@ const EventCalendarPage = asyncComponent(
 //   );
 // });
 
+
 export default InstituteDefaultFrontPage(() => {
   return (
     <>
