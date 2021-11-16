@@ -196,7 +196,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_FAQ}
                     className={classes.menuItem}>
-                    {messages['menu.faqs']}
+                    {messages['menu.faq']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_CALENDAR}
