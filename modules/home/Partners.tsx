@@ -18,7 +18,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   marginTop: '50px',
 
   [`& .${classes.title}`]: {
-    color: '#682988',
+    color: theme.palette.primary.main,
     display: 'flex',
     alignItems: 'center',
   },
@@ -32,8 +32,8 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
   [`& .${classes.courseItem}`]: {
     position: 'relative',
-    boxShadow: '2px 8px 7px #ddd',
-    border: '1px solid #ddd',
+    /*boxShadow: '2px 8px 7px #ddd',*/
+    /*border: '1px solid #ddd',*/
     display: 'flex',
     justifyContent: 'center',
   },

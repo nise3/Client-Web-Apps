@@ -12,11 +12,13 @@ interface TileProps {
   amount: number | string;
   label: string;
   backgroundColor?: string;
+  color?: string;
 }
 
-const Tile: FC<TileProps> = ({amount, label, backgroundColor}) => {
+const Tile: FC<TileProps> = ({amount, label, backgroundColor, color}) => {
   const colorCode = backgroundColor ? backgroundColor : '#0984e2';
   const background = `linear-gradient(45deg, ${colorCode}, ${colorCode}, ${colorCode})`;
+  const fontColor = color ? color : '#FFFFFF';
 
   return (
     <StyledBox
@@ -24,8 +26,12 @@ const Tile: FC<TileProps> = ({amount, label, backgroundColor}) => {
       display={'flex'}
       flexDirection={'column'}
       alignItems={'center'}>
-      <Typography variant={'h6'}>{amount}</Typography>
-      <Typography variant={'caption'}>{label}</Typography>
+      <Typography variant={'h6'} color={fontColor}>
+        {amount}
+      </Typography>
+      <Typography variant={'caption'} color={fontColor}>
+        {label}
+      </Typography>
     </StyledBox>
   );
 };
