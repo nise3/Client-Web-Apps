@@ -195,7 +195,7 @@ const EventCalendar = ({calendarFor, editable}) => {
             refreshDataTable={refreshDataTable}
           />
         )}
-        {isOpenDetailsModal && selectedItemId && (
+        {editable && isOpenDetailsModal && selectedItemId && (
           <EventCalendarDetailsPopup
             key={1}
             itemId={selectedItemId}
