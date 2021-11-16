@@ -11,6 +11,7 @@ import {LayoutType} from '../../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
+import CremaThemeProvider from '../../../../@crema/utility/CremaThemeProvider';
 
 interface StandardLayoutProps {
   props?: any;
@@ -25,34 +26,36 @@ const StandardLayout: React.FC<StandardLayoutProps> = (props) => {
   );
 
   return (
-    <StyledBox
-      className={clsx(
-        classes.appMain,
-        layoutType === LayoutType.BOXED ? classes.boxedLayout : '',
-        {
-          appMainFooter: footer && footerType === 'fluid',
-          appMainFixedFooter: footer && footerType === 'fixed',
-        },
-      )}>
-      <AppSidebar />
+    <CremaThemeProvider>
+      <StyledBox
+        className={clsx(
+          classes.appMain,
+          layoutType === LayoutType.BOXED ? classes.boxedLayout : '',
+          {
+            appMainFooter: footer && footerType === 'fluid',
+            appMainFixedFooter: footer && footerType === 'fixed',
+          },
+        )}>
+        <AppSidebar />
 
-      <Box className={classes.mainContent}>
-        {breakpointMDUp ? (
-          <Box className={classes.mainContainer}>
-            <AppHeader />
-            <ContentView>{props.children}</ContentView>
-            <AppFixedFooter />
-          </Box>
-        ) : (
-          <Box className={classes.mainContainerFull}>
-            <AppHeader />
-            <ContentView>{props.children}</ContentView>
-            <AppFixedFooter />
-          </Box>
-        )}
-      </Box>
-      <ThemeSetting />
-    </StyledBox>
+        <Box className={classes.mainContent}>
+          {breakpointMDUp ? (
+            <Box className={classes.mainContainer}>
+              <AppHeader />
+              <ContentView>{props.children}</ContentView>
+              <AppFixedFooter />
+            </Box>
+          ) : (
+            <Box className={classes.mainContainerFull}>
+              <AppHeader />
+              <ContentView>{props.children}</ContentView>
+              <AppFixedFooter />
+            </Box>
+          )}
+        </Box>
+        <ThemeSetting />
+      </StyledBox>
+    </CremaThemeProvider>
   );
 };
 
