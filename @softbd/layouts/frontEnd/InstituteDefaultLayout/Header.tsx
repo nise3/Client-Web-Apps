@@ -10,6 +10,7 @@ import {Login} from '@mui/icons-material';
 /*import LogoCustomizable from '../../../elements/common/LogoCustomizable';*/
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
+  LINK_FRONTEND_INSTITUTE_CALENDAR,
   LINK_FRONTEND_INSTITUTE_CONTACT,
   LINK_FRONTEND_INSTITUTE_COURSES,
   LINK_FRONTEND_INSTITUTE_FAQ,
@@ -84,6 +85,11 @@ const Header: React.FC<AppHeaderProps> = () => {
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INSTITUTE_FAQ}>{messages['menu.faq']}</Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_INSTITUTE_CALENDAR}>
+          {messages['menu.calendar']}
+        </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INSTITUTE_CONTACT}>
@@ -191,6 +197,11 @@ const Header: React.FC<AppHeaderProps> = () => {
                     href={LINK_FRONTEND_INSTITUTE_FAQ}
                     className={classes.menuItem}>
                     {messages['menu.faq']}
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_CALENDAR}
+                    className={classes.menuItem}>
+                    {messages['menu.calendar']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_CONTACT}

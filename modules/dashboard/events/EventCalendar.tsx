@@ -11,11 +11,16 @@ import { deleteEvent } from '../../../services/cmsManagement/EventService';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import { useFetchCalenderEvents } from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
 const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
 // // const chkDate = new Date('2021-11-11');
 // console.log('chkDate ', toDate);
-
+interface IQuery{
+  type: string;
+  youth_id?: number;
+  institute_id?: number;
+}
 const events1 = [
   {
     id: "1",
@@ -31,19 +36,31 @@ const events1 = [
   // }
 ];
 
-const EventCalendar = ({routeQeury}) => {
+const EventCalendar = ({calendarFor}) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
+  const authUser = useAuthUser();
   /*const authUser = useAuthUser();*/
-  console.log('from component ', routeQeury.calendar_inst_id);
-  
+  console.log('from component ', calendarFor);
+  let requestQuery: IQuery = {
+    type: 'month'
+  }
+  switch (calendarFor) {
+    case 'youth':
+      requestQuery.youth_id = authUser.youthId;
+      break;
+    case 'institute':
+      requestQuery.institute_id = authUser.institute_id;
+      break
+    default:
+      break;
+  }
+
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
-  const [viewFilters, setViewFilters] = useState<any>({
-    type: 'day',
-  });
+  const [viewFilters, setViewFilters] = useState<any>(requestQuery);
   const [eventsList, setEventsList] = useState(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -156,7 +173,7 @@ const EventCalendar = ({routeQeury}) => {
           startAccessor="start_date"
           endAccessor="end_date"
           defaultDate={moment().toDate()}
-          onView={(view: View) => setViewFilters({ type: view })}
+          onView={(view: View) => setViewFilters( {...requestQuery, ...{ type: view }})}
           onNavigate={(e: any) => console.log('onNavigate ', e)}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
