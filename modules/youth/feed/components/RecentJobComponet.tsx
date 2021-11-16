@@ -10,6 +10,7 @@ const classes = {
   jobProviderImage: `${PREFIX}-jobProviderImage`,
   jobTitle: `${PREFIX}-jobTitle`,
   jobProviderName: `${PREFIX}-jobProviderName`,
+  detailsButton: `${PREFIX}-detailsButton`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -28,6 +29,12 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.jobProviderName}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
+  },
+  [`& .${classes.detailsButton}`]: {
+    backgroundColor: theme.palette.grey['300'],
+    color: theme.palette.common.black,
+    boxShadow: 'none',
+    marginLeft: 10,
   },
 }));
 
@@ -61,7 +68,10 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
           <Button variant='contained' color='primary' size={'small'}>
             {messages['common.apply']}
           </Button>
-          <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
+          <Button
+            className={classes.detailsButton}
+            variant='contained'
+            size={'small'}>
             {messages['common.details']}
           </Button>
         </Box>

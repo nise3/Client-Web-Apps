@@ -38,7 +38,7 @@ const initialValues = {
   job_responsibilities_en: '',
   start_date: '',
   end_date: '',
-  is_currently_working: 0,
+  is_currently_working: 1,
 };
 
 const employmentTypes = [
@@ -61,7 +61,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     mutate: jobExperienceMutate,
     isLoading,
   } = useFetchJobExperience(itemId);
-  const [currentWorkStatus, setCurrentWorkStatus] = useState<number>(0);
+  const [currentWorkStatus, setCurrentWorkStatus] = useState<number>(1);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -233,20 +233,22 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id={'employment_type_id'}
-                label={messages['common.type_of_employee']}
-                isLoading={isLoading}
-                control={control}
-                options={employmentTypes}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-              />
+            <Grid item container spacing={2} xs={12} md={12}>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  required
+                  id={'employment_type_id'}
+                  label={messages['common.type_of_employee']}
+                  isLoading={isLoading}
+                  control={control}
+                  options={employmentTypes}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <CustomDateTimeField
                 required
                 id='start_date'
@@ -256,8 +258,9 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            {currentWorkStatus == 0 && (
-              <Grid item xs={6}>
+
+            <Grid item xs={12} md={6}>
+              {currentWorkStatus == 0 && (
                 <CustomDateTimeField
                   required
                   id='end_date'
@@ -266,31 +269,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                   errorInstance={errors}
                   isLoading={isLoading}
                 />
-              </Grid>
-            )}
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='job_responsibilities'
-                label={messages['common.job_responsibilities_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                multiline={true}
-                rows={3}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='job_responsibilities_en'
-                label={messages['common.job_responsibilities_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                multiline={true}
-                rows={3}
-              />
-            </Grid>
-            <Grid item xs={12} md={12}>
+              )}
               <FormControlLabel
                 control={
                   <Switch
@@ -300,6 +279,30 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 }
                 label='I currently work here'
               />
+            </Grid>
+            <Grid item container spacing={2} xs={12} md={12}>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='job_responsibilities'
+                  label={messages['common.job_responsibilities_bn']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='job_responsibilities_en'
+                  label={messages['common.job_responsibilities_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </CustomHookForm>

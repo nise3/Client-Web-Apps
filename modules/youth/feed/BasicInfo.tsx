@@ -18,6 +18,7 @@ const classes = {
   userName: `${PREFIX}-userName`,
   designation: `${PREFIX}-designation`,
   completeProfile: `${PREFIX}-completeProfile`,
+  fontColor: `${PREFIX}-fontColor`,
 };
 
 const StyledCard = styled(Card)(({theme}): any => ({
@@ -41,11 +42,13 @@ const StyledCard = styled(Card)(({theme}): any => ({
 
   [`& .${classes.userName}`]: {
     marginTop: 30,
-    fontSize: 17,
+    fontSize: 24,
     fontWeight: 'bold',
   },
 
   [`& .${classes.designation}`]: {fontSize: 14, fontWeight: 'normal'},
+
+  [`& .${classes.fontColor}`]: {color: '#6E6D7A', marginTop: '8px'},
 
   [`& .${classes.completeProfile}`]: {
     marginTop: 20,
@@ -71,7 +74,7 @@ const BasicInfo = () => {
           </Box>
           <Box sx={{width: '100%'}}>
             <LinearProgress variant='determinate' value={55} />
-            <Box>
+            <Box className={classes.fontColor}>
               {messages['youth_feed.profile_progress']}{' '}
               {getIntlNumber(formatNumber, 55)}%
             </Box>

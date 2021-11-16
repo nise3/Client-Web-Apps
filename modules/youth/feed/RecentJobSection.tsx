@@ -5,6 +5,7 @@ import RecentJobComponent from './components/RecentJobComponet';
 import {ChevronRight} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
+import {Fonts} from '../../../shared/constants/AppEnums';
 
 const PREFIX = 'RecentJobSection';
 
@@ -44,11 +45,14 @@ const StyledCard = styled(Card)(({theme}) => ({
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
     },
+    backgroundColor: theme.palette.grey['100'],
+    fontWeight: Fonts.BOLD,
   },
 
   [`& .${classes.seeMoreButton}`]: {
     boxShadow: 'none',
     marginTop: 10,
+    fontWeight: Fonts.BOLD,
   },
 
   [`& .${classes.selectControl}`]: {

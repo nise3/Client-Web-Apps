@@ -113,7 +113,7 @@ const YouthFeedPage = () => {
 
   return (
     <StyledContainer maxWidth={'lg'} className={classes.container}>
-      <Grid container columnSpacing={3}>
+      <Grid container columnSpacing={2}>
         <Grid item xs={12} md={3}>
           <Scrollbar className={classes.scrollBarStyle}>
             <Grid container spacing={3}>

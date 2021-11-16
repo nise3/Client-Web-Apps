@@ -6,6 +6,7 @@ const CircularDeleteButton = styled(DeleteButton)(({theme}) => ({
   borderColor: theme.palette.error.main,
   borderRadius: 40,
   marginLeft: 5,
+  padding: '5px 20px',
 }));
 
 export default CircularDeleteButton;

@@ -8,13 +8,14 @@ import {
   MenuList,
 } from '@mui/material';
 import {
-  Business,
-  CalendarToday,
-  DesktopMac,
-  Person,
-  Receipt,
-  Score,
+  CastForEducation,
+  ContactPage,
+  Folder,
+  LaptopMac,
+  PersonOutline,
   Settings,
+  Today,
+  Work,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {Link} from '../common';
@@ -35,7 +36,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_ROOT}>
           <MenuItem>
             <ListItemIcon>
-              <Person />
+              <PersonOutline />
             </ListItemIcon>
             <ListItemText>
               {messages['youth_feed_menu.my_profile']}
@@ -47,7 +48,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_MY_CV}>
           <MenuItem>
             <ListItemIcon>
-              <Receipt />
+              <ContactPage />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.my_cv']}</ListItemText>
           </MenuItem>
@@ -56,7 +57,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_MY_COURSES}>
           <MenuItem>
             <ListItemIcon>
-              <DesktopMac />
+              <CastForEducation />
             </ListItemIcon>
             <ListItemText>
               {messages['youth_feed_menu.my_courses']}
@@ -67,7 +68,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_ROOT}>
           <MenuItem>
             <ListItemIcon>
-              <Business />
+              <Work />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.my_jobs']}</ListItemText>
           </MenuItem>
@@ -76,7 +77,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_ROOT}>
           <MenuItem>
             <ListItemIcon>
-              <CalendarToday />
+              <Folder />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.my_locker']}</ListItemText>
           </MenuItem>
@@ -85,7 +86,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_ROOT}>
           <MenuItem>
             <ListItemIcon>
-              <CalendarToday />
+              <Today />
             </ListItemIcon>
             <ListItemText>
               {messages['youth_feed_menu.my_calender']}
@@ -96,7 +97,7 @@ const SideMenu: any = () => {
         <Link href={LINK_FRONTEND_YOUTH_FREELANCE_CORNER}>
           <MenuItem>
             <ListItemIcon>
-              <Score />
+              <LaptopMac />
             </ListItemIcon>
             <ListItemText>
               {messages['youth_feed_menu.freelance_corner']}

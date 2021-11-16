@@ -65,7 +65,7 @@ const palette: PaletteOptions = {
     disabled: rgba(0, 0, 0, 0.38),
   },
   background: {
-    paper: '#fff',
+    paper: '#ffffff',
     default: '#fff',
   },
   action: {

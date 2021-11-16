@@ -18,6 +18,7 @@ const LayoutLayout: React.FC<HorLightNavProps> = (props) => {
           <ContentView>{props.children}</ContentView>
         </Box>
       </Box>
+      {/*<Footer />*/}
     </StyledBox>
   );
 };

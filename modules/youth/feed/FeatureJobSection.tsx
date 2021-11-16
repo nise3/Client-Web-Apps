@@ -12,7 +12,7 @@ const classes = {
 
 const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.featureSectionTitle}`]: {
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 }));
