@@ -20,15 +20,7 @@ import {CookiesProvider} from 'react-cookie';
 const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
   ({Component, pageProps}: any) => {
     const store = useStore(pageProps.initialReduxState);
-
-    React.useEffect(() => {
-      // Remove the server-side injected CSS.
-      const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles) {
-        jssStyles.parentElement?.removeChild(jssStyles);
-      }
-    }, []);
-
+    
     return (
       <React.Fragment>
         <PageMeta />

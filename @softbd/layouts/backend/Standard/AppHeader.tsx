@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -10,7 +9,7 @@ import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import Box from '@mui/material/Box';
 import SearchBar from '../../../../@crema/core/SearchBar';
-import {classes, StyledToolbar} from './AppHeader.style';
+import {classes, StyledAppBar, StyledToolbar} from './AppHeader.style';
 import HeaderMessages from '../../../../@crema/core/HeaderMessages';
 import Notifications from '../../../../@crema/core/Notifications';
 import AppLogo from '../../../../shared/components/AppLogo';
@@ -58,7 +57,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
 
   return (
     <>
-      <AppBar color='inherit' className={clsx(classes.appBar, 'app-bar')}>
+      <StyledAppBar color='inherit' className={clsx(classes.appBar, 'app-bar')}>
         <StyledToolbar className={classes.appToolbar}>
           {!breakpointMDUp && (
             <IconButton
@@ -91,7 +90,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
             </IconButton>
           </Box>
         </StyledToolbar>
-      </AppBar>
+      </StyledAppBar>
       {renderMobileMenu}
     </>
   );

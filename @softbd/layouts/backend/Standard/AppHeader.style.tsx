@@ -1,5 +1,7 @@
 import {alpha, styled} from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
+import {ThemeStyleRadius} from '../../../../shared/constants/AppEnums';
+import AppBar from '@mui/material/AppBar';
 
 const PREFIX = 'AppHeader';
 
@@ -20,6 +22,17 @@ export const classes = {
   pointer: `${PREFIX}-pointer`,
   logoRoot: `${PREFIX}-logoRoot`,
 };
+
+export const StyledAppBar = styled(AppBar)(({theme}) => ({
+  width: '100%',
+  boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+  [theme.breakpoints.up('lg')]: {
+    width: 'calc(100vw - 19rem)',
+  },
+  [theme.breakpoints.up('xl')]: {
+    width: 'calc(100vw - 21.6rem)',
+  },
+}));
 
 export const StyledToolbar = styled(Toolbar)(({theme}) => ({
   [`&.${classes.appToolbar}`]: {
@@ -57,8 +70,7 @@ export const StyledToolbar = styled(Toolbar)(({theme}) => ({
 
   [`& .${classes.search}`]: {
     position: 'relative',
-    // @ts-ignore
-    borderRadius: theme.components.MuiCard.styleOverrides.root.borderRadius,
+    borderRadius: ThemeStyleRadius.STANDARD,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -108,17 +120,6 @@ export const StyledToolbar = styled(Toolbar)(({theme}) => ({
     display: 'flex',
     [theme.breakpoints.up('md')]: {
       display: 'none',
-    },
-  },
-
-  [`& .${classes.appBar}`]: {
-    width: '100%',
-    boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
-    [theme.breakpoints.up('lg')]: {
-      width: 'calc(100vw - 19rem)',
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: 'calc(100vw - 21.6rem)',
     },
   },
 

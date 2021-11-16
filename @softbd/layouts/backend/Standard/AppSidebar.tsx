@@ -10,6 +10,8 @@ import Scrollbar from '../../../../@crema/core/Scrollbar';
 import {AppState} from '../../../../redux/store';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
+import {ThemeMode} from '../../../../shared/constants/AppEnums';
+import defaultConfig from '../../../../@crema/utility/ContextProvider/defaultConfig';
 
 interface AppSidebarProps {
   position?: 'left' | 'bottom' | 'right' | 'top';
@@ -41,7 +43,16 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
         <StyledBox
           height='100%'
           className={clsx(classes.container, 'app-sidebar')}>
-          <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
+          <Box
+            className={sidebarClasses}
+            sx={{
+              backgroundColor:
+                themeMode === ThemeMode.SEMI_DARK
+                  ? defaultConfig.theme.palette.sidebar.bgColor
+                  : themeMode === ThemeMode.LIGHT
+                  ? 'white'
+                  : '#313541',
+            }}>
             <UserInfo />
             <Scrollbar className={classes.scrollAppSidebar}>
               <Navigation />
@@ -59,7 +70,16 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
           }}
           style={{position: 'absolute'}}>
           <Box height='100%' className={classes.container}>
-            <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
+            <Box
+              className={sidebarClasses}
+              sx={{
+                backgroundColor:
+                  themeMode === ThemeMode.SEMI_DARK
+                    ? defaultConfig.theme.palette.sidebar.bgColor
+                    : themeMode === ThemeMode.LIGHT
+                    ? 'white'
+                    : '#313541',
+              }}>
               <UserInfo />
               <Scrollbar className={classes.drawerScrollAppSidebar}>
                 <Navigation />
