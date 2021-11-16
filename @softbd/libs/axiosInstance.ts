@@ -19,6 +19,7 @@ axiosInstance.interceptors.request.use(
     const authAccessTokenData = cookieInstance.get(
       COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
+    console.log('authAccessTokenData', authAccessTokenData);
     const userAccessToken = authAccessTokenData?.access_token;
 
     //TODO: temporary
