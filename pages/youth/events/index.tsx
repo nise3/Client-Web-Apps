@@ -11,10 +11,10 @@ const EventCalendarPage = asyncComponent(
 //   const {messages} = useIntl();
 //   const router = useRouter();
 //   // console.log(router.query);
-  
+
 //   return (
 //     <>
-//       <PageMeta title={messages['menu.faq'] as string} />
+//       <PageMeta title={messages['menu.faqs'] as string} />
 //       <EventCalendarPage calendarFor="youth" />
 //     </>
 //   );
@@ -23,8 +23,8 @@ const EventCalendarPage = asyncComponent(
 export default YouthFrontPage(() => {
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
-      <EventCalendarPage calendarFor="youth" />
+      <PageMeta title={messages['menu.faqs'] as string} />
+      <EventCalendarPage calendarFor='youth' />
     </>
   );
 });

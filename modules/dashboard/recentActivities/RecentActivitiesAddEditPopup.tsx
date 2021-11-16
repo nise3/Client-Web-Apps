@@ -700,7 +700,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['faqs.add_language']}
           </Button>
         </Grid>
 

@@ -10,7 +10,7 @@ export default NiseFrontPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['footer.faq']} />
+      <PageMeta title={messages['footer.faqs']} />
       <FAQPage />
     </>
   );

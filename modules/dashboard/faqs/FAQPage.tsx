@@ -79,7 +79,7 @@ const FAQPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['faq.show_in'],
+        Header: messages['faqs.show_in'],
         accessor: 'show_in_label',
       },
       {
@@ -87,11 +87,11 @@ const FAQPage = () => {
         accessor: 'name',
       },
       {
-        Header: messages['faq.question'],
+        Header: messages['faqs.question'],
         accessor: 'question_short',
       },
       {
-        Header: messages['faq.answer'],
+        Header: messages['faqs.answer'],
         accessor: 'answer_short',
       },
       {
@@ -173,7 +173,7 @@ const FAQPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['menu.faq'],
+                  subject: messages['menu.faqs'],
                 }}
               />
             }

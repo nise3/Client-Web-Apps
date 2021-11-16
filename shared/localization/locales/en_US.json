@@ -981,5 +981,6 @@
   "footer.my_jobs": "My jobs",
   "footer.job_provider": "Job provider",
   "footer.in_implementation": "In implementation",
-  "common.technical_support": "Technical Support"
+  "common.technical_support": "Technical Support",
+  "footer.bio_edit": "Bio Edit"
 }

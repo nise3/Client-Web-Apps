@@ -19,7 +19,10 @@ import {useFetchPublicNoticeOrNewses} from '../../../services/cmsManagement/hook
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {useRouter} from 'next/router';
-import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
+import {
+  getShowInTypeFromPath,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'YouthNoticeBoard';
 
@@ -60,7 +63,7 @@ const YouthNoticeBoard = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const showInType = getShowInTypeFromPath(router.asPath);
-  const inputFieldRef = useRef<any>();
+  const searchFieldRef = useRef<any>();
   const page = useRef<any>(1);
 
   const [noticeFilters, setNoticeFilters] = useState<any>({
@@ -71,7 +74,6 @@ const YouthNoticeBoard = () => {
 
   const {data: noticeList, metaData} =
     useFetchPublicNoticeOrNewses(noticeFilters);
-  console.log('metadata--', metaData);
   useEffect(() => {
     if (showInType) {
       let params: any = {
@@ -88,11 +90,16 @@ const YouthNoticeBoard = () => {
     }
   }, [showInType]);
 
-  const onSearchClick = useCallback(() => {
-    console.log(inputFieldRef.current);
-    console.log(inputFieldRef.current?.value);
+  const onSearchClick = useCallback((e) => {
+    if (e.keyCode && e.keyCode !== 13) {
+      return false;
+    }
+
     setNoticeFilters((params: any) => {
-      return {...params, ...{search_text: inputFieldRef.current?.value}};
+      return objectFilter({
+        ...params,
+        ...{search_text: searchFieldRef.current?.value},
+      });
     });
   }, []);
 
@@ -118,7 +125,8 @@ const YouthNoticeBoard = () => {
               sx={{ml: 1, flex: 1, paddingLeft: '20px'}}
               placeholder={messages['common.search'] as string}
               inputProps={{'aria-label': 'Search'}}
-              ref={inputFieldRef}
+              inputRef={searchFieldRef}
+              onKeyDown={onSearchClick}
             />
             <IconButton
               sx={{p: '10px'}}

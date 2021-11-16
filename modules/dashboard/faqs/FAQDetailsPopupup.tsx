@@ -86,14 +86,14 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <DetailsInputView
-                    label={messages['faq.question']}
+                    label={messages['faqs.question']}
                     value={itemData?.question}
                     isLoading={isLoading}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <DetailsInputView
-                    label={messages['faq.answer']}
+                    label={messages['faqs.answer']}
                     value={itemData?.answer}
                     isLoading={isLoading}
                   />
@@ -112,14 +112,14 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                   <Grid container spacing={5}>
                     <Grid item xs={12}>
                       <DetailsInputView
-                        label={messages['faq.question']}
+                        label={messages['faqs.question']}
                         value={itemData?.other_language_fields[key].question}
                         isLoading={isLoading}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <DetailsInputView
-                        label={messages['faq.answer']}
+                        label={messages['faqs.answer']}
                         value={itemData?.other_language_fields[key].answer}
                         isLoading={isLoading}
                       />

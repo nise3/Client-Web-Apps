@@ -12,6 +12,7 @@ import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -50,39 +51,43 @@ const InstituteFAQ = () => {
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
         <H2 py={3} fontWeight={'bold'}>
-          {messages['faq.institute']}
+          {messages['faqs.institute']}
         </H2>
       </Grid>
       <Container maxWidth='lg'>
         <Grid container>
           <Grid item xs={12} my={4}>
-            {faqItems?.map((item: any) => (
-              <Accordion
-                className={classes.accordion}
-                expanded={expandedState === item.id}
-                onChange={handleChange(item.id)}
-                key={item.id}>
-                <AccordionSummary
-                  expandIcon={
-                    expandedState === item.id ? <RemoveIcon /> : <AddIcon />
-                  }
-                  aria-controls='panel1bh-content'
-                  id='panel1bh-header'>
-                  <Typography
-                    sx={{
-                      width: '33%',
-                      flexShrink: 0,
-                      whiteSpace: 'nowrap',
-                      color: expandedState == item.id ? 'primary.main' : '',
-                    }}>
-                    {item.question}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>{item.answer}</Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+            {faqItems && faqItems.length > 0 ? (
+              faqItems?.map((item: any) => (
+                <Accordion
+                  className={classes.accordion}
+                  expanded={expandedState === item.id}
+                  onChange={handleChange(item.id)}
+                  key={item.id}>
+                  <AccordionSummary
+                    expandIcon={
+                      expandedState === item.id ? <RemoveIcon /> : <AddIcon />
+                    }
+                    aria-controls='panel1bh-content'
+                    id='panel1bh-header'>
+                    <Typography
+                      sx={{
+                        width: '33%',
+                        flexShrink: 0,
+                        whiteSpace: 'nowrap',
+                        color: expandedState == item.id ? 'primary.main' : '',
+                      }}>
+                      {item.question}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>{item.answer}</Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))
+            ) : (
+              <NoDataFoundComponent />
+            )}
           </Grid>
         </Grid>
       </Container>

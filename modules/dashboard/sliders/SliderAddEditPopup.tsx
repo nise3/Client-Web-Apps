@@ -80,7 +80,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
               .string()
               .trim()
               .required()
-              .label(messages['faq.show_in'] as string)
+              .label(messages['faqs.show_in'] as string)
           : yup.string(),
       institute_id: yup
         .mixed()
@@ -210,7 +210,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
               <CustomFormSelect
                 required
                 id={'show_in'}
-                label={messages['faq.show_in']}
+                label={messages['faqs.show_in']}
                 isLoading={isFetching}
                 control={control}
                 options={cmsGlobalConfig?.show_in}

@@ -11,12 +11,12 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   // const router = useRouter();
   // console.log(router.query);
-  
+
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
+      <PageMeta title={messages['menu.faqs'] as string} />
       {/* <EventCalendarPage routeQeury={router.query}  /> */}
-      <EventCalendarPage calendarFor="nise" />
+      <EventCalendarPage calendarFor='nise' />
     </>
   );
 });

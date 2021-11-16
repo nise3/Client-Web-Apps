@@ -175,7 +175,7 @@ const Footer = () => {
                   </Link>
                 </Box>
                 <Box>
-                  <Link href={'/institute/faq'} className={classes.bullet}>
+                  <Link href={'/institute/faqs'} className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
