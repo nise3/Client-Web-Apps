@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
-import {BorderColor, BusinessCenter, Verified} from '@mui/icons-material';
+import {BorderColor, EmojiEventsOutlined, Schedule} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import SkillInfo from '../SkillInfo';
 import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
@@ -34,6 +34,7 @@ const classes = {
   editButton: `${PREFIX}-editButton`,
   dividerStyle: `${PREFIX}-dividerStyle`,
   skillInfoGrid: `${PREFIX}-skillInfoGrid`,
+  iconSizes: `${PREFIX}-iconSizes`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -48,6 +49,10 @@ const StyledCard = styled(Card)(({theme}) => ({
     [theme.breakpoints.only('xs')]: {
       textAlign: 'center',
     },
+  },
+  [`& .${classes.iconSizes}`]: {
+    width: 43,
+    height: 43,
   },
 
   [`& .${classes.dividerStyle}`]: {
@@ -67,6 +72,7 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
 }));
 
+/** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
   const {messages, formatNumber} = useIntl();
 
@@ -143,6 +149,7 @@ const PersonalInfoSection = () => {
         <HorizontalLine />
 
         <Grid item xs={12} md={10}>
+          {/** profile completed in percentage section */}
           <Grid container className={classes.skillInfoGrid}>
             <Grid item>
               <SkillInfo
@@ -151,6 +158,7 @@ const PersonalInfoSection = () => {
                     value={55}
                     text={getIntlNumber(formatNumber, 55)}
                     size={35}
+                    className={classes.iconSizes}
                   />
                 }
                 text1={messages['common.complete'] as string}
@@ -164,9 +172,12 @@ const PersonalInfoSection = () => {
               className={classes.dividerStyle}
             />
 
+            {/** year_of_experience section */}
             <Grid item>
               <SkillInfo
-                icon={<BusinessCenter color={'primary'} />}
+                icon={
+                  <Schedule color={'primary'} className={classes.iconSizes} />
+                }
                 text1={
                   getIntlNumber(formatNumber, 5) +
                   ' ' +
@@ -181,9 +192,15 @@ const PersonalInfoSection = () => {
               className={classes.dividerStyle}
             />
 
+            {/** total_certificates section */}
             <Grid item>
               <SkillInfo
-                icon={<Verified color={'primary'} />}
+                icon={
+                  <EmojiEventsOutlined
+                    color={'primary'}
+                    className={classes.iconSizes}
+                  />
+                }
                 text1={
                   getIntlNumber(
                     formatNumber,
