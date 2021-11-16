@@ -10,7 +10,7 @@ type Props = {
   label?: string | MessageFormatElement[];
   size?: any;
   options?: Array<any>;
-  defaultValue?: number | Array<string>;
+  defaultValue?: number | string | Array<string>;
   optionValueProp?: any;
   optionTitleProp?: Array<string>;
   onChange?: (e: any) => any;
