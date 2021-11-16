@@ -25,7 +25,6 @@ import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
-import SSOConfig from '../../@softbd/common/SSOConfig';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -39,22 +38,14 @@ type TOnSSOSignInCallbackCode = string;
 export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode) => {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      const {data: tokenData} = await axios.post(
-        'https://bus-staging.softbdltd.com/core/sso-authorize-code-grant',
+      const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
+        'https://core.bus-staging.softbdltd.com/sso-authorize-code-grant',
         {
           code,
           redirect_uri: 'http://localhost:3000/callback',
         },
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization:
-              'Basic ' +
-              Base64.encode(SSOConfig.clientKey + ':' + SSOConfig.clientSecret),
-          },
-        },
       );
-      console.log('tokenData', tokenData);
+
       cookieInstance.set(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify(tokenData),
@@ -87,8 +78,8 @@ export const loadAuthUser = async (
       ssoTokenData.userType == UserTypes.YOUTH_USER
         ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile')
         : await apiGet(
-            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
-          );
+          CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+        );
     console.log(coreResponse);
 
     const {data} = coreResponse.data;
