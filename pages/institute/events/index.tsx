@@ -24,7 +24,7 @@ export default InstituteDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />
-      <EventCalendarPage calendarFor="institute" editable={true}  />
+      <EventCalendarPage calendarFor="institute" />
     </>
   );
 });

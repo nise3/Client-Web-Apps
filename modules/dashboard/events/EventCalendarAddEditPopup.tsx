@@ -33,6 +33,7 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import { LocalizationProvider, TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null;
@@ -67,7 +68,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const { errorStack } = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
-  console.log('useAuthUser ', authUser);
+  // console.log('useAuthUser ', authUser);
   // const [value, setValue] = React.useState(null);
   const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
 
@@ -125,9 +126,9 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<Calendar> = async (data: Calendar) => {
     // const onSubmit: any = (data:Calendar) => {
-    // console.log(data, authUser);
     data.youth_id = authUser.youthId;
     data.institute_id = authUser.institute_id;
+    // console.log(data);
     try {
       if (itemId) {
         await updateCalendar(itemId, data);
@@ -226,18 +227,20 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {/* <Grid item xs={12} md={6}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <TimePicker
-              label="Basic example"
-              value={value}
-              onChange={(newValue) => {
-                setValue(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </Grid> */}
+        <Grid item xs={12} md={6}>
+          <CustomTimePicker
+            id='start_time'
+            label={messages['common.start_time']}
+            register={register}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTimePicker
+            id='end_time'
+            label={messages['common.end_time']}
+            register={register}
+          />
+        </Grid>
       </Grid>
     </HookFormMuiModal>
   );

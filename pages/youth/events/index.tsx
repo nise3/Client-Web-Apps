@@ -24,7 +24,7 @@ export default YouthFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />
-      <EventCalendarPage calendarFor="youth" editable={true} />
+      <EventCalendarPage calendarFor="youth" />
     </>
   );
 });
