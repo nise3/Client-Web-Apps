@@ -14,7 +14,7 @@ import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
-import { freelanceHeader } from './constants';
+import {freelanceHeader} from './constants';
 
 const PREFIX = 'NearbySkilledYouthSection';
 
@@ -41,7 +41,7 @@ const StyledCard = styled(Card)(({theme}) => ({
     marginLeft: 20,
     marginBottom: 10,
   },
-  ...freelanceHeader
+  ...freelanceHeader,
 }));
 
 const NearbySkilledYouthSection = () => {
@@ -58,7 +58,7 @@ const NearbySkilledYouthSection = () => {
   return (
     <StyledCard>
       <CardContent>
-        <Typography className={classes.sectionHeader} variant={'h5'} sx={{marginBottom: 3, fontWeight: 'bold'}}>
+        <Typography variant={'h5'} sx={{marginBottom: 3, fontWeight: 'bold'}}>
           {messages['freelance_corner.nearby_skilled_youth']}
         </Typography>
         <Grid container>

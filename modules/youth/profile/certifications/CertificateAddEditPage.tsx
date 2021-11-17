@@ -249,6 +249,9 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
           </Grid>

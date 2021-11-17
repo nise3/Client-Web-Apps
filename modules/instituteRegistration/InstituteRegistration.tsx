@@ -176,6 +176,7 @@ const InstituteRegistration = () => {
         divisionId,
       );
       setDistrictList(filteredDistricts);
+      setUpazilaList([]);
     },
     [districts],
   );

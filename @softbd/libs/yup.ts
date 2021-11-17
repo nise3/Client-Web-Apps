@@ -1,6 +1,7 @@
 import * as yup from 'yup';
-import {TEXT_REGEX_ENGLISH_ONLY} from '../common/patternRegex';
+import {EMAIL_REGEX, TEXT_REGEX_ENGLISH_ONLY} from '../common/patternRegex';
 import {AnyObject, Maybe} from 'yup/lib/types';
+import {StringSchema} from 'yup';
 
 yup.setLocale({
   mixed: {
@@ -88,7 +89,12 @@ function defaultTitleValidation(this: any, local?: 'en' | 'bn') {
   // .matches(local === 'en' ? TEXT_REGEX_ENGLISH_ONLY : TEXT_REGEX_BANGLA_ONLY);
 }
 
+function customEmailValidation(this: StringSchema) {
+  return this.trim().matches(EMAIL_REGEX);
+}
+
 yup.addMethod<yup.StringSchema>(yup.string, 'title', defaultTitleValidation);
+yup.addMethod<yup.StringSchema>(yup.string, 'email', customEmailValidation);
 
 declare module 'yup' {
   interface StringSchema<
@@ -97,6 +103,16 @@ declare module 'yup' {
     TOut extends TType = TType,
   > extends yup.BaseSchema<TType, TContext, TOut> {
     title(local?: 'en' | 'bn'): StringSchema<TType, TContext>;
+  }
+}
+
+declare module 'yup' {
+  interface StringSchema<
+    TType extends Maybe<string> = string | undefined,
+    TContext extends AnyObject = AnyObject,
+    TOut extends TType = TType,
+  > extends yup.BaseSchema<TType, TContext, TOut> {
+    email(): StringSchema<TType, TContext>;
   }
 }
 
