@@ -4,7 +4,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { MessageFormatElement } from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 type Props = {
     id: string;
