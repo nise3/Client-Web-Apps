@@ -13,6 +13,7 @@ import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
+import theme from '../../../@softbd/layouts/themes/youth';
 
 const PREFIX = 'OverviewSection';
 
@@ -63,6 +64,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const searchTextField = useRef<any>();
 
   const {data: youthStatisticsData} = useFetchYouthFeedStatistics();
+  const youthTheme = theme();
 
   const overviewItems = useMemo(
     () => [
@@ -70,31 +72,37 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
         amount: formatNumber(youthStatisticsData?.enrolled_courses ?? 0),
         text: messages['youth_feed.course_enrolled'],
         color: '#c865e7',
+        textColor: youthTheme.palette.common?.white,
       },
       {
         amount: formatNumber(youthStatisticsData?.skill_matching_courses ?? 0),
         text: messages['common.skill_matching_course'],
         color: '#5477f0',
+        textColor: youthTheme.palette.common?.white,
       },
       {
         amount: formatNumber(youthStatisticsData?.total_courses ?? 0),
         text: messages['youth_feed.total_course'],
         color: '#20d5c9',
+        textColor: youthTheme.palette.common?.white,
       },
       {
         amount: formatNumber(youthStatisticsData?.jobs_apply ?? 0),
         text: messages['youth_feed.job_apply'],
         color: '#32be7e',
+        textColor: youthTheme.palette.common?.white,
       },
       {
         amount: formatNumber(youthStatisticsData?.total_jobs ?? 0),
         text: messages['youth_feed.total_jobs'],
         color: '#e52d84',
+        textColor: youthTheme.palette.common?.white,
       },
       {
         amount: formatNumber(youthStatisticsData?.skill_matching_jobs ?? 0),
         text: messages['common.skill_matching_job'],
         color: '#fd9157',
+        textColor: youthTheme.palette.common?.white,
       },
     ],
     [youthStatisticsData, messages, formatNumber],

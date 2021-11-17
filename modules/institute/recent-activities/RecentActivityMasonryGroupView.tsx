@@ -91,9 +91,9 @@ function RecentActivityMasonryGroupView({items}: any) {
       rowHeight={250}
       className={classes.image}>
       {items &&
-        items?.map((item: any, i: any) => (
+        items?.map((item: any) => (
           <ImageListItem
-            key={item.id}
+            key={item.collage_position}
             cols={masonryPositions[item.collage_position - 1]?.cols || 1}
             rows={masonryPositions[item.collage_position - 1]?.rows || 1}
             style={{position: 'relative'}}>

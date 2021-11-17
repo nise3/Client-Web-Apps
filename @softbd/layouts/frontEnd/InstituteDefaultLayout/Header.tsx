@@ -108,7 +108,7 @@ const Header: React.FC<AppHeaderProps> = () => {
           className={classes.logoArea}
           style={{marginTop: '16px'}}>
           <Link
-            href='/'
+            href='/institute'
             className={classes.headerHalf}
             style={{marginRight: '-11%'}}>
             {/*<LogoCustomizable

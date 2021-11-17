@@ -74,7 +74,7 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
             src={data.imageUrl}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <Box className={classes.jobTitle} title={data.jobTitle}>
             {data.jobTitle}
           </Box>

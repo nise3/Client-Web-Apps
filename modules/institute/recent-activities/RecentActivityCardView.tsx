@@ -51,7 +51,11 @@ function RecentActivityCardView({activity}: any) {
             <CardMedia
               component='img'
               height='140'
-              image={activity.thumb_image_path}
+              image={
+                activity.grid_image_path
+                  ? activity.grid_image_path
+                  : activity.collage_image_path
+              }
               alt='random image'
               title={activity?.title}
             />
