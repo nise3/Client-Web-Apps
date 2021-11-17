@@ -16,7 +16,7 @@ export default NiseFrontPage(() => {
     <>
       <PageMeta title={messages['menu.faq'] as string} />
       {/* <EventCalendarPage routeQeury={router.query}  /> */}
-      <EventCalendarPage calendarFor="nise" />
+      <EventCalendarPage calendarFor="nise"/>
     </>
   );
 });

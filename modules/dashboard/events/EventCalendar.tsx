@@ -19,8 +19,12 @@ const localizer = momentLocalizer(moment);
 // console.log('chkDate ', toDate);
 interface IQuery{
   type: string;
-  youth_id?: number;
-  institute_id?: number;
+  youth_id?: string | number;
+  institute_id?: string | number;
+}
+interface IComProps{
+  calendarFor: string;
+  editable: boolean;
 }
 // const events1 = [
 //   {
@@ -37,22 +41,24 @@ interface IQuery{
 //   // }
 // ];
 
-const EventCalendar = ({calendarFor, editable}) => {
+// const EventCalendar = ({calendarFor: string, editable: boolean}) => {
+const EventCalendar = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
-  const isEditable = editable ? editable : false;
+  console.log('useAuthUser ', authUser);
+  const isEditable = comProps.editable ? comProps.editable : false;
   /*const authUser = useAuthUser();*/
-  // console.log('from component ', calendarFor);
+  // console.log('from component ', comProps.calendarFor);
   let requestQuery: IQuery = {
     type: 'month'
   }
-  switch (calendarFor) {
+  switch (comProps.calendarFor) {
     case 'youth':
-      requestQuery.youth_id = authUser.youthId;
+      requestQuery.youth_id = authUser?.youthId;
       break;
     case 'institute':
-      requestQuery.institute_id = authUser.institute_id;
+      requestQuery.institute_id = authUser?.institute_id;
       break
     default:
       break;
@@ -195,7 +201,7 @@ const EventCalendar = ({calendarFor, editable}) => {
             refreshDataTable={refreshDataTable}
           />
         )}
-        {editable && isOpenDetailsModal && selectedItemId && (
+        {comProps.editable && isOpenDetailsModal && selectedItemId && (
           <EventCalendarDetailsPopup
             key={1}
             itemId={selectedItemId}

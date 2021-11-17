@@ -115,9 +115,9 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         end_date: itemData?.end_date
       });
     } else {
-      initialValues.organization_id = authUser.organization_id,
-      initialValues.institute_id = authUser.institute_id,
-      initialValues.youth_id = authUser.youth_id,
+      initialValues.organization_id = authUser?.organization_id as string,
+      initialValues.institute_id = authUser?.institute_id as string,
+      initialValues.youth_id = authUser?.youth_id,
       initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
       initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
       reset(initialValues);
@@ -126,8 +126,8 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<Calendar> = async (data: Calendar) => {
     // const onSubmit: any = (data:Calendar) => {
-    data.youth_id = authUser.youthId;
-    data.institute_id = authUser.institute_id;
+    data.youth_id = authUser?.youthId;
+    data.institute_id = authUser?.institute_id;
     // console.log(data);
     try {
       if (itemId) {
