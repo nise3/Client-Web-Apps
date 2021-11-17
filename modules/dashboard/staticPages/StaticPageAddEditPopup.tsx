@@ -26,7 +26,7 @@ import {
   updateStaticPage,
 } from '../../../services/cmsManagement/StaticPageService';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 interface StaticPageAddEditPopupProps {
   pageCode: string;
@@ -64,7 +64,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showInList, setShowInList] = useState<Array<any>>([]);
-  const [showIn, setShowIn] = useState<number>(1);
+  const [showIn, setShowIn] = useState<number>(ShowInTypes.NICE3);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -127,14 +127,12 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     if (authUser) {
       (async () => {
         setIsLoading(true);
+        setItemData(null);
         try {
           const response = await getStaticPageOrBlockByPageCode(pageCode, {
             show_in: showIn,
           });
-          if (response && response.data) {
-            reset(initialValues);
-            setItemData(response.data);
-          }
+          if (response && response.data) setItemData(response.data);
         } catch (e) {}
         setIsLoading(false);
       })();
@@ -151,7 +149,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
 
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [1, 2].includes(item.id),
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
       );
 
       setShowInList(filteredShowIn);
@@ -193,7 +191,10 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
       reset(data);
     } else {
-      reset(initialValues);
+      reset({...initialValues, ...{show_in: showIn}});
+      setSelectedCodes([]);
+      setSelectedLanguageList([]);
+      setLanguageList([...allLanguages]);
     }
   }, [itemData, allLanguages]);
 
@@ -305,26 +306,26 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         {authUser && authUser.isSystemUser && (
-          <Grid item xs={12} md={6}>
-            <CustomFormSelect
-              required
-              id={'show_in'}
-              label={messages['common.show_in']}
-              isLoading={isLoadingConfigData}
-              control={control}
-              options={showInList}
-              optionValueProp={'id'}
-              optionTitleProp={['title']}
-              errorInstance={errors}
-              onChange={(value: number) => {
-                if (value) {
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <FormRadioButtons
+                id='show_in'
+                label={'common.show_in'}
+                control={control}
+                radios={showInList.map((item: any) => {
+                  return {
+                    label: item.title,
+                    key: item.id,
+                  };
+                })}
+                defaultValue={initialValues.show_in}
+                onChange={(value: number) => {
                   setShowIn(value);
-                } else {
-                  setShowIn(1);
-                }
-              }}
-            />
-          </Grid>
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} />
+          </React.Fragment>
         )}
         <Grid item xs={12} md={6}>
           <CustomTextInput

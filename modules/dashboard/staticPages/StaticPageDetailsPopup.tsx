@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Grid} from '@mui/material';
+import {FormControlLabel, Grid, Radio, RadioGroup} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -11,11 +11,13 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import ContentTypes from '../recentActivities/ContentTypes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {getStaticPageOrBlockByPageCode} from '../../../services/cmsManagement/StaticPageService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import StaticPageTypes from './StaticPageTypes';
+import PageBlockTemplateTypes from './PageBlockTemplateTypes';
+import ContentTypes from '../recentActivities/ContentTypes';
 
 type Props = {
   pageCode: string;
@@ -35,24 +37,50 @@ const StaticPageDetailsPopup = ({
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showInList, setShowInList] = useState<Array<any>>([]);
+  const [showIn, setShowIn] = useState<number>(ShowInTypes.NICE3);
 
   useEffect(() => {
     if (authUser) {
       (async () => {
         setIsLoading(true);
+        setItemData(null);
         try {
           const response = await getStaticPageOrBlockByPageCode(pageCode, {
-            show_in: ShowInTypes.NICE3,
+            show_in: showIn,
           });
           if (response && response.data) setItemData(response.data);
         } catch (e) {}
         setIsLoading(false);
       })();
     }
-  }, [authUser]);
+  }, [authUser, showIn]);
 
-  const getContentTypeTitle = (contentType: number) => {
-    switch (contentType) {
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
+      );
+
+      setShowInList(filteredShowIn);
+    }
+  }, [cmsGlobalConfig]);
+
+  const getTemplateCodeTitle = (templateCode: string) => {
+    switch (templateCode) {
+      case PageBlockTemplateTypes.PBT_CB:
+        return messages['page_block.template_code_pbt_cb'];
+      case PageBlockTemplateTypes.PBT_LR:
+        return messages['page_block.template_code_pbt_lr'];
+      case PageBlockTemplateTypes.PBT_RL:
+        return messages['page_block.template_code_pbt_rl'];
+      default:
+        return '';
+    }
+  };
+
+  const getAttachmentTypeTitle = (attachmentType: number) => {
+    switch (attachmentType) {
       case ContentTypes.IMAGE:
         return messages['content_type.image'];
       case ContentTypes.FACEBOOK_SOURCE:
@@ -88,21 +116,153 @@ const StaticPageDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          {authUser && authUser.isSystemUser && (
+            <React.Fragment>
+              <Grid item xs={12} md={6}>
+                <RadioGroup
+                  row
+                  aria-label={'show_in'}
+                  value={showIn}
+                  onChange={(e) => {
+                    setShowIn(Number(e.target.value));
+                  }}>
+                  {showInList.map((item: any) => (
+                    <FormControlLabel
+                      key={item.id}
+                      value={item.id}
+                      control={<Radio />}
+                      label={item.title}
+                    />
+                  ))}
+                </RadioGroup>
+              </Grid>
+              <Grid item xs={12} md={6} />
+            </React.Fragment>
+          )}
+
+          <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.content_slug_or_id']}
-              value={itemData?.content_slug_or_id}
+              label={messages['common.title']}
+              value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
 
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.content_type']}
-              value={getContentTypeTitle(itemData?.content_type)}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {pageType == StaticPageTypes.PAGE && (
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['common.sub_title']}
+                value={itemData?.sub_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+
+          {pageType == StaticPageTypes.BLOCK && (
+            <React.Fragment>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['static_page.template_code']}
+                  value={getTemplateCodeTitle(itemData?.template_code)}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.is_attachment_available']}
+                  value={
+                    itemData?.is_attachment_available == 1
+                      ? messages['common.yes']
+                      : messages['common.no']
+                  }
+                  isLoading={isLoading}
+                />
+              </Grid>
+
+              {itemData?.is_attachment_available == 1 && (
+                <React.Fragment>
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.attachment_type']}
+                      value={getAttachmentTypeTitle(itemData?.attachment_type)}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  {itemData?.attachment_type == ContentTypes.IMAGE && (
+                    <React.Fragment>
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.image_path']}
+                          value={itemData?.image_path}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.image_alt_title']}
+                          value={itemData?.image_alt_title}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    </React.Fragment>
+                  )}
+
+                  {itemData?.attachment_type != ContentTypes.IMAGE && (
+                    <React.Fragment>
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.video_id']}
+                          value={itemData?.video_id}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.video_url']}
+                          value={itemData?.video_url}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    </React.Fragment>
+                  )}
+                </React.Fragment>
+              )}
+
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.is_button_available']}
+                  value={
+                    itemData?.is_button_available == 1
+                      ? messages['common.yes']
+                      : messages['common.no']
+                  }
+                  isLoading={isLoading}
+                />
+              </Grid>
+
+              {itemData?.is_button_available == 1 && (
+                <React.Fragment>
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.link']}
+                      value={itemData?.link}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.button_text']}
+                      value={itemData?.button_text}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          )}
 
           <Grid item xs={12}>
             <fieldset>
@@ -113,27 +273,58 @@ const StaticPageDetailsPopup = ({
                 )}
               </legend>
               <Grid container spacing={5}>
-                <Grid item xs={6}>
+                <Grid
+                  item
+                  xs={12}
+                  md={pageType == StaticPageTypes.PAGE ? 6 : 12}>
                   <DetailsInputView
                     label={messages['common.title']}
                     value={itemData?.title}
                     isLoading={isLoading}
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <DetailsInputView
-                    label={messages['common.sub_title']}
-                    value={itemData?.sub_title}
-                    isLoading={isLoading}
-                  />
-                </Grid>
+
+                {pageType == StaticPageTypes.PAGE && (
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.sub_title']}
+                      value={itemData?.sub_title}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                )}
+
+                {pageType == StaticPageTypes.BLOCK && (
+                  <React.Fragment>
+                    {itemData?.attachment_type == ContentTypes.IMAGE && (
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.image_alt_title']}
+                          value={itemData?.image_alt_title}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    )}
+
+                    {itemData?.is_button_available == 1 && (
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.button_text']}
+                          value={itemData?.button_text}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    )}
+                  </React.Fragment>
+                )}
+
                 <Grid item xs={12}>
                   <DetailsInputView
                     label={messages['common.content']}
                     value={
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: itemData?.contents,
+                          __html: itemData?.content,
                         }}
                       />
                     }
@@ -152,20 +343,55 @@ const StaticPageDetailsPopup = ({
                     {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
                   </legend>
                   <Grid container spacing={5}>
-                    <Grid item xs={6}>
+                    <Grid
+                      item
+                      xs={12}
+                      md={pageType == StaticPageTypes.PAGE ? 6 : 12}>
                       <DetailsInputView
                         label={messages['common.title']}
                         value={itemData.other_language_fields[key]?.title}
                         isLoading={isLoading}
                       />
                     </Grid>
-                    <Grid item xs={6}>
-                      <DetailsInputView
-                        label={messages['common.sub_title']}
-                        value={itemData.other_language_fields[key]?.sub_title}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
+                    {pageType == StaticPageTypes.PAGE && (
+                      <Grid item xs={12} md={6}>
+                        <DetailsInputView
+                          label={messages['common.sub_title']}
+                          value={itemData.other_language_fields[key]?.sub_title}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    )}
+
+                    {pageType == StaticPageTypes.BLOCK && (
+                      <React.Fragment>
+                        {itemData?.attachment_type == ContentTypes.IMAGE && (
+                          <Grid item xs={12} md={6}>
+                            <DetailsInputView
+                              label={messages['common.image_alt_title']}
+                              value={
+                                itemData.other_language_fields[key]
+                                  ?.image_alt_title
+                              }
+                              isLoading={isLoading}
+                            />
+                          </Grid>
+                        )}
+
+                        {itemData?.is_button_available == 1 && (
+                          <Grid item xs={12} md={6}>
+                            <DetailsInputView
+                              label={messages['common.button_text']}
+                              value={
+                                itemData.other_language_fields[key]?.button_text
+                              }
+                              isLoading={isLoading}
+                            />
+                          </Grid>
+                        )}
+                      </React.Fragment>
+                    )}
+
                     <Grid item xs={12}>
                       <DetailsInputView
                         label={messages['common.content']}
@@ -173,7 +399,7 @@ const StaticPageDetailsPopup = ({
                           <div
                             dangerouslySetInnerHTML={{
                               __html:
-                                itemData.other_language_fields[key]?.contents,
+                                itemData.other_language_fields[key]?.content,
                             }}
                           />
                         }

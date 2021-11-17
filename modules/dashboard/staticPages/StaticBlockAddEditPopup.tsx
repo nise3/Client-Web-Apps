@@ -28,7 +28,7 @@ import {
 import ContentTypes from '../recentActivities/ContentTypes';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import PageBlockTemplateTypes from './PageBlockTemplateTypes';
-
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 interface StaticBlockAddEditPopupProps {
   pageCode: string;
   onClose: () => void;
@@ -42,6 +42,7 @@ const initialValues = {
   template_code: '',
   is_button_available: '0',
   row_status: '1',
+  show_in: '',
 };
 
 const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
@@ -51,7 +52,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {data: cmsGlobalConfig, isLoading: isLoadingConfigData} =
     useFetchCMSGlobalConfig();
 
@@ -71,6 +72,9 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
   const [selectedAttachmentType, setSelectedAttachmentType] = useState<
     number | null
   >(null);
+
+  const [showInList, setShowInList] = useState<Array<any>>([]);
+  const [showIn, setShowIn] = useState<number>(ShowInTypes.NICE3);
 
   const templateCodes = useMemo(
     () => [
@@ -107,6 +111,14 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      show_in:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.show_in'] as string)
+          : yup.string(),
       title: yup
         .string()
         .title()
@@ -216,16 +228,17 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
     if (authUser) {
       (async () => {
         setIsLoading(true);
+        setItemData(null);
         try {
           const response = await getStaticPageOrBlockByPageCode(pageCode, {
-            show_in: ShowInTypes.NICE3,
+            show_in: showIn,
           });
           if (response && response.data) setItemData(response.data);
         } catch (e) {}
         setIsLoading(false);
       })();
     }
-  }, [authUser]);
+  }, [authUser, showIn]);
 
   useEffect(() => {
     if (cmsGlobalConfig) {
@@ -235,12 +248,19 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
 
       setAllLanguages(filteredLanguage);
       setLanguageList(filteredLanguage);
+
+      const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
+      );
+
+      setShowInList(filteredShowIn);
     }
   }, [cmsGlobalConfig]);
 
   useEffect(() => {
     if (itemData) {
       let data: any = {
+        show_in: itemData?.show_in,
         title: itemData?.title,
         content: itemData?.content,
         is_attachment_available: itemData?.is_attachment_available,
@@ -264,7 +284,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
             code: key,
             title: otherLangData[key].title,
             button_text: otherLangData[key].button_text,
-            alt_image_title: otherLangData[key].alt_image_title,
+            image_alt_title: otherLangData[key].image_alt_title,
             content: otherLangData[key].content,
           };
         });
@@ -282,10 +302,15 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
       reset(data);
       setIsAttachmentAvailable(itemData?.is_attachment_available == 1);
       setIsButtonAvailable(itemData?.is_button_available == 1);
+      setSelectedAttachmentType(itemData?.attachment_type);
     } else {
-      reset(initialValues);
+      reset({...initialValues, ...{show_in: showIn}});
+      setSelectedCodes([]);
+      setSelectedLanguageList([]);
+      setLanguageList([...allLanguages]);
       setIsAttachmentAvailable(false);
       setIsButtonAvailable(false);
+      setSelectedAttachmentType(null);
     }
   }, [itemData, allLanguages]);
 
@@ -357,7 +382,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
         otherLanguagesFields[language.code] = {
           title: langObj.title,
           button_text: langObj.button_text,
-          alt_image_title: langObj.alt_image_title,
+          image_alt_title: langObj.image_alt_title,
           content: langObj.content,
         };
       });
@@ -398,6 +423,29 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        {authUser && authUser.isSystemUser && (
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <FormRadioButtons
+                id='show_in'
+                label={'common.show_in'}
+                control={control}
+                radios={showInList.map((item: any) => {
+                  return {
+                    label: item.title,
+                    key: item.id,
+                  };
+                })}
+                defaultValue={initialValues.show_in}
+                onChange={(value: number) => {
+                  setShowIn(value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} />
+          </React.Fragment>
+        )}
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required

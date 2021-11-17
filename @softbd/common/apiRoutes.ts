@@ -168,7 +168,6 @@ export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
 export const API_BANNERS = CMS_SERVICE_PATH + '/banners';
 export const API_VISITOR_FEEDBACKS =
   CMS_SERVICE_PATH + '/visitor-feedback-suggestions';
-export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';
 export const API_FRONT_END_STATIC_PAGES =
   CMS_SERVICE_PUBLIC_PATH + '/static-pages';
 export const PUBLIC_API_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
