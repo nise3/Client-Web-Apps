@@ -771,6 +771,7 @@
   "videos.institute": "ভিডিও সমূহ",
   "video_category.institute": "ভিডিও ক্যাটাগরি",
   "guardian.title": "অভিভাবক",
+  "guardian.info": "অভিভাবকের তথ্য",
   "guardian.add": "নতুন অভিভাবক",
   "guardian.no_data": "এখনো কোন অভিভাবক যোগ করা হয়নি",
   "recent_activities.institute": "সাম্প্রতিক কার্যক্রম",
@@ -990,5 +991,4 @@
   "common.training_courses": "ট্রেনিং কোর্সসমূহ",
   "common.your_info": "আপনার তথ্য",
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে"
-
 }

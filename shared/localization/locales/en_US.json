@@ -989,5 +989,6 @@
   "course_details.total_lesson": "{total} Lessons",
   "common.training_courses": "Training Courses",
   "common.your_info": "Your Information",
-  "common.must_have_one_skill": "Must have one skill"
+  "common.must_have_one_skill": "Must have one skill",
+  "guardian.info": "Guardian information"
 }
