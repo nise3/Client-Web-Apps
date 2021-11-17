@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import clsx from 'clsx';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../../../@crema/core/Navigation/VerticleNav';
@@ -12,6 +12,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
 import defaultConfig from '../../../../@crema/utility/ContextProvider/defaultConfig';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import {AppContext} from '../../../../@crema';
 
 interface AppSidebarProps {
   position?: 'left' | 'bottom' | 'right' | 'top';
@@ -22,6 +24,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   position = 'left',
   variant = '',
 }) => {
+  const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const dispatch = useDispatch();
   const {navCollapsed} = useSelector<AppState, AppState['settings']>(
     ({settings}) => settings,
