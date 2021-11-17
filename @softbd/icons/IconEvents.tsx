@@ -1,10 +1,6 @@
 import React from 'react';
 import {
-  EmojiEvents,
-  EmojiEventsOutlined,
-  EmojiEventsRounded,
-  EmojiEventsSharp,
-  EmojiEventsTwoTone,
+  EmojiEventsTwoTone
 } from '@mui/icons-material';
 
 const IconEvents = () => {
