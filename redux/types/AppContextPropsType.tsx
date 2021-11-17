@@ -39,10 +39,6 @@ interface CremaPalette extends Palette {
     dark: string;
     contrastText: string;
   };
-  sidebar: {
-    bgColor: string;
-    textColor: string;
-  };
   text: {
     primary: string;
     secondary: string;
@@ -173,11 +169,17 @@ export default interface AppContextPropsType {
   primary?: string;
   secondary?: string;
   isRTL?: boolean;
-  sidebarColor?: string;
+  sidebarColors: {
+    bgColor: string;
+    textColor: string;
+  };
   // routes,
   updateLayoutStyle?: (layoutType: LayoutType) => void;
   setRTL: (rtl: boolean) => void;
-  updateSidebarColor?: (sidebarColor: string) => void;
+  updateSidebarColors?: (sidebarColors: {
+    bgColor: string;
+    textColor: string;
+  }) => void;
   setFooter?: (footer: boolean) => void;
   setFooterType?: (footerType: FooterType) => void;
   updateThemeStyle?: (themeStyle: ThemeStyle) => void;

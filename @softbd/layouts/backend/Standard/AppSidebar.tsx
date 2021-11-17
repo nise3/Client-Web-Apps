@@ -11,7 +11,6 @@ import {AppState} from '../../../../redux/store';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
-import defaultConfig from '../../../../@crema/utility/ContextProvider/defaultConfig';
 import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {AppContext} from '../../../../@crema';
 
@@ -24,7 +23,8 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   position = 'left',
   variant = '',
 }) => {
-  const {themeMode} = useContext<AppContextPropsType>(AppContext);
+  const {themeMode, sidebarColors} =
+    useContext<AppContextPropsType>(AppContext);
   const dispatch = useDispatch();
   const {navCollapsed} = useSelector<AppState, AppState['settings']>(
     ({settings}) => settings,
@@ -51,7 +51,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
             sx={{
               backgroundColor:
                 themeMode === ThemeMode.SEMI_DARK
-                  ? defaultConfig.theme.palette.sidebar.bgColor
+                  ? sidebarColors?.bgColor
                   : themeMode === ThemeMode.LIGHT
                   ? 'white'
                   : '#313541',
@@ -78,7 +78,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
               sx={{
                 backgroundColor:
                   themeMode === ThemeMode.SEMI_DARK
-                    ? defaultConfig.theme.palette.sidebar.bgColor
+                    ? sidebarColors?.bgColor
                     : themeMode === ThemeMode.LIGHT
                     ? 'white'
                     : '#313541',

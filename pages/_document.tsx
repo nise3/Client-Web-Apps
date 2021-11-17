@@ -1,6 +1,5 @@
 import React from 'react';
 import Document, {Head, Html, Main, NextScript} from 'next/document';
-import defaultConfig from '../@crema/utility/ContextProvider/defaultConfig';
 
 export default class MyDocument extends Document {
   render() {
@@ -9,10 +8,7 @@ export default class MyDocument extends Document {
         <Head>
           <link rel='icon' href='/favicon.ico' />
           {/* PWA primary color */}
-          <meta
-            name='theme-color'
-            content={defaultConfig.theme.palette.primary.main}
-          />
+          <meta name='theme-color' content={'#0A8FDC'} />
           <link
             href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap'
             rel='stylesheet'

@@ -2,6 +2,9 @@ import {styled} from '@mui/material/styles';
 // import Link from 'next/link';
 import {ListItem} from '@mui/material';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {useContext} from 'react';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import {AppContext} from '../../../index';
 
 const PREFIX = 'VerticalItem';
 
@@ -12,6 +15,8 @@ export const classes = {
 };
 
 export const StyledListItem = styled(ListItem)(({theme}) => {
+  const {sidebarColors} = useContext<AppContextPropsType>(AppContext);
+
   return {
     [`&.${classes.navItem}`]: {
       height: 40,
@@ -70,10 +75,10 @@ export const StyledListItem = styled(ListItem)(({theme}) => {
         },
       },
       '& .nav-item-icon': {
-        color: theme.palette.sidebar.textColor,
+        color: sidebarColors?.textColor,
       },
       '& .nav-item-text': {
-        color: theme.palette.sidebar.textColor,
+        color: sidebarColors?.textColor,
         fontWeight: Fonts.MEDIUM,
       },
     },

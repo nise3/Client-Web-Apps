@@ -7,13 +7,13 @@ import {
   InputAdornment,
   NativeSelect,
   TextField,
+  useTheme,
 } from '@mui/material';
 import Tile from './components/Tile';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
-import theme from '../../../@softbd/layouts/themes/youth';
 
 const PREFIX = 'OverviewSection';
 
@@ -64,7 +64,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const searchTextField = useRef<any>();
 
   const {data: youthStatisticsData} = useFetchYouthFeedStatistics();
-  const youthTheme = theme();
+  const youthTheme = useTheme();
 
   const overviewItems = useMemo(
     () => [

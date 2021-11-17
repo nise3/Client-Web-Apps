@@ -11,23 +11,30 @@ import {
   ThemeMode,
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
+import theme from '../../../@softbd/layouts/themes/dashboard';
+
+const dashboardTheme = theme();
 
 export const ContextState = {
-  theme: defaultConfig.theme,
+  theme: dashboardTheme,
   footer: defaultConfig.footer,
   footerType: defaultConfig.footerType,
   themeMode: defaultConfig.themeMode,
   headerMode: defaultConfig.headerMode,
   themeStyle: defaultConfig.themeStyle,
   layoutType: defaultConfig.layoutType,
-  isRTL: defaultConfig.theme.direction === 'rtl',
+  isRTL: dashboardTheme.direction === 'rtl',
   locale: defaultConfig.locale,
   navStyle: defaultConfig.navStyle,
   rtAnim: defaultConfig.rtAnim,
-  primary: defaultConfig.theme.palette.primary.main,
-  sidebarColor: defaultConfig.theme.palette.sidebar.bgColor,
-  secondary: defaultConfig.theme.palette.secondary.main,
+  primary: dashboardTheme.palette.primary.main,
+  sidebar: {
+    bgColor: '#313541',
+    textColor: '#808183',
+  },
+  secondary: dashboardTheme.palette.secondary.main,
 };
+
 const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
   const [state, dispatch] = useReducer(
     contextReducer,
@@ -59,7 +66,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
     dispatch({type: ThemeSetting.CHANGE_LOCALE, payload: locale});
   };
 
-  const changeNavStyle = useCallback(navStyle => {
+  const changeNavStyle = useCallback((navStyle) => {
     dispatch({type: ThemeSetting.CHANGE_NAV_STYLE, payload: navStyle});
   }, []);
 
@@ -70,8 +77,11 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
     dispatch({type: ThemeSetting.UPDATE_PRIMARY_COLOR, payload: primary});
   };
 
-  const updateSidebarColor = (sidebarColor: string) => {
-    dispatch({type: ThemeSetting.UPDATE_SIDEBAR_COLOR, payload: sidebarColor});
+  const updateSidebarColors = (sidebarColors: {
+    bgColor: string;
+    textColor: string;
+  }) => {
+    dispatch({type: ThemeSetting.UPDATE_SIDEBAR_COLOR, payload: sidebarColors});
   };
 
   const updateSecondaryColor = (secondary: string) => {
@@ -85,7 +95,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
     dispatch({type: ThemeSetting.UPDATE_THEME, payload: theme});
   };
 
-  const setRTL = useCallback(rtl => {
+  const setRTL = useCallback((rtl) => {
     dispatch({type: ThemeSetting.SET_RTL, payload: rtl});
   }, []);
 
@@ -96,7 +106,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
         updateLayoutStyle,
         rtlLocale: defaultConfig.rtlLocale,
         setRTL,
-        updateSidebarColor,
+        updateSidebarColors,
         setFooter,
         setFooterType,
         updateThemeStyle,

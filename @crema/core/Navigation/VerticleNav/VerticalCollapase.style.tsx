@@ -1,6 +1,9 @@
 import {styled} from '@mui/material/styles';
 import {ListItem} from '@mui/material';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {useContext} from 'react';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import {AppContext} from '../../../index';
 
 const PREFIX = 'VerticalCollapse';
 
@@ -11,6 +14,8 @@ export const classes = {
 };
 
 export const StyledListItem = styled(ListItem)(({theme}) => {
+  const {sidebarColors} = useContext<AppContextPropsType>(AppContext);
+
   return {
     [`&.${classes.navItem}`]: {
       height: 40,
@@ -32,7 +37,7 @@ export const StyledListItem = styled(ListItem)(({theme}) => {
       '& .nav-item-text': {
         fontWeight: Fonts.REGULAR,
         // fontSize: 16,
-        color: theme.palette.sidebar.textColor,
+        color: sidebarColors?.textColor,
 
         [theme.breakpoints.up('xl')]: {
           marginTop: 4,
@@ -42,11 +47,11 @@ export const StyledListItem = styled(ListItem)(({theme}) => {
       },
 
       '& .nav-item-icon': {
-        color: theme.palette.sidebar.textColor,
+        color: sidebarColors?.textColor,
       },
 
       '& .nav-item-icon-arrow': {
-        color: theme.palette.sidebar.textColor,
+        color: sidebarColors?.textColor,
       },
 
       '& .MuiIconButton-root': {
