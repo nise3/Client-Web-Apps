@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -8,24 +8,48 @@ import {useIntl} from 'react-intl';
 import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {
-  useFetchCMSGlobalConfig,
-  useFetchStaticPage,
-} from '../../../services/cmsManagement/hooks';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ContentTypes from '../recentActivities/ContentTypes';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {getStaticPageOrBlockByPageCode} from '../../../services/cmsManagement/StaticPageService';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 type Props = {
-  itemId: number;
+  pageCode: string;
+  pageType: number;
   onClose: () => void;
-  openEditModal: (id: number) => void;
+  openEditModal: (page: any) => void;
 };
 
-const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
-  const {data: itemData, isLoading} = useFetchStaticPage(itemId);
+const StaticPageDetailsPopup = ({
+  pageCode,
+  pageType,
+  openEditModal,
+  ...props
+}: Props) => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+  const [itemData, setItemData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (authUser) {
+      (async () => {
+        setIsLoading(true);
+        try {
+          const response = await getStaticPageOrBlockByPageCode(pageCode, {
+            show_in: ShowInTypes.NICE3,
+          });
+          if (response && response.data) setItemData(response.data);
+        } catch (e) {}
+        setIsLoading(false);
+      })();
+    }
+  }, [authUser]);
 
   const getContentTypeTitle = (contentType: number) => {
     switch (contentType) {
@@ -56,7 +80,9 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
-              onClick={() => openEditModal(itemData.id)}
+              onClick={() =>
+                openEditModal({page_code: pageCode, type: pageType})
+              }
               isLoading={isLoading}
             />
           </>
@@ -64,38 +90,11 @@ const StaticPageDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.show_in']}
-              value={itemData?.show_in_label}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
               label={messages['common.content_slug_or_id']}
               value={itemData?.content_slug_or_id}
               isLoading={isLoading}
             />
           </Grid>
-
-          {itemData?.institute_title && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['institute.label']}
-                value={itemData?.institute_title}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-
-          {itemData?.organization_title && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['organization.label']}
-                value={itemData?.organization_title}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
 
           <Grid item xs={6}>
             <DetailsInputView

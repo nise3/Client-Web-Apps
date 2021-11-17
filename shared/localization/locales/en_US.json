@@ -904,7 +904,6 @@
   "common.comment": "Comment",
   "organization_association.label": "Organization association",
   "common.show_in": "Show in",
-  "common.content_slug_or_id": "Content slug or Id",
   "common.content_type": "Content type",
   "common.content": "Content",
   "common.activity_date": "Activity date",
@@ -949,6 +948,9 @@
   "slider.template_code_bt_cb": "Banner with text center and image background",
   "slider.template_code_bt_lr": "Banner with text left and image right",
   "slider.template_code_bt_rl": "Banner with text right and image left",
+  "page_block.template_code_pbt_cb": "Block with text center and image background",
+  "page_block.template_code_pbt_lr": "Block with text left and image right",
+  "page_block.template_code_pbt_rl": "Block with text right and image left",
   "collage_position.left": "Left",
   "collage_position.right_top": "Right Top",
   "collage_position.right_bottom_1": "Right Bottom Left",
@@ -972,5 +974,8 @@
   "footer.job_provider": "Job provider",
   "footer.in_implementation": "In implementation",
   "common.technical_support": "Technical Support",
-  "footer.bio_edit": "Bio Edit"
+  "footer.bio_edit": "Bio Edit",
+  "static_page.template_code": "Template",
+  "common.is_attachment_available": "Is attachment available",
+  "common.attachment_type": "Attachment type"
 }

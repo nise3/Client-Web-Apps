@@ -173,5 +173,8 @@ export const API_FRONT_END_STATIC_PAGES =
   CMS_SERVICE_PUBLIC_PATH + '/static-pages';
 export const PUBLIC_API_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
 
+export const API_STATIC_PAGE_TYPES = CMS_SERVICE_PATH + '/static-page-types';
+export const API_STATIC_PAGE_BLOCKS = CMS_SERVICE_PATH + '/static-page-blocks/';
+
 /** Routes for calendar events */
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
