@@ -48,13 +48,6 @@ const fbRegex1 = /\/videos\/([\w\-]*?)\//;
 const fbRegex2 = /\/videos\/([\d]*?)\//;
 const fbReplace = '/videos/';
 
-const data = {
-  id: 1,
-  title: 'This is testing video',
-  video_url: 'https://www.youtube.com/watch?v=NLPuCclm5lA',
-  description: 'Video description testing',
-};
-
 const VideoDetails = () => {
   const {messages} = useIntl();
   const router = useRouter();

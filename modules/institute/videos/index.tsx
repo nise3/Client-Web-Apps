@@ -100,9 +100,9 @@ const InstituteVideos = () => {
   );
 
   const onSearch = useCallback(() => {
-    /* setGalleryContentFilter((params: any) => {
+    setVideoAlbumContentFilter((params: any) => {
       return {...params, ...{search_text: inputFieldRef.current?.value}};
-    });*/
+    });
   }, []);
 
   return (
