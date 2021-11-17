@@ -28,8 +28,12 @@ axiosInstance.interceptors.request.use(
       if (userAccessToken) {
         config.headers['Authorization'] = `Bearer ${userAccessToken}`;
       } else {
-        const appAccessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
-        config.headers['Authorization'] = `Bearer ${appAccessToken}`;
+        const appAccessTokenData = cookieInstance.get(
+          COOKIE_KEY_APP_ACCESS_TOKEN,
+        );
+        config.headers[
+          'Authorization'
+        ] = `Bearer ${appAccessTokenData?.access_token}`;
       }
     }
 
@@ -47,8 +51,14 @@ axiosInstance.interceptors.response.use(
   },
   async function (error) {
     if (error?.response?.status === 401) {
-      await loadAppAccessToken();
-      await refreshAuthAccessToken();
+      const authAccessTokenData = cookieInstance.get(
+        COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+      );
+      if (authAccessTokenData) {
+        await refreshAuthAccessToken();
+      } else {
+        await refreshAppAccessToken();
+      }
     }
     return Promise.reject(error);
   },
@@ -82,32 +92,27 @@ async function refreshAuthAccessToken() {
       setDefaultAuthorizationHeader(responseTokenData.access_token);
     } catch (e) {
       console.log(e);
+      cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+      window.location.href = getSSOLoginUrl();
     }
   } else {
+    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
     window.location.href = getSSOLoginUrl();
   }
 }
 
-export async function loadAppAccessToken() {
-  const accessToken = cookieInstance.get(COOKIE_KEY_APP_ACCESS_TOKEN);
-
-  if (!accessToken?.length) {
-    try {
-      let response = await axios.get(
-        'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',
-      );
-      cookieInstance.set(
-        COOKIE_KEY_APP_ACCESS_TOKEN,
-        response?.data?.access_token || '',
-        {
-          path: '/',
-        },
-      );
-      //TODO: temporary
-      setDefaultAuthorizationHeader(response?.data?.access_token);
-    } catch (e) {
-      console.log(e);
-    }
+export async function refreshAppAccessToken() {
+  try {
+    let response = await axios.get(
+      'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',
+    );
+    cookieInstance.set(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data, {
+      path: '/',
+    });
+    //TODO: temporary
+    setDefaultAuthorizationHeader(response?.data?.access_token);
+  } catch (e) {
+    console.log(e);
   }
 }
 
