@@ -130,6 +130,10 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+      /*main_image_path: yup
+        .string()
+        .required()
+        .label(messages['common.main_image_path'] as string),*/
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({

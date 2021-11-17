@@ -12,7 +12,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['recent_activities.institute']} />
+      <PageMeta title={messages['recent_activities.label']} />
       <RecentActivitiesPage />
     </>
   );

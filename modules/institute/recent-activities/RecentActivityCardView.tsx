@@ -65,7 +65,7 @@ function RecentActivityCardView({activity}: any) {
               <iframe
                 width='100%'
                 height='140'
-                src={activity.embedded_url}
+                src={activity.video_url}
                 style={{marginBottom: '-8px'}}
               />
             ))}

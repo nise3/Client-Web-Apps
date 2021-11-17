@@ -45,7 +45,7 @@ const initialValues = {
   banner_template_code: '',
   link: '',
   button_text: '',
-  alt_image_title: '',
+  image_alt_title: '',
   is_button_available: '1',
   row_status: '1',
 };
@@ -98,6 +98,10 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.title'] as string),
+      /*banner_image_path: yup
+        .string()
+        .required()
+        .label(messages['common.image_path'] as string),*/
       is_button_available: yup
         .string()
         .required()
@@ -120,10 +124,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
-      /*banner_image_url: yup
-        .string()
-        .required()
-        .label('common.banner_image_url'),*/
     });
   }, [messages, selectedCodes, authUser]);
 
@@ -176,7 +176,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         is_button_available: itemData?.is_button_available,
         button_text: itemData?.button_text,
         link: itemData?.link,
-        alt_image_title: itemData?.alt_image_title,
+        image_alt_title: itemData?.image_alt_title,
         banner_template_code: itemData?.banner_template_code,
         row_status: String(itemData?.row_status),
       };
@@ -190,7 +190,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             code: key,
             title: otherLangData[key].title,
             sub_title: otherLangData[key].sub_title,
-            alt_image_title: otherLangData[key].alt_image_title,
+            image_alt_title: otherLangData[key].image_alt_title,
             button_text: otherLangData[key].button_text,
           };
         });
@@ -258,7 +258,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.banner_image_url = 'http://lorempixel.com/400/200/';
+      formData.banner_image_path = 'http://lorempixel.com/400/200/';
 
       let data = {...formData};
 
@@ -363,8 +363,23 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='alt_image_title'
-            label={messages['common.alt_title']}
+            id='banner_image_path'
+            label={messages['common.image_path']}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            control={control}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='image_alt_title'
+            label={messages['common.image_alt_title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -498,8 +513,8 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
                   <Grid item xs={12} md={6} order={{xs: 4}}>
                     <CustomTextInput
-                      id={'language_' + language.code + '[alt_image_title]'}
-                      label={messages['common.alt_title']}
+                      id={'language_' + language.code + '[image_alt_title]'}
+                      label={messages['common.image_alt_title']}
                       register={register}
                       errorInstance={errors}
                     />

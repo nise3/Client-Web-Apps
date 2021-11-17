@@ -47,16 +47,16 @@ const initialValues = {
   gallery_album_id: '',
   content_type: '',
   video_type: '',
-  content_title: '',
-  content_description: '',
-  alt_title: '',
+  title: '',
+  description: '',
+  image_alt_title: '',
   featured: '',
   published_at: '',
   archived_at: '',
   row_status: '1',
-  embedded_id: '',
-  content_path: '',
-  embedded_url: '',
+  video_id: '',
+  image_path: '',
+  video_url: '',
 };
 
 const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPopupProps> =
@@ -113,13 +113,13 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 .required()
                 .label(messages['common.content_type'] as string)
             : yup.string(),
-        content_title: yup
+        title: yup
           .string()
           .required()
-          .label(messages['common.content_title'] as string),
-        /* content_path: yup
+          .label(messages['common.title'] as string),
+        /*image_path: yup
            .mixed()
-           .label(messages['common.content_path'] as string)
+           .label(messages['common.image_path'] as string)
            .when('content_type', {
              is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
              then: yup.string().required(),
@@ -128,49 +128,58 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .mixed()
           .label(messages['common.video_type'] as string)
           .when('content_type', {
-            is: (value: number) => value != GalleryAlbumContentTypes.IMAGE,
+            is: (value: number) =>
+              galleryAlbum &&
+              galleryAlbum.album_type != AlbumTypes.IMAGE &&
+              value != GalleryAlbumContentTypes.IMAGE,
             then: yup.string().required(),
           }),
-        embedded_id: yup
+        video_id: yup
           .mixed()
-          .label(messages['common.embedded_id'] as string)
+          .label(messages['common.video_id'] as string)
           .when('content_type', {
-            is: (value: number) => value != GalleryAlbumContentTypes.IMAGE,
+            is: (value: number) =>
+              galleryAlbum &&
+              galleryAlbum.album_type != AlbumTypes.IMAGE &&
+              value != GalleryAlbumContentTypes.IMAGE,
             then: yup.string().required(),
           }),
-        embedded_url: yup
+        video_url: yup
           .mixed()
-          .label(messages['common.embedded_id'] as string)
+          .label(messages['common.video_url'] as string)
           .when('content_type', {
-            is: (value: number) => value != GalleryAlbumContentTypes.IMAGE,
+            is: (value: number) =>
+              galleryAlbum &&
+              galleryAlbum.album_type != AlbumTypes.IMAGE &&
+              value != GalleryAlbumContentTypes.IMAGE,
             then: yup.string().required(),
           }),
         language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
           ? yup.object().shape({})
           : yup.object().shape({
-              content_title: yup
+              title: yup
                 .string()
                 .trim()
                 .required()
-                .label(messages['common.content_title'] as string),
+                .label(messages['common.title'] as string),
             }),
         language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
           ? yup.object().shape({})
           : yup.object().shape({
-              content_title: yup
+              title: yup
                 .string()
                 .trim()
                 .required()
-                .label(messages['common.content_title'] as string),
+                .label(messages['common.title'] as string),
             }),
         language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
           ? yup.object().shape({})
           : yup.object().shape({
-              content_title: yup
+              title: yup
                 .string()
                 .trim()
                 .required()
-                .label(messages['common.content_title'] as string),
+                .label(messages['common.title'] as string),
             }),
       });
     }, [messages, selectedCodes, galleryAlbum]);
@@ -287,11 +296,11 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           gallery_album_id: itemData?.gallery_album_id,
           content_type: itemData?.content_type,
           video_type: itemData?.video_type,
-          content_title: itemData?.content_title,
-          embedded_url: itemData?.embedded_url,
-          embedded_id: itemData?.embedded_id,
-          content_description: itemData?.content_description,
-          alt_title: itemData?.alt_title,
+          title: itemData?.title,
+          video_url: itemData?.video_url,
+          video_id: itemData?.video_id,
+          description: itemData?.description,
+          image_alt_title: itemData?.image_alt_title,
           featured: String(itemData?.featured),
           published_at: itemData?.published_at
             ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
@@ -308,9 +317,9 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           keys.map((key: string) => {
             data['language_' + key] = {
               code: key,
-              content_title: otherLangData[key].content_title,
-              content_description: otherLangData[key].content_description,
-              alt_title: otherLangData[key].alt_title,
+              title: otherLangData[key].title,
+              description: otherLangData[key].description,
+              image_alt_title: otherLangData[key].image_alt_title,
             };
           });
           setSelectedCodes(keys);
@@ -369,10 +378,9 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
     const onSubmit: SubmitHandler<any> = async (formData: any) => {
       try {
         //demo file url
-        formData.content_cover_image_url = 'http://lorempixel.com/400/200/';
-        formData.content_grid_image_url = 'http://lorempixel.com/400/200/';
-        formData.content_thumb_image_url = 'http://lorempixel.com/200/100/';
-        formData.content_path = 'http://lorempixel.com/200/200/';
+        formData.content_grid_image_path = 'http://lorempixel.com/400/200/';
+        formData.content_thumb_image_path = 'http://lorempixel.com/200/100/';
+        formData.image_path = 'http://lorempixel.com/200/200/';
 
         if (galleryAlbum.album_type == AlbumTypes.IMAGE) {
           formData.content_type = GalleryAlbumContentTypes.IMAGE;
@@ -386,16 +394,16 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         delete data.language_list;
         if (data.content_type == GalleryAlbumContentTypes.IMAGE) {
           delete data.video_type;
-          delete data.embedded_id;
-          delete data.embedded_url;
+          delete data.video_id;
+          delete data.video_url;
         }
         selectedLanguageList.map((language: any) => {
           const langObj = data['language_' + language.code];
 
           otherLanguagesFields[language.code] = {
-            content_title: langObj.content_title,
-            content_description: langObj.content_description,
-            alt_title: langObj.alt_title,
+            title: langObj.title,
+            description: langObj.description,
+            image_alt_title: langObj.image_alt_title,
           };
         });
         delete data['language_en'];
@@ -486,8 +494,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           <Grid item xs={12} md={6}>
             <CustomTextInput
               required
-              id='content_title'
-              label={messages['common.content_title']}
+              id='title'
+              label={messages['common.title']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -518,8 +526,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   required
-                  id='content_path'
-                  label={messages['common.content_path']}
+                  id='image_path'
+                  label={messages['common.image_path']}
                   type={'file'}
                   InputLabelProps={{
                     shrink: true,
@@ -550,8 +558,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 <Grid item xs={12} md={6}>
                   <CustomTextInput
                     required
-                    id='embedded_url'
-                    label={messages['common.embedded_url']}
+                    id='video_url'
+                    label={messages['common.video_url']}
                     register={register}
                     errorInstance={errors}
                     isLoading={isLoading}
@@ -560,8 +568,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 <Grid item xs={12} md={6}>
                   <CustomTextInput
                     required
-                    id='embedded_id'
-                    label={messages['common.embedded_id']}
+                    id='video_id'
+                    label={messages['common.video_id']}
                     register={register}
                     errorInstance={errors}
                     isLoading={isLoading}
@@ -572,21 +580,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
 
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='content_cover_image_url'
-              label={messages['common.main_image_path']}
-              type={'file'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              control={control}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomTextInput
-              id='content_grid_image_url'
+              id='content_grid_image_path'
               label={messages['common.grid_image_path']}
               type={'file'}
               InputLabelProps={{
@@ -600,7 +594,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='content_thumb_image_url'
+              id='content_thumb_image_path'
               label={messages['common.thumb_image_path']}
               type={'file'}
               InputLabelProps={{
@@ -615,8 +609,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
 
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='alt_title'
-              label={messages['gallery_album.image_alt_title']}
+              id='image_alt_title'
+              label={messages['common.image_alt_title']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -644,13 +638,10 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
 
           <Grid item xs={12}>
             <TextEditor
-              id={'content_description'}
-              label={messages['common.content_description']}
+              id={'description'}
+              label={messages['common.description']}
               errorInstance={errors}
-              value={
-                itemData?.content_description ||
-                initialValues.content_description
-              }
+              value={itemData?.description || initialValues.description}
               height={'300px'}
               key={1}
               register={register}
@@ -695,15 +686,15 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                     <Grid item xs={6}>
                       <CustomTextInput
                         required
-                        id={'language_' + language.code + '[content_title]'}
-                        label={messages['common.content_title']}
+                        id={'language_' + language.code + '[title]'}
+                        label={messages['common.title']}
                         register={register}
                         errorInstance={errors}
                       />
                     </Grid>
                     <Grid item xs={5}>
                       <CustomTextInput
-                        id={'language_' + language.code + '[alt_title]'}
+                        id={'language_' + language.code + '[image_alt_title]'}
                         label={messages['common.image_alt_title']}
                         register={register}
                         errorInstance={errors}
@@ -721,15 +712,12 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                     </Grid>
                     <Grid item md={12}>
                       <TextEditor
-                        id={
-                          'language_' + language.code + '[content_description]'
-                        }
-                        label={messages['common.content_description']}
+                        id={'language_' + language.code + '[description]'}
+                        label={messages['common.description']}
                         errorInstance={errors}
                         value={
                           itemData?.other_language_fields?.[language.code]
-                            ?.content_description ||
-                          initialValues.content_description
+                            ?.description || initialValues.description
                         }
                         height={'300px'}
                         key={1}

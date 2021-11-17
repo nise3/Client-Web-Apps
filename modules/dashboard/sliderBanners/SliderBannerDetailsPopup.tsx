@@ -61,7 +61,7 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </>
         }>
-        <Grid container spacing={5}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['slider.label']}
@@ -152,8 +152,8 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['common.alt_title']}
-                    value={itemData?.alt_image_title}
+                    label={messages['common.image_alt_title']}
+                    value={itemData?.image_alt_title}
                     isLoading={isLoading}
                   />
                 </Grid>
@@ -195,9 +195,9 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
                       <Grid item xs={12} md={6}>
                         <DetailsInputView
-                          label={messages['common.alt_title']}
+                          label={messages['common.image_alt_title']}
                           value={
-                            itemData.other_language_fields[key]?.alt_image_title
+                            itemData.other_language_fields[key]?.image_alt_title
                           }
                           isLoading={isLoading}
                         />

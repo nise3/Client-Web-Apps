@@ -112,8 +112,8 @@ const GalleryAlbumContentDetailsPopup = ({
           {itemData?.content_type == GalleryAlbumContentTypes.IMAGE && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
-                label={messages['common.content_path']}
-                value={itemData?.content_path}
+                label={messages['common.image_path']}
+                value={itemData?.image_path}
                 isLoading={isLoading}
               />
             </Grid>
@@ -130,15 +130,15 @@ const GalleryAlbumContentDetailsPopup = ({
               </Grid>
               <Grid item xs={12} md={6}>
                 <DetailsInputView
-                  label={messages['common.embedded_id']}
-                  value={itemData?.embedded_id}
+                  label={messages['common.video_id']}
+                  value={itemData?.video_id}
                   isLoading={isLoading}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <DetailsInputView
-                  label={messages['common.embedded_url']}
-                  value={itemData?.embedded_url}
+                  label={messages['common.video_url']}
+                  value={itemData?.video_url}
                   isLoading={isLoading}
                 />
               </Grid>
@@ -147,22 +147,15 @@ const GalleryAlbumContentDetailsPopup = ({
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.main_image_path']}
-              value={itemData?.content_cover_image_url}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
               label={messages['common.grid_image_path']}
-              value={itemData?.content_grid_image_url}
+              value={itemData?.content_grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.thumb_image_path']}
-              value={itemData?.content_thumb_image_url}
+              value={itemData?.content_thumb_image_path}
               isLoading={isLoading}
             />
           </Grid>
@@ -201,26 +194,26 @@ const GalleryAlbumContentDetailsPopup = ({
               <Grid container spacing={5}>
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['common.content_title']}
-                    value={itemData?.content_title}
+                    label={messages['common.title']}
+                    value={itemData?.title}
                     isLoading={isLoading}
                   />
                 </Grid>
 
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['gallery_album.image_alt_title']}
+                    label={messages['common.image_alt_title']}
                     value={itemData?.image_alt_title}
                     isLoading={isLoading}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <DetailsInputView
-                    label={messages['common.content_description']}
+                    label={messages['common.description']}
                     value={
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: itemData?.content_description,
+                          __html: itemData?.description,
                         }}
                       />
                     }
@@ -241,17 +234,15 @@ const GalleryAlbumContentDetailsPopup = ({
                   <Grid container spacing={5}>
                     <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['common.content_title']}
-                        value={
-                          itemData.other_language_fields[key]?.content_title
-                        }
+                        label={messages['common.title']}
+                        value={itemData.other_language_fields[key]?.title}
                         isLoading={isLoading}
                       />
                     </Grid>
 
                     <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['gallery_album.image_alt_title']}
+                        label={messages['common.image_alt_title']}
                         value={
                           itemData.other_language_fields[key]?.image_alt_title
                         }
@@ -261,13 +252,13 @@ const GalleryAlbumContentDetailsPopup = ({
 
                     <Grid item xs={12}>
                       <DetailsInputView
-                        label={messages['common.content_description']}
+                        label={messages['common.description']}
                         value={
                           <div
                             dangerouslySetInnerHTML={{
                               __html:
                                 itemData.other_language_fields[key]
-                                  ?.content_description,
+                                  ?.description,
                             }}
                           />
                         }
