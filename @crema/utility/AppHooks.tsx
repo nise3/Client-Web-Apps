@@ -6,7 +6,10 @@ import {
   loadAuthUser,
   setAuthAccessTokenData,
 } from '../../redux/actions';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
+import {
+  COOKIE_KEY_APP_ACCESS_TOKEN,
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+} from '../../shared/constants/AppConst';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../redux/types/actions/Auth.actions';
 import {
@@ -15,7 +18,7 @@ import {
 } from '../../redux/types/models/CommonAuthUser';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 import {
-  loadAppAccessToken,
+  refreshAppAccessToken,
   setDefaultAuthorizationHeader,
 } from '../../@softbd/libs/axiosInstance';
 
@@ -27,9 +30,14 @@ export const useAuthToken = () => {
   useEffect(() => {
     const validateAuth = async () => {
       //TODO: temporary
-      await loadAppAccessToken();
-
+      const appAccessTokenData = cookieInstance.get(
+        COOKIE_KEY_APP_ACCESS_TOKEN,
+      );
+      if (!appAccessTokenData && !!appAccessTokenData?.access_token) {
+        await refreshAppAccessToken();
+      }
       dispatch(fetchStart());
+
       const authAccessTokenData = cookieInstance.get(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
       );
