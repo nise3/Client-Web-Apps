@@ -17,6 +17,8 @@ import {
 import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -45,6 +47,7 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
+  const authYouth = useAuthUser<YouthAuthUser>();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -54,7 +57,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             {messages['common.course_fee']}:{' '}
             <Box className={classes.courseFeeStyle}>
               {course?.course_fee
-                ? formatNumber(course.course_fee) + ' ৳'
+                ? '৳' + formatNumber(course.course_fee)
                 : messages['common.free']}
             </Box>
           </Box>
@@ -66,21 +69,41 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
               label={courseDuration(messages, formatNumber, course.duration)}
             />
           )}
-          {course?.total_enrolled && (
-            <TagChip
-              label={
-                <IntlMessages
-                  id={'course_details.enrolled'}
-                  values={{
-                    total: getIntlNumber(formatNumber, course.total_enrolled),
-                  }}
-                />
-              }
-            />
-          )}
+          <TagChip
+            label={
+              <IntlMessages
+                id={'course_details.total_lesson'}
+                values={{
+                  total: getIntlNumber(
+                    formatNumber,
+                    course?.lessons ?? Math.floor(Math.random() * 100),
+                  ),
+                }}
+              />
+            }
+          />
+
+          <TagChip
+            label={
+              <IntlMessages
+                id={'course_details.enrolled'}
+                values={{
+                  total: getIntlNumber(
+                    formatNumber,
+                    course?.total_enrolled ?? '0',
+                  ),
+                }}
+              />
+            }
+          />
 
           <Box mt={4}>
-            <Link href={LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id}>
+            <Link
+              href={
+                authYouth
+                  ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
+                  : '/sign-up'
+              }>
               <Button variant={'contained'} color={'primary'}>
                 {messages['common.enroll_now']}
               </Button>

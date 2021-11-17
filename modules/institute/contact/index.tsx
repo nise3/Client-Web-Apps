@@ -6,7 +6,6 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
-import {createRankType} from '../../../services/organaizationManagement/RankTypeService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -16,6 +15,8 @@ import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
 import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
+import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 
 const PREFIX = 'InstituteContact';
 
@@ -134,12 +135,14 @@ const InstituteContact = () => {
   });
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    data.form_type = VisitorFeedbackTypes.CONTACTUS;
+
     try {
-      await createRankType(data);
+      await createVisitorFeedback(data);
       successStack(
         <IntlMessages
-          id='common.subject_updated_successfully'
-          values={{subject: <IntlMessages id='contact.institute' />}}
+          id='common.subject_sent_successfully'
+          values={{subject: <IntlMessages id='common.your_info' />}}
         />,
       );
       reset();
@@ -184,6 +187,7 @@ const InstituteContact = () => {
                       </Grid>
                       <Grid item xs={6}>
                         <CustomTextInput
+                          required
                           id='name'
                           label={messages['common.name']}
                           register={register}
@@ -193,6 +197,7 @@ const InstituteContact = () => {
                       </Grid>
                       <Grid item xs={6}>
                         <CustomTextInput
+                          required
                           id='phone_numbers'
                           label={messages['common.phone_number']}
                           register={register}
@@ -211,6 +216,7 @@ const InstituteContact = () => {
                       </Grid>
                       <Grid item xs={12}>
                         <CustomTextInput
+                          required
                           id='advice'
                           label={messages['advice.institute']}
                           register={register}

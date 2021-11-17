@@ -125,7 +125,7 @@ const YouthRegistration = () => {
       skills: yup
         .array()
         .of(yup.object())
-        .min(1)
+        .min(1, messages['common.must_have_one_skill'] as string)
         .label(messages['common.skills'] as string),
       date_of_birth: yup
         .string()
@@ -360,13 +360,14 @@ const YouthRegistration = () => {
               />*/}
 
               <CustomSelectAutoComplete
+                required
                 id='skills'
                 label={messages['common.skills']}
                 control={control}
                 options={skills}
-                optionTitleProp='title'
+                optionTitleProp={['title', 'title_en']}
+                optionValueProp={'id'}
                 errorInstance={errors}
-                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -397,7 +398,8 @@ const YouthRegistration = () => {
                   label={messages['common.physical_disability']}
                   control={control}
                   options={physicalDisabilities}
-                  optionTitleProp='label'
+                  optionTitleProp={['label']}
+                  optionValueProp={'id'}
                   errorInstance={errors}
                 />
               </Grid>

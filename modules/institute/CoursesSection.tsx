@@ -70,9 +70,9 @@ const CoursesSection = () => {
             <Tabs
               value={value}
               onChange={handleChange}
-              textColor='secondary'
-              indicatorColor='secondary'
-              aria-label='secondary tabs example'>
+              textColor='primary'
+              indicatorColor='primary'
+              aria-label='primary tabs example'>
               <Tab
                 label={messages['common.running_courses']}
                 {...indexProps(0)}

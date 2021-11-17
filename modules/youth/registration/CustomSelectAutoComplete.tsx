@@ -18,7 +18,8 @@ type Props = {
   size?: any;
   control: any;
   options?: Array<any>;
-  optionTitleProp: string;
+  optionTitleProp: Array<string>;
+  optionValueProp: any;
   onChange?: (e: any) => any;
   isDisabled?: boolean;
   defaultValue?: any;
@@ -32,6 +33,7 @@ export default function CustomSelectAutoComplete({
   isDisabled,
   options,
   optionTitleProp,
+  optionValueProp,
   label,
   defaultValue,
   required = false,
@@ -39,6 +41,22 @@ export default function CustomSelectAutoComplete({
   onChange: onChangeCallback,
   placeholder,
 }: Props) {
+  const getTitle = (
+    option: any,
+    optionTitleProp: Array<string> | undefined,
+  ) => {
+    let title = '';
+    if (option && optionTitleProp) {
+      let arr = [];
+      for (let i = 0; i < optionTitleProp.length; i++) {
+        arr.push(option[optionTitleProp[i]]);
+      }
+      title = arr.join('-');
+    }
+
+    return title;
+  };
+
   const errorObj = errorInstance?.[id];
 
   return (
@@ -67,7 +85,15 @@ export default function CustomSelectAutoComplete({
                 onChangeCallback(option);
               }
             }}
-            getOptionLabel={(option) => option[optionTitleProp]}
+            getOptionLabel={(item) => {
+              if (typeof item !== 'object' && options)
+                item = options.find(
+                  (it: any) => String(it[optionValueProp]) === String(item),
+                );
+
+              return getTitle(item, optionTitleProp);
+            }}
+            // getOptionLabel={(option) => option[optionTitleProp]}
             renderOption={(props, option, {selected}) => (
               <li {...props}>
                 <Checkbox
@@ -76,13 +102,18 @@ export default function CustomSelectAutoComplete({
                   style={{marginRight: 8}}
                   checked={selected}
                 />
-                {option[optionTitleProp]}
+                {optionTitleProp?.length > 1
+                  ? option[optionTitleProp[0]] +
+                    '-' +
+                    option[optionTitleProp[1]]
+                  : option[optionTitleProp[0]]}
               </li>
             )}
             fullWidth
             renderInput={(params) => (
               <TextField
-                label={label}
+                // label={label}
+                label={label + (required ? ' *' : '')}
                 {...params}
                 error={errorObj && Boolean(errorObj)}
                 helperText={
