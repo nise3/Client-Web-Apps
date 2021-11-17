@@ -15,6 +15,7 @@ import {
   API_FRONT_END_STATIC_PAGES,
   API_PUBLIC_PARTNERS,
   API_PUBLIC_GALLERY_ALBUMS,
+  API_PUBLIC_GALLERY_ALBUM_CONTENTS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -86,6 +87,9 @@ export function useFetchPublicGalleryAlbum(galleryAlbumId: number | null) {
 /****** For Gallery Album Contents ******/
 export function useFetchGalleryAlbumContents(params: any) {
   return useAxiosSWR([API_GALLERY_ALBUM_CONTENTS, params]);
+}
+export function useFetchPublicGalleryAlbumContents(params: any) {
+  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUM_CONTENTS, params]);
 }
 
 export function useFetchGalleryAlbumContent(

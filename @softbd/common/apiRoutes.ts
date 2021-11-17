@@ -102,6 +102,8 @@ export const API_PUBLIC_GALLERY_ALBUMS =
   CMS_SERVICE_PUBLIC_PATH + '/gallery-albums';
 export const API_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PATH + '/gallery-images-videos';
+export const API_PUBLIC_GALLERY_ALBUM_CONTENTS =
+  CMS_SERVICE_PUBLIC_PATH + '/gallery-images-videos';
 export const API_FRONT_END_GALLERY = CMS_SERVICE_PATH + '/gallery';
 export const API_FRONT_END_GALLERY_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/gallery-category';

@@ -8,16 +8,15 @@ import {
 import React from 'react';
 import {Link} from '../../../@softbd/elements/common';
 
-function GalleryItemCardView({item}: any) {
+function ContentItemCard({item}: any) {
   let path = '/institute/gallery-albums';
 
   let image = '';
-  if (item?.grid_image_path) {
-    image = item?.grid_image_path;
+  if (item?.content_grid_image_url) {
+    image = item?.content_grid_image_url;
   } else {
-    image = item?.main_image_path;
+    image = item?.content_path;
   }
-
   return (
     <>
       <Link href={`${path}/${item.id}`} passHref>
@@ -27,12 +26,12 @@ function GalleryItemCardView({item}: any) {
               component='img'
               height='140'
               image={image}
-              alt={item?.image_alt_title}
-              title={item?.title}
+              alt={item?.alt_title}
+              title={item?.content_title}
             />
             <CardContent>
               <Typography gutterBottom variant='body1' component='div'>
-                {item?.content}
+                {item?.content_title}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -42,4 +41,4 @@ function GalleryItemCardView({item}: any) {
   );
 }
 
-export default GalleryItemCardView;
+export default ContentItemCard;

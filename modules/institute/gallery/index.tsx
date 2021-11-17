@@ -1,6 +1,13 @@
 import {styled} from '@mui/material/styles';
-import {Container, Grid, Pagination, Paper} from '@mui/material';
-import React, {useState} from 'react';
+import {
+  Container,
+  Grid,
+  Pagination,
+  Paper,
+  Skeleton,
+  Stack,
+} from '@mui/material';
+import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {H3, H6} from '../../../@softbd/elements/common';
 import {useFetchInstitutesPublicGallery} from '../../../services/instituteManagement/hooks';
@@ -37,8 +44,22 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteGallery = () => {
   const {messages} = useIntl();
-  const [galleryFilter] = useState<any>({});
-  const {data: galleryItems} = useFetchInstitutesPublicGallery(galleryFilter);
+  const [galleryFilter, setGalleryFilter] = useState<any>({
+    page: 1,
+    page_size: 8,
+  });
+  const {
+    data: galleryItems,
+    isLoading: isLoadingGalleryItems,
+    metaData,
+  } = useFetchInstitutesPublicGallery(galleryFilter);
+  const page = useRef<any>(1);
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setGalleryFilter((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
 
   // TODO: css issue - fix grid responsiveness
 
@@ -54,13 +75,18 @@ const InstituteGallery = () => {
         </Grid>
       </Grid>
       <StyledContainer maxWidth='lg'>
-        {/* <Grid textAlign={'center'} className={classes.heading}>
-          <H2 py={3} fontWeight={'bold'}>
-            {messages['common.gallery_album']}
-          </H2>
-        </Grid>*/}
         <Grid container mt={4} justifyContent={'center'}>
-          {galleryItems && galleryItems?.length > 0 ? (
+          {isLoadingGalleryItems ? (
+            <Grid
+              item
+              xs={12}
+              sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+            </Grid>
+          ) : galleryItems && galleryItems?.length > 0 ? (
             <Grid item md={12} mt={{xs: 4, md: 5}}>
               <Grid container>
                 <Grid item xs={12}>
@@ -84,7 +110,15 @@ const InstituteGallery = () => {
                 mt={4}
                 display={'flex'}
                 justifyContent={'center'}>
-                <Pagination count={3} variant='outlined' shape='rounded' />
+                <Stack spacing={2}>
+                  <Pagination
+                    page={page.current}
+                    count={metaData.total_page}
+                    color={'primary'}
+                    shape='rounded'
+                    onChange={onPaginationChange}
+                  />
+                </Stack>
               </Grid>
             </Grid>
           ) : (
