@@ -11,7 +11,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   // const router = useRouter();
   // console.log(router.query);
-  
+
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />

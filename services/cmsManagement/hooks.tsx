@@ -16,6 +16,7 @@ import {
   API_PUBLIC_PARTNERS,
   API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_GALLERY_ALBUM_CONTENTS,
+  PUBLIC_API_SLIDERS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -137,4 +138,8 @@ export function useFetchSingleStaticPage(contentId: any, params: any) {
       : API_FRONT_END_STATIC_PAGES,
     params,
   ]);
+}
+
+export function useFetchPublicSliders(params: any) {
+  return useAxiosSWR([PUBLIC_API_SLIDERS, params]);
 }

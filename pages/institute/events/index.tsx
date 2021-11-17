@@ -11,7 +11,7 @@ const EventCalendarPage = asyncComponent(
 //   const {messages} = useIntl();
 //   const router = useRouter();
 //   // console.log(router.query);
-  
+
 //   return (
 //     <>
 //       <PageMeta title={messages['menu.faq'] as string} />
@@ -20,12 +20,11 @@ const EventCalendarPage = asyncComponent(
 //   );
 // });
 
-
 export default InstituteDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />
-      <EventCalendarPage calendarFor="institute" />
+      <EventCalendarPage calendarFor='institute' />
     </>
   );
 });

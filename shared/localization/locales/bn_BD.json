@@ -983,5 +983,6 @@
   "footer.my_jobs": "মাই জবস",
   "footer.job_provider": "চাকরিদাতা",
   "footer.in_implementation": "বাস্তবায়নে",
-  "common.technical_support": "কারিগরি সহায়তায়"
+  "common.technical_support": "কারিগরি সহায়তায়",
+  "footer.bio_edit": "জীবনবৃত্তান্ত এডিট"
 }

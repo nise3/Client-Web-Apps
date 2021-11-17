@@ -310,7 +310,7 @@ const routesConfig: NavItemProps[] = [
         icon: 'room',
         children: [
           {
-            id: 'faq',
+            id: 'faqs',
             title: 'FAQs',
             messageId: 'menu.faq',
             permissionKey: 'view_any_faq',
@@ -425,7 +425,7 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'room',
             url: '/dashboard/events',
-          }
+          },
         ],
       },
     ],

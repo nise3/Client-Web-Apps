@@ -4,5 +4,5 @@ export const ABOUT_US_CONTENT_ID = 'about_us';
 export const TERMS_AND_CONDITIONS_CONTENT_ID = 'terms_and_conditions';
 export const PRIVACY_POLICY_CONTENT_ID = 'privacy_policy';
 export const CAREER_ADVICE_CONTENT_ID = 'career_advice';
-export const FAQ_CONTENT_ID = 'faq';
+export const FAQ_CONTENT_ID = 'faqs';
 export const GUIDELINE_CONTENT_ID = 'guideline';

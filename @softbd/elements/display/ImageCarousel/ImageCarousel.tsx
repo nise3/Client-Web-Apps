@@ -1,71 +1,17 @@
 import Carousel from 'react-multi-carousel';
-import {styled} from '@mui/material/styles';
 import 'react-multi-carousel/lib/styles.css';
 import React, {ReactNode} from 'react';
-import {Box, CardMedia, Container, Typography} from '@mui/material';
-import {rgba} from 'polished';
-
-const PREFIX = 'ImageCarousel';
-
-const classes = {
-  imageBox: `${PREFIX}-imageBox`,
-  image: `${PREFIX}-image`,
-  heading: `${PREFIX}-heading`,
-  customLeftArrow: `${PREFIX}-customLeftArrow`,
-  reactMultipleCarousalArrow: `${PREFIX}-reactMultipleCarousalArrow`,
-};
-
-const StyledCarousel = styled(Carousel)(({theme}) => ({
-  [`& .${classes.imageBox}`]: {
-    height: 500,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    pointerEvents: 'none',
-    display: 'flex',
-  },
-
-  [`& .${classes.image}`]: {
-    zIndex: -1,
-    position: 'absolute',
-    objectFit: 'cover',
-    height: '100%',
-    width: '100%',
-  },
-
-  [`& .${classes.heading}`]: {
-    color: theme.palette.background.paper,
-    margin: '20px 40px',
-    textAlign: 'center',
-    flex: 1,
-  },
-
-  [`& .${classes.customLeftArrow}`]: {
-    left: 'calc(8.5% +1px)',
-  },
-
-  [`& .${classes.reactMultipleCarousalArrow}`]: {
-    position: 'absolute',
-    outline: 0,
-    transition: 'all .5s',
-    borderRadius: '35px',
-    zIndex: 1000,
-    border: 0,
-    background: rgba(0, 0, 0, 0.5),
-    minWidth: '43px',
-    minHeight: '43px',
-    opacity: 1,
-    cursor: 'pointer',
-  },
-}));
+import BannerTemplateCenterBackground from '../../../../modules/institute/Components/BannerTemplateCenterBackground';
+import BannerTemplateLeftRight from '../../../../modules/institute/Components/BannerTemplateLeftRight';
+import BannerTemplateRightLeft from '../../../../modules/institute/Components/BannerTemplateRightLeft';
 
 type Props = {
   children?: ReactNode;
-  images: Array<string>;
-  headings: Array<string>;
+  banners: Array<any>;
 };
 
-const ImageCarousel = ({images, headings}: Props) => {
+const ImageCarousel = ({banners}: Props) => {
+  console.log('banners', banners);
   // const customLeftArrow = useCallback(() => {
 
   //
@@ -82,7 +28,7 @@ const ImageCarousel = ({images, headings}: Props) => {
   // }, []);
 
   return (
-    <StyledCarousel
+    <Carousel
       additionalTransfrom={0}
       arrows
       autoPlaySpeed={3000}
@@ -94,12 +40,12 @@ const ImageCarousel = ({images, headings}: Props) => {
       containerClass='container'
       dotListClass=''
       draggable
-      focusOnSelect={false}
+      focusOnSelect={true}
       infinite
       itemClass=''
       keyBoardControl
       minimumTouchDrag={80}
-      renderButtonGroupOutside={false}
+      renderButtonGroupOutside={true}
       renderDotsOutside={false}
       // customLeftArrow={customLeftArrow()}
       responsive={{
@@ -129,28 +75,21 @@ const ImageCarousel = ({images, headings}: Props) => {
       sliderClass=''
       slidesToSlide={1}
       swipeable>
-      {images.map((uri: string, i: number) => (
-        <Box key={i} className={classes.imageBox}>
-          <CardMedia
-            component='img'
-            image={uri}
-            className={classes.image}
-            alt={headings[i]}
-            title={headings[i]}
-          />
-          <Container maxWidth={'lg'}>
-            <Typography variant='h3'>
-              <Box
-                fontWeight='fontWeightBold'
-                mb={6}
-                className={classes.heading}>
-                {headings[i]}
-              </Box>
-            </Typography>
-          </Container>
-        </Box>
-      ))}
-    </StyledCarousel>
+      {banners &&
+        banners?.length &&
+        banners.map((banner: any) => {
+          switch (banner?.banner_template_code) {
+            case 'BT_CB':
+              return <BannerTemplateCenterBackground banner={banner} />;
+            case 'BT_RL':
+              return <BannerTemplateRightLeft banner={banner} />;
+            case 'BT_LR':
+              return <BannerTemplateLeftRight banner={banner} />;
+            default:
+              return <BannerTemplateCenterBackground banner={banner} />;
+          }
+        })}
+    </Carousel>
   );
 };
 
