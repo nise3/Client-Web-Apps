@@ -9,8 +9,24 @@ import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
 import {useFetchLanguageProficiencies} from '../../../../services/youthManagement/hooks';
 import {YouthLanguageProficiency} from '../../../../services/youthManagement/typing';
-import TextPrimary from '../component/TextPrimary';
 import VerticalLine from '../component/VerticalLine';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'LanguageSection';
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 const LanguageSection = () => {
   const {messages} = useIntl();
@@ -84,16 +100,19 @@ const LanguageSection = () => {
               )}
               {languageProficiencies && (
                 <React.Fragment>
-                  <Box sx={{display: 'flex'}}>
+                  <StyledBox sx={{display: 'flex'}}>
                     {languageProficiencies.map(
                       (language: YouthLanguageProficiency, index: number) => (
                         <React.Fragment key={language.id}>
                           {index != 0 && <VerticalLine />}
-                          <TextPrimary text={language.language_title} />
+                          {/*<TextPrimary text={language.language_title} />*/}
+                          <Typography className={classes.textStyle}>
+                            {language.language_title}
+                          </Typography>
                         </React.Fragment>
                       ),
                     )}
-                  </Box>
+                  </StyledBox>
                   <Typography
                     variant={'caption'}
                     onClick={() => {

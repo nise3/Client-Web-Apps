@@ -2,6 +2,24 @@ import React, {FC} from 'react';
 import {Card, CardContent, Grid} from '@mui/material';
 import ContentWithImageSkeleton from './ContentWithImageSkeleton';
 import {H6} from '../../../../@softbd/elements/common';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'ContentLayout';
+
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 interface ContentLayoutProps {
   title: React.ReactNode | string;
@@ -19,11 +37,11 @@ const ContentLayout: FC<ContentLayoutProps> = ({
   ...props
 }) => {
   return (
-    <Card>
+    <StyledCard>
       <CardContent>
         <Grid container>
           <Grid item xs={6}>
-            <H6 sx={{fontWeight: 'bold'}}>{title}</H6>
+            <H6 className={classes.textStyle}>{title}</H6>
           </Grid>
           {actions && (
             <Grid item xs={6} sx={{textAlign: 'right'}}>
@@ -34,7 +52,7 @@ const ContentLayout: FC<ContentLayoutProps> = ({
 
         {props.isLoading ? contentSkeleton : children}
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

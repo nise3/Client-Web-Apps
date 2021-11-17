@@ -17,6 +17,23 @@ import VerticalLine from '../component/VerticalLine';
 import {ResultCodeAppeared, ResultCodeGrade} from '../utilities/EducationEnums';
 import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'Educations';
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 interface EducationsProps {
   educations: Array<YouthEducation> | any[];
@@ -60,14 +77,16 @@ const Educations: FC<EducationsProps> = ({
       {educations.map((education: YouthEducation) => (
         <React.Fragment key={education.id}>
           <HorizontalLine />
-          <Grid container spacing={{xs: 2, md: 3}}>
+          <StyledGrid container spacing={{xs: 2, md: 3}}>
             <Grid item xs={12} sm={8} md={9}>
               <Box sx={{display: 'flex'}}>
                 <Avatar>
                   <Verified />
                 </Avatar>
                 <Box sx={{marginLeft: '15px'}}>
-                  <Typography variant={'subtitle2'} fontWeight={'bold'}>
+                  <Typography
+                    variant={'subtitle2'}
+                    className={classes.textStyle}>
                     {education?.education_level_title}
                     {' ('}
                     {education?.exam_degree_id
@@ -191,7 +210,7 @@ const Educations: FC<EducationsProps> = ({
                 />
               </Box>
             </Grid>
-          </Grid>
+          </StyledGrid>
         </React.Fragment>
       ))}
     </React.Fragment>

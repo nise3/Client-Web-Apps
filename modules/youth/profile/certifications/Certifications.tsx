@@ -10,6 +10,23 @@ import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
 import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'Certifications';
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 interface CertificationsProps {
   certificates: Array<YouthCertificate>;
@@ -30,7 +47,7 @@ const Certifications: FC<CertificationsProps> = ({
         return (
           <React.Fragment key={certificate.id}>
             <HorizontalLine />
-            <Grid container spacing={2}>
+            <StyledGrid container spacing={2}>
               <Grid item xs={12} sm={8} md={9}>
                 <Box sx={{display: 'flex'}}>
                   {certificate.certificate_file_path ? (
@@ -48,7 +65,9 @@ const Certifications: FC<CertificationsProps> = ({
                   )}
 
                   <Box sx={{marginLeft: '15px'}}>
-                    <Typography variant={'subtitle2'}>
+                    <Typography
+                      variant={'subtitle2'}
+                      className={classes.textStyle}>
                       {certificate.certification_name}
                     </Typography>
                     <Typography variant={'caption'}>
@@ -110,7 +129,7 @@ const Certifications: FC<CertificationsProps> = ({
                   />
                 </Box>
               </Grid>
-            </Grid>
+            </StyledGrid>
           </React.Fragment>
         );
       })}

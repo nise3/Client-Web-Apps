@@ -9,6 +9,23 @@ import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthReference} from '../../../../services/youthManagement/typing';
 import TextPrimary from '../component/TextPrimary';
 import VerticalLine from '../component/VerticalLine';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'References';
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 type ReferencesProp = {
   references: Array<YouthReference> | undefined;
@@ -39,9 +56,11 @@ const References = ({
                     sx={{height: 80, width: 80}}
                   />
                 </Grid>
-                <Grid item xs={8} md={10}>
+                <StyledGrid item xs={8} md={10}>
                   <Box>
-                    <Typography variant={'subtitle2'}>
+                    <Typography
+                      variant={'subtitle2'}
+                      className={classes.textStyle}>
                       {reference?.referrer_first_name}{' '}
                       {reference?.referrer_last_name}
                     </Typography>
@@ -76,7 +95,7 @@ const References = ({
                       </Grid>
                     </Box>
                   </Box>
-                </Grid>
+                </StyledGrid>
               </Grid>
             </Grid>
             <Grid item xs={12} md={3}>
