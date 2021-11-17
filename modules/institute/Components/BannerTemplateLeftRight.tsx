@@ -80,7 +80,7 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
       <Grid item xs={12} md={6}>
         <CardMedia
           component='img'
-          image={banner?.banner_image_url}
+          image={banner?.banner_image_path}
           alt={banner?.alt_image_title}
           title={banner?.title}
         />

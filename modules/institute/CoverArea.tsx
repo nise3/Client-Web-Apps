@@ -5,7 +5,7 @@ import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import BannerTemplateCenterBackground from './Components/BannerTemplateCenterBackground';
 
 const CoverArea = () => {
-  const [sliderFilters] = useState({show_in: ShowInTypes.TSP, institute_id: 8});
+  const [sliderFilters] = useState({show_in: ShowInTypes.TSP});
   const {data: sliders} = useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
   const banners = slider?.banners;

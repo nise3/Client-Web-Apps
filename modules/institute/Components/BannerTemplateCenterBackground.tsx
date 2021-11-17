@@ -45,7 +45,7 @@ const BannerTemplateCenterBackground = ({banner}: BannerProps) => {
     <StyledBox>
       <CardMedia
         component='img'
-        image={banner?.banner_image_url}
+        image={banner?.banner_image_path}
         className={classes.image}
         alt={banner?.alt_image_title}
         title={banner?.title}
