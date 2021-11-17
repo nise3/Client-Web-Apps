@@ -17,6 +17,22 @@ const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
 // // const chkDate = new Date('2021-11-11');
 // console.log('chkDate ', toDate);
+interface ICalenderEvents {
+  id: number;
+  title: string;
+  title_en: string;
+  youth_id?: any;
+  batch_id?: any;
+  institute_id?: any;
+  organization_id?: any;
+  start_date: Date | string;
+  end_date: Date | string;
+  start_time?: any;
+  end_time?: any;
+  color: string;
+  created_at: Date;
+  updated_at: Date;
+}
 interface IQuery{
   type: string;
   youth_id?: string | number;
@@ -46,7 +62,7 @@ const EventCalendar = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
-  console.log('useAuthUser ', authUser);
+  // console.log('useAuthUser ', authUser);
   const isEditable = comProps.editable ? comProps.editable : false;
   /*const authUser = useAuthUser();*/
   // console.log('from component ', comProps.calendarFor);
@@ -68,12 +84,12 @@ const EventCalendar = (comProps: IComProps) => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
-  const [viewFilters, setViewFilters] = useState<any>(requestQuery);
-  const [eventsList, setEventsList] = useState(null);
+  const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
+  const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -119,7 +135,7 @@ const EventCalendar = (comProps: IComProps) => {
     // console.log(eventsList)
     switch (event) {
       case 'delete':
-        const newList = eventsList.filter(e => e.id != item);
+        const newList = eventsList.filter(e => e.id != item) as Array<ICalenderEvents>;
         setEventsList(newList);
         break;
       case 'create':
@@ -142,11 +158,16 @@ const EventCalendar = (comProps: IComProps) => {
 
     if (events) {
       events
-        .map(e => {
-          e.start_date = new Date(e.start_date)
-          e.end_date = new Date(e.end_date)
+        .map((e: ICalenderEvents) => {
+          // e.start_date = new Date(e.start_date)
+          // e.end_date = new Date(e.end_date)
+          const start = e.start_time ? `${e.start_date}T${e.start_time}` : `${e.start_date}`;
+          const end = e.end_time ? `${e.end_date}T${e.end_time}` : `${e.end_date}`;
+          e.start_date = new Date(start);
+          e.end_date =  new Date(end);
           return e;
-        })
+        });
+      console.log(events);
       setEventsList(events);
     }
 
