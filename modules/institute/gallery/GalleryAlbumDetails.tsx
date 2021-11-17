@@ -1,6 +1,6 @@
 import {styled} from '@mui/material/styles';
 import {
-  CardMedia,
+  Box,
   Chip,
   Container,
   Grid,
@@ -134,16 +134,18 @@ const GalleryAlbumDetails = () => {
             <H3 py={3} fontWeight={'bold'}>
               {messages['gallery_album_content.label']}
             </H3>
-            <CardMedia
-              component='img'
-              alt='Contemplative Reptile'
-              height='200'
-              image={'/images/auth-background.jpg'}
-              title='Contemplative Reptile'
-            />
-            <Typography gutterBottom variant='h4' component='h4'>
-              Title
-            </Typography>
+            <Box
+            /*   style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundImage: '/images/auth-background.jpg',
+              }}*/
+            >
+              <Typography gutterBottom variant='h4' component='h4'>
+                Title
+              </Typography>
+            </Box>
           </Paper>
         </Grid>
       </Grid>
