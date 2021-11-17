@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import {classes, StyledBox} from './index.style';
 import ContentView from '../../../../@crema/core/ContentView';
 import clsx from 'clsx';
+import Footer from '../../../../modules/home/Footer';
 
 interface HorLightNavProps {
   props?: any;
@@ -18,6 +19,7 @@ const LayoutLayout: React.FC<HorLightNavProps> = (props) => {
           <ContentView>{props.children}</ContentView>
         </Box>
       </Box>
+      <Footer />
     </StyledBox>
   );
 };

@@ -53,12 +53,14 @@ const RecentActivities = () => {
       return item.collage_position !== null;
     });
 
-    let final = recentActivitiesData
-      ?.map((item: any, i: number) => ({
+    let final = [];
+    for (let i = 0; i < 4; i++) {
+      final.push({
         collage_position: i + 1,
         collage_image_path: defaultImage,
-      }))
-      .slice(0, 4);
+      });
+    }
+
     if (data)
       for (let item of data) {
         let index = item.collage_position - 1;

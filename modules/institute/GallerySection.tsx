@@ -102,9 +102,9 @@ const GallerySection = () => {
                     sliderClass=''
                     slidesToSlide={1}
                     swipeable>
-                    {galleryItems.map((v: any, i: number) => (
+                    {galleryItems.map((galleryItem: any, i: number) => (
                       <Box key={i} className={classes.boxItem}>
-                        <GalleryItemCardView item={v} />
+                        <GalleryItemCardView item={galleryItem} />
                       </Box>
                     ))}
                   </Carousel>

@@ -7,11 +7,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import Box from '@mui/material/Box';
 import {classes, StyledBox, StyledDrawer} from './AppSidebar.style';
 import Scrollbar from '../../../../@crema/core/Scrollbar';
-import AppContext from '../../../../@crema/utility/AppContext';
 import {AppState} from '../../../../redux/store';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
+import {ThemeMode} from '../../../../shared/constants/AppEnums';
+import defaultConfig from '../../../../@crema/utility/ContextProvider/defaultConfig';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import {AppContext} from '../../../../@crema';
 
 interface AppSidebarProps {
   position?: 'left' | 'bottom' | 'right' | 'top';
@@ -22,11 +24,11 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   position = 'left',
   variant = '',
 }) => {
+  const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const dispatch = useDispatch();
   const {navCollapsed} = useSelector<AppState, AppState['settings']>(
     ({settings}) => settings,
   );
-  const {themeMode} = useContext<AppContextPropsType>(AppContext);
 
   const handleToggleDrawer = () => {
     dispatch(toggleNavCollapsed());
@@ -44,7 +46,16 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
         <StyledBox
           height='100%'
           className={clsx(classes.container, 'app-sidebar')}>
-          <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
+          <Box
+            className={sidebarClasses}
+            sx={{
+              backgroundColor:
+                themeMode === ThemeMode.SEMI_DARK
+                  ? defaultConfig.theme.palette.sidebar.bgColor
+                  : themeMode === ThemeMode.LIGHT
+                  ? 'white'
+                  : '#313541',
+            }}>
             <UserInfo />
             <Scrollbar className={classes.scrollAppSidebar}>
               <Navigation />
@@ -62,7 +73,16 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
           }}
           style={{position: 'absolute'}}>
           <Box height='100%' className={classes.container}>
-            <Box className={clsx(classes.sidebarBg, sidebarClasses)}>
+            <Box
+              className={sidebarClasses}
+              sx={{
+                backgroundColor:
+                  themeMode === ThemeMode.SEMI_DARK
+                    ? defaultConfig.theme.palette.sidebar.bgColor
+                    : themeMode === ThemeMode.LIGHT
+                    ? 'white'
+                    : '#313541',
+              }}>
               <UserInfo />
               <Scrollbar className={classes.drawerScrollAppSidebar}>
                 <Navigation />

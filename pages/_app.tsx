@@ -4,7 +4,6 @@ import {AppContext, AppInitialProps, AppProps} from 'next/app';
 import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
 import ContextProvider from '../@crema/utility/ContextProvider';
-import CremaThemeProvider from '../@crema/utility/CremaThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
@@ -16,18 +15,17 @@ import '../styles/index.css';
 import '../@crema/services/index';
 import {SWRConfig} from 'swr';
 import {CookiesProvider} from 'react-cookie';
+import {createTheme, ThemeProvider} from '@mui/material';
+
+let theme = createTheme({
+  shape: {
+    borderRadius: 4,
+  },
+});
 
 const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
   ({Component, pageProps}: any) => {
     const store = useStore(pageProps.initialReduxState);
-
-    React.useEffect(() => {
-      // Remove the server-side injected CSS.
-      const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles) {
-        jssStyles.parentElement?.removeChild(jssStyles);
-      }
-    }, []);
 
     return (
       <React.Fragment>
@@ -43,7 +41,7 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                   revalidateOnFocus: false,
                   revalidateOnReconnect: false,
                 }}>
-                <CremaThemeProvider>
+                <ThemeProvider theme={theme}>
                   <LocaleProvider>
                     <AuthRoutes>
                       <CssBaseline />
@@ -57,7 +55,7 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                       </SnackbarProvider>
                     </AuthRoutes>
                   </LocaleProvider>
-                </CremaThemeProvider>
+                </ThemeProvider>
               </SWRConfig>
             </Provider>
           </ContextProvider>

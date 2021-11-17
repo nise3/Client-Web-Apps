@@ -1,25 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ImageCarousel from '../../@softbd/elements/display/ImageCarousel/ImageCarousel';
-
-const images = [
-  '/images/institute/cover1.jpg',
-  '/images/institute/cover2.jpg',
-  '/images/institute/cover3.jpg',
-];
-
-const headings = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-];
+import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
+import BannerTemplateCenterBackground from './Components/BannerTemplateCenterBackground';
 
 const CoverArea = () => {
-  return (
-    <>
-      <ImageCarousel images={images} headings={headings} />
-    </>
+  const [sliderFilters] = useState({show_in: ShowInTypes.TSP});
+  const {data: sliders} = useFetchPublicSliders(sliderFilters);
+  const slider = sliders?.[0];
+  const banners = slider?.banners;
+  const NumberOfBanners = banners?.length;
+  console.log('banners', banners);
+
+  return NumberOfBanners == 1 ? (
+    <BannerTemplateCenterBackground banner={banners[0]} />
+  ) : banners && NumberOfBanners > 1 ? (
+    <ImageCarousel banners={banners} />
+  ) : (
+    <></>
   );
 };
 

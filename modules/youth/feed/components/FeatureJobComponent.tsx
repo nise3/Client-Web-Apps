@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
+import {Avatar, Box, Card, Grid} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {useIntl} from 'react-intl';
+import {Star} from '@mui/icons-material';
 
 const PREFIX = 'FeatureJobComponent';
 
@@ -10,6 +10,7 @@ const classes = {
   jobProviderImage: `${PREFIX}-jobProviderImage`,
   tagStyle: `${PREFIX}-tagStyle`,
   jobTitle: `${PREFIX}-jobTitle`,
+  starStyle: `${PREFIX}-starStyle`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -24,17 +25,25 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
 
   [`& .${classes.tagStyle}`]: {
-    color: '#fca67e',
+    color: theme.palette.warning.main,
     position: 'absolute',
-    top: 10,
-    right: 10,
-    borderRadius: 4,
-    height: 25,
-    background: '#fff2ed',
-    borderColor: '#fdab85',
+    top: 14,
+    right: 9,
+    borderRadius: '50%',
+    height: 21,
+    width: 21,
+    background: '#FEF0EA',
     '& .MuiChip-label': {
       padding: '0px 5px',
     },
+  },
+
+  [`& .${classes.starStyle}`]: {
+    height: '13px',
+    width: '13px',
+    position: 'absolute',
+    top: 4,
+    left: 4,
   },
 
   [`& .${classes.jobTitle}`]: {
@@ -55,8 +64,6 @@ interface FeatureJobProps {
 }
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
-  const {messages} = useIntl();
-
   return (
     <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
@@ -67,18 +74,22 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
             src={data.imageUrl}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <Box className={classes.jobTitle} title={data.jobTitle}>
             {data.jobTitle}
           </Box>
           <Box>{data.jobProviderName}</Box>
         </Grid>
         <Grid item>
-          <Chip
+          {/*<Chip
             variant='outlined'
             label={messages['common.featured']}
             className={classes.tagStyle}
-          />
+
+          />*/}
+          <div className={classes.tagStyle}>
+            <Star className={classes.starStyle} />
+          </div>
         </Grid>
       </Grid>
     </StyledCard>

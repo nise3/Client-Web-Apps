@@ -10,6 +10,7 @@ const classes = {
 
 const StyledButton = styled(Button)(({theme}) => ({
   borderRadius: 40,
+  padding: '5px 20px',
 
   [`& .${classes.shrinking}`]: {
     fontSize: 0,

@@ -1,12 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Hidden from '@mui/material/Hidden';
 import clsx from 'clsx';
 import {useDispatch, useSelector} from 'react-redux';
 import Box from '@mui/material/Box';
 import {classes, StyledDrawer} from './AppSidebar.style';
 import {AppState} from '../../../../redux/store';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import {AppContext, Scrollbar} from '../../../../@crema';
+import {Scrollbar} from '../../../../@crema';
 import {toggleNavCollapsed} from '../../../../redux/actions';
 import UserInfo from '../../../../shared/components/UserInfo';
 import Navigation from '../../../../@crema/core/Navigation/VerticleNav';
@@ -24,7 +23,6 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   const {navCollapsed} = useSelector<AppState, AppState['settings']>(
     ({settings}) => settings,
   );
-  const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const handleToggleDrawer = () => {
     dispatch(toggleNavCollapsed());
   };

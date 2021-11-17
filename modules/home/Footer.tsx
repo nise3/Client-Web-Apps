@@ -62,7 +62,7 @@ const Footer = () => {
             </Typography>
             <Typography gutterBottom={true}>
               <Box component={'span'} mt={2}>
-                যোগাযোগ
+                {messages['common.contact']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
@@ -79,7 +79,7 @@ const Footer = () => {
             </Typography>
             <Typography gutterBottom={true}>
               <Box component={'span'} mt={2}>
-                জীবনবৃত্তান্ত এডিট
+                {messages['footer.bio_edit']}
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
@@ -93,7 +93,7 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href={'/faq'} component={'span'} mt={2}>
+              <Link href={'/faqs'} component={'span'} mt={2}>
                 {messages['footer.faq']}
               </Link>
             </Typography>

@@ -102,6 +102,8 @@ export const API_PUBLIC_GALLERY_ALBUMS =
   CMS_SERVICE_PUBLIC_PATH + '/gallery-albums';
 export const API_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PATH + '/gallery-images-videos';
+export const API_PUBLIC_GALLERY_ALBUM_CONTENTS =
+  CMS_SERVICE_PUBLIC_PATH + '/gallery-images-videos';
 export const API_FRONT_END_GALLERY = CMS_SERVICE_PATH + '/gallery';
 export const API_FRONT_END_GALLERY_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/gallery-category';
@@ -169,6 +171,7 @@ export const API_VISITOR_FEEDBACKS =
 export const API_STATIC_PAGES = CMS_SERVICE_PATH + '/static-pages';
 export const API_FRONT_END_STATIC_PAGES =
   CMS_SERVICE_PUBLIC_PATH + '/static-pages';
+export const PUBLIC_API_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
 
 /** Routes for calendar events */
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';

@@ -66,12 +66,15 @@ const StyledBox = styled(Box)(({theme}) => ({
       },
     },
   },
+  [`& .${classes.textWhite}`]: {
+    color: 'white',
+  },
+}));
 
-  [`& .${classes.rightSidebar}`]: {
-    width: 300,
-    [theme.breakpoints.up('xl')]: {
-      width: 400,
-    },
+const StyledScrollbar = styled(Scrollbar)(({theme}) => ({
+  width: 300,
+  [theme.breakpoints.up('xl')]: {
+    width: 400,
   },
 
   [`& .${classes.rightSidebarHeader}`]: {
@@ -154,7 +157,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.primary.main,
     borderColor: theme.palette.primary.main,
-    '&:not(:first-child)': {
+    '&:not(:first-of-type)': {
       borderColor: theme.palette.primary.main,
     },
     [theme.breakpoints.up('xl')]: {
@@ -191,10 +194,6 @@ const StyledBox = styled(Box)(({theme}) => ({
     width: '100%',
   },
 
-  [`& .${classes.textWhite}`]: {
-    color: 'white',
-  },
-
   [`& .${classes.mb5}`]: {
     marginBottom: 20,
   },
@@ -203,6 +202,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 interface ThemeSettingProps {
   props?: any;
 }
+
 const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
   const [open, setCustomizerStatus] = useState(false);
   const [themeColor, setThemeColor] = useState('preset');
@@ -263,7 +263,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
         className={layoutType === LayoutType.BOXED ? 'boxed-drawer' : ''}
         open={open}
         onClose={() => setCustomizerStatus(false)}>
-        <Scrollbar className={classes.rightSidebar}>
+        <StyledScrollbar>
           <Box className={classes.rightSidebarHeader}>
             <Box component='h3' mb={0.5} fontSize={18}>
               <IntlMessages id='customizer.customiseTheme' />
@@ -390,7 +390,7 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
               )}
             </Box>
           </Box>
-        </Scrollbar>
+        </StyledScrollbar>
       </Drawer>
     </StyledBox>
   );
