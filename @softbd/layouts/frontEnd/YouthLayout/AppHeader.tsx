@@ -18,6 +18,7 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
 import {NavLink as Link} from '../../../elements/common';
+import CalendarViewMonth from '@mui/icons-material/CalendarViewMonth';
 import {
   LINK_FRONTEND_YOUTH_CALENDAR,
   LINK_FRONTEND_YOUTH_FEED,
@@ -101,7 +102,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_YOUTH_CALENDAR}>
-          <LocalActivityIcon className={classes.menuIcons} />{' '}
+          <CalendarViewMonth className={classes.menuIcons} />{' '}
           {messages['menu.calendar']}
         </Link>
       </MenuItem>
@@ -178,7 +179,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_YOUTH_CALENDAR}>
-                    <LocalActivityIcon
+                    <CalendarViewMonth
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}

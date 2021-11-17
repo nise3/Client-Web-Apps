@@ -7,7 +7,8 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {classes, StyledAppBar} from './AppHeader.style';
-import {ExitToApp, LocalActivityOutlined} from '@mui/icons-material';
+import {ExitToApp, LocalActivityOutlined, CalendarViewMonth} from '@mui/icons-material';
+// import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import {Button, Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
@@ -96,7 +97,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_CALENDAR}>
-          <LocalActivityOutlined className={classes.menuIcons} />
+          <CalendarViewMonth className={classes.menuIcons} />
           {messages['menu.calendar']}
         </Link>
       </MenuItem>
@@ -166,7 +167,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_CALENDAR}>
-                    <LocalActivityOutlined
+                    <CalendarViewMonth
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
