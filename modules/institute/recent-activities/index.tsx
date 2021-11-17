@@ -70,13 +70,13 @@ const RecentActivities = () => {
     let data = recentActivitiesFetchedMasonryData?.filter((item: any) => {
       return item.collage_position !== null;
     });
-
-    let final = recentActivitiesFetchedMasonryData
-      ?.map((item: any, i: number) => ({
+    let final = [];
+    for (let i = 0; i < 4; i++) {
+      final.push({
         collage_position: i + 1,
         collage_image_path: defaultImage,
-      }))
-      .slice(0, 4);
+      });
+    }
     if (data) {
       for (let item of data) {
         let index = item.collage_position - 1;
@@ -152,20 +152,23 @@ const RecentActivities = () => {
             display={'flex'}>
             {messages['all_activities.institute']}
           </Typography>
-          {recentActivitiesFetchedData?.length && (
-            <Grid container spacing={5}>
-              {recentActivitiesFetchedData?.map((data: any) => (
-                <Grid
-                  item
-                  md={3}
-                  justifyContent={'center'}
-                  mt={3}
-                  key={data.id}>
-                  <RecentActivityCardView activity={data} />
-                </Grid>
-              ))}
-            </Grid>
-          )}
+          {recentActivitiesFetchedData &&
+            recentActivitiesFetchedData?.length > 0 && (
+              <Grid container spacing={5}>
+                {recentActivitiesFetchedData?.map((data: any) => (
+                  <Grid
+                    item
+                    md={3}
+                    justifyContent={'center'}
+                    mt={3}
+                    key={data.id}>
+                    {data.collage_position == null && (
+                      <RecentActivityCardView activity={data} />
+                    )}
+                  </Grid>
+                ))}
+              </Grid>
+            )}
         </Grid>
       </Grid>
       {metaData && metaData.total_page && metaData.total_page > 1 && (
