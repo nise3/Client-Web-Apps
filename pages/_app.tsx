@@ -15,13 +15,7 @@ import '../styles/index.css';
 import '../@crema/services/index';
 import {SWRConfig} from 'swr';
 import {CookiesProvider} from 'react-cookie';
-import {createTheme, ThemeProvider} from '@mui/material';
-
-let theme = createTheme({
-  shape: {
-    borderRadius: 4,
-  },
-});
+import DefaultThemeProvider from '../@softbd/layouts/themes/default/DefaultThemeProvider';
 
 const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
   ({Component, pageProps}: any) => {
@@ -41,8 +35,8 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                   revalidateOnFocus: false,
                   revalidateOnReconnect: false,
                 }}>
-                <ThemeProvider theme={theme}>
-                  <LocaleProvider>
+                <LocaleProvider>
+                  <DefaultThemeProvider>
                     <AuthRoutes>
                       <CssBaseline />
                       <SnackbarProvider
@@ -54,8 +48,8 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                         <Component {...pageProps} />
                       </SnackbarProvider>
                     </AuthRoutes>
-                  </LocaleProvider>
-                </ThemeProvider>
+                  </DefaultThemeProvider>
+                </LocaleProvider>
               </SWRConfig>
             </Provider>
           </ContextProvider>
