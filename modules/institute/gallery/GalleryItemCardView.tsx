@@ -30,9 +30,10 @@ function GalleryItemCardView({item}: any) {
               alt={item?.image_alt_title}
               title={item?.title}
             />
+
             <CardContent>
               <Typography gutterBottom variant='body1' component='div'>
-                {item?.content}
+                {item?.title}
               </Typography>
             </CardContent>
           </CardActionArea>

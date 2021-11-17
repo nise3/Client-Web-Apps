@@ -5,35 +5,34 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   Chip,
   Container,
   Grid,
   IconButton,
+  InputBase,
   Pagination,
   Paper,
+  Skeleton,
+  Stack,
   Typography,
 } from '@mui/material';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {useEffect, useMemo, useState} from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {yupResolver} from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
-import yup from '../../../@softbd/libs/yup';
 import {H3, Link} from '../../../@softbd/elements/common';
-import {
-  useFetchInstitutesVideoCategory,
-  useFetchInstitutesVideos,
-} from '../../../services/instituteManagement/hooks';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useRouter} from 'next/router';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import {
+  useFetchPublicGalleryAlbumContents,
+  useFetchPublicGalleryAlbums,
+} from '../../../services/cmsManagement/hooks';
+import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 
 const PREFIX = 'InstituteVideos';
 
 const classes = {
   resetButton: `${PREFIX}-resetButton`,
+  cardTitle: `${PREFIX}-cardTitle`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -42,6 +41,11 @@ const StyledContainer = styled(Container)(({theme}) => ({
       paddingLeft: '3% !important',
     },
   },
+  [`& .${classes.cardTitle}`]: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 }));
 
 const InstituteVideos = () => {
@@ -49,77 +53,57 @@ const InstituteVideos = () => {
 
   const router = useRouter();
   const path = router.pathname;
-
-  const {data: videoItems} = useFetchInstitutesVideos();
-
-  const {data: videoCategoryData, isLoading: isLoadingVideoCategory} =
-    useFetchInstitutesVideoCategory();
-
-  const [filteredVideoItems, setFilteredVideoItems] = useState([]);
-
-  useEffect(() => {
-    setFilteredVideoItems(videoItems);
-  }, [videoItems]);
-
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      video_category_id: yup
-        .string()
-        .label(messages['recipient.institute'] as string),
-      video_id: yup.string().label(messages['common.name'] as string),
-    });
-  }, [messages]);
-
-  const {
-    reset,
-    control,
-    getValues,
-    register,
-    handleSubmit,
-    formState: {isSubmitting},
-  } = useForm({
-    resolver: yupResolver(validationSchema),
+  const inputFieldRef = useRef<any>();
+  const page = useRef<any>(1);
+  const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');
+  const [videoAlbumContentFilter, setVideoAlbumContentFilter] = useState<any>({
+    album_type: 2,
+    page: 1,
+    page_size: 8,
   });
+  const {
+    data: videoAlbumContents,
+    isLoading: isLoadingVideoContents,
+    metaData,
+  } = useFetchPublicGalleryAlbumContents(videoAlbumContentFilter);
 
-  const onResetClicked = () => {
-    setFilteredVideoItems(videoItems);
-  };
+  const [videoAlbumFilter] = useState<any>({
+    album_type: 2,
+  });
+  const {data: videoAlbums, isLoading: isLoadingVideoAlbums} =
+    useFetchPublicGalleryAlbums(videoAlbumFilter);
 
-  useEffect(() => {
-    reset({
-      video_category_id: '',
-      video_id: '',
+  const onResetClicked = useCallback(() => {
+    setVideoAlbumContentFilter({
+      album_type: 2,
+      page: 1,
+      page_size: 8,
     });
-  }, [reset]);
+    setSelectedVideoAlbumId('');
+  }, [selectedVideoAlbumId]);
 
-  const filterVideosByInput = ({video_category_id, video_id}: any) => {
-    if (video_category_id?.length == 0 && video_id?.length == 0) {
-      setFilteredVideoItems(videoItems);
-    } else {
-      setFilteredVideoItems(
-        videoItems?.filter((item: any) =>
-          video_id
-            ? item.id == video_id
-            : item.video_category_id == video_category_id,
-        ),
-      );
-    }
-  };
-
-  const onChangeCategory = () => {
-    filterVideosByInput({
-      video_category_id: getValues('video_category_id'),
-      video_id: '',
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setVideoAlbumContentFilter((params: any) => {
+      return {...params, ...{page: currentPage}};
     });
-  };
+  }, []);
+  const onChangeVideoAlbum = useCallback(
+    (videoAlbumId: number | null) => {
+      setSelectedVideoAlbumId(videoAlbumId);
+      setVideoAlbumContentFilter({
+        gallery_album_id: videoAlbumId,
+        album_type: 2,
+      });
+    },
+    [selectedVideoAlbumId],
+  );
 
-  const onSearch: SubmitHandler<any> = async (data: any) => {
-    let filter = filteredVideoItems?.filter((item: any) =>
-      item.title.toLowerCase().includes(data.title),
-    );
-    let newArr = [...filter];
-    setFilteredVideoItems(newArr);
-  };
+  const onSearch = useCallback(() => {
+    /* setGalleryContentFilter((params: any) => {
+      return {...params, ...{search_text: inputFieldRef.current?.value}};
+    });*/
+  }, []);
 
   return (
     <>
@@ -147,15 +131,15 @@ const InstituteVideos = () => {
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
-                <CustomFormSelect
-                  id='video_category_id'
-                  label={messages['video_category.institute']}
-                  isLoading={isLoadingVideoCategory}
-                  control={control}
+                <CustomFilterableSelect
+                  id='video_album_id'
+                  label={messages['common.video_album']}
+                  defaultValue={selectedVideoAlbumId}
+                  isLoading={isLoadingVideoAlbums}
                   optionValueProp={'id'}
-                  options={videoCategoryData}
-                  optionTitleProp={['video_category']}
-                  onChange={onChangeCategory}
+                  options={videoAlbums}
+                  optionTitleProp={['title']}
+                  onChange={onChangeVideoAlbum}
                 />
               </Grid>
               <Grid item xs={12} md={1} className={classes.resetButton}>
@@ -167,37 +151,59 @@ const InstituteVideos = () => {
                 </Button>
               </Grid>
               <Grid item xs={12} md={4} style={{position: 'relative'}}>
-                <form onSubmit={handleSubmit(onSearch)}>
-                  <CustomTextInput
-                    id='title'
-                    label={messages['common.search']}
-                    register={register}
+                <Paper
+                  style={{
+                    display: 'flex',
+                    width: 200,
+                  }}>
+                  <InputBase
+                    size={'small'}
+                    style={{
+                      paddingLeft: '20px',
+                    }}
+                    placeholder={messages['common.search'] as string}
+                    inputProps={{'aria-label': 'Search'}}
+                    inputRef={inputFieldRef}
+                    onKeyDown={(event) => {
+                      if (event.code == 'Enter') onSearch();
+                    }}
                   />
                   <IconButton
-                    sx={{position: 'absolute', right: 0}}
-                    type={'submit'}
-                    disabled={isSubmitting}>
+                    sx={{p: '5px'}}
+                    aria-label='search'
+                    onClick={onSearch}>
                     <SearchIcon />
                   </IconButton>
-                </form>
+                </Paper>
               </Grid>
             </Grid>
           </Grid>
-          {filteredVideoItems?.length > 0 ? (
+
+          {isLoadingVideoContents ? (
+            <Grid
+              item
+              xs={12}
+              sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+              <Skeleton variant='rectangular' width={'22%'} height={140} />
+            </Grid>
+          ) : videoAlbumContents && videoAlbumContents?.length > 0 ? (
             <Grid item md={12} mt={{xs: 4, md: 5}}>
               <Grid container>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant='h6'>
                     {messages['total_result.institute']}{' '}
                     <Chip
-                      label={filteredVideoItems?.length}
+                      label={videoAlbumContents?.length}
                       color={'primary'}
                     />
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container spacing={5}>
-                    {filteredVideoItems?.map((data: any) => {
+                    {videoAlbumContents?.map((data: any) => {
                       return (
                         <Grid
                           item
@@ -208,19 +214,23 @@ const InstituteVideos = () => {
                           <Link href={`${path}/${data.id}`}>
                             <Card>
                               <CardActionArea>
-                                <CardMedia
-                                  component='img'
+                                <iframe
+                                  width='100%'
                                   height='140'
-                                  image={data.image_url}
-                                  title={data?.title}
-                                  alt={data?.title}
+                                  src={data?.video_url}
+                                  frameBorder='0'
+                                  /* src={
+                                    'https://www.youtube.com/embed/2JyW4yAyTl0?autoplay=1'
+                                  }*/
+                                  style={{marginBottom: '-8px'}}
                                 />
                                 <CardContent>
                                   <Typography
                                     gutterBottom
+                                    className={classes.cardTitle}
                                     variant='body1'
                                     component='div'>
-                                    {data?.content}
+                                    {data?.title}
                                   </Typography>
                                 </CardContent>
                               </CardActionArea>
@@ -238,7 +248,15 @@ const InstituteVideos = () => {
           )}
 
           <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
-            <Pagination count={3} variant='outlined' shape='rounded' />
+            <Stack spacing={2}>
+              <Pagination
+                page={page.current}
+                count={metaData.total_page}
+                color={'primary'}
+                shape='rounded'
+                onChange={onPaginationChange}
+              />
+            </Stack>
           </Grid>
         </Grid>
       </StyledContainer>
