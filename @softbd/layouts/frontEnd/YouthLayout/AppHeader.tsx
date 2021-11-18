@@ -187,22 +187,15 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     {messages['menu.recent_activity']}
                   </Link>
                 </Box>
-                <Box component='span' className={classes.menuItem}>
-<<<<<<< HEAD
-                  <Link
-                    href={LINK_FRONTEND_YOUTH_CALENDAR}
-                    className={classes.navTextColor}>
-                    <LocalActivityIcon
-=======
+                {/* <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_YOUTH_CALENDAR}>
                     <CalendarViewMonth
->>>>>>> css-fix/nise-theme
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
                     />{' '}
                     {messages['menu.calendar']}
                   </Link>
-                </Box>
+                </Box> */}
                 {/*<Notifications />*/}
                 <LanguageSwitcher />
               </Box>

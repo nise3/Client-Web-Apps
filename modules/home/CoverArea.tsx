@@ -144,9 +144,9 @@ const CoverArea = () => {
           <Grid container>
             <Grid item xs={8} mt={{xs: 5, md: 8}}>
               <Fade direction='up'>
-                <H1 style={{lineHeight: '62px'}}>
+                <H3 style={{lineHeight: '62px'}}>
                   {messages['landing.text_find_job_here']}
-                </H1>
+                </H3>
               </Fade>
             </Grid>
           </Grid>

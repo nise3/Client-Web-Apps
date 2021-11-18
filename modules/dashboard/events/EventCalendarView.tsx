@@ -41,7 +41,6 @@ interface IQuery {
 }
 interface IComProps {
   calendarFor: string;
-  editable: boolean;
 }
 // const events1 = [
 //   {
@@ -59,17 +58,18 @@ interface IComProps {
 // ];
 
 // const EventCalendar = ({calendarFor: string, editable: boolean}) => {
-const EventCalendar = (comProps: IComProps) => {
+const EventCalendarView = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
   // console.log('useAuthUser ', authUser);
-  const isEditable = comProps.editable ? comProps.editable : false;
+  // const isEditable = comProps.editable ? comProps.editable : false;
   /*const authUser = useAuthUser();*/
   // console.log('from component ', comProps.calendarFor);
   let requestQuery: IQuery = {
     type: 'month'
   }
+  
   switch (comProps.calendarFor) {
     case 'youth':
       requestQuery.youth_id = authUser?.youthId;
@@ -83,25 +83,25 @@ const EventCalendar = (comProps: IComProps) => {
 
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+  // const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+  // const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
 
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  // const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
-  }, []);
+  // const closeAddEditModal = useCallback(() => {
+  //   setIsOpenAddEditModal(false);
+  //   setSelectedItemId(null);
+  // }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  // const openAddEditModal = useCallback((itemId: number | null = null) => {
+  //   setIsOpenDetailsModal(false);
+  //   setIsOpenAddEditModal(true);
+  //   setSelectedItemId(itemId);
+  // }, []);
 
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
@@ -112,40 +112,40 @@ const EventCalendar = (comProps: IComProps) => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteEventItem = async (itemId: number) => {
-    let response = await deleteEvent(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{ subject: <IntlMessages id='user.label' /> }}
-        />,
-      );
-    }
-  };
+  // const deleteEventItem = async (itemId: number) => {
+  //   let response = await deleteEvent(itemId);
+  //   if (isResponseSuccess(response)) {
+  //     successStack(
+  //       <IntlMessages
+  //         id='common.subject_deleted_successfully'
+  //         values={{ subject: <IntlMessages id='user.label' /> }}
+  //       />,
+  //     );
+  //   }
+  // };
 
 
   let { data: events } = useFetchCalenderEvents(viewFilters);
   // events = addPropToEventlist(events);
 
 
-  const refreshDataTable = useCallback((event, item) => {
-    switch (event) {
-      case 'delete':
-        const newList = eventsList.filter(e => e.id != item) as Array<ICalenderEvents>;
-        setEventsList(newList);
-        break;
-      case 'create':
-        setEventsList([item, ...eventsList]);
-        break;
-      default:
-      case 'update':
-        const excludeItemFromList = eventsList.filter(e => e.id != item.id);
-        setEventsList([item, ...excludeItemFromList]);
-        break;
-    }
+  // const refreshDataTable = useCallback((event, item) => {
+  //   switch (event) {
+  //     case 'delete':
+  //       const newList = eventsList.filter(e => e.id != item) as Array<ICalenderEvents>;
+  //       setEventsList(newList);
+  //       break;
+  //     case 'create':
+  //       setEventsList([item, ...eventsList]);
+  //       break;
+  //     default:
+  //     case 'update':
+  //       const excludeItemFromList = eventsList.filter(e => e.id != item.id);
+  //       setEventsList([item, ...excludeItemFromList]);
+  //       break;
+  //   }
 
-  }, [eventsList]);
+  // }, [eventsList]);
 
   useEffect(() => {
     if (events) {
@@ -163,14 +163,7 @@ const EventCalendar = (comProps: IComProps) => {
 
   }, [events])
 
-  const onSelectSlot = (e: any) => {
-    setSelectedStartDate(e.start);
-    setSelectedEndDate(e.end);
-    openAddEditModal(e.id);
-  };
   const onSelectEvent = (e: any) => {
-    // console.log('onSelectEvent ', e);
-    // openAddEditModal(e.id);
     openDetailsModal(e.id);
   };
 
@@ -180,42 +173,17 @@ const EventCalendar = (comProps: IComProps) => {
         <Calendar
           events={eventsList}
           // events={events1}
-          selectable={isEditable}
           localizer={localizer}
           style={{ height: '100vh' }}
           startAccessor="start_date"
           endAccessor="end_date"
           defaultDate={moment().toDate()}
           onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
-          onNavigate={(e: any) => console.log('onNavigate ', e)}
           onSelectEvent={onSelectEvent}
-          onSelectSlot={onSelectSlot}
         />
-
-
-
-
-        {isOpenAddEditModal && (
-          <CalendarAddEditPopup
-            key={1}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            startDate={selectedStartDate}
-            endDate={selectedEndDate}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
-        {comProps.editable && isOpenDetailsModal && selectedItemId && (
-          <EventCalendarDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-          />
-        )}
       </Grid>
     </>
   );
 };
 
-export default EventCalendar;
+export default EventCalendarView;

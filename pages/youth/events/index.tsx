@@ -1,30 +1,21 @@
-import asyncComponent from '../../../@crema/utility/asyncComponent';
 import React from 'react';
 import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
-import messages from '../../../@crema/services/db/messages/messages';
 import PageMeta from '../../../@crema/core/PageMeta';
+import asyncComponent from '../../../@crema/utility/asyncComponent';
+import {useIntl} from 'react-intl';
+// import YouthCalendarPage from '../../../modules/youth/feed/YouthCalendar';
 
-const EventCalendarPage = asyncComponent(
-  () => import('../../../modules/dashboard/events/EventCalendar'),
+const YouthCalendarPage = asyncComponent(
+  () => import('../../../modules/youth/feed/YouthCalendar'),
 );
-// export default DashboardPage(() => {
-//   const {messages} = useIntl();
-//   const router = useRouter();
-//   // console.log(router.query);
 
-//   return (
-//     <>
-//       <PageMeta title={messages['menu.faq'] as string} />
-//       <EventCalendarPage calendarFor="youth" />
-//     </>
-//   );
-// });
 
 export default YouthFrontPage(() => {
+  const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
-      <EventCalendarPage calendarFor='youth' />
+      <PageMeta title={messages['menu.calendar'] as string} />
+      <YouthCalendarPage/>
     </>
   );
 });
