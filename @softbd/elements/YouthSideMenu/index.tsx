@@ -20,6 +20,7 @@ import {
 import {useIntl} from 'react-intl';
 import {Link} from '../common';
 import {
+  LINK_FRONTEND_YOUTH_CALENDAR,
   LINK_FRONTEND_YOUTH_FREELANCE_CORNER,
   LINK_FRONTEND_YOUTH_MY_COURSES,
   LINK_FRONTEND_YOUTH_MY_CV,
@@ -83,7 +84,7 @@ const SideMenu: any = () => {
           </MenuItem>
         </Link>
         <Divider />
-        <Link href={LINK_FRONTEND_YOUTH_ROOT}>
+        <Link href={LINK_FRONTEND_YOUTH_CALENDAR}>
           <MenuItem>
             <ListItemIcon>
               <Today />

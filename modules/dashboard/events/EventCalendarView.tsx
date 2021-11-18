@@ -28,10 +28,10 @@ interface ICalenderEvents {
   organization_id?: any;
   start_date: Date | string;
   end_date: Date | string;
+  // start?: Date  | string;
+  // end?: Date  | string;
   start_time?: any;
   end_time?: any;
-  start?: any;
-  end?: any;
   color: string;
   created_at: Date;
   updated_at: Date;
@@ -43,54 +43,67 @@ interface IQuery {
 }
 interface IComProps {
   calendarFor: string;
-  editable: boolean;
 }
+// const events1 = [
+//   {
+//     id: "1",
+//     start: new Date('2021-11-08'),
+//     end: new Date('2021-11-08'),
+//     title: 'Partners'
+//   },
+//   // {
+//   //   id: "2",
+//   //   start: '2021-11-09',
+//   //   end: '2021-11-11',
+//   //   title: 'Event Project'
+//   // }
+// ];
 
-const EventCalendar = (comProps: IComProps) => {
+// const EventCalendar = ({calendarFor: string, editable: boolean}) => {
+const EventCalendarView = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
-  console.log('useAuthUser ', authUser);
-  const isEditable = comProps.editable ? comProps.editable : false;
-  
+  // console.log('useAuthUser ', authUser);
+  // const isEditable = comProps.editable ? comProps.editable : false;
+  /*const authUser = useAuthUser();*/
+  // console.log('from component ', comProps.calendarFor);
   let requestQuery: IQuery = {
     type: 'month'
   }
-  if(authUser?.isInstituteUser){
-    requestQuery.institute_id = authUser.institute_id;
+  
+  switch (comProps.calendarFor) {
+    case 'youth':
+      // requestQuery.youth_id = authUser?.youthId;
+      break;
+    case 'institute':
+      requestQuery.institute_id = authUser?.institute_id;
+      break
+    default:
+      break;
   }
-  // switch (comProps.calendarFor) {
-  //   case 'youth':
-  //     requestQuery.youth_id = authUser?.youthId;
-  //     break;
-  //   case 'institute':
-  //     requestQuery.institute_id = authUser?.institute_id;
-  //     break
-  //   default:
-  //     break;
-  // }
 
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+  // const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+  // const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
 
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  // const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
-  }, []);
+  // const closeAddEditModal = useCallback(() => {
+  //   setIsOpenAddEditModal(false);
+  //   setSelectedItemId(null);
+  // }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  // const openAddEditModal = useCallback((itemId: number | null = null) => {
+  //   setIsOpenDetailsModal(false);
+  //   setIsOpenAddEditModal(true);
+  //   setSelectedItemId(itemId);
+  // }, []);
 
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
@@ -101,42 +114,40 @@ const EventCalendar = (comProps: IComProps) => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteEventItem = async (itemId: number) => {
-    let response = await deleteEvent(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{ subject: <IntlMessages id='user.label' /> }}
-        />,
-      );
-    }
-  };
+  // const deleteEventItem = async (itemId: number) => {
+  //   let response = await deleteEvent(itemId);
+  //   if (isResponseSuccess(response)) {
+  //     successStack(
+  //       <IntlMessages
+  //         id='common.subject_deleted_successfully'
+  //         values={{ subject: <IntlMessages id='user.label' /> }}
+  //       />,
+  //     );
+  //   }
+  // };
 
 
   let { data: events } = useFetchCalenderEvents(viewFilters);
   // events = addPropToEventlist(events);
 
 
-  const refreshDataTable = useCallback((event, item) => {
-    switch (event) {
-      case 'delete':
-        const newList = eventsList.filter(e => e.id != item) as Array<ICalenderEvents>;
-        setEventsList(newList);
-        break;
-      case 'create':
-        setEventsList([item, ...eventsList]);
-        break;
-      default:
-      case 'update':
-        const excludeItemFromList = eventsList.filter(e => e.id != item.id);
-        setEventsList([item, ...excludeItemFromList]);
-        break;
-    }
+  // const refreshDataTable = useCallback((event, item) => {
+  //   switch (event) {
+  //     case 'delete':
+  //       const newList = eventsList.filter(e => e.id != item) as Array<ICalenderEvents>;
+  //       setEventsList(newList);
+  //       break;
+  //     case 'create':
+  //       setEventsList([item, ...eventsList]);
+  //       break;
+  //     default:
+  //     case 'update':
+  //       const excludeItemFromList = eventsList.filter(e => e.id != item.id);
+  //       setEventsList([item, ...excludeItemFromList]);
+  //       break;
+  //   }
 
-  }, [eventsList]);
-
-  
+  // }, [eventsList]);
 
   useEffect(() => {
     if(events){
@@ -148,15 +159,14 @@ const EventCalendar = (comProps: IComProps) => {
   }, [events])
 
   useEffect(() => {
-    
     if (events) {
       events
-        .map((e: ICalenderEvents) => {
+        .map((e: any) => {
           const start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
           const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
           e.start = new Date(start);
           e.end = new Date(end);
-          return e
+          return e;
         });
       console.log(events);
       setEventsList(events);
@@ -164,60 +174,26 @@ const EventCalendar = (comProps: IComProps) => {
 
   }, [events])
 
-  const onSelectSlot = (e: any) => {
-    setSelectedStartDate(e.start);
-    setSelectedEndDate(e.end);
-    openAddEditModal(e.id);
-  };
   const onSelectEvent = (e: any) => {
-    // console.log('onSelectEvent ', e);
-    // openAddEditModal(e.id);
     openDetailsModal(e.id);
   };
 
   return (
     <>
-      <Grid item xs={12} md={12}>
+      <Grid item xs={12} md={12} style={{paddingTop: 20}}>
         <Calendar
           events={eventsList}
-          // events={events1}
-          selectable={isEditable}
           localizer={localizer}
           style={{ height: '100vh' }}
           startAccessor="start"
           endAccessor="end"
           defaultDate={moment().toDate()}
           onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
-          onNavigate={(e: any) => console.log('onNavigate ', e)}
           onSelectEvent={onSelectEvent}
-          onSelectSlot={onSelectSlot}
         />
-
-
-
-
-        {isOpenAddEditModal && (
-          <CalendarAddEditPopup
-            key={1}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            startDate={selectedStartDate}
-            endDate={selectedEndDate}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
-        {comProps.editable && isOpenDetailsModal && selectedItemId && (
-          <EventCalendarDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
       </Grid>
     </>
   );
 };
 
-export default EventCalendar;
+export default EventCalendarView;
