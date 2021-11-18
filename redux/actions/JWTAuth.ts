@@ -78,8 +78,8 @@ export const loadAuthUser = async (
       ssoTokenData.userType == UserTypes.YOUTH_USER
         ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile')
         : await apiGet(
-          CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
-        );
+            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+          );
     console.log(coreResponse);
 
     const {data} = coreResponse.data;
@@ -271,11 +271,10 @@ export const getYouthAuthUserObject = (
  */
 export const onJWTAuthSignout = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
+    dispatch(fetchStart());
+    dispatch({type: SIGNOUT_AUTH_SUCCESS});
+    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
     dispatch(fetchSuccess());
-    setTimeout(() => {
-      dispatch({type: SIGNOUT_AUTH_SUCCESS});
-      dispatch(fetchSuccess());
-      cookieInstance.remove('token');
-    }, 500);
+    console.log('logged out.');
   };
 };
