@@ -1,6 +1,5 @@
 import {Theme} from '@mui/system';
 import {Components} from '@mui/material/styles/components';
-import {ThemeMode} from '../../../../shared/constants/AppEnums';
 
 export default function componentStyleOverrides(theme: Theme) {
   const overrideRules: Components = {
@@ -25,10 +24,36 @@ export default function componentStyleOverrides(theme: Theme) {
       styleOverrides: {
         root: {
           fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
-          color:
-            theme.palette.mode === ThemeMode.DARK
-              ? theme.palette.grey['50']
-              : theme.palette.grey['700'],
+        },
+        h1: {
+          fontSize: 22,
+        },
+        h2: {
+          fontSize: 20,
+        },
+        h3: {
+          fontSize: 18,
+        },
+        h4: {
+          fontSize: 16,
+        },
+        h5: {
+          fontSize: 14,
+        },
+        h6: {
+          fontSize: 14,
+        },
+        subtitle1: {
+          fontSize: 14,
+        },
+        subtitle2: {
+          fontSize: 16,
+        },
+        body1: {
+          fontSize: 14,
+        },
+        body2: {
+          fontSize: 12,
         },
       },
     },

@@ -139,6 +139,7 @@ const muiThemeConfig: Theme = {
     },
   },
 };
+
 const defaultConfig: any = {
   themeStyle: ThemeStyle.STANDARD,
   themeMode: ThemeMode.SEMI_DARK,
