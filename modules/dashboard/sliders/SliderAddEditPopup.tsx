@@ -28,6 +28,7 @@ import {
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import IconSlider from '../../../@softbd/icons/IconSlider';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -161,6 +162,15 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      if (data.show_in != ShowInTypes.TSP) {
+        data.institute_id = '';
+        objectFilter(data);
+      }
+      if (data.show_in != ShowInTypes.INDUSTRY) {
+        data.organization_id = '';
+        objectFilter(data);
+      }
+
       if (authUser?.isInstituteUser) {
         data.institute_id = authUser?.institute_id;
         data.show_in = ShowInTypes.TSP;
