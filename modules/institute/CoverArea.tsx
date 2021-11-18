@@ -3,9 +3,14 @@ import ImageCarousel from '../../@softbd/elements/display/ImageCarousel/ImageCar
 import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
 import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import SingleImageBannerTemplate from './Components/SingleImageBannerTemplate';
+import {useVendor} from '../../@crema/utility/AppHooks';
 
 const CoverArea = () => {
-  const [sliderFilters] = useState({show_in: ShowInTypes.TSP});
+  const vendor = useVendor();
+  const [sliderFilters] = useState({
+    show_in: ShowInTypes.TSP,
+    institute_id: vendor?.id,
+  });
   const {data: sliders} = useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
   const banners = slider?.banners;

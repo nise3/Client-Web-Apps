@@ -24,6 +24,7 @@ import {
   getShowInTypeFromPath,
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'YouthNoticeBoard';
 
@@ -66,18 +67,21 @@ const YouthNoticeBoard = () => {
   const showInType = getShowInTypeFromPath(router.asPath);
   const searchFieldRef = useRef<any>();
   const page = useRef<any>(1);
+  const vendor = useVendor();
 
   const [noticeFilters, setNoticeFilters] = useState<any>({
     page: 1,
     page_size: 8,
     type: NoticeOrNewsTypes.NOTICE,
+    institute_id: vendor?.id,
   });
 
-  const {
-    data: noticeList,
+  const {data: noticeList,
     isLoading: isNoticeLoading,
-    metaData,
-  } = useFetchPublicNoticeOrNewses(noticeFilters);
+    metaData,} = useFetchPublicNoticeOrNewses(
+    objectFilter(noticeFilters),
+  );
+
   useEffect(() => {
     if (showInType) {
       let params: any = {

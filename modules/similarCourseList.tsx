@@ -12,6 +12,7 @@ import {useIntl} from 'react-intl';
 import BoxContentSkeleton from './youth/profile/component/BoxContentSkeleton';
 
 import {styled} from '@mui/material/styles';
+import {useVendor} from '../@crema/utility/AppHooks';
 
 const PREFIX = 'SimilarCourseList';
 
@@ -29,7 +30,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
 
 const SimilarCourseList = () => {
   const {messages} = useIntl();
-  const [filters, setFilters] = useState<any>({});
+  const [filters, setFilters] = useState<any>();
   const router = useRouter();
   const {courseId} = router.query;
 
@@ -48,7 +49,7 @@ const SimilarCourseList = () => {
   }, [courseDetails]);
 
   useEffect(() => {
-    setFilters({skill_ids: skillIds});
+    setFilters({skill_ids: skillIds, institute_id: useVendor()?.id});
   }, [skillIds]);
 
   const filterCoursesListTrainingList = useCallback(

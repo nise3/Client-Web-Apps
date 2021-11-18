@@ -11,6 +11,7 @@ import {useRouter} from 'next/router';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
+import {useVendor} from '../../@crema/utility/AppHooks';
 
 const PREFIX = 'GallerySection';
 
@@ -48,8 +49,10 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const GallerySection = () => {
   const {messages} = useIntl();
   const pageSize = 10;
+  const vendor = useVendor();
   const [galleryFilter] = useState<any>({
     page_size: pageSize,
+    institute_id: vendor?.id,
   });
   const {data: galleryItems} = useFetchInstitutesGallery(galleryFilter);
   const router = useRouter();

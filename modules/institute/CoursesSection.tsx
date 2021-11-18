@@ -6,6 +6,8 @@ import {useIntl} from 'react-intl';
 import Typography from '@mui/material/Typography';
 import CourseSectionCarousel from './courseSectionCarousel';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
+import CourseTypes from '../../@softbd/utilities/CourseTypes';
+import {useVendor} from '../../@crema/utility/AppHooks';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,24 +43,28 @@ const indexProps = (index: number) => {
 
 const CoursesSection = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
 
-  // const [runningCoursesFilters] = useState<any>({page_size: 10, availability: 1});
-  const [upcomingCoursesFilter] = useState<any>({
+  const [upcomingCoursesFilter, setUpcomingCoursesFilter] = useState<any>({
     page_size: 10,
-    availability: 2,
+    availability: CourseTypes.RUNNING,
+    institute_id: vendor?.id,
   });
 
   // Todo: data is not coming for running form api, have to implement
   // const {data: runningCourses} = useFetchCourseList('recent', runningCoursesFilters);
-  const {data: upComingCourses} = useFetchCourseList(
+  const {data: courseList} = useFetchCourseList(
     'recent',
     upcomingCoursesFilter,
   );
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(CourseTypes.RUNNING);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    setUpcomingCoursesFilter((prevState: any) => {
+      return {...prevState, ...{availability: newValue}};
+    });
   };
 
   return (
@@ -74,33 +80,36 @@ const CoursesSection = () => {
               indicatorColor='primary'
               aria-label='primary tabs example'>
               <Tab
+                value={CourseTypes.RUNNING}
                 label={messages['common.running_courses']}
-                {...indexProps(0)}
+                {...indexProps(CourseTypes.RUNNING)}
               />
               <Tab
+                value={CourseTypes.UPCOMING}
                 label={messages['common.up_coming_courses']}
-                {...indexProps(1)}
+                {...indexProps(CourseTypes.UPCOMING)}
               />
             </Tabs>
           </Box>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={value} index={CourseTypes.RUNNING}>
             <Box>
-              {upComingCourses && upComingCourses.length ? (
-                <CourseSectionCarousel courses={upComingCourses} />
+              {courseList && courseList.length ? (
+                <CourseSectionCarousel courses={courseList} />
               ) : (
-                <NoDataFoundComponent />
+                ''
               )}
             </Box>
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={value} index={CourseTypes.UPCOMING}>
             <Box>
-              {upComingCourses && upComingCourses.length ? (
-                <CourseSectionCarousel courses={upComingCourses} />
+              {courseList && courseList.length ? (
+                <CourseSectionCarousel courses={courseList} />
               ) : (
-                <NoDataFoundComponent />
+                ''
               )}
             </Box>
           </TabPanel>
+          {!courseList || (courseList?.length <= 0 && <NoDataFoundComponent />)}
         </Grid>
       </Grid>
     </Container>

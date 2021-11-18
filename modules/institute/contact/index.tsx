@@ -17,6 +17,7 @@ import {useFetchInstitutesContactMap} from '../../../services/instituteManagemen
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'InstituteContact';
 
@@ -74,6 +75,7 @@ const MapComponent = ({text}: MapProp) => (
 
 const InstituteContact = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
   const {successStack, errorStack} = useNotiStack();
 
   const {data: mapsData} = useFetchInstitutesContactMap();
@@ -178,15 +180,18 @@ const InstituteContact = () => {
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                     <Grid container spacing={5}>
-                      <Grid item xs={12}>
-                        <CustomFormSelect
-                          id='recipient'
-                          label={messages['recipient.institute']}
-                          isLoading={false}
-                          control={control}
-                          optionValueProp={'id'}
-                        />
-                      </Grid>
+                      {!vendor?.id && (
+                        <Grid item xs={12}>
+                          <CustomFormSelect
+                            id='recipient'
+                            label={messages['recipient.institute']}
+                            isLoading={false}
+                            control={control}
+                            optionValueProp={'id'}
+                          />
+                        </Grid>
+                      )}
+
                       <Grid item xs={6}>
                         <CustomTextInput
                           required

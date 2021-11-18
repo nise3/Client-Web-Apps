@@ -6,6 +6,7 @@ import PopularCoursesSection from './PopularCoursesSection';
 import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'TrainingPage';
 
@@ -22,7 +23,7 @@ export const StyledTrainingRoot = styled(Box)(({theme}) => ({
 }));
 
 const CourseListPage = () => {
-  const [filters, setFilters] = useState<any>({});
+  const [filters, setFilters] = useState<any>({institute_id: useVendor()?.id});
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: number | null) => {

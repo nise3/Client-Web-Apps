@@ -158,8 +158,6 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     })();
   }, []);
 
-  console.log('show in id: ', showInId);
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       if (data.show_in != ShowInTypes.TSP) {

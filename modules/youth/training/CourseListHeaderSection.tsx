@@ -18,6 +18,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import CustomFilterableSelect from './components/CustomFilterableSelect';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -93,6 +94,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     [messages],
   );
 
+  const vendor = useVendor();
   const [instituteFilters] = useState({});
   const {data: institutes} = useFetchInstitutes(instituteFilters);
   const [selectedInstituteId, setSelectedInstituteId] = useState<any>('');
@@ -108,6 +110,10 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     row_status: RowStatus.ACTIVE,
   });
   const {data: programmes} = useFetchProgrammes(programmeFilters);
+
+  // useEffect(() => {
+  //   addFilterKey('institute_id', Number(vendor?.id));
+  // }, []);
 
   const handleInstituteFilterChange = useCallback(
     (instituteId: number | null) => {
@@ -161,8 +167,11 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   }, []);
 
   const onClickResetButton = useCallback(() => {
-    setSelectedInstituteId('');
-    addFilterKey('institute_id', 0);
+    if (!vendor?.id) {
+      setSelectedInstituteId('');
+      addFilterKey('institute_id', 0);
+    }
+
     setSelectedProgrammeId('');
     addFilterKey('program_id', 0);
     setSelectedcourseTypeId('');
@@ -221,18 +230,20 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
           </Grid>
           <Grid item xs={12} md={12}>
             <Grid container spacing={3}>
-              <Grid item xs={6} sm={4} md={2}>
-                <CustomFilterableSelect
-                  id={'institute_id'}
-                  defaultValue={selectedInstituteId}
-                  label={messages['common.institute'] as string}
-                  onChange={handleInstituteFilterChange}
-                  options={institutes}
-                  isLoading={false}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
-                />
-              </Grid>
+              {!vendor?.id && (
+                <Grid item xs={6} sm={4} md={2}>
+                  <CustomFilterableSelect
+                    id={'institute_id'}
+                    defaultValue={selectedInstituteId}
+                    label={messages['common.institute'] as string}
+                    onChange={handleInstituteFilterChange}
+                    options={institutes}
+                    isLoading={false}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title', 'title_en']}
+                  />
+                </Grid>
+              )}
 
               <Grid item xs={6} sm={4} md={2}>
                 <CustomFilterableSelect
