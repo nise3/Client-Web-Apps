@@ -13,7 +13,7 @@ export default InstituteDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={'Training'} />
+      <PageMeta title={messages['common.training_courses']} />
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>

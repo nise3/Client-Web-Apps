@@ -91,7 +91,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
                 <Button
                   variant='outlined'
                   className={classes.btn}
-                  sx={{background: '#e4f1ea', border: 'none'}}>
+                  sx={{background: '#e4f1ea', border: '1px solid #e4f1ea'}}>
                   {getIntlDateFromString(formatDate, notice.published_at)}
                 </Button>
               )}

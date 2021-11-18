@@ -12,7 +12,8 @@ const TrainingCenterCard = ({trainingCenter}: TrainingCenterCardProps) => {
         <Grid container sx={{alignItems: 'center', flexDirection: 'column'}}>
           <Grid item xs={12}>
             <Avatar
-              alt={trainingCenter.institute_title}
+              alt={trainingCenter?.institute_title}
+              title={trainingCenter?.institute_title}
               variant='square'
               src={'http://lorempixel.com/300/200?id=' + trainingCenter?.id}
               sx={{

@@ -20,6 +20,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   justifyContent: 'center',
   // pointerEvents: 'none',
   display: 'flex',
+  position: 'relative',
 
   [`& .${classes.image}`]: {
     zIndex: -1,

@@ -126,7 +126,10 @@ const Footer = () => {
                 {messages['footer.in_implementation']}
               </Box>
             </Typography>
-            <Link href={'https://a2i.gov.bd/'}>
+            <a
+              target='_blank'
+              href='https://a2i.gov.bd/'
+              rel='noopener noreferrer'>
               <Box component={'span'}>
                 <img
                   src={'/images/footer-img.png'}
@@ -134,7 +137,7 @@ const Footer = () => {
                   className={classes.footerImage}
                 />
               </Box>
-            </Link>
+            </a>
           </Grid>
           <Grid item md={2} textAlign={'right'}>
             <Typography variant='subtitle2' gutterBottom={true}>
@@ -142,7 +145,10 @@ const Footer = () => {
                 {messages['common.technical_support']}
               </Box>
             </Typography>
-            <Link href={'https://softbdltd.com/'}>
+            <a
+              target='_blank'
+              href='https://softbdltd.com/'
+              rel='noopener noreferrer'>
               <Box component={'span'}>
                 <img
                   src={'/images/softbd.png'}
@@ -150,7 +156,7 @@ const Footer = () => {
                   className={classes.softbdImage}
                 />
               </Box>
-            </Link>
+            </a>
           </Grid>
           <GoToTop />
         </Grid>

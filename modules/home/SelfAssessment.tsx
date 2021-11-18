@@ -39,7 +39,7 @@ const SelfAssessment = () => {
             style={{fontSize: '22px', marginTop: '30px', marginBottom: '30px'}}>
             {messages['nise.assess_yourself_text']}
           </Text>
-          <Link href={'/sc/self_assessment'}>
+          <Link href={'/sc/self-assessment'}>
             <Button variant='contained' className={classes.detailsButton}>
               {messages['nise.lets_start']} <ArrowForwardIcon />
             </Button>

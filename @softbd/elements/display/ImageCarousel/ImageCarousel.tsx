@@ -11,7 +11,6 @@ type Props = {
 };
 
 const ImageCarousel = ({banners}: Props) => {
-  console.log('banners', banners);
   // const customLeftArrow = useCallback(() => {
 
   //

@@ -18,7 +18,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
-  pointerEvents: 'none',
+  // pointerEvents: 'none',
   display: 'flex',
 
   [`& .${classes.image}`]: {

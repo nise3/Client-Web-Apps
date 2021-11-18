@@ -341,6 +341,7 @@
   "common.subject_created_successfully": "{subject} created successfully",
   "common.subject_updated_successfully": "{subject} updated successfully",
   "common.subject_deleted_successfully": "{subject} successfully deleted",
+  "common.subject_sent_successfully": "{subject} successfully sent",
   "common.delete_confirm": "Are you sure?",
   "common.confirm": "Confirm",
   "human_resource_template.label": "Human resource template",
@@ -984,5 +985,10 @@
   "footer.job_provider": "Job provider",
   "footer.in_implementation": "In implementation",
   "common.technical_support": "Technical Support",
-  "footer.bio_edit": "Bio Edit"
+  "footer.bio_edit": "Bio Edit",
+  "course_details.total_lesson": "{total} Lessons",
+  "common.training_courses": "Training Courses",
+  "common.your_info": "Your Information",
+  "common.must_have_one_skill": "Must have one skill",
+  "guardian.info": "Guardian information"
 }

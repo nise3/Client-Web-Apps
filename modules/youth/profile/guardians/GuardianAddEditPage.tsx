@@ -18,7 +18,10 @@ import {
 import CustomHookForm from '../component/CustomHookForm';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
-import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  NID_REGEX,
+} from '../../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
@@ -80,6 +83,11 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
         .nullable()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
+      nid: yup
+        .string()
+        .nullable()
+        .matches(NID_REGEX)
+        .label(messages['common.nid'] as string),
     });
   }, [messages, showOther]);
 
@@ -127,10 +135,10 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
     try {
       if (itemId) {
         await updateGuardian(itemId, data);
-        updateSuccessMessage('guardian.label');
+        updateSuccessMessage('guardian.info');
       } else {
         await createGuardian(data);
-        createSuccessMessage('guardian.label');
+        createSuccessMessage('guardian.info');
       }
       mutateGuardian();
       onGuardianAddEditFormClose();

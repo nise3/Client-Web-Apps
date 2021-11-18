@@ -116,7 +116,9 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         <Toolbar className={classes.headerMain}>
           <Container maxWidth={'lg'}>
             <Box className={classes.headerMainFlex}>
-              <AppLogo height={isMDDown ? 40 : 60} />
+              <Link href={LINK_FRONTEND_NISE_ROOT}>
+                <AppLogo height={isMDDown ? 40 : 60} />
+              </Link>
               <Box className={classes.grow} />
               <Box className={clsx(classes.sectionDesktop)}>
                 <Box component='span' className={classes.menuItem}>

@@ -18,7 +18,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
-  pointerEvents: 'none',
+  // pointerEvents: 'none',
   display: 'flex',
 
   [`& .${classes.image}`]: {
@@ -43,6 +43,14 @@ interface BannerProps {
 const BannerTemplateLeftRight = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
+      <Grid item xs={12} md={6}>
+        <CardMedia
+          component='img'
+          image={banner?.banner_image_path}
+          alt={banner?.alt_image_title}
+          title={banner?.title}
+        />
+      </Grid>
       <Grid item xs={12} md={6}>
         <Container maxWidth={'lg'}>
           <Typography
@@ -76,14 +84,6 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
             ''
           )}
         </Container>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CardMedia
-          component='img'
-          image={banner?.banner_image_path}
-          alt={banner?.alt_image_title}
-          title={banner?.title}
-        />
       </Grid>
     </StyledGrid>
   );
