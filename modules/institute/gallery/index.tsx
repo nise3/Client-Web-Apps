@@ -104,22 +104,24 @@ const InstituteGallery = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid
-                item
-                md={12}
-                mt={4}
-                display={'flex'}
-                justifyContent={'center'}>
-                <Stack spacing={2}>
-                  <Pagination
-                    page={page.current}
-                    count={metaData.total_page}
-                    color={'primary'}
-                    shape='rounded'
-                    onChange={onPaginationChange}
-                  />
-                </Stack>
-              </Grid>
+              {metaData.total_page > 1 && (
+                <Grid
+                  item
+                  md={12}
+                  mt={4}
+                  display={'flex'}
+                  justifyContent={'center'}>
+                  <Stack spacing={2}>
+                    <Pagination
+                      page={page.current}
+                      count={metaData.total_page}
+                      color={'primary'}
+                      shape='rounded'
+                      onChange={onPaginationChange}
+                    />
+                  </Stack>
+                </Grid>
+              )}
             </Grid>
           ) : (
             <Grid container justifyContent={'center'}>

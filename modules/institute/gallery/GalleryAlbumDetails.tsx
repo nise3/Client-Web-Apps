@@ -14,12 +14,13 @@ import {
 } from '@mui/material';
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H3, H6} from '../../../@softbd/elements/common';
+import {H6} from '../../../@softbd/elements/common';
 import SearchIcon from '@mui/icons-material/Search';
 import GalleryItemCardView from './GalleryItemCardView';
 import {
-  useFetchGalleryAlbums,
+  useFetchPublicGalleryAlbum,
   useFetchPublicGalleryAlbumContents,
+  useFetchPublicGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
 import {useRouter} from 'next/router';
 import ContentItemCard from './ContentItemCard';
@@ -28,9 +29,7 @@ const PREFIX = 'InstituteGallery';
 
 const classes = {
   searchIcon: `${PREFIX}-searchIcon`,
-  filterIcon: `${PREFIX}-filterIcon`,
-  resetButton: `${PREFIX}-resetButton`,
-  font: `${PREFIX}-font`,
+  coverImage: `${PREFIX}-coverImage`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -39,25 +38,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
     position: 'absolute',
     right: 0,
   },
-  [`& .${classes.font}`]: {
-    position: 'absolute',
-    top: '20%',
-    width: '100%',
-    textAlign: 'center',
-    color: 'black',
-    backgroundColor: 'none',
-    fontFamily: 'Comic Sans MS',
-  },
-
-  [`& .${classes.filterIcon}`]: {
+  [`& .${classes.coverImage}`]: {
     display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  [`& .${classes.resetButton}`]: {
-    [theme.breakpoints.up('md')]: {
-      paddingLeft: '3% !important',
-    },
+    backgroundImage: `url(${'/images/recent-activities1.png'})`,
+    backgroundPosition: 'center',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat',
+    height: '300px',
   },
 }));
 
@@ -66,142 +55,92 @@ const GalleryAlbumDetails = () => {
   const router = useRouter();
   const {albumDetailsId: galleryAlbumId}: any = router.query;
   const page = useRef<any>(1);
-  const inputFieldRef = useRef<any>();
 
-  const [childGalleryAlbumsFilter] = useState<any>({
+  const inputFieldRef = useRef<any>();
+  /** Data fetching for child gallery albums **/
+
+  const [childGalleryAlbumFilter] = useState<any>({
     parent_gallery_album_id: galleryAlbumId,
   });
-  const {data: childGalleryAlbums, isLoading: isLoadingChildGalleryAlbum} =
-    useFetchGalleryAlbums(childGalleryAlbumsFilter);
+  const {data: childGalleryAlbums, isLoading: isLoadingChildGalleryAlbums} =
+    useFetchPublicGalleryAlbums(childGalleryAlbumFilter);
+  /** data fetching for current gallery album **/
+  const {data: currentGalleryAlbum} =
+    useFetchPublicGalleryAlbum(galleryAlbumId);
 
-  /*  const [galleryAlbumsFilter] = useState<any>({});
-    const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
-    useFetchGalleryAlbums(galleryAlbumsFilter);
+  /** Data fetching for  gallery album contents **/
 
-  const [selectedGalleryAlbumId, setSelectedGalleryAlbumId] = useState<
-    number | string
-  >(galleryAlbumId);*/
-
-  const [galleryContentFilter, setGalleryContentFilter] = useState<any>({
+  const [galleryAlbumContentFilter, setGalleryAlbumContentFilter] = useState({
     page: 1,
     page_size: 8,
     gallery_album_id: galleryAlbumId,
   });
   const {
-    data: galleryContents,
-    isLoading: isContentLoading,
+    data: galleryAlbumContents,
+    isLoading: isLoadingGalleryAlbumContents,
     metaData,
-  } = useFetchPublicGalleryAlbumContents(galleryContentFilter);
+  } = useFetchPublicGalleryAlbumContents(galleryAlbumContentFilter);
 
-  /* const onResetClicked = () => {
-    setGalleryContentFilter({
-      page: 1,
-      page_size: 8,
-      gallery_album_id: galleryAlbumId,
-    });
-  };
-
-  const onChangeGalleryAlbum = (albumId: any) => {
-    setSelectedGalleryAlbumId(albumId ? albumId : galleryAlbumId);
-
-    setGalleryContentFilter((params: any) => {
-      return {
-        ...params,
-        ...{page: 1, gallery_album_id: albumId ? albumId : galleryAlbumId},
-      };
-    });
-  };*/
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
-    setGalleryContentFilter((params: any) => {
+    setGalleryAlbumContentFilter((params: any) => {
       return {...params, ...{page: currentPage}};
     });
   }, []);
 
   const onSearch = useCallback(() => {
-    setGalleryContentFilter((params: any) => {
+    setGalleryAlbumContentFilter((params: any) => {
       return {...params, ...{search_text: inputFieldRef.current?.value}};
     });
   }, []);
 
   // TODO: css issue - fix grid responsiveness
 
+  /*  let backgroundImage = '';
+  if (galleryAlbum?.grid_image_path) {
+    backgroundImage = galleryAlbum?.grid_image_path;
+  } else {
+    backgroundImage = galleryAlbum?.main_image_path;
+  }*/
   return (
     <>
-      <Grid container sx={{maxWidth: '100%'}}>
-        <Grid item xs={12} textAlign={'center'}>
-          <Paper>
-            <H3 py={3} fontWeight={'bold'}>
-              {messages['gallery_album_content.label']}
-            </H3>
-            <Box
-            /*   style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundImage: '/images/auth-background.jpg',
-              }}*/
-            >
-              <Typography gutterBottom variant='h4' component='h4'>
-                Title
+      <StyledContainer maxWidth='lg'>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Box className={classes.coverImage}>
+              <Typography gutterBottom variant='h2' component='h2'>
+                {currentGalleryAlbum?.title}
               </Typography>
             </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-      <StyledContainer maxWidth='lg'>
-        <Grid container mt={4} spacing={5} justifyContent={'center'}>
-          <Grid item xs={12}>
-            <Grid container spacing={{xs: 2, md: 6}}>
-              <Grid item xs={12} md={4} style={{position: 'relative'}}>
-                <Paper
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: 200,
-                  }}>
-                  <InputBase
-                    size={'small'}
-                    sx={{
-                      ml: 1,
-                      flex: 1,
-                      paddingLeft: '20px',
-                      minHeight: '30px',
-                    }}
-                    placeholder={messages['common.search'] as string}
-                    inputProps={{'aria-label': 'Search'}}
-                    inputRef={inputFieldRef}
-                    onKeyDown={(event) => {
-                      if (event.code == 'Enter') onSearch();
-                    }}
-                  />
-                  <IconButton
-                    sx={{p: '5px'}}
-                    aria-label='search'
-                    onClick={onSearch}>
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-                {/*<Box>
-                  <InputBase
-                    size={'small'}
-                    sx={{ml: 1, flex: 1, paddingLeft: '20px'}}
-                    placeholder={messages['common.search'] as string}
-                    inputProps={{'aria-label': 'Search'}}
-                    inputRef={inputFieldRef}
-                    onKeyDown={onSearchClick}
-                  />
-                  <IconButton
-                    sx={{p: '10px'}}
-                    aria-label='search'
-                    onClick={onSearchClick}>
-                    <SearchIcon />
-                  </IconButton>
-                </Box>*/}
-              </Grid>
-            </Grid>
           </Grid>
-          {isLoadingChildGalleryAlbum ? (
+          <Grid item xs={12}>
+            <Box style={{display: 'flex', justifyContent: 'flex-end'}}>
+              <Paper
+                style={{
+                  display: 'flex',
+                }}>
+                <InputBase
+                  size={'small'}
+                  style={{
+                    paddingLeft: '20px',
+                  }}
+                  placeholder={messages['common.search'] as string}
+                  inputProps={{'aria-label': 'Search'}}
+                  inputRef={inputFieldRef}
+                  onKeyDown={(event) => {
+                    if (event.code == 'Enter') onSearch();
+                  }}
+                />
+                <IconButton
+                  sx={{p: '5px'}}
+                  aria-label='search'
+                  onClick={onSearch}>
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Box>
+          </Grid>
+          {isLoadingChildGalleryAlbums ? (
             <Grid
               item
               xs={12}
@@ -239,7 +178,7 @@ const GalleryAlbumDetails = () => {
               </Grid>
             )
           )}
-          {isContentLoading ? (
+          {isLoadingGalleryAlbumContents ? (
             <Grid
               item
               xs={12}
@@ -249,29 +188,47 @@ const GalleryAlbumDetails = () => {
               <Skeleton variant='rectangular' width={'22%'} height={140} />
               <Skeleton variant='rectangular' width={'22%'} height={140} />
             </Grid>
-          ) : galleryContents && galleryContents?.length > 0 ? (
+          ) : galleryAlbumContents && galleryAlbumContents?.length > 0 ? (
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant='h6'>
                     {messages['total_result.institute']}{' '}
-                    <Chip label={galleryContents?.length} color={'primary'} />
+                    <Chip
+                      label={galleryAlbumContents?.length}
+                      color={'primary'}
+                    />
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container spacing={5}>
-                    {galleryContents?.map((data: any) => (
-                      <Grid
-                        item
-                        md={3}
-                        justifyContent={'center'}
-                        mt={3}
-                        key={data.id}>
-                        <ContentItemCard item={data} />
-                      </Grid>
-                    ))}
+                    {(galleryAlbumContents || [])
+                      .slice(0, 3)
+                      ?.map((data: any) => (
+                        <Grid
+                          item
+                          md={3}
+                          justifyContent={'center'}
+                          mt={3}
+                          key={data.id}>
+                          <ContentItemCard item={data} />
+                        </Grid>
+                      ))}
                   </Grid>
                 </Grid>
+                {metaData.total_page > 1 && (
+                  <Grid item md={12} display={'flex'} justifyContent={'center'}>
+                    <Stack spacing={2}>
+                      <Pagination
+                        page={page.current}
+                        count={metaData.total_page}
+                        color={'primary'}
+                        shape='rounded'
+                        onChange={onPaginationChange}
+                      />
+                    </Stack>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           ) : (
@@ -279,18 +236,6 @@ const GalleryAlbumDetails = () => {
               <H6 py={5}>{messages['common.no_data_found']}</H6>
             </Grid>
           )}
-
-          <Grid item md={12} display={'flex'} justifyContent={'center'}>
-            <Stack spacing={2}>
-              <Pagination
-                page={page.current}
-                count={metaData.total_page}
-                color={'primary'}
-                shape='rounded'
-                onChange={onPaginationChange}
-              />
-            </Stack>
-          </Grid>
         </Grid>
       </StyledContainer>
     </>

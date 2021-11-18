@@ -74,6 +74,9 @@ export function useFetchPartner(partnerId: number | null) {
 export function useFetchGalleryAlbums(params: any) {
   return useAxiosSWR([API_GALLERY_ALBUMS, params]);
 }
+export function useFetchPublicGalleryAlbums(params: any) {
+  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
+}
 
 export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
   return useAxiosSWR(
@@ -102,6 +105,15 @@ export function useFetchGalleryAlbumContent(
   return useAxiosSWR(
     galleryAlbumContentId
       ? API_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
+      : null,
+  );
+}
+export function useFetchPublicGalleryAlbumContent(
+  galleryAlbumContentId: number | null,
+) {
+  return useAxiosSWR(
+    galleryAlbumContentId
+      ? API_PUBLIC_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
       : null,
   );
 }

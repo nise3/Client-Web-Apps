@@ -1,10 +1,12 @@
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
-import {Card, CardContent, Container, Grid} from '@mui/material';
-import {H3, H5} from '../../../@softbd/elements/common';
+import {Card, CardContent, Container, Grid, Skeleton} from '@mui/material';
+import {H5, H6} from '../../../@softbd/elements/common';
 import VideoPlayer from './videoPlayer';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PlayCircleFilledWhiteOutlined} from '@mui/icons-material';
+import {useRouter} from 'next/router';
+import {useFetchPublicGalleryAlbumContent} from '../../../services/cmsManagement/hooks';
 
 const PREFIX = 'VideoDetails';
 
@@ -46,22 +48,15 @@ const fbRegex1 = /\/videos\/([\w\-]*?)\//;
 const fbRegex2 = /\/videos\/([\d]*?)\//;
 const fbReplace = '/videos/';
 
-const data = {
-  id: 1,
-  title: 'This is testing video',
-  video_url: 'https://www.youtube.com/watch?v=NLPuCclm5lA',
-  // video_url: 'https://www.facebook.com/WoodyandKleiny/videos/2241556282743322/',
-  // video_url:
-  //   'https://www.facebook.com/WoodyandKleiny/videos/8-more-videos-that-will-make-you-laugh/2241556282743322/',
-  // video_url: 'https://vimeo.com/22439234',
-  // video_url:
-  //   'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
-  description: 'Video description testing',
-};
-
 const VideoDetails = () => {
   const {messages} = useIntl();
+  const router = useRouter();
+  const {videoId}: any = router.query;
+  const {data: videoData, isLoading: isLoadingVideos} =
+    useFetchPublicGalleryAlbumContent(videoId);
 
+  console.log('videoData', videoData);
+  console.log('islOading', isLoadingVideos);
   const [videoUrl, setVideoUrl] = useState('');
 
   const [isOtherUrl, setIsOtherUrl] = useState(false);
@@ -95,22 +90,31 @@ const VideoDetails = () => {
   };
 
   useEffect(() => {
-    const domain = new window.URL(data.video_url);
-    if (domain.host == 'www.youtube.com') {
-      setVideoUrl(getYoutubeUrl(data.video_url));
-    } else if (domain.host == 'www.facebook.com') {
-      setVideoUrl(getFacebookUrl(data.video_url));
-    } else if (domain.host == 'vimeo.com') {
-      setVideoUrl(getVimeoUrl(data.video_url));
-    } else {
-      setVideoUrl(data.video_url);
-      setIsOtherUrl(true);
+    if (videoData?.video_url) {
+      const domain = new window.URL(videoData?.video_url);
+      if (domain.host == 'www.youtube.com') {
+        setVideoUrl(getYoutubeUrl(videoData?.video_url));
+      } else if (domain.host == 'www.facebook.com') {
+        setVideoUrl(getFacebookUrl(videoData?.video_url));
+      } else if (domain.host == 'vimeo.com') {
+        setVideoUrl(getVimeoUrl(videoData?.video_url));
+      } else {
+        setVideoUrl(videoData?.video_url);
+        setIsOtherUrl(true);
+      }
     }
-  }, [videoUrl]);
+  }, [videoData]);
 
   return (
     <StyledContainer maxWidth={'md'}>
-      {data && data.video_url ? (
+      {isLoadingVideos ? (
+        <Grid
+          item
+          xs={12}
+          sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+          <Skeleton variant='rectangular' width={'22%'} height={140} />
+        </Grid>
+      ) : videoData ? (
         <Grid container spacing={3} mt={2}>
           {!isOtherUrl ? (
             <Grid item xs={12}>
@@ -119,7 +123,7 @@ const VideoDetails = () => {
           ) : (
             <Grid item xs={12}>
               <Card className={classes.customPlayerCard}>
-                <a href={data.video_url} target='_blank' rel='noreferrer'>
+                <a href={videoData.video_url} target='_blank' rel='noreferrer'>
                   <CardContent className={classes.customPlayer}>
                     <PlayCircleFilledWhiteOutlined
                       className={classes.playIcon}
@@ -133,16 +137,16 @@ const VideoDetails = () => {
             </Grid>
           )}
           <Grid item xs={12}>
-            <H5>{data.title}</H5>
+            <H5>{videoData.title}</H5>
           </Grid>
           <Grid item xs={12} display={'flex'}>
-            <div dangerouslySetInnerHTML={{__html: data.description}} />
+            <div dangerouslySetInnerHTML={{__html: videoData.description}} />
           </Grid>
         </Grid>
       ) : (
         <Grid container mt={3}>
           <Grid item xs={12}>
-            <H3>{messages['common.no_data_found']}</H3>
+            <H6>{messages['common.no_data_found']}</H6>
           </Grid>
         </Grid>
       )}
