@@ -3,8 +3,8 @@ import typography from './typography';
 import componentStyleOverrides from './componentStyleOverrides';
 import {createTheme} from '@mui/material/styles';
 
-export function theme() {
-  let themeInstance = createTheme({
+export function theme(defaultTheme: any) {
+  let themeInstance = createTheme(defaultTheme, {
     direction: 'ltr',
     palette: palette,
     shadows: [
