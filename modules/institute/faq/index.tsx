@@ -13,6 +13,7 @@ import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks
 import {useRouter} from 'next/router';
 import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -39,7 +40,7 @@ const InstituteFAQ = () => {
   const pathName = router.pathname;
   const show_in = getShowInTypeFromPath(pathName);
 
-  const [params] = useState({show_in: show_in});
+  const [params] = useState({show_in: show_in, row_status: RowStatus.ACTIVE});
   const {data: faqItems} = useFetchInstitutesFAQ(params);
 
   const handleChange =

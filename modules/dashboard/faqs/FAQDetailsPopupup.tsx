@@ -12,6 +12,7 @@ import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 type Props = {
   itemId: number;
@@ -129,6 +130,13 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               </Grid>
             ),
           )}
+          <Grid item xs={12}>
+            <CustomChipRowStatus
+              label={messages['common.status']}
+              value={itemData?.row_status}
+              isLoading={isLoading}
+            />
+          </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

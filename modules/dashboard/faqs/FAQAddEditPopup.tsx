@@ -29,6 +29,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -165,6 +166,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -225,6 +227,14 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
+
+      if (id != ShowInTypes.TSP) {
+        setValue('institute_id', '');
+      }
+      if (id != ShowInTypes.INDUSTRY) {
+        setValue('organization_id', '');
+      }
+
       if (id === ShowInTypes.TSP && instituteList.length == 0) {
         const institutes = await getAllInstitutes();
         setInstituteList(institutes);
@@ -283,6 +293,15 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      if (formData.show_in != ShowInTypes.TSP) {
+        formData.institute_id = '';
+        objectFilter(formData);
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY) {
+        formData.organization_id = '';
+        objectFilter(formData);
+      }
+
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;

@@ -42,7 +42,10 @@ import {
   getAllInstitutes,
 } from '../../../services/cmsManagement/FAQService';
 import AlbumTypes from './AlbumTypes';
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import {
+  getMomentDateFormat,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -212,6 +215,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     setError,
     control,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -317,6 +321,14 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
+
+      if (id != ShowInTypes.TSP) {
+        setValue('institute_id', '');
+      }
+      if (id != ShowInTypes.INDUSTRY) {
+        setValue('organization_id', '');
+      }
+
       if (id === ShowInTypes.TSP && instituteList.length == 0) {
         const institutes = await getAllInstitutes();
         setInstituteList(institutes);
@@ -378,6 +390,15 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     formData.grid_image_path = 'http://lorempixel.com/400/200/';
 
     try {
+      if (formData.show_in != ShowInTypes.TSP) {
+        formData.institute_id = '';
+        objectFilter(formData);
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY) {
+        formData.organization_id = '';
+        objectFilter(formData);
+      }
+
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;
