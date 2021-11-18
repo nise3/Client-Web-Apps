@@ -1,8 +1,8 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import React from 'react';
 import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
-import messages from '../../../@crema/services/db/messages/messages';
 import PageMeta from '../../../@crema/core/PageMeta';
+import {useIntl} from 'react-intl';
 
 const EventCalendarPage = asyncComponent(
   () => import('../../../modules/dashboard/events/EventCalendar'),
@@ -21,9 +21,10 @@ const EventCalendarPage = asyncComponent(
 // });
 
 export default YouthFrontPage(() => {
+  const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
+      <PageMeta title={messages['menu.calender'] as string} />
       <EventCalendarPage calendarFor='youth' />
     </>
   );
