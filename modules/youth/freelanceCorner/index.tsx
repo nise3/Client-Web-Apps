@@ -120,8 +120,7 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box
-                    sx={{fontWeight: 'bold'}}>
+                  <Box sx={{fontWeight: 'bold'}}>
                     {messages['freelance_corner.filter_title']}
                   </Box>
                   <List
@@ -161,13 +160,13 @@ const FreelanceCorner = () => {
                       marginBottom: 2,
                       fontSize: 20,
                     }}>
-                    {messages['freelance_corner.specific_location']}
+                    {messages['freelance_corner.filterByLocation']}
                   </Box>
 
                   <CustomFilterableSelect
                     id={'upazila_id'}
                     defaultValue={selectedUpazilaId}
-                    label={messages['upazilas.label'] as string}
+                    label={messages['freelance_corner.add_location'] as string}
                     onChange={handleUpazilaChange}
                     options={upazilas || []}
                     isLoading={false}

@@ -11,12 +11,15 @@ import {
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
+import {Share} from '@mui/icons-material';
 
 const PREFIX = 'FreelancerCardComponent';
 
 const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
-  colorGray: `${PREFIX}-colorGray`,
+  skillsStyle: `${PREFIX}-skillsStyle`,
+  share: `${PREFIX}-share`,
+  shareTitle: `${PREFIX}-shareTitle`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -25,8 +28,20 @@ const StyledCard = styled(Card)(({theme}) => ({
     fontWeight: 'bold',
   },
 
-  [`& .${classes.colorGray}`]: {
-    color: theme.palette.grey['600'],
+  [`& .${classes.skillsStyle}`]: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+
+  [`& .${classes.share}`]: {
+    backgroundColor: '#95979A !important',
+    borderRadius: '4px 0px 0px 4px !important',
+  },
+  [`& .${classes.shareTitle}`]: {
+    backgroundColor: '#C2C3C6 !important',
+    borderRadius: '0px 4px 4px 0px !important',
+    color: theme.palette.common.white,
+    marginLeft: '-1.5rem !important',
   },
 }));
 
@@ -38,6 +53,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
   freelancer,
 }) => {
   const {messages} = useIntl();
+  const skills = freelancer?.skills.slice(0, 2);
 
   return (
     <StyledCard>
@@ -62,20 +78,34 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
                 variant={'outlined'}
                 color={'primary'}
                 sx={{marginRight: '5px'}}>
-                {messages['common.contact']}
+                {messages['common.profile']}
               </Button>
               <Button variant={'contained'} color={'primary'}>
-                {messages['common.profile']}
+                {messages['common.contact']}
               </Button>
             </Grid>
           </Grid>
           <Box sx={{margin: '15px 0px'}}>
             {freelancer?.bio || 'No bio added'}
           </Box>
-          <Box>
-            {(freelancer?.skills || []).map((skill: any, index: any) => {
-              return <TagChip label={skill.title} key={index} />;
-            })}
+          <Box className={classes.skillsStyle}>
+            <Box>
+              {freelancer?.skills &&
+                skills?.length > 0 &&
+                (skills || []).map((skill: any) => {
+                  return <TagChip label={skill.title} key={skill.id} />;
+                })}
+            </Box>
+            <Box display={'flex'}>
+              <TagChip
+                icon={<Share sx={{color: 'white !important'}} />}
+                className={classes.share}
+              />
+              <TagChip
+                label={messages['common.share']}
+                className={classes.shareTitle}
+              />
+            </Box>
           </Box>
         </CardContent>
       )}

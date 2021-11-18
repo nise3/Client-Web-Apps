@@ -152,6 +152,7 @@ const lessonsList = [
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
+  console.log('courses: ', course);
 
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
   const overviewRef = useRef<any>();
@@ -331,7 +332,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 <Box className={classes.sectionTitleStyle}>
                   {messages['course_details.assisment_method']}
                 </Box>
-                <Typography>{course?.evaluation_system}</Typography>
+                <ul>
+                  <li>
+                    <Typography>{course?.evaluation_system}</Typography>
+                  </li>
+                </ul>
               </Box>
             </Box>
 
@@ -340,7 +345,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.requirements']}
               </Box>
               <Box>
-                <Typography>{course?.prerequisite}</Typography>
+                <ul>
+                  <li>
+                    <Typography>{course?.prerequisite}</Typography>
+                  </li>
+                </ul>
               </Box>
             </Box>
 

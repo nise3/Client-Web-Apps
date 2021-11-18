@@ -34,7 +34,7 @@ const FeaturedFreelanceSection = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12}>
           <Box sx={{fontSize: 17, fontWeight: 'bold'}}>
-            {messages['freelance_corner.featured_freelance']}
+            {messages['freelance_corner.recommended_freelance']}
           </Box>
         </Grid>
         {items.map((user: any, index: number) => {

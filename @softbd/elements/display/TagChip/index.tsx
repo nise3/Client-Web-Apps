@@ -24,7 +24,7 @@ const StyledChip = styled(Chip)(({theme}) => ({
 
 interface TagChipProps {
   icon?: any;
-  label: string | ReactNode;
+  label?: string | ReactNode;
   className?: string;
 }
 

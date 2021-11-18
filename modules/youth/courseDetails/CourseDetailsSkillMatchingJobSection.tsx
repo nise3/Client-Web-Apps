@@ -43,7 +43,7 @@ const CourseDetailsSkillMatchingJobSection = () => {
   ];
 
   return (
-    <Container maxWidth={'lg'}>
+    <Container maxWidth={'lg'} style={{marginBottom: '5px'}}>
       <Grid container spacing={5} mt={'10px'}>
         <Grid item xs={12} sm={12} md={12}>
           <Grid container alignItems={'center'}>

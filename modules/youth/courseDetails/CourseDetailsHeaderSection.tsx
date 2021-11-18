@@ -57,7 +57,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             {messages['common.course_fee']}:{' '}
             <Box className={classes.courseFeeStyle}>
               {course?.course_fee
-                ? '৳' + formatNumber(course.course_fee)
+                ? '৳ ' + formatNumber(course.course_fee)
                 : messages['common.free']}
             </Box>
           </Box>

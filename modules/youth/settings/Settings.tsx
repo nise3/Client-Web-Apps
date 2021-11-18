@@ -28,6 +28,7 @@ const classes = {
   userItem: `${PREFIX}-userItem`,
   passwordItem: `${PREFIX}-passwordItem`,
   deleteItem: `${PREFIX}-deleteItem`,
+  iconStyle: `${PREFIX}-iconStyle`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -38,15 +39,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
     '&:hover': {
       '& .textUser': {
         transition: 'color 0.5s',
-        color: '#1e96d5',
+        color: theme.palette.secondary.main,
       },
       '& .textPassword': {
         transition: 'color 0.5s',
-        color: '#048340',
+        color: theme.palette.primary.main,
       },
       '& .textDelete': {
         transition: 'color 0.5s',
-        color: '#e7223d',
+        color: theme.palette.error.main,
       },
       '& .icon': {
         transition: 'color 0.5s',
@@ -54,15 +55,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
       },
       '& $userItem': {
         transition: 'background 0.5s',
-        background: '#1e96d5',
+        color: theme.palette.secondary.main,
       },
       '& $passwordItem': {
         transition: 'background 0.5s',
-        background: '#048340',
+        color: theme.palette.primary.main,
       },
       '& $deleteItem': {
         transition: 'background 0.5s',
-        background: '#e7223d',
+        color: theme.palette.error.main,
       },
     },
   },
@@ -76,15 +77,19 @@ const StyledContainer = styled(Container)(({theme}) => ({
     marginRight: '10px',
   },
   [`& .${classes.userItem}`]: {
-    background: '#d1eef3',
+    background: theme.palette.secondary.light,
   },
 
   [`& .${classes.passwordItem}`]: {
-    background: '#d6f5d6',
+    background: theme.palette.primary.light,
   },
 
   [`& .${classes.deleteItem}`]: {
-    background: '#f9e5e5',
+    background: theme.palette.error.light,
+  },
+  [`& .${classes.iconStyle}`]: {
+    fontSize: 'large',
+    color: theme.palette.common.white,
   },
 }));
 
@@ -127,50 +132,57 @@ const Settings = () => {
               <CardHeader title={messages['common.settings']} />
               <CardContent>
                 <Grid container spacing={6}>
+                  {/** change user id */}
                   <Grid item xs={12} sm={6}>
                     <Box
                       className={classes.settingBox}
                       onClick={() => showView(SettingOptions.CHANGE_USER_ID)}>
-                      <Box className={clsx(classes.boxItem, classes.userItem)}>
-                        <PeopleAltIcon
-                          fontSize={'large'}
-                          className='icon'
-                          style={{color: '#2494df'}}
-                        />
+                      <Box
+                        className={clsx(
+                          classes.boxItem,
+                          classes.userItem,
+                          classes.iconStyle,
+                          'icon',
+                        )}>
+                        <PeopleAltIcon />
                       </Box>
                       <Typography className='textUser'>
                         {messages['common.change_user_id']}
                       </Typography>
                     </Box>
                   </Grid>
+                  {/** change password */}
                   <Grid item xs={12} sm={6}>
                     <Box
                       className={classes.settingBox}
                       onClick={() => showView(SettingOptions.CHANGE_PASSWORD)}>
                       <Box
-                        className={clsx(classes.boxItem, classes.passwordItem)}>
-                        <VpnKeyIcon
-                          fontSize={'large'}
-                          className='icon'
-                          style={{color: 'green'}}
-                        />
+                        className={clsx(
+                          classes.boxItem,
+                          classes.passwordItem,
+                          classes.iconStyle,
+                          'icon',
+                        )}>
+                        <VpnKeyIcon />
                       </Box>
                       <Typography className='textPassword'>
                         {messages['common.change_password']}
                       </Typography>
                     </Box>
                   </Grid>
+                  {/** delete account */}
                   <Grid item xs={12} sm={6}>
                     <Box
                       className={classes.settingBox}
                       onClick={() => showView(SettingOptions.DELETE_ACCOUNT)}>
                       <Box
-                        className={clsx(classes.boxItem, classes.deleteItem)}>
-                        <DeleteIcon
-                          fontSize={'large'}
-                          className='icon'
-                          style={{color: 'red'}}
-                        />
+                        className={clsx(
+                          classes.boxItem,
+                          classes.deleteItem,
+                          classes.iconStyle,
+                          'icon',
+                        )}>
+                        <DeleteIcon />
                       </Box>
                       <Typography className='textDelete'>
                         {messages['common.delete_account']}

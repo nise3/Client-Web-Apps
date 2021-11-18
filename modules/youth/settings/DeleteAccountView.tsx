@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {ChevronLeft, Delete} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 
 const PREFIX = 'DeleteAccountView';
@@ -14,8 +13,9 @@ const classes = {
 const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.button}`]: {
     margin: theme.spacing(1),
-    width: '100px',
+    width: '150px',
     marginLeft: '10px',
+    padding: '10px',
   },
 }));
 
@@ -56,17 +56,20 @@ const DeleteAccountView: FC<DeleteAccountViewProps> = ({onBack}) => {
               {messages['common.deactivate_confirm_text']}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Button variant={'outlined'} onClick={onBack}>
-              <ChevronLeft /> {messages['common.back']}
-            </Button>
+          <Grid item xs={12} style={{marginLeft: '30px'}}>
             <Button
               variant='contained'
-              color='primary'
+              color='error'
               className={classes.button}
-              startIcon={<Delete />}
               onClick={handleClick}>
-              {messages['common.delete']}
+              {messages['common.proceed']}
+            </Button>
+            <Button
+              variant={'contained'}
+              onClick={onBack}
+              color='primary'
+              className={classes.button}>
+              {messages['common.cancel']}
             </Button>
           </Grid>
         </Grid>

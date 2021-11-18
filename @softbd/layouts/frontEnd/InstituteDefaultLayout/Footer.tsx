@@ -122,7 +122,7 @@ const Footer = () => {
               <Box display='flex' mt={4}>
                 <LocalPhone className={classes.primary} />
                 <Text style={{marginLeft: '6px'}}>
-                  ++৮৮-০২-৯৯৩৯৪৯৩, ++৮৮-০২-৮৩৮৪৮৪৮৪
+                  +৮৮-০২-৯৯৩৯৪৯৩, +৮৮-০২-৮৩৮৪৮৪৮৪
                 </Text>
               </Box>
             </Grid>

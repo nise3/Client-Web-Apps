@@ -15,7 +15,9 @@ export default function componentStyleOverrides(theme: Theme) {
     },
     MuiTextField: {
       styleOverrides: {
-        root: {},
+        root: {
+          background: theme.palette.grey['50'],
+        },
       },
     },
     MuiTypography: {
