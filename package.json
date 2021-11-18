@@ -31,7 +31,7 @@
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.20.0",
     "clsx": "^1.1.1",
-    "date-fns": "^1.29.0",
+    "date-fns": "^2.25.0",
     "eslint-config-prettier": "^8.3.0",
     "formik": "^2.2.9",
     "google-map-react": "^2.1.10",
