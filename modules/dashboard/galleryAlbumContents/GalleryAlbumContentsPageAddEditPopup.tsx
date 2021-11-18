@@ -365,7 +365,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           const galleryAlbum = galleryAlbums.find(
             (album: any) => album.id == albumId,
           );
-          setSelectedContentType(galleryAlbum.album_type);
+          setSelectedContentType(galleryAlbum?.album_type);
           setGalleryAlbum(galleryAlbum);
         } else {
           setGalleryAlbum(null);

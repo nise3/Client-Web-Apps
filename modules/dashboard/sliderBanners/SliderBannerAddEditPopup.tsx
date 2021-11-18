@@ -117,6 +117,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         }),
       button_text: yup
         .string()
+        .max(20)
         .label(messages['common.button_text'] as string)
         .when('is_button_available', {
           is: (val: number) => {

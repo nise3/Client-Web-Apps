@@ -18,6 +18,7 @@ import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 const FAQPage = () => {
   const {messages} = useIntl();
@@ -93,6 +94,15 @@ const FAQPage = () => {
       {
         Header: messages['faq.answer'],
         accessor: 'answer_short',
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
       },
       {
         Header: messages['common.actions'],
