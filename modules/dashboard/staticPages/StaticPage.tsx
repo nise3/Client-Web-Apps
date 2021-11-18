@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -12,11 +12,17 @@ import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 import {useFetchStaticPageTypes} from '../../../services/cmsManagement/hooks';
 import StaticPageTypes from './StaticPageTypes';
 import StaticBlockAddEditPopup from './StaticBlockAddEditPopup';
+import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const StaticPage = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<CommonAuthUser>();
 
-  const [staticPageTypesFilters] = useState({});
+  const [staticPageTypesFilters, setStaticPageTypesFilters] = useState({
+    category: [StaticPageCategoryTypes.COMMON],
+  });
   const {data: staticPageTypes, isLoading}: any = useFetchStaticPageTypes(
     staticPageTypesFilters,
   );
@@ -24,6 +30,26 @@ const StaticPage = () => {
   const [selectedStaticPage, setSelectedStaticPage] = useState<any>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+
+  useEffect(() => {
+    if (authUser) {
+      const categories = [StaticPageCategoryTypes.COMMON];
+      if (authUser?.isSystemUser) {
+        categories.push(
+          StaticPageCategoryTypes.NISE3,
+          StaticPageCategoryTypes.YOUTH,
+        );
+      } else if (authUser?.isInstituteUser) {
+        categories.push(StaticPageCategoryTypes.TSP);
+      } else if (authUser?.isOrganizationUser) {
+        categories.push(StaticPageCategoryTypes.INDUSTRY);
+      }
+
+      setStaticPageTypesFilters({
+        category: categories,
+      });
+    }
+  }, [authUser]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -59,6 +85,17 @@ const StaticPage = () => {
     }
   };
 
+  const getCategoryTitle = (category: number) => {
+    switch (category) {
+      case StaticPageCategoryTypes.NISE3:
+        return messages['common.nise3'];
+      case StaticPageCategoryTypes.YOUTH:
+        return messages['common.youth'];
+      default:
+        return '';
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -81,6 +118,13 @@ const StaticPage = () => {
         },
       },
       {
+        Header: messages['common.show_in'],
+        Cell: (props: any) => {
+          return getCategoryTitle(props.row.original.category);
+        },
+        isVisible: authUser && authUser.isSystemUser,
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -94,7 +138,7 @@ const StaticPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, authUser],
   );
 
   return (
@@ -118,6 +162,7 @@ const StaticPage = () => {
               key={1}
               onClose={closeAddEditModal}
               pageCode={selectedStaticPage.page_code}
+              pageCategory={selectedStaticPage.category}
             />
           )}
 
@@ -128,6 +173,7 @@ const StaticPage = () => {
               key={1}
               onClose={closeAddEditModal}
               pageCode={selectedStaticPage.page_code}
+              pageCategory={selectedStaticPage.category}
             />
           )}
 
@@ -136,6 +182,7 @@ const StaticPage = () => {
             key={1}
             pageCode={selectedStaticPage.page_code}
             pageType={selectedStaticPage.type}
+            pageCategory={selectedStaticPage.category}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
           />

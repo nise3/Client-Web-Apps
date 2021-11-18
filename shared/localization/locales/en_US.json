@@ -951,7 +951,6 @@
   "slider.template_code_bt_cb": "Banner with text center and image background",
   "slider.template_code_bt_lr": "Banner with text left and image right",
   "slider.template_code_bt_rl": "Banner with text right and image left",
-  "page_block.template_code_pbt_cb": "Block with text center and image background",
   "page_block.template_code_pbt_lr": "Block with text left and image right",
   "page_block.template_code_pbt_rl": "Block with text right and image left",
   "collage_position.left": "Left",
@@ -985,5 +984,6 @@
   "common.training_courses": "Training Courses",
   "common.your_info": "Your Information",
   "common.must_have_one_skill": "Must have one skill",
-  "guardian.info": "Guardian information"
+  "guardian.info": "Guardian information",
+  "common.nise3": "NISE3"
 }

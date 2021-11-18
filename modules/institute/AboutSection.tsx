@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Container, Grid} from '@mui/material';
-import {Fade} from 'react-awesome-reveal';
-import {H3, H4, S1} from '../../@softbd/elements/common';
+import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Fade, Zoom} from 'react-awesome-reveal';
+import {H3, Link} from '../../@softbd/elements/common';
+import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
+import {
+  BLOCK_ID_INSTITUTE_DETAILS,
+  CONTENT_ID_INSTITUTE_DETAILS,
+} from '../../@softbd/utilities/StaticContentConfigs';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
+import ContentTypes from '../dashboard/recentActivities/ContentTypes';
+import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
+import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
+import {LINK_INSTITUTE_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const PREFIX = 'AboutSection';
 
@@ -15,6 +26,7 @@ const classes = {
   youtubePlayerBox: `${PREFIX}-youtubePlayerBox`,
   youtubePlayerMobileView: `${PREFIX}-youtubePlayerMobileView`,
   youtubePlayer: `${PREFIX}-youtubePlayer`,
+  imageView: `${PREFIX}-imageView`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -48,16 +60,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     height: '340px',
   },
 
-  [`& .${classes.youtubePlayerBox}`]: {
-    [theme.breakpoints.up('md')]: {
-      transform: 'translate(0px, -240px)',
-    },
-  },
-
   [`& .${classes.youtubePlayerMobileView}`]: {
-    height: '360px',
+    height: '300px',
     borderRadius: '15px',
-    border: 'none',
     bottom: '80px',
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -66,13 +71,26 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.youtubePlayer}`]: {
-    // position: 'absolute',
-    height: '380px',
+    height: '420px',
     borderRadius: '15px',
-    border: 'none',
-    bottom: '120px',
-    width: '100%',
+    marginTop: '-150px',
+    width: '20rem',
     display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  [`& .${classes.imageView}`]: {
+    height: '420px',
+    borderRadius: '15px',
+    marginTop: '-150px',
+    width: '20rem',
+    display: 'none',
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      marginTop: '0px',
+      width: '100%',
+    },
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
@@ -80,6 +98,46 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const AboutSection = () => {
+  const [blockData, setBlockData] = useState<any>({});
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [templateConfig, setTemplateConfig] = useState<any>({
+    textLeft: true,
+  });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getPublicStaticPageOrBlockByPageCode(
+          BLOCK_ID_INSTITUTE_DETAILS,
+          {
+            show_in: ShowInTypes.TSP,
+            institute_id: 23,
+          },
+        );
+
+        if (response && response.data) {
+          const data = response.data;
+          setBlockData(data);
+
+          if (data.attachment_type != ContentTypes.IMAGE && data?.video_url) {
+            const embeddedUrl = getEmbeddedVideoUrl(data?.video_url);
+            setVideoUrl(embeddedUrl);
+          }
+
+          if (data.template_code == PageBlockTemplateTypes.PBT_RL) {
+            setTemplateConfig({
+              textLeft: false,
+            });
+          } else if (data.template_code == PageBlockTemplateTypes.PBT_LR) {
+            setTemplateConfig({
+              textLeft: true,
+            });
+          }
+        }
+      } catch (e) {}
+    })();
+  }, []);
+
   return (
     <StyledGrid container xl={12} className={classes.root}>
       <Container maxWidth='lg'>
@@ -88,50 +146,81 @@ const AboutSection = () => {
           spacing={4}
           justifyContent='space-around'
           alignItems='center'>
-          <Grid item xs={12} md={7}>
+          <Grid
+            item
+            xs={12}
+            md={7}
+            order={{xs: templateConfig.textLeft ? 1 : 2}}>
             <Fade direction='down'>
               <H3
                 gutterBottom={true}
                 className={classes.heading}
                 fontWeight='fontWeightBold'>
-                Lorem Ipsum Dolor
+                {blockData?.title}
               </H3>
-              <S1 gutterBottom={true} className={classes.desc}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </S1>
-              <H4
-                gutterBottom={true}
-                className={classes.heading}
-                fontWeight='fontWeightBold'>
-                Lorem Ipsum Dolor Sit Amet
-              </H4>
-              <S1 gutterBottom={true} className={classes.desc}>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing</li>
-                  <li>et dolore magna aliqua. Ut enim ad minim veniam</li>
-                  <li>aliquip ex ea commodo consequat. Duis aute irure</li>
-                  <li>cillum dolore eu fugiat nulla pariatur. Excepteur</li>
-                  <li>sunt in culpa qui officia deserunt mollit anim</li>
-                </ul>
-              </S1>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: blockData?.content,
+                }}
+              />
+
+              {blockData?.is_button_available == 1 ? (
+                <Link
+                  href={
+                    LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
+                    CONTENT_ID_INSTITUTE_DETAILS
+                  }>
+                  <Button variant='contained' className={classes.detailsButton}>
+                    {blockData?.button_text}
+                    <ArrowForwardIcon />
+                  </Button>
+                </Link>
+              ) : (
+                <Box />
+              )}
             </Fade>
           </Grid>
-          <Grid item xs={12} md={5} className={classes.youtubePlayerBox}>
-            <iframe
-              className={classes.youtubePlayerMobileView}
-              src='https://www.youtube.com/embed/PWkOvVkI09k'
-            />
-            <iframe
-              className={classes.youtubePlayer}
-              src='https://www.youtube.com/embed/PWkOvVkI09k'
-            />
-          </Grid>
+
+          {blockData?.is_attachment_available == 1 && (
+            <Grid
+              item
+              xs={12}
+              md={4}
+              order={{xs: templateConfig.textLeft ? 2 : 1}}>
+              {blockData.attachment_type == ContentTypes.IMAGE &&
+                blockData.image_path && (
+                  <Zoom>
+                    <CardMedia
+                      component={'img'}
+                      className={classes.imageView}
+                      image={blockData.image_path}
+                      alt={blockData?.image_alt_title}
+                    />
+                  </Zoom>
+                )}
+
+              {blockData.attachment_type != ContentTypes.IMAGE && videoUrl && (
+                <Zoom>
+                  <iframe
+                    className={classes.youtubePlayerMobileView}
+                    src={videoUrl}
+                    frameBorder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                    allowFullScreen
+                    title='Embedded youtube'
+                  />
+                  <iframe
+                    className={classes.youtubePlayer}
+                    src={videoUrl}
+                    frameBorder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                    allowFullScreen
+                    title='Embedded youtube'
+                  />
+                </Zoom>
+              )}
+            </Grid>
+          )}
         </Grid>
       </Container>
     </StyledGrid>

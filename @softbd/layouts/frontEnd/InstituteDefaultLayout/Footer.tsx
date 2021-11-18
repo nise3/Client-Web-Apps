@@ -12,8 +12,20 @@ import {
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import GoToTop from '../../../../modules/goToTop';
-import {LINK_SIGNUP} from '../../../common/appLinks';
+import {
+  LINK_FRONTEND_INSTITUTE_CONTACT,
+  LINK_FRONTEND_INSTITUTE_FAQ,
+  LINK_FRONTEND_INSTITUTE_NOTICE_BOARD,
+  LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES,
+  LINK_INSTITUTE_FRONTEND_STATIC_CONTENT,
+  LINK_SIGNUP,
+} from '../../../common/appLinks';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
+import {
+  CONTENT_ID_ABOUT_US,
+  CONTENT_ID_PRIVACY_POLICY,
+  CONTENT_ID_TERMS_AND_CONDITIONS,
+} from '../../../utilities/StaticContentConfigs';
 
 const PREFIX = 'Footer';
 
@@ -93,7 +105,10 @@ const Footer = () => {
                 </Text>
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
-                <Link href={'/institute/sc/about-us'}>
+                <Link
+                  href={
+                    LINK_INSTITUTE_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
+                  }>
                   <Button
                     variant='contained'
                     color='primary'
@@ -140,7 +155,7 @@ const Footer = () => {
                     {messages['footer.online_courses']}
                   </Text>
                   <Link
-                    href={'/institute/notice-board'}
+                    href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
@@ -149,7 +164,7 @@ const Footer = () => {
                     {messages['footer.news']}
                   </Link>
                   <Link
-                    href={'/institute/recent-activities'}
+                    href={LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES}
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
@@ -158,7 +173,10 @@ const Footer = () => {
                     {messages['footer.events']}
                   </Link>
                   <Link
-                    href={'/institute/sc/about-us'}
+                    href={
+                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
+                      CONTENT_ID_ABOUT_US
+                    }
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
@@ -166,7 +184,9 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.about_us']}
                   </Link>
-                  <Link href={'/institute/contact'} className={classes.bullet}>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_CONTACT}
+                    className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
@@ -175,7 +195,9 @@ const Footer = () => {
                   </Link>
                 </Box>
                 <Box>
-                  <Link href={'/institute/faqs'} className={classes.bullet}>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_FAQ}
+                    className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
                       className={classes.primary}
@@ -197,7 +219,10 @@ const Footer = () => {
                     {messages['footer.sign_up']}
                   </Link>
                   <Link
-                    href={'/institute/sc/terms-and-conditions'}
+                    href={
+                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
+                      CONTENT_ID_TERMS_AND_CONDITIONS
+                    }
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
@@ -206,7 +231,10 @@ const Footer = () => {
                     {messages['footer.terms_and_conditions']}
                   </Link>
                   <Link
-                    href={'/institute/sc/privacy-policy'}
+                    href={
+                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
+                      CONTENT_ID_PRIVACY_POLICY
+                    }
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '10px', marginRight: '2px'}}
