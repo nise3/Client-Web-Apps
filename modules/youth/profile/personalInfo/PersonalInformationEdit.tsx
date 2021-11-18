@@ -26,7 +26,10 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../../services/locationManagement/locationUtils';
-import {MOBILE_NUMBER_REGEX} from '../../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  NID_REGEX,
+} from '../../../../@softbd/common/patternRegex';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import Genders from '../../../../@softbd/utilities/Genders';
 import PhysicalDisabilityStatus from '../../../../@softbd/utilities/PhysicalDisabilityStatus';
@@ -190,7 +193,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       identity_number: yup
         .string()
         .trim()
-        .min(11)
+        .matches(NID_REGEX)
         .label(messages['common.identity_number'] as string),
     });
   }, [messages, userNameType, disabilityStatus]);

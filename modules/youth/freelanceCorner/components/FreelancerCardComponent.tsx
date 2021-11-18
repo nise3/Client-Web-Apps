@@ -49,7 +49,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
                   marginLeft: 2,
                 }}>
                 <Box className={classes.titleStyle}>
-                  {freelancer?.first_name + freelancer?.last_name}
+                  {freelancer?.first_name + ' ' + freelancer?.last_name}
                 </Box>
               </Box>
             </Box>

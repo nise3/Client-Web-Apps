@@ -25,6 +25,7 @@ import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
+import {freelanceHeader} from './constants';
 
 const PREFIX = 'FreelanceCorner';
 
@@ -69,9 +70,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
     background: '#fff',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
-    }
+    },
   },
-    ...freelanceHeader
+  ...freelanceHeader,
 }));
 
 const FreelanceCorner = () => {
@@ -121,7 +122,7 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box className={classes.sectionHeader} sx={{fontWeight: 'bold'}}>
+                  <Box sx={{fontWeight: 'bold'}}>
                     {messages['freelance_corner.filter_title']}
                   </Box>
                   <List
@@ -154,7 +155,7 @@ const FreelanceCorner = () => {
                         );
                       })}
                   </List>
-                  <Box className={classes.bodyHeader} sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
+                  <Box sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
 
@@ -180,6 +181,12 @@ const FreelanceCorner = () => {
                 <Grid container spacing={1} sx={{alignItems: 'center'}}>
                   <Grid item xs={8} sm={9}>
                     <TextField
+                      onKeyPress={(ev) => {
+                        if (ev.key === 'Enter') {
+                          handleSearchAction();
+                          ev.preventDefault();
+                        }
+                      }}
                       inputRef={searchTextField}
                       variant='outlined'
                       name='searchBox'
