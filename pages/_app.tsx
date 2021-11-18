@@ -4,7 +4,6 @@ import {AppContext, AppInitialProps, AppProps} from 'next/app';
 import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
 import ContextProvider from '../@crema/utility/ContextProvider';
-import CssBaseline from '@mui/material/CssBaseline';
 import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import {LocaleProvider} from '../@crema';
@@ -38,7 +37,6 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                 <LocaleProvider>
                   <DefaultThemeProvider>
                     <AuthRoutes>
-                      <CssBaseline />
                       <SnackbarProvider
                         maxSnack={20}
                         anchorOrigin={{
