@@ -1,8 +1,8 @@
 import React, {useCallback, useContext, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
-import {useDispatch} from 'react-redux';
-import {onJWTAuthSignout} from '../../../redux/actions';
+// import {useDispatch} from 'react-redux';
+// import {onJWTAuthSignout} from '../../../redux/actions';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AppContext from '../../../@crema/utility/AppContext';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,6 +15,8 @@ import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
+import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
+import {Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'UserInfo';
 
@@ -72,7 +74,7 @@ const UserInfo: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const user: CommonAuthUser | null = useAuthUser();
 
   const closeEditModal = useCallback(() => {
@@ -137,8 +139,11 @@ const UserInfo: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
                 <MenuItem onClick={openDetailsModal}>My account</MenuItem>
-                <MenuItem onClick={() => dispatch(onJWTAuthSignout())}>
-                  Logout
+                {/*<MenuItem onClick={() => dispatch(onJWTAuthSignout())}>*/}
+                {/*  Logout*/}
+                {/*</MenuItem>*/}
+                <MenuItem>
+                  <Link href={getSSOLogoutUrl()}>Logout</Link>
                 </MenuItem>
               </Menu>
             </Box>

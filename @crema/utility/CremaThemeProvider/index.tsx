@@ -1,10 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {
-  createTheme,
-  StyledEngineProvider,
-  ThemeProvider,
-  Theme,
-} from '@mui/material/styles';
+import {createTheme, ThemeProvider, Theme} from '@mui/material/styles';
 
 import AppContext from '../AppContext';
 import AppLocale from '../../../shared/localization';
@@ -88,11 +83,9 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
   }, [params.theme_style, theme, isBelowMd, updateTheme, updateThemeStyle]);
 
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
-        {props.children}
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <ThemeProvider theme={responsiveFontSizes(createTheme(theme, muiLocale))}>
+      {props.children}
+    </ThemeProvider>
   );
 };
 

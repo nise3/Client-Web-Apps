@@ -25,12 +25,14 @@ import {Container, Grid} from '@mui/material';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
-import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {useAuthUser, useVendor} from '../../../../@crema/utility/AppHooks';
+import {CurrentInstitute} from '../../../../redux/types/models/Vendor';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
+  const vendor = useVendor<CurrentInstitute>();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -128,7 +130,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
-              বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র
+              {vendor?.title}
             </Text>
           </Grid>
 

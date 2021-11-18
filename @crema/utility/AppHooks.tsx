@@ -21,6 +21,7 @@ import {
   refreshAppAccessToken,
   setDefaultAuthorizationHeader,
 } from '../../@softbd/libs/axiosInstance';
+import {CurrentInstitute} from '../../redux/types/models/Vendor';
 
 export const useAuthToken = () => {
   const dispatch = useDispatch();
@@ -81,4 +82,17 @@ export const useAuthUser = <
   }
 
   return null;
+};
+
+export const useVendor = <T extends CurrentInstitute = CurrentInstitute>():
+  | T
+  | null
+  | CurrentInstitute => {
+  return {
+    id: 1,
+    title: 'Chester Koss',
+    domain: 'https://morar.biz',
+    address: 'Hello world',
+    code: 'excepturi-non-repudiandae-magni-quaerat-ipsum-aut-quia-alias-sit-omnis-nostrum-quis-fuga-deleniti-excepturi-eos-dicta-tempora-iusto',
+  };
 };

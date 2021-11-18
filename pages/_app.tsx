@@ -15,6 +15,7 @@ import '../@crema/services/index';
 import {SWRConfig} from 'swr';
 import {CookiesProvider} from 'react-cookie';
 import DefaultThemeProvider from '../@softbd/layouts/themes/default/DefaultThemeProvider';
+import {StyledEngineProvider} from '@mui/material/styles';
 
 const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
   ({Component, pageProps}: any) => {
@@ -35,18 +36,20 @@ const Nise3AdminApp: NextComponentType<AppContext, AppInitialProps, AppProps> =
                   revalidateOnReconnect: false,
                 }}>
                 <LocaleProvider>
-                  <DefaultThemeProvider>
-                    <AuthRoutes>
-                      <SnackbarProvider
-                        maxSnack={20}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}>
-                        <Component {...pageProps} />
-                      </SnackbarProvider>
-                    </AuthRoutes>
-                  </DefaultThemeProvider>
+                  <StyledEngineProvider injectFirst>
+                    <DefaultThemeProvider>
+                      <AuthRoutes>
+                        <SnackbarProvider
+                          maxSnack={20}
+                          anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}>
+                          <Component {...pageProps} />
+                        </SnackbarProvider>
+                      </AuthRoutes>
+                    </DefaultThemeProvider>
+                  </StyledEngineProvider>
                 </LocaleProvider>
               </SWRConfig>
             </Provider>
