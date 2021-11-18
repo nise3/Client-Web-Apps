@@ -30,7 +30,7 @@ const GoToTop = () => {
             right: '8%',
             padding: '5px',
             margin: '30px auto',
-            background: 'primary.dark',
+            backgroundColor: 'primary.dark',
             height: ' 50px',
             width: '50px',
             borderRadius: '50%',
@@ -40,7 +40,7 @@ const GoToTop = () => {
             display: 'flex',
           }}>
           <div onClick={scrollToTop}>
-            <ArrowUpward sx={{color: 'background.default', marginTop: '7px'}} />
+            <ArrowUpward sx={{color: 'background.default', marginTop: '5px'}} />
           </div>
         </Grid>
       )}
