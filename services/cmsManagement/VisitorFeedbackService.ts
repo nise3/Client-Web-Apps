@@ -1,4 +1,4 @@
-import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
+import {apiDelete, apiGet, apiPost} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_VISITOR_FEEDBACKS} from '../../@softbd/common/apiRoutes';
 
@@ -50,21 +50,9 @@ export const createVisitorFeedback = async (data: VisitorFeedback) => {
   }
 };
 
-export const updateVisitorFeedback = async (
-  visitorId: number,
-  data: VisitorFeedback,
-) => {
-  try {
-    let response: any = await apiPut(
-      API_VISITOR_FEEDBACKS + '/' + visitorId,
-      data,
-    );
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
+/**
+ * @No_need
+ */
 export const deleteVisitorFeedback = async (visitorId: number) => {
   try {
     let response: any = await apiDelete(

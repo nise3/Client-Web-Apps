@@ -114,8 +114,10 @@ const InstituteContact = () => {
         .matches(MOBILE_NUMBER_REGEX),
       email_address: yup
         .string()
-        .label(messages['common.email'] as string)
-        .email(),
+        .email()
+        .nullable(true)
+        .label(messages['common.email'] as string),
+
       advice: yup
         .string()
         .required()

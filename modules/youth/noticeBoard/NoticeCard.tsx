@@ -11,7 +11,11 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import {useIntl} from 'react-intl';
-import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
+import {
+  getIntlDateFromString,
+  getModulePath,
+} from '../../../@softbd/utilities/helpers';
+import {useRouter} from 'next/router';
 
 const PREFIX = 'NoticeCard';
 
@@ -60,7 +64,8 @@ const logo = '/images/creativeIt.png';
 
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const {messages, formatDate} = useIntl();
-  const URL = `/youth/notice-details/${notice.id}`;
+  const router = useRouter();
+  const URL = getModulePath(router.pathname) + `/notice-details/${notice.id}`;
   return (
     <StyledCard>
       <CardContent>
@@ -76,7 +81,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
             </Box>
           </Grid>
           <Grid item xs={9} md={9}>
-            <Link href={URL} passHref>
+            <Link href={URL}>
               <Typography style={{fontWeight: 'bold', cursor: 'pointer'}}>
                 {notice.title}
               </Typography>

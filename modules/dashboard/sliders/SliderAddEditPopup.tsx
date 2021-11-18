@@ -108,6 +108,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     register,
     control,
     setError,
+    setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -135,6 +136,14 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
+
+      if (id != ShowInTypes.TSP) {
+        setValue('institute_id', '');
+      }
+      if (id != ShowInTypes.INDUSTRY) {
+        setValue('organization_id', '');
+      }
+
       if (id === ShowInTypes.TSP && instituteList.length == 0) {
         const institutes = await getAllInstitutes();
         setInstituteList(institutes);
@@ -147,6 +156,8 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
       setIsLoadingSectionNameList(false);
     })();
   }, []);
+
+  console.log('show in id: ', showInId);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
