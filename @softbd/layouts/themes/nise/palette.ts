@@ -14,9 +14,9 @@ const palette: PaletteOptions = {
     contrastText: '#fff',
   },
   secondary: {
-    main: '#048340',
-    light: '#2dc778',
-    dark: '#086936',
+    main: '#368816',
+    light: '#4c9c20',
+    dark: '#006600',
     contrastText: '#fff',
   },
   error: {
@@ -61,12 +61,12 @@ const palette: PaletteOptions = {
   },
   text: {
     primary: rgba(0, 0, 0, 0.87),
-    secondary: rgba(0, 0, 0, 0.6),
+    secondary: rgba(0, 0, 0, 0.54),
     disabled: rgba(0, 0, 0, 0.38),
   },
   background: {
     paper: '#fff',
-    default: '#fff',
+    default: '#fafafa',
   },
   action: {
     active: rgba(0, 0, 0, 0.54),
@@ -81,6 +81,7 @@ const palette: PaletteOptions = {
     focusOpacity: 0.12,
     activatedOpacity: 0.12,
   },
+  divider: rgba(0, 0, 0, 0.12),
 };
 
 export default palette;
