@@ -25,4 +25,5 @@ const defaultConfig: any = {
   },
   rtlLocale: ['ar'],
 };
+
 export default defaultConfig;

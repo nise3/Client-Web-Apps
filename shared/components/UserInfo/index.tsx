@@ -1,8 +1,7 @@
 import React, {useCallback, useContext, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
-// import {useDispatch} from 'react-redux';
-// import {onJWTAuthSignout} from '../../../redux/actions';
+// import {} from 'react-redux';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AppContext from '../../../@crema/utility/AppContext';
 import MenuItem from '@mui/material/MenuItem';
@@ -74,7 +73,6 @@ const UserInfo: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  // const dispatch = useDispatch();
   const user: CommonAuthUser | null = useAuthUser();
 
   const closeEditModal = useCallback(() => {
@@ -139,9 +137,6 @@ const UserInfo: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
                 <MenuItem onClick={openDetailsModal}>My account</MenuItem>
-                {/*<MenuItem onClick={() => dispatch(onJWTAuthSignout())}>*/}
-                {/*  Logout*/}
-                {/*</MenuItem>*/}
                 <MenuItem>
                   <Link href={getSSOLogoutUrl()}>Logout</Link>
                 </MenuItem>
