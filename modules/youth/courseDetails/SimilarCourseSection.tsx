@@ -6,7 +6,8 @@ import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
-import {getModulePath} from '../../../@softbd/utilities/helpers';
+import {getModulePath, objectFilter} from '../../../@softbd/utilities/helpers';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 interface SimilarCourseSectionProps {
   courseId: number;
@@ -23,11 +24,12 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
 
   const [courseFilters, setCourseFilters] = useState<any>({
     page_size: pageSize,
+    institute_id: useVendor()?.id,
   });
   const pathVariable = 'skill-matching';
   const {data: courseList, metaData} = useFetchCourseList(
     pathVariable,
-    courseFilters,
+    objectFilter(courseFilters),
   );
 
   useEffect(() => {

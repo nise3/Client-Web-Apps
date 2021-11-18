@@ -11,8 +11,12 @@ import {useIntl} from 'react-intl';
 import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
-import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
+import {
+  getShowInTypeFromPath,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -39,8 +43,9 @@ const InstituteFAQ = () => {
   const pathName = router.pathname;
   const show_in = getShowInTypeFromPath(pathName);
 
-  const [params] = useState({show_in: show_in});
-  const {data: faqItems} = useFetchInstitutesFAQ(params);
+  const vendor = useVendor();
+  const [params] = useState({show_in: show_in, institute_id: vendor?.id});
+  const {data: faqItems} = useFetchInstitutesFAQ(objectFilter(params));
 
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
