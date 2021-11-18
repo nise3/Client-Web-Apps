@@ -182,3 +182,16 @@ export const Body2 = ({children, centered = false, ...props}: HeadingProp) => (
     {children}
   </Typography>
 );
+
+export const Caption = ({
+  children,
+  centered = false,
+  ...props
+}: HeadingProp) => (
+  <Typography
+    variant='caption'
+    style={centered ? {textAlign: 'center'} : {}}
+    {...props}>
+    {children}
+  </Typography>
+);

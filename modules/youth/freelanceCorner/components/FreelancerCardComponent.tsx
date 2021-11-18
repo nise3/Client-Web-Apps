@@ -1,6 +1,14 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button, Card, CardContent} from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 
@@ -35,30 +43,32 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
     <StyledCard>
       {freelancer && (
         <CardContent>
-          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Box sx={{display: 'flex'}}>
-              <Avatar
-                src={freelancer?.photo}
-                sx={{width: '60px', height: '60px'}}
-              />
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  marginLeft: 2,
-                }}>
-                <Box className={classes.titleStyle}>
-                  {freelancer?.first_name + ' ' + freelancer?.last_name}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={7} md={7}>
+              <Box sx={{display: 'flex'}}>
+                <Avatar
+                  src={freelancer?.photo}
+                  sx={{width: '60px', height: '60px'}}
+                />
+                <Box sx={{marginLeft: 2}}>
+                  <Typography className={classes.titleStyle}>
+                    {freelancer?.first_name + ' ' + freelancer?.last_name}
+                  </Typography>
                 </Box>
               </Box>
-            </Box>
-            <Box>
-              <Button variant={'contained'} color={'primary'}>
+            </Grid>
+            <Grid item xs={12} sm={5} md={5}>
+              <Button
+                variant={'outlined'}
+                color={'primary'}
+                sx={{marginRight: '5px'}}>
                 {messages['common.contact']}
               </Button>
-            </Box>
-          </Box>
+              <Button variant={'contained'} color={'primary'}>
+                {messages['common.profile']}
+              </Button>
+            </Grid>
+          </Grid>
           <Box sx={{margin: '15px 0px'}}>
             {freelancer?.bio || 'No bio added'}
           </Box>

@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {Avatar, Box, Button} from '@mui/material';
+import {S2} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'NearbyFreelancer';
 
@@ -51,7 +52,9 @@ const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
         <Box fontWeight={'bold'}>
           {freelanceUser?.first_name + ' ' + freelanceUser?.last_name}
         </Box>
-        <Box className={classes.designation}>{freelanceUser?.youth_bio}</Box>
+        <Box className={classes.designation}>
+          <S2>{freelanceUser?.skills[0]?.title}</S2>
+        </Box>
         <Box>
           <Button variant='contained' color='primary' size={'small'}>
             {messages['common.contact']}
