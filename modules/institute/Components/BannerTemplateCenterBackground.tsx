@@ -47,7 +47,7 @@ const BannerTemplateCenterBackground = ({banner}: BannerProps) => {
         component='img'
         image={banner?.banner_image_path}
         className={classes.image}
-        alt={banner?.alt_image_title}
+        alt={banner?.image_alt_title}
         title={banner?.title}
       />
       <Container maxWidth={'lg'}>

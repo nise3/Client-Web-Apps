@@ -133,8 +133,8 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['batches.label']}
-              value={itemData?.batch_title}
+              label={messages['course.label']}
+              value={itemData?.course_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -203,7 +203,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
-                    label={messages['gallery_album.image_alt_title']}
+                    label={messages['common.image_alt_title']}
                     value={itemData?.image_alt_title}
                     isLoading={isLoading}
                   />
@@ -230,7 +230,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
                     <Grid item xs={12} md={6}>
                       <DetailsInputView
-                        label={messages['gallery_album.image_alt_title']}
+                        label={messages['common.image_alt_title']}
                         value={
                           itemData.other_language_fields[key]?.image_alt_title
                         }

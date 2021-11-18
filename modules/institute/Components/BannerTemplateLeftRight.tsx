@@ -18,7 +18,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
-  // pointerEvents: 'none',
   display: 'flex',
 
   [`& .${classes.image}`]: {
@@ -84,6 +83,14 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
             ''
           )}
         </Container>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CardMedia
+          component='img'
+          image={banner?.banner_image_path}
+          alt={banner?.image_alt_title}
+          title={banner?.title}
+        />
       </Grid>
     </StyledGrid>
   );

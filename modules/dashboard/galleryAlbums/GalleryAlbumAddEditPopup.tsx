@@ -13,7 +13,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 import {
-  useFetchBatches,
+  useFetchCourses,
   useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
 import {
@@ -56,7 +56,7 @@ const initialValues = {
   institute_id: '',
   parent_gallery_album_id: '',
   organization_id: '',
-  batch_id: '',
+  course_id: '',
   program_id: '',
   image_alt_title: '',
   featured: '',
@@ -91,15 +91,17 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
 
-  const [programFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [programFilters, setProgramFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
   const {data: programmes, isLoading: isLoadingProgramme} =
     useFetchProgrammes(programFilters);
 
-  const [batchFilters, setBatchFilters] = useState<any>({
+  const [courseFilters, setCourseFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: batches, isLoading: isLoadingBatch} =
-    useFetchBatches(batchFilters);
+  const {data: courses, isLoading: isLoadingCourse} =
+    useFetchCourses(courseFilters);
 
   const [galleryAlbumFilters] = useState({row_status: RowStatus.ACTIVE});
   const [filteredGalleryAlbums, setFilteredGalleryAlbums] = useState([]);
@@ -133,13 +135,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     mutate: mutateGalleryAlbum,
   } = useFetchGalleryAlbum(itemId);
 
-  const onProgrammeChange = useCallback((programmeId: number) => {
-    setBatchFilters({
-      row_status: RowStatus.ACTIVE,
-      program_id: programmeId,
-    });
-  }, []);
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -154,6 +149,13 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['gallery_album.album_type'] as string),
+      /*image_path: yup
+           .mixed()
+           .label(messages['common.image_path'] as string)
+           .when('content_type', {
+             is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
+             then: yup.string().required(),
+           }),*/
       show_in:
         authUser && authUser.isSystemUser
           ? yup
@@ -248,13 +250,27 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   );
 
   useEffect(() => {
+    if (authUser && authUser.isInstituteUser) {
+      setCourseFilters({
+        row_status: RowStatus.ACTIVE,
+        institute_id: authUser.institute_id,
+      });
+
+      setProgramFilter({
+        row_status: RowStatus.ACTIVE,
+        institute_id: authUser.institute_id,
+      });
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     if (itemData) {
       let data: any = {
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         parent_gallery_album_id: itemData?.parent_gallery_album_id,
         organization_id: itemData?.organization_id,
-        batch_id: itemData?.batch_id,
+        course_id: itemData?.course_id,
         program_id: itemData?.program_id,
         image_alt_title: itemData?.image_alt_title,
         featured: String(itemData?.featured),
@@ -357,9 +373,10 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   );
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     //demo file url
-    formData.main_image_path = 'http://lorempixel.com/400/200/?4';
-    formData.thumb_image_path = 'http://lorempixel.com/400/200/?5';
-    formData.grid_image_path = 'http://lorempixel.com/400/200/?6';
+    formData.main_image_path = 'http://lorempixel.com/400/200/';
+    formData.thumb_image_path = 'http://lorempixel.com/400/200/';
+    formData.grid_image_path = 'http://lorempixel.com/400/200/';
+
     try {
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
@@ -495,7 +512,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='image_alt_title'
-            label={messages['gallery_album.image_alt_title']}
+            label={messages['common.image_alt_title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -525,18 +542,17 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            onChange={onProgrammeChange}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
-            id='batch_id'
-            label={messages['batches.label']}
-            isLoading={isLoadingBatch}
+            id='course_id'
+            label={messages['course.label']}
+            isLoading={isLoadingCourse}
             control={control}
-            options={batches}
+            options={courses}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title', 'title_en']}
             errorInstance={errors}
           />
         </Grid>

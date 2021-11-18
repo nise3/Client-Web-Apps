@@ -101,7 +101,7 @@ const RecentActivitiesDetails = ({data}: any) => {
 
           {(data.content_type && data.content_type == 2) ||
             (data.content_type && data.content_type == 3 && (
-              <VideoPlayer url={data.embedded_url} />
+              <VideoPlayer url={data.video_url} />
             ))}
         </Grid>
 

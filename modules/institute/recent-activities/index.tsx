@@ -134,7 +134,7 @@ const RecentActivities = () => {
             variant='h4'
             component='div'
             display={'flex'}>
-            {messages['recent_activities.institute']}
+            {messages['recent_activities.label']}
           </Typography>
           {recentActivitiesMasonryList &&
             recentActivitiesMasonryList.length > 0 && (

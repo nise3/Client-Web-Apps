@@ -93,7 +93,7 @@ const RecentActivities = () => {
         <Grid item md={12}>
           <H3 className={classes.titleTypography}>
             <Box className={classes.vBar} />
-            <Box>{messages['recent_activities.institute']}</Box>
+            <Box>{messages['recent_activities.label']}</Box>
           </H3>
           {recentActivitiesList && recentActivitiesList.length > 0 ? (
             <RecentActivityMasonryGroupView items={recentActivitiesList} />

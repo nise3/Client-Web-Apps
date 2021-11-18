@@ -53,7 +53,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
         {...props}
         title={
           <>
-            <IntlMessages id='recent_activities.institute' />
+            <IntlMessages id='recent_activities.label' />
           </>
         }
         actions={
@@ -104,8 +104,8 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.content_path']}
-              value={itemData?.content_path}
+              label={messages['common.image_path']}
+              value={itemData?.image_path}
               isLoading={isLoading}
             />
           </Grid>
@@ -117,13 +117,16 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.collage_image_path']}
-              value={itemData?.collage_image_path}
-              isLoading={isLoading}
-            />
-          </Grid>
+
+          {itemData?.collage_image_path && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.collage_image_path']}
+                value={itemData?.collage_image_path}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={6}>
             <DetailsInputView
@@ -143,15 +146,15 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.embedded_id']}
-              value={itemData?.embedded_id}
+              label={messages['common.video_id']}
+              value={itemData?.video_id}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.embedded_url']}
-              value={itemData?.embedded_url}
+              label={messages['common.video_url']}
+              value={itemData?.video_url}
               isLoading={isLoading}
             />
           </Grid>

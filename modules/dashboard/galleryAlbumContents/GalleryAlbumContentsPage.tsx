@@ -78,8 +78,8 @@ const GalleryAlbumContentsPage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.content_title'],
-        accessor: 'content_title',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
         Header: messages['common.content_type'],

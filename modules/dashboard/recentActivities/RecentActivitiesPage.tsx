@@ -69,7 +69,7 @@ const RecentActivitiesPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='recent_activities.institute' />}}
+          values={{subject: <IntlMessages id='recent_activities.label' />}}
         />,
       );
       await refreshDataTable();
@@ -121,61 +121,10 @@ const RecentActivitiesPage = () => {
         accessor: 'show_in_label',
       },
       {
-        Header: messages['common.description'],
-        accessor: 'description',
-        isVisible: false,
-      },
-      {
         Header: messages['common.content_type'],
         Cell: (props: any) => {
           return getContentTypeTitle(props.row.original.content_type);
         },
-      },
-
-      {
-        Header: messages['common.collage_image_path'],
-        accessor: 'collage_image_path',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.collage_position'],
-        accessor: 'collage_position',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.thumb_image_path'],
-        accessor: 'thumb_image_path',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.grid_image_path'],
-        accessor: 'grid_image_path',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.image_alt_title'],
-        accessor: 'image_alt_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.content_path'],
-        accessor: 'content_path',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.content_properties'],
-        accessor: 'content_properties',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.embedded_id'],
-        accessor: 'embedded_id',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.embedded_url'],
-        accessor: 'embedded_url',
-        isVisible: false,
       },
       {
         Header: messages['common.active_status'],
@@ -186,10 +135,6 @@ const RecentActivitiesPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
-      // {
-      //   Header: messages['common.other_language_fields'],
-      //   accessor: 'other_language_fields',
-      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -213,7 +158,7 @@ const RecentActivitiesPage = () => {
   return (
     <>
       <PageBlock
-        title={<IntlMessages id='recent_activities.institute' />}
+        title={<IntlMessages id='recent_activities.label' />}
         extra={[
           <AddButton
             key={1}
@@ -223,7 +168,7 @@ const RecentActivitiesPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['recent_activities.institute'],
+                  subject: messages['recent_activities.label'],
                 }}
               />
             }

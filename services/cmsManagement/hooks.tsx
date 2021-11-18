@@ -2,7 +2,6 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_CALENDAR_EVENTS,
   API_SLIDERS,
-  API_STATIC_PAGES,
   API_VISITOR_FEEDBACKS,
   CMS_NOTICE_OR_NEWS,
   CMS_RECENT_ACTIVITY,
@@ -17,6 +16,7 @@ import {
   API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_GALLERY_ALBUM_CONTENTS,
   PUBLIC_API_SLIDERS,
+  API_STATIC_PAGE_TYPES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchVisitorFeedbacks(params: any) {
@@ -39,8 +39,8 @@ export function useFetchSliderBanner(bannerId: number | null) {
   return useAxiosSWR(bannerId ? API_BANNERS + '/' + bannerId : null);
 }
 
-export function useFetchStaticPages(params: any) {
-  return useAxiosSWR([API_STATIC_PAGES, params]);
+export function useFetchStaticPageTypes(params: any) {
+  return useAxiosSWR([API_STATIC_PAGE_TYPES, params]);
 }
 
 export function useFetchRecentActivity(recentActivityId: number | null) {
@@ -61,6 +61,7 @@ export function useFetchCMSGlobalConfig() {
 export function useFetchPartners(params: any) {
   return useAxiosSWR([API_PARTNERS, params]);
 }
+
 export function useFetchPublicPartners(params: any) {
   return useAxiosSWR([API_PUBLIC_PARTNERS, params]);
 }
@@ -79,6 +80,7 @@ export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
     galleryAlbumId ? API_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
   );
 }
+
 export function useFetchPublicGalleryAlbum(galleryAlbumId: number | null) {
   return useAxiosSWR(
     galleryAlbumId ? API_PUBLIC_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
@@ -89,6 +91,7 @@ export function useFetchPublicGalleryAlbum(galleryAlbumId: number | null) {
 export function useFetchGalleryAlbumContents(params: any) {
   return useAxiosSWR([API_GALLERY_ALBUM_CONTENTS, params]);
 }
+
 export function useFetchPublicGalleryAlbumContents(params: any) {
   return useAxiosSWR([API_PUBLIC_GALLERY_ALBUM_CONTENTS, params]);
 }
@@ -101,10 +104,6 @@ export function useFetchGalleryAlbumContent(
       ? API_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
       : null,
   );
-}
-
-export function useFetchStaticPage(pageId: number | null) {
-  return useAxiosSWR(pageId ? API_STATIC_PAGES + '/' + pageId : null);
 }
 
 export function useFetchCalenderEvents(params: any) {
