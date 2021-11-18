@@ -1,6 +1,9 @@
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
 import {styled} from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
+import {useContext} from 'react';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import {AppContext} from '../../../../@crema';
 
 const PREFIX = 'AppSidebar';
 
@@ -11,6 +14,8 @@ export const classes = {
 };
 
 export const StyledDrawer = styled(Drawer)(({theme}) => {
+  const {sidebarColors} = useContext<AppContextPropsType>(AppContext);
+
   return {
     [`& .${classes.drawerContainer}`]: {
       paddingLeft: 0,
@@ -26,7 +31,7 @@ export const StyledDrawer = styled(Drawer)(({theme}) => {
       overflow: 'hidden',
       backgroundColor: (props: {themeMode: ThemeMode}) =>
         props.themeMode === ThemeMode.SEMI_DARK
-          ? theme.palette.sidebar.bgColor
+          ? sidebarColors?.bgColor
           : props.themeMode === ThemeMode.LIGHT
           ? 'white'
           : '#313541',

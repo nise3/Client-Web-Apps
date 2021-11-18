@@ -163,7 +163,7 @@ export function contextReducer(state: any, action: any) {
     case ThemeSetting.UPDATE_SIDEBAR_COLOR: {
       return {
         ...state,
-        sidebarColor: action.payload,
+        sidebarColors: action.payload,
       };
     }
     case ThemeSetting.UPDATE_SECONDARY_COLOR: {

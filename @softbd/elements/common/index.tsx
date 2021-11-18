@@ -59,7 +59,7 @@ export const Link = ({
   ...props
 }: LinkProp) => {
   return (
-    <NextLink href={href}>
+    <NextLink href={href} passHref>
       <StyledCustomATag href={href} extraClassName={className} {...props}>
         {children}
       </StyledCustomATag>
@@ -76,7 +76,7 @@ export const NavLink = ({
   const route = useRouter();
   const active = route.pathname == href ? 'active' : '';
   return (
-    <NextLink href={href}>
+    <NextLink href={href} passHref>
       <StyledCustomATag
         href={href}
         extraClassName={clsx(className, active)}

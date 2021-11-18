@@ -32,10 +32,6 @@ const muiThemeConfig: Theme = {
     secondary: {
       main: '#F04F47',
     },
-    sidebar: {
-      bgColor: '#313541',
-      textColor: '#808183',
-    },
     gray: {
       50: '#fafafa',
       100: '#f7fafc',
@@ -144,7 +140,6 @@ const muiThemeConfig: Theme = {
   },
 };
 const defaultConfig: any = {
-  theme: muiThemeConfig,
   themeStyle: ThemeStyle.STANDARD,
   themeMode: ThemeMode.SEMI_DARK,
   navStyle: NavStyle.STANDARD,

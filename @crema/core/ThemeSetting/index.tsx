@@ -214,6 +214,8 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
     updateTheme,
     theme,
     layoutType,
+    sidebarColors,
+    updateSidebarColors,
   } = useContext<AppContextPropsType>(AppContext);
   const onStyleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -241,8 +243,10 @@ const ThemeSetting: React.FC<ThemeSettingProps> = (props) => {
   const updateThemeColors = (colorSet: any) => {
     theme.palette.primary.main = colorSet.PrimaryColor;
     theme.palette.secondary.main = colorSet.SecondaryColor;
-    theme.palette.sidebar.bgColor = colorSet.SidebarColor;
     updateTheme?.(theme);
+
+    sidebarColors.bgColor = colorSet.SidebarColor;
+    updateSidebarColors?.(sidebarColors);
   };
 
   return (

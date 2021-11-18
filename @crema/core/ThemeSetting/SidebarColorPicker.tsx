@@ -14,35 +14,39 @@ const classes = {
 };
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')(({theme}) => ({
-  [`& .${classes.cpSwatch}`]: {
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    cursor: 'pointer',
-    marginBottom: 10,
-    marginRight: 10,
-  },
+const Root = styled('div')(({theme}) => {
+  const {sidebarColors} = useContext(AppContext);
 
-  [`& .${classes.cpColor}`]: {
-    width: 30,
-    height: 16,
-    backgroundColor: theme.palette.sidebar.bgColor,
-    border: `solid 1px ${grey[100]}`,
-    marginRight: 10,
-    [theme.breakpoints.up('xl')]: {
-      width: 40,
-      height: 26,
+  return {
+    [`& .${classes.cpSwatch}`]: {
+      display: 'flex',
+      alignItems: 'center',
+      position: 'relative',
+      cursor: 'pointer',
+      marginBottom: 10,
+      marginRight: 10,
     },
-  },
 
-  [`& .${classes.cpPopover}`]: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    zIndex: 1,
-  },
-}));
+    [`& .${classes.cpColor}`]: {
+      width: 30,
+      height: 16,
+      backgroundColor: sidebarColors?.bgColor,
+      border: `solid 1px ${grey[100]}`,
+      marginRight: 10,
+      [theme.breakpoints.up('xl')]: {
+        width: 40,
+        height: 26,
+      },
+    },
+
+    [`& .${classes.cpPopover}`]: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      zIndex: 1,
+    },
+  };
+});
 
 interface SidebarColorPickerProps {
   props?: any;
@@ -50,7 +54,7 @@ interface SidebarColorPickerProps {
 
 const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
-  const {theme, sidebarColor, updateTheme} = useContext(AppContext);
+  const {sidebarColors, updateSidebarColors} = useContext(AppContext);
 
   return (
     <Root>
@@ -61,10 +65,10 @@ const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
       {visible ? (
         <Box className={classes.cpPopover} onClick={() => setVisibility(false)}>
           <SketchPicker
-            color={sidebarColor}
+            color={sidebarColors?.bgColor}
             onChangeComplete={(color) => {
-              theme.palette.sidebar.bgColor = color.hex;
-              updateTheme!(theme);
+              sidebarColors.bgColor = color.hex;
+              updateSidebarColors!(sidebarColors);
             }}
           />
         </Box>
