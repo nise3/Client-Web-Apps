@@ -216,6 +216,19 @@ const GalleryAlbumDetails = () => {
                       ))}
                   </Grid>
                 </Grid>
+                {metaData.total_page > 1 && (
+                  <Grid item md={12} display={'flex'} justifyContent={'center'}>
+                    <Stack spacing={2}>
+                      <Pagination
+                        page={page.current}
+                        count={metaData.total_page}
+                        color={'primary'}
+                        shape='rounded'
+                        onChange={onPaginationChange}
+                      />
+                    </Stack>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           ) : (
@@ -223,18 +236,6 @@ const GalleryAlbumDetails = () => {
               <H6 py={5}>{messages['common.no_data_found']}</H6>
             </Grid>
           )}
-
-          <Grid item md={12} display={'flex'} justifyContent={'center'}>
-            <Stack spacing={2}>
-              <Pagination
-                page={page.current}
-                count={metaData.total_page}
-                color={'primary'}
-                shape='rounded'
-                onChange={onPaginationChange}
-              />
-            </Stack>
-          </Grid>
         </Grid>
       </StyledContainer>
     </>

@@ -56,6 +56,7 @@ const VideoDetails = () => {
     useFetchPublicGalleryAlbumContent(videoId);
 
   console.log('videoData', videoData);
+  console.log('islOading', isLoadingVideos);
   const [videoUrl, setVideoUrl] = useState('');
 
   const [isOtherUrl, setIsOtherUrl] = useState(false);
@@ -113,7 +114,7 @@ const VideoDetails = () => {
           sx={{display: 'flex', justifyContent: 'space-evenly'}}>
           <Skeleton variant='rectangular' width={'22%'} height={140} />
         </Grid>
-      ) : videoData && videoData?.length > 0 ? (
+      ) : videoData ? (
         <Grid container spacing={3} mt={2}>
           {!isOtherUrl ? (
             <Grid item xs={12}>

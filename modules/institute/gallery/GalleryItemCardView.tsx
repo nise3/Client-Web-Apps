@@ -7,7 +7,13 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {Link} from '../../../@softbd/elements/common';
+import {styled} from '@mui/material/styles';
 
+const StyledTypography = styled(Typography)(({theme}) => ({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+}));
 function GalleryItemCardView({item}: any) {
   let path = '/institute/gallery-albums';
 
@@ -32,9 +38,9 @@ function GalleryItemCardView({item}: any) {
             />
 
             <CardContent>
-              <Typography gutterBottom variant='body1' component='div'>
+              <StyledTypography gutterBottom variant='body1'>
                 {item?.title}
-              </Typography>
+              </StyledTypography>
             </CardContent>
           </CardActionArea>
         </Card>
