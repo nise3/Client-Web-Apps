@@ -7,6 +7,7 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -72,8 +73,11 @@ const YouthNoticeBoard = () => {
     type: NoticeOrNewsTypes.NOTICE,
   });
 
-  const {data: noticeList, metaData} =
-    useFetchPublicNoticeOrNewses(noticeFilters);
+  const {
+    data: noticeList,
+    isLoading: isNoticeLoading,
+    metaData,
+  } = useFetchPublicNoticeOrNewses(noticeFilters);
   useEffect(() => {
     if (showInType) {
       let params: any = {
@@ -138,7 +142,17 @@ const YouthNoticeBoard = () => {
         </Box>
       </Box>
 
-      {noticeList && noticeList.length ? (
+      {isNoticeLoading ? (
+        <Grid container spacing={2} mt={2}>
+          <Grid
+            item
+            xs={12}
+            style={{display: 'flex', justifyContent: 'space-around'}}>
+            <Skeleton variant='rectangular' width={'35%'} height={126} />
+            <Skeleton variant='rectangular' width={'35%'} height={126} />
+          </Grid>
+        </Grid>
+      ) : noticeList && noticeList.length ? (
         <Grid container spacing={3} style={{marginTop: 0}}>
           {noticeList.map((notice: any) => {
             return (

@@ -17,6 +17,7 @@ import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
+import {Skeleton} from '@mui/material';
 
 const PREFIX = 'NoticeDetails';
 
@@ -48,7 +49,9 @@ const NoticeDetails = () => {
   const {messages, formatDate} = useIntl();
   const router = useRouter();
   const {noticeId} = router.query;
-  const {data: notice} = useFetchPublicNoticeOrNews(Number(noticeId));
+  const {data: notice, isLoading: isNoticeLoading} = useFetchPublicNoticeOrNews(
+    Number(noticeId),
+  );
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -57,7 +60,7 @@ const NoticeDetails = () => {
           <Grid container>
             <Grid item xs={6}>
               <Box className={classes.date}>
-                <DateRangeIcon color={'primary'}/>
+                <DateRangeIcon color={'primary'} />
                 <Typography color={'primary'}>
                   {getIntlDateFromString(formatDate, notice?.published_at)}
                 </Typography>
@@ -97,19 +100,26 @@ const NoticeDetails = () => {
             {notice?.title}
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <CardMedia
-            component='img'
-            height='300'
-            image={
-              notice?.main_image_path
-                ? notice?.main_image_path
-                : '/images/notice_details.jpg'
-            }
-            alt={notice?.image_alt_title}
-            title={notice?.title}
-          />
-        </Grid>
+        {isNoticeLoading ? (
+          <Grid item xs={12}>
+            <Skeleton variant='rectangular' width={1150} height={400} />
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <CardMedia
+              component='img'
+              height='300'
+              image={
+                notice?.main_image_path
+                  ? notice?.main_image_path
+                  : '/images/notice_details.jpg'
+              }
+              alt={notice?.image_alt_title}
+              title={notice?.title}
+            />
+          </Grid>
+        )}
+
         <Grid item xs={12}>
           <div
             dangerouslySetInnerHTML={{
