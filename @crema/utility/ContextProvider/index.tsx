@@ -12,30 +12,31 @@ import {
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
 import theme from '../../../@softbd/layouts/themes/dashboard';
-
-const dashboardTheme = theme();
-
-export const ContextState = {
-  theme: dashboardTheme,
-  footer: defaultConfig.footer,
-  footerType: defaultConfig.footerType,
-  themeMode: defaultConfig.themeMode,
-  headerMode: defaultConfig.headerMode,
-  themeStyle: defaultConfig.themeStyle,
-  layoutType: defaultConfig.layoutType,
-  isRTL: dashboardTheme.direction === 'rtl',
-  locale: defaultConfig.locale,
-  navStyle: defaultConfig.navStyle,
-  rtAnim: defaultConfig.rtAnim,
-  primary: dashboardTheme.palette.primary.main,
-  sidebar: {
-    bgColor: '#313541',
-    textColor: '#808183',
-  },
-  secondary: dashboardTheme.palette.secondary.main,
-};
+import {useTheme} from '@mui/material/styles';
 
 const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
+  const dashboardTheme = theme(useTheme());
+
+  const ContextState = {
+    theme: dashboardTheme,
+    footer: defaultConfig.footer,
+    footerType: defaultConfig.footerType,
+    themeMode: defaultConfig.themeMode,
+    headerMode: defaultConfig.headerMode,
+    themeStyle: defaultConfig.themeStyle,
+    layoutType: defaultConfig.layoutType,
+    isRTL: dashboardTheme.direction === 'rtl',
+    locale: defaultConfig.locale,
+    navStyle: defaultConfig.navStyle,
+    rtAnim: defaultConfig.rtAnim,
+    primary: dashboardTheme.palette.primary.main,
+    sidebar: {
+      bgColor: '#313541',
+      textColor: '#808183',
+    },
+    secondary: dashboardTheme.palette.secondary.main,
+  };
+
   const [state, dispatch] = useReducer(
     contextReducer,
     ContextState,
