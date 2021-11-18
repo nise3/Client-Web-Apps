@@ -80,7 +80,7 @@ const Footer = () => {
       <StyledContainer container>
         <Container maxWidth='lg'>
           <Grid container spacing={8}>
-            <Grid item xs={12} md={6} lg={4} p={0}>
+            <Grid item xs={12} md={4} lg={4} p={0}>
               <LogoCustomizable
                 instituteName='Bangladesh Industrial Technical Assistance Centre'
                 instituteLogo='/images/bitac-logo.jpg'
@@ -104,7 +104,7 @@ const Footer = () => {
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={12} md={6} lg={4} p={0} sx={{marginTop: 3}}>
+            <Grid item xs={12} md={4} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>{messages['footer.contact']}</H6>
               <Box display='flex' mt={4}>
                 <Home className={classes.primary} />
@@ -126,7 +126,7 @@ const Footer = () => {
                 </Text>
               </Box>
             </Grid>
-            <Grid item xs={12} md={8} lg={4} p={0} sx={{marginTop: 3}}>
+            <Grid item xs={12} md={4} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>
                 {messages['footer.important_links']}
               </H6>
@@ -236,7 +236,7 @@ const Footer = () => {
                 rel='noopener noreferrer'>
                 <Box component={'span'}>
                   <img
-                    src={'/images/footer-img.png'}
+                    src={'/images/footer-img-white.png'}
                     alt='crema-logo'
                     className={classes.footerImage}
                   />

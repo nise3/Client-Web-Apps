@@ -21,8 +21,16 @@ const DefaultThemeProvider: React.FC<DefaultThemeProviderProps> = ({
     <ThemeProvider theme={theme(currentAppLocale.locale)}>
       <Global
         styles={css`
-          [class*='MuiTypography'] {
+          [class*='MuiTypography'],
+          * {
             font-family: ${LocaleFonts[currentAppLocale.locale]};
+          }
+          body {
+            margin: 0;
+          }
+          body,
+          div {
+            box-sizing: border-box;
           }
         `}
       />
