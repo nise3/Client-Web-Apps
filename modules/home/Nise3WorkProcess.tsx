@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Container, Grid} from '@mui/material';
-import {Fade} from 'react-awesome-reveal';
-import {H4, Link, Text} from '../../@softbd/elements/common';
+import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Fade, Zoom} from 'react-awesome-reveal';
+import {H3, Link} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import {useIntl} from 'react-intl';
+import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
+import {
+  BLOCK_ID_HOW_NISE3_WORKS,
+  CONTENT_ID_HOW_NISE3_WORKS,
+} from '../../@softbd/utilities/StaticContentConfigs';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
+import ContentTypes from '../dashboard/recentActivities/ContentTypes';
+import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
+import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
+import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 
 const PREFIX = 'Nise3WorkProcess';
 
@@ -12,6 +21,7 @@ const classes = {
   detailsButton: `${PREFIX}-detailsButton`,
   youtubePlayerMobileView: `${PREFIX}-youtubePlayerMobileView`,
   youtubePlayer: `${PREFIX}-youtubePlayer`,
+  imageView: `${PREFIX}-imageView`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -44,12 +54,26 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.youtubePlayer}`]: {
-    position: 'absolute',
     height: '300px',
     borderRadius: '15px',
-    bottom: '120px',
+    marginTop: '-185px',
     width: '20rem',
     display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  [`& .${classes.imageView}`]: {
+    height: '300px',
+    borderRadius: '15px',
+    marginTop: '-185px',
+    width: '20rem',
+    display: 'none',
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      marginTop: '0px',
+      width: '100%',
+    },
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
@@ -57,41 +81,122 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const Nise3WorkProcess = () => {
-  const {messages} = useIntl();
+  const [blockData, setBlockData] = useState<any>({});
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [templateConfig, setTemplateConfig] = useState<any>({
+    textLeft: true,
+  });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getPublicStaticPageOrBlockByPageCode(
+          BLOCK_ID_HOW_NISE3_WORKS,
+          {
+            show_in: ShowInTypes.NICE3,
+          },
+        );
+
+        if (response && response.data) {
+          const data = response.data;
+          setBlockData(data);
+
+          if (data.attachment_type != ContentTypes.IMAGE && data?.video_url) {
+            const embeddedUrl = getEmbeddedVideoUrl(data?.video_url);
+            setVideoUrl(embeddedUrl);
+          }
+
+          if (data.template_code == PageBlockTemplateTypes.PBT_RL) {
+            setTemplateConfig({
+              textLeft: false,
+            });
+          } else if (data.template_code == PageBlockTemplateTypes.PBT_LR) {
+            setTemplateConfig({
+              textLeft: true,
+            });
+          }
+        }
+      } catch (e) {}
+    })();
+  }, []);
+
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' style={{position: 'relative'}}>
         <Grid container justifyContent='space-between'>
-          <Grid item xs={12} md={6} py={{xs: 3, md: 5}}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            py={{xs: 3, md: 5}}
+            order={{xs: templateConfig.textLeft ? 1 : 2}}>
             <Fade direction='down'>
-              <H4 style={{fontSize: '44px', fontWeight: 'bold'}}>
-                {messages['nise.how_nise_works']}
-              </H4>
-              <Text style={{fontSize: '21px'}} my={{xs: 4}}>
-                {messages['nise.how_nise_works_text']}
-              </Text>
-              <Link href={'/sc/how-nise3-works'}>
-                <Button
-                  variant='contained'
-                  color={'inherit'}
-                  className={classes.detailsButton}>
-                  {messages['common.read_more']} <ArrowForwardIcon />
-                </Button>
-              </Link>
+              <H3 style={{fontSize: '44px', fontWeight: 'bold'}}>
+                {blockData?.title}
+              </H3>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: blockData?.content,
+                }}
+              />
+
+              {blockData?.is_button_available == 1 ? (
+                <Link
+                  href={
+                    LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                    CONTENT_ID_HOW_NISE3_WORKS
+                  }>
+                  <Button variant='contained' className={classes.detailsButton}>
+                    {blockData?.button_text}
+                    <ArrowForwardIcon />
+                  </Button>
+                </Link>
+              ) : (
+                <Box />
+              )}
             </Fade>
           </Grid>
 
-          <Grid item xs={12} md={4}>
-            <iframe
-              className={classes.youtubePlayerMobileView}
-              src='https://www.youtube.com/embed/PWkOvVkI09k'
-            />
+          {blockData?.is_attachment_available == 1 && (
+            <Grid
+              item
+              xs={12}
+              md={4}
+              order={{xs: templateConfig.textLeft ? 2 : 1}}>
+              {blockData.attachment_type == ContentTypes.IMAGE &&
+                blockData.image_path && (
+                  <Zoom>
+                    <CardMedia
+                      component={'img'}
+                      className={classes.imageView}
+                      image={blockData.image_path}
+                      alt={blockData?.image_alt_title}
+                    />
+                  </Zoom>
+                )}
 
-            <iframe
-              className={classes.youtubePlayer}
-              src='https://www.youtube.com/embed/PWkOvVkI09k'
-            />
-          </Grid>
+              {blockData.attachment_type != ContentTypes.IMAGE && videoUrl && (
+                <Zoom>
+                  <iframe
+                    className={classes.youtubePlayerMobileView}
+                    src={videoUrl}
+                    frameBorder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                    allowFullScreen
+                    title='Embedded youtube'
+                  />
+                  <iframe
+                    className={classes.youtubePlayer}
+                    src={videoUrl}
+                    frameBorder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                    allowFullScreen
+                    title='Embedded youtube'
+                  />
+                </Zoom>
+              )}
+            </Grid>
+          )}
         </Grid>
       </Container>
     </StyledGrid>

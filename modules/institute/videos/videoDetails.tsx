@@ -7,6 +7,7 @@ import React, {useEffect, useState} from 'react';
 import {PlayCircleFilledWhiteOutlined} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {useFetchPublicGalleryAlbumContent} from '../../../services/cmsManagement/hooks';
+import {getEmbeddedVideoUrl} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'VideoDetails';
 
@@ -44,10 +45,6 @@ const StyledContainer = styled(Container)(() => ({
   },
 }));
 
-const fbRegex1 = /\/videos\/([\w\-]*?)\//;
-const fbRegex2 = /\/videos\/([\d]*?)\//;
-const fbReplace = '/videos/';
-
 const VideoDetails = () => {
   const {messages} = useIntl();
   const router = useRouter();
@@ -55,53 +52,12 @@ const VideoDetails = () => {
   const {data: videoData, isLoading: isLoadingVideos} =
     useFetchPublicGalleryAlbumContent(videoId);
 
-  console.log('videoData', videoData);
-  console.log('islOading', isLoadingVideos);
-  const [videoUrl, setVideoUrl] = useState('');
-
-  const [isOtherUrl, setIsOtherUrl] = useState(false);
-
-  const getYoutubeUrl = (url: any) => {
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-
-    const id = match && match[2].length === 11 ? match[2] : null;
-
-    return `https://www.youtube.com/embed/${id}`;
-  };
-
-  const getFacebookUrl = (url: any) => {
-    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
-      url.replace(
-        fbRegex1,
-        url.replace(fbRegex1, fbReplace) == url.replace(fbRegex2, fbReplace)
-          ? '/videos/$1'
-          : fbReplace,
-      ),
-    )}&width=500&height=280&show_text=false&appId`;
-  };
-
-  const getVimeoUrl = (url: any) => {
-    const vimeoRegex = /(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
-    const parsed = url.match(vimeoRegex);
-
-    return '//player.vimeo.com/video/' + parsed[1];
-  };
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (videoData?.video_url) {
-      const domain = new window.URL(videoData?.video_url);
-      if (domain.host == 'www.youtube.com') {
-        setVideoUrl(getYoutubeUrl(videoData?.video_url));
-      } else if (domain.host == 'www.facebook.com') {
-        setVideoUrl(getFacebookUrl(videoData?.video_url));
-      } else if (domain.host == 'vimeo.com') {
-        setVideoUrl(getVimeoUrl(videoData?.video_url));
-      } else {
-        setVideoUrl(videoData?.video_url);
-        setIsOtherUrl(true);
-      }
+      const embeddedUrl = getEmbeddedVideoUrl(videoData?.video_url);
+      setVideoUrl(embeddedUrl);
     }
   }, [videoData]);
 
@@ -116,7 +72,7 @@ const VideoDetails = () => {
         </Grid>
       ) : videoData ? (
         <Grid container spacing={3} mt={2}>
-          {!isOtherUrl ? (
+          {videoUrl ? (
             <Grid item xs={12}>
               <VideoPlayer url={videoUrl} />
             </Grid>

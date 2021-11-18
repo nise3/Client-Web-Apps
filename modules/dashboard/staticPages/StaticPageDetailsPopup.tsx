@@ -16,12 +16,14 @@ import {getStaticPageOrBlockByPageCode} from '../../../services/cmsManagement/St
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import StaticPageTypes from './StaticPageTypes';
-import PageBlockTemplateTypes from './PageBlockTemplateTypes';
+import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplateTypes';
 import ContentTypes from '../recentActivities/ContentTypes';
+import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 
 type Props = {
   pageCode: string;
   pageType: number;
+  pageCategory: number;
   onClose: () => void;
   openEditModal: (page: any) => void;
 };
@@ -29,6 +31,7 @@ type Props = {
 const StaticPageDetailsPopup = ({
   pageCode,
   pageType,
+  pageCategory,
   openEditModal,
   ...props
 }: Props) => {
@@ -38,17 +41,47 @@ const StaticPageDetailsPopup = ({
   const [itemData, setItemData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showInList, setShowInList] = useState<Array<any>>([]);
-  const [showIn, setShowIn] = useState<number>(ShowInTypes.NICE3);
+  const [showIn, setShowIn] = useState<number | null>(null);
 
   useEffect(() => {
-    if (authUser) {
+    switch (pageCategory) {
+      case StaticPageCategoryTypes.COMMON:
+        setShowIn(ShowInTypes.NICE3);
+        break;
+      case StaticPageCategoryTypes.NISE3:
+        setShowIn(ShowInTypes.NICE3);
+        break;
+      case StaticPageCategoryTypes.YOUTH:
+        setShowIn(ShowInTypes.YOUTH);
+        break;
+      case StaticPageCategoryTypes.TSP:
+        setShowIn(ShowInTypes.TSP);
+        break;
+      case StaticPageCategoryTypes.INDUSTRY:
+        setShowIn(ShowInTypes.INDUSTRY);
+        break;
+      default:
+        setShowIn(null);
+    }
+  }, [pageCategory]);
+
+  useEffect(() => {
+    if (authUser && showIn) {
       (async () => {
         setIsLoading(true);
         setItemData(null);
         try {
-          const response = await getStaticPageOrBlockByPageCode(pageCode, {
-            show_in: showIn,
-          });
+          const params: any = {show_in: showIn};
+          if (authUser.isInstituteUser) {
+            params.institute_id = authUser.institute_id;
+          } else if (authUser.isOrganizationUser) {
+            params.organization_id = authUser.organization_id;
+          }
+
+          const response = await getStaticPageOrBlockByPageCode(
+            pageCode,
+            params,
+          );
           if (response && response.data) setItemData(response.data);
         } catch (e) {}
         setIsLoading(false);
@@ -68,8 +101,6 @@ const StaticPageDetailsPopup = ({
 
   const getTemplateCodeTitle = (templateCode: string) => {
     switch (templateCode) {
-      case PageBlockTemplateTypes.PBT_CB:
-        return messages['page_block.template_code_pbt_cb'];
       case PageBlockTemplateTypes.PBT_LR:
         return messages['page_block.template_code_pbt_lr'];
       case PageBlockTemplateTypes.PBT_RL:
@@ -116,29 +147,31 @@ const StaticPageDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          {authUser && authUser.isSystemUser && (
-            <React.Fragment>
-              <Grid item xs={12} md={6}>
-                <RadioGroup
-                  row
-                  aria-label={'show_in'}
-                  value={showIn}
-                  onChange={(e) => {
-                    setShowIn(Number(e.target.value));
-                  }}>
-                  {showInList.map((item: any) => (
-                    <FormControlLabel
-                      key={item.id}
-                      value={item.id}
-                      control={<Radio />}
-                      label={item.title}
-                    />
-                  ))}
-                </RadioGroup>
-              </Grid>
-              <Grid item xs={12} md={6} />
-            </React.Fragment>
-          )}
+          {authUser &&
+            authUser.isSystemUser &&
+            pageCategory == StaticPageCategoryTypes.COMMON && (
+              <React.Fragment>
+                <Grid item xs={12} md={6}>
+                  <RadioGroup
+                    row
+                    aria-label={'show_in'}
+                    value={showIn}
+                    onChange={(e) => {
+                      setShowIn(Number(e.target.value));
+                    }}>
+                    {showInList.map((item: any) => (
+                      <FormControlLabel
+                        key={item.id}
+                        value={item.id}
+                        control={<Radio />}
+                        label={item.title}
+                      />
+                    ))}
+                  </RadioGroup>
+                </Grid>
+                <Grid item xs={12} md={6} />
+              </React.Fragment>
+            )}
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
@@ -244,14 +277,6 @@ const StaticPageDetailsPopup = ({
 
               {itemData?.is_button_available == 1 && (
                 <React.Fragment>
-                  <Grid item xs={12} md={6}>
-                    <DetailsInputView
-                      label={messages['common.link']}
-                      value={itemData?.link}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-
                   <Grid item xs={12} md={6}>
                     <DetailsInputView
                       label={messages['common.button_text']}

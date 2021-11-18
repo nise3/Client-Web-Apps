@@ -47,6 +47,10 @@ export const LINK_FRONTEND_INSTITUTE_CONTACT = '/institute/contact';
 export const LINK_FRONTEND_INSTITUTE_CALENDAR = '/institute/events';
 export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR =
   '/institute/training-calendar';
+export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD =
+  LINK_FRONTEND_INSTITUTE_ROOT + '/notice-board';
+export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES =
+  LINK_FRONTEND_INSTITUTE_ROOT + '/recent-activities';
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/youth';
@@ -80,3 +84,10 @@ export const LINK_FRONTEND_NISE_JOBS = '/jobs';
 export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_FRONTEND_NISE_CALENDAR = '/calendar';
+
+/** static content links */
+export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
+export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT =
+  LINK_FRONTEND_INSTITUTE_ROOT + '/sc/';
+export const LINK_YOUTH_FRONTEND_STATIC_CONTENT =
+  LINK_FRONTEND_YOUTH_ROOT + '/sc/';

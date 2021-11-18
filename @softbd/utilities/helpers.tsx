@@ -358,3 +358,47 @@ export const getShowInTypeFromPath = (path: string) => {
     return ShowInTypes.NICE3;
   }
 };
+
+const fbRegex1 = /\/videos\/([\w\-]*?)\//;
+const fbRegex2 = /\/videos\/([\d]*?)\//;
+const fbReplace = '/videos/';
+
+export const getYoutubeUrl = (url: any) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+
+  const id = match && match[2].length === 11 ? match[2] : null;
+
+  return `https://www.youtube.com/embed/${id}`;
+};
+
+export const getFacebookUrl = (url: any) => {
+  return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
+    url.replace(
+      fbRegex1,
+      url.replace(fbRegex1, fbReplace) == url.replace(fbRegex2, fbReplace)
+        ? '/videos/$1'
+        : fbReplace,
+    ),
+  )}&width=500&height=280&show_text=false&appId`;
+};
+
+export const getVimeoUrl = (url: any) => {
+  const vimeoRegex = /(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
+  const parsed = url.match(vimeoRegex);
+
+  return '//player.vimeo.com/video/' + parsed[1];
+};
+
+export const getEmbeddedVideoUrl = (video_url: any) => {
+  const domain = new window.URL(video_url);
+  if (domain.host == 'www.youtube.com') {
+    return getYoutubeUrl(video_url);
+  } else if (domain.host == 'www.facebook.com') {
+    return getFacebookUrl(video_url);
+  } else if (domain.host == 'vimeo.com') {
+    return getVimeoUrl(video_url);
+  } else {
+    return null;
+  }
+};

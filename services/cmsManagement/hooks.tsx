@@ -11,7 +11,6 @@ import {
   API_PARTNERS,
   API_PUBLIC_NOTICE_OR_NEWS,
   API_BANNERS,
-  API_FRONT_END_STATIC_PAGES,
   API_PUBLIC_PARTNERS,
   API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_GALLERY_ALBUM_CONTENTS,
@@ -74,6 +73,7 @@ export function useFetchPartner(partnerId: number | null) {
 export function useFetchGalleryAlbums(params: any) {
   return useAxiosSWR([API_GALLERY_ALBUMS, params]);
 }
+
 export function useFetchPublicGalleryAlbums(params: any) {
   return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
 }
@@ -108,6 +108,7 @@ export function useFetchGalleryAlbumContent(
       : null,
   );
 }
+
 export function useFetchPublicGalleryAlbumContent(
   galleryAlbumContentId: number | null,
 ) {
@@ -136,19 +137,6 @@ export function useFetchPublicNoticeOrNews(noticeId: number | null) {
   return useAxiosSWR(
     noticeId ? API_PUBLIC_NOTICE_OR_NEWS + '/' + noticeId : null,
   );
-}
-
-export function useFetchSelfAssessment(params: any) {
-  return useAxiosSWR([API_FRONT_END_STATIC_PAGES, params]);
-}
-
-export function useFetchSingleStaticPage(contentId: any, params: any) {
-  return useAxiosSWR([
-    contentId
-      ? API_FRONT_END_STATIC_PAGES + '/' + contentId
-      : API_FRONT_END_STATIC_PAGES,
-    params,
-  ]);
 }
 
 export function useFetchPublicSliders(params: any) {

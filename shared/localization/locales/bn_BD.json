@@ -956,7 +956,6 @@
   "slider.template_code_bt_cb": "পাঠ্য কেন্দ্র এবং ছবির ব্যাকগ্রাউন্ড সহ ব্যানার",
   "slider.template_code_bt_lr": "টেক্সট বাম এবং ছবি ডান সঙ্গে ব্যানার",
   "slider.template_code_bt_rl": "টেক্সট ডান এবং ছবি বাম সঙ্গে ব্যানার",
-  "page_block.template_code_pbt_cb": "টেক্সট সেন্টার এবং ইমেজ ব্যাকগ্রাউন্ড সহ ব্লক",
   "page_block.template_code_pbt_lr": "টেক্সট বামে এবং ছবি ডানে দিয়ে ব্লক",
   "page_block.template_code_pbt_rl": "টেক্সট ডানে এবং ছবি বামে দিয়ে ব্লক",
   "collage_position.left": "বামে",
@@ -984,5 +983,6 @@
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে",
   "static_page.template_code": "টেমপ্লেট",
   "common.is_attachment_available": "এটাচমেন্ট আছে?",
-  "common.attachment_type": "এটাচমেন্টের ধরন"
+  "common.attachment_type": "এটাচমেন্টের ধরন",
+  "common.nise3": "নাইস৩"
 }

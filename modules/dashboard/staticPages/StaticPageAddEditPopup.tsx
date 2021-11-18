@@ -27,9 +27,11 @@ import {
 } from '../../../services/cmsManagement/StaticPageService';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 
 interface StaticPageAddEditPopupProps {
   pageCode: string;
+  pageCategory: number;
   onClose: () => void;
 }
 
@@ -44,6 +46,7 @@ const initialValues = {
 
 const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   pageCode,
+  pageCategory,
   ...props
 }) => {
   const {messages} = useIntl();
@@ -64,12 +67,14 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showInList, setShowInList] = useState<Array<any>>([]);
-  const [showIn, setShowIn] = useState<number>(ShowInTypes.NICE3);
+  const [showIn, setShowIn] = useState<number | null>(null);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       show_in:
-        authUser && authUser.isSystemUser
+        authUser &&
+        authUser.isSystemUser &&
+        pageCategory == StaticPageCategoryTypes.COMMON
           ? yup
               .string()
               .trim()
@@ -124,14 +129,44 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser) {
+    switch (pageCategory) {
+      case StaticPageCategoryTypes.COMMON:
+        setShowIn(ShowInTypes.NICE3);
+        break;
+      case StaticPageCategoryTypes.NISE3:
+        setShowIn(ShowInTypes.NICE3);
+        break;
+      case StaticPageCategoryTypes.YOUTH:
+        setShowIn(ShowInTypes.YOUTH);
+        break;
+      case StaticPageCategoryTypes.TSP:
+        setShowIn(ShowInTypes.TSP);
+        break;
+      case StaticPageCategoryTypes.INDUSTRY:
+        setShowIn(ShowInTypes.INDUSTRY);
+        break;
+      default:
+        setShowIn(null);
+    }
+  }, [pageCategory]);
+
+  useEffect(() => {
+    if (authUser && showIn) {
       (async () => {
         setIsLoading(true);
         setItemData(null);
         try {
-          const response = await getStaticPageOrBlockByPageCode(pageCode, {
-            show_in: showIn,
-          });
+          const params: any = {show_in: showIn};
+          if (authUser.isInstituteUser) {
+            params.institute_id = authUser.institute_id;
+          } else if (authUser.isOrganizationUser) {
+            params.organization_id = authUser.organization_id;
+          }
+
+          const response = await getStaticPageOrBlockByPageCode(
+            pageCode,
+            params,
+          );
           if (response && response.data) setItemData(response.data);
         } catch (e) {}
         setIsLoading(false);
@@ -191,7 +226,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
       reset(data);
     } else {
-      reset({...initialValues, ...{show_in: showIn}});
+      reset({...initialValues, ...{show_in: showIn ? showIn : ''}});
       setSelectedCodes([]);
       setSelectedLanguageList([]);
       setLanguageList([...allLanguages]);
@@ -243,12 +278,12 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      if (authUser?.isInstituteUser) {
+      if (authUser?.isSystemUser) {
+        formData.show_in = showIn;
+      } else if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;
-      }
-
-      if (authUser?.isOrganizationUser) {
+      } else if (authUser?.isOrganizationUser) {
         formData.organization_id = authUser?.organization_id;
         formData.show_in = ShowInTypes.INDUSTRY;
       }
@@ -305,28 +340,30 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
-          <React.Fragment>
-            <Grid item xs={12} md={6}>
-              <FormRadioButtons
-                id='show_in'
-                label={'common.show_in'}
-                control={control}
-                radios={showInList.map((item: any) => {
-                  return {
-                    label: item.title,
-                    key: item.id,
-                  };
-                })}
-                defaultValue={initialValues.show_in}
-                onChange={(value: number) => {
-                  setShowIn(value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} />
-          </React.Fragment>
-        )}
+        {authUser &&
+          authUser.isSystemUser &&
+          pageCategory == StaticPageCategoryTypes.COMMON && (
+            <React.Fragment>
+              <Grid item xs={12} md={6}>
+                <FormRadioButtons
+                  id='show_in'
+                  label={'common.show_in'}
+                  control={control}
+                  radios={showInList.map((item: any) => {
+                    return {
+                      label: item.title,
+                      key: item.id,
+                    };
+                  })}
+                  defaultValue={initialValues.show_in}
+                  onChange={(value: number) => {
+                    setShowIn(value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} />
+            </React.Fragment>
+          )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
