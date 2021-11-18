@@ -25,6 +25,7 @@ import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
+import {freelanceHeader} from './constants';
 
 const PREFIX = 'FreelanceCorner';
 
@@ -34,6 +35,7 @@ const classes = {
   searchButton: `${PREFIX}-searchButton`,
   searchInputBorderHide: `${PREFIX}-searchInputBorderHide`,
   selectStyle: `${PREFIX}-selectStyle`,
+  ...freelanceHeader,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -69,9 +71,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
     background: '#fff',
     '& .MuiSelect-select': {
       padding: '10px 30px 10px 15px',
-    }
+    },
   },
-    ...freelanceHeader
 }));
 
 const FreelanceCorner = () => {
@@ -121,7 +122,9 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box className={classes.sectionHeader} sx={{fontWeight: 'bold'}}>
+                  <Box
+                    /*className={classes.sectionHeader}*/
+                    sx={{fontWeight: 'bold'}}>
                     {messages['freelance_corner.filter_title']}
                   </Box>
                   <List
@@ -154,7 +157,14 @@ const FreelanceCorner = () => {
                         );
                       })}
                   </List>
-                  <Box className={classes.bodyHeader} sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
+                  <Box
+                    /*className={classes.bodyHeader}*/
+                    sx={{
+                      fontWeight: 'bold',
+                      marginTop: 4,
+                      marginBottom: 2,
+                      fontSize: 20,
+                    }}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
 

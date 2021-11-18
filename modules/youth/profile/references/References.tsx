@@ -47,7 +47,7 @@ const References = ({
           <HorizontalLine />
 
           <Grid container justifyContent={'space-between'}>
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} md={8}>
               <Grid container>
                 <Grid item xs={4} md={2}>
                   <Avatar
@@ -98,8 +98,8 @@ const References = ({
                 </StyledGrid>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={3}>
-              <Grid container spacing={2} justifyContent={'flex-end'}>
+            <Grid item xs={12} md={4}>
+              <Grid container justifyContent={'center'}>
                 <Box mt={2}>
                   <CustomParabolaButton
                     buttonVariant={'outlined'}

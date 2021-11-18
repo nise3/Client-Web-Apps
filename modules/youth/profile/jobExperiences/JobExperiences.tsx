@@ -47,7 +47,7 @@ const JobExperiences = ({
         <React.Fragment key={jobExperience.id}>
           <HorizontalLine />
           <StyledGrid container spacing={2}>
-            <Grid item xs={12} sm={8} md={9}>
+            <Grid item xs={12} sm={8} md={8}>
               <Box sx={{display: 'flex'}}>
                 <Avatar>
                   <Verified />
@@ -96,8 +96,8 @@ const JobExperiences = ({
                 </Grid>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <Box sx={{display: 'flex'}}>
+            <Grid item xs={12} sm={4} md={4}>
+              <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <CustomParabolaButton
                   buttonVariant={'outlined'}
                   title={messages['common.edit_btn'] as string}
