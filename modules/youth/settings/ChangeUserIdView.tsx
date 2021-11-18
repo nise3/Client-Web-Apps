@@ -83,6 +83,7 @@ const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
                 label={messages['common.old_email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gamil.com'
               />
             </Grid>
             <Grid item xs={12}>
@@ -91,6 +92,7 @@ const ChangeUserIdView: FC<ChangeUserIdProps> = ({onBack}) => {
                 label={messages['common.new_email']}
                 register={register}
                 errorInstance={errors}
+                placeholder='example@gamil.com'
               />
             </Grid>
             <Grid item xs={12}>

@@ -1,14 +1,25 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button, Card, CardContent} from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
+import {Share} from '@mui/icons-material';
 
 const PREFIX = 'FreelancerCardComponent';
 
 const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
-  colorGray: `${PREFIX}-colorGray`,
+  skillsStyle: `${PREFIX}-skillsStyle`,
+  share: `${PREFIX}-share`,
+  shareTitle: `${PREFIX}-shareTitle`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -17,8 +28,20 @@ const StyledCard = styled(Card)(({theme}) => ({
     fontWeight: 'bold',
   },
 
-  [`& .${classes.colorGray}`]: {
-    color: theme.palette.grey['600'],
+  [`& .${classes.skillsStyle}`]: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+
+  [`& .${classes.share}`]: {
+    backgroundColor: '#95979A !important',
+    borderRadius: '4px 0px 0px 4px !important',
+  },
+  [`& .${classes.shareTitle}`]: {
+    backgroundColor: '#C2C3C6 !important',
+    borderRadius: '0px 4px 4px 0px !important',
+    color: theme.palette.common.white,
+    marginLeft: '-1.5rem !important',
   },
 }));
 
@@ -30,42 +53,59 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
   freelancer,
 }) => {
   const {messages} = useIntl();
+  const skills = freelancer?.skills.slice(0, 2);
 
   return (
     <StyledCard>
       {freelancer && (
         <CardContent>
-          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Box sx={{display: 'flex'}}>
-              <Avatar
-                src={freelancer?.photo}
-                sx={{width: '60px', height: '60px'}}
-              />
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  marginLeft: 2,
-                }}>
-                <Box className={classes.titleStyle}>
-                  {freelancer?.first_name + ' ' + freelancer?.last_name}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={7} md={7}>
+              <Box sx={{display: 'flex'}}>
+                <Avatar
+                  src={freelancer?.photo}
+                  sx={{width: '60px', height: '60px'}}
+                />
+                <Box sx={{marginLeft: 2}}>
+                  <Typography className={classes.titleStyle}>
+                    {freelancer?.first_name + ' ' + freelancer?.last_name}
+                  </Typography>
                 </Box>
               </Box>
-            </Box>
-            <Box>
+            </Grid>
+            <Grid item xs={12} sm={5} md={5}>
+              <Button
+                variant={'outlined'}
+                color={'primary'}
+                sx={{marginRight: '5px'}}>
+                {messages['common.profile']}
+              </Button>
               <Button variant={'contained'} color={'primary'}>
                 {messages['common.contact']}
               </Button>
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
           <Box sx={{margin: '15px 0px'}}>
             {freelancer?.bio || 'No bio added'}
           </Box>
-          <Box>
-            {(freelancer?.skills || []).map((skill: any, index: any) => {
-              return <TagChip label={skill.title} key={index} />;
-            })}
+          <Box className={classes.skillsStyle}>
+            <Box>
+              {freelancer?.skills &&
+                skills?.length > 0 &&
+                (skills || []).map((skill: any) => {
+                  return <TagChip label={skill.title} key={skill.id} />;
+                })}
+            </Box>
+            <Box display={'flex'}>
+              <TagChip
+                icon={<Share sx={{color: 'white !important'}} />}
+                className={classes.share}
+              />
+              <TagChip
+                label={messages['common.share']}
+                className={classes.shareTitle}
+              />
+            </Box>
           </Box>
         </CardContent>
       )}
