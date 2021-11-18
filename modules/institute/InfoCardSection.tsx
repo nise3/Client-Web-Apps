@@ -38,7 +38,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     background: theme.palette.background.paper,
     textAlign: 'center',
     padding: theme.spacing(3),
-    height: 250,
+    height: 232,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
     // color: '#000',
     [theme.breakpoints.down('md')]: {
@@ -52,7 +52,8 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.desc}`]: {
-    color: theme.palette.secondary.main,
+    color: '#014E84', // theme.palette.secondary.main,
+    padding: '0px 6px',
   },
 
   [`& .${classes.rootMobileView}`]: {

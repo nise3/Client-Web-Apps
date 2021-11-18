@@ -9,6 +9,7 @@ export const classes = {
   logoArea: `${PREFIX}-logoArea`,
   header: `${PREFIX}-header`,
   headerHalf: `${PREFIX}-headerHalf`,
+  headerHalfLogo: `${PREFIX}-headerHalfLogo`,
   headerMain: `${PREFIX}-headerMain`,
   headerMainFlex: `${PREFIX}-headerMainFlex`,
   headerFixedHeight: `${PREFIX}-headerFixedHeight`,
@@ -30,11 +31,13 @@ export const classes = {
   languageSwitcher: `${PREFIX}-languageSwitcher`,
   menuItemRegOrLogin: `${PREFIX}-menuItemRegOrLogin`,
   logoInstitute: `${PREFIX}-logoInstitute`,
+  instituteName: `${PREFIX}-instituteName`,
 };
 
 const headerFixedHeight = {
   height: 60,
   minHeight: 60,
+  boxSizing: 'border-box',
 };
 
 export const StyledBox = styled(Box)(({theme}) => ({
@@ -54,11 +57,26 @@ export const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.headerHalf}`]: {
     display: 'flex',
     justifyContent: 'center',
-    textAlign: 'end',
+    textAlign: 'center',
     alignItems: 'center',
+    margin: 'auto',
     [theme.breakpoints.up('md')]: {
-      // width: '50%',
+      margin: '0px 16px 0px 0px',
       justifyContent: 'unset',
+      textAlign: 'end',
+    },
+  },
+
+  [`& .${classes.headerHalfLogo}`]: {
+    display: 'flex',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+    margin: 'auto',
+    [theme.breakpoints.up('md')]: {
+      margin: '0px 0px 0px 24px',
+      justifyContent: 'unset',
+      textAlign: 'end',
     },
   },
 
@@ -70,6 +88,13 @@ export const StyledBox = styled(Box)(({theme}) => ({
     width: '100%',
     height: 48,
     objectFit: 'contain',
+  },
+
+  [`& .${classes.instituteName}`]: {
+    margin: 'auto',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: '16px',
+    },
   },
 }));
 
@@ -95,6 +120,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'right',
+    padding: 0,
     width: '100%',
   },
 
@@ -163,11 +189,11 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
   [`& .${classes.firstMenuItem}`]: {
     ...headerFixedHeight,
     padding: '20px 10px',
-    paddingLeft: 0,
+    paddingLeft: '24px',
     color: theme.palette.primary.contrastText,
     '&.active': {
       backgroundColor: theme.palette.primary.light,
-      paddingLeft: 10,
+      // paddingLeft: 10,
     },
   },
 

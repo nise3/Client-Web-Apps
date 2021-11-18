@@ -50,7 +50,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
   [`& .${classes.youtubePlayerBox}`]: {
     [theme.breakpoints.up('md')]: {
-      transform: 'translate(0px, -100px)',
+      transform: 'translate(0px, -240px)',
     },
   },
 
@@ -67,7 +67,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
   [`& .${classes.youtubePlayer}`]: {
     // position: 'absolute',
-    height: '420px',
+    height: '380px',
     borderRadius: '15px',
     border: 'none',
     bottom: '120px',

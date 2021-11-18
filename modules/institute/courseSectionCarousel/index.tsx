@@ -23,11 +23,21 @@ const StyledCarouselBox = styled(Box)(({theme}) => ({
     padding: '20px 10px 60px 10px',
     margin: 0,
   },
+  '& .react-multiple-carousel__arrow--left': {
+    left: 0,
+  },
+  '& .react-multiple-carousel__arrow--right': {
+    right: 0,
+  },
+  '& .react-multiple-carousel__arrow--left::before, & .react-multiple-carousel__arrow--right::before':
+    {
+      color: '#fff',
+    },
 }));
 
 const StyledBoxCentered = styled(Box)(() => ({
   [`& .${classes.button}`]: {
-    borderRadius: 20,
+    borderRadius: 40,
   },
 }));
 

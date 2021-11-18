@@ -108,9 +108,8 @@ const Header: React.FC<AppHeaderProps> = () => {
           className={classes.logoArea}
           style={{marginTop: '16px'}}>
           <Link
-            href='/institute'
-            className={classes.headerHalf}
-            style={{marginRight: '-11%'}}>
+            href={LINK_FRONTEND_INSTITUTE_ROOT}
+            className={classes.headerHalfLogo}>
             {/*<LogoCustomizable
               instituteName='Bangladesh Industrial Technical Assistance Centre'
               instituteLogo='/images/Logo-Nise-Bitac-Gov.png'
@@ -124,7 +123,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             </Box>
           </Link>
 
-          <Grid item md={4} style={{margin: 'auto'}}>
+          <Grid item md={4} className={classes.instituteName}>
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
