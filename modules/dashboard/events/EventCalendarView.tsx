@@ -28,6 +28,8 @@ interface ICalenderEvents {
   organization_id?: any;
   start_date: Date | string;
   end_date: Date | string;
+  start?: Date  | string;
+  end?: Date  | string;
   start_time?: any;
   end_time?: any;
   color: string;
@@ -72,7 +74,7 @@ const EventCalendarView = (comProps: IComProps) => {
   
   switch (comProps.calendarFor) {
     case 'youth':
-      requestQuery.youth_id = authUser?.youthId;
+      // requestQuery.youth_id = authUser?.youthId;
       break;
     case 'institute':
       requestQuery.institute_id = authUser?.institute_id;
@@ -148,13 +150,22 @@ const EventCalendarView = (comProps: IComProps) => {
   // }, [eventsList]);
 
   useEffect(() => {
+    if(events){
+      events.forEach((element: any) => {
+        element['start'] = element.start_date;
+        element['end'] = element.start_date;
+      });
+    }
+  }, [events])
+
+  useEffect(() => {
     if (events) {
       events
         .map((e: ICalenderEvents) => {
-          const start = e.start_time ? `${e.start_date}T${e.start_time}` : `${e.start_date}`;
-          const end = e.end_time ? `${e.end_date}T${e.end_time}` : `${e.end_date}`;
-          e.start_date = new Date(start);
-          e.end_date = new Date(end);
+          const start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
+          const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+          e.start = new Date(start);
+          e.end = new Date(end);
           return e;
         });
       console.log(events);
@@ -169,14 +180,13 @@ const EventCalendarView = (comProps: IComProps) => {
 
   return (
     <>
-      <Grid item xs={12} md={12}>
+      <Grid item xs={12} md={12} style={{paddingTop: 20}}>
         <Calendar
           events={eventsList}
-          // events={events1}
           localizer={localizer}
           style={{ height: '100vh' }}
-          startAccessor="start_date"
-          endAccessor="end_date"
+          startAccessor="start"
+          endAccessor="end"
           defaultDate={moment().toDate()}
           onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
           onSelectEvent={onSelectEvent}

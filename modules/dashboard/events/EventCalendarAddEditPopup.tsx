@@ -25,6 +25,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import { LocalizationProvider, TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
+import IconBranch from '../../../@softbd/icons/IconBranch';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null;
@@ -117,7 +118,9 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<Calendar> = async (data: Calendar) => {
     // const onSubmit: any = (data:Calendar) => {
-    data.youth_id = authUser?.youthId;
+    // data.youth_id = authUser?.youthId;
+    data.start = data.start_date;
+    data.end = data.end_date;
     data.institute_id = authUser?.institute_id;
     // console.log(data);
     try {
@@ -140,16 +143,16 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
 
   };
 
-  const onDelete = async () => {
-    // console.log('delete this: ', itemId)
-    if (itemId) {
-      await deleteEvent(itemId);
-      updateSuccessMessage('menu.events');
-      props.onClose();
-      refreshDataTable('delete', itemId);
-      // mutateBranch();
-    }
-  }
+  // const onDelete = async () => {
+  //   // console.log('delete this: ', itemId)
+  //   if (itemId) {
+  //     await deleteEvent(itemId);
+  //     updateSuccessMessage('menu.events');
+  //     props.onClose();
+  //     refreshDataTable('delete', itemId);
+  //     // mutateBranch();
+  //   }
+  // }
 
   return (
     <HookFormMuiModal
@@ -177,12 +180,12 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
-          {
+          {/* {
             itemId && <DeleteButton
               deleteAction={onDelete}
               deleteTitle={messages['common.delete_confirm'] as string}
             />
-          }
+          } */}
           
         </>
       }>

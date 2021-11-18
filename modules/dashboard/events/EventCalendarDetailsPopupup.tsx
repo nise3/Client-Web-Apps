@@ -12,19 +12,34 @@ import { getLanguageLabel } from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import { deleteEvent } from '../../../services/cmsManagement/EventService';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 type Props = {
   itemId: number;
   onClose: () => void;
   openEditModal: (id: number) => void;
+  refreshDataTable: (events: string, item?:any) => void;
 };
 
-const EventCalendarDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
+const EventCalendarDetailsPopup = ({ itemId, openEditModal, refreshDataTable, ...props }: Props) => {
   const { messages } = useIntl();
   const { data: itemData, isLoading } = useFetchCalendarEvent(itemId);
-
+  const { updateSuccessMessage } = useSuccessMessage();
   const { data: cmsGlobalConfig } = useFetchCMSGlobalConfig();
 
+  const onDelete = async () => {
+    // console.log('delete this: ', itemId)
+    if (itemId) {
+      await deleteEvent(itemId);
+      updateSuccessMessage('menu.events');
+      props.onClose();
+      refreshDataTable('delete', itemId);
+      // mutateBranch();
+    }
+  }
+  
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -44,6 +59,12 @@ const EventCalendarDetailsPopup = ({ itemId, openEditModal, ...props }: Props) =
               onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
             />
+            {
+            itemId && <DeleteButton
+              deleteAction={onDelete}
+              deleteTitle={messages['common.delete_confirm'] as string}
+            />
+          }
           </>
         }>
         <Grid container spacing={3}>

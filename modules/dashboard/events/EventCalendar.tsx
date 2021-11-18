@@ -29,7 +29,6 @@ interface ICalenderEvents {
   start_date: Date | string;
   end_date: Date | string;
   start_time?: any;
-  start_time?: any;
   end_time?: any;
   start?: any;
   end?: any;
@@ -46,30 +45,14 @@ interface IComProps {
   calendarFor: string;
   editable: boolean;
 }
-// const events1 = [
-//   {
-//     id: "1",
-//     start: new Date('2021-11-08'),
-//     end: new Date('2021-11-08'),
-//     title: 'Partners'
-//   },
-//   // {
-//   //   id: "2",
-//   //   start: '2021-11-09',
-//   //   end: '2021-11-11',
-//   //   title: 'Event Project'
-//   // }
-// ];
 
-// const EventCalendar = ({calendarFor: string, editable: boolean}) => {
 const EventCalendar = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
   console.log('useAuthUser ', authUser);
   const isEditable = comProps.editable ? comProps.editable : false;
-  /*const authUser = useAuthUser();*/
-  // console.log('from component ', comProps.calendarFor);
+  
   let requestQuery: IQuery = {
     type: 'month'
   }
@@ -229,6 +212,7 @@ const EventCalendar = (comProps: IComProps) => {
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </Grid>
