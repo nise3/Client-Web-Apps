@@ -14,6 +14,24 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import * as _ from 'lodash';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../shared/constants/AppEnums';
+
+const PREFIX = 'FreelanceProfileComponent';
+
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledCard = styled(Card)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 const FreelanceProfileComponent = () => {
   const {messages} = useIntl();
@@ -54,9 +72,9 @@ const FreelanceProfileComponent = () => {
   };
 
   return (
-    <Card>
+    <StyledCard>
       <CardContent>
-        <Typography variant={'h6'}>
+        <Typography variant={'h6'} className={classes.textStyle}>
           {messages['common.freelance_profile']}
         </Typography>
         <Typography variant={'body2'}>
@@ -73,7 +91,7 @@ const FreelanceProfileComponent = () => {
           label=''
         />
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 

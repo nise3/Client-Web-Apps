@@ -10,6 +10,23 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'JobExperience';
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 type JobExperienceProp = {
   jobExperiences: Array<YouthJobExperience>;
@@ -29,14 +46,16 @@ const JobExperiences = ({
       {jobExperiences.map((jobExperience: YouthJobExperience) => (
         <React.Fragment key={jobExperience.id}>
           <HorizontalLine />
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8} md={9}>
+          <StyledGrid container spacing={2}>
+            <Grid item xs={12} sm={8} md={8}>
               <Box sx={{display: 'flex'}}>
                 <Avatar>
                   <Verified />
                 </Avatar>
                 <Box sx={{marginLeft: '15px'}}>
-                  <Typography variant={'subtitle2'}>
+                  <Typography
+                    variant={'subtitle2'}
+                    className={classes.textStyle}>
                     {jobExperience?.company_name}
                   </Typography>
                   <Typography variant={'caption'}>
@@ -77,8 +96,8 @@ const JobExperiences = ({
                 </Grid>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <Box sx={{display: 'flex'}}>
+            <Grid item xs={12} sm={4} md={4}>
+              <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <CustomParabolaButton
                   buttonVariant={'outlined'}
                   title={messages['common.edit_btn'] as string}
@@ -98,7 +117,7 @@ const JobExperiences = ({
             <Grid item xs={12}>
               <Typography>{jobExperience?.job_responsibilities}</Typography>
             </Grid>
-          </Grid>
+          </StyledGrid>
         </React.Fragment>
       ))}
     </React.Fragment>

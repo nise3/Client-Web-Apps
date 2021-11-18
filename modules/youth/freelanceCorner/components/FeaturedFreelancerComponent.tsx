@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {useIntl} from 'react-intl';
-import {Avatar, Box, Card, Chip, Grid} from '@mui/material';
+import {Avatar, Box, Card, Grid} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
+import {Star} from '@mui/icons-material';
 
 const PREFIX = 'FeaturedFreelancerComponent';
 
@@ -12,6 +12,7 @@ const classes = {
   tagStyle: `${PREFIX}-tagStyle`,
   freelancerNameStyle: `${PREFIX}-freelancerNameStyle`,
   designationStyle: `${PREFIX}-designationStyle`,
+  starStyle: `${PREFIX}-starStyle`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -26,14 +27,14 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
 
   [`& .${classes.tagStyle}`]: {
-    color: '#fca67e',
+    color: theme.palette.warning.main,
     position: 'absolute',
-    top: 10,
-    right: 10,
-    borderRadius: 4,
-    height: 25,
-    background: '#fff2ed',
-    borderColor: '#fdab85',
+    top: 14,
+    right: 9,
+    borderRadius: '50%',
+    height: 21,
+    width: 21,
+    background: '#FEF0EA',
     '& .MuiChip-label': {
       padding: '0px 5px',
     },
@@ -51,6 +52,14 @@ const StyledCard = styled(Card)(({theme}) => ({
     color: theme.palette.primary.main,
     fontWeight: Fonts.BOLD,
   },
+
+  [`& .${classes.starStyle}`]: {
+    height: '13px',
+    width: '13px',
+    position: 'absolute',
+    top: 4,
+    left: 4,
+  },
 }));
 
 interface FeaturedFreelancerComponentProps {
@@ -64,8 +73,6 @@ interface FeaturedFreelancerComponentProps {
 const FeaturedFreelancerComponent: FC<FeaturedFreelancerComponentProps> = ({
   freelanceUser,
 }) => {
-  const {messages} = useIntl();
-
   return (
     <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
@@ -76,19 +83,22 @@ const FeaturedFreelancerComponent: FC<FeaturedFreelancerComponentProps> = ({
             src={freelanceUser.image}
           />
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={8}>
           <Box className={classes.freelancerNameStyle}>
             {freelanceUser.name}
           </Box>
-          <Box className={classes.designationStyle}>
-            {freelanceUser.designation}
-          </Box>
+          <Box>{freelanceUser.designation}</Box>
         </Grid>
-        <Chip
+        {/*<Chip
           variant='outlined'
           label={messages['common.featured']}
           className={classes.tagStyle}
-        />
+        />*/}
+        <Grid item>
+          <div className={classes.tagStyle}>
+            <Star className={classes.starStyle} />
+          </div>
+        </Grid>
       </Grid>
     </StyledCard>
   );

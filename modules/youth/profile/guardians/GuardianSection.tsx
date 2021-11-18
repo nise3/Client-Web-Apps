@@ -9,8 +9,24 @@ import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
 import {useFetchGuardians} from '../../../../services/youthManagement/hooks';
 import {Guardian} from '../../../../services/youthManagement/typing';
-import TextPrimary from '../component/TextPrimary';
 import VerticalLine from '../component/VerticalLine';
+import {styled} from '@mui/material/styles';
+import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+
+const PREFIX = 'GuardianSection';
+const classes = {
+  textStyle: `${PREFIX}-textStyle`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.textStyle}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: Fonts.BOLD,
+  },
+}));
 
 const GuardianSection = () => {
   const {messages} = useIntl();
@@ -81,14 +97,16 @@ const GuardianSection = () => {
                 <Typography>{messages['common.no_data_found']}</Typography>
               ) : (
                 <React.Fragment>
-                  <Box sx={{display: 'flex'}}>
+                  <StyledBox sx={{display: 'flex'}}>
                     {guardians.map((guardian: Guardian, index: number) => (
                       <React.Fragment key={guardian.id}>
                         {index != 0 && <VerticalLine />}
-                        <TextPrimary text={guardian.name} />
+                        <Typography className={classes.textStyle}>
+                          {guardian.name}
+                        </Typography>
                       </React.Fragment>
                     ))}
-                  </Box>
+                  </StyledBox>
                   <Typography
                     variant={'caption'}
                     onClick={() => {

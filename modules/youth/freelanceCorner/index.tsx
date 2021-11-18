@@ -25,7 +25,6 @@ import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
-import {freelanceHeader} from './constants';
 
 const PREFIX = 'FreelanceCorner';
 
@@ -72,7 +71,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
       padding: '10px 30px 10px 15px',
     },
   },
-  ...freelanceHeader,
 }));
 
 const FreelanceCorner = () => {
@@ -122,7 +120,8 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box sx={{fontWeight: 'bold'}}>
+                  <Box
+                    sx={{fontWeight: 'bold'}}>
                     {messages['freelance_corner.filter_title']}
                   </Box>
                   <List
@@ -155,7 +154,13 @@ const FreelanceCorner = () => {
                         );
                       })}
                   </List>
-                  <Box sx={{fontWeight: 'bold', marginTop: 4, marginBottom: 2}}>
+                  <Box
+                    sx={{
+                      fontWeight: 'bold',
+                      marginTop: 4,
+                      marginBottom: 2,
+                      fontSize: 20,
+                    }}>
                     {messages['freelance_corner.specific_location']}
                   </Box>
 

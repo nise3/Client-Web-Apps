@@ -26,6 +26,7 @@ import {
 import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {ThemeMode} from '../../../../shared/constants/AppEnums';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -35,6 +36,7 @@ const classes = {
   dividerStyle: `${PREFIX}-dividerStyle`,
   skillInfoGrid: `${PREFIX}-skillInfoGrid`,
   iconSizes: `${PREFIX}-iconSizes`,
+  textColor: `${PREFIX}-textColor`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -69,6 +71,13 @@ const StyledCard = styled(Card)(({theme}) => ({
     [theme.breakpoints.only('xs')]: {
       flexDirection: 'column',
     },
+  },
+
+  [`& .${classes.textColor}`]: {
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.common.white
+        : theme.palette.common.black,
   },
 }));
 
@@ -122,7 +131,7 @@ const PersonalInfoSection = () => {
           <Grid item xs={12} sm={10} md={10}>
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <Box>
-                <Typography variant={'h6'}>
+                <Typography variant={'h5'} className={classes.textColor}>
                   {authUser?.first_name} {authUser?.last_name}
                 </Typography>
                 <Typography variant={'subtitle2'}>

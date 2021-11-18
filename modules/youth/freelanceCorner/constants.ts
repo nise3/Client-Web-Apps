@@ -1,8 +1,8 @@
 export const freelanceHeader = {
-    sectionHeader: {
-        fontSize: 18
-      },
-      bodyHeader: {
-        fontSize: 20
-      }
-}
+  sectionHeader: {
+    fontSize: 500,
+  },
+  bodyHeader: {
+    fontSize: 20,
+  },
+};

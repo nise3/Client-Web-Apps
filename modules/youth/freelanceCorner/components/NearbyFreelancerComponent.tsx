@@ -2,11 +2,13 @@ import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {Avatar, Box, Button} from '@mui/material';
+
 const PREFIX = 'NearbyFreelancer';
 
 const classes = {
   userImage: `${PREFIX}-userImage`,
   designation: `${PREFIX}-designation`,
+  detailsButton: `${PREFIX}-detailsButton`,
 };
 
 const StyledStyledBox = styled(Box)(({theme}) => ({
@@ -18,6 +20,12 @@ const StyledStyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.designation}`]: {
     color: theme.palette.grey['600'],
     marginBottom: 10,
+  },
+  [`& .${classes.detailsButton}`]: {
+    backgroundColor: theme.palette.grey['300'],
+    color: theme.palette.common.black,
+    boxShadow: 'none',
+    marginLeft: 10,
   },
 }));
 
@@ -48,8 +56,11 @@ const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
           <Button variant='contained' color='primary' size={'small'}>
             {messages['common.contact']}
           </Button>
-          <Button variant='contained' size={'small'} style={{marginLeft: 10}}>
-            {messages['common.details']}
+          <Button
+            className={classes.detailsButton}
+            variant='contained'
+            size={'small'}>
+            {messages['common.profile']}
           </Button>
         </Box>
       </Box>

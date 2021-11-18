@@ -21,6 +21,7 @@ export const classes = {
   pointer: `${PREFIX}-pointer`,
   menuIconRoot: `${PREFIX}-menuIconRoot`,
   logoRoot: `${PREFIX}-logoRoot`,
+  navTextColor: `${PREFIX}-test`,
 };
 
 export const StyledAppBar = styled(AppBar)(({theme}) => ({
@@ -155,5 +156,8 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.logoRoot}`]: {
     height: 30,
+  },
+  [`& .${classes.navTextColor}`]: {
+    color: theme.palette.grey[500],
   },
 }));
