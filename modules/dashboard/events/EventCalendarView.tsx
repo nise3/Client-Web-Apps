@@ -28,8 +28,8 @@ interface ICalenderEvents {
   organization_id?: any;
   start_date: Date | string;
   end_date: Date | string;
-  start?: Date  | string;
-  end?: Date  | string;
+  // start?: Date  | string;
+  // end?: Date  | string;
   start_time?: any;
   end_time?: any;
   color: string;
@@ -161,7 +161,7 @@ const EventCalendarView = (comProps: IComProps) => {
   useEffect(() => {
     if (events) {
       events
-        .map((e: ICalenderEvents) => {
+        .map((e: any) => {
           const start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
           const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
           e.start = new Date(start);
