@@ -12,15 +12,6 @@ import { useIntl } from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  createBranch,
-  updateBranch,
-} from '../../../services/instituteManagement/BranchService';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import {
-  useFetchBranch,
-  useFetchInstitutes,
-} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 
@@ -40,7 +31,7 @@ interface CalendarAddEditPopupProps {
   startDate: string | null;
   endDate: string | null;
   onClose: () => void;
-  refreshDataTable: (item?:any) => void;
+  refreshDataTable: (events: string, item?:any) => void;
 }
 
 let initialValues = {
@@ -117,7 +108,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     } else {
       initialValues.organization_id = authUser?.organization_id as string,
       initialValues.institute_id = authUser?.institute_id as string,
-      initialValues.youth_id = authUser?.youth_id,
+      // initialValues.youth_id = authUser?.youth_id,
       initialValues.start_date = moment(startDate).format('yyyy-MM-DD'),
       initialValues.end_date = moment(endDate).format('yyyy-MM-DD'),
       reset(initialValues);

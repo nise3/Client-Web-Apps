@@ -29,7 +29,10 @@ interface ICalenderEvents {
   start_date: Date | string;
   end_date: Date | string;
   start_time?: any;
+  start_time?: any;
   end_time?: any;
+  start?: any;
+  end?: any;
   color: string;
   created_at: Date;
   updated_at: Date;
@@ -63,23 +66,26 @@ const EventCalendar = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
-  // console.log('useAuthUser ', authUser);
+  console.log('useAuthUser ', authUser);
   const isEditable = comProps.editable ? comProps.editable : false;
   /*const authUser = useAuthUser();*/
   // console.log('from component ', comProps.calendarFor);
   let requestQuery: IQuery = {
     type: 'month'
   }
-  switch (comProps.calendarFor) {
-    case 'youth':
-      requestQuery.youth_id = authUser?.youthId;
-      break;
-    case 'institute':
-      requestQuery.institute_id = authUser?.institute_id;
-      break
-    default:
-      break;
+  if(authUser?.isInstituteUser){
+    requestQuery.institute_id = authUser.institute_id;
   }
+  // switch (comProps.calendarFor) {
+  //   case 'youth':
+  //     requestQuery.youth_id = authUser?.youthId;
+  //     break;
+  //   case 'institute':
+  //     requestQuery.institute_id = authUser?.institute_id;
+  //     break
+  //   default:
+  //     break;
+  // }
 
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -147,15 +153,27 @@ const EventCalendar = (comProps: IComProps) => {
 
   }, [eventsList]);
 
+  
+
   useEffect(() => {
+    if(events){
+      events.forEach((element: any) => {
+        element['start'] = element.start_date;
+        element['end'] = element.start_date;
+      });
+    }
+  }, [events])
+
+  useEffect(() => {
+    
     if (events) {
       events
         .map((e: ICalenderEvents) => {
-          const start = e.start_time ? `${e.start_date}T${e.start_time}` : `${e.start_date}`;
-          const end = e.end_time ? `${e.end_date}T${e.end_time}` : `${e.end_date}`;
-          e.start_date = new Date(start);
-          e.end_date = new Date(end);
-          return e;
+          const start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
+          const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+          e.start = new Date(start);
+          e.end = new Date(end);
+          return e
         });
       console.log(events);
       setEventsList(events);
@@ -183,8 +201,8 @@ const EventCalendar = (comProps: IComProps) => {
           selectable={isEditable}
           localizer={localizer}
           style={{ height: '100vh' }}
-          startAccessor="start_date"
-          endAccessor="end_date"
+          startAccessor="start"
+          endAccessor="end"
           defaultDate={moment().toDate()}
           onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
           onNavigate={(e: any) => console.log('onNavigate ', e)}
