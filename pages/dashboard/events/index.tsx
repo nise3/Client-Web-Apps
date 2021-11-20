@@ -15,8 +15,8 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />
-      {/* <EventCalendarPage routeQeury={router.query}  /> */}
-      <EventCalendarPage calendarFor="nise" editable={true} />
+      {/* @ts-ignore */}
+      <EventCalendarPage calendarFor='nise' editable={true} />
     </>
   );
 });

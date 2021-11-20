@@ -9,14 +9,12 @@ const EventCalendarViewPage = asyncComponent(
 );
 export default NiseFrontPage(() => {
   const {messages} = useIntl();
-  // const router = useRouter();
-  // console.log(router.query);
-  
+
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />
-      <EventCalendarViewPage calendarFor="nise"/>
-      
+      {/*// @ts-ignore*/}
+      <EventCalendarViewPage calendarFor='nise' />
     </>
   );
 });
