@@ -14,10 +14,11 @@ const StyledTypography = styled(Typography)(({theme}) => ({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
 }));
+
 function GalleryItemCardView({item}: any) {
   let path = '/institute/gallery-albums';
 
-  let image = '';
+  let image;
   if (item?.grid_image_path) {
     image = item?.grid_image_path;
   } else {

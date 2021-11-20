@@ -39,7 +39,7 @@ interface Calendar {
   updated_at?: string;
   created_at?: string;
   id?: number | string;
-};
+}
 
 interface StaticPage {
   title?: string;

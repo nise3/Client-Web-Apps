@@ -14,7 +14,6 @@ export interface NavItemProps {
   children?: NavItemProps[] | NavItemProps;
 }
 
-const instituteId = 1;
 const routesConfig: NavItemProps[] = [
   {
     id: 'pages',

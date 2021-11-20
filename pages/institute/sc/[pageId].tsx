@@ -3,7 +3,6 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import {apiGet} from '../../../@softbd/common/api';
 import {API_PUBLIC_STATIC_PAGE_BLOCKS} from '../../../@softbd/common/apiRoutes';
 import StaticContent from '../../../modules/sc';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 export default InstituteDefaultFrontPage(({data}: any) => {
@@ -22,10 +21,10 @@ export async function getServerSideProps(context: any) {
 
   const {pageId} = context.query;
   let params: any = {
-    institute_id: useVendor()?.id,
+    // institute_id: useVendor()?.id,
+    institute_id: 1,
     show_in: ShowInTypes.TSP,
   };
-
 
   try {
     const res = await apiGet(API_PUBLIC_STATIC_PAGE_BLOCKS + pageId, {

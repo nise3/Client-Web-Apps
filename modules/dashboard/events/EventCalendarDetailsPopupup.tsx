@@ -5,10 +5,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {
-  useFetchCalendarEvent,
-  useFetchCMSGlobalConfig,
-} from '../../../services/cmsManagement/hooks';
+import {useFetchCalendarEvent} from '../../../services/cmsManagement/hooks';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import {deleteEvent} from '../../../services/cmsManagement/EventService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';

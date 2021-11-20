@@ -23,7 +23,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   const onConfirm = useCallback(() => {
     deleteAction();
     setDeleteDialogOpen(false);
-  }, [setDeleteDialogOpen]);
+  }, [setDeleteDialogOpen, deleteAction]);
 
   const onDeny = useCallback(() => {
     setDeleteDialogOpen(false);

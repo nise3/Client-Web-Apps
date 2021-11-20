@@ -92,7 +92,7 @@ const YouthPage = () => {
     });
 
   const filteredData = data.map((youth: any) => {
-    let gender_label: string = '';
+    let gender_label: string;
     if (youth.gender === parseInt(Genders.MALE)) {
       gender_label = 'Male';
     } else if (youth.gender === parseInt(Genders.FEMALE)) {
