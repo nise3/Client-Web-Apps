@@ -1,15 +1,44 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, {useContext} from 'react';
 import VerticalCollapse from './VerticalCollapse';
 import VerticalItem from './VerticalItem';
 import IntlMessages from '../../../utility/IntlMessages';
-import {classes, StyledListItem} from './VerticalNavGroup.style';
 import {NavItemProps} from '../../../../modules/routesConfig';
+import {styled} from '@mui/material/styles';
+import {ListItem} from '@mui/material';
+import {ThemeMode} from '../../../../shared/constants/AppEnums';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../utility/AppContext';
 
 interface VerticalNavGroupProps {
   item: NavItemProps;
   level: number;
 }
+
+const StyledListItem = styled(ListItem)(({theme}) => {
+  const {themeMode} = useContext<AppContextPropsType>(AppContext);
+  return {
+    height: 40,
+    marginTop: 2,
+    marginBottom: 2,
+    color:
+      themeMode === ThemeMode.LIGHT
+        ? theme.palette.text.secondary
+        : 'rgba(255,255,255,0.38)',
+    fontWeight: 700,
+    fontSize: 14,
+    cursor: 'pointer',
+    textDecoration: 'none!important',
+
+    [theme.breakpoints.up('xl')]: {
+      // fontSize: 16,
+      marginTop: 4,
+      marginBottom: 4,
+    },
+    '&.nav-item-header': {
+      textTransform: 'uppercase',
+    },
+  };
+});
 
 const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
   return (
@@ -17,7 +46,11 @@ const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
       <StyledListItem
         // @ts-ignore
         component='li'
-        className={clsx(classes.navItem, 'nav-item nav-item-header')}>
+        className={'nav-item nav-item-header'}
+        style={{
+          paddingLeft: 12 * level,
+          paddingRight: 12 * level,
+        }}>
         {<IntlMessages id={item.messageId} />}
       </StyledListItem>
 
@@ -26,7 +59,7 @@ const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
           {item.children.map((item: any) => (
             <React.Fragment key={item.id}>
               {item.type === 'group' && (
-                <NavVerticalGroup item={item} level={level} />
+                <VerticalNavGroup item={item} level={level} />
               )}
 
               {item.type === 'collapse' && (
@@ -44,6 +77,4 @@ const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
   );
 };
 
-const NavVerticalGroup = VerticalNavGroup;
-
-export default NavVerticalGroup;
+export default VerticalNavGroup;

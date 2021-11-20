@@ -39,7 +39,6 @@ const AppSidebar: React.FC<AppSidebarProps> = ({
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
-  console.log('sidebarColors?.bgColor', sidebarColors?.bgColor);
   return (
     <>
       {breakpointMDUp ? (
