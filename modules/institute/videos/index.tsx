@@ -1,10 +1,12 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {styled} from '@mui/material/styles';
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
   CardContent,
+  CardMedia,
   Chip,
   Container,
   Grid,
@@ -19,14 +21,16 @@ import {
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import SearchIcon from '@mui/icons-material/Search';
-import {H3, Link} from '../../../@softbd/elements/common';
-import {useRouter} from 'next/router';
+import {H3} from '../../../@softbd/elements/common';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {
   useFetchPublicGalleryAlbumContents,
   useFetchPublicGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
+import {useVendor} from '../../../@crema/utility/AppHooks';
+import AlbumTypes from '../../dashboard/galleryAlbums/AlbumTypes';
+import CustomizedDialogs from '../Components/ImageDialog';
 
 const PREFIX = 'InstituteVideos';
 
@@ -50,14 +54,14 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteVideos = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
 
-  const router = useRouter();
-  const path = router.pathname;
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
   const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');
   const [videoAlbumContentFilter, setVideoAlbumContentFilter] = useState<any>({
-    album_type: 2,
+    institute_id: vendor?.id,
+    album_type: AlbumTypes.VIDEO,
     page: 1,
     page_size: 8,
   });
@@ -68,14 +72,19 @@ const InstituteVideos = () => {
   } = useFetchPublicGalleryAlbumContents(videoAlbumContentFilter);
 
   const [videoAlbumFilter] = useState<any>({
-    album_type: 2,
+    institute_id: vendor?.id,
+    album_type: AlbumTypes.VIDEO,
   });
   const {data: videoAlbums, isLoading: isLoadingVideoAlbums} =
     useFetchPublicGalleryAlbums(videoAlbumFilter);
 
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [videoData, setVideoData] = useState<any>(null);
+
   const onResetClicked = useCallback(() => {
     setVideoAlbumContentFilter({
-      album_type: 2,
+      institute_id: vendor?.id,
+      album_type: AlbumTypes.VIDEO,
       page: 1,
       page_size: 8,
     });
@@ -92,6 +101,7 @@ const InstituteVideos = () => {
     (videoAlbumId: number | null) => {
       setSelectedVideoAlbumId(videoAlbumId);
       setVideoAlbumContentFilter({
+        institute_id: vendor?.id,
         gallery_album_id: videoAlbumId,
         album_type: 2,
       });
@@ -103,6 +113,10 @@ const InstituteVideos = () => {
     setVideoAlbumContentFilter((params: any) => {
       return {...params, ...{search_text: inputFieldRef.current?.value}};
     });
+  }, []);
+
+  const onCloseDialog = useCallback(() => {
+    setOpenDialog(false);
   }, []);
 
   return (
@@ -119,64 +133,57 @@ const InstituteVideos = () => {
       <StyledContainer maxWidth='lg'>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
-            <Grid container spacing={{xs: 2, md: 6}}>
-              <Grid
-                item
-                xs={12}
-                md={1}
-                sx={{display: 'flex', alignItems: 'center'}}>
-                <FilterListIcon />
-                <Typography sx={{marginLeft: '10px'}}>
-                  {messages['filter.institute']}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <CustomFilterableSelect
-                  id='video_album_id'
-                  label={messages['common.video_album']}
-                  defaultValue={selectedVideoAlbumId}
-                  isLoading={isLoadingVideoAlbums}
-                  optionValueProp={'id'}
-                  options={videoAlbums}
-                  optionTitleProp={['title']}
-                  onChange={onChangeVideoAlbum}
-                />
-              </Grid>
-              <Grid item xs={12} md={1} className={classes.resetButton}>
-                <Button
-                  onClick={onResetClicked}
-                  variant={'contained'}
-                  color={'primary'}>
-                  {messages['common.reset']}
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={4} style={{position: 'relative'}}>
-                <Paper
+            <Box display={'flex'} alignItems={'center'}>
+              <FilterListIcon />
+              <Typography sx={{marginLeft: '10px'}}>
+                {messages['filter.institute']}
+              </Typography>
+              <CustomFilterableSelect
+                id='video_album_id'
+                label={messages['common.video_album']}
+                defaultValue={selectedVideoAlbumId}
+                isLoading={isLoadingVideoAlbums}
+                optionValueProp={'id'}
+                options={videoAlbums}
+                optionTitleProp={['title']}
+                onChange={onChangeVideoAlbum}
+                sx={{minWidth: '220px', marginLeft: '15px'}}
+              />
+              <Button
+                onClick={onResetClicked}
+                variant={'contained'}
+                size={'small'}
+                color={'primary'}
+                sx={{marginLeft: '15px', height: '40px'}}>
+                {messages['common.reset']}
+              </Button>
+              <Paper
+                style={{
+                  display: 'flex',
+                  width: 220,
+                  marginLeft: '15px',
+                  height: '40px',
+                }}>
+                <InputBase
+                  size={'small'}
                   style={{
-                    display: 'flex',
-                    width: 200,
-                  }}>
-                  <InputBase
-                    size={'small'}
-                    style={{
-                      paddingLeft: '20px',
-                    }}
-                    placeholder={messages['common.search'] as string}
-                    inputProps={{'aria-label': 'Search'}}
-                    inputRef={inputFieldRef}
-                    onKeyDown={(event) => {
-                      if (event.code == 'Enter') onSearch();
-                    }}
-                  />
-                  <IconButton
-                    sx={{p: '5px'}}
-                    aria-label='search'
-                    onClick={onSearch}>
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-              </Grid>
-            </Grid>
+                    paddingLeft: '20px',
+                  }}
+                  placeholder={messages['common.search'] as string}
+                  inputProps={{'aria-label': 'Search'}}
+                  inputRef={inputFieldRef}
+                  onKeyDown={(event) => {
+                    if (event.code == 'Enter') onSearch();
+                  }}
+                />
+                <IconButton
+                  sx={{p: '5px'}}
+                  aria-label='search'
+                  onClick={onSearch}>
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Box>
           </Grid>
 
           {isLoadingVideoContents ? (
@@ -211,31 +218,34 @@ const InstituteVideos = () => {
                           justifyContent={'center'}
                           mt={3}
                           key={data.id}>
-                          <Link href={`${path}/${data.id}`}>
-                            <Card>
-                              <CardActionArea>
-                                <iframe
-                                  width='100%'
-                                  height='140'
-                                  src={data?.video_url}
-                                  frameBorder='0'
-                                  /* src={
-                                    'https://www.youtube.com/embed/2JyW4yAyTl0?autoplay=1'
-                                  }*/
-                                  style={{marginBottom: '-8px'}}
-                                />
-                                <CardContent>
-                                  <Typography
-                                    gutterBottom
-                                    className={classes.cardTitle}
-                                    variant='body1'
-                                    component='div'>
-                                    {data?.title}
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                          </Link>
+                          <Card>
+                            <CardActionArea
+                              onClick={() => {
+                                setVideoData({
+                                  title: data.title,
+                                  videoUrl: data.video_url,
+                                  details: data.description,
+                                });
+                                setOpenDialog(true);
+                              }}>
+                              <CardMedia
+                                component='img'
+                                height='140'
+                                image={data?.content_grid_image_path}
+                                alt={data?.title}
+                                title={data?.title}
+                              />
+                              <CardContent>
+                                <Typography
+                                  gutterBottom
+                                  className={classes.cardTitle}
+                                  variant='body1'
+                                  component='div'>
+                                  {data?.title}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
                         </Grid>
                       );
                     })}
@@ -265,6 +275,9 @@ const InstituteVideos = () => {
             <NoDataFoundComponent />
           )}
         </Grid>
+        {openDialog && videoData && (
+          <CustomizedDialogs data={videoData} onClose={onCloseDialog} />
+        )}
       </StyledContainer>
     </>
   );

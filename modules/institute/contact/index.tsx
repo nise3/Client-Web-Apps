@@ -109,18 +109,18 @@ const InstituteContact = () => {
         .string()
         .required()
         .label(messages['common.name'] as string),
-      phone_numbers: yup
+      mobile: yup
         .string()
         .required()
         .label(messages['common.phone_number'] as string)
         .matches(MOBILE_NUMBER_REGEX),
-      email_address: yup
+      email: yup
         .string()
         .email()
         .nullable(true)
         .label(messages['common.email'] as string),
 
-      advice: yup
+      comment: yup
         .string()
         .required()
         .label(messages['advice.institute'] as string),
@@ -140,6 +140,7 @@ const InstituteContact = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
+    if (vendor) data.institute_id = vendor.id;
 
     try {
       await createVisitorFeedback(data);
@@ -205,7 +206,7 @@ const InstituteContact = () => {
                       <Grid item xs={6}>
                         <CustomTextInput
                           required
-                          id='phone_numbers'
+                          id='mobile'
                           label={messages['common.phone_number']}
                           register={register}
                           errorInstance={errors}
@@ -214,7 +215,7 @@ const InstituteContact = () => {
                       </Grid>
                       <Grid item xs={12}>
                         <CustomTextInput
-                          id='email_address'
+                          id='email'
                           label={messages['common.email']}
                           register={register}
                           errorInstance={errors}
@@ -224,7 +225,7 @@ const InstituteContact = () => {
                       <Grid item xs={12}>
                         <CustomTextInput
                           required
-                          id='advice'
+                          id='comment'
                           label={messages['advice.institute']}
                           register={register}
                           errorInstance={errors}

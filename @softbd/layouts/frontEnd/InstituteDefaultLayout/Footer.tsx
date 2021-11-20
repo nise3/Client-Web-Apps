@@ -26,6 +26,7 @@ import {
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
+import {useVendor} from '../../../../@crema/utility/AppHooks';
 
 const PREFIX = 'Footer';
 
@@ -82,10 +83,33 @@ const StyledFoot = styled(Grid)(({theme}) => ({
 
 const Footer = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
 
   const redirectToSSO = useCallback(() => {
     window.location.href = getSSOLoginUrl();
   }, []);
+
+  const getAddress = () => {
+    let address = '';
+    let addrs = [];
+    if (vendor) {
+      if (vendor.address) {
+        addrs.push(vendor.address);
+      }
+      if (vendor.upazila_title) {
+        addrs.push(vendor.upazila_title);
+      }
+      if (vendor.district_title) {
+        addrs.push(vendor.district_title);
+      }
+      if (vendor.division_title) {
+        addrs.push(vendor.division_title);
+      }
+
+      address = addrs.join(', ');
+    }
+    return address;
+  };
 
   return (
     <>
@@ -101,7 +125,7 @@ const Footer = () => {
                 <Text>
                   গনপ্রজাতন্ত্রী বাংলাদেশ সরকারের রূপকল্প ২০২১ বাস্তবায়নে
                   যুবকদের আত্মকর্মসংস্থান ও স্বাবলম্বী করে তোলার লক্ষে "অনলাইনে
-                  বিভিন্ন প্রশিক্ষন কোর্সের পরিচালনা ও পর্যবেক্ষন করা"।{' '}
+                  বিভিন্ন প্রশিক্ষন কোর্সের পরিচালনা ও পর্যবেক্ষন করা"।
                 </Text>
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
@@ -123,15 +147,12 @@ const Footer = () => {
               <H6 className={classes.primary}>{messages['footer.contact']}</H6>
               <Box display='flex' mt={4}>
                 <Home className={classes.primary} />
-                <Text style={{marginLeft: '6px'}}>
-                  বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র (বিটাক) ১১৬ (খ), তেজগাঁও
-                  শিল্প এলাকা ঢাকা - ১২০৮
-                </Text>
+                <Text style={{marginLeft: '6px'}}>{getAddress()}</Text>
               </Box>
               <Box display='flex' mt={4}>
                 <Email className={classes.primary} />
                 <Text style={{marginTop: '2px', marginLeft: '6px'}}>
-                  ict@btac.gov.bd
+                  {vendor?.email}
                 </Text>
               </Box>
               <Box display='flex' mt={4}>

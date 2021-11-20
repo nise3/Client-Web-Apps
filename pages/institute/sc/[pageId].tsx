@@ -21,8 +21,6 @@ export async function getServerSideProps(context: any) {
 
   const {pageId} = context.query;
   let params: any = {
-    // institute_id: useVendor()?.id,
-    institute_id: 1,
     show_in: ShowInTypes.TSP,
   };
 

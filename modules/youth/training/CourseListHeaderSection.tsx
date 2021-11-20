@@ -36,7 +36,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.thinSearchButton}`]: {
     color: '#fff',
     padding: '11px 0',
-    width: '97%',
+    width: '100%',
     height: '100%',
   },
 
@@ -107,13 +107,10 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
 
   const [programmeFilters, setProgrammeFilters] = useState<any>({
+    institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
   });
   const {data: programmes} = useFetchProgrammes(programmeFilters);
-
-  // useEffect(() => {
-  //   addFilterKey('institute_id', Number(vendor?.id));
-  // }, []);
 
   const handleInstituteFilterChange = useCallback(
     (instituteId: number | null) => {
@@ -310,6 +307,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   fullWidth
                   variant={'contained'}
                   color={'secondary'}
+                  size={'small'}
                   onClick={onClickResetButton}>
                   {messages['common.reset']}
                 </Button>

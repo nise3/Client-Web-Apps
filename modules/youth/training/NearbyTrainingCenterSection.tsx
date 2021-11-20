@@ -4,15 +4,18 @@ import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './components/TrainingCenterCard';
 import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const NearbyTrainingCenterSection = () => {
   const {messages} = useIntl();
-
+  const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
+  const [institute] = useState<any>(vendor);
+
   const [nearbyTrainingCenterFilters] = useState<any>({
+    institute_id: institute?.id,
     district_id: authUser?.loc_district_id,
     upazila_id: authUser?.loc_upazila_id,
     page_size: 4,
@@ -41,7 +44,7 @@ const NearbyTrainingCenterSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={3}>
-          {nearbyTrainingCenters ? (
+          {nearbyTrainingCenters && nearbyTrainingCenters.length > 0 ? (
             nearbyTrainingCenters.map((trainingCenter: any) => {
               return (
                 <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>

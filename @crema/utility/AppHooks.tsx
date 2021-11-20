@@ -92,11 +92,26 @@ export const useVendor = <T extends CurrentInstitute = CurrentInstitute>():
     return null;
   } else {
     return {
-      id: 1,
+      id: 23,
       title: 'বিটাক',
+      title_en: 'Bitac',
       domain: 'http://bitac.nise3.com',
-      address: 'Hello world',
-      code: 'excepturi-non-repudiandae-magni-quaerat-ipsum-aut-quia-alias-sit-omnis-nostrum-quis-fuga-deleniti-excepturi-eos-dicta-tempora-iusto',
+      code: 'bitac',
+      address: 'বাংলাদেশ শিল্প কারিগরি সহায়তা কেন্দ্র (বিটাক) ১১৬ (খ)',
+      loc_division_id: 3,
+      division_title: 'ঢাকা',
+      division_title_en: 'Dhaka',
+      loc_district_id: 18,
+      district_title: 'ঢাকা',
+      district_title_en: 'DHAKA',
+      loc_upazila_id: 112,
+      upazila_title: 'তেজগাঁও উন্নয়ন সার্কেল',
+      upazila_title_en: 'TEJGAON UNNAYAN CIRCLE',
+      primary_phone: '',
+      phone_numbers: [],
+      primary_mobile: '01521306222',
+      mobile_numbers: [],
+      email: 'ict@btac.gov.bd',
     };
   }
 };

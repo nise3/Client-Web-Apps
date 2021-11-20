@@ -9,20 +9,16 @@ const PREFIX = 'BannerTemplateCenterBackground';
 const classes = {
   image: `${PREFIX}-image`,
   heading: `${PREFIX}-heading`,
-  customLeftArrow: `${PREFIX}-customLeftArrow`,
-  reactMultipleCarousalArrow: `${PREFIX}-reactMultipleCarousalArrow`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  height: 500,
+  height: 400,
   width: '100%',
-  alignItems: 'center',
-  justifyContent: 'center',
   display: 'flex',
+  position: 'relative',
+  justifyContent: 'center',
 
   [`& .${classes.image}`]: {
-    zIndex: -1,
-    position: 'absolute',
     objectFit: 'cover',
     height: '100%',
     width: '100%',
@@ -31,7 +27,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.heading}`]: {
     color: theme.palette.primary.dark,
     margin: '20px 40px',
-    textAlign: 'center',
     flex: 1,
   },
 }));
@@ -39,6 +34,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 interface BannerProps {
   banner: any;
 }
+
 const BannerTemplateLeftRight = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
@@ -46,14 +42,15 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
         <CardMedia
           component='img'
           image={banner?.banner_image_path}
+          className={classes.image}
           alt={banner?.alt_image_title}
           title={banner?.title}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={6} sx={{display: 'flex', alignItems: 'center'}}>
         <Container maxWidth={'lg'}>
           <Typography
-            variant='h4'
+            variant='h3'
             fontWeight={'bold'}
             mb={6}
             className={classes.heading}>
@@ -61,11 +58,11 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
           </Typography>
 
           <Typography
-            variant={'h5'}
+            variant={'h4'}
             fontWeight={'bold'}
             mb={6}
             className={classes.heading}>
-            {banner?.sub_title + '#85858'}
+            {banner?.sub_title}
           </Typography>
 
           {banner?.is_button_available ? (
@@ -83,14 +80,6 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
             ''
           )}
         </Container>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <CardMedia
-          component='img'
-          image={banner?.banner_image_path}
-          alt={banner?.image_alt_title}
-          title={banner?.title}
-        />
       </Grid>
     </StyledGrid>
   );

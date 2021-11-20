@@ -14,6 +14,7 @@ type Props = {
   optionValueProp?: any;
   optionTitleProp?: Array<string>;
   onChange?: (e: any) => any;
+  [x: string]: any;
 };
 
 const CustomFilterableSelect = ({
@@ -26,6 +27,7 @@ const CustomFilterableSelect = ({
   options,
   optionValueProp,
   optionTitleProp,
+  ...rest
 }: Props) => {
   const {messages} = useIntl();
 
@@ -92,6 +94,7 @@ const CustomFilterableSelect = ({
           sx={{background: '#fff'}}
         />
       )}
+      sx={rest.sx ? rest.sx : {}}
     />
   );
 };
