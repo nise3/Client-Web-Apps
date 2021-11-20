@@ -1,7 +1,21 @@
 import {FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 import React from 'react';
-import useStyles from '.././index.style';
 import {useIntl} from 'react-intl';
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'CustomSelectForFilter';
+const classes = {
+  selectStyle: `${PREFIX}-selectStyle`,
+};
+
+const StyledFormControl = styled(FormControl)(({theme}) => ({
+  [`& .${classes.selectStyle}`]: {
+    background: '#fff',
+    '& .MuiSelect-select': {
+      padding: '10px 30px 10px 15px',
+    },
+  },
+}));
 
 interface CustomSelectForFilterProps {
   id: string;
@@ -20,12 +34,11 @@ const CustomSelectForFilter = ({
   onChangeCallback,
   options,
 }: CustomSelectForFilterProps) => {
-  const classes: any = useStyles();
   const {messages} = useIntl();
 
   return (
     <>
-      <FormControl variant='outlined' fullWidth={true} size={'small'}>
+      <StyledFormControl variant='outlined' fullWidth={true} size={'small'}>
         <InputLabel sx={{background: '#fff', borderRadius: '3px'}} id={labelId}>
           {defaultLabel}
         </InputLabel>
@@ -48,7 +61,7 @@ const CustomSelectForFilter = ({
               );
             })}
         </Select>
-      </FormControl>
+      </StyledFormControl>
     </>
   );
 };
