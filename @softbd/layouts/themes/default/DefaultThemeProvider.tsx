@@ -21,6 +21,14 @@ const DefaultThemeProvider: React.FC<DefaultThemeProviderProps> = ({
     <ThemeProvider theme={theme(currentAppLocale.locale)}>
       <Global
         styles={css`
+          html {
+            scroll-behavior: smooth;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            html {
+              scroll-behavior: auto;
+            }
+          }
           [class*='MuiTypography'],
           * {
             font-family: ${LocaleFonts[currentAppLocale.locale]};

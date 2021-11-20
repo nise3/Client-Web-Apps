@@ -37,6 +37,7 @@ const classes = {
   skillInfoGrid: `${PREFIX}-skillInfoGrid`,
   iconSizes: `${PREFIX}-iconSizes`,
   textColor: `${PREFIX}-textColor`,
+  grayText: `${PREFIX}-grayText`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -78,6 +79,10 @@ const StyledCard = styled(Card)(({theme}) => ({
       theme.palette.mode === ThemeMode.DARK
         ? theme.palette.common.white
         : theme.palette.common.black,
+  },
+
+  [`& .${classes.grayText}`]: {
+    color: theme.palette.grey[500],
   },
 }));
 
@@ -134,10 +139,10 @@ const PersonalInfoSection = () => {
                 <Typography variant={'h5'} className={classes.textColor}>
                   {authUser?.first_name} {authUser?.last_name}
                 </Typography>
-                <Typography variant={'subtitle2'}>
+                <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}
                 </Typography>
-                <Typography variant={'subtitle2'}>
+                <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.mobile']}: {authUser?.mobile}
                 </Typography>
               </Box>
@@ -149,7 +154,7 @@ const PersonalInfoSection = () => {
                 />
               </Box>
             </Box>
-            <Typography variant={'body1'} mt={1}>
+            <Typography variant={'body1'} mt={1} className={classes.grayText}>
               {authUser?.bio}
             </Typography>
           </Grid>

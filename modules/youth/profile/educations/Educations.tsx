@@ -140,34 +140,9 @@ const Educations: FC<EducationsProps> = ({
               </Box>
               <Box>
                 <Grid container sx={{marginTop: '10px'}}>
-                  {education?.edu_group_id && (
-                    <React.Fragment>
-                      <Grid item sx={{display: 'flex'}}>
-                        <CheckCircle
-                          color={'primary'}
-                          sx={{marginRight: '5px'}}
-                        />
-                        <TextPrimary text={education?.edu_group_title} />
-                      </Grid>
-                    </React.Fragment>
-                  )}
-                  {education?.edu_board_id && (
-                    <React.Fragment>
-                      {education?.edu_group_id && <VerticalLine />}
-
-                      <Grid item sx={{display: 'flex'}}>
-                        <LocationOnIcon
-                          color={'primary'}
-                          sx={{marginRight: '5px'}}
-                        />
-                        <TextPrimary text={education.board_title} />
-                      </Grid>
-                    </React.Fragment>
-                  )}
                   {(education?.edu_board_id || education?.edu_group_id) &&
                     education?.year_of_passing && (
                       <React.Fragment>
-                        <VerticalLine />
                         <Grid item sx={{display: 'flex'}}>
                           <AccessTime
                             color={'primary'}
@@ -182,6 +157,32 @@ const Educations: FC<EducationsProps> = ({
                         </Grid>
                       </React.Fragment>
                     )}
+                  {education?.edu_board_id && (
+                    <React.Fragment>
+                      {education?.year_of_passing && <VerticalLine />}
+                      <Grid item sx={{display: 'flex'}}>
+                        <LocationOnIcon
+                          color={'primary'}
+                          sx={{marginRight: '5px'}}
+                        />
+                        <TextPrimary text={education.board_title} />
+                      </Grid>
+                    </React.Fragment>
+                  )}
+                  {education?.edu_group_id && (
+                    <React.Fragment>
+                      {!!(
+                        education?.year_of_passing || education?.edu_board_id
+                      ) && <VerticalLine />}
+                      <Grid item sx={{display: 'flex'}}>
+                        <CheckCircle
+                          color={'primary'}
+                          sx={{marginRight: '5px'}}
+                        />
+                        <TextPrimary text={education?.edu_group_title} />
+                      </Grid>
+                    </React.Fragment>
+                  )}
                 </Grid>
               </Box>
 
