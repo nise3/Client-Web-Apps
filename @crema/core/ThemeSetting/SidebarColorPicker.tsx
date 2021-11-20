@@ -55,7 +55,7 @@ interface SidebarColorPickerProps {
 const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
   const [visible, setVisibility] = useState(false);
   const {sidebarColors, updateSidebarColors} = useContext(AppContext);
-
+  console.log('sidebarColorssss', sidebarColors);
   return (
     <Root>
       <Box className={classes.cpSwatch} onClick={() => setVisibility(!visible)}>
@@ -67,8 +67,7 @@ const SidebarColorPicker: React.FC<SidebarColorPickerProps> = (props) => {
           <SketchPicker
             color={sidebarColors?.bgColor}
             onChangeComplete={(color) => {
-              sidebarColors.bgColor = color.hex;
-              updateSidebarColors!(sidebarColors);
+              updateSidebarColors!({...sidebarColors, ...{bgColor: color.hex}});
             }}
           />
         </Box>

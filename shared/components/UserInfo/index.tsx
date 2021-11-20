@@ -1,7 +1,6 @@
 import React, {useCallback, useContext, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
-// import {} from 'react-redux';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AppContext from '../../../@crema/utility/AppContext';
 import MenuItem from '@mui/material/MenuItem';
@@ -28,7 +27,11 @@ const classes = {
 };
 
 const StyledBox = styled(Box)(({theme}) => {
+  const {themeMode} = useContext<AppContextPropsType>(AppContext);
+
   return {
+    paddingLeft: '20px',
+    paddingRight: '20px',
     backgroundColor: 'rgba(0,0,0,.08)',
     paddingTop: 9,
     paddingBottom: 9,
@@ -41,12 +44,12 @@ const StyledBox = styled(Box)(({theme}) => {
       paddingBottom: 10,
       minHeight: 70,
     },
+    [`& .${classes.userInfo}`]: {
+      width: 'calc(100% - 75px)',
+    },
     [`& .${classes.profilePic}`]: {
       fontSize: 24,
       backgroundColor: orange[500],
-    },
-    [`& .${classes.userInfo}`]: {
-      width: 'calc(100% - 75px)',
     },
     [`& .${classes.userName}`]: {
       overflow: 'hidden',
@@ -54,7 +57,7 @@ const StyledBox = styled(Box)(({theme}) => {
       whiteSpace: 'nowrap',
       fontSize: 16,
       fontWeight: Fonts.MEDIUM,
-      color: theme.palette.mode === ThemeMode.LIGHT ? '#313541' : 'white',
+      color: themeMode === ThemeMode.LIGHT ? '#313541' : 'white',
     },
     [`& .${classes.designation}`]: {
       marginTop: -2,
@@ -110,7 +113,7 @@ const UserInfo: React.FC = () => {
   };
 
   return (
-    <StyledBox px={{xs: 4, xl: 7}}>
+    <StyledBox>
       <Box display='flex' alignItems='center'>
         {user && user.photoURL ? (
           <Avatar className={classes.profilePic} src={user.photoURL} />
@@ -126,7 +129,6 @@ const UserInfo: React.FC = () => {
               {user && (user.displayName ? user.displayName : 'Admin User ')}
             </Box>
             <Box
-              ml={3}
               className={classes.pointer}
               color={themeMode === 'light' ? '#313541' : 'white'}>
               <ExpandMoreIcon onClick={handleClick} />

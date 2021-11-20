@@ -30,7 +30,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
     navStyle: defaultConfig.navStyle,
     rtAnim: defaultConfig.rtAnim,
     primary: dashboardTheme.palette.primary.main,
-    sidebar: {
+    sidebarColors: {
       bgColor: '#313541',
       textColor: '#808183',
     },
