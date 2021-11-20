@@ -1,23 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import React, {useCallback, useEffect, useState} from 'react';
 import moment from 'moment';
-import { momentLocalizer, View } from 'react-big-calendar';
-import IconEvents from '../../../@softbd/icons/IconEvents';
-import { useIntl } from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
-import { deleteEvent } from '../../../services/cmsManagement/EventService';
+import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
-import { useFetchCalenderEvents } from '../../../services/cmsManagement/hooks';
+import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
-import { useAuthUser, useVendor } from '../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
-import { Grid } from '@mui/material';
+import {Grid} from '@mui/material';
+
 const localizer = momentLocalizer(moment);
-// const toDate = moment().toDate();
-// // const chkDate = new Date('2021-11-11');
-// console.log('chkDate ', toDate);
+
 interface ICalenderEvents {
   id: number;
   title: string;
@@ -36,35 +28,34 @@ interface ICalenderEvents {
   created_at: Date;
   updated_at: Date;
 }
+
 interface IQuery {
   type: string;
   youth_id?: string | number;
   institute_id?: string | number;
 }
+
 interface IComProps {
   calendarFor: string;
   editable: boolean;
 }
 
 const EventCalendar = (comProps: IComProps) => {
-  const { messages } = useIntl();
-  const { successStack } = useNotiStack();
   const authUser = useAuthUser();
-  // console.log('useAuthUser ', authUser);
-  // const useVendor = useVendor;
-  // console.log('useVendor ', useVendor);
+
   const isEditable = comProps.editable ? comProps.editable : false;
-  
+
   let requestQuery: IQuery = {
-    type: 'month'
-  }
-  if(authUser?.isInstituteUser){
+    type: 'month',
+  };
+  if (authUser?.isInstituteUser) {
     requestQuery.institute_id = authUser.institute_id;
   }
 
-
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(
+    null,
+  );
   const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
@@ -93,68 +84,54 @@ const EventCalendar = (comProps: IComProps) => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteEventItem = async (itemId: number) => {
-    let response = await deleteEvent(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{ subject: <IntlMessages id='user.label' /> }}
-        />,
-      );
-    }
-  };
+  let {data: events} = useFetchCalenderEvents(viewFilters);
 
-
-  let { data: events } = useFetchCalenderEvents(viewFilters);
-  // events = addPropToEventlist(events);
-
-
-  const refreshDataTable = useCallback((event, item) => {
-    switch (event) {
-      case 'delete':
-        const newList = eventsList.filter(e => e.id != item) as Array<ICalenderEvents>;
-        setEventsList(newList);
-        break;
-      case 'create':
-        setEventsList([item, ...eventsList]);
-        break;
-      default:
-      case 'update':
-        const excludeItemFromList = eventsList.filter(e => e.id != item.id);
-        setEventsList([item, ...excludeItemFromList]);
-        break;
-    }
-
-  }, [eventsList]);
-
-  
+  const refreshDataTable = useCallback(
+    (event, item) => {
+      switch (event) {
+        case 'delete':
+          const newList = eventsList.filter(
+            (e) => e.id != item,
+          ) as Array<ICalenderEvents>;
+          setEventsList(newList);
+          break;
+        case 'create':
+          setEventsList([item, ...eventsList]);
+          break;
+        default:
+        case 'update':
+          const excludeItemFromList = eventsList.filter((e) => e.id != item.id);
+          setEventsList([item, ...excludeItemFromList]);
+          break;
+      }
+    },
+    [eventsList],
+  );
 
   useEffect(() => {
-    if(events){
+    if (events) {
       events.forEach((element: any) => {
         element['start'] = element.start_date;
         element['end'] = element.start_date;
       });
     }
-  }, [events])
+  }, [events]);
 
   useEffect(() => {
-    
     if (events) {
-      events
-        .map((e: ICalenderEvents) => {
-          const start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
-          const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
-          e.start = new Date(start);
-          e.end = new Date(end);
-          return e
-        });
+      events.map((e: ICalenderEvents) => {
+        const start = e.start_time
+          ? `${e.start}T${e.start_time}`
+          : `${e.start}`;
+        const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+        e.start = new Date(start);
+        e.end = new Date(end);
+        return e;
+      });
       console.log(events);
       setEventsList(events);
     }
-
-  }, [events])
+  }, [events]);
 
   const onSelectSlot = (e: any) => {
     setSelectedStartDate(e.start);
@@ -162,8 +139,6 @@ const EventCalendar = (comProps: IComProps) => {
     openAddEditModal(e.id);
   };
   const onSelectEvent = (e: any) => {
-    // console.log('onSelectEvent ', e);
-    // openAddEditModal(e.id);
     openDetailsModal(e.id);
   };
 
@@ -175,18 +150,17 @@ const EventCalendar = (comProps: IComProps) => {
           // events={events1}
           selectable={isEditable}
           localizer={localizer}
-          style={{ height: '100vh' }}
-          startAccessor="start"
-          endAccessor="end"
+          style={{height: '100vh'}}
+          startAccessor='start'
+          endAccessor='end'
           defaultDate={moment().toDate()}
-          onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
+          onView={(view: View) =>
+            setViewFilters({...requestQuery, ...{type: view}})
+          }
           onNavigate={(e: any) => console.log('onNavigate ', e)}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
         />
-
-
-
 
         {isOpenAddEditModal && (
           <CalendarAddEditPopup
