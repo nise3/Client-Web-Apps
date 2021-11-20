@@ -9,21 +9,16 @@ const PREFIX = 'BannerTemplateCenterBackground';
 const classes = {
   image: `${PREFIX}-image`,
   heading: `${PREFIX}-heading`,
-  customLeftArrow: `${PREFIX}-customLeftArrow`,
-  reactMultipleCarousalArrow: `${PREFIX}-reactMultipleCarousalArrow`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  height: 500,
+  height: 400,
   width: '100%',
-  alignItems: 'center',
-  justifyContent: 'center',
-  // pointerEvents: 'none',
   display: 'flex',
+  position: 'relative',
+  justifyContent: 'center',
 
   [`& .${classes.image}`]: {
-    zIndex: -1,
-    position: 'absolute',
     objectFit: 'cover',
     height: '100%',
     width: '100%',
@@ -32,7 +27,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.heading}`]: {
     color: theme.palette.primary.dark,
     margin: '20px 40px',
-    textAlign: 'center',
     flex: 1,
   },
 }));
@@ -40,13 +34,14 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 interface BannerProps {
   banner: any;
 }
+
 const BannerTemplateRightLeft = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={6} sx={{display: 'flex', alignItems: 'center'}}>
         <Container maxWidth={'lg'}>
           <Typography
-            variant='h4'
+            variant='h3'
             fontWeight={'bold'}
             mb={6}
             className={classes.heading}>
@@ -54,7 +49,7 @@ const BannerTemplateRightLeft = ({banner}: BannerProps) => {
           </Typography>
 
           <Typography
-            variant={'h5'}
+            variant={'h4'}
             fontWeight={'bold'}
             mb={6}
             className={classes.heading}>
@@ -82,6 +77,7 @@ const BannerTemplateRightLeft = ({banner}: BannerProps) => {
         <CardMedia
           component='img'
           image={banner?.banner_image_path}
+          className={classes.image}
           alt={banner?.image_alt_title}
           title={banner?.title}
         />

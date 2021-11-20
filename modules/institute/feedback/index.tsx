@@ -13,6 +13,7 @@ import {H3} from '../../../@softbd/elements/common';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'InstituteFeedback';
 
@@ -38,6 +39,7 @@ const StyledGrid = styled(Grid)(({theme}) => {
 
 const InstituteFeedback = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
   const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
 
@@ -48,17 +50,17 @@ const InstituteFeedback = () => {
         .trim()
         .required()
         .label(messages['common.name'] as string),
-      phone_numbers: yup
+      mobile: yup
         .string()
         .trim()
         .required()
         .label(messages['common.phone_number'] as string)
         .matches(MOBILE_NUMBER_REGEX),
-      email_address: yup
+      email: yup
         .string()
         .label(messages['common.email'] as string)
         .email(),
-      advice: yup
+      comment: yup
         .string()
         .trim()
         .required()
@@ -78,6 +80,8 @@ const InstituteFeedback = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.FEEDBACK;
+    if (vendor) data.institute_id = vendor.id;
+
     try {
       await createVisitorFeedback(data);
       successStack(
@@ -123,7 +127,7 @@ const InstituteFeedback = () => {
                   <Grid item md={6} xs={12}>
                     <CustomTextInput
                       required
-                      id='phone_numbers'
+                      id='mobile'
                       label={messages['common.phone_number']}
                       register={register}
                       errorInstance={errors}
@@ -132,7 +136,7 @@ const InstituteFeedback = () => {
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <CustomTextInput
-                      id='email_address'
+                      id='email'
                       label={messages['common.email']}
                       register={register}
                       errorInstance={errors}
@@ -142,7 +146,7 @@ const InstituteFeedback = () => {
                   <Grid item xs={12}>
                     <CustomTextInput
                       required
-                      id='advice'
+                      id='comment'
                       label={messages['advice.institute']}
                       register={register}
                       errorInstance={errors}

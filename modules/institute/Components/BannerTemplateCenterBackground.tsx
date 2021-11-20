@@ -1,4 +1,4 @@
-import {Box, Button, CardMedia, Container, Typography} from '@mui/material';
+import {Box, Button, CardMedia, Typography} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Link} from '../../../@softbd/elements/common';
@@ -9,30 +9,27 @@ const PREFIX = 'BannerTemplateCenterBackground';
 const classes = {
   image: `${PREFIX}-image`,
   heading: `${PREFIX}-heading`,
-  customLeftArrow: `${PREFIX}-customLeftArrow`,
-  reactMultipleCarousalArrow: `${PREFIX}-reactMultipleCarousalArrow`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
-  height: 500,
+  height: 400,
   width: '100%',
-  alignItems: 'center',
-  justifyContent: 'center',
-  // pointerEvents: 'none',
   display: 'flex',
+  position: 'relative',
+  justifyContent: 'center',
 
   [`& .${classes.image}`]: {
     zIndex: -1,
-    position: 'absolute',
     objectFit: 'cover',
     height: '100%',
     width: '100%',
+    position: 'absolute',
   },
 
   [`& .${classes.heading}`]: {
     color: theme.palette.background.paper,
-    margin: '20px 40px',
     textAlign: 'center',
+    fontWeight: 'bold',
     flex: 1,
   },
 }));
@@ -40,6 +37,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 interface BannerProps {
   banner: any;
 }
+
 const BannerTemplateCenterBackground = ({banner}: BannerProps) => {
   return (
     <StyledBox>
@@ -50,11 +48,9 @@ const BannerTemplateCenterBackground = ({banner}: BannerProps) => {
         alt={banner?.image_alt_title}
         title={banner?.title}
       />
-      <Container maxWidth={'lg'}>
-        <Typography variant='h3'>
-          <Box fontWeight='fontWeightBold' mb={6} className={classes.heading}>
-            {banner?.title}
-          </Box>
+      <Box sx={{margin: 'auto'}}>
+        <Typography variant='h3' className={classes.heading}>
+          {banner?.title}
         </Typography>
         {banner?.is_button_available ? (
           <Link
@@ -71,7 +67,7 @@ const BannerTemplateCenterBackground = ({banner}: BannerProps) => {
         ) : (
           ''
         )}
-      </Container>
+      </Box>
     </StyledBox>
   );
 };

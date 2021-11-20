@@ -12,6 +12,8 @@ import {useIntl} from 'react-intl';
 import {H3, H6} from '../../../@softbd/elements/common';
 import {useFetchInstitutesPublicGallery} from '../../../services/instituteManagement/hooks';
 import GalleryItemCardView from './GalleryItemCardView';
+import {useVendor} from '../../../@crema/utility/AppHooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const PREFIX = 'InstituteGallery';
 
@@ -23,6 +25,7 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  padding: '0 !important',
   [`& .${classes.searchIcon}`]: {
     position: 'absolute',
     right: 0,
@@ -44,16 +47,23 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteGallery = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
+
   const [galleryFilter, setGalleryFilter] = useState<any>({
+    only_parent_gallery_album: 1,
+    institute_id: vendor?.id,
+    row_status: RowStatus.ACTIVE,
     page: 1,
     page_size: 8,
   });
+
   const {
     data: galleryItems,
     isLoading: isLoadingGalleryItems,
     metaData,
   } = useFetchInstitutesPublicGallery(galleryFilter);
   const page = useRef<any>(1);
+
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setGalleryFilter((params: any) => {
@@ -75,7 +85,7 @@ const InstituteGallery = () => {
         </Grid>
       </Grid>
       <StyledContainer maxWidth='lg'>
-        <Grid container mt={4} justifyContent={'center'}>
+        <Grid container justifyContent={'center'}>
           {isLoadingGalleryItems ? (
             <Grid
               item
@@ -87,7 +97,7 @@ const InstituteGallery = () => {
               <Skeleton variant='rectangular' width={'22%'} height={140} />
             </Grid>
           ) : galleryItems && galleryItems?.length > 0 ? (
-            <Grid item md={12} mt={{xs: 4, md: 5}}>
+            <Grid item md={12} mt={{xs: 1, md: 2}}>
               <Grid container>
                 <Grid item xs={12}>
                   <Grid container spacing={5}>

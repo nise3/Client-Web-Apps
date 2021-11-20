@@ -70,7 +70,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
 
-  const [sliderFilters] = useState<any>({
+  const [sliderFilters, setSliderFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: sliders, isLoading: isSliderLoading} =
@@ -156,6 +156,20 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     ],
     [messages],
   );
+
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.isInstituteUser) {
+        setSliderFilters({
+          institute_id: authUser.institute_id,
+        });
+      } else if (authUser.isOrganizationUser) {
+        setSliderFilters({
+          organization_id: authUser.organization_id,
+        });
+      }
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (cmsGlobalConfig) {

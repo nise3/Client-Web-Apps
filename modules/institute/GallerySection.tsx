@@ -51,6 +51,7 @@ const GallerySection = () => {
   const pageSize = 10;
   const vendor = useVendor();
   const [galleryFilter] = useState<any>({
+    only_parent_gallery_album: 1,
     page_size: pageSize,
     institute_id: vendor?.id,
   });

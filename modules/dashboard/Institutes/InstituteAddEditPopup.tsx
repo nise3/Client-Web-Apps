@@ -8,7 +8,10 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -142,7 +145,26 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
-  const nonRequiredValidationSchema = useMemo(() => {
+  const nonRequiredPhoneValidationSchema = useMemo(() => {
+    return yup.object().shape(
+      {
+        value: yup
+          .string()
+          .nullable()
+          .notRequired()
+          .when('value', {
+            is: (value: any) => value && value.length > 0,
+            then: (rule: any) =>
+              rule
+                .matches(PHONE_NUMBER_REGEX)
+                .label(messages['common.phone'] as string),
+          }),
+      },
+      [['value', 'value']],
+    );
+  }, [messages]);
+
+  const nonRequiredMobileValidationSchema = useMemo(() => {
     return yup.object().shape(
       {
         value: yup
@@ -172,14 +194,14 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['institute.type'] as string),
-      phone_numbers: yup.array().of(nonRequiredValidationSchema),
+      phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
       primary_mobile: yup
         .string()
         .trim()
         .required()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
-      mobile_numbers: yup.array().of(nonRequiredValidationSchema),
+      mobile_numbers: yup.array().of(nonRequiredMobileValidationSchema),
       address: yup
         .string()
         .trim()

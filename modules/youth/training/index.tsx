@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
@@ -6,7 +6,8 @@ import PopularCoursesSection from './PopularCoursesSection';
 import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
-import {useVendor} from '../../../@crema/utility/AppHooks';
+import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const PREFIX = 'TrainingPage';
 
@@ -23,7 +24,18 @@ export const StyledTrainingRoot = styled(Box)(({theme}) => ({
 }));
 
 const CourseListPage = () => {
-  const [filters, setFilters] = useState<any>({institute_id: useVendor()?.id});
+  const vendor = useVendor();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const [filters, setFilters] = useState<any>({});
+  const [instituteId] = useState<any>(vendor?.id);
+
+  useEffect(() => {
+    if (instituteId) {
+      setFilters((prev: any) => {
+        return {...prev, ...{institute_id: instituteId}};
+      });
+    }
+  }, [instituteId]);
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: number | null) => {
@@ -42,9 +54,11 @@ const CourseListPage = () => {
       <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container>
-          <Grid item xs={12}>
-            <SkillMatchingCoursesSection filters={filters} page_size={4} />
-          </Grid>
+          {authUser && authUser?.isYouthUser && (
+            <Grid item xs={12}>
+              <SkillMatchingCoursesSection filters={filters} page_size={4} />
+            </Grid>
+          )}
           <Grid item xs={12}>
             <PopularCoursesSection filters={filters} page_size={4} />
           </Grid>

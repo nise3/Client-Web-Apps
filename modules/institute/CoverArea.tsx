@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import ImageCarousel from '../../@softbd/elements/display/ImageCarousel/ImageCarousel';
 import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
 import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
-import SingleImageBannerTemplate from './Components/SingleImageBannerTemplate';
 import {useVendor} from '../../@crema/utility/AppHooks';
+import BannerTemplateCenterBackground from './Components/BannerTemplateCenterBackground';
+import BannerTemplateRightLeft from './Components/BannerTemplateRightLeft';
+import BannerTemplateLeftRight from './Components/BannerTemplateLeftRight';
 
 const CoverArea = () => {
   const vendor = useVendor();
@@ -14,11 +16,24 @@ const CoverArea = () => {
   const {data: sliders} = useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
   const banners = slider?.banners;
-  const NumberOfBanners = banners?.length;
+  const numberOfBanners = banners?.length;
 
-  return NumberOfBanners == 1 ? (
-    <SingleImageBannerTemplate banner={banners[0]} />
-  ) : banners && NumberOfBanners > 1 ? (
+  const getBannerTemplate = (banner: any) => {
+    switch (banner?.banner_template_code) {
+      case 'BT_CB':
+        return <BannerTemplateCenterBackground banner={banner} />;
+      case 'BT_RL':
+        return <BannerTemplateRightLeft banner={banner} />;
+      case 'BT_LR':
+        return <BannerTemplateLeftRight banner={banner} />;
+      default:
+        return <BannerTemplateCenterBackground banner={banner} />;
+    }
+  };
+
+  return banners && numberOfBanners == 1 ? (
+    getBannerTemplate(banners[0])
+  ) : banners && numberOfBanners > 1 ? (
     <ImageCarousel banners={banners} />
   ) : (
     <></>
