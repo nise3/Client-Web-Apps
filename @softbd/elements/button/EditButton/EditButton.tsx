@@ -28,9 +28,9 @@ const EditButton = ({
       <Button
         startIcon={<RiEditBoxFill />}
         onClick={onClick}
-        sx={{color: 'success.main'}}
+        sx={extra?.color && {color: 'warning.main'}}
         className={className ? className : className}
-        color={extra?.color || 'secondary'}
+        color={extra?.color || 'warning'}
         variant={variant}
         {...extra}>
         <IntlMessages id='common.edit_btn' />

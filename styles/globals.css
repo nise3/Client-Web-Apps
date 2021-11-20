@@ -42,3 +42,47 @@
     src: url(./fonts/NotoSerifBengali-Bold.ttf) format('truetype');
     font-weight: 700;
 }
+
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealLight.ttf) format('truetype');
+    font-weight: 100;
+}
+
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealLight.ttf) format('truetype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealLight.ttf) format('truetype');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealBook.ttf) format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealMedium.ttf) format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealBold.ttf) format('truetype');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'AirbnbCereal';
+    src: url(./fonts/AirbnbCerealExtraBold.ttf) format('truetype');
+    font-weight: 700;
+}

@@ -3,6 +3,13 @@ import {Components} from '@mui/material/styles/components';
 
 export default function componentStyleOverrides(theme: Theme) {
   const overrideRules: Components = {
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          padding: '0px !important',
+        },
+      },
+    },
     MuiFormLabel: {
       styleOverrides: {
         asterisk: {

@@ -35,7 +35,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
         <Button
           startIcon={<FiTrash2 />}
           onClick={() => setDeleteDialogOpen(true)}
-          sx={{color: 'error.main'}}
+          sx={extra?.color && {color: 'error.main'}}
+          color={'error'}
           className={className}
           {...extra}>
           {<IntlMessages id='common.delete_btn' />}
