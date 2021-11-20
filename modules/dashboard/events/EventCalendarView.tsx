@@ -13,7 +13,12 @@ import { useFetchCalenderEvents } from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
-import { Grid } from '@mui/material';
+import { Grid, Box, CardContent } from '@mui/material';
+import EventCalendarDetails from './EventCalendarDetails';
+import { styled } from '@mui/material/styles';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomParabolaButton from '../../../modules/youth/profile/component/CustomParabolaButton';
+import { BorderColor } from '@mui/icons-material';
 const localizer = momentLocalizer(moment);
 // const toDate = moment().toDate();
 // // const chkDate = new Date('2021-11-11');
@@ -44,22 +49,8 @@ interface IQuery {
 interface IComProps {
   calendarFor: string;
 }
-// const events1 = [
-//   {
-//     id: "1",
-//     start: new Date('2021-11-08'),
-//     end: new Date('2021-11-08'),
-//     title: 'Partners'
-//   },
-//   // {
-//   //   id: "2",
-//   //   start: '2021-11-09',
-//   //   end: '2021-11-11',
-//   //   title: 'Event Project'
-//   // }
-// ];
 
-// const EventCalendar = ({calendarFor: string, editable: boolean}) => {
+
 const EventCalendarView = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
@@ -71,7 +62,7 @@ const EventCalendarView = (comProps: IComProps) => {
   let requestQuery: IQuery = {
     type: 'month'
   }
-  
+
   switch (comProps.calendarFor) {
     case 'youth':
       // requestQuery.youth_id = authUser?.youthId;
@@ -85,12 +76,11 @@ const EventCalendarView = (comProps: IComProps) => {
 
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  // const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
-  // const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
 
-  // const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
@@ -150,7 +140,7 @@ const EventCalendarView = (comProps: IComProps) => {
   // }, [eventsList]);
 
   useEffect(() => {
-    if(events){
+    if (events) {
       events.forEach((element: any) => {
         element['start'] = element.start_date;
         element['end'] = element.start_date;
@@ -168,30 +158,52 @@ const EventCalendarView = (comProps: IComProps) => {
           e.end = new Date(end);
           return e;
         });
-      console.log(events);
+      // console.log(events);
       setEventsList(events);
     }
 
   }, [events])
 
   const onSelectEvent = (e: any) => {
-    openDetailsModal(e.id);
+    setIsOpenAddEditModal(true);
+    setSelectedItemId(e.id);
+    const item = eventsList.find(ev=> ev.id === e.id) as ICalenderEvents;
+    setSelectedItem(item);
   };
+  const onClose = () => {
+    setIsOpenAddEditModal(false);
+  };
+
 
   return (
     <>
-      <Grid item xs={12} md={12} style={{paddingTop: 20}}>
-        <Calendar
-          events={eventsList}
-          localizer={localizer}
-          style={{ height: '100vh' }}
-          startAccessor="start"
-          endAccessor="end"
-          defaultDate={moment().toDate()}
-          onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
-          onSelectEvent={onSelectEvent}
-        />
-      </Grid>
+      <CardContent>
+        <Grid item xs={12} md={12} style={{ paddingTop: 20 }}>
+          {isOpenAddEditModal ? (
+            <div>
+              <EventCalendarDetails itemData={selectedItem} />
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Box style={{ paddingTop: 20 }}>
+                  <CancelButton onClick={onClose} isLoading={false} />
+                </Box>
+              </Box>
+            </div>
+          ) : (
+            <Calendar
+              events={eventsList}
+              localizer={localizer}
+              selectable={true}
+              style={{ height: '100vh' }}
+              startAccessor="start"
+              endAccessor="end"
+              defaultDate={moment().toDate()}
+              onView={(view: View) => setViewFilters({ ...requestQuery, ...{ type: view } })}
+              onSelectEvent={onSelectEvent}
+            />
+          )}
+
+        </Grid>
+      </CardContent>
     </>
   );
 };

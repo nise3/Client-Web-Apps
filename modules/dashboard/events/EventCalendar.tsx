@@ -11,7 +11,7 @@ import { deleteEvent } from '../../../services/cmsManagement/EventService';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import { useFetchCalenderEvents } from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
-import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import { useAuthUser, useVendor } from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import { Grid } from '@mui/material';
 const localizer = momentLocalizer(moment);
@@ -50,7 +50,9 @@ const EventCalendar = (comProps: IComProps) => {
   const { messages } = useIntl();
   const { successStack } = useNotiStack();
   const authUser = useAuthUser();
-  console.log('useAuthUser ', authUser);
+  // console.log('useAuthUser ', authUser);
+  // const useVendor = useVendor;
+  // console.log('useVendor ', useVendor);
   const isEditable = comProps.editable ? comProps.editable : false;
   
   let requestQuery: IQuery = {
@@ -59,16 +61,6 @@ const EventCalendar = (comProps: IComProps) => {
   if(authUser?.isInstituteUser){
     requestQuery.institute_id = authUser.institute_id;
   }
-  // switch (comProps.calendarFor) {
-  //   case 'youth':
-  //     requestQuery.youth_id = authUser?.youthId;
-  //     break;
-  //   case 'institute':
-  //     requestQuery.institute_id = authUser?.institute_id;
-  //     break
-  //   default:
-  //     break;
-  // }
 
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
