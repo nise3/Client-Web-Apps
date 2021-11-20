@@ -88,11 +88,15 @@ export const useVendor = <T extends CurrentInstitute = CurrentInstitute>():
   | T
   | null
   | CurrentInstitute => {
-  return {
-    id: 1,
-    title: 'Chester Koss',
-    domain: 'https://morar.biz',
-    address: 'Hello world',
-    code: 'excepturi-non-repudiandae-magni-quaerat-ipsum-aut-quia-alias-sit-omnis-nostrum-quis-fuga-deleniti-excepturi-eos-dicta-tempora-iusto',
-  };
+  if (useAuthUser()?.isYouthUser) {
+    return null;
+  } else {
+    return {
+      id: 1,
+      title: 'বিটাক',
+      domain: 'http://bitac.nise3.com',
+      address: 'Hello world',
+      code: 'excepturi-non-repudiandae-magni-quaerat-ipsum-aut-quia-alias-sit-omnis-nostrum-quis-fuga-deleniti-excepturi-eos-dicta-tempora-iusto',
+    };
+  }
 };
