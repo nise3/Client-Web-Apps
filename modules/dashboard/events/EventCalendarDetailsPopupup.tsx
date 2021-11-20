@@ -15,6 +15,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import { deleteEvent } from '../../../services/cmsManagement/EventService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import EventCalendarDetails from './EventCalendarDetails';
 
 type Props = {
   itemId: number;
@@ -67,100 +68,8 @@ const EventCalendarDetailsPopup = ({ itemId, openEditModal, refreshDataTable, ..
           }
           </>
         }>
-        <Grid container spacing={3}>
-        <Grid item xs={12} md={12}>
-            <DetailsInputView
-              label={messages['common.title']}
-              value={itemData?.title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.event_start_date']}
-              value={itemData?.start_date}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.event_end_date']}
-              value={itemData?.start_date}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.start_time']}
-              value={itemData?.start_time}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.end_time']}
-              value={itemData?.end_time}
-              isLoading={isLoading}
-            />
-          </Grid>
-        </Grid>
-        {/* <Grid container spacing={5}>
-
-          <Grid item xs={12} md={12}>
-            <fieldset>
-              <legend>
-                {getLanguageLabel(
-                  cmsGlobalConfig?.language_configs,
-                  LanguageCodes.BANGLA,
-                )}
-              </legend>
-              <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <DetailsInputView
-                    label={messages['faq.question']}
-                    value={itemData?.question}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <DetailsInputView
-                    label={messages['faq.answer']}
-                    value={itemData?.answer}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              </Grid>
-            </fieldset>
-          </Grid>
-
-          {Object.keys(itemData?.other_language_fields || {}).map(
-            (key: string) => (
-              <Grid item xs={12} md={12} key={key}>
-                <fieldset>
-                  <legend>
-                    {getLanguageLabel(cmsGlobalConfig?.language_configs, key)}
-                  </legend>
-                  <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <DetailsInputView
-                        label={messages['faq.question']}
-                        value={itemData?.other_language_fields[key].question}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <DetailsInputView
-                        label={messages['faq.answer']}
-                        value={itemData?.other_language_fields[key].answer}
-                        isLoading={isLoading}
-                      />
-                    </Grid>
-                  </Grid>
-                </fieldset>
-              </Grid>
-            ),
-          )}
-        </Grid> */}
+          <EventCalendarDetails itemData={itemData}/>
+        
       </CustomDetailsViewMuiModal>
     </>
   );
