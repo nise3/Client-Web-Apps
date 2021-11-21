@@ -13,14 +13,10 @@ const classes = {
   deleteButtons: `${PREFIX}-deleteButtons`,
   circularDeleteButton: `${PREFIX}-circularDeleteButton`,
   box: `${PREFIX}-box`,
-  editButton: `${PREFIX}-editButton`
+  editButton: `${PREFIX}-editButton`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme
-  }
-) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.image}`]: {
     width: '100%',
     height: '150px',
@@ -33,6 +29,9 @@ const StyledBox = styled(Box)((
     zIndex: 1,
     display: 'none',
     background: '#fff',
+    '& button': {
+      background: '#fff',
+    },
   },
 
   [`& .${classes.deleteButtons}`]: {
@@ -45,6 +44,9 @@ const StyledBox = styled(Box)((
     borderRadius: 40,
     border: '1px solid',
     borderColor: theme.palette.error.main,
+    '& button': {
+      background: '#fff',
+    },
   },
 
   [`& .${classes.circularDeleteButton}`]: {
@@ -53,11 +55,11 @@ const StyledBox = styled(Box)((
 
   [`& .${classes.box}`]: {
     position: 'relative',
-    '&:hover $buttons': {
+    [`&:hover .${classes.buttons}`]: {
       display: 'block !important',
       borderRadius: 40,
     },
-    '&:hover $deleteButtons': {
+    [`&:hover .${classes.deleteButtons}`]: {
       display: 'block !important',
       borderRadius: 40,
     },
@@ -65,7 +67,7 @@ const StyledBox = styled(Box)((
 
   [`& .${classes.editButton}`]: {
     borderRadius: 40,
-  }
+  },
 }));
 
 interface cardItemWithButtonProps {
@@ -79,7 +81,6 @@ const CardItemWithButton = ({
   onClick: onclickHandler,
   onDeletePortfolio,
 }: cardItemWithButtonProps) => {
-
   const {messages} = useIntl();
 
   return (

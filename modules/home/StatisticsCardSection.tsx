@@ -4,10 +4,12 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import InfoCard from './infoCard';
 import {H3, Text} from '../../@softbd/elements/common';
+import clsx from 'clsx';
 
 const PREFIX = 'StatisticsCardSection';
 
 const classes = {
+  cardColors: `${PREFIX}-cardColors`,
   cardColor1: `${PREFIX}-cardColor1`,
   cardColor2: `${PREFIX}-cardColor2`,
   cardColor3: `${PREFIX}-cardColor3`,
@@ -20,6 +22,25 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.cardColors}`]: {
+    position: 'relative',
+    '&::before, &::after': {
+      content: "''",
+      display: 'block',
+      position: 'absolute',
+      background: '#fff2',
+      borderRadius: 50,
+      width: 90,
+      height: 90,
+      left: -20,
+      bottom: -30,
+    },
+    '&::after': {
+      left: -20,
+      bottom: -60,
+    },
+  },
+
   [`& .${classes.cardColor1}`]: {
     background: '#661687',
     textAlign: 'center',
@@ -92,49 +113,49 @@ const StatisticsCardSection = () => {
       <Fade direction='down'>
         <Grid container spacing={2} style={{marginTop: '65px'}}>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor1}>
+            <Card className={clsx(classes.cardColors, classes.cardColor1)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
               <Text style={{fontSize: '25px'}}>মন্ত্রণালয়</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor2}>
+            <Card className={clsx(classes.cardColors, classes.cardColor2)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৮</H3>
               <Text style={{fontSize: '25px'}}>বিভাগ</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor3}>
+            <Card className={clsx(classes.cardColors, classes.cardColor3)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>১০,০০০</H3>
               <Text style={{fontSize: '25px'}}>প্রজেক্ট</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor4}>
+            <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
               <Text style={{fontSize: '25px'}}>আর টি ও</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor4}>
+            <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩,৫০০,০০০</H3>
               <Text style={{fontSize: '25px'}}>যুব</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor3}>
+            <Card className={clsx(classes.cardColors, classes.cardColor3)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
               <Text style={{fontSize: '25px'}}>সমিতি</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor5}>
+            <Card className={clsx(classes.cardColors, classes.cardColor5)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩২</H3>
               <Text style={{fontSize: '25px'}}>শিল্প প্রতিষ্ঠান</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Card className={classes.cardColor6}>
+            <Card className={clsx(classes.cardColors, classes.cardColor6)}>
               <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩২</H3>
               <Text style={{fontSize: '25px'}}>শিল্প প্রতিষ্ঠান</Text>
             </Card>
@@ -168,6 +189,7 @@ const StatisticsCardSection = () => {
               sx={{color: '#0069BC'}}
             />
             <InfoCard
+              label={'ট্রেইনড'}
               color={'#0069BC'}
               infos={[
                 {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
@@ -187,6 +209,7 @@ const StatisticsCardSection = () => {
               sx={{color: '#305DF7'}}
             />
             <InfoCard
+              label={'এনরোলড'}
               color={'#305DF7'}
               infos={[
                 {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},

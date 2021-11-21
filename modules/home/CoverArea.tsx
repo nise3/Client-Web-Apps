@@ -115,7 +115,8 @@ const StyledBox = styled(Box)(({theme}) => ({
 
   [`& .${classes.coverImg}`]: {
     width: '400px',
-    backgroundSize: '100% 100%',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center top',
     [theme.breakpoints.down('md')]: {
       width: '100%',
     },
