@@ -36,7 +36,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.thinSearchButton}`]: {
     color: '#fff',
     padding: '11px 0',
-    width: '100%',
+    width: '99%',
     height: '100%',
   },
 
