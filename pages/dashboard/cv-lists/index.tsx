@@ -4,16 +4,16 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const YouthPage = asyncComponent(
-  () => import('../../../modules/dashboard/youths/YouthPage'),
+const CVListPage = asyncComponent(
+  () => import('../../../modules/dashboard/cvLists'),
 );
 
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['youth.label'] as string} />
-      <YouthPage />
+      <PageMeta title={messages['common.cv_list'] as string} />
+      <CVListPage />
     </>
   );
 });
