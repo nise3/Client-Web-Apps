@@ -147,7 +147,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             <Box display='flex' flexDirection='row' alignItems='center'>
               <i className={`flag flag-24 flag-${language.icon}`} />
               <Box
-                component='h4'
+                component='span'
                 ml={1}
                 fontSize={{xs: 14, xl: 16}}
                 fontWeight={Fonts.MEDIUM}>

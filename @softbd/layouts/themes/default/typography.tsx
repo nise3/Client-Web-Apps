@@ -197,13 +197,13 @@ export default function typography(theme: Theme, locale: string) {
       letterSpacing: '0.02857em',
       fontSize: '1.25rem 1.25rem',
       [theme.breakpoints.up('sm')]: {
-        fontSize: '1.125rem',
+        fontSize: '1rem',
       },
       [theme.breakpoints.up('md')]: {
-        fontSize: '1.125rem',
+        fontSize: '1rem',
       },
       [theme.breakpoints.up('lg')]: {
-        fontSize: '1.25rem',
+        fontSize: '1.125rem',
       },
     },
     overline: {
