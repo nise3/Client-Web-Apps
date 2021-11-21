@@ -94,6 +94,7 @@ const CustomFilterableSelect = ({
           sx={{background: '#fff'}}
         />
       )}
+      className={rest.className ? rest.className : ''}
       sx={rest.sx ? rest.sx : {}}
     />
   );

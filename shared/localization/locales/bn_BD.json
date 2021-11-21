@@ -815,7 +815,7 @@
   "footer.sign_up": "সাইন আপ",
   "footer.terms_and_conditions": "শর্তাবলী",
   "footer.privacy_policy": "গোপনীয়তা",
-  "footer.implementation": "বাস্তবায়নে",
+  "footer.implementation": "পরিকল্পনা ও বাস্তবায়নে",
   "footer.technical_assistance": "কারিগরি সহায়তায়",
   "level.beginner": "শিক্ষানবিস",
   "level.intermediate": "মধ্যবর্তী",
@@ -986,5 +986,6 @@
   "static_page.template_code": "টেমপ্লেট",
   "common.is_attachment_available": "এটাচমেন্ট আছে?",
   "common.attachment_type": "এটাচমেন্টের ধরন",
-  "common.nise3": "নাইস৩"
+  "common.nise3": "নাইস৩",
+  "institute.feedback": "আমাদেরকে মতামত দিন"
 }

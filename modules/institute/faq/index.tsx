@@ -1,4 +1,4 @@
-import React, {useState, SyntheticEvent} from 'react';
+import React, {SyntheticEvent, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -24,15 +24,20 @@ const PREFIX = 'InstituteFAQ';
 const classes = {
   accordion: `${PREFIX}-accordion`,
   heading: `${PREFIX}-heading`,
+  iconStyle: `${PREFIX}-iconStyle`,
 };
 
-const StyledGrid = styled(Grid)(() => {
+const StyledGrid = styled(Grid)(({theme}) => {
   return {
     [`& .${classes.accordion}`]: {
       marginBottom: '10px',
     },
     [`& .${classes.heading}`]: {
       boxShadow: '0px 2px 2px #8888',
+    },
+    [`& .${classes.iconStyle}`]: {
+      color: theme.palette.grey[800],
+      fontSize: '30px',
     },
   };
 });
@@ -45,7 +50,11 @@ const InstituteFAQ = () => {
   const show_in = getShowInTypeFromPath(pathName);
 
   const vendor = useVendor();
-  const [params] = useState({show_in: show_in, institute_id: vendor?.id, row_status: RowStatus.ACTIVE});
+  const [params] = useState({
+    show_in: show_in,
+    institute_id: vendor?.id,
+    row_status: RowStatus.ACTIVE,
+  });
   const {data: faqItems} = useFetchInstitutesFAQ(objectFilter(params));
 
   const handleChange =
@@ -72,7 +81,11 @@ const InstituteFAQ = () => {
                   key={item.id}>
                   <AccordionSummary
                     expandIcon={
-                      expandedState === item.id ? <RemoveIcon /> : <AddIcon />
+                      expandedState === item.id ? (
+                        <RemoveIcon className={classes.iconStyle} />
+                      ) : (
+                        <AddIcon className={classes.iconStyle} />
+                      )
                     }
                     aria-controls='panel1bh-content'
                     id='panel1bh-header'>
