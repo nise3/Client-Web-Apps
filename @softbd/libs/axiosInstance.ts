@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
     const authAccessTokenData = cookieInstance.get(
       COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
-    console.log('authAccessTokenData', authAccessTokenData);
+    // console.log('authAccessTokenData', authAccessTokenData);
     const userAccessToken = authAccessTokenData?.access_token;
 
     //TODO: temporary
@@ -103,9 +103,7 @@ async function refreshAuthAccessToken() {
 
 export async function refreshAppAccessToken() {
   try {
-    let response = await axios.get(
-      'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',
-    );
+    let response = await getAppAccessToken();
     cookieInstance.set(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data, {
       path: '/',
     });
@@ -113,6 +111,18 @@ export async function refreshAppAccessToken() {
     setDefaultAuthorizationHeader(response?.data?.access_token);
   } catch (e) {
     console.log(e);
+  }
+}
+
+export async function getAppAccessToken(throwError = false) {
+  try {
+    return await axios.get(
+      'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',
+    );
+  } catch (e: any) {
+    if (throwError) {
+      throw e;
+    }
   }
 }
 
