@@ -27,8 +27,7 @@ import {
   Settings,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {useDispatch} from 'react-redux';
-import {onJWTAuthSignout} from '../../../../redux/actions';
+import {getSSOLogoutUrl} from '../../../common/SSOConfig';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -62,7 +61,6 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
-  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -147,12 +145,14 @@ const YouthProfileMenu = () => {
           </MenuItem>
         </Link>
         <Divider />
-        <MenuItem onClick={() => dispatch(onJWTAuthSignout())}>
-          <ListItemIcon>
-            <Logout />
-          </ListItemIcon>
-          <ListItemText>{messages['common.logout']}</ListItemText>
-        </MenuItem>
+        <Link href={getSSOLogoutUrl()}>
+          <MenuItem>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText>{messages['common.logout']}</ListItemText>
+          </MenuItem>
+        </Link>
       </StyledMenu>
     </div>
   );
