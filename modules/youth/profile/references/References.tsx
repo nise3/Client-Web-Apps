@@ -65,7 +65,7 @@ const References = ({
                       {reference?.referrer_last_name}
                     </Typography>
                     <Typography variant={'caption'}>
-                      {reference?.referrer_designation}
+                      {reference?.referrer_designation},
                     </Typography>
                     <Typography variant={'caption'}>
                       {reference?.referrer_organization_name}

@@ -30,6 +30,7 @@ export interface YouthPersonalInfo {
   gender?: Gender;
   email: string;
   mobile: string;
+  skills?: Array<any>;
   date_of_birth?: string;
   physical_disability_status?: string | number;
   physical_disabilities?: Array<any>;

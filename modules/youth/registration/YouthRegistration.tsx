@@ -142,10 +142,13 @@ const YouthRegistration = () => {
         disabilityStatus == PhysicalDisabilityStatus.YES
           ? yup
               .array()
-              .of(yup.number())
-              .min(1)
+              .of(yup.object())
+              .min(
+                1,
+                messages['common.must_have_one_physical_disability'] as string,
+              )
               .label(messages['common.physical_disability'] as string)
-          : yup.array().of(yup.number()),
+          : yup.array().of(yup.object()),
       email: yup
         .string()
         .trim()
@@ -218,7 +221,6 @@ const YouthRegistration = () => {
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
   useEffect(() => {
     reset(initialValues);
   }, []);
@@ -256,7 +258,7 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const queryParam = {mobile: data.mobile};
+      const queryParam = {mobile: data?.mobile};
       /*const queryParam =
       userNameType == UserNameType.MOBILE
           ? {mobile: data.mobile}
@@ -274,6 +276,12 @@ const YouthRegistration = () => {
         skillIds.push(skill.id);
       });
       data.skills = skillIds;
+
+      let physicalDisabilityIds: any = [];
+      data.physical_disabilities.map((physical_disability: any) => {
+        physicalDisabilityIds.push(physical_disability.id);
+      });
+      data.physical_disabilities = physicalDisabilityIds;
 
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
@@ -345,20 +353,6 @@ const YouthRegistration = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              {/*  <CustomFormSelect
-                required
-                id='skills'
-                label={messages['common.skills']}
-                isLoading={false}
-                control={control}
-                options={skills}
-                multiple={true}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                defaultValue={[]}
-              />*/}
-
               <CustomSelectAutoComplete
                 required
                 id='skills'
@@ -394,6 +388,7 @@ const YouthRegistration = () => {
             {disabilityStatus == 1 && (
               <Grid item xs={12} md={6}>
                 <CustomSelectAutoComplete
+                  required
                   id='physical_disabilities'
                   label={messages['common.physical_disability']}
                   control={control}
@@ -403,22 +398,6 @@ const YouthRegistration = () => {
                   errorInstance={errors}
                 />
               </Grid>
-
-              // <Grid item xs={12} md={6}>
-              //   <CustomFormSelect
-              //     required
-              //     id='physical_disabilities'
-              //     label={messages['common.physical_disability']}
-              //     isLoading={false}
-              //     control={control}
-              //     options={physicalDisabilities}
-              //     optionValueProp={'id'}
-              //     optionTitleProp={['label']}
-              //     errorInstance={errors}
-              //     multiple={true}
-              //     defaultValue={[]}
-              //   />
-              // </Grid>
             )}
 
             <Grid item xs={12} sm={6} md={6}>
@@ -521,6 +500,16 @@ const YouthRegistration = () => {
                 label={messages['common.create_account'] as string}
                 size='large'
               />
+              <Typography
+                sx={{
+                  color: 'red',
+                  marginLeft: '10px',
+                  fontStyle: 'italic',
+                  verticalAlign: 'middle',
+                }}
+                variant={'caption'}>
+                *({messages['youth.registration_username_note']})
+              </Typography>
               <Typography style={{marginTop: '15px'}} variant={'body1'}>
                 {messages['common.already_have_account']}{' '}
                 <Link
