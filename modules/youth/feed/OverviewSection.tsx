@@ -146,6 +146,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
                 sx={{display: 'flex', alignItems: 'center'}}>
                 <TextField
                   inputRef={searchTextField}
+                  sx={{backgroundColor: '#fff'}}
                   variant='outlined'
                   name='searchBox'
                   placeholder={messages['common.searchHere'] as string}
