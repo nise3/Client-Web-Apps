@@ -11,7 +11,7 @@ const VideoPlayer = ({url}: any) => {
   return (
     <StyledIFrame
       width='100%'
-      height='480'
+      height='350'
       src={url}
       frameBorder='0'
       allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'

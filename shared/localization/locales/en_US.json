@@ -5,7 +5,7 @@
   "applicationManagement.traineeDetails": "Trainee Details",
   "applicationManagement.assignBatch": "Assign Batch",
   "applicationManagement.reject": "Reject",
-  "applicationManagement.viewCV": "View Trainee CV",
+  "applicationManagement.viewCV": "View CV",
   "applicationManagement.batches": "Available Batches",
   "applicationManagement.modernCV": "View Modern CV",
   "applicationManagement.classicCV": "View Classic CV",
@@ -986,5 +986,6 @@
   "common.must_have_one_skill": "Must have one skill",
   "guardian.info": "Guardian information",
   "common.nise3": "NISE3",
-  "institute.feedback": "Send us your Feedback"
+  "institute.feedback": "Send us your Feedback",
+  "common.cv_list": "CV List"
 }

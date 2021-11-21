@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {styled} from '@mui/material/styles';
 import {useRouter} from 'next/router';
 import {
   forEach as lodashForEach,
@@ -8,7 +7,7 @@ import {
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
-import {Box, Checkbox, Divider, Grid} from '@mui/material';
+import {CardContent, CardHeader, Checkbox, Divider, Grid} from '@mui/material';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
@@ -20,26 +19,7 @@ import {
 } from '../../../services/userManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-
-const PREFIX = 'AssignPermissionToRolePage';
-
-const classes = {
-  permissionGroup: `${PREFIX}-permissionGroup`,
-  checkboxGroupWrapper: `${PREFIX}-checkboxGroupWrapper`,
-};
-
-const StyledPageBlock = styled(PageBlock)(({theme}) => ({
-  [`& .${classes.permissionGroup}`]: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  [`& .${classes.checkboxGroupWrapper}`]: {
-    boxShadow: '0px 0px 5px 1px #e9e9e9',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
+import Card from '@mui/material/Card';
 
 const AssignPermissionToRolePage = () => {
   const router = useRouter();
@@ -164,7 +144,7 @@ const AssignPermissionToRolePage = () => {
   }, [roleId, checkedPermissions]);
 
   return (
-    <StyledPageBlock
+    <PageBlock
       title={'Assign Permission'}
       extra={[
         <SubmitButton
@@ -175,39 +155,45 @@ const AssignPermissionToRolePage = () => {
           label={messages['permissions.sync_permission'] as string}
         />,
       ]}>
-      <Grid container spacing={5}>
+      <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (
-          <Grid item xs={4} key={module} className={classes.permissionGroup}>
-            <Box className={classes.checkboxGroupWrapper}>
-              <label>
-                <Checkbox
-                  checked={checkedModules.has(module)}
-                  onChange={(e) =>
-                    handleCheckAllPermissions(e.target.checked, module)
-                  }
-                />
-                {lodashStartCase(lodashToLower(module))}
-              </label>
-              <Divider />
-              {permissions[module].map((permission: any) => {
-                return (
-                  <label key={permission.id}>
+          <Grid item xs={12} md={4} key={module}>
+            <Card>
+              <CardHeader
+                title={
+                  <label>
                     <Checkbox
-                      value={permission.id}
-                      checked={checkedPermissions.has(permission.id)}
-                      onChange={() =>
-                        handlePermissionCheck(permission.id, module)
+                      checked={checkedModules.has(module)}
+                      onChange={(e) =>
+                        handleCheckAllPermissions(e.target.checked, module)
                       }
                     />
-                    {lodashStartCase(permission.title)}
+                    {lodashStartCase(lodashToLower(module))}
                   </label>
-                );
-              })}
-            </Box>
+                }
+              />
+              <Divider />
+              <CardContent>
+                {permissions[module].map((permission: any) => {
+                  return (
+                    <label key={permission.id} style={{display: 'block'}}>
+                      <Checkbox
+                        value={permission.id}
+                        checked={checkedPermissions.has(permission.id)}
+                        onChange={() =>
+                          handlePermissionCheck(permission.id, module)
+                        }
+                      />
+                      {lodashStartCase(permission.title)}
+                    </label>
+                  );
+                })}
+              </CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
-    </StyledPageBlock>
+    </PageBlock>
   );
 };
 
