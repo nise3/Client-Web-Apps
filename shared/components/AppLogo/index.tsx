@@ -3,7 +3,6 @@ import {Box} from '@mui/material';
 import AppContext from '../../../@crema/utility/AppContext';
 import {ThemeMode} from '../../constants/AppEnums';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import {Link} from '../../../@softbd/elements/common';
 
 const AppLogo = ({height = 40}) => {
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
@@ -28,17 +27,15 @@ const AppLogo = ({height = 40}) => {
         />
       </Box>
       <Box sx={{display: {xs: 'none', md: 'block'}}}>
-        <Link href={'/'}>
-          <img
-            style={{height}}
-            src={
-              themeMode === ThemeMode.DARK
-                ? '/images/logo-white-with-name.png'
-                : '/images/logo-with-name.png'
-            }
-            alt='Nise3'
-          />
-        </Link>
+        <img
+          style={{height}}
+          src={
+            themeMode === ThemeMode.DARK
+              ? '/images/logo-white-with-name.png'
+              : '/images/logo-with-name.png'
+          }
+          alt='Nise3'
+        />
       </Box>
     </Box>
   );
