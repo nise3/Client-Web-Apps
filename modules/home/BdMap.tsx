@@ -29,6 +29,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     color: '#fff',
     justifyContent: 'center',
     marginRight: '2px',
+    minWidth: '98px',
   },
 
   [`& .${classes.map}`]: {
@@ -132,7 +133,7 @@ const BdMap = () => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
                       {messages['common.skills']}
                     </Grid>
                   </Grid>
@@ -150,7 +151,7 @@ const BdMap = () => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
                       {messages['menu.jobs']}
                     </Grid>
                   </Grid>
@@ -168,7 +169,7 @@ const BdMap = () => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
                       {messages['common.business']}
                     </Grid>
                   </Grid>
@@ -186,8 +187,8 @@ const BdMap = () => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={8}>
-                      {messages['common.educations']}
+                    <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
+                      {messages['common.education']}
                     </Grid>
                   </Grid>
                 </Grid>

@@ -106,6 +106,7 @@ const RecentActivities = () => {
         <Grid container justifyContent='flex-end'>
           <Link href={'/recent-activities'}>
             <Button
+              sx={{borderRadius: '10px'}}
               variant='outlined'
               color='primary'
               endIcon={<ArrowRightAlt />}>

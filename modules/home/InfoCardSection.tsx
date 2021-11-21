@@ -18,6 +18,7 @@ const StyledFade = styled(Fade)(({theme}) => ({
     background: '#1B69BC',
     textAlign: 'center',
     padding: theme.spacing(3),
+    borderRadius: '16px',
     color: '#fff',
     '& h3': {
       marginTop: '30px !important',
@@ -36,6 +37,7 @@ const StyledFade = styled(Fade)(({theme}) => ({
     textAlign: 'center',
     padding: theme.spacing(3),
     color: '#fff',
+    borderRadius: '16px',
     '& h3': {
       marginTop: '30px !important',
       marginBottom: '10px !important',
@@ -53,6 +55,7 @@ const StyledFade = styled(Fade)(({theme}) => ({
     textAlign: 'center',
     padding: theme.spacing(3),
     color: '#fff',
+    borderRadius: '16px',
     '& h3': {
       marginTop: '30px !important',
       marginBottom: '10px !important',

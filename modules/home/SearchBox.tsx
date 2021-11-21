@@ -77,6 +77,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     height: '86px',
     padding: '10px',
     marginTop: '114px',
+    boxSizing: 'border-box',
     [theme.breakpoints.down('md')]: {
       display: 'flex',
       width: '100%',
