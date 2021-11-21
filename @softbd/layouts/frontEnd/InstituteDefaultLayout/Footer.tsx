@@ -37,6 +37,7 @@ const classes = {
   softbdImage: `${PREFIX}-softbdImage`,
   primary: `${PREFIX}-primary`,
   bullet: `${PREFIX}-bullet`,
+  textColor: `${PREFIX}-textColor`,
 };
 
 const StyledContainer = styled(Grid)(({theme}) => ({
@@ -54,6 +55,11 @@ const StyledContainer = styled(Grid)(({theme}) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 15,
+    color: theme.palette.grey[700],
+  },
+
+  [`& .${classes.textColor}`]: {
+    color: theme.palette.grey[700],
   },
 }));
 
@@ -122,7 +128,7 @@ const Footer = () => {
                 instituteLogo='/images/bitac-logo.jpg'
               />
               <Box mt={4}>
-                <Text>
+                <Text className={classes.textColor}>
                   গনপ্রজাতন্ত্রী বাংলাদেশ সরকারের রূপকল্প ২০২১ বাস্তবায়নে
                   যুবকদের আত্মকর্মসংস্থান ও স্বাবলম্বী করে তোলার লক্ষে "অনলাইনে
                   বিভিন্ন প্রশিক্ষন কোর্সের পরিচালনা ও পর্যবেক্ষন করা"।
@@ -147,17 +153,21 @@ const Footer = () => {
               <H6 className={classes.primary}>{messages['footer.contact']}</H6>
               <Box display='flex' mt={4}>
                 <Home className={classes.primary} />
-                <Text style={{marginLeft: '6px'}}>{getAddress()}</Text>
+                <Text style={{marginLeft: '6px'}} className={classes.textColor}>
+                  {getAddress()}
+                </Text>
               </Box>
               <Box display='flex' mt={4}>
                 <Email className={classes.primary} />
-                <Text style={{marginTop: '2px', marginLeft: '6px'}}>
+                <Text
+                  style={{marginTop: '2px', marginLeft: '6px'}}
+                  className={classes.textColor}>
                   {vendor?.email}
                 </Text>
               </Box>
               <Box display='flex' mt={4}>
                 <LocalPhone className={classes.primary} />
-                <Text style={{marginLeft: '6px'}}>
+                <Text style={{marginLeft: '6px'}} className={classes.textColor}>
                   +৮৮-০২-৯৯৩৯৪৯৩, +৮৮-০২-৮৩৮৪৮৪৮৪
                 </Text>
               </Box>
