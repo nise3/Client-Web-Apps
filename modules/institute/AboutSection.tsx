@@ -14,6 +14,9 @@ import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 import {LINK_INSTITUTE_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {useVendor} from '../../@crema/utility/AppHooks';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'AboutSection';
 
@@ -98,7 +101,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const AboutSection = () => {
-  const [blockData, setBlockData] = useState<any>({});
+  const vendor = useVendor();
+  const {messages} = useIntl();
+  const [blockData, setBlockData] = useState<any>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
@@ -111,7 +116,7 @@ const AboutSection = () => {
           BLOCK_ID_INSTITUTE_DETAILS,
           {
             show_in: ShowInTypes.TSP,
-            institute_id: 23,
+            institute_id: vendor?.id,
           },
         );
 
@@ -140,89 +145,100 @@ const AboutSection = () => {
 
   return (
     <StyledGrid container xl={12} className={classes.root}>
-      <Container maxWidth='lg'>
-        <Grid
-          container
-          spacing={4}
-          justifyContent='space-around'
-          alignItems='center'>
+      {blockData ? (
+        <Container maxWidth='lg'>
           <Grid
-            item
-            xs={12}
-            md={7}
-            order={{xs: templateConfig.textLeft ? 1 : 2}}>
-            <Fade direction='down'>
-              <H3
-                gutterBottom={true}
-                className={classes.heading}
-                fontWeight='fontWeightBold'>
-                {blockData?.title}
-              </H3>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: blockData?.content,
-                }}
-              />
-
-              {blockData?.is_button_available == 1 ? (
-                <Link
-                  href={
-                    LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
-                    CONTENT_ID_INSTITUTE_DETAILS
-                  }>
-                  <Button variant='contained' className={classes.detailsButton}>
-                    {blockData?.button_text}
-                    <ArrowForwardIcon />
-                  </Button>
-                </Link>
-              ) : (
-                <Box />
-              )}
-            </Fade>
-          </Grid>
-
-          {blockData?.is_attachment_available == 1 && (
+            container
+            spacing={4}
+            justifyContent='space-around'
+            alignItems='center'>
             <Grid
               item
               xs={12}
-              md={4}
-              order={{xs: templateConfig.textLeft ? 2 : 1}}>
-              {blockData.attachment_type == ContentTypes.IMAGE &&
-                blockData.image_path && (
+              md={7}
+              order={{xs: templateConfig.textLeft ? 1 : 2}}>
+              <Fade direction='down'>
+                <H3
+                  gutterBottom={true}
+                  className={classes.heading}
+                  fontWeight='fontWeightBold'>
+                  {blockData?.title}
+                </H3>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: blockData?.content,
+                  }}
+                />
+
+                {blockData?.is_button_available == 1 ? (
+                  <Link
+                    href={
+                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
+                      CONTENT_ID_INSTITUTE_DETAILS
+                    }>
+                    <Button
+                      variant='contained'
+                      className={classes.detailsButton}>
+                      {blockData?.button_text}
+                      <ArrowForwardIcon />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Box />
+                )}
+              </Fade>
+            </Grid>
+
+            {blockData?.is_attachment_available == 1 && (
+              <Grid
+                item
+                xs={12}
+                md={4}
+                order={{xs: templateConfig.textLeft ? 2 : 1}}>
+                {blockData.attachment_type == ContentTypes.IMAGE &&
+                  blockData.image_path && (
+                    <Zoom>
+                      <CardMedia
+                        component={'img'}
+                        className={classes.imageView}
+                        image={blockData.image_path}
+                        alt={blockData?.image_alt_title}
+                      />
+                    </Zoom>
+                  )}
+
+                {blockData.attachment_type != ContentTypes.IMAGE && videoUrl && (
                   <Zoom>
-                    <CardMedia
-                      component={'img'}
-                      className={classes.imageView}
-                      image={blockData.image_path}
-                      alt={blockData?.image_alt_title}
+                    <iframe
+                      className={classes.youtubePlayerMobileView}
+                      src={videoUrl}
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                      allowFullScreen
+                      title='Embedded youtube'
+                    />
+                    <iframe
+                      className={classes.youtubePlayer}
+                      src={videoUrl}
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                      allowFullScreen
+                      title='Embedded youtube'
                     />
                   </Zoom>
                 )}
-
-              {blockData.attachment_type != ContentTypes.IMAGE && videoUrl && (
-                <Zoom>
-                  <iframe
-                    className={classes.youtubePlayerMobileView}
-                    src={videoUrl}
-                    frameBorder='0'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                    allowFullScreen
-                    title='Embedded youtube'
-                  />
-                  <iframe
-                    className={classes.youtubePlayer}
-                    src={videoUrl}
-                    frameBorder='0'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                    allowFullScreen
-                    title='Embedded youtube'
-                  />
-                </Zoom>
-              )}
-            </Grid>
-          )}
+              </Grid>
+            )}
+          </Grid>
+        </Container>
+      ) : (
+        <Grid container sx={{marginTop: '-35px'}}>
+          <NoDataFoundComponent
+            message={messages['common.no_data_found'] as string}
+            messageTextType={'h6'}
+          />
         </Grid>
-      </Container>
+      )}
     </StyledGrid>
   );
 };

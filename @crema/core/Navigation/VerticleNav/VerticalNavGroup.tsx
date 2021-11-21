@@ -41,6 +41,7 @@ const StyledListItem = styled(ListItem)(({theme}) => {
 });
 
 const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
+  console.log('VerticalNavGroup-level', level);
   return (
     <>
       <StyledListItem
@@ -48,8 +49,8 @@ const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
         component='li'
         className={'nav-item nav-item-header'}
         style={{
-          paddingLeft: 12 * level,
-          paddingRight: 12 * level,
+          paddingLeft: 24 + 20 * level,
+          paddingRight: 12,
         }}>
         {<IntlMessages id={item.messageId} />}
       </StyledListItem>

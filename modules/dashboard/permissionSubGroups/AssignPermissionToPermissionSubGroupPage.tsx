@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {styled} from '@mui/material/styles';
 import {useRouter} from 'next/router';
 import {
   forEach as lodashForEach,
@@ -8,8 +7,7 @@ import {
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
-import {Box, Checkbox, Divider, Grid} from '@mui/material';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
+import {CardContent, CardHeader, Checkbox, Divider, Grid} from '@mui/material';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -18,26 +16,8 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useFetchPermissionSubGroup} from '../../../services/userManagement/hooks';
 import {assignPermissions} from '../../../services/userManagement/PermissionSubGroupService';
 import {getPermissionGroupWithPermissions} from '../../../services/userManagement/PermissionGroupService';
-
-const PREFIX = 'AssignPermissionToPermissionSubGroupPage';
-
-const classes = {
-  permissionGroup: `${PREFIX}-permissionGroup`,
-  checkboxGroupWrapper: `${PREFIX}-checkboxGroupWrapper`,
-};
-
-const StyledPageBlock = styled(PageBlock)(({theme}) => ({
-  [`& .${classes.permissionGroup}`]: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  [`& .${classes.checkboxGroupWrapper}`]: {
-    boxShadow: '0px 0px 5px 1px #e9e9e9',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import Card from '@mui/material/Card';
 
 const AssignPermissionToPermissionSubGroupPage = () => {
   const router = useRouter();
@@ -175,7 +155,7 @@ const AssignPermissionToPermissionSubGroupPage = () => {
   }, [permissionSubGroupId, checkedPermissions]);
 
   return (
-    <StyledPageBlock
+    <PageBlock
       title={'Assign Permission'}
       extra={[
         <SubmitButton
@@ -186,39 +166,47 @@ const AssignPermissionToPermissionSubGroupPage = () => {
           label={messages['permissions.sync_permission'] as string}
         />,
       ]}>
-      <Grid container spacing={5}>
+      <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (
-          <Grid item xs={4} key={module} className={classes.permissionGroup}>
-            <Box className={classes.checkboxGroupWrapper}>
-              <label>
-                <Checkbox
-                  checked={checkedModules.has(module)}
-                  onChange={(e) =>
-                    handleCheckAllPermissions(e.target.checked, module)
-                  }
-                />
-                {lodashStartCase(lodashToLower(module))}
-              </label>
-              <Divider />
-              {permissions[module].map((permission: any) => {
-                return (
-                  <label key={permission.id}>
+          <Grid item xs={12} md={4} key={module}>
+            <Card>
+              <CardHeader
+                title={
+                  <label>
                     <Checkbox
-                      value={permission.id}
-                      checked={checkedPermissions.has(permission.id)}
-                      onChange={() =>
-                        handlePermissionCheck(permission.id, module)
+                      checked={checkedModules.has(module)}
+                      onChange={(e) =>
+                        handleCheckAllPermissions(e.target.checked, module)
                       }
                     />
-                    {lodashStartCase(permission.title)}
+                    {lodashStartCase(lodashToLower(module))}
                   </label>
-                );
-              })}
-            </Box>
+                }
+              />
+              <Divider />
+              <CardContent>
+                {permissions[module].map((permission: any) => {
+                  return (
+                    <>
+                      <label key={permission.id} style={{display: 'block'}}>
+                        <Checkbox
+                          value={permission.id}
+                          checked={checkedPermissions.has(permission.id)}
+                          onChange={() =>
+                            handlePermissionCheck(permission.id, module)
+                          }
+                        />
+                        {lodashStartCase(permission.title)}
+                      </label>
+                    </>
+                  );
+                })}
+              </CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
-    </StyledPageBlock>
+    </PageBlock>
   );
 };
 
