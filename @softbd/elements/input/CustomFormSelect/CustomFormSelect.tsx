@@ -56,7 +56,6 @@ const CustomFormSelect = ({
   groupDataKey,
 }: Props) => {
   const {messages} = useIntl();
-  console.log('options:', options);
 
   const getTitle = (
     option: any,

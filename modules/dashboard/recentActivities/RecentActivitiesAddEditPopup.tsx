@@ -301,6 +301,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       setShowInId(itemData?.show_in);
       changeShowInAction(itemData?.show_in);
       setHasCollagePosition(!!itemData?.collage_position);
+      setSelectedContentType(itemData?.content_type);
     } else {
       reset(initialValues);
     }
