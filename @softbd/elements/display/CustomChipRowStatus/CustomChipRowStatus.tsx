@@ -31,7 +31,13 @@ const CustomChipRowStatus = ({value, isLoading, label}: Props) => {
         </FormLabel>
       )}
       <CustomChip
-        icon={value == 1 ? <CheckCircleOutline /> : <CancelIcon />}
+        icon={
+          value == 1 ? (
+            <CheckCircleOutline fontSize={'small'} />
+          ) : (
+            <CancelIcon fontSize={'small'} />
+          )
+        }
         color={value == 1 ? 'primary' : 'secondary'}
         label={
           value == 1 ? (

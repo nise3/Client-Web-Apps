@@ -10,6 +10,20 @@ export default function componentStyleOverrides(theme: Theme) {
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderColor: 'transparent',
+          padding: '0 !important',
+        },
+        icon: {
+          fontSize: '1rem',
+        },
+        label: {
+          fontSize: '1rem',
+        },
+      },
+    },
   };
 
   return overrideRules;
