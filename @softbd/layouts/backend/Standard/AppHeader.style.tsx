@@ -36,6 +36,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
 export const StyledToolbar = styled(Toolbar)(({theme}) => ({
   [`&.${classes.appToolbar}`]: {
+    padding: 0,
     paddingLeft: 20,
     paddingRight: 20,
     minHeight: 56,
