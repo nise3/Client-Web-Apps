@@ -2,14 +2,21 @@ import React from 'react';
 import {Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import moment from 'moment';
+import {DATE_FORMAT, TIME_FORMAT} from '../../../@softbd/utilities/DateTime';
 
 type Props = {
   itemData: any;
 };
 
 const EventCalendarDetails = ({itemData, ...props}: Props) => {
+  // console.log(JSON.stringify(itemData))
+  // console.log(`${itemData.start_date}T${itemData.start_time}`)
+  itemData.start_date = moment(itemData.start).format(DATE_FORMAT);
+  itemData.end_date = moment(itemData.end).format(DATE_FORMAT);
+  itemData.start_time = moment(itemData.start).format(TIME_FORMAT);
+  itemData.end_time = moment(itemData.end).format(TIME_FORMAT);
   const {messages} = useIntl();
-
   return (
     <>
       <Grid container spacing={3}>
