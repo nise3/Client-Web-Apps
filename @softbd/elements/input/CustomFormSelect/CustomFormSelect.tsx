@@ -56,6 +56,7 @@ const CustomFormSelect = ({
   groupDataKey,
 }: Props) => {
   const {messages} = useIntl();
+  console.log('options:', options);
 
   const getTitle = (
     option: any,
@@ -67,7 +68,9 @@ const CustomFormSelect = ({
       for (let i = 0; i < optionTitleProp.length; i++) {
         arr.push(option[optionTitleProp[i]]);
       }
-      title = arr.join('-');
+
+      title = arr.join('-').split('').join('');
+      title = title[0] == '-' ? title.slice(1) : title;
     }
 
     return title;

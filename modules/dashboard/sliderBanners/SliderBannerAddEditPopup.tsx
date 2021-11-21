@@ -125,8 +125,69 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+      language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+            button_text: yup
+              .string()
+              .max(20)
+              .label(messages['common.button_text'] as string)
+              .when('is_button_available', {
+                is: (val: number) => {
+                  return val == 1;
+                },
+                then: yup.string().required(),
+              }),
+          }),
+
+      language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+            button_text: yup
+              .string()
+              .max(20)
+              .label(messages['common.button_text'] as string)
+              .when('is_button_available', {
+                is: (val: number) => {
+                  return val == 1;
+                },
+                then: yup.string().required(),
+              }),
+          }),
+
+      language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+            button_text: yup
+              .string()
+              .max(20)
+              .label(messages['common.button_text'] as string)
+              .when('is_button_available', {
+                is: (val: number) => {
+                  return val == 1;
+                },
+                then: yup.string().required(),
+              }),
+          }),
     });
   }, [messages, selectedCodes, authUser]);
+
+  console.log('selected codes', selectedCodes);
 
   const {
     register,
