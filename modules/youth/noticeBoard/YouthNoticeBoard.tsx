@@ -73,14 +73,13 @@ const YouthNoticeBoard = () => {
     page: 1,
     page_size: 8,
     type: NoticeOrNewsTypes.NOTICE,
-    institute_id: vendor?.id,
   });
 
-  const {data: noticeList,
+  const {
+    data: noticeList,
     isLoading: isNoticeLoading,
-    metaData,} = useFetchPublicNoticeOrNewses(
-    objectFilter(noticeFilters),
-  );
+    metaData,
+  } = useFetchPublicNoticeOrNewses(objectFilter(noticeFilters));
 
   useEffect(() => {
     if (showInType) {
@@ -89,7 +88,7 @@ const YouthNoticeBoard = () => {
       };
 
       if (showInType == ShowInTypes.TSP) {
-        //params.institute_id = 1;
+        params.institute_id = vendor?.id;
       }
 
       setNoticeFilters((prev: any) => {

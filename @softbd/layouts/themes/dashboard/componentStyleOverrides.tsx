@@ -10,60 +10,6 @@ export default function componentStyleOverrides(theme: Theme) {
         },
       },
     },
-    MuiFormLabel: {
-      styleOverrides: {
-        asterisk: {
-          color: '#db3131',
-          '&$error': {
-            color: '#db3131',
-          },
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          background: theme.palette.grey['50'],
-        },
-      },
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
-        },
-        h1: {
-          fontSize: 22,
-        },
-        h2: {
-          fontSize: 20,
-        },
-        h3: {
-          fontSize: 18,
-        },
-        h4: {
-          fontSize: 16,
-        },
-        h5: {
-          fontSize: 14,
-        },
-        h6: {
-          fontSize: 14,
-        },
-        subtitle1: {
-          fontSize: 14,
-        },
-        subtitle2: {
-          fontSize: 16,
-        },
-        body1: {
-          fontSize: 14,
-        },
-        body2: {
-          fontSize: 12,
-        },
-      },
-    },
   };
 
   return overrideRules;

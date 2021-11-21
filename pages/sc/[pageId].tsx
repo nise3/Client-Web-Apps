@@ -4,6 +4,7 @@ import {apiGet} from '../../@softbd/common/api';
 import {API_PUBLIC_STATIC_PAGE_BLOCKS} from '../../@softbd/common/apiRoutes';
 import StaticContent from '../../modules/sc';
 import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
+import {getAppAccessToken} from '../../@softbd/libs/axiosInstance';
 
 export default NiseFrontPage(({data}: any) => {
   console.log('ddd', data);
@@ -27,9 +28,17 @@ export async function getServerSideProps(context: any) {
   };
 
   try {
+    let appAccessToken = cookies?.app_access_token;
+    if (!appAccessToken) {
+      const response = await getAppAccessToken();
+      appAccessToken = response?.data?.app_access_token;
+    }
+
     const res = await apiGet(API_PUBLIC_STATIC_PAGE_BLOCKS + pageId, {
       params,
-      headers: {Authorization: 'Bearer ' + cookies?.app_access_token},
+      headers: {
+        Authorization: 'Bearer ' + appAccessToken,
+      },
     });
 
     console.log('data', res?.data?.data);

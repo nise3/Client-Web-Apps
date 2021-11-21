@@ -4,6 +4,8 @@ import {apiGet} from '../../../@softbd/common/api';
 import {API_PUBLIC_STATIC_PAGE_BLOCKS} from '../../../@softbd/common/apiRoutes';
 import StaticContent from '../../../modules/sc';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {getAppAccessToken} from '../../../@softbd/libs/axiosInstance';
+import defaultInstitute from '../../../@softbd/common/defaultInstitute';
 
 export default InstituteDefaultFrontPage(({data}: any) => {
   return (
@@ -22,12 +24,19 @@ export async function getServerSideProps(context: any) {
   const {pageId} = context.query;
   let params: any = {
     show_in: ShowInTypes.TSP,
+    institute_id: defaultInstitute.id,
   };
 
   try {
+    let appAccessToken = cookies?.app_access_token;
+    if (!appAccessToken) {
+      const response = await getAppAccessToken();
+      appAccessToken = response?.data?.app_access_token;
+    }
+
     const res = await apiGet(API_PUBLIC_STATIC_PAGE_BLOCKS + pageId, {
       params,
-      headers: {Authorization: 'Bearer ' + cookies?.app_access_token},
+      headers: {Authorization: 'Bearer ' + appAccessToken},
     });
 
     return {props: {data: res?.data?.data}};

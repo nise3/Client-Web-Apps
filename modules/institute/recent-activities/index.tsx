@@ -10,6 +10,7 @@ import {useRouter} from 'next/router';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {Pagination} from '@mui/lab';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -46,6 +47,10 @@ const StyledContainer = styled(Container)(({theme}) => {
 
 const RecentActivities = () => {
   const {messages} = useIntl();
+  const vendor = useVendor();
+  const router = useRouter();
+  const showInType = getShowInTypeFromPath(router.asPath);
+
   const [recentActivityFilter, setRecentActivityFilter] = useState<any>({
     page: 1,
     page_size: 8,
@@ -58,8 +63,6 @@ const RecentActivities = () => {
     useState<any>([]);
 
   const page = useRef<any>(1);
-  const router = useRouter();
-  const showInType = getShowInTypeFromPath(router.asPath);
 
   const {data: recentActivitiesFetchedData, metaData} =
     useFetchInstitutesRecentActivity(recentActivityFilter);
@@ -94,7 +97,7 @@ const RecentActivities = () => {
       };
 
       if (showInType == ShowInTypes.TSP) {
-        //params.institute_id = 1;
+        params.institute_id = vendor?.id;
       }
       setRecentActivityFilter((prev: any) => {
         return {...prev, ...params};
