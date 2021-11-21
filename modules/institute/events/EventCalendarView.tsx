@@ -6,6 +6,7 @@ import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import {Box, CardContent, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const localizer = momentLocalizer(moment);
 
@@ -31,16 +32,21 @@ interface ICalenderEvents {
 interface IQuery {
   type: string;
   youth_id?: string | number;
+  institute_id?: string | number;
 }
 
 interface IComProps {
   calendarFor: string;
 }
 
-const YouthEventCalendarView = (comProps: IComProps) => {
+const InstituteEventCalendarView = (comProps: IComProps) => {
+  // const authUser = useAuthUser();
+  const vendor = useVendor();
   let requestQuery: IQuery = {
-    type: 'month'
+    type: 'month',
+    institute_id: vendor?.id
   };
+
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
@@ -117,4 +123,4 @@ const YouthEventCalendarView = (comProps: IComProps) => {
   );
 };
 
-export default YouthEventCalendarView;
+export default InstituteEventCalendarView;
