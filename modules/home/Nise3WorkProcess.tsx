@@ -81,7 +81,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const Nise3WorkProcess = () => {
-  const [blockData, setBlockData] = useState<any>({});
+  const [blockData, setBlockData] = useState<any>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
@@ -121,85 +121,91 @@ const Nise3WorkProcess = () => {
   }, []);
 
   return (
-    <StyledGrid container xl={12}>
-      <Container maxWidth='lg' style={{position: 'relative'}}>
-        <Grid container justifyContent='space-between'>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            py={{xs: 3, md: 5}}
-            order={{xs: templateConfig.textLeft ? 1 : 2}}>
-            <Fade direction='down'>
-              <H3 style={{fontSize: '44px', fontWeight: 'bold'}}>
-                {blockData?.title}
-              </H3>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: blockData?.content,
-                }}
-              />
-
-              {blockData?.is_button_available == 1 ? (
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                    CONTENT_ID_HOW_NISE3_WORKS
-                  }>
-                  <Button variant='contained' className={classes.detailsButton}>
-                    {blockData?.button_text}
-                    <ArrowForwardIcon />
-                  </Button>
-                </Link>
-              ) : (
-                <Box />
-              )}
-            </Fade>
-          </Grid>
-
-          {blockData?.is_attachment_available == 1 && (
-            <Grid
-              item
-              xs={12}
-              md={4}
-              order={{xs: templateConfig.textLeft ? 2 : 1}}>
-              {blockData.attachment_type == ContentTypes.IMAGE &&
-                blockData.image_path && (
-                  <Zoom>
-                    <CardMedia
-                      component={'img'}
-                      className={classes.imageView}
-                      image={blockData.image_path}
-                      alt={blockData?.image_alt_title}
-                    />
-                  </Zoom>
-                )}
-
-              {blockData.attachment_type != ContentTypes.IMAGE && videoUrl && (
-                <Zoom>
-                  <iframe
-                    className={classes.youtubePlayerMobileView}
-                    src={videoUrl}
-                    frameBorder='0'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                    allowFullScreen
-                    title='Embedded youtube'
+    <>
+      {blockData && blockData !== null && (
+        <StyledGrid container xl={12}>
+          <Container maxWidth='lg' style={{position: 'relative'}}>
+            <Grid container justifyContent='space-between'>
+              <Grid
+                item
+                xs={12}
+                md={6}
+                py={{xs: 3, md: 5}}
+                order={{xs: templateConfig.textLeft ? 1 : 2}}>
+                <Fade direction='down'>
+                  <H3 style={{fontSize: '44px', fontWeight: 'bold'}}>
+                    {blockData?.title}
+                  </H3>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: blockData?.content,
+                    }}
                   />
-                  <iframe
-                    className={classes.youtubePlayer}
-                    src={videoUrl}
-                    frameBorder='0'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                    allowFullScreen
-                    title='Embedded youtube'
-                  />
-                </Zoom>
+
+                  {blockData?.is_button_available == 1 ? (
+                    <Link
+                      href={
+                        LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                        CONTENT_ID_HOW_NISE3_WORKS
+                      }>
+                      <Button
+                        variant='contained'
+                        className={classes.detailsButton}>
+                        {blockData?.button_text}
+                        <ArrowForwardIcon />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Box />
+                  )}
+                </Fade>
+              </Grid>
+
+              {blockData?.is_attachment_available == 1 && (
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  order={{xs: templateConfig.textLeft ? 2 : 1}}>
+                  {blockData.attachment_type == ContentTypes.IMAGE &&
+                    blockData.image_path && (
+                      <Zoom>
+                        <CardMedia
+                          component={'img'}
+                          className={classes.imageView}
+                          image={blockData.image_path}
+                          alt={blockData?.image_alt_title}
+                        />
+                      </Zoom>
+                    )}
+
+                  {blockData.attachment_type != ContentTypes.IMAGE && videoUrl && (
+                    <Zoom>
+                      <iframe
+                        className={classes.youtubePlayerMobileView}
+                        src={videoUrl}
+                        frameBorder='0'
+                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                        allowFullScreen
+                        title='Embedded youtube'
+                      />
+                      <iframe
+                        className={classes.youtubePlayer}
+                        src={videoUrl}
+                        frameBorder='0'
+                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                        allowFullScreen
+                        title='Embedded youtube'
+                      />
+                    </Zoom>
+                  )}
+                </Grid>
               )}
             </Grid>
-          )}
-        </Grid>
-      </Container>
-    </StyledGrid>
+          </Container>
+        </StyledGrid>
+      )}
+    </>
   );
 };
 

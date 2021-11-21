@@ -26,7 +26,7 @@ const GoToTop = () => {
           sx={{
             position: 'fixed',
             cursor: 'pointer',
-            bottom: '17%',
+            bottom: '9%',
             right: '8%',
             padding: '5px',
             margin: '30px auto',
