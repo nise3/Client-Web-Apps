@@ -24,13 +24,14 @@ import {
   useFetchBatch,
   useFetchBranches,
   useFetchCourses,
-  useFetchInstitutes,
   useFetchTrainers,
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -65,6 +66,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+  const authUser = useAuthUser();
+
+  const [institutes, setInstitutes] = useState<Array<any>>([]);
+  const [isLoadingInstitutes, setIsLoadingInstitutes] =
+    useState<boolean>(false);
 
   const {
     data: itemData,
@@ -72,25 +78,57 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     mutate: mutateBatch,
   } = useFetchBatch(itemId);
 
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
-
   const [branchFilters, setBranchFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
-
   const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchTrainingCenters(trainingCenterFilters);
-
   const [coursesFilters, setCoursesFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+  useEffect(() => {
+    if (authUser?.isInstituteUser) {
+      setTrainingCenterFilters((prevState: any) => {
+        return {
+          ...prevState,
+          ...{institute_id: authUser.institute_id},
+        };
+      });
+
+      setBranchFilters((prevState: any) => {
+        return {
+          ...prevState,
+          ...{institute_id: authUser.institute_id},
+        };
+      });
+
+      setCoursesFilters((prevState: any) => {
+        return {
+          ...prevState,
+          ...{institute_id: authUser.institute_id},
+        };
+      });
+    } else {
+      setIsLoadingInstitutes(true);
+      (async () => {
+        try {
+          let institutes = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingInstitutes(false);
+          setInstitutes(institutes.data);
+        } catch (e) {}
+      })();
+    }
+  }, []);
+
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
+    useFetchTrainingCenters(trainingCenterFilters);
+
   const {data: courses, isLoading: isLoadingCourses} =
     useFetchCourses(coursesFilters);
 
@@ -225,6 +263,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
     });
+
+    setTrainingCenterFilters({
+      row_status: RowStatus.ACTIVE,
+      institute_id: instituteId,
+    });
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
@@ -236,6 +279,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<Batch> = async (data: Batch) => {
     let assignTrainersResponse;
+
+    if (authUser?.isInstituteUser) {
+      data.institute_id = Number(authUser.institute_id);
+    }
+
     try {
       if (itemId) {
         await updateBatch(itemId, data);
@@ -319,20 +367,22 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id='institute_id'
-            label={messages['institute.label']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onInstituteChange}
-          />
-        </Grid>
+        {!authUser?.isInstituteUser && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              required
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp='id'
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+              onChange={onInstituteChange}
+            />
+          </Grid>
+        )}
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
