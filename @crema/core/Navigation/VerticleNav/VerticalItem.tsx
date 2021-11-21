@@ -90,6 +90,7 @@ interface VerticalItemProps {
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const router = useRouter();
   const {pathname} = router;
+  console.log('VerticalItem-level', level);
   return (
     // @ts-ignore
     <Link href={item.url!} as={item.as}>
@@ -100,8 +101,8 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
           active: item.url === pathname,
         })}
         style={{
-          paddingLeft: 12 * level,
-          paddingRight: 12 * level,
+          paddingLeft: 24 + 20 * level,
+          paddingRight: 12,
         }}>
         {item.icon && (
           <Box component='span' mr={3}>

@@ -130,7 +130,7 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
   const handleClick = () => {
     setOpen(!open);
   };
-
+  console.log('VerticalCollapse-level', level);
   return (
     <>
       <StyledListItem
@@ -139,8 +139,8 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
         component='li'
         className={clsx('nav-item', open && 'open')}
         style={{
-          paddingLeft: 12 * level,
-          paddingRight: 12 * level,
+          paddingLeft: 24 + 20 * level,
+          paddingRight: 12,
         }}
         onClick={handleClick}>
         {item.icon && (
