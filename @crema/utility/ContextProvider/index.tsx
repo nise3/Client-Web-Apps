@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import defaultConfig from './defaultConfig';
 import AppContext from '../AppContext';
 import {contextReducer, ThemeSetting} from './ContextReducer';
@@ -12,10 +12,13 @@ import {
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
 import theme from '../../../@softbd/layouts/themes/dashboard';
-import {useTheme} from '@mui/material/styles';
+import defaultTheme from '../../../@softbd/layouts/themes/default';
+// import {useTheme} from '@mui/material/styles';
 
 const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
-  const dashboardTheme = theme(useTheme());
+  const [dashboardTheme, setDashboardTheme] = useState<any>(
+    theme(defaultTheme(defaultConfig.locale)),
+  );
 
   const ContextState = {
     theme: dashboardTheme,
@@ -64,6 +67,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
   };
 
   const changeLocale = (locale: any) => {
+    setDashboardTheme(theme(defaultTheme(locale)));
     dispatch({type: ThemeSetting.CHANGE_LOCALE, payload: locale});
   };
 

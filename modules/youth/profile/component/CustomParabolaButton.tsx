@@ -15,7 +15,7 @@ const StyledButton = styled(Button)(({theme}) => ({
   [`& .${classes.shrinking}`]: {
     fontSize: 0,
     '&:first-line': {
-      fontSize: '0.875rem',
+      fontSize: theme.typography.button,
     },
   },
 }));
