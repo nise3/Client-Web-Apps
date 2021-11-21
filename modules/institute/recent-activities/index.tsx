@@ -11,6 +11,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {Pagination} from '@mui/lab';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -61,6 +62,7 @@ const RecentActivities = () => {
 
   const [recentActivitiesMasonryList, setRecentActivitiesMasonryList] =
     useState<any>([]);
+  const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
   const page = useRef<any>(1);
 
@@ -68,6 +70,14 @@ const RecentActivities = () => {
     useFetchInstitutesRecentActivity(recentActivityFilter);
   const {data: recentActivitiesFetchedMasonryData} =
     useFetchInstitutesRecentActivity(recentActivityMasonryFilter);
+
+  useEffect(() => {
+    let data = recentActivitiesFetchedData?.filter((item: any) => {
+      return item.collage_position === null;
+    });
+
+    setRecentActivitiesList(data);
+  }, [recentActivitiesFetchedData]);
 
   useEffect(() => {
     let data = recentActivitiesFetchedMasonryData?.filter((item: any) => {
@@ -146,7 +156,7 @@ const RecentActivities = () => {
               />
             )}
         </Grid>
-        <Grid item mt={8}>
+        <Grid item mt={8} xs={12}>
           <Typography
             className={classes.titleTypography}
             gutterBottom
@@ -155,23 +165,17 @@ const RecentActivities = () => {
             display={'flex'}>
             {messages['all_activities.institute']}
           </Typography>
-          {recentActivitiesFetchedData &&
-            recentActivitiesFetchedData?.length > 0 && (
-              <Grid container spacing={5}>
-                {recentActivitiesFetchedData?.map((data: any) => (
-                  <Grid
-                    item
-                    md={3}
-                    justifyContent={'center'}
-                    mt={3}
-                    key={data.id}>
-                    {data.collage_position == null && (
-                      <RecentActivityCardView activity={data} />
-                    )}
-                  </Grid>
-                ))}
-              </Grid>
-            )}
+          {recentActivitiesList && recentActivitiesList?.length > 0 ? (
+            <Grid container spacing={5}>
+              {recentActivitiesList?.map((data: any) => (
+                <Grid item xs={12} md={3} mt={3} key={data.id}>
+                  <RecentActivityCardView activity={data} />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <NoDataFoundComponent />
+          )}
         </Grid>
       </Grid>
       {metaData && metaData.total_page && metaData.total_page > 1 && (

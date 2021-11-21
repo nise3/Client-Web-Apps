@@ -12,7 +12,7 @@ import BdMap from './BdMap';
 
 const Home = () => {
   return (
-    <div style={{background: '#fff'}}>
+    <div style={{background: '#fff', paddingBottom: '120px'}}>
       <CoverArea />
       <InfoCardSection />
       <SelfAssessment />

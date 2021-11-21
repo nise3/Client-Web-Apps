@@ -83,14 +83,18 @@ const PopularCourse = () => {
             </Grid>
           )}
         </Box>
-        {courseList && courseList?.length > 1 && (
+        {courseList && courseList?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
             <Link href={'/course-list/popular'} passHref>
               <Button
                 variant='outlined'
                 color='primary'
                 endIcon={<ArrowRightAlt />}
-                style={{marginTop: '15px', marginBottom: '15px'}}>
+                style={{
+                  marginTop: '15px',
+                  marginBottom: '15px',
+                  borderRadius: '10px',
+                }}>
                 {messages['common.see_more']}
               </Button>
             </Link>

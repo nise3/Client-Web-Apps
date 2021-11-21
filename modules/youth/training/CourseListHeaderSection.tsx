@@ -209,7 +209,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={4} sm={3}>
+                <Grid item xs={4} sm={3} sx={{paddingRight: '4px'}}>
                   <Button
                     variant='contained'
                     color={'primary'}
