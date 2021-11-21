@@ -10,12 +10,12 @@ type Props = {
 };
 
 const EventCalendarDetails = ({itemData, ...props}: Props) => {
-  // console.log(JSON.stringify(itemData))
-  // console.log(`${itemData.start_date}T${itemData.start_time}`)
-  itemData.start_date = moment(itemData.start).format(DATE_FORMAT);
-  itemData.end_date = moment(itemData.end).format(DATE_FORMAT);
-  itemData.start_time = moment(itemData.start).format(TIME_FORMAT);
-  itemData.end_time = moment(itemData.end).format(TIME_FORMAT);
+  if (itemData) {
+    itemData.start_date = moment(itemData.start).format(DATE_FORMAT);
+    itemData.end_date = moment(itemData.end).format(DATE_FORMAT);
+    itemData.start_time = moment(itemData.start).format(TIME_FORMAT);
+    itemData.end_time = moment(itemData.end).format(TIME_FORMAT);
+  }
   const {messages} = useIntl();
   return (
     <>
