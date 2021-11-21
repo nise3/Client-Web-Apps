@@ -5,7 +5,11 @@ import {useRouter} from 'next/router';
 import {useFetchCourseDetails} from '../services/instituteManagement/hooks';
 import {useFetchCourseList} from '../services/youthManagement/hooks';
 import {Link} from '../@softbd/elements/common';
-import {getModulePath, objectFilter} from '../@softbd/utilities/helpers';
+import {
+  getModulePath,
+  getShowInTypeFromPath,
+  objectFilter,
+} from '../@softbd/utilities/helpers';
 import CourseCardComponent from '../@softbd/elements/CourseCardComponent';
 import NoDataFoundComponent from './youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
@@ -13,6 +17,7 @@ import BoxContentSkeleton from './youth/profile/component/BoxContentSkeleton';
 
 import {styled} from '@mui/material/styles';
 import {useVendor} from '../@crema/utility/AppHooks';
+import ShowInTypes from '../@softbd/utilities/ShowInTypes';
 
 const PREFIX = 'SimilarCourseList';
 
@@ -30,9 +35,13 @@ export const StyledBox = styled(Box)(({theme}) => ({
 
 const SimilarCourseList = () => {
   const {messages} = useIntl();
-  const [filters, setFilters] = useState<any>();
+  const [filters, setFilters] = useState<any>({
+    skill_ids: [],
+  });
   const router = useRouter();
   const {courseId} = router.query;
+  const vendor = useVendor();
+  const showInType = getShowInTypeFromPath(router.asPath);
 
   const {data: courseDetails, isLoading: isCourseListLoading} =
     useFetchCourseDetails(Number(courseId));
@@ -49,8 +58,16 @@ const SimilarCourseList = () => {
   }, [courseDetails]);
 
   useEffect(() => {
-    setFilters({skill_ids: skillIds, institute_id: useVendor()?.id});
-  }, [skillIds]);
+    const params: any = {skill_ids: []};
+    if (skillIds) {
+      params.skill_ids = skillIds;
+    }
+
+    if (showInType == ShowInTypes.TSP && vendor) {
+      params.institute_id = vendor.id;
+    }
+    setFilters(params);
+  }, [skillIds, showInType]);
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: number | null) => {
