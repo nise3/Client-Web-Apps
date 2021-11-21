@@ -69,19 +69,18 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
               label={courseDuration(messages, formatNumber, course.duration)}
             />
           )}
-          <TagChip
-            label={
-              <IntlMessages
-                id={'course_details.total_lesson'}
-                values={{
-                  total: getIntlNumber(
-                    formatNumber,
-                    course?.lessons ?? Math.floor(Math.random() * 100),
-                  ),
-                }}
-              />
-            }
-          />
+          {course?.lessons && (
+            <TagChip
+              label={
+                <IntlMessages
+                  id={'course_details.total_lesson'}
+                  values={{
+                    total: getIntlNumber(formatNumber, course?.lessons),
+                  }}
+                />
+              }
+            />
+          )}
 
           <TagChip
             label={

@@ -24,10 +24,10 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.boxItem}`]: {
     background: theme.palette.background.paper,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-    padding: '20px 15px 60px 15px',
+    padding: '20px 15px 30px 15px',
     margin: 0,
     [theme.breakpoints.down('xl')]: {
-      padding: '20px 10px 60px 10px',
+      padding: '20px 10px 30px 10px',
     },
   },
 

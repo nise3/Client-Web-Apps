@@ -231,10 +231,10 @@ const StatisticsCardSection = () => {
             <InfoCard
               color={'#22BB33'}
               infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                {id: 1, name: 'সফ্ট বিডি', count: ''},
+                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: ''},
+                {id: 3, name: 'পাঠাও', count: ''},
+                {id: 4, name: 'ইভ্যালি', count: ''},
               ]}
             />
           </Grid>
