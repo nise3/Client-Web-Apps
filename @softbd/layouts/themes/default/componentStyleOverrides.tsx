@@ -14,16 +14,6 @@ export default function componentStyleOverrides(theme: Theme, locale: string) {
         },
       },
     },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          background:
-            theme.palette.mode === ThemeMode.LIGHT
-              ? theme.palette.grey['50']
-              : theme.palette.grey['900'],
-        },
-      },
-    },
   };
 
   return overrideRules;

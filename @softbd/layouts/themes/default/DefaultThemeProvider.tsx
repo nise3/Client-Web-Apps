@@ -40,6 +40,10 @@ const DefaultThemeProvider: React.FC<DefaultThemeProviderProps> = ({
           div {
             box-sizing: border-box;
           }
+          a {
+            text-decoration: none;
+            color: inherit;
+          }
         `}
       />
       {children}

@@ -21,7 +21,7 @@ export const classes = {
   pointer: `${PREFIX}-pointer`,
   menuIconRoot: `${PREFIX}-menuIconRoot`,
   logoRoot: `${PREFIX}-logoRoot`,
-  navTextColor: `${PREFIX}-test`,
+  navTextColor: `${PREFIX}-navTextColor`,
 };
 
 export const StyledAppBar = styled(AppBar)(({theme}) => ({
@@ -36,6 +36,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.headerMain}`]: {
     minHeight: 56,
+    padding: 0,
     paddingRight: 0,
     paddingLeft: 0,
     [theme.breakpoints.up('sm')]: {
@@ -76,11 +77,13 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.menuIcons}`]: {
     height: '0.6em',
+    fontSize: 32,
+    marginTop: 2,
   },
 
   [`& .${classes.menuItem}`]: {
-    fontSize: 20,
-    padding: '20px 20px',
+    fontSize: 16,
+    padding: '20px 10px',
     '&>a': {
       display: 'flex',
     },
