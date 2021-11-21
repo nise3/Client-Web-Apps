@@ -7,7 +7,7 @@ import Scrollbar from '../../../@crema/core/Scrollbar';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 
 const EventCalendarViewPage = asyncComponent(
-  () => import('../../../modules/dashboard/events/EventCalendarView'),
+  () => import('../../../modules/youth/events/EventCalendarView'),
 );
 
 const PREFIX = 'YouthFeedPage';
