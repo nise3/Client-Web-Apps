@@ -1,33 +1,8 @@
 import React from 'react';
-import {styled} from '@mui/material/styles';
 import NextLink from 'next/link';
 import {Typography} from '@mui/material';
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
-
-const CustomATag = ({
-  children,
-  className,
-  extraClassName = '',
-  ...props
-}: LinkProp) => {
-  return (
-    <a className={clsx(classes.linkText, className, extraClassName)} {...props}>
-      {children}
-    </a>
-  );
-};
-
-const PREFIX = 'Link';
-
-const classes = {
-  linkText: `${PREFIX}-linkText`,
-};
-
-const StyledCustomATag = styled(CustomATag)(() => ({
-  textDecoration: 'none',
-  color: 'inherit',
-}));
 
 interface LinkProp {
   children?: any;
@@ -60,9 +35,9 @@ export const Link = ({
 }: LinkProp) => {
   return (
     <NextLink href={href} passHref>
-      <StyledCustomATag href={href} extraClassName={className} {...props}>
+      <a href={href} className={className} {...props}>
         {children}
-      </StyledCustomATag>
+      </a>
     </NextLink>
   );
 };
@@ -77,12 +52,9 @@ export const NavLink = ({
   const active = route.pathname == href ? 'active' : '';
   return (
     <NextLink href={href} passHref>
-      <StyledCustomATag
-        href={href}
-        extraClassName={clsx(className, active)}
-        {...props}>
+      <a href={href} className={clsx(className, active)} {...props}>
         {children}
-      </StyledCustomATag>
+      </a>
     </NextLink>
   );
 };

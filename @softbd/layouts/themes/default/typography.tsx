@@ -13,33 +13,6 @@ export default function typography(theme: Theme, locale: string) {
     fontWeightRegular: Fonts.REGULAR,
     fontWeightMedium: Fonts.MEDIUM,
     fontWeightBold: Fonts.EXTRA_BOLD,
-    ////////////////////////
-    /*subtitle1: {
-      fontSize: '0.875rem',
-      fontWeight: 500,
-      color: theme.palette.primary.main,
-    },
-    subtitle2: {
-      fontSize: '0.75rem',
-      fontWeight: 400,
-    },
-    caption: {
-      fontSize: '0.75rem',
-      color: theme.palette.primary.main,
-      fontWeight: 400,
-    },
-    body1: {
-      fontSize: '0.875rem',
-      fontWeight: 400,
-      lineHeight: '1.334em',
-    },
-    body2: {
-      letterSpacing: '0em',
-      fontWeight: 400,
-      lineHeight: '1.5em',
-      color: theme.palette.primary.main,
-    },*/
-    ////////////////////////
     h1: {
       fontFamily: localeFont,
       fontWeight: Fonts.LIGHT,
@@ -227,10 +200,10 @@ export default function typography(theme: Theme, locale: string) {
         fontSize: '1.125rem',
       },
       [theme.breakpoints.up('md')]: {
-        fontSize: '1.25rem',
+        fontSize: '1.125rem',
       },
       [theme.breakpoints.up('lg')]: {
-        fontSize: '1.375rem',
+        fontSize: '1.25rem',
       },
     },
     overline: {
