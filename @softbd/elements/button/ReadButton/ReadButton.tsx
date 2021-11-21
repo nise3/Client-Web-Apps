@@ -22,12 +22,18 @@ const StyledButton = styled(Button)(({theme}) => {
 });
 
 interface Props extends ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   isLoading?: boolean;
 }
 
-const ReadButton = ({onClick, className, isLoading, ...extra}: Props) => {
+const ReadButton = ({
+  onClick,
+  className,
+  isLoading,
+  children,
+  ...extra
+}: Props) => {
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
@@ -36,7 +42,7 @@ const ReadButton = ({onClick, className, isLoading, ...extra}: Props) => {
       onClick={onClick}
       className={clsx(classes.button, className)}
       {...extra}>
-      <IntlMessages id='common.read_btn' />
+      {children || <IntlMessages id='common.read_btn' />}
     </StyledButton>
   );
 };

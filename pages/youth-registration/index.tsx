@@ -5,6 +5,7 @@ import {useIntl} from 'react-intl';
 import DefaultPage from '../../@softbd/layouts/hoc/DefaultPage';
 import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import theme from '../../@softbd/layouts/themes/youth';
+import {useTheme} from '@mui/material/styles';
 
 const YouthRegistrationPage = asyncComponent(
   () => import('../../modules/youth/registration/YouthRegistration'),
@@ -14,7 +15,7 @@ export default DefaultPage(() => {
   return (
     <>
       <PageMeta title={messages['common.registration'] as string} />
-      <ThemeProvider theme={responsiveFontSizes(theme())}>
+      <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
         <YouthRegistrationPage />
       </ThemeProvider>
     </>
