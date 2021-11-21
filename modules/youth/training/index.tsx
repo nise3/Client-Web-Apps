@@ -8,6 +8,9 @@ import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
 import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useRouter} from 'next/router';
+import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 const PREFIX = 'TrainingPage';
 
@@ -26,16 +29,18 @@ export const StyledTrainingRoot = styled(Box)(({theme}) => ({
 const CourseListPage = () => {
   const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
+  const router = useRouter();
+  const showInType = getShowInTypeFromPath(router.asPath);
+
   const [filters, setFilters] = useState<any>({});
-  const [instituteId] = useState<any>(vendor?.id);
 
   useEffect(() => {
-    if (instituteId) {
+    if (showInType && showInType == ShowInTypes.TSP) {
       setFilters((prev: any) => {
-        return {...prev, ...{institute_id: instituteId}};
+        return {...prev, ...{institute_id: vendor?.id}};
       });
     }
-  }, [instituteId]);
+  }, [showInType]);
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: number | null) => {
