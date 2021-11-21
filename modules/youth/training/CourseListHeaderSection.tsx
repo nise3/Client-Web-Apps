@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   Box,
   Button,
@@ -15,10 +15,15 @@ import {
   useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {
+  getShowInTypeFromPath,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import CustomFilterableSelect from './components/CustomFilterableSelect';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import {useRouter} from 'next/router';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -59,6 +64,8 @@ interface CourseListHeaderSection {
 
 const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {messages} = useIntl();
+  const router = useRouter();
+  const showInType = getShowInTypeFromPath(router.asPath);
 
   const SKILL_LEVELS = useMemo(
     () => [
@@ -107,9 +114,24 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
 
   const [programmeFilters, setProgrammeFilters] = useState<any>({
-    institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
   });
+
+  useEffect(() => {
+    if (showInType) {
+      let params: any = {
+        show_in: showInType,
+      };
+
+      if (showInType == ShowInTypes.TSP) {
+        params.institute_id = vendor?.id;
+      }
+      setProgrammeFilters((prev: any) => {
+        return {...prev, ...params};
+      });
+    }
+  }, [showInType]);
+
   const {data: programmes} = useFetchProgrammes(programmeFilters);
 
   const handleInstituteFilterChange = useCallback(
@@ -227,7 +249,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
           </Grid>
           <Grid item xs={12} md={12}>
             <Grid container spacing={3}>
-              {!vendor?.id && (
+              {showInType != ShowInTypes.TSP && (
                 <Grid item xs={6} sm={4} md={2}>
                   <CustomFilterableSelect
                     id={'institute_id'}
