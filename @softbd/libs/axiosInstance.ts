@@ -103,7 +103,9 @@ async function refreshAuthAccessToken() {
 
 export async function refreshAppAccessToken() {
   try {
-    let response = await getAppAccessToken();
+    let response = await getAppAccessToken({
+      throwError: true,
+    });
     cookieInstance.set(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data, {
       path: '/',
     });
@@ -114,7 +116,7 @@ export async function refreshAppAccessToken() {
   }
 }
 
-export async function getAppAccessToken(throwError = false) {
+export async function getAppAccessToken({throwError = false} = {}) {
   try {
     return await axios.get(
       'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',

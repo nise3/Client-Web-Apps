@@ -131,7 +131,11 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   useEffect(() => {
     switch (pageCategory) {
       case StaticPageCategoryTypes.COMMON:
-        setShowIn(ShowInTypes.NICE3);
+        if (authUser) {
+          if (authUser.isInstituteUser) setShowIn(ShowInTypes.TSP);
+          else if (authUser.isOrganizationUser) setShowIn(ShowInTypes.INDUSTRY);
+          else setShowIn(ShowInTypes.NICE3);
+        }
         break;
       case StaticPageCategoryTypes.NISE3:
         setShowIn(ShowInTypes.NICE3);
@@ -148,7 +152,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       default:
         setShowIn(null);
     }
-  }, [pageCategory]);
+  }, [pageCategory, authUser]);
 
   useEffect(() => {
     if (authUser && showIn) {

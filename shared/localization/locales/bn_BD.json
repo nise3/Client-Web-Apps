@@ -5,7 +5,7 @@
   "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
   "applicationManagement.assignBatch": "ব্যাচ বরাদ্দ",
   "applicationManagement.assignedBatch": "বরাদ্দকৃত ব্যাচ",
-  "applicationManagement.viewCV": "প্রশিক্ষণার্থীর সিভি দেখুন",
+  "applicationManagement.viewCV": "সিভি দেখুন",
   "applicationManagement.modernCV": "মডার্ন সিভি দেখুন",
   "applicationManagement.classicCV": "ক্ল্যসিক সিভি দেখুন",
   "applicationManagement.reject": "বাতিল",
@@ -986,5 +986,6 @@
   "static_page.template_code": "টেমপ্লেট",
   "common.is_attachment_available": "এটাচমেন্ট আছে?",
   "common.attachment_type": "এটাচমেন্টের ধরন",
-  "common.nise3": "নাইস৩"
+  "common.nise3": "নাইস৩",
+  "common.cv_list": "সিভির তালিকা"
 }
