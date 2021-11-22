@@ -111,6 +111,11 @@ const SliderBannerPage = () => {
         isVisible: false,
       },
       {
+        Header: messages['slider.label'],
+        accessor: 'slider_title',
+        isVisible: false,
+      },
+      {
         Header: messages['institute.label'],
         accessor: 'institute_title',
         isVisible: false,

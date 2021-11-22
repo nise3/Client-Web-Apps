@@ -70,14 +70,6 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['faq.show_in']}
-              value={itemData?.show_in_label}
-              isLoading={isLoading}
-            />
-          </Grid>
-
           {itemData?.institute_title && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
