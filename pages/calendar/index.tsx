@@ -14,7 +14,7 @@ export default NiseFrontPage(() => {
     <>
       <PageMeta title={messages['menu.faq'] as string} />
       {/*// @ts-ignore*/}
-      <EventCalendarViewPage calendarFor='nise' />
+      <EventCalendarViewPage />
     </>
   );
 });

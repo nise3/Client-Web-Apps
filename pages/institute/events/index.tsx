@@ -4,8 +4,8 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
 import {useIntl} from 'react-intl';
 
-const EventCalendarViewPage = asyncComponent(
-  () => import('../../../modules/dashboard/events/EventCalendarView'),
+const InstituteEventCalendarViewPage = asyncComponent(
+  () => import('../../../modules/institute/events/EventCalendarView'),
 );
 
 export default InstituteDefaultFrontPage(() => {
@@ -13,8 +13,7 @@ export default InstituteDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.calendar'] as string} />
-      {/*@ts-ignore*/}
-      <EventCalendarViewPage calendarFor='institute' />
+      <InstituteEventCalendarViewPage/>
     </>
   );
 });

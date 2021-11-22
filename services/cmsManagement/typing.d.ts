@@ -30,15 +30,18 @@ interface Calendar {
   batch_id?: number | string;
   industry_association_id?: number | string;
   start_date: string;
-  start?: string;
   end_date: string;
-  end?: string;
   start_time?: string;
   end_time?: string;
   color?: string;
   updated_at?: string;
   created_at?: string;
   id?: number | string;
+}
+
+interface ICalendarEvent extends  Calendar{
+  start?: string;
+  end?: string;
 }
 
 interface StaticPage {

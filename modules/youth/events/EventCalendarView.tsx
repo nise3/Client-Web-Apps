@@ -31,7 +31,6 @@ interface ICalenderEvents {
 interface IQuery {
   type: string;
   youth_id?: string | number;
-  institute_id?: string | number;
 }
 
 interface IComProps {
@@ -39,11 +38,9 @@ interface IComProps {
 }
 
 const YouthEventCalendarView = (comProps: IComProps) => {
-  // const authUser = useAuthUser();
   let requestQuery: IQuery = {
-    type: 'month',
+    type: 'month'
   };
-
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);

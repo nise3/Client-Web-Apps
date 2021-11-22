@@ -64,7 +64,7 @@ const EventCalendarDetailsPopup = ({
             )}
           </>
         }>
-        <EventCalendarDetails itemData={itemData} />
+        {itemData && <EventCalendarDetails itemData={itemData} /> }
       </CustomDetailsViewMuiModal>
     </>
   );

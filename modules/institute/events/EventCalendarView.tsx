@@ -6,6 +6,7 @@ import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import {Box, CardContent, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const localizer = momentLocalizer(moment);
 
@@ -34,31 +35,24 @@ interface IQuery {
   institute_id?: string | number;
 }
 
-// interface IComProps {
-//   calendarFor: string;
-// }
+interface IComProps {
+  calendarFor: string;
+}
 
-const EventCalendarView = () => {
+const InstituteEventCalendarView = (comProps: IComProps) => {
   // const authUser = useAuthUser();
+  const vendor = useVendor();
   let requestQuery: IQuery = {
     type: 'month',
+    institute_id: vendor?.id
   };
 
-  // switch (comProps.calendarFor) {
-  //   case 'youth':
-  //     break;
-  //   case 'institute':
-  //     requestQuery.institute_id = authUser?.institute_id;
-  //     break;
-  //   default:
-  //     break;
-  // }
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
 
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
@@ -87,19 +81,19 @@ const EventCalendarView = () => {
   }, [events]);
 
   const onSelectEvent = (e: any) => {
-    setIsOpenAddEditModal(true);
+    setIsOpenDetailsView(true);
     const item = eventsList.find((ev) => ev.id === e.id) as ICalenderEvents;
     setSelectedItem(item);
   };
   const onClose = () => {
-    setIsOpenAddEditModal(false);
+    setIsOpenDetailsView(false);
   };
 
   return (
     <>
       <CardContent>
         <Grid item xs={12} md={12} style={{paddingTop: 20}}>
-          {isOpenAddEditModal ? (
+          {isOpenDetailsView ? (
             <div>
               <EventCalendarDetails itemData={selectedItem} />
               <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -129,4 +123,4 @@ const EventCalendarView = () => {
   );
 };
 
-export default EventCalendarView;
+export default InstituteEventCalendarView;
