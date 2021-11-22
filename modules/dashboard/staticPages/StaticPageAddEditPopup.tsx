@@ -38,7 +38,6 @@ interface StaticPageAddEditPopupProps {
 const initialValues = {
   title: '',
   sub_title: '',
-  content_type: '',
   content: '',
   row_status: '1',
   show_in: '',

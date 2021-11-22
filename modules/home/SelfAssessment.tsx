@@ -77,7 +77,7 @@ const SelfAssessment = () => {
 
   return (
     <>
-      {blockData && blockData !== null && (
+      {blockData ? (
         <StyledContainer maxWidth={'lg'}>
           <Grid
             container
@@ -148,6 +148,8 @@ const SelfAssessment = () => {
             )}
           </Grid>
         </StyledContainer>
+      ) : (
+        <></>
       )}
     </>
   );

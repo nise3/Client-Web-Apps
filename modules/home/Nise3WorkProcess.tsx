@@ -32,7 +32,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     marginTop: '200px',
   },
   [theme.breakpoints.down('xl')]: {
-    marginTop: '30px',
+    marginTop: '150px',
   },
 
   [`& .${classes.detailsButton}`]: {
@@ -56,7 +56,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.youtubePlayer}`]: {
     height: '300px',
     borderRadius: '15px',
-    marginTop: '-185px',
+    marginTop: '-160px',
     width: '20rem',
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -66,7 +66,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.imageView}`]: {
     height: '300px',
     borderRadius: '15px',
-    marginTop: '-185px',
+    marginTop: '-160px',
     width: '20rem',
     display: 'none',
     [theme.breakpoints.down('md')]: {
@@ -122,7 +122,7 @@ const Nise3WorkProcess = () => {
 
   return (
     <>
-      {blockData && blockData !== null && (
+      {blockData ? (
         <StyledGrid container xl={12}>
           <Container maxWidth='lg' style={{position: 'relative'}}>
             <Grid container justifyContent='space-between'>
@@ -204,6 +204,8 @@ const Nise3WorkProcess = () => {
             </Grid>
           </Container>
         </StyledGrid>
+      ) : (
+        <></>
       )}
     </>
   );

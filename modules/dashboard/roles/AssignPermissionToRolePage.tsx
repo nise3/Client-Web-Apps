@@ -145,7 +145,7 @@ const AssignPermissionToRolePage = () => {
 
   return (
     <PageBlock
-      title={'Assign Permission'}
+      title={messages['common.assign_permission']}
       extra={[
         <SubmitButton
           key={1}

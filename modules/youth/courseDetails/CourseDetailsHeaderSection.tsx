@@ -75,7 +75,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 <IntlMessages
                   id={'course_details.total_lesson'}
                   values={{
-                    total: getIntlNumber(formatNumber, course?.lessons),
+                    total: getIntlNumber(formatNumber, '4'),
                   }}
                 />
               }
