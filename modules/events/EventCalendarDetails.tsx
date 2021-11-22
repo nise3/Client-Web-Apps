@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import DetailsInputView from '../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import moment from 'moment';

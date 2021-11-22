@@ -34,11 +34,7 @@ interface IQuery {
   youth_id?: string | number;
 }
 
-interface IComProps {
-  calendarFor: string;
-}
-
-const YouthEventCalendarView = (comProps: IComProps) => {
+const YouthEventCalendarView = () => {
   let requestQuery: IQuery = {
     type: 'month',
   };
