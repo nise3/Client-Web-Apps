@@ -142,11 +142,14 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.label'] as string),
+      institute_id:
+        authUser && authUser?.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['institute.label'] as string)
+          : yup.string(),
       course_id: yup
         .string()
         .trim()
@@ -192,7 +195,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['batches.end_date'] as string),
     });
-  }, [messages]);
+  }, [messages, authUser]);
+
   const {
     register,
     control,
