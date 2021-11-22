@@ -43,7 +43,7 @@ interface IComProps {
 const EventCalendar = (comProps: IComProps) => {
   const authUser = useAuthUser();
 
-  const isEditable = comProps.editable ? comProps.editable : false;
+  // const isEditable = comProps.editable ? comProps.editable : false;
 
   let requestQuery: IQuery = {
     type: 'month',
@@ -148,7 +148,7 @@ const EventCalendar = (comProps: IComProps) => {
         <Calendar
           events={eventsList}
           // events={events1}
-          selectable={isEditable}
+          selectable={true}
           localizer={localizer}
           style={{height: '100vh'}}
           startAccessor='start'
@@ -172,7 +172,7 @@ const EventCalendar = (comProps: IComProps) => {
             refreshDataTable={refreshDataTable}
           />
         )}
-        {comProps.editable && isOpenDetailsModal && selectedItemId && (
+        {isOpenDetailsModal && selectedItemId && (
           <EventCalendarDetailsPopup
             key={1}
             itemId={selectedItemId}

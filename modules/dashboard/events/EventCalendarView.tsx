@@ -3,7 +3,6 @@ import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {Box, CardContent, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -35,25 +34,25 @@ interface IQuery {
   institute_id?: string | number;
 }
 
-interface IComProps {
-  calendarFor: string;
-}
+// interface IComProps {
+//   calendarFor: string;
+// }
 
-const EventCalendarView = (comProps: IComProps) => {
-  const authUser = useAuthUser();
+const EventCalendarView = () => {
+  // const authUser = useAuthUser();
   let requestQuery: IQuery = {
     type: 'month',
   };
 
-  switch (comProps.calendarFor) {
-    case 'youth':
-      break;
-    case 'institute':
-      requestQuery.institute_id = authUser?.institute_id;
-      break;
-    default:
-      break;
-  }
+  // switch (comProps.calendarFor) {
+  //   case 'youth':
+  //     break;
+  //   case 'institute':
+  //     requestQuery.institute_id = authUser?.institute_id;
+  //     break;
+  //   default:
+  //     break;
+  // }
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
