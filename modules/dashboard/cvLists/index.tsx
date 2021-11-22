@@ -38,7 +38,6 @@ const CVListsPage = () => {
       {
         Header: messages['youth.fullName'],
         accessor: 'full_name',
-        disableFilters: true,
       },
       {
         Header: messages['youth.gender'],
@@ -49,12 +48,10 @@ const CVListsPage = () => {
       {
         Header: messages['youth.mobile'],
         accessor: 'mobile',
-        disableFilters: true,
       },
       {
         Header: messages['youth.email'],
         accessor: 'email',
-        disableFilters: true,
         isVisible: false,
       },
       {

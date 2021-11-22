@@ -1,8 +1,6 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Container, Grid, Typography} from '@mui/material';
-import {Link} from '../../@softbd/elements/common';
-import GoToTop from '../goToTop';
 import {useIntl} from 'react-intl';
 import {
   CONTENT_ID_ABOUT_US,
@@ -10,13 +8,15 @@ import {
   CONTENT_ID_GUIDELINES,
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
-} from '../../@softbd/utilities/StaticContentConfigs';
+} from '../../../utilities/StaticContentConfigs';
 import {
-  LINK_FRONTEND_FAQ,
-  LINK_NICE3_FRONTEND_STATIC_CONTENT,
-} from '../../@softbd/common/appLinks';
+  LINK_FRONTEND_YOUTH_FAQ,
+  LINK_YOUTH_FRONTEND_STATIC_CONTENT,
+} from '../../../common/appLinks';
+import {Link} from '../../../elements/common';
+import GoToTop from '../../../../modules/goToTop';
 
-const PREFIX = 'Footer';
+const PREFIX = 'YouthFooter';
 
 const classes = {
   footerImage: `${PREFIX}-footerImage`,
@@ -52,7 +52,7 @@ const Footer = () => {
             </Typography>
             <Typography gutterBottom={true}>
               <Link
-                href={LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US}
+                href={LINK_YOUTH_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US}
                 component={'span'}
                 mt={2}>
                 {messages['footer.about_us']}
@@ -61,7 +61,7 @@ const Footer = () => {
             <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                  LINK_YOUTH_FRONTEND_STATIC_CONTENT +
                   CONTENT_ID_TERMS_AND_CONDITIONS
                 }
                 component={'span'}
@@ -70,24 +70,14 @@ const Footer = () => {
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['footer.partner']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_PRIVACY_POLICY
+                  LINK_YOUTH_FRONTEND_STATIC_CONTENT + CONTENT_ID_PRIVACY_POLICY
                 }
                 component={'span'}
                 mt={2}>
                 {messages['footer.privacy_policy']}
               </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['common.contact']}
-              </Box>
             </Typography>
             <Typography gutterBottom={true}>
               <Link href={'https://www.bdjobs.com/'} component={'span'} mt={2}>
@@ -109,7 +99,7 @@ const Footer = () => {
             <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_CAREER_ADVICE
+                  LINK_YOUTH_FRONTEND_STATIC_CONTENT + CONTENT_ID_CAREER_ADVICE
                 }
                 component={'span'}
                 mt={2}>
@@ -122,14 +112,14 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href={LINK_FRONTEND_FAQ} component={'span'} mt={2}>
+              <Link href={LINK_FRONTEND_YOUTH_FAQ} component={'span'} mt={2}>
                 {messages['footer.faq']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
+                  LINK_YOUTH_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
                 }
                 component={'span'}
                 mt={2}>
@@ -145,7 +135,7 @@ const Footer = () => {
             </Typography>
             <Typography gutterBottom={true}>
               <Link
-                href={LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US}
+                href={LINK_YOUTH_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US}
                 component={'span'}
                 mt={2}>
                 {messages['footer.about_us']}
@@ -154,7 +144,7 @@ const Footer = () => {
             <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                  LINK_YOUTH_FRONTEND_STATIC_CONTENT +
                   CONTENT_ID_TERMS_AND_CONDITIONS
                 }
                 component={'span'}

@@ -172,7 +172,7 @@ const PersonalInfoSection = () => {
                     value={55}
                     text={getIntlNumber(
                       formatNumber,
-                      authUser?.profile_completed || 0,
+                      authUser?.profile_completed || '0',
                     )}
                     size={35}
                     className={classes.iconSizes}
@@ -198,7 +198,7 @@ const PersonalInfoSection = () => {
                 text1={
                   getIntlNumber(
                     formatNumber,
-                    authUser?.total_job_experience?.year || 0,
+                    authUser?.total_job_experience?.year || '0',
                   ) +
                   ' ' +
                   (messages['common.year_of_experience'] as string)

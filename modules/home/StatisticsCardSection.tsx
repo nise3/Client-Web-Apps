@@ -5,6 +5,7 @@ import {Fade} from 'react-awesome-reveal';
 import InfoCard from './infoCard';
 import {H3, Text} from '../../@softbd/elements/common';
 import clsx from 'clsx';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'StatisticsCardSection';
 
@@ -102,67 +103,99 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
   [`& .${classes.infoCardWrapper}`]: {
     [theme.breakpoints.down('xl')]: {
-      marginBottom: '170px',
+      marginBottom: '20px',
     },
   },
 }));
 
 const StatisticsCardSection = () => {
+  const {messages, formatNumber} = useIntl();
+
   return (
     <StyledContainer maxWidth='lg' style={{background: '#f9fdfe'}}>
       <Fade direction='down'>
         <Grid container spacing={2} style={{marginTop: '65px'}}>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor1)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
-              <Text style={{fontSize: '25px'}}>মন্ত্রণালয়</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(25)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['common.ministry']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor2)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৮</H3>
-              <Text style={{fontSize: '25px'}}>বিভাগ</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(8)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['divisions.label']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor3)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>১০,০০০</H3>
-              <Text style={{fontSize: '25px'}}>প্রজেক্ট</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(10000)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['common.project']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
-              <Text style={{fontSize: '25px'}}>আর টি ও</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(25)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>{messages['common.rto']}</Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩,৫০০,০০০</H3>
-              <Text style={{fontSize: '25px'}}>যুব</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(3500000)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['common.youth_2']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor3)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>২৫</H3>
-              <Text style={{fontSize: '25px'}}>সমিতি</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(25)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['common.association']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor5)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩২</H3>
-              <Text style={{fontSize: '25px'}}>শিল্প প্রতিষ্ঠান</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(32)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['common.industry_2']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>৩২</H3>
-              <Text style={{fontSize: '25px'}}>শিল্প প্রতিষ্ঠান</Text>
+              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+                {formatNumber(32)}
+              </H3>
+              <Text style={{fontSize: '25px'}}>
+                {messages['common.industry_2']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
             <Card className={classes.cardColor1} style={{padding: '20px'}}>
-              জব প্রোভাইডার
+              {messages['common.job_provider']}
             </Card>
             <Box
               mx={'auto'}
@@ -172,16 +205,28 @@ const StatisticsCardSection = () => {
             <InfoCard
               color={'#661687'}
               infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                {
+                  id: 1,
+                  name: 'সফ্ট বিডি',
+                  count: formatNumber(45),
+                },
+                {
+                  id: 2,
+                  name: 'ক্রিয়েটিভ বিডি',
+                  count: formatNumber(30),
+                },
+                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
+                {
+                  id: 4,
+                  name: 'ইভ্যালি',
+                  count: formatNumber(70),
+                },
               ]}
             />
           </Grid>
           <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
             <Card className={classes.cardColor2} style={{padding: '20px'}}>
-              দক্ষতা উন্নয়ণ কেন্দ্র
+              {messages['common.nise_landing_training_center']}
             </Card>
             <Box
               mx={'auto'}
@@ -189,19 +234,31 @@ const StatisticsCardSection = () => {
               sx={{color: '#0069BC'}}
             />
             <InfoCard
-              label={'ট্রেইনড'}
+              label={messages['common.trained'] as string}
               color={'#0069BC'}
               infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                {
+                  id: 1,
+                  name: 'সফ্ট বিডি',
+                  count: formatNumber(45),
+                },
+                {
+                  id: 2,
+                  name: 'ক্রিয়েটিভ বিডি',
+                  count: formatNumber(30),
+                },
+                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
+                {
+                  id: 4,
+                  name: 'ইভ্যালি',
+                  count: formatNumber(70),
+                },
               ]}
             />
           </Grid>
           <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
             <Card className={classes.cardColor3} style={{padding: '20px'}}>
-              জনপ্রিয় কোর্স
+              {messages['common.popular_courses']}
             </Card>
             <Box
               mx={'auto'}
@@ -209,19 +266,31 @@ const StatisticsCardSection = () => {
               sx={{color: '#305DF7'}}
             />
             <InfoCard
-              label={'এনরোলড'}
+              label={messages['common.enrolled'] as string}
               color={'#305DF7'}
               infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: '৪৫'},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: '৩০'},
-                {id: 3, name: 'পাঠাও', count: '২৫'},
-                {id: 4, name: 'ইভ্যালি', count: '৭০'},
+                {
+                  id: 1,
+                  name: 'সফ্ট বিডি',
+                  count: formatNumber(45),
+                },
+                {
+                  id: 2,
+                  name: 'ক্রিয়েটিভ বিডি',
+                  count: formatNumber(30),
+                },
+                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
+                {
+                  id: 4,
+                  name: 'ইভ্যালি',
+                  count: formatNumber(70),
+                },
               ]}
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={classes.cardColor7} style={{padding: '20px'}}>
-              জনপ্রিয় জব
+              {messages['common.popular_job']}
             </Card>
             <Box
               mx={'auto'}

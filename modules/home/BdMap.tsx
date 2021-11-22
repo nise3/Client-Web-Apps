@@ -22,14 +22,16 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     borderRadius: '5px',
     boxShadow: theme.shadows[3],
     marginBottom: '29px',
+    width: '100%',
+    maxWidth: '610px',
   },
 
   [`& .${classes.skillButton}`]: {
-    background: '#682988',
+    /*background: '#682988',
     color: '#fff',
     justifyContent: 'center',
     marginRight: '2px',
-    minWidth: '98px',
+    minWidth: '98px',*/
   },
 
   [`& .${classes.map}`]: {
@@ -51,7 +53,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     backgroundColor: theme.palette.common.white,
     right: '3px',
     bottom: '3px',
-    width: '100px',
+    width: '130px',
     border: '1px solid #eee',
     borderRadius: '5px',
     boxShadow: theme.shadows[3],
@@ -79,22 +81,30 @@ const BdMap = () => {
             spacing={1}
             justifyContent={'center'}
             alignItems={'center'}
-            className={classes.mapButtonGroup}
-            xs={12}
-            md={5}>
+            className={classes.mapButtonGroup}>
             <Grid item xs={3} md={3} mb={1}>
-              <Button variant='contained' className={classes.skillButton}>
+              <Button
+                variant='contained'
+                color={'primary'}
+                className={classes.skillButton}
+                fullWidth>
                 {messages['common.skills']}
               </Button>
             </Grid>
             <Grid item xs={3} md={3} mb={1}>
-              <Button variant='text'>{messages['menu.jobs']}</Button>
+              <Button variant='text' fullWidth>
+                {messages['menu.jobs']}
+              </Button>
             </Grid>
             <Grid item xs={3} md={3} mb={1}>
-              <Button variant='text'>{messages['common.business']}</Button>
+              <Button variant='text' fullWidth>
+                {messages['common.business']}
+              </Button>
             </Grid>
-            <Grid item xs={3} md={3} mb={1}>
-              <Button variant='text'>{messages['common.educations']}</Button>
+            <Grid item xs={3} md={3} mb={1} pr={1}>
+              <Button variant='text' fullWidth>
+                {messages['common.educations']}
+              </Button>
             </Grid>
           </Grid>
 

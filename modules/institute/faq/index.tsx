@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -11,13 +11,11 @@ import {useIntl} from 'react-intl';
 import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
-import {
-  getShowInTypeFromPath,
-  objectFilter,
-} from '../../../@softbd/utilities/helpers';
+import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -46,16 +44,28 @@ const InstituteFAQ = () => {
   const [expandedState, setExpanded] = useState<string | false>(false);
   const {messages} = useIntl();
   const router = useRouter();
-  const pathName = router.pathname;
-  const show_in = getShowInTypeFromPath(pathName);
+  const showInType = getShowInTypeFromPath(router.asPath);
 
   const vendor = useVendor();
-  const [params] = useState({
-    show_in: show_in,
-    institute_id: vendor?.id,
+  const [faqFilters, setFaqFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: faqItems} = useFetchInstitutesFAQ(objectFilter(params));
+  const {data: faqItems} = useFetchInstitutesFAQ(faqFilters);
+
+  useEffect(() => {
+    if (showInType) {
+      let params: any = {
+        show_in: showInType,
+      };
+
+      if (showInType == ShowInTypes.TSP) {
+        params.institute_id = vendor?.id;
+      }
+      setFaqFilters((prev: any) => {
+        return {...prev, ...params};
+      });
+    }
+  }, [showInType]);
 
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
