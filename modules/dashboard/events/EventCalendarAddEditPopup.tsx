@@ -99,16 +99,20 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         reset(initialValues);
     }
   }, [itemData]);
-  const hasSecond = (time) => {
-    const timearray = time.split(":");
+  const hasSecond = (time: any) => {
+    const timearray = time.split(':');
     console.log(timearray.length);
     return timearray.length === 3;
-  }
+  };
   const onSubmit: SubmitHandler<Calendar> = async (data: ICalendarEvent) => {
     data.start = data.start_date;
     data.end = data.end_date;
-    data.start_time = hasSecond(data.start_time) ? data.start_time : `${data.start_time}:00`;
-    data.end_time = hasSecond(data.end_time) ? data.end_time : `${data.end_time}:00`;;
+    data.start_time = hasSecond(data.start_time)
+      ? data.start_time
+      : `${data.start_time}:00`;
+    data.end_time = hasSecond(data.end_time)
+      ? data.end_time
+      : `${data.end_time}:00`;
     data.institute_id = authUser?.institute_id;
     try {
       if (itemId) {
