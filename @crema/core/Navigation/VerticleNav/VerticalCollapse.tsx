@@ -57,16 +57,24 @@ const StyledListItem = styled(ListItem)(({theme}) => {
 
     '&.open, &:hover, &:focus': {
       '& .nav-item-text': {
-        fontWeight: Fonts.MEDIUM,
-        color: themeMode === ThemeMode.LIGHT ? '#313541' : '#fff',
+        color:
+          themeMode === ThemeMode.LIGHT
+            ? theme.palette.primary.main
+            : theme.palette.grey['200'],
       },
 
       '& .nav-item-icon': {
-        color: themeMode === ThemeMode.LIGHT ? '#313541' : '#fff',
+        color:
+          themeMode === ThemeMode.LIGHT
+            ? theme.palette.primary.main
+            : theme.palette.grey['200'],
       },
 
       '& .nav-item-icon-arrow': {
-        color: themeMode === ThemeMode.LIGHT ? '#313541' : '#fff',
+        color:
+          themeMode === ThemeMode.LIGHT
+            ? theme.palette.primary.main
+            : theme.palette.grey['200'],
       },
     },
     [`& .${classes.listItemText}`]: {
@@ -162,8 +170,8 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
               {open
                 ? 'expand_more'
                 : theme.direction === 'ltr'
-                  ? 'chevron_right'
-                  : 'chevron_left'}
+                ? 'chevron_right'
+                : 'chevron_left'}
             </Icon>
           </IconButton>
         </Box>

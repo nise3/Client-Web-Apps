@@ -30,7 +30,6 @@ const StyledListItem = styled(ListItem)(({theme}) => {
     textDecoration: 'none!important',
 
     [theme.breakpoints.up('xl')]: {
-      // fontSize: 16,
       marginTop: 4,
       marginBottom: 4,
     },

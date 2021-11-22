@@ -38,28 +38,33 @@ const StyledListItem = styled(ListItem)(({theme}) => {
       pointerEvents: 'none',
       transition: 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1)',
       '& .nav-item-text': {
-        color: theme.palette.common.white + '!important',
-        fontWeight: Fonts.MEDIUM,
+        color: theme.palette.grey['200'],
       },
       '& .nav-item-icon': {
-        color: theme.palette.common.white + '!important',
+        color: theme.palette.grey['200'],
       },
     },
 
     '&:hover, &:focus': {
       '& .nav-item-text': {
         color:
-          themeMode === ThemeMode.LIGHT ? theme.palette.primary.main : '#fff',
+          themeMode === ThemeMode.LIGHT
+            ? theme.palette.primary.main
+            : theme.palette.grey['200'],
       },
 
       '& .nav-item-icon': {
         color:
-          themeMode === ThemeMode.LIGHT ? theme.palette.primary.main : '#fff',
+          themeMode === ThemeMode.LIGHT
+            ? theme.palette.primary.main
+            : theme.palette.grey['200'],
       },
 
       '& .nav-item-icon-arrow': {
         color:
-          themeMode === ThemeMode.LIGHT ? theme.palette.primary.main : '#fff',
+          themeMode === ThemeMode.LIGHT
+            ? theme.palette.primary.main
+            : theme.palette.grey['200'],
       },
     },
     '& .nav-item-icon': {
@@ -67,7 +72,6 @@ const StyledListItem = styled(ListItem)(({theme}) => {
     },
     '& .nav-item-text': {
       color: sidebarColors?.textColor,
-      fontWeight: Fonts.MEDIUM,
     },
     listIcon: {
       fontSize: 18,
