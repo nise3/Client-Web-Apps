@@ -90,7 +90,6 @@ interface VerticalItemProps {
 const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
   const router = useRouter();
   const {pathname} = router;
-  console.log('VerticalItem-level', level);
   return (
     // @ts-ignore
     <Link href={item.url!} as={item.as}>

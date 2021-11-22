@@ -130,7 +130,7 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
   const handleClick = () => {
     setOpen(!open);
   };
-  console.log('VerticalCollapse-level', level);
+
   return (
     <>
       <StyledListItem
@@ -162,8 +162,8 @@ const VerticalCollapse: React.FC<VerticalCollapseProps> = ({item, level}) => {
               {open
                 ? 'expand_more'
                 : theme.direction === 'ltr'
-                ? 'chevron_right'
-                : 'chevron_left'}
+                  ? 'chevron_right'
+                  : 'chevron_left'}
             </Icon>
           </IconButton>
         </Box>

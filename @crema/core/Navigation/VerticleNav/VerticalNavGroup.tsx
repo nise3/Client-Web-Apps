@@ -41,7 +41,6 @@ const StyledListItem = styled(ListItem)(({theme}) => {
 });
 
 const VerticalNavGroup: React.FC<VerticalNavGroupProps> = ({item, level}) => {
-  console.log('VerticalNavGroup-level', level);
   return (
     <>
       <StyledListItem
