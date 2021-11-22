@@ -68,6 +68,7 @@ export const LINK_FRONTEND_YOUTH_COURSE_DETAILS = '/youth/course-details/';
 export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT = '/youth/course-enroll/';
 export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS =
   '/youth/course-enroll-success/';
+export const LINK_FRONTEND_YOUTH_FAQ = '/youth/faqs';
 
 export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =
   '/youth/training/skill-matching';
@@ -84,6 +85,7 @@ export const LINK_FRONTEND_NISE_JOBS = '/jobs';
 export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_FRONTEND_NISE_CALENDAR = '/calendar';
+export const LINK_FRONTEND_FAQ = '/faqs';
 
 /** static content links */
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';

@@ -132,7 +132,7 @@ const SearchBox = () => {
               setLocationValue(e?.target?.value);
             }}
             MenuProps={{disableScrollLock: true}}>
-            <MenuItem value='1'>লোকেশন</MenuItem>
+            <MenuItem value='1'>{messages['common.location_2']}</MenuItem>
           </Select>
         </Paper>
       </Hidden>

@@ -989,5 +989,15 @@
   "common.nise3": "NISE3",
   "common.must_have_one_physical_disability": "Must have atleast one physical disability",
   "institute.feedback": "Send us your Feedback",
-  "common.cv_list": "CV List"
+  "common.cv_list": "CV List",
+  "common.ministry": "Ministry",
+  "common.project": "Project",
+  "common.rto": "RTO",
+  "common.association": "Association",
+  "common.industry_2": "Industry",
+  "common.job_provider": "Job Provider",
+  "common.popular_job": "Popular Job",
+  "common.nise_landing_training_center": "Training Center",
+  "common.trained": "Trained",
+  "common.enrolled": "Enrolled"
 }

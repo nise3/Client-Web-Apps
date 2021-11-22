@@ -79,7 +79,7 @@ const BasicInfo = () => {
             />
             <Box className={classes.fontColor}>
               {messages['youth_feed.profile_progress']}{' '}
-              {getIntlNumber(formatNumber, authUser?.profile_completed || 0)}%
+              {getIntlNumber(formatNumber, authUser?.profile_completed || '0')}%
             </Box>
           </Box>
 

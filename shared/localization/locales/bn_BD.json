@@ -990,5 +990,15 @@
   "common.attachment_type": "এটাচমেন্টের ধরন",
   "common.nise3": "নাইস৩",
   "institute.feedback": "আমাদেরকে মতামত দিন",
-  "common.cv_list": "সিভির তালিকা"
+  "common.cv_list": "সিভির তালিকা",
+  "common.ministry": "মন্ত্রণালয়",
+  "common.project": "প্রজেক্ট",
+  "common.rto": "আর টি ও",
+  "common.association": "সমিতি",
+  "common.industry_2": "শিল্প প্রতিষ্ঠান",
+  "common.job_provider": "জব প্রোভাইডার",
+  "common.popular_job": "জনপ্রিয় জব",
+  "common.nise_landing_training_center": "দক্ষতা উন্নয়ণ কেন্দ্র",
+  "common.trained": "ট্রেইনড",
+  "common.enrolled": "এনরোলড"
 }
