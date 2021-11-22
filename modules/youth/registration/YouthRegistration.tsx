@@ -269,19 +269,19 @@ const YouthRegistration = () => {
       data.user_name_type = UserNameType.MOBILE;
       if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
         delete data.physical_disabilities;
+      } else {
+        let physicalDisabilityIds: any = [];
+        data.physical_disabilities.map((physical_disability: any) => {
+          physicalDisabilityIds.push(physical_disability.id);
+        });
+        data.physical_disabilities = physicalDisabilityIds;
       }
 
       let skillIds: any = [];
-      data.skills.map((skill: any) => {
+      (data?.skills || []).map((skill: any) => {
         skillIds.push(skill.id);
       });
       data.skills = skillIds;
-
-      let physicalDisabilityIds: any = [];
-      data.physical_disabilities.map((physical_disability: any) => {
-        physicalDisabilityIds.push(physical_disability.id);
-      });
-      data.physical_disabilities = physicalDisabilityIds;
 
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);

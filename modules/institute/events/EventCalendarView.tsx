@@ -3,10 +3,18 @@ import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import {Box, CardContent, Grid} from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import {H3} from '../../../@softbd/elements/common';
 
 const localizer = momentLocalizer(moment);
 
@@ -44,9 +52,8 @@ const InstituteEventCalendarView = (comProps: IComProps) => {
   const vendor = useVendor();
   let requestQuery: IQuery = {
     type: 'month',
-    institute_id: vendor?.id
+    institute_id: vendor?.id,
   };
-
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
@@ -90,36 +97,39 @@ const InstituteEventCalendarView = (comProps: IComProps) => {
   };
 
   return (
-    <>
-      <CardContent>
-        <Grid item xs={12} md={12} style={{paddingTop: 20}}>
-          {isOpenDetailsView ? (
-            <div>
-              <EventCalendarDetails itemData={selectedItem} />
-              <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <Box style={{paddingTop: 20}}>
-                  <CancelButton onClick={onClose} isLoading={false} />
+    <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
+      <Card>
+        <CardHeader title={<H3>Calendar</H3>} />
+        <CardContent>
+          <Grid item xs={12} md={12} style={{paddingTop: 20}}>
+            {isOpenDetailsView ? (
+              <div>
+                <EventCalendarDetails itemData={selectedItem} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                  <Box style={{paddingTop: 20}}>
+                    <CancelButton onClick={onClose} isLoading={false} />
+                  </Box>
                 </Box>
-              </Box>
-            </div>
-          ) : (
-            <Calendar
-              events={eventsList}
-              localizer={localizer}
-              selectable={true}
-              style={{height: '100vh'}}
-              startAccessor='start'
-              endAccessor='end'
-              defaultDate={moment().toDate()}
-              onView={(view: View) =>
-                setViewFilters({...requestQuery, ...{type: view}})
-              }
-              onSelectEvent={onSelectEvent}
-            />
-          )}
-        </Grid>
-      </CardContent>
-    </>
+              </div>
+            ) : (
+              <Calendar
+                events={eventsList}
+                localizer={localizer}
+                selectable={true}
+                style={{height: '100vh'}}
+                startAccessor='start'
+                endAccessor='end'
+                defaultDate={moment().toDate()}
+                onView={(view: View) =>
+                  setViewFilters({...requestQuery, ...{type: view}})
+                }
+                onSelectEvent={onSelectEvent}
+              />
+            )}
+          </Grid>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 

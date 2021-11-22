@@ -156,15 +156,6 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     {messages['menu.training']}
                   </Link>
                 </Box>
-                {/*<Box component='span' className={classes.menuItem}>
-                  <Link href={LINK_FRONTEND_YOUTH_JOBS}>
-                    <WorkIcon
-                      className={classes.menuIcons}
-                      sx={{fontSize: 42}}
-                    />{' '}
-                    চাকরি
-                  </Link>
-                </Box>*/}
                 <Box component='span' className={classes.menuItem}>
                   <Link
                     href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}
@@ -187,7 +178,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     {messages['menu.recent_activity']}
                   </Link>
                 </Box>
-                {/* <Box component='span' className={classes.menuItem}>
+                <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_YOUTH_CALENDAR}>
                     <CalendarViewMonth
                       className={classes.menuIcons}
@@ -195,7 +186,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     />{' '}
                     {messages['menu.calendar']}
                   </Link>
-                </Box> */}
+                </Box>
                 {/*<Notifications />*/}
                 <LanguageSwitcher />
               </Box>

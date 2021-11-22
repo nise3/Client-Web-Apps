@@ -3,9 +3,10 @@ import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import {Box, CardContent, Grid} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {H3} from '../../../@softbd/elements/common';
 
 const localizer = momentLocalizer(moment);
 
@@ -39,7 +40,7 @@ interface IComProps {
 
 const YouthEventCalendarView = (comProps: IComProps) => {
   let requestQuery: IQuery = {
-    type: 'month'
+    type: 'month',
   };
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
@@ -84,7 +85,8 @@ const YouthEventCalendarView = (comProps: IComProps) => {
   };
 
   return (
-    <>
+    <Card>
+      <CardHeader title={<H3>Calendar</H3>} />
       <CardContent>
         <Grid item xs={12} md={12} style={{paddingTop: 20}}>
           {isOpenDetailsView ? (
@@ -113,7 +115,7 @@ const YouthEventCalendarView = (comProps: IComProps) => {
           )}
         </Grid>
       </CardContent>
-    </>
+    </Card>
   );
 };
 

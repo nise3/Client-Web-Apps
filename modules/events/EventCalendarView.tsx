@@ -1,11 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
-import Calendar from '../../../@softbd/calendar/Calendar';
-import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import {Box, CardContent, Grid} from '@mui/material';
+import Calendar from '../../@softbd/calendar/Calendar';
+import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
+import {H3} from '../../@softbd/elements/common';
 
 const localizer = momentLocalizer(moment);
 
@@ -34,31 +42,20 @@ interface IQuery {
   institute_id?: string | number;
 }
 
-// interface IComProps {
-//   calendarFor: string;
-// }
+interface IComProps {
+  calendarFor: string;
+}
 
-const EventCalendarView = () => {
-  // const authUser = useAuthUser();
+const InstituteEventCalendarView = (comProps: IComProps) => {
   let requestQuery: IQuery = {
     type: 'month',
   };
-
-  // switch (comProps.calendarFor) {
-  //   case 'youth':
-  //     break;
-  //   case 'institute':
-  //     requestQuery.institute_id = authUser?.institute_id;
-  //     break;
-  //   default:
-  //     break;
-  // }
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
 
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
@@ -87,46 +84,49 @@ const EventCalendarView = () => {
   }, [events]);
 
   const onSelectEvent = (e: any) => {
-    setIsOpenAddEditModal(true);
+    setIsOpenDetailsView(true);
     const item = eventsList.find((ev) => ev.id === e.id) as ICalenderEvents;
     setSelectedItem(item);
   };
   const onClose = () => {
-    setIsOpenAddEditModal(false);
+    setIsOpenDetailsView(false);
   };
 
   return (
-    <>
-      <CardContent>
-        <Grid item xs={12} md={12} style={{paddingTop: 20}}>
-          {isOpenAddEditModal ? (
-            <div>
-              <EventCalendarDetails itemData={selectedItem} />
-              <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <Box style={{paddingTop: 20}}>
-                  <CancelButton onClick={onClose} isLoading={false} />
+    <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
+      <Card>
+        <CardHeader title={<H3>Calendar</H3>} />
+        <CardContent>
+          <Grid item xs={12} md={12} style={{paddingTop: 20}}>
+            {isOpenDetailsView ? (
+              <div>
+                <EventCalendarDetails itemData={selectedItem} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                  <Box style={{paddingTop: 20}}>
+                    <CancelButton onClick={onClose} isLoading={false} />
+                  </Box>
                 </Box>
-              </Box>
-            </div>
-          ) : (
-            <Calendar
-              events={eventsList}
-              localizer={localizer}
-              selectable={true}
-              style={{height: '100vh'}}
-              startAccessor='start'
-              endAccessor='end'
-              defaultDate={moment().toDate()}
-              onView={(view: View) =>
-                setViewFilters({...requestQuery, ...{type: view}})
-              }
-              onSelectEvent={onSelectEvent}
-            />
-          )}
-        </Grid>
-      </CardContent>
-    </>
+              </div>
+            ) : (
+              <Calendar
+                events={eventsList}
+                localizer={localizer}
+                selectable={true}
+                style={{height: '100vh'}}
+                startAccessor='start'
+                endAccessor='end'
+                defaultDate={moment().toDate()}
+                onView={(view: View) =>
+                  setViewFilters({...requestQuery, ...{type: view}})
+                }
+                onSelectEvent={onSelectEvent}
+              />
+            )}
+          </Grid>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 
-export default EventCalendarView;
+export default InstituteEventCalendarView;

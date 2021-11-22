@@ -5,7 +5,7 @@ import {useIntl} from 'react-intl';
 import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
 
 const EventCalendarViewPage = asyncComponent(
-  () => import('../../modules/dashboard/events/EventCalendarView'),
+  () => import('../../modules/events/EventCalendarView'),
 );
 export default NiseFrontPage(() => {
   const {messages} = useIntl();
@@ -13,7 +13,6 @@ export default NiseFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.faq'] as string} />
-      {/*// @ts-ignore*/}
       <EventCalendarViewPage />
     </>
   );

@@ -4,11 +4,7 @@ import BasicInfo from './BasicInfo';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';
 import {Container, Grid} from '@mui/material';
 import Scrollbar from '../../../@crema/core/Scrollbar';
-import asyncComponent from '../../../@crema/utility/asyncComponent';
-
-const EventCalendarViewPage = asyncComponent(
-  () => import('../../../modules/youth/events/EventCalendarView'),
-);
+import EventCalendarViewPage from '../../../modules/youth/events/EventCalendarView';
 
 const PREFIX = 'YouthFeedPage';
 
