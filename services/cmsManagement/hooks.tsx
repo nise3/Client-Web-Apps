@@ -125,8 +125,9 @@ export function useFetchCalenderEvents(params: any) {
 }
 
 /** fetches a single calendar event */
-export function useFetchCalendarEvent(faqId: number | null) {
-  return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + faqId : null);
+export function useFetchCalendarEvent(eventId: number | null) {
+  // return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + eventId : null);
+  return useAxiosSWR([API_CALENDAR_EVENTS + '/' + eventId]);
 }
 
 export function useFetchPublicNoticeOrNewses(params: any) {
