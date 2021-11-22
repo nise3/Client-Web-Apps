@@ -6,7 +6,7 @@ import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
-import {Grid} from '@mui/material';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
 
 const localizer = momentLocalizer(moment);
 
@@ -144,7 +144,7 @@ const EventCalendar = (comProps: IComProps) => {
 
   return (
     <>
-      <Grid item xs={12} md={12}>
+      <PageBlock title={'Calendar'}>
         <Calendar
           events={eventsList}
           // events={events1}
@@ -181,7 +181,7 @@ const EventCalendar = (comProps: IComProps) => {
             refreshDataTable={refreshDataTable}
           />
         )}
-      </Grid>
+      </PageBlock>
     </>
   );
 };
