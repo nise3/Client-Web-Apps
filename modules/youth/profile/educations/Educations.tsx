@@ -103,8 +103,7 @@ const Educations: FC<EducationsProps> = ({
                     {education?.institute_name}
                   </Typography>
                   <Typography variant={'subtitle2'}>
-                    {messages['education.result']}:{' '}
-                    <b>{getResult(education)}</b>
+                    {messages['education.result']}: {getResult(education)}
                   </Typography>
                   {!education?.edu_board_id &&
                     !education?.edu_group_id &&

@@ -80,9 +80,9 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
                     <TableCell>{guardian?.mobile}</TableCell>
                     <TableCell>
                       {messages['common.guardian_types'][
-                        guardian?.relationship_type
+                        Number(guardian.relationship_type) - 1
                       ] +
-                        (guardian?.relationship_title
+                        (guardian.relationship_title
                           ? ' (' + guardian?.relationship_title + ')'
                           : '')}
                     </TableCell>

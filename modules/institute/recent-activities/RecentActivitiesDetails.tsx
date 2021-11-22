@@ -107,7 +107,7 @@ const RecentActivitiesDetails = ({data}: any) => {
               <CardMedia
                 component='img'
                 height='350'
-                image={data?.content_path}
+                image={data?.image_path}
                 alt={data?.title}
                 title={data?.title}
               />

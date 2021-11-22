@@ -27,6 +27,7 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.name'],
         accessor: 'name',
+        isVisible: false,
       },
       {
         Header: messages['common.mobile'],
@@ -35,6 +36,7 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.email'],
         accessor: 'email',
+        isVisible: false,
       },
       {
         Header: messages['common.address'],
@@ -44,7 +46,6 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.comment'],
         accessor: 'comment',
-        isVisible: false,
       },
       {
         Header: messages['common.achieved_at'],
