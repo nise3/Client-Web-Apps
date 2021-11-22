@@ -16,7 +16,6 @@ export default DashboardPage(() => {
     <>
       <PageMeta title={messages['menu.faq'] as string} />
       <EventCalendarPage />
-      {/*<EventCalendarPage calendarFor='nise' ={true} />*/}
     </>
   );
 });
