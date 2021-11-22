@@ -25,6 +25,7 @@ import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
+import {getHostUrl} from '../../@softbd/common/SSOConfig';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -42,7 +43,7 @@ export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode) => {
         'https://core.bus-staging.softbdltd.com/sso-authorize-code-grant',
         {
           code,
-          redirect_uri: 'http://localhost:3000/callback',
+          redirect_uri: getHostUrl() + '/callback',
         },
       );
 

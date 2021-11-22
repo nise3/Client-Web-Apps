@@ -112,18 +112,6 @@ const RecentActivities = () => {
       setRecentActivityFilter((prev: any) => {
         return {...prev, ...params};
       });
-    }
-  }, [showInType]);
-
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      if (showInType == ShowInTypes.TSP) {
-        //params.institute_id = 1;
-      }
       setRecentActivityMasonryFilter((prev: any) => {
         return {...prev, ...params};
       });
@@ -166,7 +154,7 @@ const RecentActivities = () => {
             {messages['all_activities.institute']}
           </Typography>
           {recentActivitiesList && recentActivitiesList?.length > 0 ? (
-            <Grid container spacing={5}>
+            <Grid container spacing={3}>
               {recentActivitiesList?.map((data: any) => (
                 <Grid item xs={12} md={3} mt={3} key={data.id}>
                   <RecentActivityCardView activity={data} />

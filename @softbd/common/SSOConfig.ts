@@ -21,10 +21,7 @@ const SSO_CONFIG: TConfig = {
 };
 
 export const getSSOLoginUrl = () => {
-  const origin =
-    typeof window !== 'undefined' && window.location.origin
-      ? window.location.origin
-      : '';
+  const origin = getHostUrl();
 
   return (
     SSO_CONFIG.authUrl +
@@ -55,10 +52,7 @@ export const getSSOLoginUrl = () => {
 // };
 
 export const getSSOLogoutUrl = () => {
-  const origin =
-    typeof window !== 'undefined' && window.location.origin
-      ? window.location.origin
-      : '';
+  const origin = getHostUrl();
 
   const authAccessTokenData = cookieInstance.get(
     COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
@@ -74,6 +68,12 @@ export const getSSOLogoutUrl = () => {
     '&state=' +
     'hello'
   );
+};
+
+export const getHostUrl = () => {
+  return typeof window !== 'undefined' && window.location.origin
+    ? window.location.origin
+    : '';
 };
 
 export default SSO_CONFIG;

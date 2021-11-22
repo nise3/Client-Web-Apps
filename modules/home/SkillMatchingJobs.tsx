@@ -47,6 +47,10 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
   },
+
+  '& .react-multi-carousel-list': {
+    padding: '20px 0px',
+  },
 }));
 
 let items = [

@@ -66,7 +66,12 @@ const InfoCard = ({color, infos, label}: Props) => {
                 </Grid>
                 <Grid item md={2} xs={2}>
                   <Box
-                    sx={{color: color, fontSize: '25px', fontWeight: 'bold'}}>
+                    sx={{
+                      color: color,
+                      fontSize: '25px',
+                      fontWeight: 'bold',
+                      minHeight: '40px',
+                    }}>
                     {infoItem.count}
                   </Box>
                 </Grid>

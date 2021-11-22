@@ -34,6 +34,10 @@ const StyledGrid = styled(Grid)(() => ({
     background: 'linear-gradient(45deg, #ec5c17,#5affab)',
     marginRight: '10px',
   },
+
+  '& .react-multi-carousel-list': {
+    padding: '16px 0px',
+  },
 }));
 
 const PopularCourse = () => {
@@ -64,6 +68,7 @@ const PopularCourse = () => {
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
                 <Link
+                  passHref
                   key={key}
                   href={
                     getModulePath(router.asPath) +

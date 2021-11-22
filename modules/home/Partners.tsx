@@ -49,6 +49,10 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  '& .react-multi-carousel-list': {
+    padding: '20px 0px',
+  },
 }));
 
 /*let items = [
