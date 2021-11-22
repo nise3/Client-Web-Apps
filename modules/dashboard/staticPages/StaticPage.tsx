@@ -57,15 +57,15 @@ const StaticPage = () => {
   }, []);
 
   const openAddEditModal = useCallback((page = null) => {
+    setSelectedStaticPage(page);
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setSelectedStaticPage(page);
   }, []);
 
   const openDetailsModal = useCallback(
     (code: string) => {
-      setIsOpenDetailsModal(true);
       setSelectedStaticPage(code);
+      setIsOpenDetailsModal(true);
     },
     [selectedStaticPage],
   );

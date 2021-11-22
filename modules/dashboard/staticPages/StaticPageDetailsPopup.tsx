@@ -144,7 +144,11 @@ const StaticPageDetailsPopup = ({
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
             <EditButton
               onClick={() =>
-                openEditModal({page_code: pageCode, type: pageType})
+                openEditModal({
+                  page_code: pageCode,
+                  type: pageType,
+                  category: pageCategory,
+                })
               }
               isLoading={isLoading}
             />
