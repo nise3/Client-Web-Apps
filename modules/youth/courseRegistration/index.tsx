@@ -64,6 +64,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
     justifyContent: 'space-between',
     margin: '15px 0px',
   },
+  '& .MuiStepIcon-text': {
+    fontSize: '1rem',
+  },
 }));
 
 const tabKeys = [

@@ -4,17 +4,9 @@ import {Box, Slide} from '@mui/material';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Modern';
 
-const PREFIX = 'ModernTemplate';
-
-const classes = {
-  modernRoot: `${PREFIX}-modernRoot`,
-};
-
-const StyledSlide = styled(Slide)(({theme}) => ({
-  [`& .${classes.modernRoot}`]: {
-    border: '2px solid #d3d4d4',
-    background: '#fff',
-  },
+const StyledBox = styled(Box)(({theme}) => ({
+  border: '2px solid #d3d4d4',
+  background: '#fff',
 }));
 
 interface ModernTemplateProps {
@@ -160,9 +152,9 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
   }, []);
 
   return (
-    <StyledSlide direction={'right'} in={true}>
-      <Box className={classes.modernRoot} ref={theCB} />
-    </StyledSlide>
+    <Slide direction={'right'} in={true}>
+      <StyledBox ref={theCB} />
+    </Slide>
   );
 };
 

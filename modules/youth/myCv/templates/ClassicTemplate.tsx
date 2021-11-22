@@ -4,18 +4,10 @@ import {Box, Slide} from '@mui/material';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
 
-const PREFIX = 'ClassicTemplate';
-
-const classes = {
-  classicRoot: `${PREFIX}-classicRoot`,
-};
-
-const StyledSlide = styled(Slide)(({theme}) => ({
-  [`& .${classes.classicRoot}`]: {
-    border: '2px solid #d3d4d4',
-    background: '#fff',
-    padding: 20,
-  },
+const StyledBox = styled(Box)(({theme}) => ({
+  border: '2px solid #d3d4d4',
+  background: '#fff',
+  padding: 20,
 }));
 
 interface ClassicTemplateProps {
@@ -154,13 +146,9 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
   }, []);
 
   return (
-    <StyledSlide direction={'right'} in={true}>
-      <Box
-        className={classes.classicRoot}
-        sx={{padding: '0 !important'}}
-        ref={theCB}
-      />
-    </StyledSlide>
+    <Slide direction={'right'} in={true}>
+      <StyledBox sx={{padding: '0 !important'}} ref={theCB} />
+    </Slide>
   );
 };
 
