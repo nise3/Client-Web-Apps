@@ -73,10 +73,13 @@ const BasicInfo = () => {
             {authUser?.first_name} {authUser?.last_name}
           </Box>
           <Box sx={{width: '100%'}}>
-            <LinearProgress variant='determinate' value={55} />
+            <LinearProgress
+              variant='determinate'
+              value={authUser?.profile_completed || 0}
+            />
             <Box className={classes.fontColor}>
               {messages['youth_feed.profile_progress']}{' '}
-              {getIntlNumber(formatNumber, 55)}%
+              {getIntlNumber(formatNumber, authUser?.profile_completed || 0)}%
             </Box>
           </Box>
 

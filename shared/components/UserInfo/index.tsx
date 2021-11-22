@@ -57,13 +57,13 @@ const StyledBox = styled(Box)(({theme}) => {
       whiteSpace: 'nowrap',
       fontSize: 16,
       fontWeight: Fonts.MEDIUM,
-      color: themeMode === ThemeMode.LIGHT ? '#313541' : 'white',
+      color: themeMode === ThemeMode.DARK ? 'white' : theme.palette.grey['300'],
     },
     [`& .${classes.designation}`]: {
       marginTop: -2,
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      color: theme.palette.text.secondary,
+      color: themeMode === ThemeMode.DARK ? 'white' : theme.palette.grey['500'],
     },
     [`& .${classes.pointer}`]: {
       cursor: 'pointer',

@@ -10,7 +10,7 @@ import defaultInstitute from '../../../@softbd/common/defaultInstitute';
 export default InstituteDefaultFrontPage(({data}: any) => {
   return (
     <>
-      <PageMeta title={data.title} />
+      <PageMeta title={data?.title} />
       <StaticContent data={data} />
     </>
   );
@@ -28,10 +28,13 @@ export async function getServerSideProps(context: any) {
   };
 
   try {
-    let appAccessToken = cookies?.app_access_token;
+    let appAccessToken = JSON.parse(
+      cookies?.app_access_token || '{}',
+    )?.access_token;
+
     if (!appAccessToken) {
       const response = await getAppAccessToken();
-      appAccessToken = response?.data?.app_access_token;
+      appAccessToken = response?.data?.access_token;
     }
 
     const res = await apiGet(API_PUBLIC_STATIC_PAGE_BLOCKS + pageId, {
@@ -41,6 +44,6 @@ export async function getServerSideProps(context: any) {
 
     return {props: {data: res?.data?.data}};
   } catch (e) {
-    return {props: {data: []}};
+    return {props: {data: null}};
   }
 }

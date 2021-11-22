@@ -11,6 +11,7 @@ const CourseDetails = () => {
   let {courseId} = router.query;
 
   const {data: courseDetails} = useFetchCourseDetails(Number(courseId));
+
   const [skillIds, setSkillIds] = useState<Array<number>>([]);
 
   useEffect(() => {

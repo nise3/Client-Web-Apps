@@ -17,10 +17,7 @@ import {
   updateBranch,
 } from '../../../services/instituteManagement/BranchService';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {
-  useFetchBranch,
-  useFetchInstitutes,
-} from '../../../services/instituteManagement/hooks';
+import {useFetchBranch} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
@@ -34,6 +31,8 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -61,6 +60,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
+  const authUser = useAuthUser();
 
   const [divisionsFilter] = useState({});
   const [districtsFilter] = useState({});
@@ -72,15 +72,15 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const [institutes, setInstitutes] = useState<Array<any>>([]);
+  const [isLoadingInstitutes, setIsLoadingInstitutes] =
+    useState<boolean>(false);
 
   const {
     data: itemData,
     isLoading,
     mutate: mutateBranch,
   } = useFetchBranch(itemId);
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -91,9 +91,11 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: yup.string().trim().required(),
+      institute_id: authUser?.isInstituteUser
+        ? yup.string()
+        : yup.string().trim().required(),
     });
-  }, [messages]);
+  }, [messages, authUser]);
   const {
     control,
     register,
@@ -104,6 +106,21 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   } = useForm<Branch>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (!authUser?.isInstituteUser) {
+      setIsLoadingInstitutes(true);
+      (async () => {
+        try {
+          let institutes = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingInstitutes(false);
+          setInstitutes(institutes.data);
+        } catch (e) {}
+      })();
+    }
+  }, []);
 
   useEffect(() => {
     if (itemData) {
@@ -148,6 +165,9 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
+    if (authUser?.isInstituteUser) {
+      data.institute_id = Number(authUser.institute_id);
+    }
     try {
       if (itemId) {
         await updateBranch(itemId, data);
@@ -212,19 +232,21 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id='institute_id'
-            label={messages['institute.label']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {!authUser?.isInstituteUser && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              required
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='address'

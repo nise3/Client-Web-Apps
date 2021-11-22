@@ -21,7 +21,6 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchBranches,
   useFetchCourse,
-  useFetchInstitutes,
   useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -30,6 +29,9 @@ import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
 import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -57,32 +59,69 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
+  const authUser = useAuthUser();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+
+  const [institutes, setInstitutes] = useState<Array<any>>([]);
+  const [isLoadingInstitutes, setIsLoadingInstitutes] =
+    useState<boolean>(false);
+
   const {
     data: itemData,
     isLoading,
     mutate: mutateCourse,
   } = useFetchCourse(itemId);
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
+
   const [branchFilters, setBranchFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
-
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchProgrammes(programmeFilters);
-
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
+  useEffect(() => {
+    if (authUser?.isInstituteUser) {
+      setProgrammeFilters((prevState: any) => {
+        return objectFilter({
+          ...prevState,
+          ...{institute_id: authUser.institute_id},
+        });
+      });
+
+      setBranchFilters((prevState: any) => {
+        return objectFilter({
+          ...prevState,
+          ...{institute_id: authUser.institute_id},
+        });
+      });
+    } else {
+      setIsLoadingInstitutes(true);
+      (async () => {
+        try {
+          let institutes = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingInstitutes(false);
+          setInstitutes(institutes.data);
+        } catch (e) {}
+      })();
+    }
+  }, []);
+
+  // const {data: institutes, isLoading: isLoadingInstitutes} =
+  //   useFetchInstitutes(instituteFilters);
+
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+
+  const {data: programmes, isLoading: isLoadingProgrammes} =
+    useFetchProgrammes(programmeFilters);
+
   const {data: skills, isLoading: isLoadingSkills} =
     useFetchYouthSkills(youthSkillsFilter);
 
@@ -96,11 +135,13 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.label'] as string),
+      institute_id: authUser?.isInstituteUser
+        ? yup.string()
+        : yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string),
       code: yup
         .string()
         .trim()
@@ -126,7 +167,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .min(1)
         .label(messages['common.skills'] as string),
     });
-  }, [messages]);
+  }, [messages, authUser]);
 
   const configItemList = useMemo(
     () => [
@@ -343,7 +384,11 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     data.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
-    console.log(data);
+
+    if (authUser?.isInstituteUser) {
+      data.institute_id = Number(authUser.institute_id);
+    }
+
     try {
       if (itemId) {
         await updateCourse(itemId, data);
@@ -436,20 +481,22 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
-            required
-            id='institute_id'
-            label={messages['institute.label']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onInstituteChange}
-          />
-        </Grid>
+        {!authUser?.isInstituteUser && (
+          <Grid item xs={12} sm={6} md={6}>
+            <CustomFormSelect
+              required
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes || []}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+              onChange={onInstituteChange}
+            />
+          </Grid>
+        )}
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='branch_id'

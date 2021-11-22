@@ -63,12 +63,10 @@ const CremaThemeProvider: React.FC<React.ReactNode> = (props) => {
             theme.components.MuiToggleButton.styleOverrides.root.borderRadius = 30;
           }
           theme.components.MuiButton.styleOverrides.root.borderRadius = 30;
-          theme.components.MuiCardLg.styleOverrides.root.borderRadius = 50;
         } else {
           theme.components.MuiCard.styleOverrides.root.borderRadius = 4;
           theme.components.MuiToggleButton.styleOverrides.root.borderRadius = 4;
           theme.components.MuiButton.styleOverrides.root.borderRadius = 4;
-          theme.components.MuiCardLg.styleOverrides.root.borderRadius = 4;
         }
         updateTheme?.(theme);
         if (

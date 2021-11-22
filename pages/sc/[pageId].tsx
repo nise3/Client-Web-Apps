@@ -7,10 +7,9 @@ import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
 import {getAppAccessToken} from '../../@softbd/libs/axiosInstance';
 
 export default NiseFrontPage(({data}: any) => {
-  console.log('ddd', data);
   return (
     <>
-      <PageMeta title={data.title} />
+      <PageMeta title={data?.title} />
       <StaticContent data={data} />
     </>
   );
@@ -28,10 +27,13 @@ export async function getServerSideProps(context: any) {
   };
 
   try {
-    let appAccessToken = cookies?.app_access_token;
+    let appAccessToken = JSON.parse(
+      cookies?.app_access_token || '{}',
+    )?.access_token;
+
     if (!appAccessToken) {
       const response = await getAppAccessToken();
-      appAccessToken = response?.data?.app_access_token;
+      appAccessToken = response?.data?.access_token;
     }
 
     const res = await apiGet(API_PUBLIC_STATIC_PAGE_BLOCKS + pageId, {
@@ -41,9 +43,8 @@ export async function getServerSideProps(context: any) {
       },
     });
 
-    console.log('data', res?.data?.data);
     return {props: {data: res?.data?.data}};
   } catch (e) {
-    return {props: {data: []}};
+    return {props: {data: null}};
   }
 }

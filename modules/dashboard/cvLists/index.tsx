@@ -13,7 +13,7 @@ import Link from 'next/link';
 import AssignBatchButton from '../applicationManagement/AssignBatchButton';
 import {FiUser} from 'react-icons/fi';
 
-const YouthPage = () => {
+const CVListsPage = () => {
   const {messages} = useIntl();
 
   const router = useRouter();
@@ -71,7 +71,7 @@ const YouthPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <Link href={`${path}/youth-cv/${data?.id}`} passHref={true}>
+            <Link href={`${path}/${data?.id}`} passHref={true}>
               <AssignBatchButton
                 btnText='applicationManagement.viewCV'
                 startIcon={<FiUser style={{marginLeft: '5px'}} />}
@@ -112,7 +112,7 @@ const YouthPage = () => {
       <PageBlock
         title={
           <>
-            <IconUser /> <IntlMessages id='youth.label' />
+            <IconUser /> <IntlMessages id='common.cv_list' />
           </>
         }>
         <ReactTable
@@ -128,4 +128,4 @@ const YouthPage = () => {
   );
 };
 
-export default YouthPage;
+export default CVListsPage;

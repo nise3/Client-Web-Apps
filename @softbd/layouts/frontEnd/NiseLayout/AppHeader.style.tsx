@@ -35,6 +35,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.headerMain}`]: {
     minHeight: 56,
+    padding: 0,
     paddingRight: 0,
     paddingLeft: 0,
     [theme.breakpoints.up('sm')]: {

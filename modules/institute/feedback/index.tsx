@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Card, CardContent, Grid} from '@mui/material';
+import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -14,6 +14,7 @@ import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import {ThemeMode} from '../../../shared/constants/AppEnums';
 
 const PREFIX = 'InstituteFeedback';
 
@@ -21,18 +22,25 @@ const classes = {
   buttons: `${PREFIX}-buttons`,
   box: `${PREFIX}-box`,
   heading: `${PREFIX}-heading`,
+  textStyle: `${PREFIX}-textStyle`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => {
   return {
     [`& .${classes.buttons}`]: {
-      background: theme.palette.primary.dark,
+      width: '100%',
     },
     [`& .${classes.box}`]: {
-      background: theme.palette.primary.light,
+      background: theme.palette.primary.main,
     },
     [`& .${classes.heading}`]: {
       boxShadow: '0px 2px 2px #8888',
+    },
+    [`& .${classes.textStyle}`]: {
+      color:
+        theme.palette.mode === ThemeMode.DARK
+          ? theme.palette.common.white
+          : theme.palette.common.black,
     },
   };
 });
@@ -109,63 +117,81 @@ const InstituteFeedback = () => {
         className={classes.box}
         p={4}
         justifyContent={'center'}>
-        <Grid item xs={12} maxWidth='md'>
+        <Grid item xs={12} maxWidth='sm'>
           <Card>
             <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      required
-                      id='name'
-                      label={messages['common.name']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
+              <Grid>
+                <Typography variant={'h6'} mb={4} className={classes.textStyle}>
+                  {messages['institute.feedback']}
+                </Typography>
+              </Grid>
+              <Grid>
+                <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                  <Grid container spacing={5}>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        required
+                        id='name'
+                        label={messages['common.name']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <CustomTextInput
+                        required
+                        id='mobile'
+                        label={messages['common.phone_number']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <CustomTextInput
+                        id='email'
+                        label={messages['common.email']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        id='address'
+                        label={messages['common.address']}
+                        register={register}
+                        errorInstance={errors}
+                        multiline={true}
+                        rows={2}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <CustomTextInput
+                        required
+                        id='comment'
+                        label={messages['advice.institute']}
+                        register={register}
+                        errorInstance={errors}
+                        multiline={true}
+                        rows={3}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12} justifyContent={'center'} mt={3}>
+                      <Button
+                        type={'submit'}
+                        disabled={isSubmitting}
+                        className={classes.buttons}
+                        variant='contained'>
+                        {messages['common.send']}
+                      </Button>
+                    </Grid>
                   </Grid>
-                  <Grid item md={6} xs={12}>
-                    <CustomTextInput
-                      required
-                      id='mobile'
-                      label={messages['common.phone_number']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <CustomTextInput
-                      id='email'
-                      label={messages['common.email']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextInput
-                      required
-                      id='comment'
-                      label={messages['advice.institute']}
-                      register={register}
-                      errorInstance={errors}
-                      multiline={true}
-                      rows={3}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                  <Grid container justifyContent={'center'} mt={3}>
-                    <Button
-                      type={'submit'}
-                      disabled={isSubmitting}
-                      className={classes.buttons}
-                      variant='contained'>
-                      {messages['common.send']}
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
+                </form>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>

@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const YouthCVPage = asyncComponent(
-  () => import('../../../../modules/dashboard/youthCV/YouthCVPage'),
+  () => import('../../../../modules/dashboard/cvLists/YouthCVPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

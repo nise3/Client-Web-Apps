@@ -35,7 +35,8 @@ export const StyledBox = styled(Box)(({theme}) => ({
 
   [`& .${classes.thinSearchButton}`]: {
     color: '#fff',
-    padding: '11px 0',
+    padding: '10px 0',
+    transform: 'translateX(-4px)',
     width: '100%',
     height: '100%',
   },
@@ -208,7 +209,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={4} sm={3}>
+                <Grid item xs={4} sm={3} sx={{paddingRight: '4px'}}>
                   <Button
                     variant='contained'
                     color={'primary'}

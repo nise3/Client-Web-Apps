@@ -342,6 +342,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     })();
   }, []);
 
+  console.log('selected codes', selectedCodes);
+
   const onAddOtherLanguageClick = useCallback(() => {
     if (selectedLanguageCode) {
       let lists = [...selectedLanguageList];

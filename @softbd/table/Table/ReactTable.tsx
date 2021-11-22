@@ -57,9 +57,14 @@ const StyledGrid = styled(Grid)(({theme}): any => ({
   },
 
   [`& .${classes.tableCell}`]: {
+    fontSize: '1rem',
     border: 'none !important',
-    padding: '10px 15px',
+    padding: '10px',
     verticalAlign: 'middle',
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.grey['500']
+        : theme.palette.grey['600'],
   },
 
   [`& .${classes.tableRow}`]: {
@@ -72,6 +77,10 @@ const StyledGrid = styled(Grid)(({theme}): any => ({
   [`& .${classes.tablePagination}`]: {
     display: 'flex',
     justifyContent: 'center',
+    color:
+      theme.palette.mode === ThemeMode.DARK
+        ? theme.palette.grey['500']
+        : theme.palette.grey['600'],
   },
 
   [`& .${classes.noDataIcon}`]: {
@@ -101,8 +110,8 @@ export const generatePageNumber = (
     pageIndex === 1
       ? pageIndex
       : pageIndex === 2
-        ? pageIndex - 1
-        : pageIndex - 2;
+      ? pageIndex - 1
+      : pageIndex - 2;
   return totalPage === 0
     ? []
     : range(Math.min(totalSlide + startFrom, totalPage), startFrom);
@@ -197,21 +206,21 @@ interface TReactTable {
  * @constructor
  */
 export default function ReactTable<T extends object>({
-                                                       columns,
-                                                       leftToolbarHtml = '',
-                                                       fetchData,
-                                                       pageCount: controlledPageCount,
-                                                       skipPageResetRef = typeof fetchData !== 'undefined',
-                                                       skipDefaultFilter = typeof fetchData !== 'undefined',
-                                                       loading = false,
-                                                       toggleResetTable = false,
-                                                       pageSize: controlledPageSize,
-                                                       hideToolbar = false,
-                                                       pageSizeData = [10, 15, 20, 25, 30],
-                                                       data,
-                                                       totalCount = data ? data.length : 0,
-                                                       ...props
-                                                     }: TReactTable | any): ReactElement {
+  columns,
+  leftToolbarHtml = '',
+  fetchData,
+  pageCount: controlledPageCount,
+  skipPageResetRef = typeof fetchData !== 'undefined',
+  skipDefaultFilter = typeof fetchData !== 'undefined',
+  loading = false,
+  toggleResetTable = false,
+  pageSize: controlledPageSize,
+  hideToolbar = false,
+  pageSizeData = [10, 15, 20, 25, 30],
+  data,
+  totalCount = data ? data.length : 0,
+  ...props
+}: TReactTable | any): ReactElement {
   const {messages} = useIntl();
   const isServerSideTable = typeof fetchData !== 'undefined';
 

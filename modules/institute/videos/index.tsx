@@ -21,7 +21,6 @@ import {
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import SearchIcon from '@mui/icons-material/Search';
-import {H3} from '../../../@softbd/elements/common';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {
   useFetchPublicGalleryAlbumContents,
@@ -31,12 +30,18 @@ import CustomFilterableSelect from '../../youth/training/components/CustomFilter
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import AlbumTypes from '../../dashboard/galleryAlbums/AlbumTypes';
 import CustomizedDialogs from '../Components/ImageDialog';
+import {H2} from '../../../@softbd/elements/common';
+import clsx from 'clsx';
 
 const PREFIX = 'InstituteVideos';
 
 const classes = {
   resetButton: `${PREFIX}-resetButton`,
   cardTitle: `${PREFIX}-cardTitle`,
+  gridMargin: `${PREFIX}-gridMargin`,
+  selectStyle: `${PREFIX}-selectStyle`,
+  filterBox: `${PREFIX}-filterBox`,
+  chipStyle: `${PREFIX}-chipStyle`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -49,6 +54,33 @@ const StyledContainer = styled(Container)(({theme}) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+  },
+  [`& .${classes.chipStyle}`]: {
+    color: theme.palette.primary.light,
+    padding: '3px 7px',
+    marginLeft: '10px',
+  },
+  [`& .${classes.gridMargin}`]: {
+    marginLeft: '15px',
+    [theme.breakpoints.only('xs')]: {
+      marginLeft: 0,
+      marginTop: '15px',
+    },
+  },
+  [`& .${classes.selectStyle}`]: {
+    minWidth: '220px',
+    [theme.breakpoints.only('xs')]: {
+      width: '100%',
+    },
+  },
+  [`& .${classes.filterBox}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    [theme.breakpoints.only('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+    },
   },
 }));
 
@@ -123,67 +155,75 @@ const InstituteVideos = () => {
     <>
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
-          <Paper>
-            <H3 py={3} fontWeight={'bold'}>
-              {messages['videos.institute']}
-            </H3>
-          </Paper>
+          <H2 py={3} fontWeight={'bold'}>
+            {messages['videos.institute']}
+          </H2>
         </Grid>
       </Grid>
-      <StyledContainer maxWidth='lg'>
+      <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
-            <Box display={'flex'} alignItems={'center'}>
-              <FilterListIcon />
-              <Typography sx={{marginLeft: '10px'}}>
-                {messages['filter.institute']}
-              </Typography>
-              <CustomFilterableSelect
-                id='video_album_id'
-                label={messages['common.video_album']}
-                defaultValue={selectedVideoAlbumId}
-                isLoading={isLoadingVideoAlbums}
-                optionValueProp={'id'}
-                options={videoAlbums}
-                optionTitleProp={['title']}
-                onChange={onChangeVideoAlbum}
-                sx={{minWidth: '220px', marginLeft: '15px'}}
-              />
-              <Button
-                onClick={onResetClicked}
-                variant={'contained'}
-                size={'small'}
-                color={'primary'}
-                sx={{marginLeft: '15px', height: '40px'}}>
-                {messages['common.reset']}
-              </Button>
-              <Paper
-                style={{
-                  display: 'flex',
-                  width: 220,
-                  marginLeft: '15px',
-                  height: '40px',
-                }}>
-                <InputBase
-                  size={'small'}
+            <Grid container justifyContent={'space-between'}>
+              <Grid item>
+                <Box className={classes.filterBox}>
+                  <Box display={'flex'}>
+                    <FilterListIcon />
+                    <Typography sx={{marginLeft: '15px'}}>
+                      {messages['filter.institute']}
+                    </Typography>
+                  </Box>
+
+                  <CustomFilterableSelect
+                    id='video_album_id'
+                    label={messages['common.video_album']}
+                    defaultValue={selectedVideoAlbumId}
+                    isLoading={isLoadingVideoAlbums}
+                    optionValueProp={'id'}
+                    options={videoAlbums}
+                    optionTitleProp={['title']}
+                    onChange={onChangeVideoAlbum}
+                    className={clsx(classes.gridMargin, classes.selectStyle)}
+                  />
+                  <Button
+                    onClick={onResetClicked}
+                    variant={'contained'}
+                    size={'small'}
+                    color={'primary'}
+                    className={classes.gridMargin}
+                    sx={{height: '40px'}}>
+                    {messages['common.reset']}
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item>
+                <Paper
                   style={{
-                    paddingLeft: '20px',
+                    display: 'flex',
+                    width: 220,
+                    height: '40px',
                   }}
-                  placeholder={messages['common.search'] as string}
-                  inputProps={{'aria-label': 'Search'}}
-                  inputRef={inputFieldRef}
-                  onKeyDown={(event) => {
-                    if (event.code == 'Enter') onSearch();
-                  }}
-                />
-                <IconButton
-                  sx={{p: '5px'}}
-                  aria-label='search'
-                  onClick={onSearch}>
-                  <SearchIcon />
-                </IconButton>
-              </Paper>
-            </Box>
+                  className={classes.gridMargin}>
+                  <InputBase
+                    size={'small'}
+                    style={{
+                      paddingLeft: '20px',
+                    }}
+                    placeholder={messages['common.search'] as string}
+                    inputProps={{'aria-label': 'Search'}}
+                    inputRef={inputFieldRef}
+                    onKeyDown={(event) => {
+                      if (event.code == 'Enter') onSearch();
+                    }}
+                  />
+                  <IconButton
+                    sx={{p: '5px'}}
+                    aria-label='search'
+                    onClick={onSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                </Paper>
+              </Grid>
+            </Grid>
           </Grid>
 
           {isLoadingVideoContents ? (
@@ -204,7 +244,7 @@ const InstituteVideos = () => {
                     {messages['total_result.institute']}{' '}
                     <Chip
                       label={videoAlbumContents?.length}
-                      color={'primary'}
+                      className={classes.chipStyle}
                     />
                   </Typography>
                 </Grid>
@@ -239,7 +279,7 @@ const InstituteVideos = () => {
                                 <Typography
                                   gutterBottom
                                   className={classes.cardTitle}
-                                  variant='body1'
+                                  variant='body2'
                                   component='div'>
                                   {data?.title}
                                 </Typography>

@@ -1,9 +1,13 @@
 import React, {ReactNode} from 'react';
 import {styled} from '@mui/material/styles';
-import AppsHeader from '../../@crema/core/AppsContainer/AppsHeader';
-import {Box, Typography} from '@mui/material';
-import AppsContent from '../../@crema/core/AppsContainer/AppsContent';
-import AppsContainer from '../../@crema/core/AppsContainer';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Typography,
+} from '@mui/material';
 
 const PREFIX = 'PageBlock';
 
@@ -11,7 +15,7 @@ const classes = {
   pageTitle: `${PREFIX}-pageTitle`,
 };
 
-const StyledAppsContainer = styled(AppsContainer)(({theme}): any => ({
+const StyledCard = styled(Card)(({theme}): any => ({
   [`& .${classes.pageTitle}`]: {
     display: 'flex',
     alignItems: 'center',
@@ -32,17 +36,19 @@ interface PageBlockProps {
 
 const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
   return (
-    <StyledAppsContainer fullView>
-      <AppsHeader>
-        <Box display='flex' flexDirection='row' alignItems='center' width={1}>
-          {title && (
+    <StyledCard>
+      <CardHeader
+        title={
+          title && (
             <Box style={{display: 'flex', alignItems: 'center'}}>
               <Typography variant={'h6'} className={classes.pageTitle}>
                 {title}
               </Typography>
             </Box>
-          )}
-          {extra && (
+          )
+        }
+        action={
+          extra && (
             <Box
               display='flex'
               flexDirection='row'
@@ -50,13 +56,14 @@ const PageBlock: React.FC<PageBlockProps> = ({children, title, extra}) => {
               ml='auto'>
               {extra}
             </Box>
-          )}
-        </Box>
-      </AppsHeader>
-      <AppsContent>
+          )
+        }
+      />
+      <Divider />
+      <CardContent sx={{pt: 0}}>
         <div style={{margin: '10px'}}>{children}</div>
-      </AppsContent>
-    </StyledAppsContainer>
+      </CardContent>
+    </StyledCard>
   );
 };
 

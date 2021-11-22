@@ -30,7 +30,10 @@ const StyledToolbar = styled(Toolbar)(({theme}) => ({
   justifyContent: 'space-between',
   height: '30px',
   minHeight: '30px',
-
+  [theme.breakpoints.up('xs')]: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
   [`& .${classes.leftButtons}`]: {},
   [`& .${classes.rightButtons}`]: {},
 

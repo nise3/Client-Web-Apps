@@ -5,7 +5,7 @@
   "applicationManagement.traineeDetails": "Trainee Details",
   "applicationManagement.assignBatch": "Assign Batch",
   "applicationManagement.reject": "Reject",
-  "applicationManagement.viewCV": "View Trainee CV",
+  "applicationManagement.viewCV": "View CV",
   "applicationManagement.batches": "Available Batches",
   "applicationManagement.modernCV": "View Modern CV",
   "applicationManagement.classicCV": "View Classic CV",
@@ -762,6 +762,7 @@
   "institute.name_of_the_office_head_designation": "Office head designation",
   "institute.name_of_the_office_head_designation_en": "Office head designation (English)",
   "common.registration_username_note": "Contact person mobile will be used as username",
+  "youth.registration_username_note": "Youth's mobile  number will be used as username",
   "common.registration_login": "Registration/Login",
   "institute.youth_login": "Youth Login",
   "common.courses": "Courses",
@@ -985,5 +986,8 @@
   "common.your_info": "Your Information",
   "common.must_have_one_skill": "Must have one skill",
   "guardian.info": "Guardian information",
-  "common.nise3": "NISE3"
+  "common.nise3": "NISE3",
+  "common.must_have_one_physical_disability": "Must have atleast one physical disability",
+  "institute.feedback": "Send us your Feedback",
+  "common.cv_list": "CV List"
 }

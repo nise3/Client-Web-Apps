@@ -18,6 +18,7 @@ import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import {ThemeMode} from '../../../shared/constants/AppEnums';
 
 const PREFIX = 'InstituteContact';
 
@@ -27,16 +28,16 @@ const classes = {
   heading: `${PREFIX}-heading`,
   formCard: `${PREFIX}-formCard`,
   mapDiv: `${PREFIX}-mapDiv`,
+  textStyle: `${PREFIX}-textStyle`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => {
   return {
     [`& .${classes.buttons}`]: {
-      background: theme.palette.primary.dark,
       width: '100%',
     },
     [`& .${classes.mainGrid}`]: {
-      background: theme.palette.primary.light,
+      background: theme.palette.primary.main,
       marginLeft: 'auto',
       marginRight: 'auto',
       width: '100%',
@@ -46,12 +47,18 @@ const StyledGrid = styled(Grid)(({theme}) => {
     },
     [`& .${classes.formCard}`]: {
       [theme.breakpoints.up('md')]: {
-        height: '500px',
+        height: '505px',
       },
     },
     [`& .${classes.mapDiv}`]: {
       height: '320px',
       width: '100%',
+    },
+    [`& .${classes.textStyle}`]: {
+      color:
+        theme.palette.mode === ThemeMode.DARK
+          ? theme.palette.common.white
+          : theme.palette.common.black,
     },
   };
 });
@@ -174,7 +181,10 @@ const InstituteContact = () => {
             <Card>
               <CardContent className={classes.formCard}>
                 <Grid>
-                  <Typography variant={'h6'} mb={4}>
+                  <Typography
+                    variant={'h6'}
+                    mb={4}
+                    className={classes.textStyle}>
                     {messages['contact_with_us.institute']}
                   </Typography>
                 </Grid>
@@ -257,7 +267,7 @@ const InstituteContact = () => {
           <Grid item md={6} xs={12} p={2}>
             <Card>
               <CardContent>
-                <Typography variant={'h6'} mb={4}>
+                <Typography variant={'h6'} mb={4} className={classes.textStyle}>
                   {messages['find_our_location_in_map.institute']}
                 </Typography>
                 <Grid container spacing={5}>

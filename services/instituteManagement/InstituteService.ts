@@ -2,9 +2,6 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_INSTITUTES} from '../../@softbd/common/apiRoutes';
 
-/**
- * @deprecated
- */
 export const getAllInstitutes = async (params = {}) => {
   try {
     let response: any = await apiGet(API_INSTITUTES, {params});

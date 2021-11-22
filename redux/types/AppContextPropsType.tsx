@@ -116,13 +116,6 @@ export interface CremaTheme extends Theme {
         };
       };
     };
-    MuiCardLg: {
-      styleOverrides: {
-        root: {
-          borderRadius: number;
-        };
-      };
-    };
     MuiCard: {
       styleOverrides: {
         root: {

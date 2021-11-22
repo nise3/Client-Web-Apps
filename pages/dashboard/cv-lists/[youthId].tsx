@@ -1,11 +1,11 @@
-import asyncComponent from '../../../../@crema/utility/asyncComponent';
-import PageMeta from '../../../../@crema/core/PageMeta';
-import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
+import asyncComponent from '../../../@crema/utility/asyncComponent';
+import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
+import PageMeta from '../../../@crema/core/PageMeta';
 
 const YouthCVPage = asyncComponent(
-  () => import('../../../../modules/dashboard/youthCV/YouthCVPage'),
+  () => import('../../../modules/dashboard/cvLists/YouthCVPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

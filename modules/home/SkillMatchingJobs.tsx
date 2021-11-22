@@ -138,10 +138,11 @@ const SkillMatchingJobs = () => {
         </Box>
         <Grid item container justifyContent='center'>
           <Button
+            sx={{borderRadius: '10px'}}
             variant='outlined'
             color='primary'
             endIcon={<ArrowRightAlt />}>
-            আরো দেখুন
+            {messages['common.see_more']}
           </Button>
         </Grid>
       </Container>

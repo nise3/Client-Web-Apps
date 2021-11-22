@@ -98,16 +98,12 @@ export function contextReducer(state: any, action: any) {
         }
         theme.components.MuiButton.styleOverrides.root.borderRadius =
           ThemeStyleRadius.MODERN;
-        theme.components.MuiCardLg.styleOverrides.root.borderRadius =
-          ThemeStyleRadius.MODERN + 20;
       } else {
         theme.components.MuiCard.styleOverrides.root.borderRadius =
           ThemeStyleRadius.STANDARD;
         theme.components.MuiToggleButton.styleOverrides.root.borderRadius =
           ThemeStyleRadius.STANDARD;
         theme.components.MuiButton.styleOverrides.root.borderRadius =
-          ThemeStyleRadius.STANDARD;
-        theme.components.MuiCardLg.styleOverrides.root.borderRadius =
           ThemeStyleRadius.STANDARD;
       }
 

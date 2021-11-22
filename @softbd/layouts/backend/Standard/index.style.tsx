@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
 import {useContext} from 'react';
 import AppContext from '../../../../@crema/utility/AppContext';
-import {ThemeStyle} from '../../../../shared/constants/AppEnums';
+import {ThemeMode, ThemeStyle} from '../../../../shared/constants/AppEnums';
 
 const PREFIX = 'StandardLayout';
 
@@ -51,6 +51,10 @@ export const StyledBox = styled(Box)(({theme}) => {
       },
     },
     [`& .${classes.mainContent}`]: {
+      background:
+        theme.palette.mode === ThemeMode.DARK
+          ? 'inherit'
+          : theme.palette.grey['200'],
       flex: 1,
       display: 'flex',
       [theme.breakpoints.up('lg')]: {
@@ -61,8 +65,11 @@ export const StyledBox = styled(Box)(({theme}) => {
       },
     },
     [`& .${classes.mainContainer}`]: {
-      paddingBottom: footer ? 0 : 10,
+      paddingBottom: 10,
       width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: `calc(100vw - 19rem)`,
+      },
       [theme.breakpoints.up('lg')]: {
         width: `calc(100vw - 19rem)`,
       },
@@ -71,7 +78,7 @@ export const StyledBox = styled(Box)(({theme}) => {
       },
 
       '& > .scrollbar-container': {
-        padding: '20px 20px 0',
+        padding: '20px 12px 0',
         display: 'flex',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
