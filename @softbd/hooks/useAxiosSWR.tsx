@@ -18,5 +18,6 @@ function common({
 }
 
 export function useAxiosSWR(deps: any[] | string | null) {
+  console.count('useAxiosSWR');
   return common(useSWR(deps, (url, params) => apiGet(url, {params})));
 }

@@ -47,9 +47,11 @@ axiosInstance.interceptors.request.use(
 // Response interceptor for API calls
 axiosInstance.interceptors.response.use(
   (response) => {
+    console.count('countSuccessRequest');
     return response;
   },
   async function (error) {
+    console.count('countFailedRequest');
     if (error?.response?.status === 401) {
       const authAccessTokenData = cookieInstance.get(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
