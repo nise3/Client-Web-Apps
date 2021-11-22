@@ -332,11 +332,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 <Box className={classes.sectionTitleStyle}>
                   {messages['course_details.assisment_method']}
                 </Box>
-                <ul>
-                  <li>
-                    <Typography>{course?.evaluation_system}</Typography>
-                  </li>
-                </ul>
+                <Typography>{course?.evaluation_system}</Typography>
               </Box>
             </Box>
 
@@ -345,11 +341,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.requirements']}
               </Box>
               <Box>
-                <ul>
-                  <li>
-                    <Typography>{course?.prerequisite}</Typography>
-                  </li>
-                </ul>
+                <Typography>{course?.prerequisite}</Typography>
               </Box>
             </Box>
 

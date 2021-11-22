@@ -11,7 +11,7 @@ const MyCoursePage = () => {
   const {messages} = useIntl();
   const router = useRouter();
 
-  const [courseFilters] = useState({page_size: 4});
+  const [courseFilters] = useState({});
 
   const {data: courseList} = useFetchYouthCourses(courseFilters);
 
