@@ -20,7 +20,7 @@ const AllFreelancerListSection = ({
 }: AllFreelancerListSectionProps) => {
   const {messages} = useIntl();
   const [freelancerFilters, setFreelancerFilters] = useState<any>({
-    is_freelancer_profile: 1,
+    is_freelance_profile: 1,
   });
 
   const {data: freelancerLists, isLoading: isLoadingFreelancers} =

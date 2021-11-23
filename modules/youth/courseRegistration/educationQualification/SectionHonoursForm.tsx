@@ -49,7 +49,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
 
   const onResultChange = useCallback(
     (resultId: number | undefined) => {
-      if (resultId) {
+      if (resultId && result) {
         const filteredResult = result.filter((res: any) => res.id == resultId);
         setSelectedResult(
           Array.isArray(filteredResult) ? filteredResult[0] : filteredResult,

@@ -42,3 +42,14 @@ export enum EducationLevel {
   MASTERS = 'MASTERS',
   PHD = 'PHD',
 }
+
+export enum EducationLevelId {
+  PSC = 1,
+  JSC = 2,
+  SSC = 3,
+  HSC = 4,
+  DIPLOMA = 5,
+  HONOURS = 6,
+  MASTERS = 7,
+  PHD = 8,
+}

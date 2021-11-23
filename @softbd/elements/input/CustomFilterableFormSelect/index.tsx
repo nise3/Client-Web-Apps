@@ -47,12 +47,21 @@ const CustomFilterableFormSelect = ({
     if (option && optionTitleProp) {
       let arr = [];
       for (let i = 0; i < optionTitleProp.length; i++) {
-        arr.push(option[optionTitleProp[i]]);
+        if (option[optionTitleProp[i]]) arr.push(option[optionTitleProp[i]]);
       }
-      title = arr.join('-');
+      title = arr.join(' - ');
     }
 
     return title;
+  };
+
+  const getLabel = (label: any, required: boolean) => {
+    return (
+      <>
+        {label}
+        {required && <span style={{color: '#dd4744'}}> *</span>}
+      </>
+    );
   };
 
   let errorObj = errorInstance?.[id];
@@ -97,7 +106,7 @@ const CustomFilterableFormSelect = ({
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={label + (required ? ' *' : '')}
+                label={getLabel(label, required)}
                 variant={'outlined'}
                 size={size ? size : 'small'}
                 error={errorObj && Boolean(errorObj)}
