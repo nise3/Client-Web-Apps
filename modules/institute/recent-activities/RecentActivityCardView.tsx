@@ -97,7 +97,7 @@ function RecentActivityCardView({activity}: any) {
           <CardContent>
             <Box className={classes.dateInfo}>
               <DateRangeOutlined />
-              <Typography>
+              <Typography ml={1}>
                 {getIntlDateFromString(formatDate, activity?.published_at)}
               </Typography>
             </Box>

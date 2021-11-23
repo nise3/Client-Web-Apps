@@ -163,18 +163,20 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     className={classes.tagChipStyle}
                   />
                 </Grid>
-                <Grid item xs={4} className={classes.enrollButton}>
-                  <Link
-                    href={LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id}
-                    passHref>
-                    <Button
-                      variant={'contained'}
-                      color={'primary'}
-                      size={'medium'}>
-                      {messages['common.enroll_now']}
-                    </Button>
-                  </Link>
-                </Grid>
+                {!course?.enrolled && (
+                  <Grid item xs={4} className={classes.enrollButton}>
+                    <Link
+                      href={LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id}
+                      passHref>
+                      <Button
+                        variant={'contained'}
+                        color={'primary'}
+                        size={'medium'}>
+                        {messages['common.enroll_now']}
+                      </Button>
+                    </Link>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Grid>

@@ -71,6 +71,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const YouthFeedPage = () => {
+  console.log('window scrollbar:', window.scrollbars.visible);
+
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
   const isSearching = useRef<boolean>(false);
 

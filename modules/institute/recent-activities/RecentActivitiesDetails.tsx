@@ -65,7 +65,7 @@ const RecentActivitiesDetails = ({data}: any) => {
               <Grid item xs={6}>
                 <Box className={classes.date}>
                   <DateRangeIcon />
-                  <Typography>
+                  <Typography ml={1}>
                     {getIntlDateFromString(formatDate, data?.published_at)}
                   </Typography>
                 </Box>

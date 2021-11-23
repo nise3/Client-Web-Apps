@@ -5,12 +5,12 @@ import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
 import React from 'react';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import VerticalBar from './components/VerticalBar';
 
 const PREFIX = 'SkillMatchingJobs';
 
 const classes = {
   title: `${PREFIX}-title`,
-  vBar: `${PREFIX}-vBar`,
   courseItem: `${PREFIX}-courseItem`,
   image: `${PREFIX}-image`,
   timeDetails: `${PREFIX}-timeDetails`,
@@ -23,13 +23,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     color: '#682988',
     display: 'flex',
     alignItems: 'center',
-  },
-
-  [`& .${classes.vBar}`]: {
-    height: '33px',
-    width: '2px',
-    background: 'linear-gradient(45deg, #ec5c17,#5affab)',
-    marginRight: '10px',
   },
 
   [`& .${classes.courseItem}`]: {
@@ -129,7 +122,7 @@ const SkillMatchingJobs = () => {
             style={{fontSize: '33px', marginBottom: '50px', marginTop: '10px'}}
             className={classes.title}
             justifyContent={'center'}>
-            <Box className={classes.vBar} />
+            <VerticalBar />
             <Box fontWeight='fontWeightBold'>
               {messages['nise.skill_matching_Job']}
             </Box>

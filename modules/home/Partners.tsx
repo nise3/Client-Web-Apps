@@ -6,6 +6,7 @@ import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
 import {H6} from '../../@softbd/elements/common';
+import VerticalBar from './components/VerticalBar';
 const PREFIX = 'Partners';
 
 const classes = {
@@ -23,13 +24,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     color: theme.palette.primary.main,
     display: 'flex',
     alignItems: 'center',
-  },
-
-  [`& .${classes.vBar}`]: {
-    height: '33px',
-    width: '2px',
-    background: 'linear-gradient(45deg, #ec5c17,#5affab)',
-    marginRight: '10px',
   },
 
   [`& .${classes.cardItem}`]: {
@@ -102,7 +96,7 @@ const Partners = () => {
             style={{marginBottom: '50px', marginTop: '10px'}}
             className={classes.title}
             justifyContent={'center'}>
-            <Box className={classes.vBar} />
+            <VerticalBar />
             <Box fontWeight='fontWeightBold'>{messages['nise.partners']}</Box>
           </Box>
         </H3>

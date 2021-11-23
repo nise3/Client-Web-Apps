@@ -177,3 +177,6 @@ export const API_PUBLIC_STATIC_PAGE_BLOCKS =
 
 /** Routes for calendar events */
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
+
+export const API_SEND_YOUTH_REGISTRATION_VERIFICATION_CODE =
+  YOUTH_SERVICE_PATH + '/youth-resend-verification-code';
