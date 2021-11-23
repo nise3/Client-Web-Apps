@@ -3,7 +3,6 @@ import {styled} from '@mui/material/styles';
 import {Box, Button} from '@mui/material';
 import {Link} from '../../../@softbd/elements/common';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import Carousel from 'react-multi-carousel';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {useRouter} from 'next/router';
@@ -40,9 +39,6 @@ const StyledBoxCentered = styled(Box)(() => ({
     borderRadius: 40,
   },
 }));
-
-const img =
-  'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60';
 
 const CourseSectionCarousel = ({courses}: any) => {
   const router = useRouter();
@@ -102,21 +98,7 @@ const CourseSectionCarousel = ({courses}: any) => {
           {courses.map((item: any) => (
             <Box key={item.id} className={classes.boxItem}>
               <Link href={`/institute/course-details/${item.id}`}>
-                <CourseCardComponent
-                  course={{
-                    id: item.id,
-                    cover_image: img,
-                    title: item.title,
-                    institute_title: item.institute_title,
-                    course_fee: item.course_fee,
-                    created_at: getMomentDateFormat(
-                      item.created_at,
-                      'DD MMM, YYYY',
-                    ),
-                    duration: item.duration,
-                    total_enroll: item.total_enroll,
-                  }}
-                />
+                <CourseCardComponent course={item} />
               </Link>
             </Box>
           ))}
