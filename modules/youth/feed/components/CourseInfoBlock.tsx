@@ -8,7 +8,7 @@ import {
 } from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
-import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../../@softbd/common/appLinks';
+import {LINK_FRONTEND_YOUTH_REGISTRATION} from '../../../../@softbd/common/appLinks';
 import {useRouter} from 'next/router';
 
 const PREFIX = 'CourseInfoBlock';
@@ -165,9 +165,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                 </Grid>
                 {!course?.enrolled && (
                   <Grid item xs={4} className={classes.enrollButton}>
-                    <Link
-                      href={LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id}
-                      passHref>
+                    <Link href={LINK_FRONTEND_YOUTH_REGISTRATION} passHref>
                       <Button
                         variant={'contained'}
                         color={'primary'}

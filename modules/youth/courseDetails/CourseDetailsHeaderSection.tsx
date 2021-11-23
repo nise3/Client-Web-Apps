@@ -15,7 +15,10 @@ import {
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
-import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT} from '../../../@softbd/common/appLinks';
+import {
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
+  LINK_FRONTEND_YOUTH_REGISTRATION,
+} from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -102,7 +105,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 href={
                   authYouth
                     ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
-                    : '/sign-up'
+                    : LINK_FRONTEND_YOUTH_REGISTRATION
                 }>
                 <Button variant={'contained'} color={'primary'}>
                   {messages['common.enroll_now']}

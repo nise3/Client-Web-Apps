@@ -8,8 +8,7 @@ import {getModulePath} from '../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
-import Link from 'next/link';
-import {H3} from '../../@softbd/elements/common';
+import {H3, Link} from '../../@softbd/elements/common';
 import VerticalBar from './components/VerticalBar';
 
 const PREFIX = 'PopularCourse';
