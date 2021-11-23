@@ -112,7 +112,7 @@ function RecentActivityMasonryGroupView({items}: any) {
               {item.published_at && (
                 <Box className={classes.dateInfo}>
                   <DateRangeOutlined />
-                  <Typography>
+                  <Typography ml={1}>
                     {getIntlDateFromString(formatDate, item.published_at)}
                   </Typography>
                 </Box>

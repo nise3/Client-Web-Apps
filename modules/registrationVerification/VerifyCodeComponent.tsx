@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useCallback, useEffect, useMemo} from 'react';
 import {Box, Grid, Input, Link, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -13,6 +13,7 @@ import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHa
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {classes, StyledPaper} from './index.style';
+import {createVerificationCode} from '../../services/youthManagement/RegistrationVerificationService';
 
 const inputProps = {
   maxLength: 1,
@@ -30,6 +31,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
+  console.log('user email & mobile:', userEmailAndMobile);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -65,6 +67,35 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   const redirectToSSO = () => {
     window.location.href = getSSOLoginUrl();
   };
+
+  const resendVerificationCode = useCallback(
+    () => async () => {
+      try {
+        const response = await createVerificationCode(userEmailAndMobile);
+        const successMsg = userEmailAndMobile.email ? (
+          <IntlMessages
+            id='common.verification_message_on_email'
+            values={{subject: userEmailAndMobile.email}}
+          />
+        ) : (
+          <IntlMessages
+            id='common.verification_message_on_mobile'
+            values={{subject: userEmailAndMobile.mobile}}
+          />
+        );
+
+        response && successStack(successMsg);
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          setError,
+          validationSchema,
+          errorStack,
+        });
+      }
+    },
+    [userEmailAndMobile],
+  );
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
@@ -156,7 +187,15 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
           )}
         </Box>
         <Box className={classes.sendCode}>
-          <Link>{messages['common.send_code_text']}</Link>
+          <Link
+            sx={{
+              '&:hover': {
+                cursor: 'pointer',
+              },
+            }}
+            onClick={resendVerificationCode()}>
+            {messages['common.send_code_text']}
+          </Link>
         </Box>
 
         <Grid item xs={12}>

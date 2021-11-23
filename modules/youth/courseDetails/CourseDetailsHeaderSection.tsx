@@ -96,18 +96,20 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             }
           />
 
-          <Box mt={4}>
-            <Link
-              href={
-                authYouth
-                  ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
-                  : '/sign-up'
-              }>
-              <Button variant={'contained'} color={'primary'}>
-                {messages['common.enroll_now']}
-              </Button>
-            </Link>
-          </Box>
+          {!course?.enrolled && (
+            <Box mt={4}>
+              <Link
+                href={
+                  authYouth
+                    ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
+                    : '/sign-up'
+                }>
+                <Button variant={'contained'} color={'primary'}>
+                  {messages['common.enroll_now']}
+                </Button>
+              </Link>
+            </Box>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CardMedia

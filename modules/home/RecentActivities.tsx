@@ -9,6 +9,7 @@ import {H3, H6, Link} from '../../@softbd/elements/common';
 import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import {useRouter} from 'next/router';
 import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
+import VerticalBar from './components/VerticalBar';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -18,6 +19,7 @@ const PREFIX = 'RecentActivities';
 const classes = {
   titleTypography: `${PREFIX}-titleTypography`,
   vBar: `${PREFIX}-vBar`,
+  vBar2: `${PREFIX}-vBar2`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => {
@@ -30,9 +32,15 @@ const StyledContainer = styled(Container)(({theme}) => {
       marginBottom: '38px',
     },
     [`& .${classes.vBar}`]: {
-      height: '33px',
+      height: '17px',
       width: '2px',
-      background: 'linear-gradient(45deg, #ec5c17,#5affab)',
+      background: '#00ccff',
+      marginRight: '10px',
+    },
+    [`& .${classes.vBar2}`]: {
+      height: '17px',
+      width: '2px',
+      background: 'yellow',
       marginRight: '10px',
     },
   };
@@ -92,7 +100,7 @@ const RecentActivities = () => {
       <Grid container>
         <Grid item md={12}>
           <H3 className={classes.titleTypography}>
-            <Box className={classes.vBar} />
+            <VerticalBar />
             <Box>{messages['recent_activities.label']}</Box>
           </H3>
           {recentActivitiesList && recentActivitiesList.length > 0 ? (

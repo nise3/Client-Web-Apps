@@ -10,12 +10,12 @@ import {useRouter} from 'next/router';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import Link from 'next/link';
 import {H3} from '../../@softbd/elements/common';
+import VerticalBar from './components/VerticalBar';
 
 const PREFIX = 'PopularCourse';
 
 const classes = {
   title: `${PREFIX}-title`,
-  vBar: `${PREFIX}-vBar`,
 };
 
 const StyledGrid = styled(Grid)(() => ({
@@ -26,13 +26,6 @@ const StyledGrid = styled(Grid)(() => ({
     color: '#682988',
     display: 'flex',
     alignItems: 'center',
-  },
-
-  [`& .${classes.vBar}`]: {
-    height: '33px',
-    width: '2px',
-    background: 'linear-gradient(45deg, #ec5c17,#5affab)',
-    marginRight: '10px',
   },
 
   '& .react-multi-carousel-list': {
@@ -57,7 +50,7 @@ const PopularCourse = () => {
             style={{marginBottom: '50px', marginTop: '50px'}}
             className={classes.title}
             justifyContent={'center'}>
-            <Box className={classes.vBar} />
+            <VerticalBar />
             <Box fontWeight='fontWeightBold'>
               {messages['common.popular_courses']}
             </Box>
