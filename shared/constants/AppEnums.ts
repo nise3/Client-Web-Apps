@@ -57,7 +57,6 @@ export enum Fonts {
   REGULAR = 400,
   MEDIUM = 500,
   BOLD = 700,
-  EXTRA_BOLD = 900,
 }
 
 export enum AuthType {

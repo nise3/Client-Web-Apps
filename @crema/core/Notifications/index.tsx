@@ -131,12 +131,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
           />
         </Badge>
         <Hidden mdUp>
-          <Box
-            ml={4}
-            fontSize={16}
-            fontFamily='Poppins'
-            fontWeight={Fonts.REGULAR}
-            component='span'>
+          <Box ml={4} fontSize={16} fontWeight={Fonts.REGULAR} component='span'>
             <IntlMessages id='common.notifications' />
           </Box>
         </Hidden>

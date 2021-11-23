@@ -134,12 +134,7 @@ const HeaderMessages: React.FC<HeaderMessagesProps> = () => {
           <SmsIcon className={clsx(classes.smsIcon, 'smsIcon')} />
         </Badge>
         <Hidden mdUp>
-          <Box
-            ml={4}
-            fontSize={16}
-            fontFamily='Poppins'
-            fontWeight={Fonts.REGULAR}
-            component='span'>
+          <Box ml={4} fontSize={16} fontWeight={Fonts.REGULAR} component='span'>
             <IntlMessages id='dashboard.messages' />
           </Box>
         </Hidden>

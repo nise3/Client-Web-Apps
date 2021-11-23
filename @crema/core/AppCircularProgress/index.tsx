@@ -42,7 +42,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     width: '100%',
     height: '100%',
     zIndex: 3,
-    fontWeight: Fonts.EXTRA_BOLD,
+    fontWeight: Fonts.BOLD,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

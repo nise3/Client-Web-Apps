@@ -5,7 +5,7 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 
 export default function typography(theme: Theme, locale: string) {
   const localeFont = LocaleTheme[locale]?.fontFamily;
-  const localeFontSizeMultiplier = LocaleTheme[locale]?.fontSizeMultiplier;
+  const localeFontSizeMultiplier = LocaleTheme[locale]?.fontSizeMultiplier || 1;
   const customTypography: TypographyOptions = {
     fontFamily: localeFont,
     htmlFontSize: 16,
@@ -13,7 +13,7 @@ export default function typography(theme: Theme, locale: string) {
     fontWeightLight: Fonts.LIGHT,
     fontWeightRegular: Fonts.REGULAR,
     fontWeightMedium: Fonts.MEDIUM,
-    fontWeightBold: Fonts.EXTRA_BOLD,
+    fontWeightBold: Fonts.BOLD,
     h1: {
       fontFamily: localeFont,
       fontWeight: Fonts.LIGHT,
@@ -21,7 +21,7 @@ export default function typography(theme: Theme, locale: string) {
       letterSpacing: '-0.01562em',
       fontSize: '2.75rem 2.75rem',
       [theme.breakpoints.up('sm')]: {
-        fontSize: `${localeFontSizeMultiplier * 2.5}rem`,
+        fontSize: `2.5rem`,
       },
       [theme.breakpoints.up('md')]: {
         fontSize: `${localeFontSizeMultiplier * 2.75}rem`,
