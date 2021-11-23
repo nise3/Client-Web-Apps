@@ -7,6 +7,9 @@ import {Box, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {H3} from '../../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const localizer = momentLocalizer(moment);
 
@@ -35,9 +38,15 @@ interface IQuery {
 }
 
 const YouthEventCalendarView = () => {
+  const {messages} = useIntl();
+  const auth = useAuthUser() as YouthAuthUser;
+  // console.log(auth)
   let requestQuery: IQuery = {
     type: 'month',
   };
+  if (auth.isYouthUser){
+    requestQuery.youth_id = auth.youthId;
+  }
 
   const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
   const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
@@ -82,7 +91,8 @@ const YouthEventCalendarView = () => {
 
   return (
     <Card>
-      <CardHeader title={<H3>Calendar</H3>} />
+      {/*<CardHeader title={<H3>Calendar</H3>} />*/}
+      <CardHeader title={<H3>{messages['menu.calendar']}</H3>} />
       <CardContent>
         <Grid item xs={12} md={12} style={{paddingTop: 20}}>
           {isOpenDetailsView ? (
