@@ -13,12 +13,17 @@ import {
 } from '../../../shared/constants/AppEnums';
 import theme from '../../../@softbd/layouts/themes/dashboard';
 import defaultTheme from '../../../@softbd/layouts/themes/default';
-// import {useTheme} from '@mui/material/styles';
+import cookieInstance from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
+import languageData from '../../core/LanguageSwitcher/data';
 
 const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
   const [dashboardTheme, setDashboardTheme] = useState<any>(
     theme(defaultTheme(defaultConfig.locale)),
   );
+
+  const language = cookieInstance.get(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+  const locale = languageData.find((item: any) => item.locale === language);
 
   const ContextState = {
     theme: dashboardTheme,
@@ -29,7 +34,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
     themeStyle: defaultConfig.themeStyle,
     layoutType: defaultConfig.layoutType,
     isRTL: dashboardTheme.direction === 'rtl',
-    locale: defaultConfig.locale,
+    locale: locale,
     navStyle: defaultConfig.navStyle,
     rtAnim: defaultConfig.rtAnim,
     primary: dashboardTheme.palette.primary.main,

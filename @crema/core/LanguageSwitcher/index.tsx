@@ -9,6 +9,8 @@ import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import cookieInstance from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 
 const PREFIX = 'LanguageSwitcher';
 
@@ -90,6 +92,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     } else {
       setRTL!(false);
     }
+    cookieInstance.set(COOKIE_KEY_APP_CURRENT_LANG, language.locale);
     changeLocale!(language);
     setAnchorElLng(null);
   };

@@ -24,10 +24,10 @@ export default function typography(theme: Theme, locale: string) {
         fontSize: `2.5rem`,
       },
       [theme.breakpoints.up('md')]: {
-        fontSize: `${localeFontSizeMultiplier * 2.75}rem`,
+        fontSize: `2.75rem`,
       },
       [theme.breakpoints.up('lg')]: {
-        fontSize: `${localeFontSizeMultiplier * 3}rem`,
+        fontSize: `3rem`,
       },
     },
     h2: {
@@ -37,13 +37,13 @@ export default function typography(theme: Theme, locale: string) {
       letterSpacing: '-0.00833em',
       fontSize: '2.25rem 2.25rem',
       [theme.breakpoints.up('sm')]: {
-        fontSize: `${localeFontSizeMultiplier * 2}rem`,
+        fontSize: `2rem`,
       },
       [theme.breakpoints.up('md')]: {
-        fontSize: `${localeFontSizeMultiplier * 2.25}rem`,
+        fontSize: `2.25rem`,
       },
       [theme.breakpoints.up('lg')]: {
-        fontSize: `${localeFontSizeMultiplier * 2.5}rem`,
+        fontSize: `2.5rem`,
       },
     },
     h3: {
@@ -53,13 +53,13 @@ export default function typography(theme: Theme, locale: string) {
       letterSpacing: '0em',
       fontSize: '2rem 2rem',
       [theme.breakpoints.up('sm')]: {
-        fontSize: `${localeFontSizeMultiplier * 1.75}rem`,
+        fontSize: `1.75rem`,
       },
       [theme.breakpoints.up('md')]: {
-        fontSize: `${localeFontSizeMultiplier * 2}rem`,
+        fontSize: `2rem`,
       },
       [theme.breakpoints.up('lg')]: {
-        fontSize: `${localeFontSizeMultiplier * 2.25}rem`,
+        fontSize: `2.25rem`,
       },
     },
     h4: {
