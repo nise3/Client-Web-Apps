@@ -7,6 +7,7 @@ import CalendarAddEditPopup from './EventCalendarAddEditPopup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
+import {useIntl} from 'react-intl';
 
 const localizer = momentLocalizer(moment);
 
@@ -41,6 +42,7 @@ interface IComProps {
 }
 
 const EventCalendar = (comProps: IComProps) => {
+  const {messages} = useIntl();
   const authUser = useAuthUser();
 
   // const isEditable = comProps.editable ? comProps.editable : false;
@@ -128,7 +130,7 @@ const EventCalendar = (comProps: IComProps) => {
         e.end = new Date(end);
         return e;
       });
-      console.log(events);
+      // console.log(events);
       setEventsList(events);
     }
   }, [events]);
@@ -144,7 +146,7 @@ const EventCalendar = (comProps: IComProps) => {
 
   return (
     <>
-      <PageBlock title={'Calendar'}>
+      <PageBlock title={messages['menu.calendar']}>
         <Calendar
           events={eventsList}
           // events={events1}

@@ -15,6 +15,7 @@ import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H3} from '../../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const localizer = momentLocalizer(moment);
 
@@ -48,7 +49,7 @@ interface IComProps {
 }
 
 const InstituteEventCalendarView = (comProps: IComProps) => {
-  // const authUser = useAuthUser();
+  const {messages} = useIntl();
   const vendor = useVendor();
   let requestQuery: IQuery = {
     type: 'month',
@@ -99,7 +100,8 @@ const InstituteEventCalendarView = (comProps: IComProps) => {
   return (
     <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
       <Card>
-        <CardHeader title={<H3>Calendar</H3>} />
+        {/*<CardHeader title={<H3>Calendar</H3>} />*/}
+        <CardHeader title={<H3>{messages['menu.calendar']}</H3>} />
         <CardContent>
           <Grid item xs={12} md={12} style={{paddingTop: 20}}>
             {isOpenDetailsView ? (
