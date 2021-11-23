@@ -93,7 +93,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 values={{
                   total: getIntlNumber(
                     formatNumber,
-                    course?.total_enrolled ?? '0',
+                    course?.enroll_count ?? '0',
                   ),
                 }}
               />

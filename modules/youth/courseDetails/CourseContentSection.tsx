@@ -286,16 +286,13 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     {courseDuration(messages, formatNumber, course?.duration)}
                   </Typography>
                 )}
-                {course?.total_enrolled && (
+                {course?.enroll_count && (
                   <Typography>
                     {course?.duration ? ', ' : ''}
                     <IntlMessages
                       id={'course_details.enrolled'}
                       values={{
-                        total: getIntlNumber(
-                          formatNumber,
-                          course.total_enrolled,
-                        ),
+                        total: getIntlNumber(formatNumber, course.enroll_count),
                       }}
                     />{' '}
                   </Typography>
