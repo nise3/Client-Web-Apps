@@ -8,8 +8,14 @@ import {
 } from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
-import {LINK_FRONTEND_YOUTH_REGISTRATION} from '../../../../@softbd/common/appLinks';
+import {
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
+  LINK_YOUTH_SIGNUP,
+} from '../../../../@softbd/common/appLinks';
 import {useRouter} from 'next/router';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const PREFIX = 'CourseInfoBlock';
 
@@ -79,6 +85,7 @@ interface CourseInfoBlockProps {
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   return (
     <StyledCard>
@@ -163,9 +170,15 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     className={classes.tagChipStyle}
                   />
                 </Grid>
-                {!course?.enrolled && (
+                {!course?.enrolled ? (
                   <Grid item xs={4} className={classes.enrollButton}>
-                    <Link href={LINK_FRONTEND_YOUTH_REGISTRATION} passHref>
+                    <Link
+                      href={
+                        authUser
+                          ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
+                          : LINK_YOUTH_SIGNUP
+                      }
+                      passHref>
                       <Button
                         variant={'contained'}
                         color={'primary'}
@@ -173,6 +186,13 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                         {messages['common.enroll_now']}
                       </Button>
                     </Link>
+                  </Grid>
+                ) : (
+                  <Grid item xs={4}>
+                    <CustomChip
+                      label={messages['common.already_enrolled']}
+                      color={'primary'}
+                    />
                   </Grid>
                 )}
               </Grid>
