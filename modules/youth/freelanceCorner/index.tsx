@@ -120,7 +120,25 @@ const FreelanceCorner = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box sx={{fontWeight: 'bold'}}>
+                  <Box
+                    sx={{
+                      fontWeight: 'bold',
+                      marginBottom: 2,
+                    }}>
+                    {messages['freelance_corner.filterByLocation']}
+                  </Box>
+
+                  <CustomFilterableSelect
+                    id={'upazila_id'}
+                    defaultValue={selectedUpazilaId}
+                    label={messages['freelance_corner.add_location'] as string}
+                    onChange={handleUpazilaChange}
+                    options={upazilas || []}
+                    isLoading={false}
+                    optionValueProp={'id'}
+                    optionTitleProp={['title', 'title_en']}
+                  />
+                  <Box sx={{fontWeight: 'bold', marginTop: 4}}>
                     {messages['freelance_corner.filter_title']}
                   </Box>
                   <List
@@ -153,26 +171,6 @@ const FreelanceCorner = () => {
                         );
                       })}
                   </List>
-                  <Box
-                    sx={{
-                      fontWeight: 'bold',
-                      marginTop: 4,
-                      marginBottom: 2,
-                      fontSize: 20,
-                    }}>
-                    {messages['freelance_corner.filterByLocation']}
-                  </Box>
-
-                  <CustomFilterableSelect
-                    id={'upazila_id'}
-                    defaultValue={selectedUpazilaId}
-                    label={messages['freelance_corner.add_location'] as string}
-                    onChange={handleUpazilaChange}
-                    options={upazilas || []}
-                    isLoading={false}
-                    optionValueProp={'id'}
-                    optionTitleProp={['title', 'title_en']}
-                  />
                 </CardContent>
               </Card>
             </Grid>

@@ -201,7 +201,7 @@ const PersonalInfoSection = () => {
                     authUser?.total_job_experience?.year || '0',
                   ) +
                   ' ' +
-                  (messages['common.year_of_experience'] as string)
+                  (messages['common.year_of'] as string)
                 }
                 text2={messages['common.experience'] as string}
               />
