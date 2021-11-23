@@ -87,7 +87,9 @@ const YouthCalendarPage = () => {
           md={9}
           order={{xs: 3, md: 2}}
           style={{paddingTop: 24}}>
+          <Scrollbar className={classes.scrollBarStyle}>
           <EventCalendarViewPage />
+          </Scrollbar>
         </Grid>
       </Grid>
     </StyledContainer>
