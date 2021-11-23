@@ -12,10 +12,19 @@ import CustomParabolaButton from '../component/CustomParabolaButton';
 import Certifications from './Certifications';
 import HorizontalLine from '../component/HorizontalLine';
 import {Avatar, Box, Typography} from '@mui/material';
+import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
+import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
+import {getYouthAuthUserObject} from '../../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 
 const CertificationSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const dispatch = useDispatch();
+  const authUser = useAuthUser<YouthAuthUser>();
+  /*  console.log('profile auth ', authUser);*/
   const [isOpenCertificateAddEditForm, setIsOpenCertificateAddEditForm] =
     useState<boolean>(false);
   const [certificateItemId, setCertificateItemId] = useState<number | null>(
@@ -40,7 +49,20 @@ const CertificationSection = () => {
     setCertificateItemId(null);
     setIsOpenCertificateAddEditForm(false);
     mutateCertifications();
+    updateProfile();
   }, []);
+
+  const updateProfile = () => {
+    (async () => {
+      const response = await getYouthProfile();
+      if (isResponseSuccess(response) && response.data) {
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getYouthAuthUserObject({...authUser, ...response.data}),
+        });
+      }
+    })();
+  };
 
   const deleteCertificationItem = useCallback(async (itemId: number) => {
     let response = await deleteCertificate(itemId);
@@ -51,6 +73,7 @@ const CertificationSection = () => {
           values={{subject: <IntlMessages id='certificate.label' />}}
         />,
       );
+      updateProfile();
       mutateCertifications();
     }
   }, []);

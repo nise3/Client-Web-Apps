@@ -93,7 +93,11 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         .label(messages['common.title'] as string),
       institute_id: authUser?.isInstituteUser
         ? yup.string()
-        : yup.string().trim().required(),
+        : yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string),
     });
   }, [messages, authUser]);
   const {

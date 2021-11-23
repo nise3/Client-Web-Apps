@@ -114,6 +114,7 @@ const SectionSscForm: FC<SectionSSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='ssc_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
@@ -179,6 +180,7 @@ const SectionSscForm: FC<SectionSSCFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
+              required
               id='ssc_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
@@ -194,6 +196,7 @@ const SectionSscForm: FC<SectionSSCFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='ssc_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
@@ -207,6 +210,7 @@ const SectionSscForm: FC<SectionSSCFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='ssc_info[cgpa]'
                   type={'number'}
                   inputProps={{

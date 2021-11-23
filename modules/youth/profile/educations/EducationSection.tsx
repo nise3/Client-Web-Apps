@@ -12,9 +12,17 @@ import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
 import {Avatar, Box, Typography} from '@mui/material';
+import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
+import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
+import {getYouthAuthUserObject} from '../../../../redux/actions';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useDispatch} from 'react-redux';
 const EducationSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
   const {
     data: educations,
     isLoading,
@@ -23,7 +31,17 @@ const EducationSection = () => {
   const [isOpenEducationAddEditForm, setIsOpenEducationAddEditForm] =
     useState<boolean>(false);
   const [educationItemId, setEducationItemId] = useState<number | null>(null);
-
+  const updateProfile = () => {
+    (async () => {
+      const response = await getYouthProfile();
+      if (isResponseSuccess(response) && response.data) {
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getYouthAuthUserObject({...authUser, ...response.data}),
+        });
+      }
+    })();
+  };
   const openEducationAddEditForm = useCallback(
     (itemId: number | null = null) => {
       setEducationItemId(itemId);
@@ -35,6 +53,7 @@ const EducationSection = () => {
   const closeEducationAddEditForm = useCallback(() => {
     setEducationItemId(null);
     setIsOpenEducationAddEditForm(false);
+    updateProfile();
     mutateEducations();
   }, []);
 
@@ -47,6 +66,7 @@ const EducationSection = () => {
           values={{subject: <IntlMessages id='education.label' />}}
         />,
       );
+      updateProfile();
       mutateEducations();
     }
   };
