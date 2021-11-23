@@ -1047,8 +1047,6 @@ const YouthCourseRegistrationPage = () => {
     );
   }, [getValues]);
 
-  console.log('errors', errors);
-
   useEffect(() => {
     if (course && authUser?.isYouthUser) {
       setFormSettings(course.application_form_settings);

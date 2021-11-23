@@ -100,6 +100,15 @@ export function useFetchCourseList(pathVariable: string, params: any) {
   ]);
 }
 
+export function useFetchCourseDetailsWithParams(
+  courseId: number | null,
+  params: any,
+) {
+  return useAxiosSWR(
+    courseId ? [API_COURSE_DETAILS + '/' + courseId, params] : null,
+  );
+}
+
 export function useFetchCourseDetails(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSE_DETAILS + '/' + courseId : null);
 }

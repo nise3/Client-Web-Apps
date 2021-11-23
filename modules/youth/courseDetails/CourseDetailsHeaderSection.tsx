@@ -17,11 +17,12 @@ import {
 import {Link} from '../../../@softbd/elements/common';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
-  LINK_FRONTEND_YOUTH_REGISTRATION,
+  LINK_YOUTH_SIGNUP,
 } from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -50,7 +51,7 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  const authYouth = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -99,18 +100,25 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             }
           />
 
-          {!course?.enrolled && (
+          {!course?.enrolled ? (
             <Box mt={4}>
               <Link
                 href={
-                  authYouth
+                  authUser
                     ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
-                    : LINK_FRONTEND_YOUTH_REGISTRATION
+                    : LINK_YOUTH_SIGNUP
                 }>
                 <Button variant={'contained'} color={'primary'}>
                   {messages['common.enroll_now']}
                 </Button>
               </Link>
+            </Box>
+          ) : (
+            <Box mt={4}>
+              <CustomChip
+                label={messages['common.already_enrolled']}
+                color={'primary'}
+              />
             </Box>
           )}
         </Grid>

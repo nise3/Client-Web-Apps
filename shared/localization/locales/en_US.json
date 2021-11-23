@@ -1006,5 +1006,6 @@
   "calendar.month": "Month",
   "calendar.week": "Week",
   "calendar.day": "Day",
-  "calendar.schedule": "Schedule"
+  "calendar.schedule": "Schedule",
+  "common.already_enrolled":"Already enrolled"
 }

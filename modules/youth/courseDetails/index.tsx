@@ -3,14 +3,30 @@ import CourseDetailsHeaderSection from './CourseDetailsHeaderSection';
 import CourseContentSection from './CourseContentSection';
 import SimilarCourseSection from './SimilarCourseSection';
 import CourseDetailsSkillMatchingJobSection from './CourseDetailsSkillMatchingJobSection';
-import {useFetchCourseDetails} from '../../../services/instituteManagement/hooks';
+import {useFetchCourseDetailsWithParams} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const CourseDetails = () => {
+  const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   let {courseId} = router.query;
 
-  const {data: courseDetails} = useFetchCourseDetails(Number(courseId));
+  const [courseDetailsFilter, setCourseDetailsFilter] = useState<any>({});
+
+  const {data: courseDetails} = useFetchCourseDetailsWithParams(
+    Number(courseId),
+    courseDetailsFilter,
+  );
+
+  useEffect(() => {
+    if (authUser && authUser?.isYouthUser) {
+      setCourseDetailsFilter({
+        youth_id: authUser?.youthId,
+      });
+    }
+  }, [authUser]);
 
   const [skillIds, setSkillIds] = useState<Array<number>>([]);
 

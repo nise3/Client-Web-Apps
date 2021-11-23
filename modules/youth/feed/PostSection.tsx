@@ -6,6 +6,8 @@ import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const PREFIX = 'PostSection';
 
@@ -41,6 +43,7 @@ const PostSection = ({
 }: PostSectionProps) => {
   const {messages} = useIntl();
   const [courseFilters, setCourseFilters] = useState({});
+  const authUser = useAuthUser<YouthAuthUser>();
 
   const [posts, setPosts] = useState<Array<any>>([]);
 
@@ -48,10 +51,14 @@ const PostSection = ({
     if (!isSearching && pageIndex >= metaData?.total_page) {
       setLoadingMainPostData(true);
     } else {
-      setCourseFilters(objectFilter({...courseFilters, ...filters}));
+      const params = objectFilter({...courseFilters, ...filters});
+      if (authUser && authUser?.isYouthUser) {
+        params.youth_id = authUser?.youthId;
+      }
+      setCourseFilters(params);
       setLoadingMainPostData(false);
     }
-  }, [filters]);
+  }, [filters, authUser]);
 
   const {
     data: courseList,
