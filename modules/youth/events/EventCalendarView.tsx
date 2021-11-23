@@ -9,6 +9,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const localizer = momentLocalizer(moment);
 
@@ -38,8 +39,8 @@ interface IQuery {
 
 const YouthEventCalendarView = () => {
   const {messages} = useIntl();
-  const auth = useAuthUser();
-  console.log(auth)
+  const auth = useAuthUser() as YouthAuthUser;
+  // console.log(auth)
   let requestQuery: IQuery = {
     type: 'month',
   };
