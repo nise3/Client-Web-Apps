@@ -6,8 +6,13 @@ import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
-import {getModulePath, objectFilter} from '../../../@softbd/utilities/helpers';
+import {
+  getModulePath,
+  getShowInTypeFromPath,
+} from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 interface SimilarCourseSectionProps {
   courseId: number;
@@ -21,33 +26,47 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   const {messages} = useIntl();
   const router = useRouter();
   const pageSize = 4;
+  const showInType = getShowInTypeFromPath(router.asPath);
+  const vendor = useVendor();
 
   const [courseFilters, setCourseFilters] = useState<any>({
     page_size: pageSize,
-    institute_id: useVendor()?.id,
   });
+
+  useEffect(() => {
+    if (showInType) {
+      let params: any = {
+        page_size: pageSize,
+      };
+
+      if (showInType == ShowInTypes.TSP) {
+        params.institute_id = vendor?.id;
+      }
+
+      if (skillIds) {
+        params.skill_ids = skillIds;
+      }
+
+      setCourseFilters((prev: any) => {
+        return {...params};
+      });
+    }
+  }, [showInType, skillIds]);
+
   const pathVariable = 'skill-matching';
   const {data: courseList, metaData} = useFetchCourseList(
     pathVariable,
-    objectFilter(courseFilters),
+    courseFilters,
   );
 
-  useEffect(() => {
-    if (skillIds) {
-      setCourseFilters((prevState: any) => {
-        return {...prevState, skill_ids: skillIds};
-      });
-    }
-  }, [skillIds]);
-
-  return courseList && courseList.length ? (
+  return (
     <Container maxWidth={'lg'}>
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <Grid container alignItems={'center'}>
             <Grid item xs={8} sm={9} md={10}>
               <Typography variant={'h5'} fontWeight={'bold'}>
-                {messages['common.skill_matching_course']}
+                {messages['common.similar_course']}
               </Typography>
             </Grid>
             {metaData?.total_page > 1 && (
@@ -69,28 +88,30 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
             )}
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={5}>
-            {courseList &&
-              courseList.map((course: any) => {
-                return (
-                  <Grid item xs={12} sm={4} md={3} key={course.id}>
-                    <Link
-                      href={
-                        getModulePath(router.asPath) +
-                        `/course-details/${course.id}`
-                      }>
-                      <CourseCardComponent course={course} />
-                    </Link>
-                  </Grid>
-                );
-              })}
+        {courseList?.length > 0 ? (
+          <Grid item xs={12}>
+            <Grid container spacing={5}>
+              {courseList &&
+                courseList.map((course: any) => {
+                  return (
+                    <Grid item xs={12} sm={4} md={3} key={course.id}>
+                      <Link
+                        href={
+                          getModulePath(router.asPath) +
+                          `/course-details/${course.id}`
+                        }>
+                        <CourseCardComponent course={course} />
+                      </Link>
+                    </Grid>
+                  );
+                })}
+            </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          <NoDataFoundComponent />
+        )}
       </Grid>
     </Container>
-  ) : (
-    <></>
   );
 };
 
