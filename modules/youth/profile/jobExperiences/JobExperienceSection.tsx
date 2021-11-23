@@ -12,10 +12,18 @@ import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
 import {Avatar, Box, Typography} from '@mui/material';
 import {deleteJobExperience} from '../../../../services/youthManagement/JobExperienceService';
+import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
+import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
+import {getYouthAuthUserObject} from '../../../../redux/actions';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useDispatch} from 'react-redux';
 
 const JobExperienceSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
   const [jobExperienceFilters] = useState({});
 
   const {
@@ -34,8 +42,19 @@ const JobExperienceSection = () => {
     },
     [],
   );
-
+  const updateProfile = () => {
+    (async () => {
+      const response = await getYouthProfile();
+      if (isResponseSuccess(response) && response.data) {
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getYouthAuthUserObject({...authUser, ...response.data}),
+        });
+      }
+    })();
+  };
   const closeJobExperienceAddEditForm = useCallback(() => {
+    updateProfile();
     mutateJobExperiences();
     setIsOpenJobExperienceAddEditForm(false);
   }, []);
@@ -49,6 +68,7 @@ const JobExperienceSection = () => {
           values={{subject: <IntlMessages id='job_experience.label' />}}
         />,
       );
+      updateProfile();
       mutateJobExperiences();
     }
   }, []);

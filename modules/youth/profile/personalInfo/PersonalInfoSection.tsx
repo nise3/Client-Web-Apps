@@ -92,7 +92,7 @@ const PersonalInfoSection = () => {
 
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
-  console.log('profile ', authUser);
+  /*  console.log('profile ', authUser);*/
 
   const [
     isOpenPersonalInformationEditForm,

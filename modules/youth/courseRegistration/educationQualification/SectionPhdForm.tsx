@@ -69,6 +69,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='phd_info[exam_degree_name]'
             label={messages['education.education_exam_degree_name_bn']}
             register={register}
@@ -88,6 +89,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='phd_info[major_or_concentration]'
             label={messages['education.major_group_name_bn']}
             register={register}
@@ -107,6 +109,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='phd_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
@@ -172,6 +175,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
+              required
               id='phd_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
@@ -187,6 +191,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='phd_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
@@ -200,6 +205,7 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='phd_info[cgpa]'
                   type={'number'}
                   inputProps={{

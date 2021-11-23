@@ -99,6 +99,7 @@ const SectionPscForm: FC<SectionPSCFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='psc_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
@@ -164,6 +165,7 @@ const SectionPscForm: FC<SectionPSCFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
+              required
               id='psc_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
@@ -179,6 +181,7 @@ const SectionPscForm: FC<SectionPSCFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='psc_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
@@ -192,6 +195,7 @@ const SectionPscForm: FC<SectionPSCFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='psc_info[cgpa]'
                   type={'number'}
                   inputProps={{

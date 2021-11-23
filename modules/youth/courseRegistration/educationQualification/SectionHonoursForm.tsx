@@ -84,6 +84,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='honours_info[major_or_concentration]'
             label={messages['education.major_group_name_bn']}
             register={register}
@@ -103,6 +104,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='honours_info[institute_name]'
             label={messages['common.institute_name_bn']}
             register={register}
@@ -168,6 +170,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
         {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
           <Grid item xs={12} md={6}>
             <CustomTextInput
+              required
               id='honours_info[marks_in_percentage]'
               type={'number'}
               label={messages['education.marks']}
@@ -183,6 +186,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
             <Grid container spacing={3}>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='honours_info[cgpa_scale]'
                   type={'number'}
                   inputProps={{
@@ -196,6 +200,7 @@ const SectionHonoursForm: FC<SectionHonoursFormProps> = ({
               </Grid>
               <Grid item xs={6} md={6}>
                 <CustomTextInput
+                  required
                   id='honours_info[cgpa]'
                   type={'number'}
                   inputProps={{

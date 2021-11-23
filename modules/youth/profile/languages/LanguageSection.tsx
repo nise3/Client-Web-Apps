@@ -12,6 +12,13 @@ import {YouthLanguageProficiency} from '../../../../services/youthManagement/typ
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
+import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
+import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
+import {getYouthAuthUserObject} from '../../../../redux/actions';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useDispatch} from 'react-redux';
 
 const PREFIX = 'LanguageSection';
 const classes = {
@@ -30,6 +37,8 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const LanguageSection = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
   const {
     data: languageProficiencies,
     isLoading,
@@ -41,7 +50,17 @@ const LanguageSection = () => {
   const [isOpenLanguageProficiencyView, setIsOpenLanguageProficiencyView] =
     useState<boolean>(false);
   const [languageId, setLanguageId] = useState<number | null>(null);
-
+  const updateProfile = () => {
+    (async () => {
+      const response = await getYouthProfile();
+      if (isResponseSuccess(response) && response.data) {
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getYouthAuthUserObject({...authUser, ...response.data}),
+        });
+      }
+    })();
+  };
   const openLanguageAddEditForm = useCallback(
     (itemId: number | null = null) => {
       setLanguageId(itemId);
@@ -52,6 +71,7 @@ const LanguageSection = () => {
   const closeLanguageAddEditForm = useCallback(() => {
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
+    updateProfile();
     mutateLanguageProfeciencies();
   }, []);
 

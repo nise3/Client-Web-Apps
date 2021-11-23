@@ -32,6 +32,7 @@ const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='professional_info[main_profession]'
           label={messages['common.main_occupation']}
           register={register}
@@ -50,6 +51,7 @@ const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='professional_info[monthly_income]'
           type={'number'}
           label={messages['common.monthly_income']}
@@ -60,6 +62,7 @@ const OccupationalInfoForm: FC<OccupationalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
+          required
           id='professional_info[years_of_experiences]'
           type={'number'}
           label={messages['common.year_of_experience']}

@@ -26,6 +26,12 @@ import {
   LanguageProficiencySpeakingType,
   LanguageProficiencyType,
 } from '../utilities/LanguageProficiencyType';
+import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
+import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
+import {getYouthAuthUserObject} from '../../../../redux/actions';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useDispatch} from 'react-redux';
 
 type LanguageProficiencyViewPageProps = {
   onEdit: (itemId: number) => void;
@@ -38,12 +44,25 @@ const LanguageProficiencyViewPage = ({
 }: LanguageProficiencyViewPageProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
   const {
     data: languageProficiencies,
     isLoading,
     mutate: mutateLanguageProficiencies,
   } = useFetchLanguageProficiencies();
 
+  const updateProfile = () => {
+    (async () => {
+      const response = await getYouthProfile();
+      if (isResponseSuccess(response) && response.data) {
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getYouthAuthUserObject({...authUser, ...response.data}),
+        });
+      }
+    })();
+  };
   const deleteLanguageProficiencyItem = useCallback(async (itemId: number) => {
     let response = await deleteLanguageProficiency(itemId);
     if (isResponseSuccess(response)) {
@@ -53,6 +72,7 @@ const LanguageProficiencyViewPage = ({
           values={{subject: <IntlMessages id='language_proficiency.title' />}}
         />,
       );
+      updateProfile();
       mutateLanguageProficiencies();
     }
   }, []);
