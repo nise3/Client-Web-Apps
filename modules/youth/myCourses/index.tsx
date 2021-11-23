@@ -38,6 +38,7 @@ const MyCoursePage = () => {
                         course={{
                           id: course.course_id,
                           course_fee: course.course_fee,
+                          cover_image: course.cover_image,
                           title: course.course_title,
                           institute_title: course.institute_title,
                           created_at: course.course_created_at,
