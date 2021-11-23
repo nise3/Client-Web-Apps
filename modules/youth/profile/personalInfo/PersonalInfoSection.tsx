@@ -169,7 +169,7 @@ const PersonalInfoSection = () => {
               <SkillInfo
                 icon={
                   <CircularProgressWithLabel
-                    value={55}
+                    value={authUser?.profile_completed || '0'}
                     text={getIntlNumber(
                       formatNumber,
                       authUser?.profile_completed || '0',

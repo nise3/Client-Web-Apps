@@ -152,7 +152,6 @@ const lessonsList = [
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  console.log('courses: ', course);
 
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
   const overviewRef = useRef<any>();

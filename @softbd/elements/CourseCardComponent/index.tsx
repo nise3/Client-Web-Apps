@@ -94,7 +94,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
       <CardMedia
         component={'img'}
         className={classes.trainingCardImage}
-        image={'http://lorempixel.com/400/200?id=' + course?.id}
+        image={course?.cover_image}
         title={course.title}
         alt={course.title}
       />
@@ -103,7 +103,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           variant='square'
           className={classes.providerLogo}
           alt={course?.institute_title}
-          src={'http://lorempixel.com/400/200?id=1' + course?.id}
+          src={course?.cover_image}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:

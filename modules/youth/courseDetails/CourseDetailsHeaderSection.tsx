@@ -111,7 +111,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CardMedia
-            image={'http://lorempixel.com/400/200?id=' + course?.id}
+            image={course?.cover_image}
             sx={{height: 300, width: '100%'}}
             title={course?.title}
           />
