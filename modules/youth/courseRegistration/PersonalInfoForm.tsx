@@ -63,8 +63,13 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       const doesBelongsToEthnicGroup: any = getValues(
         'does_belong_to_ethnic_group',
       );
+      const physicalDisabilityStatus: any = getValues(
+        'physical_disability_status',
+      );
 
       setIsBelongToEthnicGroup(doesBelongsToEthnicGroup);
+
+      setDisabilityStatus(physicalDisabilityStatus);
     }
   }, [getValues]);
 
@@ -331,6 +336,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         visibleFieldKeys.includes(CourseConfigKeys.FREEDOM_FIGHTER_KEY) && (
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
+              required
               id='freedom_fighter_status'
               label={messages['common.freedom_fighter_status']}
               isLoading={false}
@@ -370,6 +376,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             {disabilityStatus == 1 && (
               <Grid item xs={12} md={6}>
                 <CustomFormSelect
+                  required
                   id='physical_disabilities'
                   label={messages['common.physical_disability']}
                   isLoading={false}
