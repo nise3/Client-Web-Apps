@@ -5,7 +5,7 @@ import AppContext from '../../../../@crema/utility/AppContext';
 import React, {ReactNode, useContext} from 'react';
 import theme from './index';
 import {Global, css} from '@emotion/react';
-import {LocaleFonts} from './Locale';
+import {LocaleTheme} from './Locale';
 interface DefaultThemeProviderProps {
   children: ReactNode | any;
   [x: string]: any;
@@ -31,7 +31,7 @@ const DefaultThemeProvider: React.FC<DefaultThemeProviderProps> = ({
           }
           [class*='MuiTypography'],
           * {
-            font-family: ${LocaleFonts[currentAppLocale.locale]};
+            font-family: ${LocaleTheme[currentAppLocale.locale]?.fontFamily};
           }
           body {
             margin: 0;

@@ -1,4 +1,10 @@
-export const LocaleFonts: any = {
-  'bn-BD': ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
-  'en-US': ['AirbnbCereal', 'sans-serif'].join(','),
+export const LocaleTheme: any = {
+  'bn-BD': {
+    fontFamily: ['NotoSerifBangla', 'Poppins', 'sans-serif'].join(','),
+    fontSizeMultiplier: 1,
+  },
+  'en-US': {
+    fontFamily: ['AirbnbCereal', 'sans-serif'].join(','),
+    fontSizeMultiplier: 0.875,
+  },
 };
