@@ -74,7 +74,7 @@ const YouthFeedPage = () => {
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
   const isSearching = useRef<boolean>(false);
 
-  const [filters, setFilters] = useState<any>({page_size: 5});
+  const [filters, setFilters] = useState<any>({page: 1, page_size: 5});
   const pageIndex = useRef(1);
 
   const filterPost = useCallback(

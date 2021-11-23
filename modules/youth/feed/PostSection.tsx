@@ -67,7 +67,7 @@ const PostSection = ({
   } = useFetchCourseList('recent', courseFilters);
 
   useEffect(() => {
-    if (courseList && courseList.length) {
+    if (courseList) {
       if (metaData.current_page <= 1) {
         setPosts([...courseList]);
       } else {
@@ -75,8 +75,6 @@ const PostSection = ({
           filterDuplicateObject([...prevState, ...courseList]),
         );
       }
-    } else {
-      setPosts([]);
     }
   }, [courseList]);
 
