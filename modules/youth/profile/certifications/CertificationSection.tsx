@@ -55,6 +55,7 @@ const CertificationSection = () => {
   const updateProfile = () => {
     (async () => {
       const response = await getYouthProfile();
+      /*      console.log('response-----', response);*/
       if (isResponseSuccess(response) && response.data) {
         dispatch({
           type: UPDATE_AUTH_USER,

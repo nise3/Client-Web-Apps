@@ -7,6 +7,7 @@ import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/h
 import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 
 const NearbyTrainingCenterSection = () => {
   const {messages} = useIntl();
@@ -21,9 +22,10 @@ const NearbyTrainingCenterSection = () => {
     page_size: 4,
   });
 
-  const {data: nearbyTrainingCenters} = useFetchPublicTrainingCenters(
-    nearbyTrainingCenterFilters,
-  );
+  const {
+    data: nearbyTrainingCenters,
+    isLoading: isLoadingNearbyTrainingCenter,
+  } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
   return (
     <Grid container spacing={3}>
@@ -44,21 +46,22 @@ const NearbyTrainingCenterSection = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={3}>
-          {nearbyTrainingCenters && nearbyTrainingCenters.length > 0 ? (
-            nearbyTrainingCenters.map((trainingCenter: any) => {
-              return (
-                <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>
-                  <TrainingCenterCard trainingCenter={trainingCenter} />
-                </Grid>
-              );
-            })
+          {isLoadingNearbyTrainingCenter ? (
+            <Grid item xs={12}>
+              <BoxCardsSkeleton />
+            </Grid>
+          ) : nearbyTrainingCenters && nearbyTrainingCenters.length ? (
+            <>
+              {nearbyTrainingCenters.map((trainingCenter: any) => {
+                return (
+                  <Grid item xs={12} sm={6} md={3} key={trainingCenter.id}>
+                    <TrainingCenterCard trainingCenter={trainingCenter} />
+                  </Grid>
+                );
+              })}
+            </>
           ) : (
-            <NoDataFoundComponent
-              message={
-                messages['common.no_nearby_training_center_found'] as string
-              }
-              messageTextType={'subtitle1'}
-            />
+            <NoDataFoundComponent />
           )}
         </Grid>
       </Grid>

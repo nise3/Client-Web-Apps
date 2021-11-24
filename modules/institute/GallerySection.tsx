@@ -12,6 +12,7 @@ import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
 import {useVendor} from '../../@crema/utility/AppHooks';
+import BoxCardsSkeleton from './Components/BoxCardsSkeleton';
 
 const PREFIX = 'GallerySection';
 
@@ -55,7 +56,8 @@ const GallerySection = () => {
     page_size: pageSize,
     institute_id: vendor?.id,
   });
-  const {data: galleryItems} = useFetchInstitutesGallery(galleryFilter);
+  const {data: galleryItems, isLoading: isLoadingGallery} =
+    useFetchInstitutesGallery(galleryFilter);
   const router = useRouter();
   const path = router.pathname;
   return (
@@ -66,7 +68,9 @@ const GallerySection = () => {
             <UnderlinedHeading>
               {messages['common.gallery_album']}
             </UnderlinedHeading>
-            {galleryItems && galleryItems.length ? (
+            {isLoadingGallery ? (
+              <BoxCardsSkeleton />
+            ) : galleryItems && galleryItems.length ? (
               <Box>
                 <Box>
                   <Carousel
@@ -117,7 +121,7 @@ const GallerySection = () => {
                     slidesToSlide={1}
                     swipeable>
                     {galleryItems.map((galleryItem: any, i: number) => (
-                      <Box key={i} className={classes.boxItem}>
+                      <Box key={galleryItem.id} className={classes.boxItem}>
                         <GalleryItemCardView item={galleryItem} />
                       </Box>
                     ))}

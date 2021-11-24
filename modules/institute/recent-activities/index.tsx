@@ -1,4 +1,4 @@
-import {Box, Container, Grid, Stack, Typography} from '@mui/material';
+import {Box, Container, Grid, Skeleton, Stack, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {useFetchInstitutesRecentActivity} from '../../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
@@ -66,10 +66,16 @@ const RecentActivities = () => {
 
   const page = useRef<any>(1);
 
-  const {data: recentActivitiesFetchedData, metaData} =
-    useFetchInstitutesRecentActivity(recentActivityFilter);
-  const {data: recentActivitiesFetchedMasonryData} =
-    useFetchInstitutesRecentActivity(recentActivityMasonryFilter);
+  const {
+    data: recentActivitiesFetchedData,
+    metaData,
+    isLoading: isLoadingRecentActivitiesFetchedData,
+  } = useFetchInstitutesRecentActivity(recentActivityFilter);
+
+  const {
+    data: recentActivitiesFetchedMasonryData,
+    isLoading: isLoadingRecentActivitiesFetchedMasonryData,
+  } = useFetchInstitutesRecentActivity(recentActivityMasonryFilter);
 
   useEffect(() => {
     let data = recentActivitiesFetchedData?.filter((item: any) => {
@@ -137,12 +143,16 @@ const RecentActivities = () => {
             display={'flex'}>
             {messages['recent_activities.label']}
           </Typography>
-          {recentActivitiesMasonryList &&
-            recentActivitiesMasonryList.length > 0 && (
-              <RecentActivityMasonryGroupView
-                items={recentActivitiesMasonryList}
-              />
-            )}
+          {isLoadingRecentActivitiesFetchedMasonryData ? (
+            <Skeleton variant={'rectangular'} width={1150} height={400} />
+          ) : recentActivitiesMasonryList &&
+            recentActivitiesMasonryList.length > 0 ? (
+            <RecentActivityMasonryGroupView
+              items={recentActivitiesMasonryList}
+            />
+          ) : (
+            <NoDataFoundComponent />
+          )}
         </Grid>
         <Grid item mt={8} xs={12}>
           <Typography
@@ -153,7 +163,21 @@ const RecentActivities = () => {
             display={'flex'}>
             {messages['all_activities.institute']}
           </Typography>
-          {recentActivitiesList && recentActivitiesList?.length > 0 ? (
+          {isLoadingRecentActivitiesFetchedData ? (
+            <>
+              <Box
+                sx={{
+                  display: 'flex',
+                  marginTop: '20px',
+                  justifyContent: 'space-around',
+                }}>
+                <Skeleton variant='rectangular' width={250} height={150} />
+                <Skeleton variant='rectangular' width={250} height={150} />
+                <Skeleton variant='rectangular' width={250} height={150} />
+                <Skeleton variant='rectangular' width={250} height={150} />
+              </Box>
+            </>
+          ) : recentActivitiesList && recentActivitiesList?.length > 0 ? (
             <Grid container spacing={3}>
               {recentActivitiesList?.map((data: any) => (
                 <Grid item xs={12} md={3} mt={3} key={data.id}>
