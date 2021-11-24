@@ -6,31 +6,35 @@ const errorHandler = (error: {response: any; request?: any; message?: any}) => {
   throw error;
 };
 
-function apiGet(apiPath: string, config: AxiosRequestConfig = {}) {
+function apiGet<T = any>(apiPath: string, config: AxiosRequestConfig = {}) {
   return axiosInstance
     .get(apiPath, config)
-    .then((response: AxiosResponse<any>) => response)
+    .then((response: AxiosResponse<T>) => response)
     .catch(errorHandler);
 }
 
-function apiPost(apiPath: string, data?: any, config: AxiosRequestConfig = {}) {
+function apiPost<T = any>(
+  apiPath: string,
+  data?: any,
+  config: AxiosRequestConfig = {},
+) {
   return axiosInstance
     .post(apiPath, data, config)
-    .then((response: AxiosResponse<any>) => response)
+    .then((response: AxiosResponse<T>) => response)
     .catch(errorHandler);
 }
 
-function apiDelete(apiPath: string) {
+function apiDelete<T = any>(apiPath: string) {
   return axiosInstance
     .delete(apiPath)
-    .then((response: AxiosResponse<any>) => response)
+    .then((response: AxiosResponse<T>) => response)
     .catch(errorHandler);
 }
 
-function apiPut(apiPath: string, data = {}) {
+function apiPut<T = any>(apiPath: string, data = {}) {
   return axiosInstance
     .put(apiPath, data)
-    .then((response: AxiosResponse<any>) => response)
+    .then((response: AxiosResponse<T>) => response)
     .catch(errorHandler);
 }
 
