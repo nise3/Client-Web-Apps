@@ -1,12 +1,15 @@
 import useSWR from 'swr';
 import {apiGet} from '../common/api';
 
-function common({
-  data: {data: {data = undefined, ...metaData} = {}} = {},
-  error,
-  mutate,
-  isValidating,
-}: any) {
+function common(response: any = {}) {
+  const {
+    data: responseData,
+    isValidating,
+    error,
+    mutate,
+  } = response?.data || {};
+  const {data, ...metaData} = responseData || {};
+
   return {
     data,
     metaData,

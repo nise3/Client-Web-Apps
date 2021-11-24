@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {styled} from '@mui/material/styles';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -18,17 +17,9 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchPermissionGroups} from '../../../services/userManagement/hooks';
 import {deletePermissionGroup} from '../../../services/userManagement/PermissionGroupService';
 import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
-import {Button} from '@mui/material';
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {LINK_PERMISSION_GROUP} from '../../../@softbd/common/appLinks';
-
-const PrimaryLightButton = styled(Button)(({theme}) => {
-  return {
-    color: theme.palette.primary.light,
-    border: 'none',
-  };
-});
 
 const PermissionGroupPage = () => {
   const {messages} = useIntl();
@@ -131,11 +122,9 @@ const PermissionGroupPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={URL} passHref>
-                <PrimaryLightButton
-                  variant={'outlined'}
-                  startIcon={<AccountTreeOutlined />}>
+                <ReadButton startIcon={<AccountTreeOutlined />}>
                   {messages['permission.label']}
-                </PrimaryLightButton>
+                </ReadButton>
               </Link>
             </DatatableButtonGroup>
           );
