@@ -6,7 +6,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {Container, Grid} from '@mui/material';
+import {Container, Grid, Skeleton} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
@@ -50,7 +50,8 @@ const InstituteFAQ = () => {
   const [faqFilters, setFaqFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: faqItems} = useFetchInstitutesFAQ(faqFilters);
+  const {data: faqItems, isLoading: isLoadingFaq} =
+    useFetchInstitutesFAQ(faqFilters);
 
   useEffect(() => {
     if (showInType) {
@@ -82,7 +83,28 @@ const InstituteFAQ = () => {
       <Container maxWidth='lg'>
         <Grid container>
           <Grid item xs={12} my={4}>
-            {faqItems && faqItems.length > 0 ? (
+            {isLoadingFaq ? (
+              <>
+                <Skeleton
+                  variant={'rectangular'}
+                  height={40}
+                  width={1150}
+                  style={{marginBottom: '10px'}}
+                />
+                <Skeleton
+                  variant={'rectangular'}
+                  height={40}
+                  width={1150}
+                  style={{marginBottom: '10px'}}
+                />
+                <Skeleton
+                  variant={'rectangular'}
+                  height={40}
+                  width={1150}
+                  style={{marginBottom: '10px'}}
+                />
+              </>
+            ) : faqItems && faqItems.length > 0 ? (
               faqItems?.map((item: any) => (
                 <Accordion
                   className={classes.accordion}

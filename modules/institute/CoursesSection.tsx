@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Container, Tabs, Tab, Grid} from '@mui/material';
+import {Box, Container, Tabs, Tab, Grid, Skeleton} from '@mui/material';
 import UnderlinedHeading from './UnderlinedHeading';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
@@ -53,7 +53,7 @@ const CoursesSection = () => {
 
   // Todo: data is not coming for running form api, have to implement
   // const {data: runningCourses} = useFetchCourseList('recent', runningCoursesFilters);
-  const {data: courseList} = useFetchCourseList(
+  const {data: courseList, isLoading: isLoadingCourseList} = useFetchCourseList(
     'recent',
     upcomingCoursesFilter,
   );
@@ -93,23 +93,46 @@ const CoursesSection = () => {
           </Box>
           <TabPanel value={value} index={CourseTypes.RUNNING}>
             <Box>
-              {courseList && courseList.length ? (
+              {isLoadingCourseList ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    marginTop: '20px',
+                    justifyContent: 'space-around',
+                  }}>
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                </Box>
+              ) : courseList && courseList.length ? (
                 <CourseSectionCarousel courses={courseList} />
               ) : (
-                ''
+                <NoDataFoundComponent />
               )}
             </Box>
           </TabPanel>
           <TabPanel value={value} index={CourseTypes.UPCOMING}>
             <Box>
-              {courseList && courseList.length ? (
+              {isLoadingCourseList ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    marginTop: '20px',
+                    justifyContent: 'space-around',
+                  }}>
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                  <Skeleton variant='rectangular' width={250} height={300} />
+                </Box>
+              ) : courseList && courseList.length ? (
                 <CourseSectionCarousel courses={courseList} />
               ) : (
-                ''
+                <NoDataFoundComponent />
               )}
             </Box>
           </TabPanel>
-          {!courseList || (courseList?.length <= 0 && <NoDataFoundComponent />)}
         </Grid>
       </Grid>
     </Container>

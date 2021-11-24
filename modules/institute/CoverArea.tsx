@@ -6,6 +6,7 @@ import {useVendor} from '../../@crema/utility/AppHooks';
 import BannerTemplateCenterBackground from './Components/BannerTemplateCenterBackground';
 import BannerTemplateRightLeft from './Components/BannerTemplateRightLeft';
 import BannerTemplateLeftRight from './Components/BannerTemplateLeftRight';
+import {Skeleton} from '@mui/material';
 
 const CoverArea = () => {
   const vendor = useVendor();
@@ -13,7 +14,8 @@ const CoverArea = () => {
     show_in: ShowInTypes.TSP,
     institute_id: vendor?.id,
   });
-  const {data: sliders} = useFetchPublicSliders(sliderFilters);
+  const {data: sliders, isLoading: isLoadingSliders} =
+    useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
   const banners = slider?.banners;
   const numberOfBanners = banners?.length;
@@ -31,7 +33,9 @@ const CoverArea = () => {
     }
   };
 
-  return banners && numberOfBanners == 1 ? (
+  return isLoadingSliders ? (
+    <Skeleton variant={'rectangular'} width={'100%'} height={400} />
+  ) : banners && numberOfBanners == 1 ? (
     getBannerTemplate(banners[0])
   ) : banners && numberOfBanners > 1 ? (
     <ImageCarousel banners={banners} />

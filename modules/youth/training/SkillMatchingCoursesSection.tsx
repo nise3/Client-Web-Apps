@@ -9,6 +9,8 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getModulePath, objectFilter} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 
 interface skillMatchingCoursesSectionProps {
   filters?: any;
@@ -44,18 +46,19 @@ const SkillMatchingCoursesSection = ({
   }, [filters]);
 
   const pathValue = 'skill-matching';
-  const {data: courseList, metaData: courseListMetaData} = useFetchCourseList(
-    pathValue,
-    courseFilters,
-  );
+  const {
+    data: courseList,
+    metaData: courseListMetaData,
+    isLoading: isLoadingCourseList,
+  } = useFetchCourseList(pathValue, courseFilters);
 
-  return courseList && courseList.length > 0 ? (
+  return (
     <Grid container spacing={3} mb={8}>
       <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
-            <Typography variant={'h5'} fontWeight={'bold'}>
-              color={'primary'} {messages['common.skill_matching_course']}
+            <Typography variant={'h5'} fontWeight={'bold'} color={'primary'}>
+              {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
           {page_size && courseListMetaData?.total_page > 1 && (
@@ -72,9 +75,13 @@ const SkillMatchingCoursesSection = ({
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={3}>
-          {courseList &&
-            courseList.map((course: any) => {
-              return (
+          {isLoadingCourseList ? (
+            <Grid item xs={12}>
+              <BoxCardsSkeleton />
+            </Grid>
+          ) : courseList && courseList.length ? (
+            <>
+              {courseList.map((course: any) => (
                 <Grid item xs={12} sm={6} md={3} key={course.id}>
                   <Link
                     href={
@@ -84,13 +91,14 @@ const SkillMatchingCoursesSection = ({
                     <CourseCardComponent course={course} />
                   </Link>
                 </Grid>
-              );
-            })}
+              ))}
+            </>
+          ) : (
+            <NoDataFoundComponent />
+          )}
         </Grid>
       </Grid>
     </Grid>
-  ) : (
-    <></>
   );
 };
 
