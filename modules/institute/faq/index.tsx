@@ -35,7 +35,7 @@ const StyledGrid = styled(Grid)(({theme}) => {
     },
     [`& .${classes.iconStyle}`]: {
       color: theme.palette.grey[800],
-      fontSize: '30px',
+      fontSize: '1.875rem',
     },
   };
 });

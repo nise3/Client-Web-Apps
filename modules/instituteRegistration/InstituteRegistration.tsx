@@ -195,7 +195,11 @@ const InstituteRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
-          style={{marginBottom: '10px', fontWeight: 'bold', fontSize: '25px'}}>
+          style={{
+            marginBottom: '10px',
+            fontWeight: 'bold',
+            fontSize: '1.563rem',
+          }}>
           {messages['common.registration']}
         </Typography>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>

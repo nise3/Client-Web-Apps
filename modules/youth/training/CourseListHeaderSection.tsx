@@ -208,7 +208,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
       <Container maxWidth={'lg'}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
-            <Box fontSize={'16px'}>{messages['training.search_header']}</Box>
+            <Box fontSize={'1rem'}>{messages['training.search_header']}</Box>
             <Card sx={{alignItems: 'center'}}>
               <Grid container spacing={3} sx={{alignItems: 'center'}}>
                 <Grid item xs={8} sm={9}>

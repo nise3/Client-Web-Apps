@@ -180,7 +180,7 @@ const Footer = () => {
                 <Box>
                   <Text className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.online_courses']}
@@ -189,7 +189,7 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.news']}
@@ -198,7 +198,7 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.events']}
@@ -210,7 +210,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.about_us']}
@@ -219,7 +219,7 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_CONTACT}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.contact']}
@@ -230,21 +230,21 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_FAQ}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.question_and_answer']}
                   </Link>
                   <Link onClick={redirectToSSO} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.login']}
                   </Link>
                   <Link href={LINK_SIGNUP} className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.sign_up']}
@@ -256,7 +256,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.terms_and_conditions']}
@@ -268,7 +268,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{fontSize: '10px', marginRight: '2px'}}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.privacy_policy']}

@@ -117,78 +117,80 @@ const StatisticsCardSection = () => {
         <Grid container spacing={2} style={{marginTop: '65px'}}>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor1)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(25)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.ministry']}
               </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor2)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(8)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['divisions.label']}
               </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor3)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(10000)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.project']}
               </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(25)}
               </H3>
-              <Text style={{fontSize: '25px'}}>{messages['common.rto']}</Text>
+              <Text style={{fontSize: '1.563rem'}}>
+                {messages['common.rto']}
+              </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(3500000)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.youth_2']}
               </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor3)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(25)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.association']}
               </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor5)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(32)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industry_2']}
               </Text>
             </Card>
           </Grid>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
-              <H3 style={{fontSize: '40px', fontWeight: 'bold'}}>
+              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
                 {formatNumber(32)}
               </H3>
-              <Text style={{fontSize: '25px'}}>
+              <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industry_2']}
               </Text>
             </Card>

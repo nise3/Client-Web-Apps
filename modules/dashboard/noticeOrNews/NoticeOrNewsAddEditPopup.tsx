@@ -123,7 +123,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         }),
       organization_id: yup
         .mixed()
-        .label(messages['common.organization_bn'] as string)
+        .label(messages['organization.label'] as string)
         .when('show_in', {
           is: (val: number) => {
             return val == ShowInTypes.INDUSTRY;

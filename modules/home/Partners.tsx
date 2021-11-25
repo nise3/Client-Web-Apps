@@ -92,7 +92,7 @@ const Partners = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <H3 style={{fontSize: '33px', fontWeight: 'bold'}}>
+        <H3 style={{fontSize: '2.063rem', fontWeight: 'bold'}}>
           <Box
             style={{marginBottom: '50px', marginTop: '10px'}}
             className={classes.title}

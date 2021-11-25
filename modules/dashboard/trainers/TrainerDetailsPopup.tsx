@@ -69,7 +69,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['menu.branch']}
+              label={messages['branch.label']}
               value={itemData?.branches_title}
               isLoading={isLoading}
             />

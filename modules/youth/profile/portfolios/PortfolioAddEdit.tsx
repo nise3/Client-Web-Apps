@@ -128,7 +128,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
             <Grid item xs={12}>
               <CustomTextInput
                 id='description'
-                label={messages['common.description_bn']}
+                label={messages['common.description']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}

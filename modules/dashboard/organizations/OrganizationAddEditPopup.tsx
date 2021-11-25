@@ -180,7 +180,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       organization_type_id: yup
         .string()
         .required()
-        .label(messages['common.organization_type'] as string),
+        .label(messages['menu.organization_type'] as string),
       permission_sub_group_id: isEdit
         ? yup.string().nullable()
         : yup
@@ -202,7 +202,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      row_status: yup.string().label(messages['common.row_status'] as string),
+      row_status: yup.string().label(messages['common.status'] as string),
     });
   }, [messages]);
 
@@ -373,7 +373,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           <CustomFormSelect
             required
             id='organization_type_id'
-            label={messages['common.organization_type']}
+            label={messages['menu.organization_type']}
             isLoading={isOrganizationTypeLoading}
             control={control}
             options={organizationTypes}

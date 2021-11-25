@@ -378,7 +378,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               <CustomTextInput
                 required
                 id='password_confirmation'
-                label={messages['common.retypePassword']}
+                label={messages['common.retype_password']}
                 type={'password'}
                 register={register}
                 errorInstance={errors}

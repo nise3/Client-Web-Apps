@@ -119,7 +119,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={12} sm={6} md={6}>
             <DetailsInputView
-              label={messages['course.code']}
+              label={messages['common.code']}
               value={itemData?.code}
               isLoading={isLoading}
             />

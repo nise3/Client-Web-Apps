@@ -47,7 +47,7 @@ const InfoCard = ({color, infos, label}: Props) => {
       <H6 className={classes.label}>{label}</H6>
       <Grid container>
         {infos &&
-          infos.map((infoItem, key: number) => {
+          infos.map((infoItem) => {
             return (
               <Fragment key={infoItem.id.toString()}>
                 <Grid item xs={10}>
@@ -60,7 +60,7 @@ const InfoCard = ({color, infos, label}: Props) => {
                       />
                     </Grid>
                     <Grid item xs={10}>
-                      <Box style={{fontSize: '18px'}}> {infoItem.name}</Box>
+                      <Box style={{fontSize: '1.125rem'}}> {infoItem.name}</Box>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -68,7 +68,7 @@ const InfoCard = ({color, infos, label}: Props) => {
                   <Box
                     sx={{
                       color: color,
-                      fontSize: '25px',
+                      fontSize: '1.563rem',
                       fontWeight: 'bold',
                       minHeight: '40px',
                     }}>

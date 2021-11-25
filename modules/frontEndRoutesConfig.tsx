@@ -128,7 +128,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'organization',
             title: 'Organizations',
-            messageId: 'menu.organization',
+            messageId: 'organization.label',
             permissionKey: 'menu_organization',
             type: 'item',
             icon: 'businessCenter',
@@ -201,7 +201,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'branch',
             title: 'Branch',
-            messageId: 'menu.branch',
+            messageId: 'branch.label',
             permissionKey: 'menu_branch',
             type: 'item',
             icon: 'timeline',
@@ -210,7 +210,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'programme',
             title: 'Programme',
-            messageId: 'menu.programme',
+            messageId: 'programme.label',
             permissionKey: 'menu_programme',
             type: 'item',
             icon: 'timeline',
@@ -228,7 +228,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'course',
             title: 'Course',
-            messageId: 'menu.course',
+            messageId: 'course.label',
             permissionKey: 'menu_course',
             type: 'item',
             icon: 'timeline',
