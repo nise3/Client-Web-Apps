@@ -57,9 +57,10 @@ const EventCalendarView = () => {
   }, [events]);
 
   const onSelectEvent = (e: any) => {
-    setIsOpenDetailsView(true);
-    const item = eventsList.find((ev: ICalendar) => ev === e.id) as ICalendar;
+    const item = eventsList.find((ev: ICalendar) => ev.id === e.id) as ICalendar;
     setSelectedItem(item);
+    setIsOpenDetailsView(true);
+    console.log(item);
   };
   const onClose = () => {
     setIsOpenDetailsView(false);
