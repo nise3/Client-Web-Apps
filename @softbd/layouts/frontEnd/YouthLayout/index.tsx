@@ -5,6 +5,7 @@ import {classes, StyledBox} from './index.style';
 import ContentView from '../../../../@crema/core/ContentView';
 import clsx from 'clsx';
 import Footer from './Footer';
+import AccessibilityToolbar from '../../../components/accessibility/AccessibilityToolbar';
 
 interface HorLightNavProps {
   props?: any;
@@ -20,6 +21,7 @@ const LayoutLayout: React.FC<HorLightNavProps> = (props) => {
         </Box>
       </Box>
       <Footer />
+      <AccessibilityToolbar />
     </StyledBox>
   );
 };
