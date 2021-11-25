@@ -30,6 +30,8 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplateTypes';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
+import {IStaticPage} from '../../../services/interface';
+
 
 interface StaticBlockAddEditPopupProps {
   pageCode: string;
@@ -206,7 +208,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
               .label(messages['common.title'] as string),
           }),
     });
-  }, [messages, selectedCodes, authUser]);
+  },[messages, selectedCodes, authUser]);
 
   const {
     register,
@@ -217,7 +219,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
     clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<StaticPage>({
+  } = useForm<IStaticPage>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -690,7 +692,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12}>
-          {selectedLanguageList.map((language: any, index: number) => (
+          {selectedLanguageList.map((language: any) => (
             <Box key={language.code} sx={{marginTop: '10px'}}>
               <fieldset style={{border: '1px solid #7e7e7e'}}>
                 <legend style={{color: '#0a8fdc'}}>

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import moment from 'moment';
-import {momentLocalizer, View} from 'react-big-calendar';
+import {momentLocalizer, SlotInfo, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
@@ -8,59 +8,30 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
+import {ICalendar, ICalendarQuery} from '../../../services/interface';
 
 const localizer = momentLocalizer(moment);
 
-interface ICalenderEvents {
-  id: number;
-  title: string;
-  title_en: string;
-  youth_id?: any;
-  batch_id?: any;
-  institute_id?: any;
-  organization_id?: any;
-  start_date: Date | string;
-  end_date: Date | string;
-  start_time?: any;
-  end_time?: any;
-  start?: any;
-  end?: any;
-  color: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface IQuery {
-  type: string;
-  youth_id?: string | number;
-  institute_id?: string | number;
-}
-
-interface IComProps {
-  calendarFor: string;
-  editable: boolean;
-}
-
-const EventCalendar = (comProps: IComProps) => {
+const EventCalendar = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser();
 
   // const isEditable = comProps.editable ? comProps.editable : false;
 
-  let requestQuery: IQuery = {
+  let requestQuery: ICalendarQuery = {
     type: 'month',
   };
   if (authUser?.isInstituteUser) {
     requestQuery.institute_id = authUser.institute_id;
   }
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(
-    null,
+  const [selectedItemId, setSelectedItemId] = useState<number | undefined>();
+  const [selectedStartDate, setSelectedStartDate] = useState<string | undefined>(
+    undefined,
   );
-  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
-  const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
-  const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
+  const [selectedEndDate, setSelectedEndDate] = useState<string | undefined>(undefined);
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -68,16 +39,16 @@ const EventCalendar = (comProps: IComProps) => {
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
+    setSelectedItemId(undefined);
   }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
+  const openAddEditModal = useCallback((itemId: number | undefined) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
   }, []);
 
-  const openDetailsModal = useCallback((itemId: number) => {
+  const openDetailsModal = useCallback((itemId: number | undefined) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
   }, []);
@@ -94,7 +65,7 @@ const EventCalendar = (comProps: IComProps) => {
         case 'delete':
           const newList = eventsList.filter(
             (e) => e.id != item,
-          ) as Array<ICalenderEvents>;
+          ) as Array<ICalendar>;
           setEventsList(newList);
           break;
         case 'create':
@@ -121,11 +92,11 @@ const EventCalendar = (comProps: IComProps) => {
 
   useEffect(() => {
     if (events) {
-      events.map((e: ICalenderEvents) => {
-        const start = e.start_time
+      events.map((e: ICalendar) => {
+        let start = e.start_time
           ? `${e.start}T${e.start_time}`
           : `${e.start}`;
-        const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+        let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
         e.start = new Date(start);
         e.end = new Date(end);
         return e;
@@ -135,13 +106,14 @@ const EventCalendar = (comProps: IComProps) => {
     }
   }, [events]);
 
-  const onSelectSlot = (e: any) => {
-    setSelectedStartDate(e.start);
-    setSelectedEndDate(e.end);
-    openAddEditModal(e.id);
+  const onSelectSlot = (slotInfo: SlotInfo) => {
+    setSelectedStartDate(slotInfo.start as string);
+    setSelectedEndDate(slotInfo.end as string);
+    // openAddEditModal(slotInfo.id);
+    console.log(slotInfo)
   };
-  const onSelectEvent = (e: any) => {
-    openDetailsModal(e.id);
+  const onSelectEvent = (e: ICalendar) => {
+    openDetailsModal(e.id as number);
   };
 
   return (

@@ -4,14 +4,15 @@ import {useIntl} from 'react-intl';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import moment from 'moment';
 import {DATE_FORMAT, TIME_FORMAT} from '../../../@softbd/utilities/DateTime';
+import {ICalendar} from '../../../services/interface';
 
 type Props = {
-  itemData: any;
+  itemData: ICalendar;
 };
 
 const EventCalendarDetails = ({itemData, ...props}: Props) => {
   if (itemData) {
-    console.log(itemData);
+    // console.log(itemData);
     // const start_date = moment(itemData.start).format(DATE_FORMAT);
     // const end_date = moment(itemData.end).format(DATE_FORMAT);
     // const start_time = moment(itemData.start).format(TIME_FORMAT);

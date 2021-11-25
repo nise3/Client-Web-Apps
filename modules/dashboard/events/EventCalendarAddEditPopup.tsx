@@ -23,6 +23,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {ICalendar, ICalendarDto} from '../../../services/interface';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null;
@@ -80,7 +81,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Calendar>({
+  } = useForm<ICalendar>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -104,7 +105,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     console.log(timearray.length);
     return timearray.length === 3;
   };
-  const onSubmit: SubmitHandler<Calendar> = async (data: ICalendarEvent) => {
+  const onSubmit: SubmitHandler<ICalendarDto> = async (data: ICalendarDto) => {
     data.start = data.start_date;
     data.end = data.end_date;
     data.start_time = hasSecond(data.start_time)
