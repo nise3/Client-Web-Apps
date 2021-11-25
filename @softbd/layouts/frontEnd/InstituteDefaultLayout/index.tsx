@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import {ContentView} from '../../../../@crema';
 import Box from '@mui/material/Box';
+import AccessibilityToolbar from '../../../components/accessibility/AccessibilityToolbar';
 
 const PREFIX = 'InstituteDefaultLayout';
 
@@ -54,6 +55,7 @@ const InstituteDefaultLayout: React.FC<InstituteDefaultLayoutProps> = (
         </Box>
       </Box>
       <Footer />
+      <AccessibilityToolbar />
     </StyledBox>
   );
 };

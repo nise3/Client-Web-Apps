@@ -6,6 +6,7 @@ import React, {ReactNode, useContext} from 'react';
 import theme from './index';
 import {Global, css} from '@emotion/react';
 import {LocaleTheme} from './Locale';
+import AccessibilityToolbarCSS from '../../../components/accessibility/AccessibilityToolbarCSS';
 interface DefaultThemeProviderProps {
   children: ReactNode | any;
   [x: string]: any;
@@ -44,6 +45,7 @@ const DefaultThemeProvider: React.FC<DefaultThemeProviderProps> = ({
             text-decoration: none;
             color: inherit;
           }
+          ${AccessibilityToolbarCSS}
         `}
       />
       {children}
