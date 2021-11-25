@@ -456,7 +456,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           <CustomTextInput
             required
             id='code'
-            label={messages['course.code']}
+            label={messages['common.code']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

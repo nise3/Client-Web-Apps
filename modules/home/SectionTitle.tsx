@@ -26,7 +26,7 @@ type Props = {
 const SectionTitle = ({title, center}: Props) => {
   return (
     <StyledH3
-      style={{fontSize: '33px', fontWeight: 'bold', marginBottom: '30px'}}>
+      style={{fontSize: '2.063rem', fontWeight: 'bold', marginBottom: '30px'}}>
       <Box
         className={classes.title}
         justifyContent={center ? 'center' : 'flex-start'}>

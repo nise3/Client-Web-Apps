@@ -160,7 +160,7 @@ const SignupJwtAuth: React.FC<{}> = () => {
                 <Grid item xs={12} md={6}>
                   <Box mb={{xs: 3, xl: 4}}>
                     <MyTextField
-                      label={<IntlMessages id='common.retypePassword' />}
+                      label={<IntlMessages id='common.retype_password' />}
                       name='confirmPassword'
                       type='password'
                       variant='outlined'

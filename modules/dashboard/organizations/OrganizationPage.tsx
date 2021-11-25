@@ -85,7 +85,7 @@ const OrganizationPage = () => {
       },
 
       {
-        Header: messages['common.organization_type'],
+        Header: messages['menu.organization_type'],
         accessor: 'organization_type_title_en',
         disableFilters: true,
         disableSortBy: true,

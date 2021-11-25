@@ -67,15 +67,15 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
       referrer_organization_name: yup
         .string()
         .title()
-        .label(messages['common.organization_bn'] as string),
+        .label(messages['organization.label'] as string),
       referrer_designation: yup
         .string()
         .title()
-        .label(messages['common.designation_bn'] as string),
+        .label(messages['common.designation'] as string),
       referrer_address: yup
         .string()
         .title()
-        .label(messages['common.address_bn'] as string),
+        .label(messages['common.address'] as string),
       referrer_mobile: yup
         .string()
         .trim()
@@ -226,7 +226,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
               <CustomTextInput
                 required
                 id='referrer_organization_name'
-                label={messages['common.organization_bn']}
+                label={messages['organization.label']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -246,7 +246,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
               <CustomTextInput
                 required
                 id='referrer_designation'
-                label={messages['common.designation_bn']}
+                label={messages['common.designation']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -266,7 +266,7 @@ const ReferenceAddEditPage: FC<ReferenceAddEditPageProps> = ({
               <CustomTextInput
                 required
                 id='referrer_address'
-                label={messages['common.address_bn']}
+                label={messages['common.address']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}

@@ -156,9 +156,9 @@ const CoverArea = () => {
               <Fade direction='down'>
                 <Text
                   style={{
-                    fontSize: '22px',
+                    fontSize: '1.375rem',
                     fontWeight: '300',
-                    lineHeight: '33px',
+                    lineHeight: '2.063rem',
                   }}>
                   {messages['landing.text_if_candidate']}
                 </Text>

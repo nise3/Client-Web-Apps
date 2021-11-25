@@ -58,7 +58,7 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.organization_type']}
+              label={messages['menu.organization_type']}
               value={itemData?.organization_type_title_en}
               isLoading={isLoading}
             />

@@ -119,7 +119,11 @@ const SkillMatchingJobs = () => {
       <Container maxWidth='lg'>
         <H3>
           <Box
-            style={{fontSize: '33px', marginBottom: '50px', marginTop: '10px'}}
+            style={{
+              fontSize: '2.063rem',
+              marginBottom: '50px',
+              marginTop: '10px',
+            }}
             className={classes.title}
             justifyContent={'center'}>
             <VerticalBar />

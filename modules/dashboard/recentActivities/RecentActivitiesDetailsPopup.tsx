@@ -269,7 +269,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
 
           <Grid item xs={6}>
             <CustomChipRowStatus
-              label={messages['common.row_status']}
+              label={messages['common.status']}
               value={itemData?.row_status}
               isLoading={isLoading}
             />

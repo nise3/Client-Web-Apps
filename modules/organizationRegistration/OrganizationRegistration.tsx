@@ -95,7 +95,7 @@ const OrganizationRegistration = () => {
         .string()
         .trim()
         .required()
-        .label(messages['common.address_bn'] as string),
+        .label(messages['common.address'] as string),
       loc_division_id: yup
         .string()
         .trim()
@@ -110,7 +110,7 @@ const OrganizationRegistration = () => {
         .string()
         .trim()
         .required()
-        .label(messages['common.contact_person_designation_bn'] as string),
+        .label(messages['common.contact_person_designation'] as string),
       contact_person_email: yup
         .string()
         .trim()
@@ -187,7 +187,11 @@ const OrganizationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
-          style={{marginBottom: '10px', fontWeight: 'bold', fontSize: '25px'}}>
+          style={{
+            marginBottom: '10px',
+            fontWeight: 'bold',
+            fontSize: '1.563rem',
+          }}>
           {messages['common.registration']}
         </Typography>
         <Typography variant={'h6'} style={{marginBottom: '10px'}}>
@@ -243,7 +247,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='name_of_the_office_head_designation'
-                label={messages['common.designation_bn']}
+                label={messages['common.designation']}
                 register={register}
                 errorInstance={errors}
               />
@@ -253,7 +257,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='address'
-                label={messages['common.address_bn']}
+                label={messages['common.address']}
                 register={register}
                 errorInstance={errors}
               />
@@ -339,7 +343,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_designation'
-                label={messages['common.contact_person_designation_bn']}
+                label={messages['common.contact_person_designation']}
                 register={register}
                 errorInstance={errors}
               />
