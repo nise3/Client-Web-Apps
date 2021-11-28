@@ -15,7 +15,8 @@ import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {ICalendar, ICalendarQuery} from '../../services/interface';
+import {ICalendar, ICalendarQuery} from '../../shared/Interface/interface';
+import { addStartEndPropsToList } from '../../services/Shared/CalendarService';
 
 const localizer = momentLocalizer(moment);
 const EventCalendarView = () => {
@@ -33,12 +34,13 @@ const EventCalendarView = () => {
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
   useEffect(() => {
-    if (events) {
-      events.forEach((element: any) => {
-        element['start'] = element.start_date;
-        element['end'] = element.start_date;
-      });
-    }
+    addStartEndPropsToList(events);
+    // if (events) {
+    //   events.forEach((element: any) => {
+    //     element['start'] = element.start_date;
+    //     element['end'] = element.start_date;
+    //   });
+    // }
   }, [events]);
 
   useEffect(() => {

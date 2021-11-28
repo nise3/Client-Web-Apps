@@ -3,74 +3,41 @@ import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, Container, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import {ICalendar, ICalendarQuery} from '../../../shared/Interface/interface';
+import {addStartEndPropsToList} from '../../../services/Shared/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
-interface ICalenderEvents {
-  id: number;
-  title: string;
-  title_en: string;
-  youth_id?: any;
-  batch_id?: any;
-  institute_id?: any;
-  organization_id?: any;
-  start_date: Date | string;
-  end_date: Date | string;
-  // start?: Date  | string;
-  // end?: Date  | string;
-  start_time?: any;
-  end_time?: any;
-  color: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface IQuery {
-  type: string;
-  youth_id?: string | number;
-  institute_id?: string | number;
-}
-
-interface IComProps {
-  calendarFor: string;
-}
-
-const InstituteEventCalendarView = (comProps: IComProps) => {
+const InstituteEventCalendarView = () => {
   const {messages} = useIntl();
   const vendor = useVendor();
-  let requestQuery: IQuery = {
+  let requestQuery: ICalendarQuery = {
     type: 'month',
     institute_id: vendor?.id,
   };
 
-  const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
-  const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
-  const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
+  const [selectedItem, setSelectedItem] = useState<ICalendar>();
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
   useEffect(() => {
-    if (events) {
-      events.forEach((element: any) => {
-        element['start'] = element.start_date;
-        element['end'] = element.start_date;
-      });
-    }
+    addStartEndPropsToList(events);
+    // if (events) {
+    //   events.forEach((element: any) => {
+    //     element['start'] = element.start_date;
+    //     element['end'] = element.start_date;
+    //   });
+    // }
   }, [events]);
 
   useEffect(() => {
@@ -90,7 +57,7 @@ const InstituteEventCalendarView = (comProps: IComProps) => {
 
   const onSelectEvent = (e: any) => {
     setIsOpenDetailsView(true);
-    const item = eventsList.find((ev) => ev.id === e.id) as ICalenderEvents;
+    const item = eventsList.find((ev) => ev.id === e.id) as ICalendar;
     setSelectedItem(item);
   };
   const onClose = () => {

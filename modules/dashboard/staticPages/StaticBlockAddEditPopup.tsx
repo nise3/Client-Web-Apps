@@ -30,7 +30,7 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplateTypes';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
-import {IStaticPage} from '../../../services/interface';
+import {IStaticPage} from '../../../shared/Interface/interface';
 
 
 interface StaticBlockAddEditPopupProps {

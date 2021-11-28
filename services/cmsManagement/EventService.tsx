@@ -1,7 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_CALENDAR_EVENTS} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {ICalendarDto} from '../interface';
+import {ICalendarDto} from '../../shared/Interface/interface';
 
 export const deleteEvent = async (eventId: number) => {
   try {

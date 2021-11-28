@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import moment from 'moment';
-import {momentLocalizer, SlotInfo, View} from 'react-big-calendar';
+import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
@@ -8,7 +8,8 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import {ICalendar, ICalendarQuery} from '../../../services/interface';
+import {ICalendar, ICalendarQuery} from '../../../shared/Interface/interface';
+import {addStartEndPropsToList} from '../../../services/Shared/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
@@ -25,7 +26,7 @@ const EventCalendar = () => {
     requestQuery.institute_id = authUser.institute_id;
   }
 
-  const [selectedItemId, setSelectedItemId] = useState<number | undefined>();
+  const [selectedItemId, setSelectedItemId] = useState<number | null>();
   const [selectedStartDate, setSelectedStartDate] = useState<string | undefined>(
     undefined,
   );
@@ -82,12 +83,13 @@ const EventCalendar = () => {
   );
 
   useEffect(() => {
-    if (events) {
-      events.forEach((element: any) => {
-        element['start'] = element.start_date;
-        element['end'] = element.start_date;
-      });
-    }
+    addStartEndPropsToList(events);
+    // if (events) {
+    //   events.forEach((element: any) => {
+    //     element['start'] = element.start_date;
+    //     element['end'] = element.start_date;
+    //   });
+    // }
   }, [events]);
 
   useEffect(() => {
@@ -106,13 +108,13 @@ const EventCalendar = () => {
     }
   }, [events]);
 
-  const onSelectSlot = (slotInfo: SlotInfo) => {
+  const onSelectSlot = (slotInfo: any) => {
     setSelectedStartDate(slotInfo.start as string);
     setSelectedEndDate(slotInfo.end as string);
-    // openAddEditModal(slotInfo.id);
-    console.log(slotInfo)
+    openAddEditModal(slotInfo.id);
+    // console.log(slotInfo)
   };
-  const onSelectEvent = (e: ICalendar) => {
+  const onSelectEvent = (e: any) => {
     openDetailsModal(e.id as number);
   };
 

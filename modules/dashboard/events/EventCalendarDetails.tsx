@@ -4,13 +4,14 @@ import {useIntl} from 'react-intl';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import moment from 'moment';
 import {DATE_FORMAT, TIME_FORMAT} from '../../../@softbd/utilities/DateTime';
-import {ICalendar} from '../../../services/interface';
+import {ICalendar} from '../../../shared/Interface/interface';
 
 type Props = {
   itemData: ICalendar;
 };
 
 const EventCalendarDetails = ({itemData, ...props}: Props) => {
+  console.log(itemData);
   if (itemData) {
     // console.log(itemData);
     // const start_date = moment(itemData.start).format(DATE_FORMAT);
@@ -18,8 +19,8 @@ const EventCalendarDetails = ({itemData, ...props}: Props) => {
     // const start_time = moment(itemData.start).format(TIME_FORMAT);
     // const end_time = moment(itemData.end).format(TIME_FORMAT);
   }
-  const eventStart = `${itemData.start_date}T${itemData.start_time}`;
-  const eventEnd = `${itemData.end_date}T${itemData.end_time}`;
+  const eventStart = itemData.start_time ? `${itemData.start_date}T${itemData.start_time}` : itemData.start_date ;
+  const eventEnd = itemData.end_time ? `${itemData.end_date}T${itemData.end_time}` : itemData.end_date;
   const start_date = itemData ? moment(eventStart).format(DATE_FORMAT) : null;
   const end_date = itemData ? moment(eventEnd).format(DATE_FORMAT) : null;
   const start_time = itemData ? moment(eventStart).format(TIME_FORMAT) : null;

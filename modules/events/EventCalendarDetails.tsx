@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import DetailsInputView from '../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {formatDateTime} from '../../services/CalendarService';
+import {formatDateTime} from '../../services/Shared/CalendarService';
 
 type Props = {
   itemData: any;

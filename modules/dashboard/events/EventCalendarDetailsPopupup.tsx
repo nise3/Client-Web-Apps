@@ -10,7 +10,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import {deleteEvent} from '../../../services/cmsManagement/EventService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import EventCalendarDetails from './EventCalendarDetails';
-import {ICalendar} from '../../../services/interface';
+import {ICalendar} from '../../../shared/Interface/interface';
 
 type Props = {
   itemId: number;

@@ -23,12 +23,12 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {ICalendar, ICalendarDto} from '../../../services/interface';
+import {ICalendar, ICalendarDto} from '../../../shared/Interface/interface';
 
 interface CalendarAddEditPopupProps {
-  itemId: number | null;
-  startDate: string | null;
-  endDate: string | null;
+  itemId: number | null | undefined;
+  startDate: string | null | undefined;
+  endDate: string | null | undefined;
   onClose: () => void;
   refreshDataTable: (events: string, item?: any) => void;
 }
@@ -101,19 +101,29 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     }
   }, [itemData]);
   const hasSecond = (time: any) => {
-    const timearray = time.split(':');
-    console.log(timearray.length);
-    return timearray.length === 3;
+    if(time){
+      const timearray = time.split(':');
+      // console.log(timearray.length);
+      return timearray.length === 3;
+    } else {
+      return false;
+    }
   };
   const onSubmit: SubmitHandler<ICalendarDto> = async (data: ICalendarDto) => {
     data.start = data.start_date;
     data.end = data.end_date;
-    data.start_time = hasSecond(data.start_time)
-      ? data.start_time
-      : `${data.start_time}:00`;
-    data.end_time = hasSecond(data.end_time)
-      ? data.end_time
-      : `${data.end_time}:00`;
+    if (data.start_time){
+      data.start_time = hasSecond(data.start_time)
+        ? data.start_time
+        : `${data.start_time}:00`;
+    }
+    if (data.end_time){
+      data.end_time = hasSecond(data.end_time)
+        ? data.end_time
+        : `${data.end_time}:00`;
+    }
+
+
     data.institute_id = authUser?.institute_id;
     try {
       if (itemId) {

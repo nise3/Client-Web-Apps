@@ -1,7 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PARTNERS} from '../../@softbd/common/apiRoutes';
-import { IPartner } from '../interface';
+import { IPartner } from '../../shared/Interface/interface';
 
 /**
  * @deprecated
