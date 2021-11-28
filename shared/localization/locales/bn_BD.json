@@ -982,7 +982,7 @@
   "common.rto": "আর টি ও",
   "common.association": "সমিতি",
   "common.industry_2": "শিল্প প্রতিষ্ঠান",
-  "common.job_provider": "জব প্রোভাইডার",
+  "common.job_provider": "চাকরি প্রদানকারী",
   "common.popular_job": "জনপ্রিয় জব",
   "common.nise_landing_training_center": "দক্ষতা উন্নয়ণ কেন্দ্র",
   "common.trained": "ট্রেইনড",
@@ -992,5 +992,11 @@
   "calendar.week": "সপ্তাহ",
   "calendar.day": "দিন",
   "calendar.schedule": "সময়সূচী",
-  "common.already_enrolled": "ইতিমধ্যে এনরোলড"
+  "common.already_enrolled": "ইতিমধ্যে এনরোলড",
+  "common.departments": "অধিদপ্তর",
+  "common.industry_associations": "শিল্প সমিতি বা চেম্বার অফ কমার্স",
+  "common.industry_skills_council": "শিল্প দক্ষতা কাউন্সিল",
+  "common.dc_offices": "জেলা প্রশাসকের কার্যালয়",
+  "common.4IR_projects": "৪আইআর প্রকল্প",
+  "common.industries": "শিল্প প্রতিষ্ঠান"
 }
