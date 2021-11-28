@@ -17,6 +17,7 @@ import {
 import CustomHookForm from '../component/CustomHookForm';
 import {YouthPortfolio} from '../../../../services/youthManagement/typing';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import FilepondComponent from '../../../filepond/FilepondComponent';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -149,14 +150,16 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <CustomTextInput
+              <FilepondComponent maxFiles={5} allowMultiple={true} />
+
+              {/*<CustomTextInput
                 id='upload_file'
                 label={messages['upload_file.portfolio_modal']}
                 type={'file'}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
-              />
+              />*/}
             </Grid>
           </Grid>
         </CustomHookForm>
