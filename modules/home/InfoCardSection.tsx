@@ -2,7 +2,7 @@ import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
-import {H3, Text} from '../../@softbd/elements/common';
+import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 
 const PREFIX = 'InfoCardSection';
@@ -84,21 +84,21 @@ const InfoCardSection = () => {
             <Card className={classes.youthBoxItem}>
               <img src={'/images/home-page/man-n-woman.png'} />
               <H3>{messages['common.youth_2']}</H3>
-              <Text>{messages['nise.card_youth']}</Text>
+              {/*<Text>{messages['nise.card_youth']}</Text>*/}
             </Card>
           </Grid>
           <Grid item xs={12} md={4}>
             <Card className={classes.skillBoxItem}>
               <img src={'/images/home-page/training.png'} />
               <H3>{messages['common.skill_develop']}</H3>
-              <Text> {messages['nise.card_youth']}</Text>
+              {/*<Text> {messages['nise.card_youth']}</Text>*/}
             </Card>
           </Grid>
           <Grid item xs={12} md={4}>
             <Card className={classes.industryBoxItem}>
               <img src={'/images/home-page/industry.png'} />
               <H3>{messages['common.industrial']}</H3>
-              <Text>{messages['nise.card_youth']}</Text>
+              {/*<Text>{messages['nise.card_youth']}</Text>*/}
             </Card>
           </Grid>
         </Grid>

@@ -7,7 +7,11 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {classes, StyledAppBar} from './AppHeader.style';
-import {ExitToApp, LocalActivityOutlined, CalendarViewMonth} from '@mui/icons-material';
+import {
+  ExitToApp,
+  LocalActivityOutlined,
+  CalendarViewMonth,
+} from '@mui/icons-material';
 // import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import {Button, Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
@@ -18,6 +22,7 @@ import AppLogo from '../../../../shared/components/AppLogo';
 import {NavLink as Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_NISE_CALENDAR,
+  LINK_FRONTEND_NISE_JOBS,
   LINK_FRONTEND_NISE_NOTICE_BOARD,
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
   LINK_FRONTEND_NISE_ROOT,
@@ -31,6 +36,7 @@ import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/Go
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
+import WorkIcon from '@mui/icons-material/Work';
 
 interface AppHeaderProps {}
 
@@ -78,11 +84,11 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           {messages['menu.training']}
         </Link>
       </MenuItem>
-      {/*<MenuItem component='span' className={classes.menuItemMobile}>
+      <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_JOBS}>
           <WorkIcon className={classes.menuIcons} /> {messages['menu.jobs']}
         </Link>
-      </MenuItem>*/}
+      </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
           <ContentPasteOutlinedIcon className={classes.menuIcons} />{' '}
@@ -140,7 +146,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     {messages['menu.training']}
                   </Link>
                 </Box>
-                {/*<Box component='span' className={classes.menuItem}>
+                <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_JOBS}>
                     <WorkIcon
                       className={classes.menuIcons}
@@ -148,7 +154,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     />{' '}
                     {messages['menu.jobs']}
                   </Link>
-                </Box>*/}
+                </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
                     <ContentPasteOutlinedIcon
