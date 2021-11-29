@@ -16,7 +16,7 @@ import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButto
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/interface';
-import { addStartEndPropsToList } from '../../services/global/CalendarService';
+import { addStartEndPropsToList } from '../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 const EventCalendarView = () => {
