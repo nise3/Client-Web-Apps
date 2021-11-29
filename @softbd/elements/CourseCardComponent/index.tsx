@@ -35,6 +35,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
   [`& .${classes.trainingCardImage}`]: {
     height: 140,
+    objectFit: 'contain',
   },
 
   [`& .${classes.providerLogo}`]: {

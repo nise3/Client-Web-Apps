@@ -16,7 +16,7 @@ const NiseImageCarousel = ({banners}: Props) => {
       additionalTransfrom={0}
       arrows
       autoPlay={true}
-      autoPlaySpeed={3000}
+      autoPlaySpeed={10000}
       beforeChange={() => {
         console.log('beforeChange');
       }}

@@ -39,7 +39,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   },
 
   [`& .${classes.topSelect}`]: {
-    border: '1px solid #5e6b0f',
+    border: '1px solid #671688',
     background: theme.palette.primary.main,
     textAlign: 'center',
     color: '#fff',
