@@ -10,7 +10,7 @@ import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {addStartEndPropsToList} from '../../../services/Shared/CalendarService';
+import {addStartEndPropsToList} from '../../../services/global/CalendarService';
 
 const localizer = momentLocalizer(moment);
 

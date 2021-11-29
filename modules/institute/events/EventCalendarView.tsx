@@ -10,7 +10,7 @@ import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/interface';
-import {addStartEndPropsToList} from '../../../services/Shared/CalendarService';
+import {addStartEndPropsToList} from '../../../services/global/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
