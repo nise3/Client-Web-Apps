@@ -25,6 +25,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IOrganizationUnitType} from '../../../shared/Interface/organization.interface';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
@@ -97,8 +98,8 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
       }
     }, [itemData]);
 
-    const onSubmit: SubmitHandler<OrganizationUnitType> = async (
-      data: OrganizationUnitType,
+    const onSubmit: SubmitHandler<IOrganizationUnitType> = async (
+      data: IOrganizationUnitType,
     ) => {
       if (authUser?.isOrganizationUser && authUser.organization?.id) {
         data.organization_id = authUser.organization.id;

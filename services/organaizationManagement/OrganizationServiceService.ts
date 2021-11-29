@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ORGANIZATION_SERVICES} from '../../@softbd/common/apiRoutes';
+import {IService} from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -39,7 +40,7 @@ export const deleteService = async (serviceId: number) => {
   }
 };
 
-export const createService = async (data: Service) => {
+export const createService = async (data: IService) => {
   try {
     let response: any = await apiPost(API_ORGANIZATION_SERVICES, data);
     return response.data;
@@ -48,7 +49,7 @@ export const createService = async (data: Service) => {
   }
 };
 
-export const updateService = async (serviceId: number, data: Service) => {
+export const updateService = async (serviceId: number, data: IService) => {
   try {
     let response: any = await apiPut(
       API_ORGANIZATION_SERVICES + '/' + serviceId,

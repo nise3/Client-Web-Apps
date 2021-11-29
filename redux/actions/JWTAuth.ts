@@ -26,6 +26,7 @@ import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
 import {getHostUrl} from '../../@softbd/common/SSOConfig';
+import {IOrganization} from '../../shared/Interface/organization.interface';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -118,7 +119,7 @@ type TAuthUserSSOResponse = {
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: Institute;
-  organization?: Organization;
+  organization?: IOrganization;
   role?: Role;
   displayName?: string;
   email?: string;

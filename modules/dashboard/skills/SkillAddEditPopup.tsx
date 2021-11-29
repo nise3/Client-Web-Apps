@@ -18,6 +18,7 @@ import {
 import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {ISkill} from '../../../shared/Interface/organization.interface';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
@@ -68,7 +69,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Skill>({
+  } = useForm<ISkill>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -85,7 +86,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Skill> = async (data: Skill) => {
+  const onSubmit: SubmitHandler<ISkill> = async (data: ISkill) => {
     try {
       if (itemId) {
         await updateSkill(itemId, data);

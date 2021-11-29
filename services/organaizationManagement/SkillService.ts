@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_SKILLS} from '../../@softbd/common/apiRoutes';
+import {ISkill} from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -26,18 +27,18 @@ export const getSkill = async (SkillId: number) => {
   }
 };
 
-export const createSkill = async (data: Skill) => {
+export const createSkill = async (data: ISkill) => {
   try {
-    let response: any = await apiPost(API_SKILLS, data);
+    let response: any = await apiPost<ISkill>(API_SKILLS, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
 };
 
-export const updateSkill = async (SkillId: number, data: Skill) => {
+export const updateSkill = async (SkillId: number, data: ISkill) => {
   try {
-    let response: any = await apiPut(API_SKILLS + '/' + SkillId, data);
+    let response: any = await apiPut<ISkill>(API_SKILLS + '/' + SkillId, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

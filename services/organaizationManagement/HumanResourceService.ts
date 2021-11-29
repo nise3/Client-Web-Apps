@@ -1,5 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_HUMAN_RESOURCES} from '../../@softbd/common/apiRoutes';
+import {IHumanResource} from '../../shared/Interface/organization.interface';
 
 export const getAllHumanResources = async (params = {}) => {
   try {
@@ -26,19 +27,19 @@ export const deleteHumanResource = async (humanResourceId: number) => {
   } catch (catchBlockHandler) {}
 };
 
-export const createHumanResource = async (data: HumanResource) => {
+export const createHumanResource = async (data: IHumanResource) => {
   try {
-    let response: any = await apiPost(API_HUMAN_RESOURCES, data);
+    let response: any = await apiPost<IHumanResource>(API_HUMAN_RESOURCES, data);
     return response.data;
   } catch (catchBlockHandler) {}
 };
 
 export const updateHumanResource = async (
   humanResourceId: number,
-  data: HumanResource,
+  data: IHumanResource,
 ) => {
   try {
-    let response: any = await apiPut(
+    let response: any = await apiPut<IHumanResource>(
       API_HUMAN_RESOURCES + '/' + humanResourceId,
       data,
     );

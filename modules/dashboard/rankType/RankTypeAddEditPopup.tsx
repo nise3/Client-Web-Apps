@@ -97,7 +97,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<RankType>({
+  } = useForm<IRankType>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -116,7 +116,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
+  const onSubmit: SubmitHandler<IRankType> = async (data: IRankType) => {
     if (authUser?.isOrganizationUser && authUser.organization?.id) {
       data.organization_id = authUser.organization.id;
     }

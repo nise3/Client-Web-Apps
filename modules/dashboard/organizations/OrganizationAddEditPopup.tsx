@@ -39,6 +39,7 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IOrganization } from '../../../shared/Interface/organization.interface';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -213,7 +214,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<Organization>({
+  } = useForm<IOrganization>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -289,7 +290,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const onSubmit: SubmitHandler<Organization> = async (data: Organization) => {
+  const onSubmit: SubmitHandler<IOrganization> = async (data: IOrganization) => {
     console.log('Data----', data);
     try {
       if (itemId) {

@@ -66,7 +66,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<OrganizationType>({
+  } = useForm<IOrganizationType>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -83,8 +83,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<OrganizationType> = async (
-    data: OrganizationType,
+  const onSubmit: SubmitHandler<IOrganizationType> = async (
+    data: IOrganizationType,
   ) => {
     const {is_government} = data;
     if (data) {

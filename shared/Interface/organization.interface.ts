@@ -1,19 +1,15 @@
-export interface IRankType {
+import {IidTitleCreateUpdateAt, IidTitles} from './interface';
+
+export interface IRankType extends IidTitles{
   key: number;
-  id: number;
   organization_id?: number | string | undefined;
-  title_en: string;
-  title: string;
   description?: string;
   description_en?: string;
   row_status?: number | string;
-};
+}
 
-export interface IRank {
+export interface IRank extends IidTitleCreateUpdateAt{
   key: string | number;
-  id: number;
-  title_en?: string;
-  title?: string;
   organization_id?: number | string;
   organization_title_en: string;
   rank_type_id: string;
@@ -21,24 +17,14 @@ export interface IRank {
   grade?: string;
   display_order?: string;
   row_status?: number | string;
-  created_at?: string;
-  updated_at?: string;
-};
+}
 
-export interface IOrganizationType {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IOrganizationType extends IidTitleCreateUpdateAt{
   is_government: number;
   row_status: number | string;
-  created_at?: string;
-  updated_at?: string;
-};
+}
 
-export interface IOrganization {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IOrganization extends IidTitleCreateUpdateAt{
   permission_sub_group: number | string;
   contact_person_designation: string;
   contact_person_designation_en?: string;
@@ -70,43 +56,25 @@ export interface IOrganization {
   organization_types_title?: string;
   organization_type_id: number | string;
   row_status?: number | string;
-  created_at?: string;
-  updated_at?: string;
-};
+}
 
-export interface IService {
+export interface IService extends IidTitleCreateUpdateAt{
   key: number;
-  id: number;
-  title_en: string;
-  title: string;
   row_status: number | string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface IJobSector {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IJobSectorDto extends IidTitleCreateUpdateAt{
   row_status?: number | string;
-  updated_at?: string;
-  crated_at?: string;
-};
-
-export interface IOccupation {
+}
+export interface IJobSector extends IJobSectorDto{
   id: number;
-  title_en: string;
-  title: string;
+}
+export interface IOccupation extends IidTitleCreateUpdateAt{
   job_sector_id: number | string;
   row_status: number | string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface IOrganizationUnit {
-  id: number;
-  title_en: string;
-  title: string;
+export interface IOrganizationUnit extends IidTitleCreateUpdateAt{
   organization_id: number;
   organization_unit_type_id: number;
   loc_division_id: number;
@@ -123,34 +91,19 @@ export interface IOrganizationUnit {
   contact_person_name: string;
   services?: Array<number>;
   row_status: number | string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface IOrganizationUnitType {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IOrganizationUnitType extends IidTitleCreateUpdateAt{
   organization_id: number;
   row_status?: number | string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface ISkill {
-  id: number;
-  title_en: string;
-  title: string;
+export interface ISkill extends IidTitleCreateUpdateAt{
   description: string;
   row_status?: number | string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface IHumanResourceTemplate {
-  id: number;
-  title_en: string;
-  title: string;
+export interface IHumanResourceTemplate extends IidTitleCreateUpdateAt{
   organization_id: number | string;
   organization_title_en: string;
   organization_title: string;
@@ -164,14 +117,9 @@ export interface IHumanResourceTemplate {
   is_designation?: number | string;
   status?: number;
   row_status?: string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface IHumanResource  {
-  id: number;
-  title_en: string;
-  title: string;
+export interface IHumanResource extends IidTitleCreateUpdateAt{
   organization_id: number | string;
   organization_title_en: string;
   organization_title: string;
@@ -184,10 +132,8 @@ export interface IHumanResource  {
   parent?: number | string | null;
   rank_id?: number | string;
   row_status?: string;
-  updated_at?: string;
-  crated_at?: string;
-};
+}
 
-export interface IBatchAssign  {
+export interface IBatchAssign{
   batch_id?: number | string | null;
-};
+}

@@ -5,6 +5,7 @@ import {FreedomFighterStatusType} from '../../../@softbd/utilities/FreedomFighte
 import {Religion} from '../../../@softbd/utilities/Religions';
 import {IdentityNumberType} from '../../../@softbd/utilities/IdentityNumberTypes';
 import {EthnicGroupStatusType} from '../../../@softbd/utilities/EthnicGroupStatus';
+import {IOrganization} from '../../../shared/Interface/organization.interface';
 
 export interface AuthUser {
   uid: string;
@@ -25,7 +26,7 @@ export interface CommonAuthUser extends AuthUser {
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: Institute | any;
-  organization?: Organization | any;
+  organization?: IOrganization | any;
   role: Role | any;
   permissions: string[];
   mobile?: string;

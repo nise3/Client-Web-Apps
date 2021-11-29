@@ -1,5 +1,16 @@
 import {Event, SlotInfo} from 'react-big-calendar';
 
+export interface IidTitle{
+  id: number;
+  title: string;
+}
+export interface IidTitles extends  IidTitle{
+  title_en?: string;
+}
+export interface IidTitleCreateUpdateAt extends IidTitles{
+  updated_at?: string;
+  crated_at?: string;
+}
 export interface IFAQ{
   show_in: number;
   institute_id?: number;
@@ -9,12 +20,8 @@ export interface IFAQ{
   answer: string;
   row_status: number;
   other_language_fields?: object;
-};
-
-export interface IPartner{
-  id: number;
-  title: string;
-  // title_en: string;
+}
+export interface IPartner extends IidTitle{
   main_image_path?: string;
   thumb_image_path?: string;
   grid_image_path?: string;
@@ -22,10 +29,8 @@ export interface IPartner{
   image_alt_title?: string;
   row_status: string;
   other_language_fields?: object;
-};
-
-export interface ICalendar extends Event{
-  title: string;
+}
+export interface ICalendar extends Event, Partial<IidTitleCreateUpdateAt>{
   youth_id?: number | string;
   institute_id?: number | string;
   organization_id?: number | string;
@@ -36,18 +41,12 @@ export interface ICalendar extends Event{
   start_time?: string;
   end_time?: string;
   color?: string;
-  updated_at?: string;
-  created_at?: string;
-  id?: number | string | undefined;
 }
-
 export interface ICalendarDto extends Omit<ICalendar, 'start'|'end'>{
   start?: string;
   end?: string;
 }
 export interface ICalendarSlotInfo extends Omit<SlotInfo, 'start'|'end'>{
-  // start?: string;
-  // end?: string;
   id: string;
 }
 export interface ICalendarQuery{
@@ -55,8 +54,7 @@ export interface ICalendarQuery{
   youth_id?: string | number;
   institute_id?: string | number;
 }
-export interface IStaticPage {
-  title?: string;
+export interface IStaticPageDto extends IidTitle{
   sub_title?: string;
   show_in?: number | string;
   content_slug_or_id?: string;
@@ -65,6 +63,7 @@ export interface IStaticPage {
   content_type?: string;
   contents?: string;
   row_status?: number | string;
-  updated_at?: string;
-  crated_at?: string;
+}
+export interface IStaticPage {
+  id: string;
 }

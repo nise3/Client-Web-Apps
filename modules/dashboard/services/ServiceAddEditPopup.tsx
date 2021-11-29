@@ -79,7 +79,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Service> = async (data: Service) => {
+  const onSubmit: SubmitHandler<IService> = async (data: IService) => {
     try {
       if (itemId) {
         await updateService(itemId, data);
