@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_USERS} from '../../@softbd/common/apiRoutes';
+import {IUser} from '../../shared/Interface/userManagement.interface';
 
 /**
  * @deprecated
@@ -27,7 +28,7 @@ export const getUser = async (userId: number) => {
   }
 };
 
-export const createUser = async (data: User) => {
+export const createUser = async (data: IUser) => {
   try {
     let response: any = await apiPost(API_USERS, data);
     return response.data;
@@ -36,7 +37,7 @@ export const createUser = async (data: User) => {
   }
 };
 
-export const updateUser = async (userId: number, data: User) => {
+export const updateUser = async (userId: number, data: IUser) => {
   try {
     let response: any = await apiPut(API_USERS + '/' + userId, data);
     return response.data;

@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PERMISSION_GROUPS} from '../../@softbd/common/apiRoutes';
+import { IPermissionGroup } from '../../shared/Interface/userManagement.interface';
 
 /**
  * @deprecated
@@ -29,9 +30,9 @@ export const getPermissionGroup = async (permissionGroupId: number) => {
   }
 };
 
-export const createPermissionGroup = async (data: PermissionGroup) => {
+export const createPermissionGroup = async (data: IPermissionGroup) => {
   try {
-    let response: any = await apiPost(API_PERMISSION_GROUPS, data);
+    let response: any = await apiPost<IPermissionGroup>(API_PERMISSION_GROUPS, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -40,10 +41,10 @@ export const createPermissionGroup = async (data: PermissionGroup) => {
 
 export const updatePermissionGroup = async (
   permissionGroupId: number,
-  data: PermissionGroup,
+  data: IPermissionGroup,
 ) => {
   try {
-    let response: any = await apiPut(
+    let response: any = await apiPut<IPermissionGroup>(
       API_PERMISSION_GROUPS + '/' + permissionGroupId,
       data,
     );

@@ -5,7 +5,7 @@ import {
   API_ORGANIZATIONS,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import { IFAQ } from '../../shared/Interface/interface';
+import { IFAQ } from '../../shared/Interface/common.interface';
 
 export const deleteFAQ = async (faqId: number) => {
   try {

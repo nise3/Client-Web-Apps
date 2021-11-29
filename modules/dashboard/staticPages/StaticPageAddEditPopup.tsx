@@ -28,7 +28,7 @@ import {
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
-import {IStaticPage} from '../../../shared/Interface/interface';
+import {IStaticPage} from '../../../shared/Interface/common.interface';
 
 interface StaticPageAddEditPopupProps {
   pageCode: string;

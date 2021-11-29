@@ -64,6 +64,39 @@ export interface IStaticPageDto extends IidTitle{
   contents?: string;
   row_status?: number | string;
 }
-export interface IStaticPage {
+export interface IStaticPageBlock extends IStaticPageDto{
   id: string;
+}
+export interface IStaticPageContent extends IidTitleCreateUpdateAt{
+  static_page_type_id?: number;
+  show_in: string;
+  show_in_label?: string;
+  institute_id?: string;
+  institute_title?: string;
+  institute_title_en?: string;
+  organization_id?: string;
+  organization_title?: string;
+  organization_title_en?: string;
+  industry_association_id?: any;
+  content_en?: any;
+  attachment_type?: string;
+  template_code?: string;
+  is_button_available?: string;
+  link?: string;
+  is_attachment_available?: string;
+  image_path?: any;
+  video_url?: any;
+  image_alt_title_en?: any;
+  content?: any;
+  button_text?: string;
+  image_alt_title?: any;
+  other_language_fields?: object;
+  row_status?: string | number;
+  created_by?: string;
+  updated_by?: string;
+}
+export interface IStaticBlockAddEditPopupProps {
+  pageCode: string;
+  pageCategory: number;
+  onClose: () => void;
 }

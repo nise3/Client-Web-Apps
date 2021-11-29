@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_JOB_SECTORS} from '../../@softbd/common/apiRoutes';
+import { IJobSector } from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated

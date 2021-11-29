@@ -26,6 +26,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import yup from '../../../@softbd/libs/yup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IRankType } from '../../../shared/Interface/organization.interface';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;

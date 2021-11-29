@@ -23,7 +23,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {ICalendar, ICalendarDto} from '../../../shared/Interface/interface';
+import {ICalendar, ICalendarDto} from '../../../shared/Interface/common.interface';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null | undefined;

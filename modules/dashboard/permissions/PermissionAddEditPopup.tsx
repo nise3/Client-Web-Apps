@@ -18,6 +18,7 @@ import {
 import IconPermission from '../../../@softbd/icons/IconPermission';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IPermission } from '../../../shared/Interface/userManagement.interface';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -88,7 +89,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Permission>({
+  } = useForm<IPermission>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -107,7 +108,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Permission> = async (data: Permission) => {
+  const onSubmit: SubmitHandler<IPermission> = async (data: IPermission) => {
     try {
       if (itemId) {
         await updatePermission(itemId, data);

@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PERMISSIONS} from '../../@softbd/common/apiRoutes';
+import {IPermission} from '../../shared/Interface/userManagement.interface';
 
 /**
  * @deprecated
@@ -36,7 +37,7 @@ export const deletePermission = async (permissionId: number) => {
   }
 };
 
-export const createPermission = async (data: Permission) => {
+export const createPermission = async (data: IPermission) => {
   try {
     let response: any = await apiPost(API_PERMISSIONS, data);
     return response.data;
@@ -47,7 +48,7 @@ export const createPermission = async (data: Permission) => {
 
 export const updatePermission = async (
   permissionId: number,
-  data: Permission,
+  data: IPermission,
 ) => {
   try {
     let response: any = await apiPut(

@@ -11,13 +11,13 @@ import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
 import {rowStatusArray} from '../../../utilities/RowStatus';
 
-type Props = {
+interface IProps{
   id: string;
   isLoading: boolean;
   control: any;
-  defaultValue: string;
+  defaultValue: string | number;
   onChange?: (e: any) => any;
-};
+}
 
 const FormRowStatus = ({
   id,
@@ -25,7 +25,7 @@ const FormRowStatus = ({
   control,
   defaultValue,
   onChange: onChangeCallback,
-}: Props) => {
+}: IProps) => {
   const {messages} = useIntl();
 
   return isLoading ? (

@@ -1,4 +1,4 @@
-import {IidTitleCreateUpdateAt, IidTitles} from './interface';
+import {IidTitleCreateUpdateAt, IidTitles} from './common.interface';
 
 export interface IRankType extends IidTitles{
   key: number;

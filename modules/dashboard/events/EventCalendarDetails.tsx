@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import moment from 'moment';
 import {DATE_FORMAT, TIME_FORMAT} from '../../../@softbd/utilities/DateTime';
-import {ICalendar} from '../../../shared/Interface/interface';
+import {ICalendar} from '../../../shared/Interface/common.interface';
 
 type Props = {
   itemData: ICalendar;

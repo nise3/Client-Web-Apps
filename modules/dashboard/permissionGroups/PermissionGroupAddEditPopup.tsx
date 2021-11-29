@@ -19,12 +19,9 @@ import {
 } from '../../../services/userManagement/PermissionGroupService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IPermission, IPermissionGroup, IPermissionGroupAddEditPopupProps} from '../../../shared/Interface/userManagement.interface';
 
-interface PermissionGroupAddEditPopupProps {
-  itemId: number | null;
-  onClose: () => void;
-  refreshDataTable: () => void;
-}
+
 
 const initialValues = {
   title_en: '',
@@ -33,7 +30,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
+const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -73,7 +70,7 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<PermissionGroup>({
+  } = useForm<IPermission>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -90,8 +87,8 @@ const PermissionGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<PermissionGroup> = async (
-    data: PermissionGroup,
+  const onSubmit: SubmitHandler<IPermissionGroup> = async (
+    data: IPermissionGroup,
   ) => {
     try {
       if (itemId) {
