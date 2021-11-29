@@ -40,11 +40,14 @@ const StyledPaper = styled(Paper)(({theme}) => ({
 
   [`& .${classes.topSelect}`]: {
     border: '1px solid #5e6b0f',
-    background: ' #5e6b0f',
+    background: theme.palette.primary.main,
     textAlign: 'center',
     color: '#fff',
     height: 40,
     width: 110,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
     '& .MuiSelect-select': {
       paddingTop: 0,
       paddingBottom: 0,
@@ -76,7 +79,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     width: '760px',
     height: '86px',
     padding: '10px',
-    marginTop: '114px',
+    marginTop: '40px',
     boxSizing: 'border-box',
     [theme.breakpoints.down('md')]: {
       display: 'flex',

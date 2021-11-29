@@ -48,28 +48,40 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
 let items = [
   {
-    img: '/images/skill-matching-job1.jpg',
-    title: 'ডাটা ইঞ্জিনিয়ারিং',
-    experience: '২-৩ বছর অভিজ্ঞতা',
-    location: 'তেজগাওঁ ঢাকা',
+    img: '/images/skill-matching-job-3.png',
+    title: 'ওটি অ্যাসিস্ট্যান্ট',
+    experience: '1-৩ বছর অভিজ্ঞতা',
+    location: 'আশুলিয়াা',
   },
   {
-    img: '/images/skill-matching-job2.jpg',
-    title: 'গ্রাফিক্স ডিজাইন',
-    experience: '২-৩ বছর অভিজ্ঞতা',
-    location: 'তেজগাওঁ ঢাকা',
+    img: '/images/skill-matching-job-4.png',
+    title: 'মেডিক্যাল সহকারী',
+    experience: 'প্রযোজ্য নয়',
+    location: 'রূপগঞ্জ',
   },
   {
-    img: '/images/skill-matching-job1.jpg',
-    title: 'ডাটা ইঞ্জিনিয়ারিং',
-    experience: '২-৩ বছর অভিজ্ঞতা',
-    location: 'তেজগাওঁ ঢাকা',
+    img: '/images/skill-matching-job-5.png',
+    title: 'সিসিটিভি টেকনিশিয়ান',
+    experience: '২ বছর অভিজ্ঞতা',
+    location: 'ঢাকা',
   },
   {
-    img: '/images/skill-matching-job2.jpg',
-    title: 'গ্রাফিক্স ডিজাইন',
+    img: '/images/skill-matching-job-6.png',
+    title: 'অটোমোবাইল ইঞ্জিনিয়ার',
+    experience: '৫-৭ বছর অভিজ্ঞতা',
+    location: 'উত্তরা',
+  },
+  {
+    img: '/images/skill-matching-job-7.png',
+    title: 'কম্পিউটার অপারেটর',
     experience: '২-৩ বছর অভিজ্ঞতা',
-    location: 'তেজগাওঁ ঢাকা',
+    location: 'মিরপুর',
+  },
+  {
+    img: '/images/skill-matching-job-8.png',
+    title: 'ডাটা এন্ট্রি অপারেটর',
+    experience: 'প্রযোজ্য নয়়',
+    location: 'ঢাকা',
   },
 ];
 

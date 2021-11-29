@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Container, Grid} from '@mui/material';
-import {Fade, Slide} from 'react-awesome-reveal';
+import {Box, Container, Grid, Skeleton} from '@mui/material';
+import {Slide} from 'react-awesome-reveal';
 import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
-import {H1, H6, Text} from '../../@softbd/elements/common';
+import {H6} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {LINK_INSTITUTE_SIGNUP} from '../../@softbd/common/appLinks';
-import {useRouter} from 'next/router';
+import {useVendor} from '../../@crema/utility/AppHooks';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
+import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
+import LandingBannerTemplateCenterBackground from './components/LandingBannerTemplateCenterBackground';
+import LandingBannerTemplateRightLeft from './components/LandingBannerTemplateRightLeft';
+import LandingBannerTemplateLeftRight from './components/LandingBannerTemplateLeftRight';
+import NiseImageCarousel from './components/NiseImageCarousel';
 
 const PREFIX = 'CoverArea';
 
@@ -16,7 +21,6 @@ const classes = {
   trendWrapper: `${PREFIX}-trendWrapper`,
   fold: `${PREFIX}-fold`,
   certifiedImage: `${PREFIX}-certifiedImage`,
-  foldStyle: `${PREFIX}-foldStyle`,
   coverImg: `${PREFIX}-coverImg`,
 };
 
@@ -30,154 +34,62 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.trendWrapper}`]: {
     position: 'relative',
     background: '#ddd',
-    paddingBottom: 'auto',
-  },
-
-  [`& .${classes.fold}`]: {
-    position: 'absolute',
-    height: '430px',
-    display: 'flex',
-    transition: 'all ease 0.5s',
-    right: 0,
-    bottom: 0,
-    [`&:hover .${classes.foldStyle}`]: {
-      width: '150px',
-      height: '150px',
-      transition: 'all ease 0.5s',
-      [theme.breakpoints.up('xl')]: {
-        width: '200px',
-        height: '200px',
-      },
-    },
-    [`&:hover .${classes.foldStyle}::before`]: {
-      borderWidth: '0 150px 150px 0',
-      transition: 'all ease 0.5s',
-      [theme.breakpoints.up('xl')]: {
-        borderWidth: '0 200px 200px 0',
-      },
-    },
-    [`&:hover .${classes.certifiedImage}`]: {
-      width: '150px',
-      height: '150px',
-      transition: 'all ease 0.5s',
-      [theme.breakpoints.up('xl')]: {
-        width: '200px',
-        height: '200px',
-      },
-    },
-    [theme.breakpoints.down('md')]: {
-      position: 'unset',
-    },
-  },
-
-  [`& .${classes.certifiedImage}`]: {
-    position: 'absolute',
-    right: 0,
-    width: '80px',
-    height: '80px',
-    backgroundPosition: 'top right',
-    backgroundSize: '110px',
-    backgroundColor: '#fff',
-    backgroundRepeat: 'no-repeat',
-    transition: 'all ease 0.5s',
-    cursor: 'pointer',
-    [theme.breakpoints.up('xl')]: {
-      width: '150px',
-      height: '150px',
-      backgroundSize: '180px',
-    },
-  },
-
-  [`& .${classes.foldStyle}`]: {
-    position: 'absolute',
-    right: 0,
-    width: '80px',
-    height: '80px',
-    transition: 'all ease 0.5s',
-    [theme.breakpoints.up('xl')]: {
-      width: '150px',
-      height: '150px',
-    },
-    '&::before': {
-      content: '""',
-      left: 0,
-      position: 'absolute',
-      borderStyle: 'solid',
-      borderWidth: '0 80px 80px 0',
-      borderColor: '#fbfbfb transparent',
-      transition: 'all ease 0.5s',
-      boxShadow: '0px 4px 9px -2px #898989',
-      [theme.breakpoints.up('xl')]: {
-        borderWidth: '0 150px 150px 0',
-      },
-    },
-  },
-
-  [`& .${classes.coverImg}`]: {
-    width: '400px',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center top',
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-    },
-    [theme.breakpoints.only('md')]: {
-      width: '500px',
-    },
-    [theme.breakpoints.only('lg')]: {
-      width: '600px',
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: '800px',
-    },
   },
 }));
 
+const getBannerTemplate = (banner: any) => {
+  switch (banner?.banner_template_code) {
+    case 'BT_CB':
+      return <LandingBannerTemplateCenterBackground banner={banner} />;
+    case 'BT_RL':
+      return <LandingBannerTemplateRightLeft banner={banner} />;
+    case 'BT_LR':
+      return <LandingBannerTemplateLeftRight banner={banner} />;
+    default:
+      return <LandingBannerTemplateCenterBackground banner={banner} />;
+  }
+};
+
 const CoverArea = () => {
   const {messages} = useIntl();
-  const router = useRouter();
-  const coverImageUrl = '/images/cover-area.png';
-  const certifiedImageUrl = '/images/icon_certified.svg';
+
+  const vendor = useVendor();
+  const [sliderFilters] = useState({
+    show_in: ShowInTypes.TSP,
+    institute_id: vendor?.id,
+  });
+  const {data: sliders, isLoading: isLoadingSliders} =
+    useFetchPublicSliders(sliderFilters);
+  const slider = sliders?.[0];
+  const banners = slider?.banners;
+  const numberOfBanners = banners?.length;
 
   return (
     <StyledBox sx={{position: 'relative'}}>
       <Box className={classes.root}>
-        <Container maxWidth='lg'>
-          <Grid container>
-            <Grid item xs={8} mt={{xs: 5, md: 8}}>
-              <Fade direction='up'>
-                <H1 sx={{fontWeight: 'bold'}}>
-                  {messages['landing.text_find_job_here']}
-                </H1>
-              </Fade>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={6} mt={{sm: 3}}>
-              <Fade direction='down'>
-                <Text
-                  style={{
-                    fontSize: '1.375rem',
-                    fontWeight: '300',
-                    lineHeight: '2.063rem',
-                  }}>
-                  {messages['landing.text_if_candidate']}
-                </Text>
-              </Fade>
-            </Grid>
-          </Grid>
-          <SearchBox />
-        </Container>
+        {isLoadingSliders ? (
+          <Skeleton variant={'rectangular'} width={'100%'} height={400} />
+        ) : banners && numberOfBanners == 1 ? (
+          getBannerTemplate(banners[0])
+        ) : banners && numberOfBanners > 1 ? (
+          <NiseImageCarousel banners={banners} />
+        ) : (
+          <></>
+        )}
       </Box>
       <Grid container className={classes.trendWrapper}>
-        <Grid item xs={12}>
+        <Grid item xs={12} mt={2}>
           <Slide direction='down'>
             <Container maxWidth={'lg'}>
               <Grid
                 container
-                display={'flex'}
+                display={'block'}
                 alignItems={'center'}
                 height='180px'>
-                <H6 mr={2}>{messages['nise.trend_search']}</H6>
+                <SearchBox />
+                <H6 mr={2} mt={2}>
+                  {messages['nise.trend_search']}
+                </H6>
                 <TrendSearchItemList
                   searchItems={[
                     messages['nise.graphics_design'],
@@ -191,24 +103,6 @@ const CoverArea = () => {
           </Slide>
         </Grid>
       </Grid>
-      <Box className={classes.fold}>
-        <Box
-          sx={{backgroundImage: `url(${certifiedImageUrl})`}}
-          className={classes.certifiedImage}
-          onClick={() => {
-            router
-              .push({
-                pathname: LINK_INSTITUTE_SIGNUP,
-              })
-              .then((r) => {});
-          }}>
-          <Box className={classes.foldStyle} />
-        </Box>
-        <Box
-          className={classes.coverImg}
-          sx={{background: `url(${coverImageUrl}) no-repeat`}}
-        />
-      </Box>
     </StyledBox>
   );
 };

@@ -854,7 +854,7 @@
   "education.cgpa_out_of_scale": "{scale} এর মধ্যে {cgpa}",
   "course_details.enrolled": "{total} জন নিবন্ধিত হয়েছে",
   "course_details.total_lesson": "{total} পাঠ",
-  "landing.text_find_job_here": "এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি অথবা প্রশিক্ষণ",
+  "landing.text_find_job_here": "এখানে খুঁজে নিন আপনার প্রয়োজন অনুসারে চাকরি",
   "landing.text_if_candidate": "আপনি যদি একজন প্রশিক্ষণ অথবা  চাকরি প্রার্থী হয়ে থাকেন, তাহলে এখনই খুঁজে নিন আপনার প্রয়োজন ও যোগ্যতা অনুসারে প্রশিক্ষণ অথবা চাকরি।",
   "common.business": "ব্যবসা",
   "common.search_2": "অনুসন্ধান করুন",

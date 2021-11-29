@@ -30,6 +30,7 @@ const ImageCarousel = ({banners}: Props) => {
     <Carousel
       additionalTransfrom={0}
       arrows
+      autoPlay={true}
       autoPlaySpeed={3000}
       beforeChange={() => {
         console.log('beforeChange');
