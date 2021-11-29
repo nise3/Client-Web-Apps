@@ -17,7 +17,7 @@ import {
 import CustomHookForm from '../component/CustomHookForm';
 import {YouthPortfolio} from '../../../../services/youthManagement/typing';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
-import FilepondComponent from '../../../filepond/FilepondComponent';
+import FileUploadComponent from '../../../filepond/FileUploadComponent';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -47,6 +47,10 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
         .string()
         .title()
         .label(messages['common.title'] as string),
+      file_path: yup
+        .string()
+        .required()
+        .label(messages['common.file_upload'] as string),
     });
   }, [messages]);
 
@@ -55,6 +59,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     reset,
     handleSubmit,
     setError,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<YouthPortfolio>({
     resolver: yupResolver(validationSchema),
@@ -76,8 +81,9 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
 
   const onSubmit: SubmitHandler<any> = async (data: YouthPortfolio) => {
     //demo file url
-    data.file_path = 'http://lorempixel.com/400/200/';
-
+    /*    data.file_path = data.file_path
+      ? data.file_path
+      : 'http://lorempixel.com/400/200/'*/ console.log('data-------', data);
     try {
       if (itemId) {
         await updatePortfolio(itemId, data);
@@ -89,6 +95,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
       mutatePortfolio();
       props.onClose();
     } catch (error: any) {
+      console.log('errors----', error);
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
@@ -150,8 +157,16 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <FilepondComponent maxFiles={5} allowMultiple={true} />
-
+              <FileUploadComponent
+                id='file_path'
+                maxFiles={5}
+                allowMultiple={true}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['upload_file.portfolio_modal']}
+                required={true}
+              />
               {/*<CustomTextInput
                 id='upload_file'
                 label={messages['upload_file.portfolio_modal']}
