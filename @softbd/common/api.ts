@@ -13,9 +13,9 @@ function apiGet<T = any>(apiPath: string, config: AxiosRequestConfig = {}) {
     .catch(errorHandler);
 }
 
-function apiPost<T = any>(
+function apiPost<R = any, T = any>(
   apiPath: string,
-  data?: any,
+  data?: R,
   config: AxiosRequestConfig = {},
 ) {
   return axiosInstance
@@ -31,7 +31,7 @@ function apiDelete<T = any>(apiPath: string) {
     .catch(errorHandler);
 }
 
-function apiPut<T = any>(apiPath: string, data = {}) {
+function apiPut<R = any, T = any>(apiPath: string, data?: R) {
   return axiosInstance
     .put(apiPath, data)
     .then((response: AxiosResponse<T>) => response)

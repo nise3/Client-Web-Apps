@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import {apiGet} from '../common/api';
 
-function common(response: any = {}) {
+function common<T = any>(response: any = {}) {
   const {
     data: responseData,
     isValidating,
@@ -20,7 +20,7 @@ function common(response: any = {}) {
   };
 }
 
-export function useAxiosSWR(deps: any[] | string | null) {
+export function useAxiosSWR<T = any>(deps: any[] | string | null) {
   console.count('useAxiosSWR');
-  return common(useSWR(deps, (url, params) => apiGet(url, {params})));
+  return common<T>(useSWR(deps, (url, params) => apiGet(url, {params})));
 }
