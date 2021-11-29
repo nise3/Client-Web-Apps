@@ -27,10 +27,12 @@ const EventCalendar = () => {
   }
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>();
-  const [selectedStartDate, setSelectedStartDate] = useState<string | undefined>(
+  const [selectedStartDate, setSelectedStartDate] = useState<
+    string | undefined
+  >(undefined);
+  const [selectedEndDate, setSelectedEndDate] = useState<string | undefined>(
     undefined,
   );
-  const [selectedEndDate, setSelectedEndDate] = useState<string | undefined>(undefined);
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
@@ -95,9 +97,7 @@ const EventCalendar = () => {
   useEffect(() => {
     if (events) {
       events.map((e: ICalendar) => {
-        let start = e.start_time
-          ? `${e.start}T${e.start_time}`
-          : `${e.start}`;
+        let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
         let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
         e.start = new Date(start);
         e.end = new Date(end);
