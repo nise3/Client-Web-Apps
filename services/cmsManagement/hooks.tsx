@@ -125,7 +125,7 @@ export function useFetchCalenderEvents(params: any) {
 }
 
 /** fetches a single calendar event */
-export function useFetchCalendarEvent(eventId: number | null) {
+export function useFetchCalendarEvent(eventId: number | null | undefined) {
   // return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + eventId : null);
   return useAxiosSWR([API_CALENDAR_EVENTS + '/' + eventId]);
 }

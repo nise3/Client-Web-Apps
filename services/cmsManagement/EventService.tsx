@@ -1,6 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_CALENDAR_EVENTS} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
+import {ICalendarDto} from '../../shared/Interface/interface';
 
 export const deleteEvent = async (eventId: number) => {
   try {
@@ -11,7 +12,7 @@ export const deleteEvent = async (eventId: number) => {
   }
 };
 
-export const createCalendar = async (data: Calendar) => {
+export const createCalendar = async (data: ICalendarDto) => {
   try {
     let response: any = await apiPost(API_CALENDAR_EVENTS, data);
     return response.data;
@@ -20,7 +21,7 @@ export const createCalendar = async (data: Calendar) => {
   }
 };
 
-export const updateCalendar = async (eventId: number, data: Calendar) => {
+export const updateCalendar = async (eventId: number, data: ICalendarDto) => {
   try {
     let response: any = await apiPut(API_CALENDAR_EVENTS + '/' + eventId, data);
     return response.data;

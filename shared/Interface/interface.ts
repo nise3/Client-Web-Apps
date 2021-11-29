@@ -1,4 +1,6 @@
-type FAQ = {
+import {Event, SlotInfo} from 'react-big-calendar';
+
+export interface IFAQ{
   show_in: number;
   institute_id?: number;
   organization_id?: number;
@@ -9,7 +11,7 @@ type FAQ = {
   other_language_fields?: object;
 };
 
-type Partner = {
+export interface IPartner{
   id: number;
   title: string;
   // title_en: string;
@@ -22,7 +24,7 @@ type Partner = {
   other_language_fields?: object;
 };
 
-interface Calendar {
+export interface ICalendar extends Event{
   title: string;
   youth_id?: number | string;
   institute_id?: number | string;
@@ -36,15 +38,24 @@ interface Calendar {
   color?: string;
   updated_at?: string;
   created_at?: string;
-  id?: number | string;
+  id?: number | string | undefined;
 }
 
-interface ICalendarEvent extends  Calendar{
+export interface ICalendarDto extends Omit<ICalendar, 'start'|'end'>{
   start?: string;
   end?: string;
 }
-
-interface StaticPage {
+export interface ICalendarSlotInfo extends Omit<SlotInfo, 'start'|'end'>{
+  // start?: string;
+  // end?: string;
+  id: string;
+}
+export interface ICalendarQuery{
+  type: string;
+  youth_id?: string | number;
+  institute_id?: string | number;
+}
+export interface IStaticPage {
   title?: string;
   sub_title?: string;
   show_in?: number | string;

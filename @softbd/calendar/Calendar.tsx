@@ -3,8 +3,7 @@ import {Calendar, CalendarProps} from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {useIntl} from 'react-intl';
 
-interface IMyCalendar extends CalendarProps {
-}
+interface IMyCalendar extends CalendarProps{ }
 
 const MyCalendar = ({events, ...rest}: IMyCalendar) => {
   const {messages} = useIntl();

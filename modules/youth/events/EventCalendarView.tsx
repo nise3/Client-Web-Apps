@@ -10,6 +10,7 @@ import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {addStartEndPropsToList} from '../../../services/Shared/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
@@ -57,12 +58,13 @@ const YouthEventCalendarView = () => {
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
   useEffect(() => {
-    if (events) {
-      events.forEach((element: any) => {
-        element['start'] = element.start_date;
-        element['end'] = element.start_date;
-      });
-    }
+    addStartEndPropsToList(events);
+    // if (events) {
+    //   events.forEach((element: any) => {
+    //     element['start'] = element.start_date;
+    //     element['end'] = element.start_date;
+    //   });
+    // }
   }, [events]);
 
   useEffect(() => {

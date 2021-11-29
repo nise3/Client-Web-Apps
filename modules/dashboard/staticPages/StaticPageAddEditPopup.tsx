@@ -28,6 +28,7 @@ import {
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
+import {IStaticPage} from '../../../shared/Interface/interface';
 
 interface StaticPageAddEditPopupProps {
   pageCode: string;
@@ -123,7 +124,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<StaticPage>({
+  } = useForm<IStaticPage>({
     resolver: yupResolver(validationSchema),
   });
 

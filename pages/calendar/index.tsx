@@ -12,7 +12,7 @@ export default NiseFrontPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
+      <PageMeta title={messages['menu.calendar'] as string} />
       <EventCalendarViewPage />
     </>
   );

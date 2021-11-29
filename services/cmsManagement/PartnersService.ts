@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_PARTNERS} from '../../@softbd/common/apiRoutes';
+import { IPartner } from '../../shared/Interface/interface';
 
 /**
  * @deprecated
@@ -25,7 +26,7 @@ export const getAllPartners = async (params = {}) => {
 // };
 
 
-export const createPartner = async (data: Partner) => {
+export const createPartner = async (data: IPartner) => {
   try {
     let response: any = await apiPost(API_PARTNERS, data);
     return response.data;
@@ -34,7 +35,7 @@ export const createPartner = async (data: Partner) => {
   }
 };
 
-export const updatePartner = async (partnerId: number, data: Partner) => {
+export const updatePartner = async (partnerId: number, data: IPartner) => {
   try {
     let response: any = await apiPut(API_PARTNERS + '/' + partnerId, data);
     return response.data;
