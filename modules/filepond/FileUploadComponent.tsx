@@ -1,13 +1,6 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
-// Import React FilePond
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
-
-// Import FilePond styles
 import 'filepond/dist/filepond.min.css';
-
-// Import the Image EXIF Orientation and Image Preview plugins
-// Note: These need to be installed separately
-// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -18,9 +11,7 @@ import {
   InputLabel,
   TextField,
 } from '@mui/material';
-// Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-// Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface FilepondComponentProps {
@@ -31,7 +22,7 @@ interface FilepondComponentProps {
   setValue: any;
   register: any;
   required: boolean;
-  label: string;
+  label: any;
 }
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
@@ -52,13 +43,36 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
     errorObj = errorInstance?.[matches[1]]?.[matches[2]];
   }
   const [files, setFiles] = useState<any>([]);
+  /* const [files, setFiles] = useState<any>([
+    {
+      // the server file reference
+      source: 'http://lorempixel.com/400/200/',
+
+      // set type to limbo to tell FilePond this is a temp file
+      /!* options: {
+        type: 'local',
+      },*!/
+    },
+  ]);*/
+  console.log('files - ', files);
 
   const [filePaths, setFilePaths] = useState<any>([]);
+  const filePondRef = useRef<any>(null);
+
+  /*    const handleOnProcessFile = useCallback((error, file) => {
+    if (error) {
+      if (filePondRef && filePondRef.current) {
+        filePondRef.current.removeFile(file);
+      }
+    }
+  }, []);*/
 
   const onFileUpload: any = useCallback((path: any) => {
     console.log('filePaths--', path);
     setValue('file_path', path[0]);
   }, []);
+
+  /*  const handleOnProcessRemoveFile: any = useCallback((path: any) => {}, []);*/
 
   useEffect(() => {
     onFileUpload(filePaths);
@@ -70,6 +84,9 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
         <FilePond
           files={files}
           onupdatefiles={setFiles}
+          ref={filePondRef}
+          /*          onprocessfile={handleOnProcessFile}*/
+          /*   onremovefile={handleOnProcessRemoveFile}*/
           allowMultiple={allowMultiple}
           maxFiles={maxFiles}
           server={{
@@ -84,12 +101,24 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
                 return 1;
               },
             },
-            load: (source, load, error, progress, abort, headers) => {
+            revert: {
+              onload: (response: any) => {
+                /*console.log('revert---response--', response);*/
+                setValue('file_path', '');
+                setFilePaths([]);
+                return 1;
+              },
+            },
+            load: 'http://lorempixel.com/400/200/',
+            /*   load: (source, load, error, progress, abort, headers) => {
               console.log('attempting to load', source);
 
               // implement logic to load file from server here
               // https://pqina.nl/filepond/docs/patterns/api/server/#load-1
-            },
+            },*/
+            /*  load: {
+              url: 'http://lorempixel.com/400/200/',
+            },*/
           }}
           styleProgressIndicatorPosition={'center'}
           name='files'
