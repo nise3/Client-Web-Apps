@@ -41,6 +41,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     mutate: mutatePortfolio,
     isLoading,
   } = useFetchPortfolio(itemId);
+
+  console.log('data port----', itemData);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -159,6 +161,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
             <Grid item xs={12}>
               <FileUploadComponent
                 id='file_path'
+                itemData={itemData}
                 maxFiles={5}
                 allowMultiple={true}
                 errorInstance={errors}
