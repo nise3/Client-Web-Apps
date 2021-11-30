@@ -9,6 +9,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {useFetchOrganizationUnit} from '../../../services/organaizationManagement/hooks';
+import {IService} from '../../../shared/Interface/organization.interface';
 
 type Props = {
   itemId: number;
@@ -26,7 +27,7 @@ const OrganizationUnitDetailsPopup = ({
 
   const getServicesName = useCallback(
     (services: any = []) => {
-      let namesArray = services.map((item: Service) => item.title);
+      let namesArray = services.map((item: IService) => item.title);
       return namesArray.join();
     },
     [itemId],

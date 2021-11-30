@@ -3,6 +3,7 @@ import {styled} from '@mui/material/styles';
 import {Box, Slide} from '@mui/material';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
+import {ISkill} from '../../../../shared/Interface/organization.interface';
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -139,7 +140,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     setAreaText(
       svgNode,
       'computerskill',
-      userData?.skills.map((skill: any, index: number) => {
+      userData?.skills.map((skill: ISkill, index: number) => {
         return skill?.title ? index + 1 + '. ' + skill?.title + ' ' : ' ';
       }),
     );

@@ -20,6 +20,7 @@ import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import {useFetchOrganizationType} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IOrganizationType } from '../../../shared/Interface/organization.interface';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -66,7 +67,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<OrganizationType>({
+  } = useForm<IOrganizationType>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -83,8 +84,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<OrganizationType> = async (
-    data: OrganizationType,
+  const onSubmit: SubmitHandler<IOrganizationType> = async (
+    data: IOrganizationType,
   ) => {
     const {is_government} = data;
     if (data) {

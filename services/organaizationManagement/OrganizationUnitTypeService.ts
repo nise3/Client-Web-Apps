@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ORGANIZATION_UNIT_TYPES} from '../../@softbd/common/apiRoutes';
+import {IOrganizationUnitType} from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -31,7 +32,7 @@ export const getOrganizationUnitType = async (
 };
 
 export const createOrganizationUnitType = async (
-  data: OrganizationUnitType,
+  data: IOrganizationUnitType,
 ) => {
   try {
     let response: any = await apiPost(API_ORGANIZATION_UNIT_TYPES, data);
@@ -43,7 +44,7 @@ export const createOrganizationUnitType = async (
 
 export const updateOrganizationUnitType = async (
   OrganizationUnitTypeId: number,
-  data: OrganizationUnitType,
+  data: IOrganizationUnitType,
 ) => {
   try {
     let response: any = await apiPut(

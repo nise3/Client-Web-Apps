@@ -30,16 +30,15 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplateTypes';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
-import {IStaticPage} from '../../../shared/Interface/interface';
+import {
+  IStaticBlockAddEditPopupProps,
+  IStaticPageBlock,
+  IStaticPageContent,
+} from '../../../shared/Interface/common.interface';
 
 
-interface StaticBlockAddEditPopupProps {
-  pageCode: string;
-  pageCategory: number;
-  onClose: () => void;
-}
 
-const initialValues = {
+const initialValues: Partial<IStaticPageContent> = {
   title: '',
   content: '',
   is_attachment_available: '0',
@@ -50,7 +49,7 @@ const initialValues = {
   show_in: '',
 };
 
-const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
+const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
   pageCode,
   pageCategory,
   ...props
@@ -219,7 +218,7 @@ const StaticBlockAddEditPopup: FC<StaticBlockAddEditPopupProps> = ({
     clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IStaticPage>({
+  } = useForm<IStaticPageBlock>({
     resolver: yupResolver(validationSchema),
   });
 

@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ORGANIZATIONS} from '../../@softbd/common/apiRoutes';
+import {IOrganization} from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -24,7 +25,7 @@ export const getOrganization = async (OrganizationId: number) => {
   } catch (catchBlockHandler) {}
 };
 
-export const createOrganization = async (data: Organization) => {
+export const createOrganization = async (data: IOrganization) => {
   try {
     let response: any = await apiPost(API_ORGANIZATIONS, data);
     return response.data;
@@ -35,7 +36,7 @@ export const createOrganization = async (data: Organization) => {
 
 export const updateOrganization = async (
   OrganizationId: number,
-  data: Organization,
+  data: IOrganization,
 ) => {
   try {
     let response: any = await apiPut(

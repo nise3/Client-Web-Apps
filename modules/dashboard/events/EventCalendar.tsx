@@ -8,7 +8,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import {ICalendar, ICalendarQuery} from '../../../shared/Interface/interface';
+import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
 import {addStartEndPropsToList} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);

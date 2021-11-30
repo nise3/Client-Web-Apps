@@ -10,6 +10,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import {useFetchCourse} from '../../../services/instituteManagement/hooks';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
+import {ISkill} from '../../../shared/Interface/organization.interface';
 
 type Props = {
   itemId: number;
@@ -23,7 +24,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
   const getSkillsName = useCallback(
     (skills: any = []) => {
-      let namesArray = skills.map((item: Skill) => item.title);
+      let namesArray = skills.map((item: ISkill) => item.title);
       return namesArray.join();
     },
     [itemId],

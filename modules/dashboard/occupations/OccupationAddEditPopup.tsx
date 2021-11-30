@@ -24,6 +24,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IOccupation} from '../../../shared/Interface/organization.interface';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
@@ -96,7 +97,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Occupation> = async (data: Occupation) => {
+  const onSubmit: SubmitHandler<IOccupation> = async (data: IOccupation) => {
     try {
       if (itemId) {
         await updateOccupation(itemId, data);

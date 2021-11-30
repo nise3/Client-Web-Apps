@@ -19,6 +19,7 @@ import {useFetchJobSector} from '../../../services/organaizationManagement/hooks
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IJobSector } from '../../../shared/Interface/organization.interface';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -63,7 +64,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<JobSector>({
+  } = useForm<IJobSector>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -79,7 +80,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<JobSector> = async (data: JobSector) => {
+  const onSubmit: SubmitHandler<IJobSector> = async (data: IJobSector) => {
     try {
       if (itemId) {
         await updateJobSector(itemId, data);

@@ -12,6 +12,7 @@ import {
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {Share} from '@mui/icons-material';
+import {ISkill} from '../../../../shared/Interface/organization.interface';
 
 const PREFIX = 'FreelancerCardComponent';
 
@@ -92,7 +93,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
             <Box>
               {freelancer?.skills &&
                 skills?.length > 0 &&
-                (skills || []).map((skill: any) => {
+                (skills || []).map((skill: ISkill) => {
                   return <TagChip label={skill.title} key={skill.id} />;
                 })}
             </Box>

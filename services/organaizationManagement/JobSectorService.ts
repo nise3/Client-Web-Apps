@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_JOB_SECTORS} from '../../@softbd/common/apiRoutes';
+import { IJobSector } from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -26,7 +27,7 @@ export const getJobSector = async (jobSectorId: number) => {
   }
 };
 
-export const createJobSector = async (data: JobSector) => {
+export const createJobSector = async (data: IJobSector) => {
   try {
     let response: any = await apiPost(API_JOB_SECTORS, data);
     return response.data;
@@ -35,7 +36,7 @@ export const createJobSector = async (data: JobSector) => {
   }
 };
 
-export const updateJobSector = async (jobSectorId: number, data: JobSector) => {
+export const updateJobSector = async (jobSectorId: number, data: IJobSector) => {
   try {
     let response: any = await apiPut(API_JOB_SECTORS + '/' + jobSectorId, data);
     return response.data;

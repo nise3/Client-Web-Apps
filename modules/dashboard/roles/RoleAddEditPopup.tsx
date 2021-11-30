@@ -28,6 +28,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import IconRole from '../../../@softbd/icons/IconRole';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IRole } from '../../../shared/Interface/userManagement.interface';
 interface RoleAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -114,7 +115,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Role>({
+  } = useForm<IRole>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -139,7 +140,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Role> = async (data: Role) => {
+  const onSubmit: SubmitHandler<IRole> = async (data: IRole) => {
     if (authUser?.isInstituteUser) {
       data.institute_id = authUser?.institute_id;
       data.permission_sub_group_id = authUser?.role?.permission_sub_group_id;

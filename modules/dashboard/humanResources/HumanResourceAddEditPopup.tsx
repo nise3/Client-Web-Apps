@@ -27,6 +27,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {Grid} from '@mui/material';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IHumanResource} from '../../../shared/Interface/organization.interface';
 
 interface HumanResourceAddEditPopupProps {
   itemId: number | null;
@@ -128,7 +129,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<HumanResource>({
+  } = useForm<IHumanResource>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -209,8 +210,8 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     }
   }, [humanResourceData, humanResources]);
 
-  const onSubmit: SubmitHandler<HumanResource> = async (
-    data: HumanResource,
+  const onSubmit: SubmitHandler<IHumanResource> = async (
+    data: IHumanResource,
   ) => {
     data.parent_id = data.parent_id ? data.parent_id : null;
 

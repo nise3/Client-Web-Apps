@@ -5,6 +5,7 @@ import {
 } from '../../@softbd/common/apiRoutes';
 import {apiPost} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
+import { IBatchAssign } from '../../shared/Interface/organization.interface';
 
 export const createRegistration = async (data: any) => {
   try {
@@ -29,7 +30,7 @@ export const rejectEnrollment = async (enrollment_id: number) => {
 
 /** assigns a batch to a trainee application */
 export const assignBatch = async (
-  data: BatchAssign,
+  data: IBatchAssign,
   enrollment_id: number | null,
 ) => {
   const submittedData = {

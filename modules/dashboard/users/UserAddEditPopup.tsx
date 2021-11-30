@@ -39,6 +39,7 @@ import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+import {IUser} from '../../../shared/Interface/userManagement.interface';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -141,7 +142,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<User>({
+  } = useForm<IUser>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -203,7 +204,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const onSubmit: SubmitHandler<User> = async (data: User) => {
+  const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
     console.log('data--------------------', data);
     if (authUser?.isInstituteUser) {
       data.institute_id = authUser?.institute_id;

@@ -26,7 +26,7 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Box, Button, IconButton} from '@mui/material';
-import { IPartner } from '../../../shared/Interface/interface';
+import { IPartner } from '../../../shared/Interface/common.interface';
 
 interface PartnerAddEditPopupProps {
   itemId: number | null;

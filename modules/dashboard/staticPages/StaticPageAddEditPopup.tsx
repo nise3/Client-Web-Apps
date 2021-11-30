@@ -28,7 +28,8 @@ import {
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
-import {IStaticPage} from '../../../shared/Interface/interface';
+import {IStaticPageContent} from '../../../shared/Interface/common.interface';
+// import {IStaticPage} from '../../../shared/Interface/common.interface';
 
 interface StaticPageAddEditPopupProps {
   pageCode: string;
@@ -36,7 +37,7 @@ interface StaticPageAddEditPopupProps {
   onClose: () => void;
 }
 
-const initialValues = {
+const initialValues: Partial<IStaticPageContent> = {
   title: '',
   sub_title: '',
   content: '',
@@ -124,7 +125,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
     clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IStaticPage>({
+  } = useForm<IStaticPageContent>({
     resolver: yupResolver(validationSchema),
   });
 

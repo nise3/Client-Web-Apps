@@ -10,16 +10,16 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
 
-type Props = {
+interface Props{
   id: string;
   label: string;
   radios: Array<any>;
   isLoading?: boolean;
   required?: boolean;
   control: any;
-  defaultValue?: string;
+  defaultValue?: string | number | undefined;
   onChange?: (e: any) => any;
-};
+}
 
 const FormRadioButtons = ({
   id,

@@ -39,6 +39,7 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IOrganizationUnit, IService} from '../../../shared/Interface/organization.interface';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -229,12 +230,12 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const getServiceIds = (services: Array<Service>) => {
-    return services.map((item: Service) => item.id);
+  const getServiceIds = (services: Array<IService>) => {
+    return services.map((item: IService) => item.id);
   };
 
-  const onSubmit: SubmitHandler<OrganizationUnit> = async (
-    data: OrganizationUnit,
+  const onSubmit: SubmitHandler<IOrganizationUnit> = async (
+    data: IOrganizationUnit,
   ) => {
     if (authUser?.isOrganizationUser && authUser.organization?.id) {
       data.organization_id = authUser.organization.id;

@@ -27,6 +27,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IHumanResourceTemplate} from '../../../shared/Interface/organization.interface';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
@@ -215,8 +216,8 @@ const HumanResourceTemplateAddEditPopup: FC<HumanResourceTemplateAddEditPopupPro
       }
     }, [itemId, humanResourceTemplateData, organizationUnitTypeData]);
 
-    const onSubmit: SubmitHandler<HumanResourceTemplate> = async (
-      data: HumanResourceTemplate,
+    const onSubmit: SubmitHandler<IHumanResourceTemplate> = async (
+      data: IHumanResourceTemplate,
     ) => {
       data.parent_id = data.parent_id ?? null;
       data.status = 1; // TODO::fix it

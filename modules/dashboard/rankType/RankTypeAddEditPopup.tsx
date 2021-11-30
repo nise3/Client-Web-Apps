@@ -26,6 +26,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import yup from '../../../@softbd/libs/yup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IRankType } from '../../../shared/Interface/organization.interface';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -97,7 +98,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<RankType>({
+  } = useForm<IRankType>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -116,7 +117,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<RankType> = async (data: RankType) => {
+  const onSubmit: SubmitHandler<IRankType> = async (data: IRankType) => {
     if (authUser?.isOrganizationUser && authUser.organization?.id) {
       data.organization_id = authUser.organization.id;
     }

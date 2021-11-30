@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {DATE_FORMAT, TIME_FORMAT} from '../../@softbd/utilities/DateTime';
 import { catchBlockHandler } from '../../@softbd/utilities/helpers';
-import {ICalendar} from '../../shared/Interface/interface';
+import {ICalendar} from '../../shared/Interface/common.interface';
 
 export const addStartEndPropsToList = (events: ICalendar[]) => {
   try {

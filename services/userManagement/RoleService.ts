@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ROLES} from '../../@softbd/common/apiRoutes';
+import { IRole } from '../../shared/Interface/userManagement.interface';
 
 /**
  * @deprecated
@@ -36,7 +37,7 @@ export const deleteRole = async (roleId: number) => {
   }
 };
 
-export const createRole = async (data: Role) => {
+export const createRole = async (data: IRole) => {
   try {
     let response: any = await apiPost(API_ROLES, data);
     return response.data;
@@ -45,7 +46,7 @@ export const createRole = async (data: Role) => {
   }
 };
 
-export const updateRole = async (roleId: number, data: Role) => {
+export const updateRole = async (roleId: number, data: IRole) => {
   try {
     let response: any = await apiPut(API_ROLES + '/' + roleId, data);
     return response.data;

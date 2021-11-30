@@ -11,13 +11,13 @@ import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
 import {rowStatusArray} from '../../../utilities/RowStatus';
 
-type Props = {
+interface IProps{
   id: string;
   isLoading: boolean;
   control: any;
-  defaultValue: string;
+  defaultValue: string | number | undefined;
   onChange?: (e: any) => any;
-};
+}
 
 const FormRowStatus = ({
   id,
@@ -25,7 +25,7 @@ const FormRowStatus = ({
   control,
   defaultValue,
   onChange: onChangeCallback,
-}: Props) => {
+}: IProps) => {
   const {messages} = useIntl();
 
   return isLoading ? (
@@ -34,7 +34,7 @@ const FormRowStatus = ({
     <FormControl component='fieldset'>
       <FormLabel component='legend'>{messages['common.status']}</FormLabel>
       <Controller
-        render={({field: {onChange, value = defaultValue.toString()}}) => (
+        render={({field: {onChange, value = defaultValue ? defaultValue.toString() : undefined}}) => (
           <RadioGroup
             row
             aria-label={id}

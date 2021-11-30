@@ -17,6 +17,7 @@ import {
   useFetchBatchesToAssign,
 } from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
+import {IBatchAssign} from '../../../shared/Interface/organization.interface';
 
 interface AssignBatchPopup {
   itemId: number | null;
@@ -73,7 +74,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<BatchAssign> = async (data: BatchAssign) => {
+  const onSubmit: SubmitHandler<IBatchAssign> = async (data: IBatchAssign) => {
     try {
       if (itemId) {
         await assignBatch(data, itemId);

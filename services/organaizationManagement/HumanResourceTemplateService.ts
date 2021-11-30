@@ -1,5 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_HUMAN_RESOURCE_TEMPLATES} from '../../@softbd/common/apiRoutes';
+import { IHumanResourceTemplate } from '../../shared/Interface/organization.interface';
 
 export const getAllHumanResourceTemplates = async (params = {}) => {
   try {
@@ -31,7 +32,7 @@ export const deleteHumanResourceTemplate = async (
 };
 
 export const createHumanResourceTemplate = async (
-  data: HumanResourceTemplate,
+  data: IHumanResourceTemplate,
 ) => {
   try {
     let response: any = await apiPost(API_HUMAN_RESOURCE_TEMPLATES, data);
@@ -41,7 +42,7 @@ export const createHumanResourceTemplate = async (
 
 export const updateHumanResourceTemplate = async (
   humanResourceTemplateId: number,
-  data: HumanResourceTemplate,
+  data: IHumanResourceTemplate,
 ) => {
   try {
     let response: any = await apiPut(

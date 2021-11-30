@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_RANK_TYPES} from '../../@softbd/common/apiRoutes';
+import { IRankType } from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -26,7 +27,7 @@ export const getRankType = async (RankTypeId: number) => {
   }
 };
 
-export const createRankType = async (data: RankType) => {
+export const createRankType = async (data: IRankType) => {
   try {
     let response: any = await apiPost(API_RANK_TYPES, data);
     return response.data;
@@ -35,7 +36,7 @@ export const createRankType = async (data: RankType) => {
   }
 };
 
-export const updateRankType = async (RankTypeId: number, data: RankType) => {
+export const updateRankType = async (RankTypeId: number, data: IRankType) => {
   try {
     let response: any = await apiPut(API_RANK_TYPES + '/' + RankTypeId, data);
     return response.data;

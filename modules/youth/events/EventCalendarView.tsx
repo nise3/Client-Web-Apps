@@ -11,47 +11,24 @@ import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {addStartEndPropsToList} from '../../../services/global/globalService';
+import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
 
 const localizer = momentLocalizer(moment);
-
-interface ICalenderEvents {
-  id: number;
-  title: string;
-  title_en: string;
-  youth_id?: any;
-  batch_id?: any;
-  institute_id?: any;
-  organization_id?: any;
-  start_date: Date | string;
-  end_date: Date | string;
-  // start?: Date  | string;
-  // end?: Date  | string;
-  start_time?: any;
-  end_time?: any;
-  color: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface IQuery {
-  type: string;
-  youth_id?: string | number;
-}
 
 const YouthEventCalendarView = () => {
   const {messages} = useIntl();
   const auth = useAuthUser() as YouthAuthUser;
   // console.log(auth)
-  let requestQuery: IQuery = {
+  let requestQuery: ICalendarQuery = {
     type: 'month',
   };
   if (auth.isYouthUser){
     requestQuery.youth_id = auth.youthId;
   }
 
-  const [selectedItem, setSelectedItem] = useState<ICalenderEvents>();
-  const [viewFilters, setViewFilters] = useState<IQuery>(requestQuery);
-  const [eventsList, setEventsList] = useState<Array<ICalenderEvents>>([]);
+  const [selectedItem, setSelectedItem] = useState<ICalendar>();
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
@@ -84,7 +61,7 @@ const YouthEventCalendarView = () => {
 
   const onSelectEvent = (e: any) => {
     setIsOpenDetailsView(true);
-    const item = eventsList.find((ev) => ev.id === e.id) as ICalenderEvents;
+    const item = eventsList.find((ev) => ev.id === e.id) as ICalendar;
     setSelectedItem(item);
   };
   const onClose = () => {

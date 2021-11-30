@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_OCCUPATIONS} from '../../@softbd/common/apiRoutes';
+import { IOccupation } from '../../shared/Interface/organization.interface';
 
 /**
  * @deprecated
@@ -35,7 +36,7 @@ export const deleteOccupation = async (occupationId: number) => {
   }
 };
 
-export const createOccupation = async (data: Occupation) => {
+export const createOccupation = async (data: IOccupation) => {
   try {
     let response: any = await apiPost(API_OCCUPATIONS, data);
     return response.data;
@@ -46,10 +47,10 @@ export const createOccupation = async (data: Occupation) => {
 
 export const updateOccupation = async (
   occupationId: number,
-  data: Occupation,
+  data: IOccupation,
 ) => {
   try {
-    let response: any = await apiPut(
+    let response: any = await apiPut<IOccupation>(
       API_OCCUPATIONS + '/' + occupationId,
       data,
     );

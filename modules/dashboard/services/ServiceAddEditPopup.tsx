@@ -19,6 +19,7 @@ import IconService from '../../../@softbd/icons/IconService';
 import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import { IService } from '../../../shared/Interface/organization.interface';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;
@@ -79,7 +80,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Service> = async (data: Service) => {
+  const onSubmit: SubmitHandler<IService> = async (data: IService) => {
     try {
       if (itemId) {
         await updateService(itemId, data);
