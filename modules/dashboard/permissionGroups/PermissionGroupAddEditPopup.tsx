@@ -19,7 +19,7 @@ import {
 } from '../../../services/userManagement/PermissionGroupService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IPermission, IPermissionGroup, IPermissionGroupAddEditPopupProps} from '../../../shared/Interface/userManagement.interface';
+import {IPermissionGroup, IPermissionGroupAddEditPopupProps} from '../../../shared/Interface/userManagement.interface';
 
 
 
@@ -70,7 +70,7 @@ const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IPermission>({
+  } = useForm<IPermissionGroup>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -80,7 +80,7 @@ const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         key: itemData?.key,
-        row_status: String(itemData?.row_status),
+        row_status: String(itemData?.row_status)
       });
     } else {
       reset(initialValues);

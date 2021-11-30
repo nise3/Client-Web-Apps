@@ -30,7 +30,11 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplateTypes';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
-import {IStaticBlockAddEditPopupProps, IStaticPageContent} from '../../../shared/Interface/common.interface';
+import {
+  IStaticBlockAddEditPopupProps,
+  IStaticPageBlock,
+  IStaticPageContent,
+} from '../../../shared/Interface/common.interface';
 
 
 
@@ -214,7 +218,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
     clearErrors,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IStaticPage>({
+  } = useForm<IStaticPageBlock>({
     resolver: yupResolver(validationSchema),
   });
 

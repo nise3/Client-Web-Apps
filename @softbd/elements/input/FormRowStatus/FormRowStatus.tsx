@@ -15,7 +15,7 @@ interface IProps{
   id: string;
   isLoading: boolean;
   control: any;
-  defaultValue: string | number;
+  defaultValue: string | number | undefined;
   onChange?: (e: any) => any;
 }
 
@@ -34,7 +34,7 @@ const FormRowStatus = ({
     <FormControl component='fieldset'>
       <FormLabel component='legend'>{messages['common.status']}</FormLabel>
       <Controller
-        render={({field: {onChange, value = defaultValue.toString()}}) => (
+        render={({field: {onChange, value = defaultValue ? defaultValue.toString() : undefined}}) => (
           <RadioGroup
             row
             aria-label={id}

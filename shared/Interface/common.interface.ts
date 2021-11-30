@@ -54,8 +54,10 @@ export interface ICalendarQuery{
   youth_id?: string | number;
   institute_id?: string | number;
 }
-export interface IStaticPageDto extends IidTitle{
+export interface IStaticPageCommon extends IidTitle{
   sub_title?: string;
+}
+export interface IStaticPageDto extends IidTitle, IStaticPageCommon{
   show_in?: number | string;
   content_slug_or_id?: string;
   institute_id?: string | number;
@@ -64,15 +66,15 @@ export interface IStaticPageDto extends IidTitle{
   contents?: string;
   row_status?: number | string;
 }
-export interface IStaticPageBlock extends IStaticPageDto{
-  id: string;
+export interface IStaticPageBlock extends IStaticPageDto, IStaticPageCommon{
+  // id?: string | number | undefined;
 }
-export interface IStaticPageContent extends IidTitleCreateUpdateAt{
-  static_page_type_id?: number;
-  show_in: string;
-  show_in_label?: string;
-  institute_id?: string;
-  institute_title?: string;
+export interface IStaticPageContent extends IidTitleCreateUpdateAt, IStaticPageCommon{
+  static_page_type_id?: number | undefined;
+  show_in: string | number | undefined;
+  show_in_label?: string | undefined;
+  institute_id?: string | undefined;
+  institute_title?: string | undefined;
   institute_title_en?: string;
   organization_id?: string;
   organization_title?: string;
@@ -91,7 +93,7 @@ export interface IStaticPageContent extends IidTitleCreateUpdateAt{
   button_text?: string;
   image_alt_title?: any;
   other_language_fields?: object;
-  row_status?: string | number;
+  row_status?: string | number | undefined;
   created_by?: string;
   updated_by?: string;
 }
