@@ -82,10 +82,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: YouthPortfolio) => {
-    //demo file url
-    /*    data.file_path = data.file_path
-      ? data.file_path
-      : 'http://lorempixel.com/400/200/'*/ console.log('data-------', data);
+    console.log('data-------', data);
+
     try {
       if (itemId) {
         await updatePortfolio(itemId, data);
@@ -161,9 +159,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
             <Grid item xs={12}>
               <FileUploadComponent
                 id='file_path'
-                itemData={itemData}
-                maxFiles={1}
-                allowMultiple={false}
+                defaultFileUrl={itemData?.file_path}
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}

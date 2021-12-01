@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
@@ -11,31 +11,27 @@ import {
   InputLabel,
   TextField,
 } from '@mui/material';
+
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface FilepondComponentProps {
   id: string;
-  allowMultiple?: boolean;
-  maxFiles?: number;
   errorInstance: any;
   setValue: any;
   register: any;
   required: boolean;
-  label: any;
-  itemData: any;
+  label: string | React.ReactNode;
+  defaultFileUrl?: string | null;
 }
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
   id,
-  allowMultiple,
-  maxFiles,
   errorInstance,
   setValue,
   register,
   required,
   label,
-  itemData,
-  ...props
+  defaultFileUrl,
 }) => {
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
@@ -46,7 +42,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   const [files, setFiles] = useState<any>([]);
 
   useEffect(() => {
-    if (itemData) {
+    if (defaultFileUrl) {
       let initFile = [
         {
           source: '80',
@@ -59,21 +55,10 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       ];
       setFiles(initFile);
     }
-  }, [itemData]);
+  }, [defaultFileUrl]);
 
-  console.log('files - ', files);
-
-  const [filePaths, setFilePaths] = useState<any>([]);
   const filePondRef = useRef<any>(null);
 
-  const onFileUpload: any = useCallback((path: any) => {
-    console.log('filePaths--', path);
-    setValue('file_path', path[0]);
-  }, []);
-
-  useEffect(() => {
-    onFileUpload(filePaths);
-  }, [filePaths]);
   return (
     <>
       <InputLabel required={required}>{label}</InputLabel>
@@ -82,27 +67,22 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           files={files}
           onupdatefiles={setFiles}
           ref={filePondRef}
-          allowMultiple={allowMultiple}
-          maxFiles={maxFiles}
+          allowMultiple={false}
+          maxFiles={1}
           server={{
             process: {
               url: 'http://localhost:8080/upload',
               onload: (response: any) => {
-                /* console.log('response---', response);*/
                 let res = JSON.parse(response);
-                setFilePaths((prev: any) => {
-                  return [...prev, res.filePath];
-                });
+                console.log('res?.filePath---', res?.filePath);
+                setValue('file_path', res?.filePath || '');
                 return 1;
               },
             },
             revert: {
               url: '',
               onload: (response: any) => {
-                /*console.log('revert---response--', response);*/
                 setValue('file_path', '');
-                setFilePaths([]);
-
                 return '';
               },
             },
