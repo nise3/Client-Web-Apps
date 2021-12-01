@@ -213,7 +213,7 @@ const routesConfig: NavItemProps[] = [
             id: 'programme',
             title: 'Programme',
             messageId: 'programme.label',
-            permissionKey: 'view_any_programme',
+            permissionKey: 'view_any_program',
             type: 'item',
             icon: 'timeline',
             url: '/dashboard/programmes',
