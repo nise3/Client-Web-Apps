@@ -2,8 +2,16 @@ import React from 'react';
 import moment from 'moment';
 import {momentLocalizer} from 'react-big-calendar';
 import MyCalendar from '../../../@softbd/calendar/Calendar';
-import {Card, Grid} from '@mui/material';
-import {H3} from '../../../@softbd/elements/common';
+import {Card, CardContent, CardHeader, Container} from '@mui/material';
+import {styled} from '@mui/material/styles';
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .MuiCardHeader-title`]: {
+    fontSize: '1.4rem',
+    color: '#000',
+    fontWeight: 400
+  }
+}));
 
 const localizer = momentLocalizer(moment);
 
@@ -105,14 +113,24 @@ const DashboardSmallCalendar = () => {
   // };
 
   return (
+    <StyledContainer>
     <Card>
-      <Grid container>
-        <Grid item sm={6}>
-          <H3 style={{fontSize: '1.4rem'}}>Institute Calendar</H3>
-        </Grid>
-      </Grid>
-      <MyCalendar localizer={localizer}/>
+      <CardHeader title={'Institute Calendar'}/>
+      {/*<Grid container>*/}
+      {/*  <Grid item sm={6}>*/}
+      {/*    <H3 style={{fontSize: '1.4rem'}}>Institute Calendar</H3>*/}
+      {/*  </Grid>*/}
+      {/*</Grid>*/}
+      <CardContent>
+        <MyCalendar
+          events={[]}
+          localizer={localizer}
+          views={['month']}
+          defaultDate={moment().toDate()}
+        />
+      </CardContent>
     </Card>
+    </StyledContainer>
   );
 };
 

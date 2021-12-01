@@ -71,11 +71,11 @@ export default DashboardPage(() => {
       <StyledTileSection/>
 
       <StyledContainer maxWidth='lg'>
-        <Grid container className={classes.card} spacing={2}>
-          <Grid item md={6} sm={6}>
+        <Grid container className={classes.card} spacing={1}>
+          <Grid item md={7} sm={7}>
             <MostDemandableCourseChart/>
           </Grid>
-          <Grid item md={6} sm={6}>
+          <Grid item md={5} sm={5}>
               <DashboardSmallCalendar/>
           </Grid>
           <Grid item md={8} sm={8}>
