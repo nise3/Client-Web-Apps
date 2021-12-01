@@ -4,7 +4,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import StyledTileSection from '../../modules/dashboard/StyledTileSection';
 import Grid from '@mui/material/Grid';
-import {Card, Container, styled} from '@mui/material';
+import {Container, styled} from '@mui/material';
 import MostDemandableCourseChart from '../../modules/dashboard/charts/barChartMostDemandableCourse';
 import JobTrandsChart from '../../modules/dashboard/charts/jobTrandeChart';
 import DashboardSmallCalendar from '../../modules/dashboard/events/DashboardSmallCalendar';

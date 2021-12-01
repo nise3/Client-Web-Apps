@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import {momentLocalizer} from 'react-big-calendar';
 import MyCalendar from '../../../@softbd/calendar/Calendar';
-import {Card} from '@mui/material';
+import {Card, Grid} from '@mui/material';
+import {H3} from '../../../@softbd/elements/common';
 
 const localizer = momentLocalizer(moment);
 
@@ -105,6 +106,11 @@ const DashboardSmallCalendar = () => {
 
   return (
     <Card>
+      <Grid container>
+        <Grid item sm={6}>
+          <H3 style={{fontSize: '1.4rem'}}>Institute Calendar</H3>
+        </Grid>
+      </Grid>
       <MyCalendar localizer={localizer}/>
     </Card>
   );
