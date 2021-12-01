@@ -88,7 +88,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 const StyledTileSection = () => {
   return (
-    <StyledContainer maxWidth='lg' style={{background: '#f9fdfe'}}>
+    <StyledContainer maxWidth='lg'>
       <Grid container className={classes.card} spacing={2}>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
