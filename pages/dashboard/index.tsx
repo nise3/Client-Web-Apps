@@ -56,9 +56,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
   //   marginTop: 20,
   // },
 
-  [`& .${classes.card}`]: {
-    margin: 10,
-  },
+  // [`& .${classes.card}`]: {
+  //   margin: 10,
+  // },
 }));
 
 export default DashboardPage(() => {
@@ -78,10 +78,10 @@ export default DashboardPage(() => {
           <Grid item md={6} sm={6}>
               <DashboardSmallCalendar/>
           </Grid>
-          <Grid item md={6} sm={6}>
+          <Grid item md={8} sm={8}>
             <JobTrandsChart/>
           </Grid>
-          <Grid item md={6} sm={6}>
+          <Grid item md={4} sm={4}>
             <BangladeshMap/>
           </Grid>
 
