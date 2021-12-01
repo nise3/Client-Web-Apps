@@ -8,6 +8,7 @@ import {Card, Container, styled} from '@mui/material';
 import MostDemandableCourseChart from '../../modules/dashboard/charts/barChartMostDemandableCourse';
 import JobTrandsChart from '../../modules/dashboard/charts/jobTrandeChart';
 import DashboardSmallCalendar from '../../modules/dashboard/events/DashboardSmallCalendar';
+import BangladeshMap from '../../modules/dashboard/Map/map.bangladesh';
 
 const PREFIX = 'Dashboard';
 
@@ -81,9 +82,7 @@ export default DashboardPage(() => {
             <JobTrandsChart/>
           </Grid>
           <Grid item md={6} sm={6}>
-            <Card>
-              bangladesh map
-            </Card>
+            <BangladeshMap/>
           </Grid>
 
         </Grid>
