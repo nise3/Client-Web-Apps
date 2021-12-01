@@ -162,8 +162,8 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
               <FileUploadComponent
                 id='file_path'
                 itemData={itemData}
-                maxFiles={5}
-                allowMultiple={true}
+                maxFiles={1}
+                allowMultiple={false}
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}
