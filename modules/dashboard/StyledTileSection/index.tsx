@@ -1,5 +1,5 @@
 import StyledTile from '../../../@softbd/Tile/StyledTile';
-import {Container, Grid} from '@mui/material';
+import {Box, Grid} from '@mui/material';
 import React from 'react';
 import clsx from 'clsx';
 import {styled} from '@mui/material/styles';
@@ -17,7 +17,7 @@ const classes = {
   cardColor6: `${PREFIX}-cardColor6`,
   cardColor7: `${PREFIX}-cardColor7`,
 };
-const StyledContainer = styled(Container)(({theme}) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.cardColors}`]: {
     position: 'relative',
     '&::before, &::after': {
@@ -88,7 +88,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 const StyledTileSection = () => {
   return (
-    <StyledContainer maxWidth='lg'>
+
+    <StyledBox>
       <Grid container className={classes.card} spacing={2}>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
@@ -123,7 +124,7 @@ const StyledTileSection = () => {
                     headerNumber={320} message={'Number of Trainer'}/>
       </Grid>
     </Grid>
-    </StyledContainer>
+    </StyledBox>
   );
 }
 

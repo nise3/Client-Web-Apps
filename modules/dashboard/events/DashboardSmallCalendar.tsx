@@ -2,16 +2,18 @@ import React from 'react';
 import moment from 'moment';
 import {momentLocalizer} from 'react-big-calendar';
 import MyCalendar from '../../../@softbd/calendar/Calendar';
-import {Card, CardContent, CardHeader, Container} from '@mui/material';
+import {Card, CardContent, CardHeader} from '@mui/material';
 import {styled} from '@mui/material/styles';
+import {Box} from '@mui/system';
 
-const StyledContainer = styled(Container)(({theme}) => ({
+const StyledContainer = styled(Box)(({theme}) => ({
+  // marginLeft: 10,
   [`& .MuiCardHeader-title`]: {
     fontSize: '1.4rem',
     color: '#000',
     fontWeight: 400
   }
-}));
+}))
 
 const localizer = momentLocalizer(moment);
 

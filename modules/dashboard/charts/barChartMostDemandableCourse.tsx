@@ -1,9 +1,11 @@
-import {Card, CardContent, CardHeader, Container} from '@mui/material';
+import {Card, CardContent, CardHeader} from '@mui/material';
 import React from 'react';
 import {Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis} from 'recharts';
 import {styled} from '@mui/material/styles';
+import {Box} from '@mui/system';
 
-const StyledContainer = styled(Container)(({theme}) => ({
+const StyledContainer = styled(Box)(({theme}) => ({
+  // marginRight: 10,
   [`& .MuiCardHeader-title`]: {
     fontSize: '1.4rem',
     color: '#000',

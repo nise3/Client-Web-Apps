@@ -4,11 +4,12 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import StyledTileSection from '../../modules/dashboard/StyledTileSection';
 import Grid from '@mui/material/Grid';
-import {Container, styled} from '@mui/material';
+import {styled} from '@mui/material';
 import MostDemandableCourseChart from '../../modules/dashboard/charts/barChartMostDemandableCourse';
 import JobTrandsChart from '../../modules/dashboard/charts/jobTrandeChart';
 import DashboardSmallCalendar from '../../modules/dashboard/events/DashboardSmallCalendar';
 import BangladeshMap from '../../modules/dashboard/Map/map.bangladesh';
+import {Box} from '@mui/system';
 
 const PREFIX = 'Dashboard';
 
@@ -21,44 +22,9 @@ const classes = {
   card: `${PREFIX}-card`,
 };
 
-const StyledContainer = styled(Container)(({theme}) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   marginTop: 20,
-  marginBottom: 20,
-
-
-  // [`& .${classes.searchBox}`]: {
-  //   padding: '10px 5px 5px',
-  //   alignItems: 'center',
-  //   marginTop: 10,
-  // },
-  //
-  // [`& .${classes.searchInputBorderHide}`]: {
-  //   '& fieldset': {
-  //     border: 'none',
-  //   },
-  //   '& input': {
-  //     padding: '14px 0px',
-  //   },
-  // },
-  //
-  // [`& .${classes.searchButton}`]: {
-  //   color: '#fff',
-  //   padding: '8px 14px',
-  //   width: '95%',
-  // },
-  //
-  // [`& .${classes.list}`]: {
-  //   paddingTop: 0,
-  //   paddingBottom: 0,
-  // },
-  //
-  // [`& .${classes.notificationBox}`]: {
-  //   marginTop: 20,
-  // },
-
-  // [`& .${classes.card}`]: {
-  //   margin: 10,
-  // },
+  marginBottom: 20
 }));
 
 export default DashboardPage(() => {
@@ -66,27 +32,50 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.dashboard'] as string} />
-      {/*<H1>Dashboard</H1>*/}
 
       <StyledTileSection/>
 
-      <StyledContainer maxWidth='lg'>
-        <Grid container className={classes.card} spacing={1}>
+      <StyledBox>
+        <Grid container className={classes.card} spacing={2}>
           <Grid item md={7} sm={7}>
             <MostDemandableCourseChart/>
           </Grid>
           <Grid item md={5} sm={5}>
-              <DashboardSmallCalendar/>
+            <DashboardSmallCalendar/>
           </Grid>
-          <Grid item md={8} sm={8}>
+          <Grid item md={7} sm={7}>
             <JobTrandsChart/>
           </Grid>
-          <Grid item md={4} sm={4}>
+          <Grid item md={5} sm={5}>
             <BangladeshMap/>
           </Grid>
-
         </Grid>
-      </StyledContainer>
+        {/*<Grid container className={classes.card}>*/}
+        {/*  <Grid item md={7} sm={7}>*/}
+        {/*    <JobTrandsChart/>*/}
+        {/*  </Grid>*/}
+        {/*  <Grid item md={5} sm={5}>*/}
+        {/*    <BangladeshMap/>*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
+      </StyledBox>
+      {/*<StyledBox>*/}
+      {/*  <Grid container className={classes.card} spacing={2}>*/}
+      {/*    <Grid item md={7} sm={7}>*/}
+      {/*      <MostDemandableCourseChart/>*/}
+      {/*    </Grid>*/}
+      {/*    <Grid item md={5} sm={5}>*/}
+      {/*        <DashboardSmallCalendar/>*/}
+      {/*    </Grid>*/}
+      {/*    <Grid item md={8} sm={8}>*/}
+      {/*      <JobTrandsChart/>*/}
+      {/*    </Grid>*/}
+      {/*    <Grid item md={4} sm={4}>*/}
+      {/*      <BangladeshMap/>*/}
+      {/*    </Grid>*/}
+
+      {/*  </Grid>*/}
+      {/*</StyledBox>*/}
     </>
   );
 });
