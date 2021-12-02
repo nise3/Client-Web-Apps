@@ -1,8 +1,10 @@
-import {Card, CardContent, CardHeader} from '@mui/material';
-import React from 'react';
+import {Card, CardContent, CardHeader, Grid} from '@mui/material';
+import React, {useEffect} from 'react';
 import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
+import {useForm} from 'react-hook-form';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 
 const StyledContainer = styled(Box)(({theme}) => ({
   [`& .MuiCardHeader-title`]: {
@@ -13,6 +15,17 @@ const StyledContainer = styled(Box)(({theme}) => ({
 }));
 const JobTrandsChart = () => {
   // const {formatNumber} = useIntl();
+  const {
+    control,
+    reset,
+    formState: {errors},
+  } = useForm<any>();
+
+  useEffect(() => {
+    reset({
+      year_id: '1'
+    });
+  }, []);
   const data = [
     { name: 'Jan', design: 2500, salesman: 1700, mgt: 1000, servicing: 600, operating: 490, welding: 430 },
     { name: 'Feb', design: 1300, salesman: 1000, mgt: 1500, servicing: 2900, operating: 750, welding: 700 },
@@ -27,17 +40,26 @@ const JobTrandsChart = () => {
   return (
     <StyledContainer>
       <Card>
-        {/*<Grid container>*/}
-        {/*  <Grid item sm={9}>*/}
-        {/*    <H3 style={{fontSize: '1.4rem'}}>Job Trends</H3>*/}
-        {/*  </Grid>*/}
-        {/*  <Grid item sm={3}>*/}
-        {/*    select*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
-        <CardHeader title={'Job Trends'}/>
+
+        <Grid container>
+          <Grid item xs={10} md={10}>
+            <CardHeader title={'Job Trends'}/>
+          </Grid>
+          <Grid style={{padding: 20}} item xs={2} md={2}>
+            <CustomFormSelect
+              id='year_id'
+              // label={'Institute Calendar'}
+              isLoading={false}
+              control={control}
+              options={[{'id': 1, 'name': '2021'}]}
+              optionValueProp={'id'}
+              optionTitleProp={['name']}
+              errorInstance={errors}
+            />
+          </Grid>
+        </Grid>
         <CardContent>
-            <LineChart width={750} height={555} data={data}>
+            <LineChart width={750} height={535} data={data}>
               <Line type="monotone" dataKey="design" stroke="#63FFE3" />
               <Line type="monotone" dataKey="salesman" stroke="#FF99C0" />
               <Line type="monotone" dataKey="mgt" stroke="#3CCF80" />
