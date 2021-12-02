@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {DATE_FORMAT, TIME_FORMAT} from '../../@softbd/utilities/DateTime';
-import { catchBlockHandler } from '../../@softbd/utilities/helpers';
+import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {ICalendar} from '../../shared/Interface/common.interface';
 
 export const addStartEndPropsToList = (events: ICalendar[]) => {
@@ -22,6 +22,24 @@ export const formatDateTime = (itemData: ICalendar) => {
       itemData.end_date = moment(itemData.end).format(DATE_FORMAT);
       itemData.start_time = moment(itemData.start).format(TIME_FORMAT);
       itemData.end_time = moment(itemData.end).format(TIME_FORMAT);
+    }
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const eventsDateTimeMap = (events: ICalendar[]) => {
+  try {
+    if (events) {
+      events.map((e: any) => {
+        const start = e.start_time
+          ? `${e.start}T${e.start_time}`
+          : `${e.start}`;
+        const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+        e.start = new Date(start);
+        e.end = new Date(end);
+        return e;
+      });
     }
   } catch (error) {
     catchBlockHandler(error);

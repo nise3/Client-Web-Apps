@@ -17,7 +17,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import Tile from '../feed/components/Tile';
+import Tile from '../../../@softbd/Tile/Tile';
 import YouthNotificationItem from './YouthNotificationItem';
 import BasicInfo from '../feed/BasicInfo';
 import SideMenu from '../../../@softbd/elements/YouthSideMenu';

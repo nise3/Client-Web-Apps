@@ -9,7 +9,7 @@ import {
   TextField,
   useTheme,
 } from '@mui/material';
-import Tile from './components/Tile';
+import Tile from '../../../@softbd/Tile/Tile';
 import {LocationOnOutlined, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
