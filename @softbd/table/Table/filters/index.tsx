@@ -1,8 +1,9 @@
-import {FilterProps, FilterValue, IdType, Row} from 'react-table';
+import {FilterValue, IdType, Row} from 'react-table';
 import React, {useEffect} from 'react';
 import {Button, InputLabel, MenuItem, TextField} from '@mui/material';
 import {matchSorter} from 'match-sorter';
 import {rowStatusArray} from '../../../utilities/RowStatus';
+import {IFilterProps} from '../../../../shared/Interface/common.interface';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -31,7 +32,7 @@ filterGreaterThan.autoRemove = (val: any) => typeof val !== 'number';
 
 export function SelectAutoColumnFilter({
   column: {filterValue, render, setFilter, preFilteredRows, id},
-}: FilterProps<any>) {
+}: IFilterProps<any>) {
   const options = React.useMemo(() => {
     const options: any = new Set();
     preFilteredRows.forEach((row: any) => {
@@ -61,7 +62,7 @@ export function SelectAutoColumnFilter({
 
 export function SelectBooleanMatchEnableDisableColumnFilter({
   column: {filterValue, render, setFilter, preFilteredRows, id},
-}: FilterProps<any>) {
+}: IFilterProps<any>) {
   const options = ['Disable', 'Enable'];
 
   return (
@@ -84,7 +85,7 @@ export function SelectBooleanMatchEnableDisableColumnFilter({
 
 export function SelectStringMatchEnableDisableColumnFilter({
   column: {filterValue, render, setFilter, preFilteredRows, id},
-}: FilterProps<any>) {
+}: IFilterProps<any>) {
   const options = ['Disable', 'Enable'];
 
   return (
@@ -117,7 +118,7 @@ export const getMinMax = (rows: Row<any>[], id: IdType<any>) => {
 
 export function SliderColumnFilter({
   column: {render, filterValue, setFilter, preFilteredRows, id},
-}: FilterProps<any>) {
+}: IFilterProps<any>) {
   const [min, max] = React.useMemo(
     () => getMinMax(preFilteredRows, id),
     [id, preFilteredRows],
@@ -172,7 +173,7 @@ export const useActiveElement = () => {
 
 export function NumberRangeColumnFilter({
   column: {filterValue = [], render, preFilteredRows, setFilter, id},
-}: FilterProps<any>) {
+}: IFilterProps<any>) {
   const [min, max] = React.useMemo(
     () => getMinMax(preFilteredRows, id),
     [id, preFilteredRows],
@@ -295,7 +296,7 @@ numericTextFilter.autoRemove = (val: any) => !val;
 
 export function DefaultColumnFilter<T extends object>({
   column: {id, filterValue, setFilter, render, parent, filter},
-}: FilterProps<T>) {
+}: IFilterProps<T>) {
   console.log(filter);
   const [value, setValue] = React.useState(filterValue || '');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

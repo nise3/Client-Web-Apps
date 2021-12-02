@@ -11,6 +11,7 @@ import {styled} from '@mui/material/styles';
 import React, {ReactElement} from 'react';
 import {
   HeaderProps,
+  Row,
   useColumnOrder,
   useExpanded,
   useFilters,
@@ -38,6 +39,7 @@ import AppTableContainer from '../../../@crema/core/AppTableContainer';
 import {useIntl} from 'react-intl';
 import {AiOutlineInbox} from 'react-icons/ai';
 import {camelToWords} from '../../utilities/helpers';
+// import {ITableInstance} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'ReactTable';
 
@@ -282,7 +284,8 @@ export default function ReactTable<T extends object>({
   const instance = useTable<T>(
     isServerSideTable ? serverSideOptions : clientSideOptions,
     ...hooks,
-  );
+  ) as any; //ITableInstance<any>; //
+  // TODO: ^ fix ITableInstance to match TableInstance`
 
   const {
     getTableProps,
@@ -333,9 +336,9 @@ export default function ReactTable<T extends object>({
             aria-label='a dense table'
             className={classes.tableRoot}>
             <TableHead>
-              {headerGroups.map((headerGroup, index) => (
+              {headerGroups.map((headerGroup: any, index: number) => (
                 <TableRow key={index} className={classes.tableRow}>
-                  {headerGroup.headers.map((column, index) => (
+                  {headerGroup.headers.map((column: any, index: number) => (
                     <TableCell
                       key={index}
                       className={classes.tableCell}
@@ -356,7 +359,7 @@ export default function ReactTable<T extends object>({
               />
             ) : (
               <TableBody {...(getTableBodyProps() as any)}>
-                {page.map((row) => {
+                {page.map((row: Row) => {
                   prepareRow(row);
                   return (
                     <TableRow key={row.id} className={classes.tableRow}>
