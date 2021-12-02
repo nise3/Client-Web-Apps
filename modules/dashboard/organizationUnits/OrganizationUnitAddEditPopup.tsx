@@ -39,7 +39,11 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IOrganizationUnit, IService} from '../../../shared/Interface/organization.interface';
+import {
+  IOrganizationUnit,
+  IService,
+} from '../../../shared/Interface/organization.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;

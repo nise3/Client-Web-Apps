@@ -9,7 +9,9 @@ import {useTheme} from '@mui/material/styles';
 
 const OrganizationRegistrationPage = asyncComponent(
   () =>
-    import('../../../modules/organizationRegistration/OrganizationRegistration'),
+    import(
+      '../../../modules/organizationRegistration/OrganizationRegistration'
+    ),
 );
 export default DefaultPage(() => {
   const {messages} = useIntl();

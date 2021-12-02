@@ -1,6 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_DIVISIONS} from '../../@softbd/common/apiRoutes';
+import {Division} from '../../shared/Interface/location.interface';
 
 export const createDivision = async (data: Division) => {
   try {

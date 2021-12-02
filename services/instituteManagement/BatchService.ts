@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_BATCHES} from '../../@softbd/common/apiRoutes';
+import {IBatch} from '../../shared/Interface/institute.interface';
 
 /**
  * @deprecated
@@ -24,7 +25,7 @@ export const getBatch = async (batchId: number) => {
   } catch (catchBlockHandler) {}
 };
 
-export const createBatch = async (data: Batch) => {
+export const createBatch = async (data: IBatch) => {
   try {
     let response: any = await apiPost(API_BATCHES, data);
     return response.data;
@@ -33,7 +34,7 @@ export const createBatch = async (data: Batch) => {
   }
 };
 
-export const updateBatch = async (batchId: number, data: Batch) => {
+export const updateBatch = async (batchId: number, data: IBatch) => {
   try {
     let response: any = await apiPut(API_BATCHES + '/' + batchId, data);
     return response.data;

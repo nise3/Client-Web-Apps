@@ -5,7 +5,10 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const ApplicationManagementPage = asyncComponent(
-  () => import('../../../modules/dashboard/applicationManagement/ApplicationManagementPage'),
+  () =>
+    import(
+      '../../../modules/dashboard/applicationManagement/ApplicationManagementPage'
+    ),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

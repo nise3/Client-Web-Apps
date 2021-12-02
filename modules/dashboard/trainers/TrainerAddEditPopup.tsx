@@ -27,6 +27,8 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {ITrainer} from '../../../shared/Interface/institute.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 import {
   useFetchBranches,
@@ -207,7 +209,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<Trainer>({
+  } = useForm<ITrainer>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -330,7 +332,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     });
   }, []);
 
-  const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
+  const onSubmit: SubmitHandler<ITrainer> = async (data: ITrainer) => {
     try {
       if (itemId) {
         await updateTrainer(itemId, data);

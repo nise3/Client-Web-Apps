@@ -5,8 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const TrainingCenterPage = asyncComponent(
-  () =>
-    import('../../../modules/dashboard/trainingCenters/TrainingCenterPage'),
+  () => import('../../../modules/dashboard/trainingCenters/TrainingCenterPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

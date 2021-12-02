@@ -43,5 +43,8 @@ module.exports = (phase) => {
     images,
     rewrite,
     typescript,
+    experimental: {
+      externalDir: true,
+    },
   };
 };

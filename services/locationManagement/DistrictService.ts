@@ -1,6 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_DISTRICTS} from '../../@softbd/common/apiRoutes';
+import {District} from '../../shared/Interface/location.interface';
 
 export const createDistrict = async (data: District) => {
   try {

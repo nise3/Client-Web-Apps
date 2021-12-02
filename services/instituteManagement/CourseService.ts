@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_COURSES} from '../../@softbd/common/apiRoutes';
+import {ICourse} from '../../shared/Interface/institute.interface';
 
 /**
  * @deprecated
@@ -24,7 +25,7 @@ export const getCourse = async (courseId: number) => {
   } catch (catchBlockHandler) {}
 };
 
-export const createCourse = async (data: Course) => {
+export const createCourse = async (data: ICourse) => {
   try {
     let response: any = await apiPost(API_COURSES, data);
     return response.data;
@@ -33,7 +34,7 @@ export const createCourse = async (data: Course) => {
   }
 };
 
-export const updateCourse = async (courseId: number, data: Course) => {
+export const updateCourse = async (courseId: number, data: ICourse) => {
   try {
     let response: any = await apiPut(API_COURSES + '/' + courseId, data);
     return response.data;

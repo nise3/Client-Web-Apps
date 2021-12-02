@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState, useCallback} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -33,6 +33,8 @@ import {
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {IBranch} from '../../../shared/Interface/institute.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -107,7 +109,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Branch>({
+  } = useForm<IBranch>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -168,7 +170,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const onSubmit: SubmitHandler<Branch> = async (data: Branch) => {
+  const onSubmit: SubmitHandler<IBranch> = async (data: IBranch) => {
     if (authUser?.isInstituteUser) {
       data.institute_id = Number(authUser.institute_id);
     }
