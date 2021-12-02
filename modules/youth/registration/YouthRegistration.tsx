@@ -476,6 +476,7 @@ const YouthRegistration = () => {
                 required
                 id='password'
                 label={messages['common.password']}
+                helperText={messages['common.passwordHint']}
                 register={register}
                 errorInstance={errors}
                 type={'password'}

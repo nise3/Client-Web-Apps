@@ -1,4 +1,4 @@
-import {TextField} from '@mui/material';
+import {FormHelperText, TextField} from '@mui/material';
 import React from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
@@ -18,6 +18,7 @@ type Props = {
   type?: string;
   defaultValue?: string;
   inputProps?: any;
+  helperText?: any;
   [x: string]: any;
 };
 
@@ -35,6 +36,7 @@ const CustomTextInput = ({
   type,
   defaultValue,
   inputProps,
+  helperText,
   ...rest
 }: Props) => {
   let errorObj = errorInstance?.[id];
@@ -47,36 +49,43 @@ const CustomTextInput = ({
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <TextField
-      fullWidth
-      variant={variant ? variant : 'outlined'}
-      size={size ? size : 'small'}
-      id={id}
-      className={className}
-      label={label}
-      multiline={multiline}
-      rows={rows}
-      type={type}
-      error={errorObj && Boolean(errorObj)}
-      helperText={
-        errorObj && errorObj.message ? (
-          errorObj.message.hasOwnProperty('key') ? (
-            <IntlMessages
-              id={errorObj.message.key}
-              values={errorObj.message?.values || {}}
-            />
+    <>
+      {helperText && (
+        <FormHelperText sx={{color: 'primary.main'}}>
+          {helperText}
+        </FormHelperText>
+      )}
+      <TextField
+        fullWidth
+        variant={variant ? variant : 'outlined'}
+        size={size ? size : 'small'}
+        id={id}
+        className={className}
+        label={label}
+        multiline={multiline}
+        rows={rows}
+        type={type}
+        error={errorObj && Boolean(errorObj)}
+        helperText={
+          errorObj && errorObj.message ? (
+            errorObj.message.hasOwnProperty('key') ? (
+              <IntlMessages
+                id={errorObj.message.key}
+                values={errorObj.message?.values || {}}
+              />
+            ) : (
+              errorObj.message
+            )
           ) : (
-            errorObj.message
+            ''
           )
-        ) : (
-          ''
-        )
-      }
-      defaultValue={defaultValue}
-      inputProps={{...inputProps, ...{required: false}}}
-      {...register(id)}
-      {...rest}
-    />
+        }
+        defaultValue={defaultValue}
+        inputProps={{...inputProps, ...{required: false}}}
+        {...register(id)}
+        {...rest}
+      />
+    </>
   );
 };
 
