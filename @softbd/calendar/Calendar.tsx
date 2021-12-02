@@ -1,9 +1,14 @@
 import React from 'react';
 import {Calendar, CalendarProps} from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+// import 'react-big-calendar/lib/css/react-big-calendar.css';// DO NOT USE
+// @ts-ignore
+import ReactBigCalendarCSS from './ReactBigCalendarCSS';
 import {useIntl} from 'react-intl';
+import {styled} from '@mui/material/styles';
 
-interface IMyCalendar extends CalendarProps{ }
+const StyledWrapper = styled('div')(() => ({...ReactBigCalendarCSS}));
+
+interface IMyCalendar extends CalendarProps {}
 
 const MyCalendar = ({events, ...rest}: IMyCalendar) => {
   const {messages} = useIntl();
@@ -14,12 +19,11 @@ const MyCalendar = ({events, ...rest}: IMyCalendar) => {
     agenda: messages['calendar.schedule'],
     month: messages['calendar.month'],
     week: messages['calendar.week'],
-    day: messages['calendar.day']
-  }
-
+    day: messages['calendar.day'],
+  };
 
   return (
-    <div>
+    <StyledWrapper>
       <Calendar
         events={events}
         // @ts-ignore
@@ -28,7 +32,7 @@ const MyCalendar = ({events, ...rest}: IMyCalendar) => {
         endAccessor='end'
         {...rest}
       />
-    </div>
+    </StyledWrapper>
   );
 };
 

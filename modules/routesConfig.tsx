@@ -35,7 +35,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_permission_group',
             type: 'item',
             icon: 'person',
-            url: '/dashboard/permission-groups',
+            url: '/permission-groups',
           },
           {
             id: 'permission',
@@ -44,7 +44,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_permission',
             type: 'item',
             icon: 'person',
-            url: '/dashboard/permissions',
+            url: '/permissions',
           },
           {
             id: 'permission_sub_group',
@@ -53,7 +53,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_permission_sub_group',
             type: 'item',
             icon: 'person',
-            url: '/dashboard/permission-sub-groups',
+            url: '/permission-sub-groups',
           },
           {
             id: 'roles',
@@ -62,7 +62,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_role',
             type: 'item',
             icon: 'person',
-            url: '/dashboard/roles',
+            url: '/roles',
           },
           {
             id: 'users',
@@ -71,7 +71,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_user',
             type: 'item',
             icon: 'person',
-            url: '/dashboard/users',
+            url: '/users',
           },
           {
             id: 'cv_list',
@@ -80,7 +80,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_cv_list',
             type: 'item',
             icon: 'person',
-            url: '/dashboard/cv-lists',
+            url: '/cv-lists',
           },
         ],
       },
@@ -98,7 +98,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_rank_type',
             type: 'item',
             icon: 'business',
-            url: '/dashboard/rank-types',
+            url: '/rank-types',
           },
           {
             id: 'rank',
@@ -107,7 +107,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_rank',
             type: 'item',
             icon: 'business',
-            url: '/dashboard/ranks',
+            url: '/ranks',
           },
           {
             id: 'skill',
@@ -116,7 +116,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_skill',
             type: 'item',
             icon: 'business',
-            url: '/dashboard/skills',
+            url: '/skills',
           },
           {
             id: 'organization_type',
@@ -125,7 +125,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_organization_type',
             type: 'item',
             icon: 'business',
-            url: '/dashboard/organization-types',
+            url: '/organization-types',
           },
           {
             id: 'organization',
@@ -134,7 +134,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_organization',
             type: 'item',
             icon: 'businessCenter',
-            url: '/dashboard/organizations',
+            url: '/organizations',
           },
           {
             id: 'organization_unit_type',
@@ -143,7 +143,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_organization_unit_type',
             type: 'item',
             icon: 'businessCenter',
-            url: '/dashboard/organization-unit-types',
+            url: '/organization-unit-types',
           },
           {
             id: 'organization_unit',
@@ -152,7 +152,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_organization_unit',
             type: 'item',
             icon: 'businessCenter',
-            url: '/dashboard/organization-units',
+            url: '/organization-units',
           },
           {
             id: 'job-sectors',
@@ -161,7 +161,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_job_sector',
             type: 'item',
             icon: 'work',
-            url: '/dashboard/job-sectors',
+            url: '/job-sectors',
           },
           {
             id: 'occupations',
@@ -170,7 +170,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_occupations',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/occupations',
+            url: '/occupations',
           },
           {
             id: 'services',
@@ -179,7 +179,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_services',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/services',
+            url: '/services',
           },
         ],
       },
@@ -198,7 +198,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_institute',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/institutes',
+            url: '/institutes',
           },
           {
             id: 'branch',
@@ -207,7 +207,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_branch',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/branches',
+            url: '/branches',
           },
           {
             id: 'programme',
@@ -216,7 +216,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_programme',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/programmes',
+            url: '/programmes',
           },
           {
             id: 'training_center',
@@ -225,7 +225,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_training_center',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/training-centers',
+            url: '/training-centers',
           },
           {
             id: 'course',
@@ -234,7 +234,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_course',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/courses',
+            url: '/courses',
           },
           {
             id: 'batch',
@@ -243,7 +243,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_batch',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/batches',
+            url: '/batches',
           },
           {
             id: 'trainers',
@@ -252,7 +252,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_trainer',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/trainers',
+            url: '/trainers',
           },
           {
             id: 'application-management',
@@ -261,7 +261,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_application',
             type: 'item',
             icon: 'timeline',
-            url: '/dashboard/application-management',
+            url: '/application-management',
           },
         ],
       },
@@ -279,7 +279,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_division',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/divisions',
+            url: '/divisions',
           },
           {
             id: 'district',
@@ -288,7 +288,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_district',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/districts',
+            url: '/districts',
           },
           {
             id: 'upazila',
@@ -297,7 +297,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_upazila',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/upazilas',
+            url: '/upazilas',
           },
         ],
       },
@@ -315,7 +315,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_faq',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/faqs',
+            url: '/faqs',
           },
           {
             id: 'static_page',
@@ -324,7 +324,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_static_page',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/static-pages',
+            url: '/static-pages',
           },
           {
             id: 'gallery_albums',
@@ -333,7 +333,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_gallery_album',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/gallery-albums',
+            url: '/gallery-albums',
           },
           {
             id: 'gallery_album-contents',
@@ -342,7 +342,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_gallery_album_content',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/gallery-album-contents',
+            url: '/gallery-album-contents',
           },
           {
             id: 'gallery_image_video',
@@ -351,7 +351,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_gallery_image_video',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/gallery-image-video',
+            url: '/gallery-image-video',
           },
           {
             id: 'visitor_feedback',
@@ -360,7 +360,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_visitor_feedback',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/visitor-feedbacks',
+            url: '/visitor-feedbacks',
           },
           {
             id: 'notices_and_news',
@@ -369,7 +369,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_notices_and_news',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/notices-news',
+            url: '/notices-news',
           },
           {
             id: 'nise3_partners',
@@ -378,7 +378,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_nise3_partners',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/nise3-partners',
+            url: '/nise3-partners',
           },
           {
             id: 'recent_activities',
@@ -387,7 +387,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_recent_activities',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/recent-activities',
+            url: '/recent-activities',
           },
           {
             id: 'events',
@@ -396,7 +396,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_events',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/events',
+            url: '/events',
           },
           {
             id: 'slider',
@@ -405,7 +405,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_slider',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/sliders',
+            url: '/sliders',
           },
           {
             id: 'banner',
@@ -414,7 +414,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_banner',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/slider-banners',
+            url: '/slider-banners',
           },
           {
             id: 'calendar',
@@ -423,7 +423,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_calender',
             type: 'item',
             icon: 'room',
-            url: '/dashboard/events',
+            url: '/events',
           },
         ],
       },

@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import {Link} from '../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
+import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../../@softbd/common/appLinks';
 
 const StyledTypography = styled(Typography)(({theme}) => ({
   whiteSpace: 'nowrap',
@@ -16,7 +17,7 @@ const StyledTypography = styled(Typography)(({theme}) => ({
 }));
 
 function GalleryItemCardView({item}: any) {
-  let path = '/institute/gallery-albums';
+  let path = LINK_FRONTEND_INSTITUTE_GALLERY;
 
   let image;
   if (item?.grid_image_path) {

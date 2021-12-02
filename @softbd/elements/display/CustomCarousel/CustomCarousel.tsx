@@ -1,15 +1,21 @@
 import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+// import 'react-multi-carousel/lib/styles.css';// DO NOT USE
 import React, {ReactNode} from 'react';
+import {styled} from '@mui/material/styles';
+import CarouselStyles from './CarouselStyles';
+
+// @ts-ignore
+const StyledCarousel = styled(Carousel)(() => ({...CarouselStyles}));
 
 type Props = {
   children?: ReactNode;
   itemsInDesktop?: number;
+  [x: string]: any;
 };
 
-const CustomCarousel = ({children, itemsInDesktop = 4}: Props) => {
+const CustomCarousel = ({children, itemsInDesktop = 4, ...props}: Props) => {
   return (
-    <Carousel
+    <StyledCarousel
       additionalTransfrom={0}
       arrows
       autoPlay={true}
@@ -55,9 +61,10 @@ const CustomCarousel = ({children, itemsInDesktop = 4}: Props) => {
       showDots={false}
       sliderClass=''
       slidesToSlide={1}
-      swipeable>
+      swipeable
+      {...props}>
       {children}
-    </Carousel>
+    </StyledCarousel>
   );
 };
 

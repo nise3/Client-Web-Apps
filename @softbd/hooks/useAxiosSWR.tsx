@@ -1,14 +1,8 @@
 import useSWR from 'swr';
 import {apiGet} from '../common/api';
 
-function common<T = any>(response: any = {}) {
-  const {
-    data: responseData,
-    isValidating,
-    error,
-    mutate,
-  } = response?.data || {};
-  const {data, ...metaData} = responseData || {};
+function common({mutate, error, data: responseData, isValidating}: any) {
+  const {data: {data = undefined, ...metaData} = {}} = responseData || {};
 
   return {
     data,
@@ -20,7 +14,7 @@ function common<T = any>(response: any = {}) {
   };
 }
 
-export function useAxiosSWR<T = any>(deps: any[] | string | null) {
+export function useAxiosSWR(deps: any[] | string | null) {
   console.count('useAxiosSWR');
-  return common<T>(useSWR(deps, (url, params) => apiGet(url, {params})));
+  return common(useSWR(deps, (url, params) => apiGet(url, {params})));
 }

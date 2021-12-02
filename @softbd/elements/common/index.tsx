@@ -9,14 +9,13 @@ interface LinkProp {
   href?: string;
   className?: string;
   decorated?: boolean;
-
+  passHref?: boolean;
   [x: string]: any;
 }
 
 interface TextProp {
   children?: any;
   className?: string;
-
   [x: string]: any;
 }
 
@@ -31,11 +30,12 @@ export const Link = ({
   children,
   href = '',
   className = '',
+  passHref = true,
   ...props
 }: LinkProp) => {
   return (
-    <NextLink href={href} passHref>
-      <a href={href} className={className} {...props}>
+    <NextLink href={href} passHref={passHref} {...props}>
+      <a href={href} className={className}>
         {children}
       </a>
     </NextLink>
@@ -46,13 +46,14 @@ export const NavLink = ({
   children,
   href = '',
   className = '',
+  passHref = true,
   ...props
 }: LinkProp) => {
   const route = useRouter();
   const active = route.pathname == href ? 'active' : '';
   return (
-    <NextLink href={href} passHref>
-      <a href={href} className={clsx(className, active)} {...props}>
+    <NextLink href={href} passHref={passHref} {...props}>
+      <a href={href} className={clsx(className, active)}>
         {children}
       </a>
     </NextLink>
