@@ -1,9 +1,7 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {
   FormControl,
@@ -11,6 +9,8 @@ import {
   InputLabel,
   TextField,
 } from '@mui/material';
+import {styled} from "@mui/material/styles";
+import FilepondCSS from "./FilepondCSS";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -23,6 +23,8 @@ interface FilepondComponentProps {
   label: string | React.ReactNode;
   defaultFileUrl?: string | null;
 }
+
+const StyledWrapper = styled('div')(() => ({...FilepondCSS}))
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
   id,
@@ -60,7 +62,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   const filePondRef = useRef<any>(null);
 
   return (
-    <>
+    <StyledWrapper>
       <InputLabel required={required}>{label}</InputLabel>
       <FormControl fullWidth>
         <FilePond
@@ -118,7 +120,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           )}
         </FormHelperText>
       </FormControl>
-    </>
+    </StyledWrapper>
   );
 };
 
