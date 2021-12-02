@@ -8,7 +8,7 @@ import cookieInstance from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {getSSOLoginUrl} from '../common/SSOConfig';
 
-let retryApprefreshToken = 0;
+let retryAppRefreshToken = 0;
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 300000,
@@ -74,11 +74,11 @@ export function setDefaultAuthorizationHeader(accessToken?: string) {
 }
 
 async function refreshAuthAccessToken() {
-  if (retryApprefreshToken === 20) {
+  if (retryAppRefreshToken === 20) {
     cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
     window.location.href = getSSOLoginUrl();
   }
-  retryApprefreshToken++;
+  retryAppRefreshToken++;
   console.log('refreshAuthAccessToken')
   const authAccessTokenData = cookieInstance.get(
     COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
@@ -114,7 +114,7 @@ async function refreshAuthAccessToken() {
 
       //TODO: temporary
       setDefaultAuthorizationHeader(responseTokenData.access_token);
-      retryApprefreshToken = 0;
+      retryAppRefreshToken = 0;
     } catch (e) {
       console.log("refreshAuthAccessToken-error", e);
       cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
