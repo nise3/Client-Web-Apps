@@ -8,6 +8,7 @@ import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {Button, CardMedia, Container, Grid, Typography} from '@mui/material';
 import clsx from 'clsx';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
+import Router from 'next/router';
 
 const PREFIX = 'YouthCVPage';
 
@@ -114,12 +115,20 @@ const YouthCVPage = () => {
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={5}>
-        <Grid item xs={10} sm={10} md={6}>
+        <Grid item xs={8} sm={8} md={4}>
           <Typography variant={'h5'} fontWeight={'bold'}>
             {messages['common.trainee_cv']}
           </Typography>
         </Grid>
-        <Grid item xs={2} sm={2} md={2}>
+        <Grid item xs={6} sm={2} md={2}>
+          <Button
+            variant='outlined'
+            onClick={() => Router.back()}
+            style={{float: 'right'}}>
+            Back
+          </Button>
+        </Grid>
+        <Grid item xs={6} sm={2} md={2}>
           <Button
             variant='contained'
             onClick={printCB}

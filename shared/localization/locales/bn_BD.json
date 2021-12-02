@@ -1,7 +1,7 @@
 {
   "applicationManagement.label": "আবেদন ব্যবস্থাপনা",
-  "applicationManagement.programTitle": "প্রোগ্রামের টাইটেল",
-  "applicationManagement.courseTitle": "কোর্সের টাইটেল",
+  "applicationManagement.programTitle": "প্রোগ্রাম টাইটেল",
+  "applicationManagement.courseTitle": "কোর্স টাইটেল",
   "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
   "applicationManagement.assignBatch": "ব্যাচ বরাদ্দ",
   "applicationManagement.assignedBatch": "বরাদ্দকৃত ব্যাচ",
@@ -710,7 +710,7 @@
   "common.identity_type_birth_cert": "জন্ম সনদ নম্বর",
   "common.identity_type_passport": "পাসপোর্ট নম্বর",
   "youth.edit_education": "শিক্ষা সম্পাদনা",
-  "youth.label": "ইউথ এর তালিকা",
+  "youth.label": "ইউথ তালিকা",
   "youth.username": "ইউজারনেম",
   "youth.fullName": "পুরো নাম",
   "youth.gender": "লিঙ্গ",

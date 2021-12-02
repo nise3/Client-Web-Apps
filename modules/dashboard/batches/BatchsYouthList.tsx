@@ -17,7 +17,8 @@ const YouthPage = () => {
   const {messages} = useIntl();
 
   const router = useRouter();
-  const path = router.pathname;
+  const path = router.asPath;
+  console.log('router.pathname: ', router.asPath);
   const {batchId} = router.query;
 
   const columns = useMemo(
@@ -72,7 +73,7 @@ const YouthPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <Link href={`${path}/youth-cv/${data?.id}`} passHref={true}>
+            <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
               <AssignBatchButton
                 btnText='applicationManagement.viewCV'
                 startIcon={<FiUser style={{marginLeft: '5px'}} />}

@@ -35,7 +35,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
         <Button
           startIcon={<FiUserX style={{marginLeft: '5px'}} />}
           onClick={() => setRejectDialogOpen(true)}
-          className={className}
+          sx={extra?.color && {color: 'error.main'}}
           color={'error'}
           {...extra}>
           {<IntlMessages id='applicationManagement.reject' />}
