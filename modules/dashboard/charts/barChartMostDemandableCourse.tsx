@@ -18,27 +18,27 @@ const MostDemandableCourseChart = () => {
   const data = [
     {
       "name": "Welding",
-      "uv": 1200
+      "value": 1200
     },
     {
       "name": "Computer Operating",
-      "uv": 1000
+      "value": 1000
     },
     {
       "name": "Mobile Servicing",
-      "uv": 900
+      "value": 900
     },
     {
       "name": "Office Management",
-      "uv": 800
+      "value": 800
     },
     {
       "name": "Salesman",
-      "uv": 700
+      "value": 700
     },
     {
       "name": "Graphic Design",
-      "uv": 600
+      "value": 600
     }
   ]
   return (
@@ -54,7 +54,7 @@ const MostDemandableCourseChart = () => {
             <XAxis type="number"/>
             <YAxis type="category" dataKey="name"/>
             <Tooltip />
-            <Bar dataKey="uv" fill="#4B66F1" />
+            <Bar dataKey="value" fill="#4B66F1" />
           </BarChart>
         </CardContent>
       </Card>

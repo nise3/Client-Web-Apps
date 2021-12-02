@@ -7,9 +7,9 @@ import Grid from '@mui/material/Grid';
 import {styled} from '@mui/material';
 import MostDemandableCourseChart from '../../modules/dashboard/charts/barChartMostDemandableCourse';
 import JobTrandsChart from '../../modules/dashboard/charts/jobTrandeChart';
-import DashboardSmallCalendar from '../../modules/dashboard/events/DashboardSmallCalendar';
 import BangladeshMap from '../../modules/dashboard/Map/map.bangladesh';
 import {Box} from '@mui/system';
+import EventMiniCalendarView from '../../modules/events/EventMiniCalendarView';
 
 const PREFIX = 'Dashboard';
 
@@ -41,7 +41,8 @@ export default DashboardPage(() => {
             <MostDemandableCourseChart/>
           </Grid>
           <Grid item md={5} sm={5}>
-            <DashboardSmallCalendar/>
+            <EventMiniCalendarView/>
+            {/*<EventCalendarView views={['month']}/>*/}
           </Grid>
           <Grid item md={7} sm={7}>
             <JobTrandsChart/>

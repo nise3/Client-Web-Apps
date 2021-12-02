@@ -3,17 +3,15 @@ import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
-import {Box, Card, CardContent, CardHeader, Container, Grid} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
-import {H3} from '../../@softbd/elements/common';
-import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
 import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
-const EventCalendarView = () => {
-  const {messages} = useIntl();
+const EventMiniCalendarView = () => {
+  // const {messages} = useIntl();
   let requestQuery: ICalendarQuery = {
     type: 'month',
   };
@@ -48,9 +46,9 @@ const EventCalendarView = () => {
   };
 
   return (
-    <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
       <Card>
-        <CardHeader title={<H3>{messages['menu.calendar']}</H3>} />
+        <CardHeader title={'Institute Calendar'} />
+        {/*<CardHeader title={<H3>{messages['menu.calendar']}</H3>} />*/}
         <CardContent>
           <Grid item xs={12} md={12} style={{paddingTop: 20}}>
             {isOpenDetailsView ? (
@@ -67,10 +65,11 @@ const EventCalendarView = () => {
                 events={eventsList}
                 localizer={localizer}
                 selectable={true}
-                style={{height: '100vh'}}
+                style={{height: 500}}
                 startAccessor='start'
                 endAccessor='end'
                 defaultDate={moment().toDate()}
+                views={['month']}
                 onView={(view: View) =>
                   setViewFilters({...requestQuery, ...{type: view}})
                 }
@@ -80,8 +79,7 @@ const EventCalendarView = () => {
           </Grid>
         </CardContent>
       </Card>
-    </Container>
   );
 };
 
-export default EventCalendarView;
+export default EventMiniCalendarView;

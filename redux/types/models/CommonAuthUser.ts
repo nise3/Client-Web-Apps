@@ -6,6 +6,7 @@ import {Religion} from '../../../@softbd/utilities/Religions';
 import {IdentityNumberType} from '../../../@softbd/utilities/IdentityNumberTypes';
 import {EthnicGroupStatusType} from '../../../@softbd/utilities/EthnicGroupStatus';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
+import { IRole } from '../../../shared/Interface/userManagement.interface';
 
 export interface AuthUser {
   uid: string;
@@ -27,7 +28,7 @@ export interface CommonAuthUser extends AuthUser {
   organization_id?: string | number;
   institute?: Institute | any;
   organization?: IOrganization | any;
-  role: Role | any;
+  role: IRole | any;
   permissions: string[];
   mobile?: string;
 }

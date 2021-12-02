@@ -37,7 +37,7 @@ const JobTrandsChart = () => {
         {/*</Grid>*/}
         <CardHeader title={'Job Trends'}/>
         <CardContent>
-            <LineChart width={750} height={400} data={data}>
+            <LineChart width={750} height={555} data={data}>
               <Line type="monotone" dataKey="design" stroke="#63FFE3" />
               <Line type="monotone" dataKey="salesman" stroke="#FF99C0" />
               <Line type="monotone" dataKey="mgt" stroke="#3CCF80" />
