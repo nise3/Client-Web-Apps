@@ -10,6 +10,7 @@ import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowSt
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
+import {ITrainer} from '../../../shared/Interface/institute.interface';
 
 type Props = {
   itemId: number;
@@ -22,7 +23,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchBatch(itemId);
 
   const getTrainersName = useCallback((trainers: any = []) => {
-    let namesArray = trainers.map((item: Trainer) => item.trainer_name);
+    let namesArray = trainers.map((item: ITrainer) => item.trainer_name);
     return namesArray.join(', ');
   }, []);
 

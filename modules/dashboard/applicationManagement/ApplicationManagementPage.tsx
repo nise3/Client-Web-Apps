@@ -86,10 +86,15 @@ const ApplicationManagementPage = () => {
       {
         Header: messages['applicationManagement.programTitle'],
         accessor: 'program_title',
+        isVisible: false,
       },
       {
         Header: messages['applicationManagement.courseTitle'],
         accessor: 'course_title',
+      },
+      {
+        Header: messages['menu.batch'],
+        accessor: 'batch_title',
       },
       {
         Header: messages['applicationManagement.applicantFullName'],
@@ -144,6 +149,7 @@ const ApplicationManagementPage = () => {
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
                 btnText='applicationManagement.assignBatch'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                color='secondary'
               />
 
               {data.row_status !== 3 ? (

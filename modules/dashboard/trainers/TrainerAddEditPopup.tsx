@@ -27,6 +27,8 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {ITrainer} from '../../../shared/Interface/institute.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 import {
   useFetchBranches,
@@ -45,6 +47,7 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -98,7 +101,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-
+  const authUser = useAuthUser();
   const {
     data: itemData,
     isLoading: isLoading,
@@ -172,11 +175,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.marital_status'] as string),
-      institute_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.label'] as string),
+      institute_id:
+        authUser && authUser.isSystemUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['institute.label'] as string)
+          : yup.string(),
       nationality: yup
         .string()
         .trim()
@@ -203,7 +209,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm<Trainer>({
+  } = useForm<ITrainer>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -326,13 +332,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     });
   }, []);
 
-  const onSubmit: SubmitHandler<Trainer> = async (data: Trainer) => {
+  const onSubmit: SubmitHandler<ITrainer> = async (data: ITrainer) => {
     try {
       if (itemId) {
         await updateTrainer(itemId, data);
         updateSuccessMessage('trainers.label');
         mutateTrainer();
       } else {
+        if (authUser?.isInstituteUser) {
+          data.institute_id = authUser?.institute_id;
+        }
         await createTrainer(data);
         createSuccessMessage('trainers.label');
       }
@@ -651,21 +660,23 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        {authUser && authUser.isSystemUser && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              required
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+              onChange={onInstituteChange}
+            />
+          </Grid>
+        )}
 
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id='institute_id'
-            label={messages['institute.label']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onInstituteChange}
-          />
-        </Grid>
         <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='branch_id'

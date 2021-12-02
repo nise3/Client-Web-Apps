@@ -119,7 +119,7 @@ type TrainingCenter = {
 };
 type Trainer = {
   id: number;
-  institute_id: number | string;
+  institute_id?: number | string;
   trainer_name_en?: string;
   trainer_name: string;
   branch_id?: number | string;

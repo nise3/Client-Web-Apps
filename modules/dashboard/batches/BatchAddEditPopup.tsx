@@ -32,6 +32,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {ITrainer, IBatch} from '../../../shared/Interface/institute.interface';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -204,7 +205,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Batch>({
+  } = useForm<IBatch>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -254,8 +255,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const getTrainerIds = (trainers: Array<Trainer>) => {
-    return trainers.map((item: Trainer) => item.id);
+  const getTrainerIds = (trainers: Array<ITrainer>) => {
+    return trainers.map((item: ITrainer) => item.id);
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
@@ -281,7 +282,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     });
   }, []);
 
-  const onSubmit: SubmitHandler<Batch> = async (data: Batch) => {
+  const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
     let assignTrainersResponse;
 
     if (authUser?.isInstituteUser) {

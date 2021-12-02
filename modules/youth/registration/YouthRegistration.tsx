@@ -38,6 +38,7 @@ import {LINK_YOUTH_REGISTRATION_VERIFICATION} from '../../../@softbd/common/appL
 import {Link} from '../../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 const PREFIX = 'YouthRegistration';
 
@@ -476,6 +477,7 @@ const YouthRegistration = () => {
                 required
                 id='password'
                 label={messages['common.password']}
+                helperText={messages['common.passwordHint']}
                 register={register}
                 errorInstance={errors}
                 type={'password'}

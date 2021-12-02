@@ -148,6 +148,8 @@ const BatchesPage = () => {
                   btnText='youth.label'
                   startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                   style={{marginLeft: '10px'}}
+                  variant='outlined'
+                  color='primary'
                 />
               </Link>
             </DatatableButtonGroup>

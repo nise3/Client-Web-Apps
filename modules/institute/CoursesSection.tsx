@@ -3,7 +3,6 @@ import {Box, Container, Tabs, Tab, Grid, Skeleton} from '@mui/material';
 import UnderlinedHeading from './UnderlinedHeading';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
-import Typography from '@mui/material/Typography';
 import CourseSectionCarousel from './courseSectionCarousel';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import CourseTypes from '../../@softbd/utilities/CourseTypes';
@@ -25,11 +24,7 @@ const TabPanel = (props: TabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}>
-      {value === index && (
-        <Box sx={{pt: 3}}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{pt: 3}}>{children}</Box>}
     </div>
   );
 };
@@ -106,7 +101,9 @@ const CoursesSection = () => {
                   <Skeleton variant='rectangular' width={250} height={300} />
                 </Box>
               ) : courseList && courseList.length ? (
-                <CourseSectionCarousel courses={courseList} />
+                <CourseSectionCarousel
+                  courses={[...courseList, ...courseList, ...courseList]}
+                />
               ) : (
                 <NoDataFoundComponent />
               )}

@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_BRANCHES} from '../../@softbd/common/apiRoutes';
+import {IBranch} from '../../shared/Interface/institute.interface';
 
 /**
  * @deprecated
@@ -40,7 +41,7 @@ export const getBranch = async (branchId: number) => {
   }
 };
 
-export const createBranch = async (data: Branch) => {
+export const createBranch = async (data: IBranch) => {
   try {
     let response: any = await apiPost(API_BRANCHES, data);
     return response.data;
@@ -49,7 +50,7 @@ export const createBranch = async (data: Branch) => {
   }
 };
 
-export const updateBranch = async (branchId: number, data: Branch) => {
+export const updateBranch = async (branchId: number, data: IBranch) => {
   try {
     let response: any = await apiPut(API_BRANCHES + '/' + branchId, data);
     return response.data;

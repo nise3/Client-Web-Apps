@@ -1,9 +1,14 @@
 import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+// import 'react-multi-carousel/lib/styles.css';// DO NOT USE
 import React, {ReactNode} from 'react';
 import LandingBannerTemplateCenterBackground from './LandingBannerTemplateCenterBackground';
 import LandingBannerTemplateRightLeft from './LandingBannerTemplateRightLeft';
 import LandingBannerTemplateLeftRight from './LandingBannerTemplateLeftRight';
+import {styled} from '@mui/material/styles';
+import CarouselStyles from '../../../@softbd/elements/display/CustomCarousel/CarouselStyles';
+
+// @ts-ignore
+const StyledCarousel = styled(Carousel)(() => ({...CarouselStyles}));
 
 type Props = {
   children?: ReactNode;
@@ -12,7 +17,7 @@ type Props = {
 
 const NiseImageCarousel = ({banners}: Props) => {
   return (
-    <Carousel
+    <StyledCarousel
       additionalTransfrom={0}
       arrows
       autoPlay={true}
@@ -58,7 +63,7 @@ const NiseImageCarousel = ({banners}: Props) => {
               return <LandingBannerTemplateCenterBackground banner={banner} />;
           }
         })}
-    </Carousel>
+    </StyledCarousel>
   );
 };
 

@@ -17,6 +17,7 @@ import {
 import CustomHookForm from '../component/CustomHookForm';
 import {YouthPortfolio} from '../../../../services/youthManagement/typing';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import FileUploadComponent from '../../../filepond/FileUploadComponent';
 
 interface PortfolioAddEditProps {
   itemId: number | null;
@@ -40,12 +41,18 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     mutate: mutatePortfolio,
     isLoading,
   } = useFetchPortfolio(itemId);
+
+  console.log('data port----', itemData);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
         .title()
         .label(messages['common.title'] as string),
+      file_path: yup
+        .string()
+        .required()
+        .label(messages['common.file_upload'] as string),
     });
   }, [messages]);
 
@@ -54,6 +61,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
     reset,
     handleSubmit,
     setError,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<YouthPortfolio>({
     resolver: yupResolver(validationSchema),
@@ -74,8 +82,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: YouthPortfolio) => {
-    //demo file url
-    data.file_path = 'http://lorempixel.com/400/200/';
+    console.log('data-------', data);
 
     try {
       if (itemId) {
@@ -88,6 +95,7 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
       mutatePortfolio();
       props.onClose();
     } catch (error: any) {
+      console.log('errors----', error);
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
@@ -149,14 +157,23 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <CustomTextInput
+              <FileUploadComponent
+                id='file_path'
+                defaultFileUrl={itemData?.file_path}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['upload_file.portfolio_modal']}
+                required={true}
+              />
+              {/*<CustomTextInput
                 id='upload_file'
                 label={messages['upload_file.portfolio_modal']}
                 type={'file'}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
-              />
+              />*/}
             </Grid>
           </Grid>
         </CustomHookForm>

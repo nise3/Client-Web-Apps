@@ -169,11 +169,9 @@ const RolePage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={URL} passHref>
-                <PrimaryLightButton
-                  variant={'outlined'}
-                  startIcon={<AccountTreeOutlined />}>
+                <ReadButton startIcon={<AccountTreeOutlined />}>
                   {messages['permission.label']}
-                </PrimaryLightButton>
+                </ReadButton>
               </Link>
             </DatatableButtonGroup>
           );

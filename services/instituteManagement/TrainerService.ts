@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_TRAINERS} from '../../@softbd/common/apiRoutes';
+import {ITrainer} from '../../shared/Interface/institute.interface';
 
 /**
  * @deprecated
@@ -21,7 +22,7 @@ export const deleteTrainer = async (trainerId: number) => {
     catchBlockHandler(error);
   }
 };
-export const createTrainer = async (data: Trainer) => {
+export const createTrainer = async (data: ITrainer) => {
   try {
     let response: any = await apiPost(API_TRAINERS, data);
     return response.data;
@@ -29,7 +30,7 @@ export const createTrainer = async (data: Trainer) => {
     catchBlockHandler(error);
   }
 };
-export const updateTrainer = async (trainerId: number, data: Trainer) => {
+export const updateTrainer = async (trainerId: number, data: ITrainer) => {
   try {
     let response: any = await apiPut(API_TRAINERS + '/' + trainerId, data);
     return response.data;

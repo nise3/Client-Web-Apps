@@ -6,14 +6,14 @@ export const LINK_ORGANIZATION_SIGNUP = '/organization-registration';
 export const LINK_YOUTH_REGISTRATION_VERIFICATION =
   '/registration-verification';
 
-export const LINK_DASHBOARD = '/dashboard';
+export const LINK_DASHBOARD = '/';
 
 /**  User Role Permission links */
-export const LINK_PERMISSION = '/dashboard/permissions';
-export const LINK_PERMISSION_GROUP = '/dashboard/permission-groups';
-export const LINK_PERMISSION_SUB_GROUP = '/dashboard/permission-sub-groups';
-export const LINK_ROLE = '/dashboard/roles';
-export const LINK_USER = '/dashboard/users';
+export const LINK_PERMISSION = '/permissions';
+export const LINK_PERMISSION_GROUP = '/permission-groups';
+export const LINK_PERMISSION_SUB_GROUP = '/permission-sub-groups';
+export const LINK_ROLE = '/roles';
+export const LINK_USER = '/users';
 
 /**  Location links */
 export const LINK_DIVISION = '/location/divisions';
@@ -21,63 +21,59 @@ export const LINK_DISTRICT = '/location/districts';
 export const LINK_UPAZILA = '/location/upazilas';
 
 /**  organization links */
-export const LINK_RANK_TYPES = '/dashboard/rank-types';
-export const LINK_RANKS = '/dashboard/ranks';
-export const LINK_SERVICES = '/dashboard/services';
-export const LINK_ORGANIZATION_TYPES = '/dashboard/organization-types';
-export const LINK_JOB_SECTORS = '/dashboard/job-sectors';
-export const LINK_OCCUPATIONS = '/dashboard/occupations';
-export const LINK_SKILLS = '/dashboard/skills';
-export const LINK_ORGANOGRAM = '/dashboard/organogram';
+export const LINK_RANK_TYPES = '/rank-types';
+export const LINK_RANKS = '/ranks';
+export const LINK_SERVICES = '/services';
+export const LINK_ORGANIZATION_TYPES = '/organization-types';
+export const LINK_JOB_SECTORS = '/job-sectors';
+export const LINK_OCCUPATIONS = '/occupations';
+export const LINK_SKILLS = '/skills';
+export const LINK_ORGANOGRAM = '/organogram';
 
 /** institute api links  */
-export const LINK_INSTITUTES = '/dashboard/institutes';
-export const LINK_BRANCHES = '/dashboard/branches';
-export const LINK_PROGRAMMES = '/dashboard/programmes';
-export const LINK_COURSES = '/dashboard/courses';
+export const LINK_INSTITUTES = '/institutes';
+export const LINK_BRANCHES = '/branches';
+export const LINK_PROGRAMMES = '/programmes';
+export const LINK_COURSES = '/courses';
 
 /** institute links  */
-export const LINK_FRONTEND_INSTITUTE_ROOT = '/institute';
-export const LINK_FRONTEND_INSTITUTE_COURSES = '/institute/courses';
-export const LINK_FRONTEND_INSTITUTE_VIDEOS = '/institute/videos';
-export const LINK_FRONTEND_INSTITUTE_GALLERY = '/institute/gallery-albums';
-export const LINK_FRONTEND_INSTITUTE_FEEDBACK = '/institute/feedback';
-export const LINK_FRONTEND_INSTITUTE_FAQ = '/institute/faqs';
-export const LINK_FRONTEND_INSTITUTE_CONTACT = '/institute/contact';
-export const LINK_FRONTEND_INSTITUTE_CALENDAR = '/institute/events';
-export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR =
-  '/institute/training-calendar';
-export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD =
-  LINK_FRONTEND_INSTITUTE_ROOT + '/notice-board';
-export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES =
-  LINK_FRONTEND_INSTITUTE_ROOT + '/recent-activities';
+export const LINK_FRONTEND_INSTITUTE_ROOT = '/';
+export const LINK_FRONTEND_INSTITUTE_COURSES = '/courses';
+export const LINK_FRONTEND_INSTITUTE_VIDEOS = '/videos';
+export const LINK_FRONTEND_INSTITUTE_GALLERY = '/gallery-albums';
+export const LINK_FRONTEND_INSTITUTE_FEEDBACK = '/feedback';
+export const LINK_FRONTEND_INSTITUTE_FAQ = '/faqs';
+export const LINK_FRONTEND_INSTITUTE_CONTACT = '/contact';
+export const LINK_FRONTEND_INSTITUTE_CALENDAR = '/events';
+export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR = '/training-calendar';
+export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD = '/notice-board';
+export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES = '/recent-activities';
 
 /** youth links  */
-export const LINK_FRONTEND_YOUTH_ROOT = '/youth';
-export const LINK_FRONTEND_YOUTH_FEED = '/youth/feed';
-export const LINK_FRONTEND_YOUTH_TRAINING = '/youth/training';
-export const LINK_FRONTEND_YOUTH_JOBS = '/youth/jobs';
-export const LINK_FRONTEND_YOUTH_NOTICE_BOARD = '/youth/notice-board';
-export const LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES = '/youth/recent-activities';
-export const LINK_FRONTEND_YOUTH_CALENDAR = '/youth/events';
-export const LINK_FRONTEND_YOUTH_MY_CV = '/youth/my-cv';
-export const LINK_FRONTEND_YOUTH_MY_COURSES = '/youth/my-courses';
-export const LINK_FRONTEND_YOUTH_SETTINGS = '/youth/settings';
-export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/youth/freelance-corner';
-export const LINK_FRONTEND_YOUTH_COURSE_DETAILS = '/youth/course-details/';
-export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT = '/youth/course-enroll/';
-export const LINK_FRONTEND_YOUTH_REGISTRATION = '/youth/registration';
+export const LINK_FRONTEND_YOUTH_ROOT = '/';
+export const LINK_FRONTEND_YOUTH_FEED = '/feed';
+export const LINK_FRONTEND_YOUTH_TRAINING = '/training';
+export const LINK_FRONTEND_YOUTH_JOBS = '/jobs';
+export const LINK_FRONTEND_YOUTH_NOTICE_BOARD = '/notice-board';
+export const LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES = '/recent-activities';
+export const LINK_FRONTEND_YOUTH_CALENDAR = '/events';
+export const LINK_FRONTEND_YOUTH_MY_CV = '/my-cv';
+export const LINK_FRONTEND_YOUTH_MY_COURSES = '/my-courses';
+export const LINK_FRONTEND_YOUTH_SETTINGS = '/settings';
+export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/freelance-corner';
+export const LINK_FRONTEND_YOUTH_COURSE_DETAILS = '/course-details/';
+export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT = '/course-enroll/';
+export const LINK_FRONTEND_YOUTH_REGISTRATION = '/registration';
 export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS =
-  '/youth/course-enroll-success/';
-export const LINK_FRONTEND_YOUTH_FAQ = '/youth/faqs';
+  '/course-enroll-success/';
+export const LINK_FRONTEND_YOUTH_FAQ = '/faqs';
 
 export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =
-  '/youth/training/skill-matching';
-export const LINK_FRONTEND_YOUTH_POPULAR_COURSELIST = '/youth/training/popular';
-export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST = '/youth/training/recent';
-export const LINK_FRONTEND_YOUTH_NEARBY_COURSELIST = '/youth/training/nearby';
-export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST =
-  '/youth/training/trending';
+  '/training/skill-matching';
+export const LINK_FRONTEND_YOUTH_POPULAR_COURSELIST = '/training/popular';
+export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST = '/training/recent';
+export const LINK_FRONTEND_YOUTH_NEARBY_COURSELIST = '/training/nearby';
+export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST = '/training/trending';
 
 /** nise links  */
 export const LINK_FRONTEND_NISE_ROOT = '/';
@@ -90,7 +86,5 @@ export const LINK_FRONTEND_FAQ = '/faqs';
 
 /** static content links */
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
-export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT =
-  LINK_FRONTEND_INSTITUTE_ROOT + '/sc/';
-export const LINK_YOUTH_FRONTEND_STATIC_CONTENT =
-  LINK_FRONTEND_YOUTH_ROOT + '/sc/';
+export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT = '/sc/';
+export const LINK_YOUTH_FRONTEND_STATIC_CONTENT = '/sc/';

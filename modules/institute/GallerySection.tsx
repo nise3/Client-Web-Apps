@@ -3,11 +3,11 @@ import {Box, Button, Container, Grid} from '@mui/material';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from './UnderlinedHeading';
-import Carousel from 'react-multi-carousel';
+import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {useFetchInstitutesGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';
 import {Link} from '../../@softbd/elements/common';
-import {useRouter} from 'next/router';
+import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../@softbd/common/appLinks';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
@@ -35,13 +35,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.button}`]: {
     borderRadius: 40,
   },
-  '& .react-multiple-carousel__arrow--left': {
+  '& .react-multi-carousel-list .react-multiple-carousel__arrow--left': {
     left: 0,
   },
-  '& .react-multiple-carousel__arrow--right': {
+  '& .react-multi-carousel-list .react-multiple-carousel__arrow--right': {
     right: 0,
   },
-  '& .react-multiple-carousel__arrow--left::before, & .react-multiple-carousel__arrow--right::before':
+  '& .react-multi-carousel-list .react-multiple-carousel__arrow--left::before, & .react-multi-carousel-list .react-multiple-carousel__arrow--right::before':
     {
       color: '#fff',
     },
@@ -58,8 +58,6 @@ const GallerySection = () => {
   });
   const {data: galleryItems, isLoading: isLoadingGallery} =
     useFetchInstitutesGallery(galleryFilter);
-  const router = useRouter();
-  const path = router.pathname;
   return (
     <StyledContainer maxWidth='lg'>
       <Grid container mt={{xs: 5}}>
@@ -73,62 +71,16 @@ const GallerySection = () => {
             ) : galleryItems && galleryItems.length ? (
               <Box>
                 <Box>
-                  <Carousel
-                    additionalTransfrom={0}
-                    arrows
-                    autoPlay={true}
-                    autoPlaySpeed={3000}
-                    centerMode={false}
-                    className=''
-                    containerClass='container-with-dots'
-                    dotListClass=''
-                    draggable
-                    focusOnSelect={false}
-                    infinite
-                    itemClass=''
-                    keyBoardControl
-                    minimumTouchDrag={80}
-                    renderButtonGroupOutside={false}
-                    renderDotsOutside={false}
-                    responsive={{
-                      desktop: {
-                        breakpoint: {
-                          max: 3000,
-                          min: 1024,
-                        },
-                        items: 4,
-                        partialVisibilityGutter: 40,
-                      },
-                      mobile: {
-                        breakpoint: {
-                          max: 464,
-                          min: 0,
-                        },
-                        items: 1,
-                        partialVisibilityGutter: 30,
-                      },
-                      tablet: {
-                        breakpoint: {
-                          max: 1024,
-                          min: 464,
-                        },
-                        items: 2,
-                        partialVisibilityGutter: 30,
-                      },
-                    }}
-                    // showDots={true}
-                    sliderClass=''
-                    slidesToSlide={1}
-                    swipeable>
+                  <CustomCarousel>
                     {galleryItems.map((galleryItem: any, i: number) => (
                       <Box key={galleryItem.id} className={classes.boxItem}>
                         <GalleryItemCardView item={galleryItem} />
                       </Box>
                     ))}
-                  </Carousel>
+                  </CustomCarousel>
                 </Box>
                 <Box display='flex' justifyContent='center'>
-                  <Link href={`${path}/gallery-albums`}>
+                  <Link href={LINK_FRONTEND_INSTITUTE_GALLERY}>
                     <Button
                       variant='outlined'
                       size='large'

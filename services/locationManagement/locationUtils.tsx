@@ -1,3 +1,5 @@
+import {District, Upazila} from '../../shared/Interface/location.interface';
+
 export function filterDistrictsByDivisionId(
   districts: Array<District>,
   divisionId: number | string | null | undefined,

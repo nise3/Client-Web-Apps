@@ -28,7 +28,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import IconRole from '../../../@softbd/icons/IconRole';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IRole } from '../../../shared/Interface/userManagement.interface';
+import {IRole} from '../../../shared/Interface/userManagement.interface';
+
 interface RoleAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -125,6 +126,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         key: itemData?.key,
+        description: itemData?.description,
         permission_sub_group_id: itemData?.permission_sub_group_id,
         permission_group_id: itemData?.permission_group_id,
         organization_id: itemData?.organization_id,
@@ -154,13 +156,13 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
       if (itemId) {
         await updateRole(itemId, data);
         updateSuccessMessage('role.label');
-        mutateRole();
       } else {
         await createRole(data);
         createSuccessMessage('role.label');
       }
       props.onClose();
       refreshDataTable();
+      mutateRole();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }

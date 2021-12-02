@@ -25,6 +25,7 @@ import {
 } from '../../../services/locationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {Upazila} from '../../../shared/Interface/location.interface';
 
 const initialValues = {
   title_en: '',

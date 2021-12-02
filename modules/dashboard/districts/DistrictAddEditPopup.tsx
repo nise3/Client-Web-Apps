@@ -22,6 +22,7 @@ import {
 } from '../../../services/locationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {District} from '../../../shared/Interface/location.interface';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
