@@ -993,11 +993,15 @@
   "calendar.week": "Week",
   "calendar.day": "Day",
   "calendar.schedule": "Schedule",
-  "common.already_enrolled":"Already enrolled",
+  "common.already_enrolled": "Already enrolled",
   "common.departments": "Departments",
   "common.industry_associations": "Industry Associations or Chamber or Commerce (IA/CoC)",
   "common.industry_skills_council": "Industry Skills Council (ISC)",
   "common.dc_offices": "DC Offices",
   "common.4IR_projects": "4IR Projects",
-  "common.industries": "Industries"
+  "common.industries": "Industries",
+  "common.user_section": "User Type",
+  "user.institute_user": "Institute User",
+  "user.branch_user": "Branch User",
+  "user.training_center_user": "Training center User"
 }
