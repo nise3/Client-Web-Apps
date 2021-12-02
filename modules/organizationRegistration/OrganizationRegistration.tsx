@@ -30,6 +30,7 @@ import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {useRouter} from 'next/router';
 import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 import {classes, StyledContainer} from './Registration.style';
+import {District, Upazila} from '../../shared/Interface/location.interface';
 
 const OrganizationRegistration = () => {
   const router = useRouter();

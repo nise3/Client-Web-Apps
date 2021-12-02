@@ -45,6 +45,8 @@ import {
 import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IInstitute} from '../../../shared/Interface/institute.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 export enum InstituteType {
   GOVERNMENT = '1',
@@ -349,7 +351,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const onSubmit: SubmitHandler<Institute> = async (data: Institute) => {
+  const onSubmit: SubmitHandler<IInstitute> = async (data: IInstitute) => {
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);

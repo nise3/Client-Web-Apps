@@ -24,6 +24,7 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {IProgramme} from '../../../shared/Interface/institute.interface';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -83,7 +84,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Programme>({
+  } = useForm<IProgramme>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -103,7 +104,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Programme> = async (data: Programme) => {
+  const onSubmit: SubmitHandler<IProgramme> = async (data: IProgramme) => {
     try {
       if (itemId) {
         await updateProgramme(itemId, data);

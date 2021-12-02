@@ -1,6 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_UPAZILAS} from '../../@softbd/common/apiRoutes';
+import {Upazila} from '../../shared/Interface/location.interface';
 
 export const createUpazila = async (data: Upazila) => {
   try {

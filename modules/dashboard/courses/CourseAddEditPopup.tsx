@@ -32,6 +32,7 @@ import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {ICourse} from '../../../shared/Interface/institute.interface';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -289,7 +290,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<Course>({
+  } = useForm<ICourse>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -380,7 +381,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     });
   }, []);
 
-  const onSubmit: SubmitHandler<Course> = async (data: Course) => {
+  const onSubmit: SubmitHandler<ICourse> = async (data: ICourse) => {
     data.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );

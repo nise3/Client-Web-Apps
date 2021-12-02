@@ -15,6 +15,7 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 interface AddressFormProps {
   register: any;

@@ -17,6 +17,7 @@ import IconDivision from '../../../@softbd/icons/IconDivision';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {Division} from '../../../shared/Interface/location.interface';
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 

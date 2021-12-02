@@ -47,6 +47,10 @@ import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import {nationalities} from '../../../../@softbd/utilities/Nationalities';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {
+  District,
+  Upazila,
+} from '../../../../shared/Interface/location.interface';
 
 interface PersonalInformationEditProps {
   onClose: () => void;

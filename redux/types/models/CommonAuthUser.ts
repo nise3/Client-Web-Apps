@@ -6,6 +6,8 @@ import {Religion} from '../../../@softbd/utilities/Religions';
 import {IdentityNumberType} from '../../../@softbd/utilities/IdentityNumberTypes';
 import {EthnicGroupStatusType} from '../../../@softbd/utilities/EthnicGroupStatus';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
+import {IInstitute} from '../../../shared/Interface/institute.interface';
+import {IRole} from '../../../shared/Interface/userManagement.interface';
 
 export interface AuthUser {
   uid: string;
@@ -25,9 +27,9 @@ export interface CommonAuthUser extends AuthUser {
   userId: string | number;
   institute_id?: string | number;
   organization_id?: string | number;
-  institute?: Institute | any;
+  institute?: IInstitute | any;
   organization?: IOrganization | any;
-  role: Role | any;
+  role: IRole | any;
   permissions: string[];
   mobile?: string;
 }
@@ -82,5 +84,4 @@ export interface YouthAuthUser extends AuthUser {
 }
 
 // @ts-ignore
-export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {
-}
+export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {}

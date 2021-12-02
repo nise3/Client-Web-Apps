@@ -27,6 +27,8 @@ import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
 import {getHostUrl} from '../../@softbd/common/SSOConfig';
 import {IOrganization} from '../../shared/Interface/organization.interface';
+import {IInstitute} from '../../shared/Interface/institute.interface';
+import {IRole} from '../../shared/Interface/userManagement.interface';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -118,9 +120,9 @@ type TAuthUserSSOResponse = {
   isOrganizationUser: boolean;
   institute_id?: string | number;
   organization_id?: string | number;
-  institute?: Institute;
+  institute?: IInstitute;
   organization?: IOrganization;
-  role?: Role;
+  role?: IRole;
   displayName?: string;
   email?: string;
   username: string;

@@ -40,6 +40,7 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import {IUser} from '../../../shared/Interface/userManagement.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 interface UserAddEditPopupProps {
   itemId: number | null;

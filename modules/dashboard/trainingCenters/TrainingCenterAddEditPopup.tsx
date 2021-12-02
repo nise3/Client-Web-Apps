@@ -35,6 +35,8 @@ import {
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -157,7 +159,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<TrainingCenter>({
+  } = useForm<ITrainingCenter>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -219,8 +221,8 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     });
   }, []);
 
-  const onSubmit: SubmitHandler<TrainingCenter> = async (
-    data: TrainingCenter,
+  const onSubmit: SubmitHandler<ITrainingCenter> = async (
+    data: ITrainingCenter,
   ) => {
     if (authUser?.isInstituteUser) {
       data.institute_id = Number(authUser.institute_id);
