@@ -180,3 +180,13 @@ export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
 
 export const API_SEND_YOUTH_REGISTRATION_VERIFICATION_CODE =
   YOUTH_SERVICE_PATH + '/youth-resend-verification-code';
+/**
+ * institute branch list
+ */
+export const API_INSTITUTE_BRANCH_LIST = INSTITUTE_SERVICE_PATH + '/branches';
+
+/**
+ * institute training center list
+ */
+export const API_INSTITUTE_TRAINING_CENTER_LIST =
+  INSTITUTE_SERVICE_PATH + '/training-centers';
