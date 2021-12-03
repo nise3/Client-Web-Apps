@@ -36,6 +36,7 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import {Add, Delete} from '@mui/icons-material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface NoticeOrNewsAddEditPopupProps {
   itemId: number | null;
@@ -130,10 +131,10 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
-      /*main_image_path: yup
+      main_image_path: yup
         .string()
         .required()
-        .label(messages['common.main_image_path'] as string),*/
+        .label(messages['common.main_image_path'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -315,11 +316,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.main_image_path = 'http://lorempixel.com/400/200/';
-      formData.thumb_image_path = 'http://lorempixel.com/400/200/';
-      formData.grid_image_path = 'http://lorempixel.com/400/200/';
-      formData.file_path = 'http://lorempixel.com/400/200/';
-
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;
@@ -472,60 +468,48 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='file_path'
-            label={messages['common.file_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.file_path']}
+            required={false}
           />
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='main_image_path'
+            defaultFileUrl={itemData?.main_image_path}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
             label={messages['common.main_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
+            required={true}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.grid_image_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.grid_image_path']}
+            required={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.thumb_image_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.thumb_image_path']}
+            required={false}
           />
         </Grid>
 
