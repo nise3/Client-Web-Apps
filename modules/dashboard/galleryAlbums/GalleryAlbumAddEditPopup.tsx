@@ -235,10 +235,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         id: AlbumTypes.VIDEO,
         label: messages['album_type.video'],
       },
-      {
-        id: AlbumTypes.MIXED,
-        label: messages['album_type.mixed'],
-      },
     ],
     [messages],
   );
