@@ -1,9 +1,7 @@
 // @ts-ignore
 import OrganizationChart from 'nextjs-orgchart';
-import 'nextjs-orgchart/dist/ChartContainer.css';
-import 'nextjs-orgchart/dist/ChartNode.css';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Popover} from '@mui/material';
+import {Popover, styled} from '@mui/material';
 import {useRouter} from 'next/router';
 import {
   deleteHumanResourceTemplate,
@@ -21,6 +19,7 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getOrganizationUnitTypeHierarchy} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {HIERARCHY_NODE_ID_PREFIX_STRING} from '../../../@softbd/common/constants';
+import ChartCSS from './ChartCSS';
 
 const getIdFromNodeId = (nodeId: string) => {
   return Number(nodeId.toString().replace(HIERARCHY_NODE_ID_PREFIX_STRING, ''));
@@ -61,6 +60,8 @@ const getHierarchyHierarchyData = async (
   }
   return false;
 };
+
+const StyledWrapper = styled('div')(() => ({...ChartCSS}));
 
 const OrganizationUnitTypeHierarchy = () => {
   const {messages} = useIntl();
@@ -245,7 +246,7 @@ const OrganizationUnitTypeHierarchy = () => {
   }, [selectedItemId]);
 
   return (
-    <>
+    <StyledWrapper>
       <OrganizationChart
         datasource={HierarchyData}
         draggable={true}
@@ -287,7 +288,7 @@ const OrganizationUnitTypeHierarchy = () => {
           organizationUnitTypeId={Number(organizationUnitTypeId)}
         />
       )}
-    </>
+    </StyledWrapper>
   );
 };
 

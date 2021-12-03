@@ -1,17 +1,30 @@
 import {Event, SlotInfo} from 'react-big-calendar';
+import {
+  ColumnInstance,
+  TableInstance,
+  TableState,
+  FilterValue,
+  IdType,
+  Filters,
+  FilterProps,
+  Row,
+  CellProps,
+  Cell,
+  CellValue,
+} from 'react-table';
 
-export interface IidTitle{
+export interface IidTitle {
   id: number;
   title: string;
 }
-export interface IidTitles extends  IidTitle{
+export interface IidTitles extends IidTitle {
   title_en?: string;
 }
-export interface IidTitleCreateUpdateAt extends IidTitles{
+export interface IidTitleCreateUpdateAt extends IidTitles {
   updated_at?: string;
   crated_at?: string;
 }
-export interface IFAQ{
+export interface IFAQ {
   show_in: number;
   institute_id?: number;
   organization_id?: number;
@@ -21,7 +34,7 @@ export interface IFAQ{
   row_status: number;
   other_language_fields?: object;
 }
-export interface IPartner extends IidTitle{
+export interface IPartner extends IidTitle {
   main_image_path?: string;
   thumb_image_path?: string;
   grid_image_path?: string;
@@ -30,7 +43,7 @@ export interface IPartner extends IidTitle{
   row_status: string;
   other_language_fields?: object;
 }
-export interface ICalendar extends Event, Partial<IidTitleCreateUpdateAt>{
+export interface ICalendar extends Event, Partial<IidTitleCreateUpdateAt> {
   youth_id?: number | string;
   institute_id?: number | string;
   organization_id?: number | string;
@@ -42,22 +55,22 @@ export interface ICalendar extends Event, Partial<IidTitleCreateUpdateAt>{
   end_time?: string;
   color?: string;
 }
-export interface ICalendarDto extends Omit<ICalendar, 'start'|'end'>{
+export interface ICalendarDto extends Omit<ICalendar, 'start' | 'end'> {
   start?: string;
   end?: string;
 }
-export interface ICalendarSlotInfo extends Omit<SlotInfo, 'start'|'end'>{
+export interface ICalendarSlotInfo extends Omit<SlotInfo, 'start' | 'end'> {
   id: string;
 }
-export interface ICalendarQuery{
+export interface ICalendarQuery {
   type: string;
   youth_id?: string | number;
   institute_id?: string | number;
 }
-export interface IStaticPageCommon extends IidTitle{
+export interface IStaticPageCommon extends IidTitle {
   sub_title?: string;
 }
-export interface IStaticPageDto extends IidTitle, IStaticPageCommon{
+export interface IStaticPageDto extends IidTitle, IStaticPageCommon {
   show_in?: number | string;
   content_slug_or_id?: string;
   institute_id?: string | number;
@@ -66,10 +79,12 @@ export interface IStaticPageDto extends IidTitle, IStaticPageCommon{
   contents?: string;
   row_status?: number | string;
 }
-export interface IStaticPageBlock extends IStaticPageDto, IStaticPageCommon{
+export interface IStaticPageBlock extends IStaticPageDto, IStaticPageCommon {
   // id?: string | number | undefined;
 }
-export interface IStaticPageContent extends IidTitleCreateUpdateAt, IStaticPageCommon{
+export interface IStaticPageContent
+  extends IidTitleCreateUpdateAt,
+    IStaticPageCommon {
   static_page_type_id?: number | undefined;
   show_in: string | number | undefined;
   show_in_label?: string | undefined;
@@ -101,4 +116,40 @@ export interface IStaticBlockAddEditPopupProps {
   pageCode: string;
   pageCategory: number;
   onClose: () => void;
+}
+export interface IColumnInstance<T extends object> extends ColumnInstance<any> {
+  filter?: any;
+  canFilter: boolean;
+  filterValue: any;
+  setFilter: (updater: any) => void;
+  preFilteredRows: Array<any>;
+  align: string;
+}
+export interface IFilters<T extends object> extends Filters<any> {
+  id: IdType<any>;
+  value: FilterValue;
+}
+export interface ITableState extends TableState {
+  filters: IFilters<any>;
+}
+export interface IFilterProps<T extends object> extends FilterProps<any> {
+  column: IColumnInstance<any>;
+}
+export interface ITableInstance<T extends object> extends TableInstance<any> {
+  setAllFilters: (
+    updater: Filters<any> | ((filters: Filters<any>) => Filters<any>),
+  ) => void;
+  setFilter: (id: any, updater: any) => void;
+  allColumns: Array<IColumnInstance<any>>;
+  state: ITableState;
+  page: Array<Row>;
+  prepareRow: (row: Row) => void;
+  gotoPage: (updater: ((pageIndex: number) => number) | number) => void;
+  setPageSize: (pageSize: number) => void;
+}
+export interface ICellProps<T extends object> extends CellProps<any> {
+  column: IColumnInstance<any>;
+  row: Row<any>;
+  cell: Cell<any, any>;
+  value: CellValue<any>;
 }

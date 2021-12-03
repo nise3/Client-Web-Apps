@@ -128,6 +128,9 @@ type TAuthUserSSOResponse = {
   username: string;
   permissions: string[];
   photoURL?: string;
+  institute_user_type?: string;
+  training_center_id?: number;
+  branch_id?: number;
 };
 
 type TYouthAuthUserSSOResponse = {
@@ -209,6 +212,9 @@ export const getCommonAuthUserObject = (
     username: authUser.username,
     permissions: authUser.permissions,
     photoURL: authUser?.photoURL,
+    institute_user_type: authUser?.institute_user_type,
+    training_center_id: authUser?.training_center_id,
+    branch_id: authUser?.branch_id,
   };
 };
 

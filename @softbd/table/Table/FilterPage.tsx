@@ -1,6 +1,10 @@
 import {Button, Popover, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import React, {FormEvent, ReactElement, useCallback} from 'react';
+import {
+  IColumnInstance,
+  ITableInstance,
+} from '../../../shared/Interface/common.interface';
 import {TableInstance} from 'react-table';
 
 const PREFIX = 'FilterPage';
@@ -50,7 +54,7 @@ const StyledPopover = styled(Popover)({
 });
 
 type FilterPage<T extends object> = {
-  instance: TableInstance<T>;
+  instance: ITableInstance<T> | TableInstance<T>;
   anchorEl?: Element;
   onClose: () => void;
   show: boolean;
@@ -62,7 +66,7 @@ export function FilterPage<T extends object>({
   onClose,
   show,
 }: FilterPage<T>): ReactElement {
-  const {allColumns, setAllFilters} = instance;
+  const {allColumns, setAllFilters} = instance as ITableInstance<any>;
 
   const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -108,7 +112,7 @@ export function FilterPage<T extends object>({
             Reset
           </Button>
           <div className={classes.grid}>
-            {allColumns
+            {(allColumns as Array<IColumnInstance<any>>)
               .filter((it) => it.canFilter)
               .map((column) => (
                 <div key={column.id} className={classes.cell}>

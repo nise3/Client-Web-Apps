@@ -1,9 +1,14 @@
 import {Chip} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import React, {useCallback} from 'react';
-import {ColumnInstance, FilterValue, IdType, TableInstance} from 'react-table';
+import {FilterValue, IdType} from 'react-table';
 import {getRowStatusLabel} from '../../utilities/RowStatus';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
+import {
+  IColumnInstance,
+  IFilters,
+  ITableInstance,
+} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'FilterChipBar';
 
@@ -36,11 +41,11 @@ const Root = styled('div')(({theme}): any => ({
 }));
 
 type FilterChipBar<T extends object> = {
-  instance: TableInstance<T>;
+  instance: any | ITableInstance<T>;
 };
 
 const getFilterValue = (
-  column: ColumnInstance<any>,
+  column: IColumnInstance<any>,
   filterValue: FilterValue,
 ) => {
   switch (column.filter) {
@@ -72,8 +77,10 @@ export function FilterChipBar<T extends object>({instance}: FilterChipBar<T>) {
     <Root>
       <span className={classes.filtersActiveLabel}>Active filters:</span>
       {filters &&
-        allColumns.map((column) => {
-          const filter = filters.find((f) => f.id === column.id);
+        allColumns.map((column: any | IColumnInstance<any>) => {
+          const filter = filters.find(
+            (f: any | IFilters<any>) => f.id === column.id,
+          );
           const value = filter && filter.value;
           return (
             value && (

@@ -32,6 +32,9 @@ export interface CommonAuthUser extends AuthUser {
   role: IRole | any;
   permissions: string[];
   mobile?: string;
+  institute_user_type?: string;
+  training_center_id?: number;
+  branch_id?: number;
 }
 
 export interface YouthAuthUser extends AuthUser {

@@ -1,9 +1,7 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {
   FormControl,
@@ -11,6 +9,8 @@ import {
   InputLabel,
   TextField,
 } from '@mui/material';
+import {styled} from '@mui/material/styles';
+import FilepondCSS from './FilepondCSS';
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -23,6 +23,8 @@ interface FilepondComponentProps {
   label: string | React.ReactNode;
   defaultFileUrl?: string | null;
 }
+
+const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
   id,
@@ -42,10 +44,15 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   const [files, setFiles] = useState<any>([]);
 
   useEffect(() => {
-    if (defaultFileUrl) {
+    if (defaultFileUrl && defaultFileUrl.length) {
+      let source = defaultFileUrl.replace(
+        'http://180.148.214.186:8088/uploads/',
+        '',
+      );
+
       let initFile = [
         {
-          source: '80',
+          source: source,
 
           //  set type to local to indicate an already uploaded file
           options: {
@@ -60,7 +67,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   const filePondRef = useRef<any>(null);
 
   return (
-    <>
+    <StyledWrapper>
       <InputLabel required={required}>{label}</InputLabel>
       <FormControl fullWidth>
         <FilePond
@@ -71,23 +78,23 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           maxFiles={1}
           server={{
             process: {
-              url: 'http://localhost:8080/upload',
+              url: 'http://180.148.214.186:8088/test',
               onload: (response: any) => {
                 let res = JSON.parse(response);
-                console.log('res?.filePath---', res?.filePath);
-                setValue('file_path', res?.filePath || '');
+                console.log('res?.filePath---', res?.url);
+                setValue(id, res?.url || '');
                 return 1;
               },
             },
             revert: {
               url: '',
               onload: (response: any) => {
-                setValue('file_path', '');
+                setValue(id, '');
                 return '';
               },
             },
             load: {
-              url: 'https://images.unsplash.com/photo-1633113214186-9f1e186498fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=',
+              url: 'http://180.148.214.186:8088/uploads/',
             },
           }}
           styleProgressIndicatorPosition={'center'}
@@ -118,7 +125,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           )}
         </FormHelperText>
       </FormControl>
-    </>
+    </StyledWrapper>
   );
 };
 

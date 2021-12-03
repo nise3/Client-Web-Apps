@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {Box, Grid, Paper, Typography} from '@mui/material';
 import BusinessIcon from '@mui/icons-material/Business';
 import PeopleIcon from '@mui/icons-material/People';
@@ -15,10 +15,6 @@ import {classes, StyledContainer} from './index.style';
 
 const YouthSignupPage = () => {
   const {messages} = useIntl();
-
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
 
   return (
     <StyledContainer sx={{display: 'flex'}}>
@@ -61,8 +57,7 @@ const YouthSignupPage = () => {
         <Typography variant={'h6'} align={'right'} mt={4}>
           {messages['common.already_have_account']}{' '}
           <Link
-            href={''}
-            onClick={redirectToSSO}
+            href={getSSOLoginUrl()}
             className={classes.signInStyle}>
             {messages['common.signin_here']}
           </Link>

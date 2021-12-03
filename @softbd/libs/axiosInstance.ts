@@ -8,6 +8,7 @@ import cookieInstance from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {getSSOLoginUrl} from '../common/SSOConfig';
 
+let retryAppRefreshToken = 0;
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 300000,
@@ -73,9 +74,25 @@ export function setDefaultAuthorizationHeader(accessToken?: string) {
 }
 
 async function refreshAuthAccessToken() {
+  if (retryAppRefreshToken === 20) {
+    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    window.location.href = getSSOLoginUrl();
+  }
+  retryAppRefreshToken++;
+  console.log('refreshAuthAccessToken')
   const authAccessTokenData = cookieInstance.get(
     COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   );
+
+  var appAccessTokenData = cookieInstance.get(
+      COOKIE_KEY_APP_ACCESS_TOKEN,
+  );
+  if (!appAccessTokenData) {
+    await refreshAppAccessToken();
+    appAccessTokenData = cookieInstance.get(
+        COOKIE_KEY_APP_ACCESS_TOKEN,
+    );
+  }
 
   if (authAccessTokenData?.refresh_token) {
     try {
@@ -84,6 +101,11 @@ async function refreshAuthAccessToken() {
         {
           refresh_token: authAccessTokenData.refresh_token,
         },
+          {
+            headers: {
+              Authorization: appAccessTokenData?.access_token
+            }
+          }
       );
 
       cookieInstance.set(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, responseTokenData, {
@@ -92,8 +114,9 @@ async function refreshAuthAccessToken() {
 
       //TODO: temporary
       setDefaultAuthorizationHeader(responseTokenData.access_token);
+      retryAppRefreshToken = 0;
     } catch (e) {
-      console.log(e);
+      console.log("refreshAuthAccessToken-error", e);
       cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
       window.location.href = getSSOLoginUrl();
     }

@@ -106,13 +106,10 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .string()
           .required()
           .label(messages['gallery_album.featured_status'] as string),
-        content_type:
-          galleryAlbum && galleryAlbum.album_type == AlbumTypes.MIXED
-            ? yup
-                .string()
-                .required()
-                .label(messages['common.content_type'] as string)
-            : yup.string(),
+        content_type: yup
+          .string()
+          .required()
+          .label(messages['common.content_type'] as string),
         title: yup
           .string()
           .required()
@@ -502,24 +499,22 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
             />
           </Grid>
 
-          {galleryAlbum && galleryAlbum.album_type == AlbumTypes.MIXED && (
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                isLoading={false}
-                id='content_type'
-                label={messages['common.content_type']}
-                control={control}
-                options={contentTypes}
-                optionValueProp={'id'}
-                optionTitleProp={['label']}
-                errorInstance={errors}
-                onChange={(contentType: number) => {
-                  setSelectedContentType(contentType);
-                }}
-              />
-            </Grid>
-          )}
+          <Grid item xs={12} md={6}>
+            <CustomFilterableFormSelect
+              required
+              isLoading={false}
+              id='content_type'
+              label={messages['common.content_type']}
+              control={control}
+              options={contentTypes}
+              optionValueProp={'id'}
+              optionTitleProp={['label']}
+              errorInstance={errors}
+              onChange={(contentType: number) => {
+                setSelectedContentType(contentType);
+              }}
+            />
+          </Grid>
 
           {selectedContentType &&
             selectedContentType == GalleryAlbumContentTypes.IMAGE && (
@@ -577,45 +572,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 </Grid>
               </React.Fragment>
             )}
-
-          <Grid item xs={12} md={6}>
-            <CustomTextInput
-              id='content_grid_image_path'
-              label={messages['common.grid_image_path']}
-              type={'file'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              control={control}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomTextInput
-              id='content_thumb_image_path'
-              label={messages['common.thumb_image_path']}
-              type={'file'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              control={control}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <CustomTextInput
-              id='image_alt_title'
-              label={messages['common.image_alt_title']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
 
           <Grid item xs={12} md={6}>
             <CustomDateTimeField

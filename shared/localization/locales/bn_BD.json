@@ -1000,5 +1000,9 @@
   "common.industry_skills_council": "শিল্প দক্ষতা কাউন্সিল",
   "common.dc_offices": "জেলা প্রশাসকের কার্যালয়",
   "common.4IR_projects": "৪আইআর প্রকল্প",
-  "common.industries": "শিল্প প্রতিষ্ঠান"
+  "common.industries": "শিল্প প্রতিষ্ঠান",
+  "common.user_section": "ইউজার ধরন",
+  "user.institute_user": "প্রতিষ্ঠান ইউজার",
+  "user.branch_user": "ব্রাঞ্চ ইউজার",
+  "user.training_center_user": "প্রশিক্ষণ কেন্দ্র ইউজার"
 }

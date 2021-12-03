@@ -6,12 +6,9 @@ import {
   useFetchUser,
 } from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-/*import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
-import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';*/
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {getUserType} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -26,13 +23,17 @@ import {
 } from '../../../services/userManagement/UserService';
 import IconUser from '../../../@softbd/icons/IconUser';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-/*import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';*/
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_PASSWORD,
+} from '../../../@softbd/common/patternRegex';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
+  useFetchBranch,
   useFetchDistricts,
   useFetchDivisions,
+  useFetchTrainingCenter,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
@@ -40,13 +41,21 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import {IUser} from '../../../shared/Interface/userManagement.interface';
-import {District, Upazila} from '../../../shared/Interface/location.interface';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {getUserType} from '../../../@softbd/utilities/helpers';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
+
+const userTypes = [
+  {key: 'institute', label: 'Institute'},
+  {key: 'branch', label: 'Branch'},
+  {key: 'training center', label: 'Training Center'},
+];
 
 const initialValues = {
   name_en: '',
@@ -60,6 +69,9 @@ const initialValues = {
   loc_district_id: '',
   loc_upazila_id: '',
   row_status: '1',
+  institute_user_type: 'institute',
+  branch_id: '',
+  training_center_id: '',
 };
 
 const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
@@ -69,9 +81,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const authUser = useAuthUser();
+
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
+  console.log('itemDAta->', itemData);
+
   const [roleFilters, setRoleFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -86,9 +102,27 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
-  const authUser = useAuthUser();
+
+  const [branchFilters] = useState<object>({
+    institute_id: authUser?.institute_id,
+    row_status: RowStatus.ACTIVE,
+  });
+
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<object>({
+    institute_id: authUser?.institute_id,
+    row_status: RowStatus.ACTIVE,
+  });
+
+  const {data: branchList, isLoading: isBranchListLoading} =
+    useFetchBranch(branchFilters);
+
+  const {data: trainingCenterList, isLoading: isTrainingCenterLoading} =
+    useFetchTrainingCenter(trainingCenterFilters);
+
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
+  const [filterUserSelection, setFilterUserSelection] = useState<string>('');
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -119,20 +153,36 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .label(messages['common.mobile'] as string),
       password:
         isEdit && itemId
-          ? yup
-              .string()
-              .trim()
-              .label(messages['common.password'] as string)
+          ? yup.string()
           : yup
               .string()
               .trim()
               .required()
               .min(8)
+              .matches(TEXT_REGEX_PASSWORD)
               .label(messages['common.password'] as string),
       password_confirmation: yup
         .string()
         .oneOf([yup.ref('password')])
         .label(messages['common.password'] as string),
+      institute_user_type:
+        authUser && authUser.isInstituteUser
+          ? yup.string().required()
+          : yup.string(),
+      branch_id: yup
+        .mixed()
+        .label(messages['branch.label'] as string)
+        .when('institute_user_type', {
+          is: (value: string) => value == 'branch',
+          then: yup.string().required(),
+        }),
+      training_center_id: yup
+        .mixed()
+        .label(messages['common.training_center'] as string)
+        .when('institute_user_type', {
+          is: (value: string) => value == 'training center',
+          then: yup.string().required(),
+        }),
     });
   }, [itemId, messages]);
 
@@ -142,6 +192,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<IUser>({
     resolver: yupResolver(validationSchema),
@@ -177,6 +228,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         loc_district_id: itemData?.loc_district_id,
         loc_upazila_id: itemData?.loc_upazila_id,
         row_status: String(itemData?.row_status),
+        branch_id: itemData?.branch_id,
+        training_center_id: itemData?.training_center_id,
       });
 
       setDistrictsList(
@@ -205,22 +258,56 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     [upazilas],
   );
 
+  const changeUserTypes = useCallback(
+    (userSection: string) => {
+      if (userSection == 'institute') {
+        setFilterUserSelection(userSection);
+        setValue('branch_id', '');
+        setValue('training_center_id', '');
+      }
+
+      if (userSection == 'branch') {
+        setFilterUserSelection(userSection);
+        setValue('training_center_id', '');
+        setTrainingCenterFilters({
+          institute_id: authUser?.institute_id,
+          row_status: RowStatus.ACTIVE,
+        });
+      }
+
+      if (userSection == 'training center') {
+        setTrainingCenterFilters({
+          institute_id: authUser?.institute_id,
+          row_status: RowStatus.ACTIVE,
+        });
+        setFilterUserSelection(userSection);
+      }
+    },
+    [filterUserSelection],
+  );
+
+  const changeBranch = useCallback((branchId: any) => {
+    setTrainingCenterFilters({
+      institute_id: authUser?.institute_id,
+      row_status: RowStatus.ACTIVE,
+      branch_id: branchId,
+    });
+  }, []);
+
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
     console.log('data--------------------', data);
+
     if (authUser?.isInstituteUser) {
+      data.user_type = String(getUserType(authUser));
       data.institute_id = authUser?.institute_id;
-    } else if (authUser?.isOrganizationUser) {
-      data.organization_id = authUser?.organization_id;
     }
 
     try {
       if (itemId) {
-        data.user_type = String(itemData?.user_type);
         await updateUser(itemId, data);
         updateSuccessMessage('user.label');
         mutateUser();
       } else {
-        data.user_type = String(getUserType(authUser));
         await createUser(data);
         createSuccessMessage('user.label');
       }
@@ -350,6 +437,52 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
+
+        {authUser?.isInstituteUser && !isEdit && (
+          <Grid item xs={12}>
+            <FormRadioButtons
+              id='institute_user_type'
+              control={control}
+              defaultValue={initialValues.institute_user_type}
+              isLoading={false}
+              label={'common.institute_user_type'}
+              radios={userTypes}
+              onChange={changeUserTypes}
+            />
+          </Grid>
+        )}
+        {filterUserSelection &&
+          (filterUserSelection == 'branch' ||
+            filterUserSelection == 'training center') && (
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='branch_id'
+                label={messages['branch.label']}
+                isLoading={isBranchListLoading}
+                control={control}
+                options={branchList}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={changeBranch}
+              />
+            </Grid>
+          )}
+
+        {filterUserSelection && filterUserSelection == 'training center' && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='training_center_id'
+              label={messages['common.training_center']}
+              isLoading={isTrainingCenterLoading}
+              control={control}
+              options={trainingCenterList}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomFormSelect
             id='role_id'
@@ -398,6 +531,47 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
+        {authUser &&
+          authUser.isInstituteUser &&
+          itemData?.branch_id == null &&
+          itemData?.training_center_id == null &&
+          isEdit && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.institute_user_type']}
+                value={messages['user.institute_user']}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+        {authUser &&
+          authUser.isInstituteUser &&
+          isEdit &&
+          itemData &&
+          itemData?.branch_id != null &&
+          !itemData?.training_center_id && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.institute_user_type']}
+                value={messages['user.branch_user']}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
+        {authUser &&
+          authUser.isInstituteUser &&
+          isEdit &&
+          itemData &&
+          itemData?.training_center_id != null && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.institute_user_type']}
+                value={messages['user.training_center_user']}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
       </Grid>
     </HookFormMuiModal>
   );
