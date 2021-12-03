@@ -1,6 +1,6 @@
 import {styled} from '@mui/material/styles';
 import React, {CSSProperties} from 'react';
-import {CellProps} from 'react-table';
+import {ICellProps} from '../../../shared/Interface/common.interface';
 
 const Root = styled('div')({
   textOverflow: 'ellipsis',
@@ -8,7 +8,7 @@ const Root = styled('div')({
   whiteSpace: 'nowrap',
 });
 
-export const TooltipCell: React.FC<CellProps<any>> = ({
+export const TooltipCell: React.FC<ICellProps<any>> = ({
   cell: {value},
   column: {align = 'left'},
 }) => <Tooltip text={value} align={align} />;
