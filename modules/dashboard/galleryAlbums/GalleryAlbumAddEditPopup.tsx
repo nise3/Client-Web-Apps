@@ -46,6 +46,7 @@ import {
   getMomentDateFormat,
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -68,6 +69,9 @@ const initialValues = {
   published_at: '',
   archived_at: '',
   row_status: '1',
+  main_image_path: '',
+  thumb_image_path: '',
+  grid_image_path: '',
 };
 const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   itemId,
@@ -287,6 +291,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
           : '',
         row_status: String(itemData?.row_status),
+        main_image_path: itemData?.main_image_path,
+        grid_image_path: itemData?.grid_image_path,
+        thumb_image_path: itemData?.thumb_image_path,
       };
 
       const otherLangData = itemData?.other_language_fields;
@@ -386,11 +393,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     [selectedLanguageList, languageList, selectedCodes],
   );
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    //demo file url
-    formData.main_image_path = 'http://lorempixel.com/400/200/';
-    formData.thumb_image_path = 'http://lorempixel.com/400/200/';
-    formData.grid_image_path = 'http://lorempixel.com/400/200/';
-
     try {
       if (formData.show_in != ShowInTypes.TSP) {
         formData.institute_id = '';
@@ -491,8 +493,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              {showInId == ShowInTypes.TSP && (
+            {showInId == ShowInTypes.TSP && (
+              <Grid item xs={12} md={6}>
                 <CustomFilterableFormSelect
                   required
                   id={'institute_id'}
@@ -504,8 +506,10 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   optionTitleProp={['title']}
                   errorInstance={errors}
                 />
-              )}
-              {showInId == ShowInTypes.INDUSTRY && (
+              </Grid>
+            )}
+            {showInId == ShowInTypes.INDUSTRY && (
+              <Grid item xs={12} md={6}>
                 <CustomFilterableFormSelect
                   required
                   id={'organization_id'}
@@ -517,8 +521,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   optionTitleProp={['title']}
                   errorInstance={errors}
                 />
-              )}
-            </Grid>
+              </Grid>
+            )}
           </React.Fragment>
         )}
 
@@ -608,49 +612,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='main_image_path'
-            label={messages['common.main_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id='published_at'
             label={messages['common.publish_at']}
@@ -668,7 +629,39 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
+        <Grid item xs={12} md={6}>
+          <FileUploadComponent
+            id='main_image_path'
+            defaultFileUrl={itemData?.main_image_path}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.main_image_path']}
+            required={true}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FileUploadComponent
+            id='grid_image_path'
+            defaultFileUrl={itemData?.grid_image_path}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.grid_image_path']}
+            required={true}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FileUploadComponent
+            id='thumb_image_path'
+            defaultFileUrl={itemData?.thumb_image_path}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.thumb_image_path']}
+            required={true}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             id={'language_list'}
