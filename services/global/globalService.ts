@@ -31,7 +31,7 @@ export const formatDateTime = (itemData: ICalendar) => {
 export const eventsDateTimeMap = (events: ICalendar[]) => {
   try {
     if (events) {
-      events.map((e: any) => {
+      return events.map((e: any) => {
         const start = e.start_time
           ? `${e.start}T${e.start_time}`
           : `${e.start}`;

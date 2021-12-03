@@ -10,7 +10,7 @@ import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList} from '../../../services/global/globalService';
+import {addStartEndPropsToList, eventsDateTimeMap} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 
@@ -42,15 +42,16 @@ const InstituteEventCalendarView = () => {
 
   useEffect(() => {
     if (events) {
-      events.map((e: any) => {
-        const start = e.start_time
-          ? `${e.start}T${e.start_time}`
-          : `${e.start}`;
-        const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
-        e.start = new Date(start);
-        e.end = new Date(end);
-        return e;
-      });
+      events = eventsDateTimeMap(events);
+      // events.map((e: any) => {
+      //   const start = e.start_time
+      //     ? `${e.start}T${e.start_time}`
+      //     : `${e.start}`;
+      //   const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+      //   e.start = new Date(start);
+      //   e.end = new Date(end);
+      //   return e;
+      // });
       setEventsList(events);
     }
   }, [events]);
