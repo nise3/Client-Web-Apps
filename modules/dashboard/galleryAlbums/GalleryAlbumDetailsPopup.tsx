@@ -37,8 +37,6 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         return messages['album_type.image'];
       case AlbumTypes.VIDEO:
         return messages['album_type.video'];
-      case AlbumTypes.MIXED:
-        return messages['album_type.mixed'];
       default:
         return '';
     }
