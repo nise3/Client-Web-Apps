@@ -68,10 +68,10 @@ const initialValues = {
   album_type: '',
   published_at: '',
   archived_at: '',
-  row_status: '1',
   main_image_path: '',
-  thumb_image_path: '',
   grid_image_path: '',
+  thumb_image_path: '',
+  row_status: '1',
 };
 const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   itemId,
@@ -211,6 +211,10 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
               .required()
               .label(messages['common.title'] as string),
           }),
+      main_image_path: yup
+        .string()
+        .required()
+        .label(messages['common.main_image_path'] as string),
     });
   }, [messages, authUser]);
   const {
@@ -234,6 +238,10 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       {
         id: AlbumTypes.VIDEO,
         label: messages['album_type.video'],
+      },
+      {
+        id: AlbumTypes.MIXED,
+        label: messages['album_type.mixed'],
       },
     ],
     [messages],
@@ -280,6 +288,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         featured: String(itemData?.featured),
         show_in: itemData?.show_in,
         album_type: itemData?.album_type,
+        main_image_path: itemData?.main_image_path,
+        grid_image_path: itemData?.grid_image_path,
+        thumb_image_path: itemData?.thumb_image_path,
         published_at: itemData?.published_at
           ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
           : '',
@@ -287,9 +298,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
           : '',
         row_status: String(itemData?.row_status),
-        main_image_path: itemData?.main_image_path,
-        grid_image_path: itemData?.grid_image_path,
-        thumb_image_path: itemData?.thumb_image_path,
       };
 
       const otherLangData = itemData?.other_language_fields;
@@ -345,7 +353,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     })();
   }, []);
 
-  console.log('selected codes', selectedCodes);
+  /*  console.log('selected codes', selectedCodes);*/
 
   const onAddOtherLanguageClick = useCallback(() => {
     if (selectedLanguageCode) {
@@ -644,7 +652,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             label={messages['common.grid_image_path']}
-            required={true}
+            required={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -655,7 +663,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             label={messages['common.thumb_image_path']}
-            required={true}
+            required={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>

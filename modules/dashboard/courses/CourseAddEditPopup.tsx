@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, FormControlLabel, Grid, Switch} from '@mui/material';
+import {FormControlLabel, Grid, Switch} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -33,6 +33,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {ICourse} from '../../../shared/Interface/institute.interface';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -289,6 +290,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<ICourse>({
     resolver: yupResolver(validationSchema),
@@ -323,6 +325,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         prerequisite_en: itemData?.prerequisite_en,
         row_status: String(itemData?.row_status),
         skills: getSkillIds(itemData?.skills),
+        cover_image: itemData?.cover_image,
       });
       setValuesOfConfigs(itemData?.application_form_settings);
     } else {
@@ -733,6 +736,18 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
+
+        <Grid item xs={12} md={6}>
+          <FileUploadComponent
+            id='cover_image'
+            defaultFileUrl={itemData?.cover_image}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.cover_image']}
+            required={false}
+          />
+        </Grid>
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'
@@ -740,17 +755,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <input
-            id='cover_image'
-            name='btn-upload'
-            style={{display: 'none'}}
-            type='file'
-          />
-          <Button className='btn-choose' variant='outlined' component='span'>
-            Cover Image
-          </Button>
         </Grid>
         <Grid item container xs={12}>
           {configItemList.map((item: any, index: any) => {
