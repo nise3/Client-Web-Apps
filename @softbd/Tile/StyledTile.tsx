@@ -1,7 +1,6 @@
 import {H3, Text} from '../elements/common';
 import {Card} from '@mui/material';
 import React from 'react';
-import {useIntl} from 'react-intl';
 
 interface IStyledCardProps{
   className: string,
@@ -10,7 +9,6 @@ interface IStyledCardProps{
 }
 
 const StyledTile = (props: IStyledCardProps) => {
-  // const {formatNumber} = useIntl();
   return (
   <Card className={props.className}>
     <H3 style={{fontSize: '2.5rem', fontWeight: '500'}}>
