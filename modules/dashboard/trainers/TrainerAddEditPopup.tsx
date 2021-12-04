@@ -339,7 +339,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         updateSuccessMessage('trainers.label');
         mutateTrainer();
       } else {
-        if (authUser?.isInstituteUser) {
+        if (authUser?.isInstituteUser && authUser?.institute_id) {
           data.institute_id = authUser?.institute_id;
         }
         await createTrainer(data);
