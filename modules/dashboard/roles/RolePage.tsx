@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -17,218 +16,194 @@ import {useFetchRoles} from '../../../services/userManagement/hooks';
 import RoleAddEditPopup from './RoleAddEditPopup';
 import RoleDetailsPopup from './RoleDetailsPopup';
 import IconRole from '../../../@softbd/icons/IconRole';
-import {Button} from '@mui/material';
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {LINK_ROLE} from '../../../@softbd/common/appLinks';
 
-const PrimaryLightButton = styled(Button)(({theme}) => {
-  return {
-    color: theme.palette.primary.light,
-    border: 'none',
-  };
-});
-
-/*
-const filter = (authUser: AuthUser | null) => {
-  if (authUser && authUser.institute_id) {
-    return {
-      institute_id: authUser.institute_id,
-    };
-  } else if (authUser && authUser.organization_id) {
-    return {
-      organization_id: authUser.organization_id,
-    };
-  } else {
-    return {};
-  }
-};
-*/
 
 const RolePage = () => {
-  const {messages} = useIntl();
-  const {successStack} = useNotiStack();
-  const authUser = useAuthUser();
+    const {messages} = useIntl();
+    const {successStack} = useNotiStack();
+    const authUser = useAuthUser();
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  //const [roleFilters] = useState<any>(filter(authUser));
-  const [roleFilters, setRoleFilters] = useState<any>({});
+    const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+    const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+    const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+    const [roleFilters, setRoleFilters] = useState<any>({});
 
-  const {
-    data: roles,
-    isLoading,
-    mutate: mutateRoles,
-  } = useFetchRoles(roleFilters);
+    const {
+        data: roles,
+        isLoading,
+        mutate: mutateRoles,
+    } = useFetchRoles(roleFilters);
 
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser && authUser.institute_id) {
-        setRoleFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser && authUser.organization_id) {
-        setRoleFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, []);
+    useEffect(() => {
+        if (authUser) {
+            if (authUser.isInstituteUser && authUser.institute_id) {
+                setRoleFilters({
+                    institute_id: authUser.institute_id,
+                });
+            } else if (authUser.isOrganizationUser && authUser.organization_id) {
+                setRoleFilters({
+                    organization_id: authUser.organization_id,
+                });
+            }
+        }
+    }, []);
 
-  const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
-  }, []);
+    const closeAddEditModal = useCallback(() => {
+        setIsOpenAddEditModal(false);
+        setSelectedItemId(null);
+    }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+    const openAddEditModal = useCallback((itemId: number | null = null) => {
+        setIsOpenDetailsModal(false);
+        setIsOpenAddEditModal(true);
+        setSelectedItemId(itemId);
+    }, []);
 
-  const openDetailsModal = useCallback(
-    (itemId: number) => {
-      setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
-    },
-    [selectedItemId],
-  );
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-  }, []);
-
-  const deleteRoleItem = async (roleId: number) => {
-    let response = await deleteRole(roleId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='role.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
-
-  const refreshDataTable = useCallback(() => {
-    mutateRoles();
-  }, []);
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: '#',
-        disableFilters: true,
-        disableSortBy: true,
-        Cell: (props: any) => {
-          return props.row.index + 1;
+    const openDetailsModal = useCallback(
+        (itemId: number) => {
+            setIsOpenDetailsModal(true);
+            setSelectedItemId(itemId);
         },
-      },
+        [selectedItemId],
+    );
 
-      {
-        Header: messages['common.title'],
-        accessor: 'title',
-      },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['role.unique_value'],
-        accessor: 'key',
-        isVisible: false,
-      },
-      {
-        Header: messages['permission_sub_group.label'],
-        accessor: 'permission_sub_group_title_en',
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },
-      {
-        Header: messages['common.actions'],
-        Cell: (props: any) => {
-          let data = props.row.original;
-          const URL = LINK_ROLE + `/${data.id}`;
-          return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteRoleItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
-              <Link href={URL} passHref>
-                <ReadButton startIcon={<AccountTreeOutlined />}>
-                  {messages['permission.label']}
-                </ReadButton>
-              </Link>
-            </DatatableButtonGroup>
-          );
-        },
-        sortable: false,
-      },
-    ],
-    [messages],
-  );
+    const closeDetailsModal = useCallback(() => {
+        setIsOpenDetailsModal(false);
+    }, []);
 
-  return (
-    <PageBlock
-      title={
-        <>
-          <IconRole /> <IntlMessages id='role.label' />
-        </>
-      }
-      extra={[
-        <AddButton
-          key={1}
-          onClick={() => openAddEditModal(null)}
-          isLoading={isLoading}
-          tooltip={
-            <IntlMessages
-              id={'common.add_new'}
-              values={{
-                subject: messages['role.label'],
-              }}
+    const deleteRoleItem = async (roleId: number) => {
+        let response = await deleteRole(roleId);
+        if (isResponseSuccess(response)) {
+            successStack(
+                <IntlMessages
+                    id='common.subject_deleted_successfully'
+                    values={{subject: <IntlMessages id='role.label'/>}}
+                />,
+            );
+            refreshDataTable();
+        }
+    };
+
+    const refreshDataTable = useCallback(() => {
+        mutateRoles();
+    }, []);
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: '#',
+                disableFilters: true,
+                disableSortBy: true,
+                Cell: (props: any) => {
+                    return props.row.index + 1;
+                },
+            },
+
+            {
+                Header: messages['common.title'],
+                accessor: 'title',
+            },
+            {
+                Header: messages['common.title_en'],
+                accessor: 'title_en',
+                isVisible: false,
+            },
+            {
+                Header: messages['role.unique_value'],
+                accessor: 'key',
+                isVisible: false,
+            },
+            {
+                Header: messages['permission_sub_group.label'],
+                accessor: 'permission_sub_group_title_en',
+            },
+            {
+                Header: messages['common.status'],
+                accessor: 'row_status',
+                filter: 'rowStatusFilter',
+                Cell: (props: any) => {
+                    let data = props.row.original;
+                    return <CustomChipRowStatus value={data?.row_status}/>;
+                },
+            },
+            {
+                Header: messages['common.actions'],
+                Cell: (props: any) => {
+                    let data = props.row.original;
+                    const URL = LINK_ROLE + `/${data.id}`;
+                    return (
+                        <DatatableButtonGroup>
+                            <ReadButton onClick={() => openDetailsModal(data.id)}/>
+                            <EditButton onClick={() => openAddEditModal(data.id)}/>
+                            <DeleteButton
+                                deleteAction={() => deleteRoleItem(data.id)}
+                                deleteTitle={messages['common.delete_confirm'] as string}
+                            />
+                            <Link href={URL} passHref>
+                                <ReadButton startIcon={<AccountTreeOutlined/>}>
+                                    {messages['permission.label']}
+                                </ReadButton>
+                            </Link>
+                        </DatatableButtonGroup>
+                    );
+                },
+                sortable: false,
+            },
+        ],
+        [messages],
+    );
+
+    return (
+        <PageBlock
+            title={
+                <>
+                    <IconRole/> <IntlMessages id='role.label'/>
+                </>
+            }
+            extra={[
+                <AddButton
+                    key={1}
+                    onClick={() => openAddEditModal(null)}
+                    isLoading={isLoading}
+                    tooltip={
+                        <IntlMessages
+                            id={'common.add_new'}
+                            values={{
+                                subject: messages['role.label'],
+                            }}
+                        />
+                    }
+                />,
+            ]}>
+            <ReactTable
+                columns={columns}
+                data={roles || []}
+                loading={isLoading}
+                skipDefaultFilter={true}
             />
-          }
-        />,
-      ]}>
-      <ReactTable
-        columns={columns}
-        data={roles || []}
-        loading={isLoading}
-        skipDefaultFilter={true}
-      />
-      {isOpenAddEditModal && (
-        <RoleAddEditPopup
-          key={1}
-          onClose={closeAddEditModal}
-          itemId={selectedItemId}
-          refreshDataTable={refreshDataTable}
-        />
-      )}
+            {isOpenAddEditModal && (
+                <RoleAddEditPopup
+                    key={1}
+                    onClose={closeAddEditModal}
+                    itemId={selectedItemId}
+                    refreshDataTable={refreshDataTable}
+                />
+            )}
 
-      {isOpenDetailsModal && selectedItemId && (
-        <RoleDetailsPopup
-          key={1}
-          itemId={selectedItemId}
-          onClose={closeDetailsModal}
-          openEditModal={openAddEditModal}
-        />
-      )}
-    </PageBlock>
-  );
+            {isOpenDetailsModal && selectedItemId && (
+                <RoleDetailsPopup
+                    key={1}
+                    itemId={selectedItemId}
+                    onClose={closeDetailsModal}
+                    openEditModal={openAddEditModal}
+                />
+            )}
+        </PageBlock>
+    );
 };
 
 export default RolePage;
