@@ -10,7 +10,7 @@ import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {addStartEndPropsToList} from '../../../services/global/globalService';
+import {addStartEndPropsToList, eventsDateTimeMap} from '../../../services/global/globalService';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
 
 const localizer = momentLocalizer(moment);
@@ -46,15 +46,16 @@ const YouthEventCalendarView = () => {
 
   useEffect(() => {
     if (events) {
-      events.map((e: any) => {
-        const start = e.start_time
-          ? `${e.start}T${e.start_time}`
-          : `${e.start}`;
-        const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
-        e.start = new Date(start);
-        e.end = new Date(end);
-        return e;
-      });
+      events = eventsDateTimeMap(events);
+      // events.map((e: any) => {
+      //   const start = e.start_time
+      //     ? `${e.start}T${e.start_time}`
+      //     : `${e.start}`;
+      //   const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+      //   e.start = new Date(start);
+      //   e.end = new Date(end);
+      //   return e;
+      // });
       setEventsList(events);
     }
   }, [events]);
