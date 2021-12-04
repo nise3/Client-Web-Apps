@@ -45,11 +45,8 @@ const MostDemandableCourseChart = () => {
     <StyledContainer>
       <Card>
         <CardHeader title={'Most Demandable Course'}/>
-          {/*<H3 style={{fontSize: '1.4rem'}}>*/}
-          {/*  Most Demandable Course*/}
-          {/*</H3>*/}
         <CardContent>
-          <BarChart width={750} height={525} data={data} layout={ 'vertical'}>
+          <BarChart width={750} height={520} data={data} layout={ 'vertical'}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number"/>
             <YAxis type="category" dataKey="name"/>

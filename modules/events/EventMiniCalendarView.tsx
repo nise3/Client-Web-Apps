@@ -3,18 +3,25 @@ import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
-import {Box, Card, CardContent, CardHeader, Grid} from '@mui/material';
+import {Box, Card, CardContent, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
 import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/globalService';
+import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {useForm} from 'react-hook-form';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
-  // const {messages} = useIntl();
   let requestQuery: ICalendarQuery = {
     type: 'month',
   };
+
+  const {
+    control,
+    reset,
+    formState: {errors},
+  } = useForm<any>();
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
@@ -35,6 +42,12 @@ const EventMiniCalendarView = () => {
     }
   }, [events]);
 
+  useEffect(() => {
+      reset({
+        inst_id: '1'
+      });
+  }, []);
+
   const onSelectEvent = (e: any) => {
     const item = eventsList.find((ev: ICalendar) => ev.id === e.id) as ICalendar;
     setSelectedItem(item);
@@ -47,10 +60,20 @@ const EventMiniCalendarView = () => {
 
   return (
       <Card>
-        <CardHeader title={'Institute Calendar'} />
-        {/*<CardHeader title={<H3>{messages['menu.calendar']}</H3>} />*/}
+        <Grid style={{padding: 20}} xs={6} md={6}>
+          <CustomFormSelect
+            id='inst_id'
+            // label={'Institute Calendar'}
+            isLoading={false}
+            control={control}
+            options={[{'id': 1, 'name': 'Institute Calendar'}]}
+            optionValueProp={'id'}
+            optionTitleProp={['name']}
+            errorInstance={errors}
+          />
+        </Grid>
         <CardContent>
-          <Grid item xs={12} md={12} style={{paddingTop: 20}}>
+          <Grid item xs={12} md={12}>
             {isOpenDetailsView ? (
               <div>
                 <EventCalendarDetails itemData={selectedItem} />
@@ -62,7 +85,7 @@ const EventMiniCalendarView = () => {
               </div>
             ) : (
               <Calendar
-                events={eventsList}
+                events={eventsList || null}
                 localizer={localizer}
                 selectable={true}
                 style={{height: 500}}
