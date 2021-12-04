@@ -119,8 +119,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const {data: trainingCenterList, isLoading: isTrainingCenterLoading} =
     useFetchTrainingCenter(trainingCenterFilters);
 
-  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
-  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+  const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
 
   const [filterUserSelection, setFilterUserSelection] = useState<string>('');
 
