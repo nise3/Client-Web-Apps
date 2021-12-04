@@ -36,6 +36,7 @@ import {Add, Delete} from '@mui/icons-material';
 import ContentTypes from './ContentTypes';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface RecentActivitiesAddEditPopupProps {
   itemId: number | null;
@@ -109,7 +110,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.content_type'] as string),
-      /*image_path: yup
+      image_path: yup
         .mixed()
         .label(messages['common.image_path'] as string)
         .when('content_type', {
@@ -121,7 +122,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             .string()
             .required()
             .label(messages['common.collage_image_path'] as string)
-        : yup.string(),*/
+        : yup.string(),
       video_id: yup
         .mixed()
         .label(messages['common.video_id'] as string)
@@ -373,14 +374,6 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         : null;
 
       formData.other_language_fields = '';
-
-      if (formData.collage_position)
-        formData.collage_image_path = 'http://lorempixel.com/400/200/';
-
-      formData.thumb_image_path = 'http://lorempixel.com/400/200/';
-      formData.grid_image_path = 'http://lorempixel.com/400/200/';
-      formData.image_path = 'http://lorempixel.com/400/200/';
-
       if (authUser?.isInstituteUser) {
         formData.institute_id = authUser?.institute_id;
         formData.show_in = ShowInTypes.TSP;
@@ -537,17 +530,14 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
         {selectedContentType && selectedContentType == ContentTypes.IMAGE && (
           <Grid item xs={12} md={6}>
-            <CustomTextInput
+            <FileUploadComponent
               id='image_path'
-              label={messages['common.image_path']}
-              type={'file'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              control={control}
-              register={register}
+              defaultFileUrl={itemData?.image_path}
               errorInstance={errors}
-              isLoading={isLoading}
+              setValue={setValue}
+              register={register}
+              label={messages['common.image_path']}
+              required={false}
             />
           </Grid>
         )}
@@ -595,48 +585,38 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
         {hasCollagePosition && (
           <Grid item xs={12} md={6}>
-            <CustomTextInput
-              required
+            <FileUploadComponent
               id='collage_image_path'
-              label={messages['common.collage_image_path']}
-              type={'file'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              control={control}
-              register={register}
+              defaultFileUrl={itemData?.collage_image_path}
               errorInstance={errors}
-              isLoading={isLoading}
+              setValue={setValue}
+              register={register}
+              label={messages['common.collage_image_path']}
+              required={true}
             />
           </Grid>
         )}
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.grid_image_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.grid_image_path']}
+            required={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.thumb_image_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.thumb_image_path']}
+            required={false}
           />
         </Grid>
 

@@ -31,6 +31,7 @@ import {
 } from '../../../services/cmsManagement/SliderBannerService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface SliderBannerAddEditPopupProps {
   itemId: number | null;
@@ -46,6 +47,7 @@ const initialValues = {
   link: '',
   button_text: '',
   image_alt_title: '',
+  banner_image_path: '',
   is_button_available: '1',
   row_status: '1',
 };
@@ -98,10 +100,10 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.title'] as string),
-      /*banner_image_path: yup
+      banner_image_path: yup
         .string()
         .required()
-        .label(messages['common.image_path'] as string),*/
+        .label(messages['common.image_path'] as string),
       is_button_available: yup
         .string()
         .required()
@@ -187,7 +189,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     });
   }, [messages, selectedCodes, authUser]);
 
-  console.log('selected codes', selectedCodes);
+  // console.log('selected codes', selectedCodes);
 
   const {
     register,
@@ -195,6 +197,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     control,
     setError,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -254,6 +257,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         link: itemData?.link,
         image_alt_title: itemData?.image_alt_title,
         banner_template_code: itemData?.banner_template_code,
+        banner_image_path: itemData?.banner_image_path,
         row_status: String(itemData?.row_status),
       };
 
@@ -334,8 +338,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.banner_image_path = 'http://lorempixel.com/400/200/';
-
       let data = {...formData};
 
       let otherLanguagesFields: any = {};
@@ -438,7 +440,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          {/*<CustomTextInput
             id='banner_image_path'
             label={messages['common.image_path']}
             type={'file'}
@@ -449,6 +451,16 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+          />*/}
+
+          <FileUploadComponent
+            id='banner_image_path'
+            defaultFileUrl={itemData?.banner_image_path}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.banner_image_path']}
+            required={true}
           />
         </Grid>
 
