@@ -180,6 +180,7 @@ type TYouthAuthUserSSOResponse = {
   bio_en?: string;
   photo?: string;
   cv_path?: string;
+  signature_image_path?: string;
   physical_disabilities?: any[];
   skills?: any[];
   youth_certifications?: any[];
@@ -267,6 +268,7 @@ export const getYouthAuthUserObject = (
     bio: authUser?.bio,
     bio_en: authUser?.bio_en,
     photo: authUser?.photo,
+    signature_image_path: authUser?.signature_image_path,
     cv_path: authUser?.cv_path,
     physical_disabilities: authUser?.physical_disabilities,
     skills: authUser?.skills,
