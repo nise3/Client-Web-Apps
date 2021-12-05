@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {H3, H6, Link} from '../../@softbd/elements/common';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import {useRouter} from 'next/router';
 import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
 import VerticalBar from './components/VerticalBar';
@@ -84,9 +83,6 @@ const RecentActivities = () => {
         show_in: showInType,
       };
 
-      if (showInType == ShowInTypes.TSP) {
-        //params.institute_id = 1;
-      }
       setRecentActivityFilter((prev: any) => {
         return {...prev, ...params};
       });
