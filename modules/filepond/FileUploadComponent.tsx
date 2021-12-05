@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -63,9 +63,10 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       setFiles(initFile);
     }
   }, [defaultFileUrl]);
-
+  const handleRemoveFile = useCallback((errorResponse, file) => {
+    setValue(id, '');
+  }, []);
   const filePondRef = useRef<any>(null);
-
   return (
     <StyledWrapper>
       <InputLabel required={required}>{label}</InputLabel>
@@ -75,22 +76,15 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           onupdatefiles={setFiles}
           ref={filePondRef}
           allowMultiple={false}
+          onremovefile={handleRemoveFile}
           maxFiles={1}
           server={{
             process: {
               url: 'http://180.148.214.186:8088/test',
               onload: (response: any) => {
                 let res = JSON.parse(response);
-                console.log('res?.filePath---', res?.url);
                 setValue(id, res?.url || '');
                 return 1;
-              },
-            },
-            revert: {
-              url: '',
-              onload: (response: any) => {
-                setValue(id, '');
-                return '';
               },
             },
             load: {
