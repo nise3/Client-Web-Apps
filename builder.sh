@@ -22,5 +22,3 @@ pm2 start yarn --name "youth" --interpreter bash -- start:youth
 pm2 save
 pm2 list
 netstat -tulpn | grep LISTEN
-
-
