@@ -4,6 +4,7 @@ import mapPath from '../../../public/images/map-districts.jpg';
 import Image from 'next/image';
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
+import {useIntl} from 'react-intl';
 
 const StyledContainer = styled(Box)(({theme}) => ({
   [`& .MuiCardHeader-title`]: {
@@ -14,11 +15,11 @@ const StyledContainer = styled(Box)(({theme}) => ({
 }));
 
 const BangladeshMap = () => {
-  // const {formatNumber} = useIntl();
+  const {messages} = useIntl();
   return (
     <StyledContainer>
       <Card>
-        <CardHeader title={'Map'}/>
+        <CardHeader title={messages['dashboard.Map']}/>
         {/*<H3 style={{fontSize: '1.4rem'}}>*/}
         {/*  Map*/}
         {/*</H3>*/}

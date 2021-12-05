@@ -5,6 +5,7 @@ import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
 import {useForm} from 'react-hook-form';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {useIntl} from 'react-intl';
 
 const StyledContainer = styled(Box)(({theme}) => ({
   [`& .MuiCardHeader-title`]: {
@@ -14,7 +15,7 @@ const StyledContainer = styled(Box)(({theme}) => ({
   }
 }));
 const JobTrandsChart = () => {
-  // const {formatNumber} = useIntl();
+  const {messages} = useIntl();
   const {
     control,
     reset,
@@ -43,7 +44,7 @@ const JobTrandsChart = () => {
 
         <Grid container>
           <Grid item xs={10} md={10}>
-            <CardHeader title={'Job Trends'}/>
+            <CardHeader title={messages['dashboard.Map']}/>
           </Grid>
           <Grid style={{padding: 20}} item xs={2} md={2}>
             <CustomFormSelect

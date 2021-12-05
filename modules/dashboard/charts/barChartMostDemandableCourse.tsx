@@ -3,6 +3,7 @@ import React from 'react';
 import {Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis} from 'recharts';
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
+import {useIntl} from 'react-intl';
 
 const StyledContainer = styled(Box)(({theme}) => ({
   // marginRight: 10,
@@ -14,7 +15,7 @@ const StyledContainer = styled(Box)(({theme}) => ({
 }));
 
 const MostDemandableCourseChart = () => {
-  // const {formatNumber} = useIntl();
+  const {messages} = useIntl();
   const data = [
     {
       "name": "Welding",
@@ -44,7 +45,7 @@ const MostDemandableCourseChart = () => {
   return (
     <StyledContainer>
       <Card>
-        <CardHeader title={'Most Demandable Course'}/>
+        <CardHeader title={messages['dashboard.MostDemandableCourse']}/>
         <CardContent>
           <BarChart width={750} height={520} data={data} layout={ 'vertical'}>
             <CartesianGrid strokeDasharray="3 3" />

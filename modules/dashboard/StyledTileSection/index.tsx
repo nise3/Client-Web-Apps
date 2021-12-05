@@ -93,35 +93,35 @@ const StyledTileSection = () => {
       <Grid container className={classes.card} spacing={2}>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={2415} message={'dashboard.totalCoursr'}/>
+                    headerNumber={2415} message={'dashboard.totalCourse'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor2)}
-                    headerNumber={652} message={'Total Enrole'}/>
+                    headerNumber={652} message={'dashboard.totalEnrole'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor3)}
-                    headerNumber={20} message={'Certificate Issue'}/>
+                    headerNumber={20} message={'dashboard.totalEnrole'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor4)}
-                    headerNumber={26} message={'Trending Course'}/>
+                    headerNumber={26} message={'dashboard.totalTrendingCourse'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor5)}
-                    headerNumber={320} message={'Demand From Industry'}/>
+                    headerNumber={320} message={'dashboard.DemandFromIndustry'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor6)}
-                    headerNumber={320} message={'Number of barch'}/>
+                    headerNumber={320} message={'dashboard.totalNumberOfBatch'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor7)}
-                    headerNumber={320} message={'Running Student'}/>
+                    headerNumber={320} message={'dashboard.RunningStudent'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={320} message={'Number of Trainer'}/>
+                    headerNumber={320} message={'dashboard.NumberOfTrainer'}/>
       </Grid>
     </Grid>
     </StyledBox>
