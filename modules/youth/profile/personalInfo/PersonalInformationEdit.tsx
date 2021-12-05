@@ -1,4 +1,4 @@
-import {Avatar, Box, Button, Grid, Zoom} from '@mui/material';
+import {Box, Grid, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -8,7 +8,6 @@ import {processServerSideErrors} from '../../../../@softbd/utilities/validationE
 import yup from '../../../../@softbd/libs/yup';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -51,6 +50,7 @@ import {
   District,
   Upazila,
 } from '../../../../shared/Interface/location.interface';
+import FileUploadComponent from '../../../filepond/FileUploadComponent';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -76,6 +76,8 @@ const initialValues = {
   loc_district_id: '',
   loc_upazila_id: '',
   zip_or_postal_code: '',
+  signature_image_path: '',
+  cv_path: '',
 };
 
 const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
@@ -316,6 +318,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     handleSubmit,
     setError,
     control,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -356,6 +359,9 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         zip_or_postal_code: authUser?.zip_or_postal_code,
         bio: authUser?.bio,
         bio_en: authUser?.bio_en,
+        photo: authUser?.photo,
+        signature_image_path: authUser?.signature_image_path,
+        cv_path: authUser?.cv_path,
       });
       setIsBelongToEthnicGroup(
         authUser?.does_belong_to_ethnic_group == EthnicGroupStatus.YES,
@@ -448,7 +454,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
           }
           onClose={onEditPageClose}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
+            {/*<Grid item xs={12} md={4}>
               <Avatar
                 style={{
                   border: '0.5px solid lightgray',
@@ -457,22 +463,17 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKMjeeornJdOe6FD8JTzqih-CByVmSWpSD0g&usqp=CAU'
                 sx={{width: 100, height: 100}}
               />
-            </Grid>
-            <Grid style={{marginTop: '20px'}} item xs={12} md={8}>
-              <input
-                type='file'
-                accept='image*'
-                style={{display: 'none'}}
-                id='contained-button-file'
+            </Grid>*/}
+            <Grid item xs={12} md={12}>
+              <FileUploadComponent
+                id='photo'
+                defaultFileUrl={authUser?.photo}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.profile_picture_upload']}
+                required={false}
               />
-              <label htmlFor='contained-button-file'>
-                <Button variant='contained' color='primary' component='span'>
-                  <CloudUploadOutlinedIcon
-                    style={{marginRight: '5px', fontSize: 30}}
-                  />
-                  {messages['common.profile_picture_upload']}
-                </Button>
-              </label>
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
@@ -495,12 +496,12 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                required
                 id='last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -777,6 +778,29 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 rows={3}
               />
             </Grid>
+
+            <Grid item xs={12} md={6}>
+              <FileUploadComponent
+                id='cv_path'
+                defaultFileUrl={authUser?.cv_path}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.cv']}
+                required={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FileUploadComponent
+                id='signature_image_path'
+                defaultFileUrl={authUser?.signature_image_path}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.signature']}
+                required={false}
+              />
+            </Grid>
             <Grid item xs={12}>
               <CustomCheckbox
                 id='does_belong_to_ethnic_group'
@@ -788,23 +812,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                   setIsBelongToEthnicGroup((prev) => !prev);
                 }}
                 isLoading={false}
-              />
-            </Grid>
-
-            <Grid item xs={8}>
-              <label htmlFor='contained-button-file'>
-                <Button variant='contained' color='primary' component='span'>
-                  <CloudUploadOutlinedIcon
-                    style={{marginRight: '20px', fontSize: 30}}
-                  />{' '}
-                  Upload CV
-                </Button>
-              </label>
-              <input
-                type='file'
-                accept='image/pdf/doc/*'
-                style={{display: 'none'}}
-                id='contained-button-file'
               />
             </Grid>
           </Grid>

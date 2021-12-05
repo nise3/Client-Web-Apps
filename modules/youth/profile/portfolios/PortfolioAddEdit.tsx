@@ -166,14 +166,6 @@ const PortfolioAddEdit: FC<PortfolioAddEditProps> = ({itemId, ...props}) => {
                 label={messages['upload_file.portfolio_modal']}
                 required={true}
               />
-              {/*<CustomTextInput
-                id='upload_file'
-                label={messages['upload_file.portfolio_modal']}
-                type={'file'}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />*/}
             </Grid>
           </Grid>
         </CustomHookForm>

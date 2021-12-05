@@ -84,6 +84,7 @@ export interface YouthAuthUser extends AuthUser {
   portfolios?: any[];
   profile_completed?: any;
   total_job_experience?: any;
+  signature_image_path?: string;
 }
 
 // @ts-ignore

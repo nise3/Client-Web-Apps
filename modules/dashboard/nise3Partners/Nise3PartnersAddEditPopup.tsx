@@ -26,7 +26,8 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Box, Button, IconButton} from '@mui/material';
-import { IPartner } from '../../../shared/Interface/common.interface';
+import {IPartner} from '../../../shared/Interface/common.interface';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface PartnerAddEditPopupProps {
   itemId: number | null;
@@ -36,6 +37,9 @@ interface PartnerAddEditPopupProps {
 
 const initialValues = {
   title: '',
+  main_image_path: '',
+  grid_image_path: '',
+  thumb_image_path: '',
   row_status: '1',
 };
 
@@ -107,6 +111,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
     control,
     setError,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<IPartner>({
     resolver: yupResolver(validationSchema),
@@ -119,6 +124,9 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
         domain: itemData?.domain,
         image_alt_title: itemData?.image_alt_title,
         row_status: String(itemData?.row_status),
+        main_image_path: itemData?.main_image_path,
+        grid_image_path: itemData?.grid_image_path,
+        thumb_image_path: itemData?.thumb_image_path,
       };
 
       const otherLangData = itemData?.other_language_fields;
@@ -205,12 +213,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.main_image_path = 'http://lorempixel.com/400/200/';
-      formData.thumb_image_path = 'http://lorempixel.com/400/200/';
-      formData.grid_image_path = 'http://lorempixel.com/400/200/';
-
       let data = {...formData};
-
       let otherLanguagesFields: any = {};
       delete data.language_list;
 
@@ -304,45 +307,36 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='main_image_path'
+            defaultFileUrl={itemData?.main_image_path}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
             label={messages['common.main_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
+            required={true}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='grid_image_path'
-            label={messages['common.grid_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.grid_image_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.grid_image_path']}
+            required={true}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='thumb_image_path'
-            label={messages['common.thumb_image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
+            defaultFileUrl={itemData?.thumb_image_path}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.thumb_image_path']}
+            required={true}
           />
         </Grid>
 

@@ -20,6 +20,7 @@ import {
 import {useFetchYouthCertificate} from '../../../../services/youthManagement/hooks';
 import CustomHookForm from '../component/CustomHookForm';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import FileUploadComponent from '../../../filepond/FileUploadComponent';
 
 interface CertificateAddEditPageProps {
   itemId: number | null;
@@ -80,10 +81,10 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
             .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
             .label(messages['common.end_date'] as string)
         : yup.string(),
-      /*certificate_file_path: yup
+      certificate_file_path: yup
         .string()
-        .required(messages['certificate.upload'] as string)
-        .label(messages['certificate.upload'] as string),*/
+        .required()
+        .label(messages['certificate.upload'] as string),
     });
   }, [messages, isStartOrEndDateGiven]);
 
@@ -92,6 +93,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
     reset,
     handleSubmit,
     setError,
+    setValue,
     watch,
     formState: {errors, isSubmitting},
   } = useForm({
@@ -133,7 +135,6 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   const onSubmit: SubmitHandler<YouthCertificate> = async (
     data: YouthCertificate,
   ) => {
-    data.certificate_file_path = 'http://lorempixel.com/400/200/';
     try {
       if (itemId) {
         await updateCertificate(itemId, data);
@@ -242,16 +243,14 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <FileUploadComponent
                 id='certificate_file_path'
-                label={messages['common.certificate']}
-                type={'file'}
-                register={register}
+                defaultFileUrl={itemData?.certificate_file_path}
                 errorInstance={errors}
-                isLoading={isLoading}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                setValue={setValue}
+                register={register}
+                label={messages['common.certificate']}
+                required={true}
               />
             </Grid>
           </Grid>
