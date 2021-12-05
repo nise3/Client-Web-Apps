@@ -1,5 +1,5 @@
 rm -rf dashboard/public && rm -rf nise/public && rm -rf institute/public  && rm -rf youth/public
-cp public dashboard/public && cp public  nise/public && cp public institute/public  && cp public youth/public
+cp public -R dashboard/public && cp public -R nise/public && cp public -R institute/public  && cp public -R youth/public
 
 yarn && yarn build:nise && yarn build:institute && yarn build:admin && yarn build:youth
 
