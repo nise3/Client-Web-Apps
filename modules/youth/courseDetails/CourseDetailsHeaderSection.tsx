@@ -23,6 +23,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import {niseDomain} from '../../../@softbd/common/constants';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -52,6 +53,7 @@ interface CourseDetailsHeaderProps {
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
+  const niseDom = niseDomain();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -106,7 +108,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 href={
                   authUser
                     ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
-                    : LINK_YOUTH_SIGNUP
+                    : niseDom + LINK_YOUTH_SIGNUP
                 }>
                 <Button variant={'contained'} color={'primary'}>
                   {messages['common.enroll_now']}
