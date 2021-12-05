@@ -5,22 +5,23 @@ import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {useRouter} from 'next/router';
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
+import {instituteDomain} from "../../@softbd/common/constants";
 
 export default () => {
-  cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
 
-  const router = useRouter();
-  const authUser = useAuthUser();
+    const router = useRouter();
+    const authUser = useAuthUser();
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (authUser) {
-      dispatch(onJWTAuthSignout());
-    } else {
-      router.push('/');
-    }
-  }, [dispatch, authUser]);
+    useEffect(() => {
+        if (authUser) {
+            dispatch(onJWTAuthSignout());
+        } else {
+            router.push(instituteDomain());
+        }
+    }, [dispatch, authUser]);
 
-  return <></>;
+    return <></>;
 };
