@@ -644,7 +644,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
                       errorInstance={errors}
                       value={
                         itemData?.other_language_fields?.[language.code]
-                          ?.details || initialValues.details
+                          ?.details
                       }
                       height={'300px'}
                       key={1}

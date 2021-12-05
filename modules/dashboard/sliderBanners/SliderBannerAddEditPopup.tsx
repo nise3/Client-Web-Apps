@@ -109,7 +109,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         .required()
         .label('common.is_button_available'),
       link: yup
-        .string()
+        .mixed()
         .label(messages['common.link'] as string)
         .when('is_button_available', {
           is: (val: number) => {
