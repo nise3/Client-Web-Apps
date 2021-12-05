@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import Router, {useRouter} from 'next/router';
 import {
-  COMMON_DASHBOARD_URL,
   initialUrl,
-  YOUTH_DASHBOARD_URL,
 } from '../../../../shared/constants/AppConst';
 import Loader from '../../../../@crema/core/Loader';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../../../redux/store';
+import {adminDomain, youthDomain} from "../../../common/constants";
 
 const withData = (ComposedComponent: any) => (props: any) => {
   const {user: authUser, loading} = useSelector<AppState, AppState['auth']>(
@@ -20,7 +19,7 @@ const withData = (ComposedComponent: any) => (props: any) => {
     if (authUser) {
       if (authUser?.isYouthUser) {
         Router.push(
-          YOUTH_DASHBOARD_URL + (queryParams ? '?' + queryParams : ''),
+          youthDomain() + (queryParams ? '?' + queryParams : ''),
         );
       } else if (
         authUser?.isSystemUser ||
@@ -28,7 +27,7 @@ const withData = (ComposedComponent: any) => (props: any) => {
         authUser?.isInstituteUser
       ) {
         Router.push(
-          COMMON_DASHBOARD_URL + (queryParams ? '?' + queryParams : ''),
+          adminDomain() + (queryParams ? '?' + queryParams : ''),
         );
       } else {
         Router.push(initialUrl + (queryParams ? '?' + queryParams : ''));

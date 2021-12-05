@@ -296,9 +296,7 @@ const YouthRegistration = () => {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
+
   return (
     <StyledContainer maxWidth={'md'}>
       <Paper className={classes.PaperBox}>
@@ -514,10 +512,7 @@ const YouthRegistration = () => {
               </Typography>
               <Typography style={{marginTop: '15px'}} variant={'body1'}>
                 {messages['common.already_have_account']}{' '}
-                <Link
-                  href={''}
-                  onClick={redirectToSSO}
-                  className={classes.signInStyle}>
+                <Link href={getSSOLoginUrl()} className={classes.signInStyle}>
                   {messages['common.signin_here']}
                 </Link>
               </Typography>

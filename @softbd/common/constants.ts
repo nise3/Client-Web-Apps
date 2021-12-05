@@ -6,7 +6,7 @@ export const HIERARCHY_NODE_ID_PREFIX_STRING = 'm';
 
 const isLocalHost = () => location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
-export const dashboardDomain = () => {
+export const adminDomain = () => {
     return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise3.xyz'
 }
 

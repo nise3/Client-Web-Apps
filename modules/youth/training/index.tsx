@@ -71,7 +71,7 @@ const CourseListPage = () => {
             <TrendingCoursesSection filters={filters} page_size={4} />
           </Grid>
           <Grid item xs={12}>
-            <NearbyTrainingCenterSection />
+            <NearbyTrainingCenterSection showInType={showInType} />
           </Grid>
         </Grid>
       </Container>

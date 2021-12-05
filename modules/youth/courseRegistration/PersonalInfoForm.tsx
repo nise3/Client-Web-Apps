@@ -20,6 +20,7 @@ import {
   useFetchPublicTrainingCenters,
 } from '../../../services/youthManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface PersonalInfoFormProps {
   course: any;
@@ -27,6 +28,7 @@ interface PersonalInfoFormProps {
   errors: any;
   control: any;
   getValues: any;
+  setValue: any;
   visibleFieldKeys: Array<string>;
 }
 
@@ -36,6 +38,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   errors,
   control,
   getValues,
+  setValue,
   visibleFieldKeys,
 }) => {
   const {messages} = useIntl();
@@ -416,6 +419,28 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           isLoading={false}
         />
       </Grid>
+      <Grid item xs={12} md={6}>
+        <FileUploadComponent
+          id='passport_photo_path'
+          defaultFileUrl={getValues('passport_photo_path')}
+          errorInstance={errors}
+          setValue={setValue}
+          register={register}
+          label={messages['common.passport_size_photo']}
+          required={false}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <FileUploadComponent
+          id='signature_image_path'
+          defaultFileUrl={getValues('signature_image_path')}
+          errorInstance={errors}
+          setValue={setValue}
+          register={register}
+          label={messages['common.signature']}
+          required={false}
+        />
+      </Grid>
 
       {visibleFieldKeys &&
         visibleFieldKeys.includes(CourseConfigKeys.ETHNIC_GROUP_KEY) && (
@@ -433,32 +458,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             />
           </Grid>
         )}
-
-      {/*<Grid item xs={12}>
-        <label htmlFor='contained-button-file'>
-          <Button variant='contained' color='primary' component='label'>
-            Upload passport size photo
-            <input
-              type='file'
-              accept='image/*'
-              // onChange={imageHandler}
-              hidden
-            />
-          </Button>
-        </label>
-
-        <label htmlFor='contained-button-file'>
-          <Button variant='contained' color='primary' component='label'>
-            Upload signature
-            <input
-              type='file'
-              accept='image/*'
-              // onChange={imageHandler}
-              hidden
-            />
-          </Button>
-        </label>
-      </Grid>*/}
     </Grid>
   );
 };
