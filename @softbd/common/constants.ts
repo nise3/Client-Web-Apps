@@ -7,17 +7,17 @@ export const HIERARCHY_NODE_ID_PREFIX_STRING = 'm';
 const isLocalHost = () => location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
 export const dashboardDomain = () => {
-    return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise3.xyz/'
+    return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise3.xyz'
 }
 
 export const niseDomain = () => {
-    return isLocalHost() ? 'http://localhost:3001' : 'https://nise3.xyz/'
+    return isLocalHost() ? 'http://localhost:3001' : 'https://nise3.xyz'
 }
 
 export const youthDomain = () => {
-    return isLocalHost() ? 'http://localhost:3002' : 'https://youth.nise3.xyz/'
+    return isLocalHost() ? 'http://localhost:3002' : 'https://youth.nise3.xyz'
 }
 
 export const instituteDomain = () => {
-    return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise3.xyz/'
+    return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise3.xyz'
 }
