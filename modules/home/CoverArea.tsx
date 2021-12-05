@@ -6,7 +6,6 @@ import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
 import {H6} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
 import LandingBannerTemplateCenterBackground from './components/LandingBannerTemplateCenterBackground';
@@ -53,10 +52,8 @@ const getBannerTemplate = (banner: any) => {
 const CoverArea = () => {
   const {messages} = useIntl();
 
-  const vendor = useVendor();
   const [sliderFilters] = useState({
-    show_in: ShowInTypes.TSP,
-    institute_id: vendor?.id,
+    show_in: ShowInTypes.NICE3,
   });
   const {data: sliders, isLoading: isLoadingSliders} =
     useFetchPublicSliders(sliderFilters);
