@@ -94,7 +94,7 @@ const YouthEventCalendarView = () => {
               endAccessor='end'
               defaultDate={moment().toDate()}
               onView={(view: View) =>
-                setViewFilters({...requestQuery, ...{type: view}})
+                setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
               }
               onSelectEvent={onSelectEvent}
             />

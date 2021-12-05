@@ -94,7 +94,7 @@ const EventMiniCalendarView = () => {
                 defaultDate={moment().toDate()}
                 views={['month']}
                 onView={(view: View) =>
-                  setViewFilters({...requestQuery, ...{type: view}})
+                  setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
                 }
                 onSelectEvent={onSelectEvent}
               />
