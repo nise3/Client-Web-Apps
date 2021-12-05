@@ -34,9 +34,11 @@ export function useFetchInstitutes(params: any) {
 export function useFetchInstitutesGallery(params: any) {
   return useAxiosSWR([API_GALLERY_ALBUMS, params]);
 }
+
 export function useFetchInstitutesPublicGallery(params: any) {
   return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
 }
+
 export function useFetchInstitutesGalleryCategory() {
   return useAxiosSWR(API_FRONT_END_GALLERY_CATEGORY_LIST);
 }
@@ -98,6 +100,10 @@ export function useFetchCourseList(pathVariable: string, params: any) {
       : API_PUBLIC_COURSE_LIST,
     params,
   ]);
+}
+
+export function useFetchUpcomingCourseList(params: any) {
+  return useAxiosSWR([API_PUBLIC_COURSE_LIST, params]);
 }
 
 export function useFetchCourseDetailsWithParams(

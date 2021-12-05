@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {Box, Container, Tabs, Tab, Grid, Skeleton} from '@mui/material';
 import UnderlinedHeading from './UnderlinedHeading';
-import {useFetchCourseList} from '../../services/instituteManagement/hooks';
+import {
+  useFetchCourseList,
+  useFetchUpcomingCourseList,
+} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import CourseSectionCarousel from './courseSectionCarousel';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
@@ -42,24 +45,35 @@ const CoursesSection = () => {
 
   const [upcomingCoursesFilter, setUpcomingCoursesFilter] = useState<any>({
     page_size: 10,
+    availability: CourseTypes.UPCOMING,
+    institute_id: vendor?.id,
+  });
+
+  const [runningCoursesFilter, setRunningCoursesFilter] = useState<any>({
+    page_size: 10,
     availability: CourseTypes.RUNNING,
     institute_id: vendor?.id,
   });
 
-  // Todo: data is not coming for running form api, have to implement
-  // const {data: runningCourses} = useFetchCourseList('recent', runningCoursesFilters);
-  const {data: courseList, isLoading: isLoadingCourseList} = useFetchCourseList(
-    'recent',
-    upcomingCoursesFilter,
-  );
+  const {data: upcomingCourses, isLoading: isUpcomingCourse} =
+    useFetchUpcomingCourseList(upcomingCoursesFilter);
+  const {data: runningCourseList, isLoading: isLoadingCourseList} =
+    useFetchCourseList('recent', runningCoursesFilter);
 
   const [value, setValue] = useState(CourseTypes.RUNNING);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    setUpcomingCoursesFilter((prevState: any) => {
-      return {...prevState, ...{availability: newValue}};
-    });
+    if (newValue == CourseTypes.RUNNING) {
+      setRunningCoursesFilter((prevState: any) => {
+        return {...prevState, ...{availability: newValue}};
+      });
+    }
+    if (newValue == CourseTypes.UPCOMING) {
+      setUpcomingCoursesFilter((prevState: any) => {
+        return {...prevState, ...{availability: newValue}};
+      });
+    }
   };
 
   return (
@@ -100,10 +114,8 @@ const CoursesSection = () => {
                   <Skeleton variant='rectangular' width={250} height={300} />
                   <Skeleton variant='rectangular' width={250} height={300} />
                 </Box>
-              ) : courseList && courseList.length ? (
-                <CourseSectionCarousel
-                  courses={[...courseList, ...courseList, ...courseList]}
-                />
+              ) : runningCourseList && runningCourseList.length ? (
+                <CourseSectionCarousel courses={runningCourseList} />
               ) : (
                 <NoDataFoundComponent />
               )}
@@ -111,7 +123,7 @@ const CoursesSection = () => {
           </TabPanel>
           <TabPanel value={value} index={CourseTypes.UPCOMING}>
             <Box>
-              {isLoadingCourseList ? (
+              {isUpcomingCourse ? (
                 <Box
                   sx={{
                     display: 'flex',
@@ -123,8 +135,8 @@ const CoursesSection = () => {
                   <Skeleton variant='rectangular' width={250} height={300} />
                   <Skeleton variant='rectangular' width={250} height={300} />
                 </Box>
-              ) : courseList && courseList.length ? (
-                <CourseSectionCarousel courses={courseList} />
+              ) : upcomingCourses && upcomingCourses.length ? (
+                <CourseSectionCarousel courses={upcomingCourses} />
               ) : (
                 <NoDataFoundComponent />
               )}
