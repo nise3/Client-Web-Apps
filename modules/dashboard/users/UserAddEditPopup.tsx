@@ -86,7 +86,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
-  console.log('itemDAta->', itemData);
 
   const [roleFilters, setRoleFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -166,7 +165,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .oneOf([yup.ref('password')])
         .label(messages['common.password'] as string),
       institute_user_type:
-        authUser && authUser.isInstituteUser
+        !isEdit && authUser && authUser.isInstituteUser
           ? yup.string().required()
           : yup.string(),
       branch_id: yup
@@ -295,19 +294,24 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
-    console.log('data--------------------', data);
-
+    /**Todo
+     * this if else section will be removed after backend refactor user creation
+     */
     if (authUser?.isInstituteUser) {
       data.user_type = String(getUserType(authUser));
       data.institute_id = authUser?.institute_id;
+    } else if (authUser?.isOrganizationUser) {
+      data.organization_id = authUser?.organization_id;
     }
 
     try {
       if (itemId) {
+        data.user_type = String(itemData?.user_type); //this will be removed after backend refactor user creation
         await updateUser(itemId, data);
         updateSuccessMessage('user.label');
         mutateUser();
       } else {
+        data.user_type = String(getUserType(authUser)); //this will be removed after backend refactor user creation
         await createUser(data);
         createSuccessMessage('user.label');
       }
