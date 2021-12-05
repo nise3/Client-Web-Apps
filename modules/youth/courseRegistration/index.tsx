@@ -80,6 +80,8 @@ const initialValues = {
   first_name: '',
   last_name: '',
   date_of_birth: '',
+  signature_image_path: '',
+  passport_photo_path: '',
   physical_disability_status: PhysicalDisabilityStatus.NO,
   physical_disabilities: [],
   gender: Genders.MALE,
@@ -1032,6 +1034,7 @@ const YouthCourseRegistrationPage = () => {
     reset,
     setError,
     getValues,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -1152,6 +1155,7 @@ const YouthCourseRegistrationPage = () => {
             errors={errors}
             control={control}
             getValues={getValues}
+            setValue={setValue}
             visibleFieldKeys={visibleFormConfigKeys}
           />
         );

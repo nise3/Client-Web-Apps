@@ -46,7 +46,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   useEffect(() => {
     if (defaultFileUrl && defaultFileUrl.length) {
       let source = defaultFileUrl.replace(
-        'http://180.148.214.186:8088/uploads/',
+        'https://file.nise3.xyz/uploads/',
         '',
       );
 
@@ -80,7 +80,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           maxFiles={1}
           server={{
             process: {
-              url: 'http://180.148.214.186:8088/test',
+              url: 'https://file.nise3.xyz/test',
               onload: (response: any) => {
                 let res = JSON.parse(response);
                 setValue(id, res?.url || '');
@@ -88,7 +88,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
               },
             },
             load: {
-              url: 'http://180.148.214.186:8088/uploads/',
+              url: 'https://file.nise3.xyz/uploads/',
             },
           }}
           styleProgressIndicatorPosition={'center'}
