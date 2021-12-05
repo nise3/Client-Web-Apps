@@ -5,7 +5,7 @@ import {useIntl} from 'react-intl';
 
 interface IStyledCardProps{
   className: string,
-  headerNumber: number | undefined,
+  headerNumber: number | bigint | undefined,
   message: string
 }
 
@@ -16,7 +16,7 @@ const StyledTile = (props: IStyledCardProps) => {
     <H3 style={{fontWeight: '500'}}>
     {/*<H3 style={{fontSize: '2.5rem', fontWeight: '500'}}>*/}
       {/*{props.headerNumber}*/}
-      {formatNumber(props.headerNumber)}
+      {formatNumber(props.headerNumber as number)}
     </H3>
     <Text>
     {/*<Text style={{fontSize: '1.563rem'}}>*/}

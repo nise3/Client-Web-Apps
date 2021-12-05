@@ -132,7 +132,7 @@ const StyledTileSection = () => {
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={329} message={'dashboard.NumberOfTrainer'}/>
+                    headerNumber={dashStatistics?.total_trainers} message={'dashboard.NumberOfTrainer'}/>
       </Grid>
     </Grid>
     </StyledBox>

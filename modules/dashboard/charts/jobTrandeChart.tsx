@@ -44,7 +44,7 @@ const JobTrandsChart = () => {
 
         <Grid container>
           <Grid item xs={10} md={10}>
-            <CardHeader title={messages['dashboard.Map']}/>
+            <CardHeader title={messages['dashboard.JobTrends']}/>
           </Grid>
           <Grid style={{padding: 20}} item xs={2} md={2}>
             <CustomFormSelect
