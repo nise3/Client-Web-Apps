@@ -2,17 +2,13 @@ import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
-import {
-  courseDuration,
-  getModulePath,
-} from '../../../../@softbd/utilities/helpers';
+import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
   LINK_YOUTH_SIGNUP,
 } from '../../../../@softbd/common/appLinks';
-import {useRouter} from 'next/router';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
@@ -86,7 +82,6 @@ interface CourseInfoBlockProps {
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  const router = useRouter();
   const authUser = useAuthUser<YouthAuthUser>();
 
   return (
@@ -100,11 +95,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
             sx={{height: '100%'}}
             title={course?.title}
           />
-          <Link
-            href={
-              getModulePath(router.asPath) + `/course-details/${course?.id}`
-            }
-            passHref>
+          <Link href={`/course-details/${course?.id}`} passHref>
             <Button
               className={classes.courseDetailsButton}
               variant={'contained'}

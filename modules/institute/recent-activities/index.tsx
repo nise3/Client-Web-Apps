@@ -5,8 +5,7 @@ import {useIntl} from 'react-intl';
 import RecentActivityCardView from './RecentActivityCardView';
 import RecentActivityMasonryGroupView from './RecentActivityMasonryGroupView';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
-import {useRouter} from 'next/router';
+import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {Pagination} from '@mui/lab';
@@ -49,8 +48,7 @@ const StyledContainer = styled(Container)(({theme}) => {
 const RecentActivities = () => {
   const {messages} = useIntl();
   const vendor = useVendor();
-  const router = useRouter();
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
 
   const [recentActivityFilter, setRecentActivityFilter] = useState<any>({
     page: 1,

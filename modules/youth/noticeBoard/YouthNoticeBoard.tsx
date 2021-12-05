@@ -19,9 +19,8 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useFetchPublicNoticeOrNewses} from '../../../services/cmsManagement/hooks';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import {useRouter} from 'next/router';
 import {
-  getShowInTypeFromPath,
+  getShowInTypeByDomain,
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
@@ -63,8 +62,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const YouthNoticeBoard = () => {
   const {messages} = useIntl();
-  const router = useRouter();
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
   const searchFieldRef = useRef<any>();
   const page = useRef<any>(1);
   const vendor = useVendor();

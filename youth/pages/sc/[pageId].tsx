@@ -2,9 +2,9 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import {apiGet} from '../../../@softbd/common/api';
 import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
 import {getAppAccessToken} from '../../../@softbd/libs/axiosInstance';
-import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 import {API_PUBLIC_STATIC_PAGE_BLOCKS} from '../../../@softbd/common/apiRoutes';
 import StaticContent from '../../../modules/sc';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 export default YouthFrontPage(({data}: any) => {
   return (
@@ -21,9 +21,8 @@ export async function getServerSideProps(context: any) {
   } = context;
 
   const {pageId} = context.query;
-  const SHOW_IN = getShowInTypeFromPath(context.resolvedUrl);
   const params = {
-    show_in: SHOW_IN,
+    show_in: ShowInTypes.YOUTH,
   };
 
   try {

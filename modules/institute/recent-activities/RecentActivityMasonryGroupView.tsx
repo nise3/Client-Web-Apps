@@ -8,12 +8,8 @@ import {
 import {DateRangeOutlined} from '@mui/icons-material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
-import {
-  getIntlDateFromString,
-  getModulePath,
-} from '../../../@softbd/utilities/helpers';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 
 const PREFIX = 'RecentActivityMasonryGroupView';
@@ -79,9 +75,6 @@ const masonryPositions = [
 ];
 
 function RecentActivityMasonryGroupView({items}: any) {
-  const router = useRouter();
-  const path = router.pathname;
-
   const {formatDate} = useIntl();
 
   return (
@@ -118,8 +111,7 @@ function RecentActivityMasonryGroupView({items}: any) {
                 </Box>
               )}
               {item.title && (
-                <Link
-                  href={`${getModulePath(path)}/recent-activities/${item.id}`}>
+                <Link href={`/recent-activities/${item.id}`}>
                   <ImageListItemBar title={item.title} />
                 </Link>
               )}

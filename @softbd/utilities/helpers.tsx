@@ -2,6 +2,8 @@ import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
 import ShowInTypes from './ShowInTypes';
+import {getHostUrl} from '../common/SSOConfig';
+import {niseDomain, youthDomain} from '../common/constants';
 
 export const genders = [
   {
@@ -306,7 +308,7 @@ export const passingYears = () => {
   return passingYearsArray;
 };
 
-export const getModulePath = (path: string) => {
+/*export const getModulePath = (path: string) => {
   const pathArray = path.split('/');
   if (pathArray.indexOf('youth') > -1) {
     return '/youth';
@@ -315,7 +317,7 @@ export const getModulePath = (path: string) => {
   } else {
     return '';
   }
-};
+};*/
 
 export const getIntlDateFromString = (formatFn: any, dateStr: any) => {
   const dt = new Date(dateStr).toLocaleString();
@@ -348,7 +350,7 @@ export const getLanguageLabel = (language_configs: any, key: string) => {
   return label;
 };
 
-export const getShowInTypeFromPath = (path: string) => {
+/*export const getShowInTypeFromPath = (path: string) => {
   const pathArray = path.split('/');
   if (pathArray.indexOf('youth') > -1) {
     return ShowInTypes.YOUTH;
@@ -357,10 +359,19 @@ export const getShowInTypeFromPath = (path: string) => {
   } else {
     return ShowInTypes.NICE3;
   }
-};
+};*/
 
-export const isInstituteDomain = (domain: string) => {
-  return '';
+export const getShowInTypeByDomain = (domain?: string) => {
+  if (!domain) {
+    domain = getHostUrl();
+  }
+  if (domain?.includes(niseDomain())) {
+    return ShowInTypes.NICE3;
+  } else if (domain?.includes(youthDomain())) {
+    return ShowInTypes.YOUTH;
+  } else {
+    return ShowInTypes.TSP;
+  }
 };
 
 const fbRegex1 = /\/videos\/([\w\-]*?)\//;

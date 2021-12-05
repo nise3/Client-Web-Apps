@@ -6,9 +6,8 @@ import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {getModulePath, objectFilter} from '../../../@softbd/utilities/helpers';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
-import {useRouter} from 'next/router';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 
@@ -23,8 +22,6 @@ const SkillMatchingCoursesSection = ({
 }: skillMatchingCoursesSectionProps) => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
-  const router = useRouter();
-  const path = router.pathname;
 
   const [youthSkillIds, setYouthSkillIds] = useState<Array<number>>([]);
 
@@ -63,7 +60,7 @@ const SkillMatchingCoursesSection = ({
           </Grid>
           {page_size && courseListMetaData?.total_page > 1 && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={`${path}/${pathValue}`}>
+              <Link href={`/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />
@@ -83,11 +80,7 @@ const SkillMatchingCoursesSection = ({
             <>
               {courseList.map((course: any) => (
                 <Grid item xs={12} sm={6} md={3} key={course.id}>
-                  <Link
-                    href={
-                      getModulePath(router.asPath) +
-                      `/course-details/${course.id}`
-                    }>
+                  <Link href={`/course-details/${course.id}`}>
                     <CourseCardComponent course={course} />
                   </Link>
                 </Grid>

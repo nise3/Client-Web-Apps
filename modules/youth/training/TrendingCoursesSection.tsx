@@ -4,9 +4,8 @@ import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
-import {getModulePath, objectFilter} from '../../../@softbd/utilities/helpers';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
-import {useRouter} from 'next/router';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
@@ -20,8 +19,6 @@ const TrendingCoursesSection = ({
   page_size,
 }: TrendingCoursesSectionProps) => {
   const {messages} = useIntl();
-  const router = useRouter();
-  const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState({
     page_size: page_size,
@@ -50,7 +47,7 @@ const TrendingCoursesSection = ({
           </Grid>
           {page_size && courseListMetaData?.total_page > 1 && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={`${path}/${pathValue}`}>
+              <Link href={`/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />
@@ -71,11 +68,7 @@ const TrendingCoursesSection = ({
               {courseList.map((course: any) => {
                 return (
                   <Grid item xs={12} sm={6} md={3} key={course.id}>
-                    <Link
-                      href={
-                        getModulePath(router.asPath) +
-                        `/course-details/${course.id}`
-                      }>
+                    <Link href={`/course-details/${course.id}`}>
                       <CourseCardComponent course={course} />
                     </Link>
                   </Grid>

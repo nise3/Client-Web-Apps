@@ -6,8 +6,7 @@ import {useFetchCourseDetails} from '../services/instituteManagement/hooks';
 import {useFetchCourseList} from '../services/youthManagement/hooks';
 import {Link} from '../@softbd/elements/common';
 import {
-  getModulePath,
-  getShowInTypeFromPath,
+  getShowInTypeByDomain,
   objectFilter,
 } from '../@softbd/utilities/helpers';
 import CourseCardComponent from '../@softbd/elements/CourseCardComponent';
@@ -41,7 +40,7 @@ const SimilarCourseList = () => {
   const router = useRouter();
   const {courseId} = router.query;
   const vendor = useVendor();
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
 
   const {data: courseDetails, isLoading: isCourseListLoading} =
     useFetchCourseDetails(Number(courseId));
@@ -95,11 +94,7 @@ const SimilarCourseList = () => {
                 courseList.map((course: any) => {
                   return (
                     <Grid item xs={12} sm={6} md={3} key={course.id}>
-                      <Link
-                        href={
-                          getModulePath(router.asPath) +
-                          `/course-details/${course.id}`
-                        }>
+                      <Link href={`/course-details/${course.id}`}>
                         <CourseCardComponent course={course} />
                       </Link>
                     </Grid>

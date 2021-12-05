@@ -6,8 +6,7 @@ import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {H3, H6, Link} from '../../@softbd/elements/common';
-import {useRouter} from 'next/router';
-import {getShowInTypeFromPath} from '../../@softbd/utilities/helpers';
+import {getShowInTypeByDomain} from '../../@softbd/utilities/helpers';
 import VerticalBar from './components/VerticalBar';
 
 let defaultImage =
@@ -52,8 +51,7 @@ const RecentActivities = () => {
   const {data: recentActivitiesData} =
     useFetchInstitutesRecentActivity(recentActivityFilter);
 
-  const router = useRouter();
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
 
   useEffect(() => {
     let data = recentActivitiesData?.filter((item: any) => {

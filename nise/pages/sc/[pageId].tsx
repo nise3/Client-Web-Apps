@@ -3,8 +3,8 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import {apiGet} from '../../../@softbd/common/api';
 import {API_PUBLIC_STATIC_PAGE_BLOCKS} from '../../../@softbd/common/apiRoutes';
 import StaticContent from '../../../modules/sc';
-import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
 import {getAppAccessToken} from '../../../@softbd/libs/axiosInstance';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 export default NiseFrontPage(({data}: any) => {
   return (
@@ -21,9 +21,8 @@ export async function getServerSideProps(context: any) {
   } = context;
 
   const {pageId} = context.query;
-  const SHOW_IN = getShowInTypeFromPath(context.resolvedUrl);
   const params = {
-    show_in: SHOW_IN,
+    show_in: ShowInTypes.NICE3,
   };
 
   try {
