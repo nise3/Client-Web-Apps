@@ -75,6 +75,8 @@ const StyledCard = styled(Card)(({theme}) => ({
     position: 'absolute',
     left: 19,
     top: 19,
+    width: '75%',
+    fontSize: '0.87rem',
   },
 }));
 
