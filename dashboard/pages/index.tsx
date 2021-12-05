@@ -29,6 +29,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 export default DashboardPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
       <PageMeta title={messages['menu.dashboard'] as string} />
@@ -51,32 +52,8 @@ export default DashboardPage(() => {
             <BangladeshMap/>
           </Grid>
         </Grid>
-        {/*<Grid container className={classes.card}>*/}
-        {/*  <Grid item md={7} sm={7}>*/}
-        {/*    <JobTrandsChart/>*/}
-        {/*  </Grid>*/}
-        {/*  <Grid item md={5} sm={5}>*/}
-        {/*    <BangladeshMap/>*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
       </StyledBox>
-      {/*<StyledBox>*/}
-      {/*  <Grid container className={classes.card} spacing={2}>*/}
-      {/*    <Grid item md={7} sm={7}>*/}
-      {/*      <MostDemandableCourseChart/>*/}
-      {/*    </Grid>*/}
-      {/*    <Grid item md={5} sm={5}>*/}
-      {/*        <DashboardSmallCalendar/>*/}
-      {/*    </Grid>*/}
-      {/*    <Grid item md={8} sm={8}>*/}
-      {/*      <JobTrandsChart/>*/}
-      {/*    </Grid>*/}
-      {/*    <Grid item md={4} sm={4}>*/}
-      {/*      <BangladeshMap/>*/}
-      {/*    </Grid>*/}
 
-      {/*  </Grid>*/}
-      {/*</StyledBox>*/}
     </>
   );
 });

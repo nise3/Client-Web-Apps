@@ -1,8 +1,10 @@
 import StyledTile from '../../../@softbd/Tile/StyledTile';
 import {Box, Grid} from '@mui/material';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import {styled} from '@mui/material/styles';
+import {IDashboardStatistics} from '../../../shared/Interface/dashboard.interface';
+import {useDashboardStatistics} from '../../../services/global/hooks';
 
 const PREFIX = 'Dashboard';
 
@@ -87,41 +89,50 @@ const StyledBox = styled(Box)(({theme}) => ({
   }
 }));
 const StyledTileSection = () => {
+  const [dashStatistics, setDashStatistics] = useState<IDashboardStatistics>();
+  let {data: statistics} = useDashboardStatistics();
+  // const dta = useDashboardStatistics();
+  // console.log(`getDashboardStistics`, dta)
+  // debugger
+  useEffect(() => {
+    setDashStatistics(statistics);
+  }, [statistics]);
+
   return (
 
     <StyledBox>
       <Grid container className={classes.card} spacing={2}>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={2415} message={'dashboard.totalCourse'}/>
+                    headerNumber={dashStatistics?.total_Course} message={'dashboard.totalCourse'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor2)}
-                    headerNumber={652} message={'dashboard.totalEnrole'}/>
+                    headerNumber={dashStatistics?.total_Enroll} message={'dashboard.totalEnroll'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor3)}
-                    headerNumber={20} message={'dashboard.totalEnrole'}/>
+                    headerNumber={dashStatistics?.total_Certificate_Issue} message={'dashboard.totalCertificateIssue'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor4)}
-                    headerNumber={26} message={'dashboard.totalTrendingCourse'}/>
+                    headerNumber={dashStatistics?.Total_Trending_Course} message={'dashboard.totalTrendingCourse'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor5)}
-                    headerNumber={320} message={'dashboard.DemandFromIndustry'}/>
+                    headerNumber={dashStatistics?.total_Demand_From_Industry} message={'dashboard.DemandFromIndustry'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor6)}
-                    headerNumber={320} message={'dashboard.totalNumberOfBatch'}/>
+                    headerNumber={dashStatistics?.total_Batch} message={'dashboard.totalNumberOfBatch'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor7)}
-                    headerNumber={320} message={'dashboard.RunningStudent'}/>
+                    headerNumber={dashStatistics?.total_running_students} message={'dashboard.RunningStudent'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={320} message={'dashboard.NumberOfTrainer'}/>
+                    headerNumber={dashStatistics?.total_trainers} message={'dashboard.NumberOfTrainer'}/>
       </Grid>
     </Grid>
     </StyledBox>
