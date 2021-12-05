@@ -5,11 +5,7 @@ import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
-import {useRouter} from 'next/router';
-import {
-  getModulePath,
-  getShowInTypeFromPath,
-} from '../../../@softbd/utilities/helpers';
+import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
@@ -24,9 +20,8 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   skillIds,
 }) => {
   const {messages} = useIntl();
-  const router = useRouter();
   const pageSize = 4;
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
   const vendor = useVendor();
 
   const [courseFilters, setCourseFilters] = useState<any>({
@@ -71,11 +66,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
             </Grid>
             {metaData?.total_page > 1 && (
               <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-                <Link
-                  href={
-                    getModulePath(router.asPath) +
-                    `/similar-courses/${courseId}`
-                  }>
+                <Link href={`/similar-courses/${courseId}`}>
                   <Button
                     variant={'outlined'}
                     size={'medium'}
@@ -95,11 +86,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
                 courseList.map((course: any) => {
                   return (
                     <Grid item xs={12} sm={4} md={3} key={course.id}>
-                      <Link
-                        href={
-                          getModulePath(router.asPath) +
-                          `/course-details/${course.id}`
-                        }>
+                      <Link href={`/course-details/${course.id}`}>
                         <CourseCardComponent course={course} />
                       </Link>
                     </Grid>

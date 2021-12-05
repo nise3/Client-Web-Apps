@@ -10,8 +10,7 @@ import {Container, Grid, Skeleton} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H2} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
-import {useRouter} from 'next/router';
-import {getShowInTypeFromPath} from '../../../@softbd/utilities/helpers';
+import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useVendor} from '../../../@crema/utility/AppHooks';
@@ -43,8 +42,7 @@ const StyledGrid = styled(Grid)(({theme}) => {
 const InstituteFAQ = () => {
   const [expandedState, setExpanded] = useState<string | false>(false);
   const {messages} = useIntl();
-  const router = useRouter();
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
 
   const vendor = useVendor();
   const [faqFilters, setFaqFilters] = useState<any>({

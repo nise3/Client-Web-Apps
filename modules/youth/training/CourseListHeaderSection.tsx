@@ -16,13 +16,12 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  getShowInTypeFromPath,
+  getShowInTypeByDomain,
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import CustomFilterableSelect from './components/CustomFilterableSelect';
 import {useVendor} from '../../../@crema/utility/AppHooks';
-import {useRouter} from 'next/router';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 const PREFIX = 'CustomListHeaderSection';
@@ -64,8 +63,22 @@ interface CourseListHeaderSection {
 
 const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {messages} = useIntl();
-  const router = useRouter();
-  const showInType = getShowInTypeFromPath(router.asPath);
+  const showInType = getShowInTypeByDomain();
+  const vendor = useVendor();
+  const [instituteFilters] = useState({});
+  const {data: institutes} = useFetchInstitutes(instituteFilters);
+  const [selectedInstituteId, setSelectedInstituteId] = useState<any>('');
+  const [selectedCourseTypeId, setSelectedCourseTypeId] = useState<any>('');
+  const searchTextField = useRef<any>();
+
+  const [selectedProgrammeId, setSelectedProgrammeId] = useState<any>('');
+  const [selectedLanguageId, setSelectedLanguageId] = useState<any>('');
+  const [selectedAvailability, setSelectedAvailability] = useState<any>('');
+  const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
+
+  const [programmeFilters, setProgrammeFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
 
   const SKILL_LEVELS = useMemo(
     () => [
@@ -100,22 +113,6 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     ],
     [messages],
   );
-
-  const vendor = useVendor();
-  const [instituteFilters] = useState({});
-  const {data: institutes} = useFetchInstitutes(instituteFilters);
-  const [selectedInstituteId, setSelectedInstituteId] = useState<any>('');
-  const [selectedcourseTypeId, setSelectedcourseTypeId] = useState<any>('');
-  const searchTextField = useRef<any>();
-
-  const [selectedProgrammeId, setSelectedProgrammeId] = useState<any>('');
-  const [selectedLanguageId, setSelectedLanguageId] = useState<any>('');
-  const [selectedAvailability, setSelectedAvailability] = useState<any>('');
-  const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
-
-  const [programmeFilters, setProgrammeFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
 
   useEffect(() => {
     if (showInType) {
@@ -168,7 +165,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   );
 
   const handleCourseTypeChange = useCallback((courseType: number | null) => {
-    setSelectedcourseTypeId(courseType);
+    setSelectedCourseTypeId(courseType);
     addFilterKey('course_type', courseType);
   }, []);
 
@@ -193,7 +190,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
 
     setSelectedProgrammeId('');
     addFilterKey('program_id', 0);
-    setSelectedcourseTypeId('');
+    setSelectedCourseTypeId('');
     addFilterKey('course_type', 0);
     setSelectedSkillLevel('');
     addFilterKey('level', 0);
@@ -291,7 +288,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
               <Grid item xs={6} sm={4} md={2}>
                 <CustomFilterableSelect
                   id={'course_type'}
-                  defaultValue={selectedcourseTypeId}
+                  defaultValue={selectedCourseTypeId}
                   label={messages['common.course_type'] as string}
                   onChange={handleCourseTypeChange}
                   options={COURSE_TYPES}

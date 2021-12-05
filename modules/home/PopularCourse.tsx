@@ -4,9 +4,7 @@ import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/Custom
 import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
 import {useFetchCourseList} from '../../services/youthManagement/hooks';
-import {getModulePath} from '../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
-import {useRouter} from 'next/router';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import {H3, Link} from '../../@softbd/elements/common';
 import VerticalBar from './components/VerticalBar';
@@ -35,8 +33,6 @@ const StyledGrid = styled(Grid)(() => ({
 const PopularCourse = () => {
   const {messages} = useIntl();
 
-  const router = useRouter();
-
   const [courseFilters] = useState<any>({page_size: 10});
   const pathValue = 'popular';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
@@ -59,13 +55,7 @@ const PopularCourse = () => {
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
-                <Link
-                  passHref
-                  key={key}
-                  href={
-                    getModulePath(router.asPath) +
-                    `/course-details/${course.id}`
-                  }>
+                <Link passHref key={key} href={`/course-details/${course.id}`}>
                   <Box mr={1} ml={1}>
                     <CourseCardComponent course={course} />
                   </Box>
