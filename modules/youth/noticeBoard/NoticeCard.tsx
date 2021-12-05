@@ -9,13 +9,13 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import Link from 'next/link';
 import {useIntl} from 'react-intl';
 import {
   getIntlDateFromString,
   getModulePath,
 } from '../../../@softbd/utilities/helpers';
 import {useRouter} from 'next/router';
+import {Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'NoticeCard';
 
