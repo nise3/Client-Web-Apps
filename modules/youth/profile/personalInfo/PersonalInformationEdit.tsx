@@ -373,7 +373,10 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         authUser?.loc_division_id,
       );
       setDistrictList(filteredDistricts);
-
+      console.log(
+        'authUser?.signature_image_path-',
+        authUser?.signature_image_path,
+      );
       let filteredUpazilas = filterUpazilasByDistrictId(
         upazilas,
         authUser?.loc_district_id,

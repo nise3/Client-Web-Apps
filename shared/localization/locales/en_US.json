@@ -49,6 +49,7 @@
   "common.passport_size_photo":"Passport size photo",
   "common.select": "Select",
   "common.no_data_found": "No data found",
+  "common.print": "Print",
   "common.date_of_birth": "Date of Birth",
   "common.required": "Required",
   "common.not_required": "Not required",

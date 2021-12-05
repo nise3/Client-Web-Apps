@@ -133,7 +133,7 @@ const YouthCVPage = () => {
             variant='contained'
             onClick={printCB}
             style={{float: 'right'}}>
-            Print
+            {messages['common.print']}
           </Button>
         </Grid>
       </Grid>
