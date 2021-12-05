@@ -134,7 +134,7 @@ const OrganizationUnitPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           const URL =
-            '/../../dashboard/organization-units/organization-unit-hr-hierarchy/__'.replace(
+            '/../../organization-units/organization-unit-hr-hierarchy/__'.replace(
               '__',
               String(data.id),
             );
