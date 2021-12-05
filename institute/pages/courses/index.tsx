@@ -9,6 +9,7 @@ import {useIntl} from 'react-intl';
 const YouthTrainingPage = asyncComponent(
   () => import('../../../modules/youth/training'),
 );
+
 export default InstituteDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
