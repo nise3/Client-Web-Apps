@@ -129,7 +129,7 @@ const PersonalInfoSection = () => {
           <Grid item xs={12} sm={2}>
             <Avatar
               alt='youth profile pic'
-              src={'/images/userPageImages/profileImage.jpeg'}
+              src={authUser?.photo}
               sx={{height: 100, width: 100, margin: 'auto'}}
             />
           </Grid>
