@@ -31,8 +31,6 @@ const StyledBox = styled(Box)(({theme}) => ({
     marginBottom: 10,
   },
   [`& .${classes.detailsButton}`]: {
-    backgroundColor: theme.palette.grey['300'],
-    color: theme.palette.common.black,
     boxShadow: 'none',
     marginLeft: 10,
   },
@@ -70,7 +68,8 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
           </Button>
           <Button
             className={classes.detailsButton}
-            variant='contained'
+            variant='outlined'
+            color='primary'
             size={'small'}>
             {messages['common.details']}
           </Button>

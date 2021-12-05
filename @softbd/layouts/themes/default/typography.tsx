@@ -204,7 +204,7 @@ export default function typography(theme: Theme, locale: string) {
         fontSize: `${localeFontSizeMultiplier * 1}rem`,
       },
       [theme.breakpoints.up('lg')]: {
-        fontSize: `${localeFontSizeMultiplier * 1.125}rem`,
+        fontSize: `${localeFontSizeMultiplier * 1}rem`,
       },
     },
     overline: {
