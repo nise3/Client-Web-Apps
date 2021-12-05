@@ -6,7 +6,7 @@ import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import Router from 'next/router';
 import {Dashboard} from '@mui/icons-material';
-import {dashboardDomain, niseDomain, youthDomain} from "../../../common/constants";
+import {adminDomain, niseDomain, youthDomain} from "../../../common/constants";
 
 interface Props extends ButtonProps {
 }
@@ -23,7 +23,7 @@ const GotoDashboardButton = ({className, ...extra}: Props) => {
                 authUser.isInstituteUser ||
                 authUser.isOrganizationUser)
         ) {
-            Router.push(dashboardDomain());
+            Router.push(adminDomain());
         } else {
             Router.push(niseDomain());
         }

@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {AppState} from '../../../../redux/store';
 import {Loader} from '../../../../@crema';
 import {getSSOLoginUrl} from "../../../common/SSOConfig";
-import {dashboardDomain} from "../../../common/constants";
+import {adminDomain} from "../../../common/constants";
 
 const withData = (ComposedComponent: any) => (props: any) => {
     const {loading, user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
@@ -15,7 +15,7 @@ const withData = (ComposedComponent: any) => (props: any) => {
         }
 
         if (user && !user.isYouthUser) {
-            window.location.href = dashboardDomain();
+            window.location.href = adminDomain();
         }
     }, [user, loading]);
     if (!user || loading) return <Loader/>;
