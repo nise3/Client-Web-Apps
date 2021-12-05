@@ -440,26 +440,13 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          {/*<CustomTextInput
-            id='banner_image_path'
-            label={messages['common.image_path']}
-            type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            control={control}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />*/}
-
           <FileUploadComponent
             id='banner_image_path'
             defaultFileUrl={itemData?.banner_image_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}
-            label={messages['common.banner_image_path']}
+            label={messages['common.image_path']}
             required={true}
           />
         </Grid>
