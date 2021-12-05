@@ -29,19 +29,19 @@ export const formatDateTime = (itemData: ICalendar) => {
 };
 
 export const eventsDateTimeMap = (events: ICalendar[]) => {
-  try {
-    if (events) {
-      return events.map((e: any) => {
-        const start = e.start_time
-          ? `${e.start}T${e.start_time}`
-          : `${e.start}`;
-        const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
-        e.start = new Date(start);
-        e.end = new Date(end);
-        return e;
-      });
+  return (events || []).map((e: any) => {
+    const start = e?.start_time ? `${e?.start}T${e.start_time}` : `${e?.start}`;
+    const end = e?.end_time ? `${e?.end}T${e.end_time}` : `${e?.end}`;
+    try {
+      e.start = new Date(start);
+    } catch (e: any) {
+      e.start = new Date();
     }
-  } catch (error) {
-    catchBlockHandler(error);
-  }
+    try {
+      e.end = new Date(end);
+    } catch (e: any) {
+      e.end = new Date();
+    }
+    return e;
+  });
 };

@@ -167,9 +167,6 @@ const InstituteRegistration = () => {
     }
   };
 
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
   const onDivisionChange = useCallback(
     (divisionId: number) => {
       let filteredDistricts = filterDistrictsByDivisionId(
@@ -412,10 +409,7 @@ const InstituteRegistration = () => {
               />
               <Typography variant={'body1'} style={{marginTop: '15px'}}>
                 {messages['common.already_have_account']}{' '}
-                <Link
-                  href={''}
-                  onClick={redirectToSSO}
-                  className={classes.signInStyle}>
+                <Link href={getSSOLoginUrl()} className={classes.signInStyle}>
                   {messages['common.signin_here']}
                 </Link>
               </Typography>

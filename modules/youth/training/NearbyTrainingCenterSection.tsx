@@ -8,15 +8,21 @@ import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
-const NearbyTrainingCenterSection = () => {
+interface NearbyTrainingCenterSectionProps {
+  showInType: number;
+}
+
+const NearbyTrainingCenterSection = ({
+  showInType,
+}: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
   const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
-  const [institute] = useState<any>(vendor);
 
   const [nearbyTrainingCenterFilters] = useState<any>({
-    institute_id: institute?.id,
+    institute_id: showInType == ShowInTypes.TSP ? vendor?.id : null,
     district_id: authUser?.loc_district_id,
     upazila_id: authUser?.loc_upazila_id,
     page_size: 4,

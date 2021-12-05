@@ -170,9 +170,6 @@ const OrganizationRegistration = () => {
     },
     [districts],
   );
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
 
   const onDistrictChange = useCallback(
     (districtId: number) => {
@@ -398,10 +395,7 @@ const OrganizationRegistration = () => {
               />
               <Typography variant={'body1'} style={{marginTop: '15px'}}>
                 {messages['common.already_have_account']}{' '}
-                <Link
-                  href={''}
-                  onClick={redirectToSSO}
-                  className={classes.signInStyle}>
+                <Link href={getSSOLoginUrl()} className={classes.signInStyle}>
                   {messages['common.signin_here']}
                 </Link>
               </Typography>
