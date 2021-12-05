@@ -36,6 +36,7 @@ import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
 import AlbumTypes from '../galleryAlbums/AlbumTypes';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface GalleryAlbumContentsPageAddEditPopupProps {
   itemId: number | null;
@@ -106,10 +107,13 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .string()
           .required()
           .label(messages['gallery_album.featured_status'] as string),
-        content_type: yup
-          .string()
-          .required()
-          .label(messages['common.content_type'] as string),
+        content_type:
+          galleryAlbum && galleryAlbum.album_type == AlbumTypes.MIXED
+            ? yup
+                .string()
+                .required()
+                .label(messages['common.content_type'] as string)
+            : yup.string(),
         title: yup
           .string()
           .required()
@@ -289,6 +293,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
 
     useEffect(() => {
       if (itemData) {
+        console.log('dsdjsdhjdsjhhhhhhhhhhhhhhhh');
         let data: any = {
           gallery_album_id: itemData?.gallery_album_id,
           content_type: itemData?.content_type,
@@ -296,6 +301,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           title: itemData?.title,
           video_url: itemData?.video_url,
           video_id: itemData?.video_id,
+          image_path: itemData?.image_path,
           description: itemData?.description,
           image_alt_title: itemData?.image_alt_title,
           featured: String(itemData?.featured),
@@ -331,6 +337,8 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         }
         reset(data);
         setSelectedContentType(itemData?.content_type);
+        console.log('selected---', selectedContentType);
+        console.log('itemData?.content_type', itemData?.content_type);
         onGalleryAlbumChange(itemData?.gallery_album_id);
       } else {
         reset(initialValues);
@@ -362,7 +370,10 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           const galleryAlbum = galleryAlbums.find(
             (album: any) => album.id == albumId,
           );
-          setSelectedContentType(galleryAlbum?.album_type);
+          if (galleryAlbum?.album_type != AlbumTypes.MIXED) {
+            setSelectedContentType(galleryAlbum?.album_type);
+          }
+
           setGalleryAlbum(galleryAlbum);
         } else {
           setGalleryAlbum(null);
@@ -374,11 +385,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
 
     const onSubmit: SubmitHandler<any> = async (formData: any) => {
       try {
-        //demo file url
-        formData.content_grid_image_path = 'http://lorempixel.com/400/200/';
-        formData.content_thumb_image_path = 'http://lorempixel.com/200/100/';
-        formData.image_path = 'http://lorempixel.com/200/200/';
-
         if (galleryAlbum.album_type == AlbumTypes.IMAGE) {
           formData.content_type = GalleryAlbumContentTypes.IMAGE;
         } else if (galleryAlbum.album_type == AlbumTypes.VIDEO) {
@@ -499,38 +505,36 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <CustomFilterableFormSelect
-              required
-              isLoading={false}
-              id='content_type'
-              label={messages['common.content_type']}
-              control={control}
-              options={contentTypes}
-              optionValueProp={'id'}
-              optionTitleProp={['label']}
-              errorInstance={errors}
-              onChange={(contentType: number) => {
-                setSelectedContentType(contentType);
-              }}
-            />
-          </Grid>
+          {galleryAlbum && galleryAlbum.album_type == AlbumTypes.MIXED && (
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                required
+                isLoading={false}
+                id='content_type'
+                label={messages['common.content_type']}
+                control={control}
+                options={contentTypes}
+                optionValueProp={'id'}
+                optionTitleProp={['label']}
+                errorInstance={errors}
+                onChange={(contentType: number) => {
+                  setSelectedContentType(contentType);
+                }}
+              />
+            </Grid>
+          )}
 
           {selectedContentType &&
             selectedContentType == GalleryAlbumContentTypes.IMAGE && (
               <Grid item xs={12} md={6}>
-                <CustomTextInput
-                  required
+                <FileUploadComponent
                   id='image_path'
-                  label={messages['common.image_path']}
-                  type={'file'}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  control={control}
-                  register={register}
+                  defaultFileUrl={itemData?.image_path}
                   errorInstance={errors}
-                  isLoading={isLoading}
+                  setValue={setValue}
+                  register={register}
+                  label={messages['common.image_path']}
+                  required={true}
                 />
               </Grid>
             )}
@@ -572,6 +576,38 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
                 </Grid>
               </React.Fragment>
             )}
+
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='image_alt_title'
+              label={messages['common.image_alt_title']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FileUploadComponent
+              id='content_thumb_image_path'
+              defaultFileUrl={itemData?.content_thumb_image_path}
+              errorInstance={errors}
+              setValue={setValue}
+              register={register}
+              label={messages['common.thumb_image_path']}
+              required={false}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FileUploadComponent
+              id='content_grid_image_path'
+              defaultFileUrl={itemData?.content_grid_image_path}
+              errorInstance={errors}
+              setValue={setValue}
+              register={register}
+              label={messages['common.grid_image_path']}
+              required={false}
+            />
+          </Grid>
 
           <Grid item xs={12} md={6}>
             <CustomDateTimeField

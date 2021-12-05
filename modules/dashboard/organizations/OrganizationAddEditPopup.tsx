@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -41,6 +41,7 @@ import {
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -214,6 +215,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     reset,
     handleSubmit,
     setError,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<IOrganization>({
     resolver: yupResolver(validationSchema),
@@ -640,15 +642,15 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={6}>
-          <input
+          <FileUploadComponent
             id='logo'
-            name='btn-upload'
-            style={{display: 'none'}}
-            type='file'
+            defaultFileUrl={itemData?.logo}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.logo']}
+            required={false}
           />
-          <Button className='btn-choose' variant='outlined' component='span'>
-            Logo
-          </Button>
         </Grid>
         <Grid item xs={6}>
           <FormRowStatus

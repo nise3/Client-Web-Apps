@@ -35,8 +35,7 @@ import {
   IStaticPageBlock,
   IStaticPageContent,
 } from '../../../shared/Interface/common.interface';
-
-
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 const initialValues: Partial<IStaticPageContent> = {
   title: '',
@@ -207,7 +206,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
               .label(messages['common.title'] as string),
           }),
     });
-  },[messages, selectedCodes, authUser]);
+  }, [messages, selectedCodes, authUser]);
 
   const {
     register,
@@ -559,18 +558,14 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
               selectedAttachmentType == ContentTypes.IMAGE && (
                 <React.Fragment>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
-                      required
+                    <FileUploadComponent
                       id='image_path'
-                      label={messages['common.image_path']}
-                      type={'file'}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      control={control}
-                      register={register}
+                      defaultFileUrl={itemData?.image_path}
                       errorInstance={errors}
-                      isLoading={isLoading}
+                      setValue={setValue}
+                      register={register}
+                      label={messages['common.image_path']}
+                      required={true}
                     />
                   </Grid>
 

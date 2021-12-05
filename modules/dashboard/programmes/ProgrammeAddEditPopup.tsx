@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -25,6 +25,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IProgramme} from '../../../shared/Interface/institute.interface';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -82,6 +83,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     register,
     reset,
     setError,
+    setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<IProgramme>({
@@ -98,6 +100,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         description: itemData?.description,
         description_en: itemData?.description_en,
         row_status: String(itemData?.row_status),
+        logo: itemData?.logo,
       });
     } else {
       reset(initialValues);
@@ -141,7 +144,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -211,15 +214,15 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={6}>
-          <input
+          <FileUploadComponent
             id='logo'
-            name='btn-upload'
-            style={{display: 'none'}}
-            type='file'
+            defaultFileUrl={itemData?.logo}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.logo']}
+            required={false}
           />
-          <Button className='btn-choose' variant='outlined' component='span'>
-            Logo
-          </Button>
         </Grid>
         <Grid item xs={6}>
           <FormRowStatus

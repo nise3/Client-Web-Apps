@@ -7,11 +7,11 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {classes, StyledAppBar} from './AppHeader.style';
-import {Badge, CastForEducation, ExitToApp, Home} from '@mui/icons-material';
+import {Badge, CastForEducation, Home} from '@mui/icons-material';
 // import WorkIcon from '@mui/icons-material/Work';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import {Button, Container, useMediaQuery} from '@mui/material';
+import {Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
 // import Notifications from '../../../../@crema/core/Notifications';
@@ -26,7 +26,6 @@ import {
   LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES,
   LINK_FRONTEND_YOUTH_ROOT,
   LINK_FRONTEND_YOUTH_TRAINING,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
@@ -191,17 +190,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 <LanguageSwitcher />
               </Box>
 
-              {authUser ? (
-                <YouthProfileMenu />
-              ) : (
-                <Button
-                  variant='contained'
-                  href={LINK_SIGNUP}
-                  className={classes.signinButton}
-                  startIcon={<ExitToApp />}>
-                  {messages['common.registration_login']}
-                </Button>
-              )}
+              {authUser && <YouthProfileMenu />}
               <Box ml={1} className={classes.sectionMobile}>
                 <IconButton
                   aria-label='show more'

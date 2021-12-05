@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import {
   createTrainer,
   updateTrainer,
@@ -48,6 +48,7 @@ import {
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -208,6 +209,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     reset,
     handleSubmit,
     setError,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<ITrainer>({
     resolver: yupResolver(validationSchema),
@@ -713,24 +715,26 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <FileUploadComponent
             id='signature'
-            label={messages['common.signature']}
-            register={register}
+            defaultFileUrl={itemData?.signature}
             errorInstance={errors}
-            isLoading={isLoading}
+            setValue={setValue}
+            register={register}
+            label={messages['common.signature']}
+            required={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <input
+          <FileUploadComponent
             id='photo'
-            name='btn-upload'
-            style={{display: 'none'}}
-            type='file'
+            defaultFileUrl={itemData?.photo}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.photo']}
+            required={false}
           />
-          <Button className='btn-choose' variant='outlined' component='span'>
-            Photo
-          </Button>
         </Grid>
         <Grid item xs={12} md={6}>
           <FormRowStatus
