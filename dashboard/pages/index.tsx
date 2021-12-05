@@ -29,6 +29,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 export default DashboardPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
       <PageMeta title={messages['menu.dashboard'] as string} />

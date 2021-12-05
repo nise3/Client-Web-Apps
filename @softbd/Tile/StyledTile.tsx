@@ -5,7 +5,7 @@ import {useIntl} from 'react-intl';
 
 interface IStyledCardProps{
   className: string,
-  headerNumber: number,
+  headerNumber: number | undefined,
   message: string
 }
 

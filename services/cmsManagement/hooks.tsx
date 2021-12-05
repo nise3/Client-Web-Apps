@@ -120,7 +120,7 @@ export function useFetchPublicGalleryAlbumContent(
 }
 
 export function useFetchCalenderEvents(params: any) {
-  console.log('axis: ', params);
+  // console.log('axis: ', params);
   return useAxiosSWR([API_CALENDAR_EVENTS, params]);
 }
 
