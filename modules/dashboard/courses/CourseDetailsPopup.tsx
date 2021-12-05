@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Grid} from '@mui/material';
+import {Card, CardMedia, Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -292,11 +292,20 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
-            <DetailsInputView
+            <Card>
+              <CardMedia
+                component='img'
+                height='194'
+                image={itemData?.cover_image}
+                alt='Course cover image'
+              />
+            </Card>
+
+            {/* <DetailsInputView
               label={messages['course.cover_image']}
               value={itemData?.cover_image}
               isLoading={isLoading}
-            />
+            />*/}
           </Grid>
           <Grid item xs={12}>
             <CustomChipRowStatus
