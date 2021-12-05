@@ -359,7 +359,9 @@ export const getShowInTypeFromPath = (path: string) => {
   }
 };
 
-export const isInstituteDomain = (domain: string) => {};
+export const isInstituteDomain = (domain: string) => {
+  return '';
+};
 
 const fbRegex1 = /\/videos\/([\w\-]*?)\//;
 const fbRegex2 = /\/videos\/([\d]*?)\//;
