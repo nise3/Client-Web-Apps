@@ -2,17 +2,17 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
+import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
 
-const YouthNoticeDetailsPage = asyncComponent(
+const Nise3NoticeDetailsPage = asyncComponent(
   () => import('../../../modules/youth/noticeDetails'),
 );
-export default YouthFrontPage(() => {
+export default NiseFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
       <PageMeta title={messages['common.notice_details'] as string} />
-      <YouthNoticeDetailsPage />
+      <Nise3NoticeDetailsPage />
     </>
   );
 });
