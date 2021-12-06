@@ -36,8 +36,7 @@ const EventMiniCalendarView = () => {
 
   useEffect(() => {
     if (events) {
-      events = eventsDateTimeMap(events);
-      setEventsList(events);
+      setEventsList(eventsDateTimeMap(events));
     }
   }, [events]);
 
@@ -93,7 +92,9 @@ const EventMiniCalendarView = () => {
                 defaultDate={moment().toDate()}
                 views={['month']}
                 onView={(view: View) =>
-                  setViewFilters((prev) => ({...prev, ...{type: view === 'agenda' ? 'schedule' : view}}))
+                  setViewFilters((prev)=>{
+                   return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
+                  })
                 }
                 onSelectEvent={onSelectEvent}
               />

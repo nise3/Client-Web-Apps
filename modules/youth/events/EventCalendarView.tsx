@@ -17,17 +17,12 @@ const localizer = momentLocalizer(moment);
 
 const YouthEventCalendarView = () => {
   const {messages} = useIntl();
-  const auth = useAuthUser() as YouthAuthUser;
-  // console.log(auth)
-  let requestQuery: ICalendarQuery = {
-    type: 'month',
-  };
-  if (auth.isYouthUser){
-    requestQuery.youth_id = auth.youthId;
-  }
+  const authUser = useAuthUser<YouthAuthUser>();
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
-  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
+    type: 'month',
+  });
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
@@ -35,28 +30,20 @@ const YouthEventCalendarView = () => {
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
   useEffect(() => {
+    if (authUser?.isYouthUser){
+      setViewFilters((prev)=>{
+        return {...prev, ...{youth_id: authUser?.youthId}}
+      })
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     addStartEndPropsToList(events);
-    // if (events) {
-    //   events.forEach((element: any) => {
-    //     element['start'] = element.start_date;
-    //     element['end'] = element.start_date;
-    //   });
-    // }
   }, [events]);
 
   useEffect(() => {
     if (events) {
-      events = eventsDateTimeMap(events);
-      // events.map((e: any) => {
-      //   const start = e.start_time
-      //     ? `${e.start}T${e.start_time}`
-      //     : `${e.start}`;
-      //   const end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
-      //   e.start = new Date(start);
-      //   e.end = new Date(end);
-      //   return e;
-      // });
-      setEventsList(events);
+      setEventsList(eventsDateTimeMap(events));
     }
   }, [events]);
 
@@ -94,7 +81,9 @@ const YouthEventCalendarView = () => {
               endAccessor='end'
               defaultDate={moment().toDate()}
               onView={(view: View) =>
-                setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
+                setViewFilters((prev)=>{
+                  return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
+                })
               }
               onSelectEvent={onSelectEvent}
             />
