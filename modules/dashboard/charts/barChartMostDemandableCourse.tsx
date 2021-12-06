@@ -25,46 +25,18 @@ const MostDemandableCourseChart = () => {
   // console.log(`useAuthUser`, authUser)
   // debugger
   useEffect(() => {
-    // dash_data[0].value = 25;
-    // dash_data[1].value = 50;
-    // dash_data[2].value = 63;
     setDashDemandable(dash_data);
   }, [dash_data]);
-  // const data = [
-  //   {
-  //     "name": "Welding",
-  //     "value": 1200
-  //   },
-  //   {
-  //     "name": "Computer Operating",
-  //     "value": 1000
-  //   },
-  //   {
-  //     "name": "Mobile Servicing",
-  //     "value": 900
-  //   },
-  //   {
-  //     "name": "Office Management",
-  //     "value": 800
-  //   },
-  //   {
-  //     "name": "Salesman",
-  //     "value": 700
-  //   },
-  //   {
-  //     "name": "Graphic Design",
-  //     "value": 600
-  //   }
-  // ]
+
   return (
     <StyledContainer>
       <Card>
         <CardHeader title={messages['dashboard.MostDemandableCourse']}/>
         <CardContent>
-          <BarChart width={750} height={520} data={dashDemandable} layout={ 'vertical'}>
+          <BarChart width={500} height={520} data={dashDemandable} layout={ 'vertical'}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number"/>
-            <YAxis type="category" dataKey="Name"/>
+            <YAxis type="category" dataKey="name"/>
             <Tooltip />
             <Bar dataKey="value" fill="#4B66F1" />
             </BarChart>

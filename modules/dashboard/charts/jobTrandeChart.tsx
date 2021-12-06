@@ -43,10 +43,10 @@ const JobTrandsChart = () => {
       <Card>
 
         <Grid container>
-          <Grid item xs={10} md={10}>
+          <Grid item xs={6} md={6}>
             <CardHeader title={messages['dashboard.JobTrends']}/>
           </Grid>
-          <Grid style={{padding: 20}} item xs={2} md={2}>
+          <Grid style={{padding: 20}} item xs={6} md={6}>
             <CustomFormSelect
               id='year_id'
               // label={'Institute Calendar'}
@@ -60,7 +60,7 @@ const JobTrandsChart = () => {
           </Grid>
         </Grid>
         <CardContent>
-            <LineChart width={750} height={535} data={data}>
+            <LineChart width={750} height={360} data={data}>
               <Line type="monotone" dataKey="design" stroke="#63FFE3" />
               <Line type="monotone" dataKey="salesman" stroke="#FF99C0" />
               <Line type="monotone" dataKey="mgt" stroke="#3CCF80" />
