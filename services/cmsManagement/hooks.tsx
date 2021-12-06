@@ -10,6 +10,7 @@ import {
   API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_NOTICE_OR_NEWS,
   API_PUBLIC_PARTNERS,
+  API_PUBLIC_STATIC_PAGE_BLOCKS,
   API_SLIDERS,
   API_STATIC_PAGE_TYPES,
   CMS_NOTICE_OR_NEWS,
@@ -31,6 +32,10 @@ export function useFetchSlider(sliderId: number | null) {
 
 export function useFetchSliderBanners(params: any) {
   return useAxiosSWR([API_BANNERS, params]);
+}
+
+export function useFetchStaticPageBlock(pageCode: string, params: any) {
+  return useAxiosSWR([API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params]);
 }
 
 export function useFetchSliderBanner(bannerId: number | null) {
