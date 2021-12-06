@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import {styled} from '@mui/material/styles';
 import {IDashboardStatistics} from '../../../shared/Interface/dashboard.interface';
 import {useDashboardStatistics} from '../../../services/global/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'Dashboard';
 
@@ -90,16 +91,15 @@ const StyledBox = styled(Box)(({theme}) => ({
 }));
 const StyledTileSection = () => {
   const [dashStatistics, setDashStatistics] = useState<IDashboardStatistics>();
-  let {data: statistics} = useDashboardStatistics();
-  // const dta = useDashboardStatistics();
-  // console.log(`getDashboardStistics`, dta)
+  const authUser = useAuthUser();
+  let {data: statistics} = useDashboardStatistics(authUser?.isInstituteUser ? authUser?.institute_id as number : undefined);
+
   // debugger
   useEffect(() => {
     setDashStatistics(statistics);
   }, [statistics]);
 
   return (
-
     <StyledBox>
       <Grid container className={classes.card} spacing={2}>
       <Grid item md={3} sm={3}>

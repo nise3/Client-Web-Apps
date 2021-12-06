@@ -38,7 +38,6 @@ const EventCalendar = () => {
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
