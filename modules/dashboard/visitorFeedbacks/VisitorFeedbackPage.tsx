@@ -4,17 +4,34 @@ import {useIntl} from 'react-intl';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconVisitorFeedback from '../../../@softbd/icons/IconVisitorFeedback';
-import {useFetchVisitorFeedbacks} from '../../../services/cmsManagement/hooks';
 import VisitorDetailsPopup from './VisitorDetailsPopup';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_VISITOR_FEEDBACKS} from '../../../@softbd/common/apiRoutes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const VisitorFeedbackPage = () => {
   const {messages} = useIntl();
-  const [visitorFeedbackFilters] = useState({});
-  const {data: visitorFeedbacks, isLoading}: any = useFetchVisitorFeedbacks(
-    visitorFeedbackFilters,
-  );
+  const authUser = useAuthUser<CommonAuthUser>();
+
+  const {
+    onFetchData,
+    data: visitorFeedbacks,
+    loading,
+    pageCount,
+    totalCount,
+  } = useReactTableFetchData({
+    urlPath: API_VISITOR_FEEDBACKS,
+    paramsValueModifier: (params: any) => {
+      if (authUser?.isInstituteUser)
+        params['institute_id'] = authUser?.institute_id;
+      else if (authUser?.isOrganizationUser)
+        params['organization_id'] = authUser?.organization_id;
+      return params;
+    },
+  });
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -114,7 +131,10 @@ const VisitorFeedbackPage = () => {
         <ReactTable
           columns={columns}
           data={modifiedData || []}
-          loading={isLoading}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
         />
         {isOpenDetailsModal && selectedItemId && (
           <VisitorDetailsPopup
