@@ -59,7 +59,7 @@ const EventMiniCalendarView = () => {
 
   return (
       <Card>
-        <Grid style={{padding: 20}} xs={6} md={6}>
+        <Grid style={{padding: 20}} xs={8} md={8}>
           <CustomFormSelect
             id='inst_id'
             // label={'Institute Calendar'}

@@ -28,7 +28,7 @@ const MostDemandableCourseChart = () => {
           <BarChart width={750} height={520} data={dashData} layout={ 'vertical'}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number"/>
-            <YAxis type="category" dataKey="Name"/>
+            <YAxis type="category" dataKey="name"/>
             <Tooltip />
             <Bar dataKey="value" fill="#4B66F1" />
             </BarChart>
@@ -39,3 +39,4 @@ const MostDemandableCourseChart = () => {
 };
 
 export default MostDemandableCourseChart;
+

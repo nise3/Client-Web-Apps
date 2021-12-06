@@ -11,6 +11,6 @@ export interface IDashboardStatistics {
 }
 
 export interface IDashboardMostDemandableCourse {
-  Value: number;
-  Name: string;
+  value: number;
+  name: string;
 }
