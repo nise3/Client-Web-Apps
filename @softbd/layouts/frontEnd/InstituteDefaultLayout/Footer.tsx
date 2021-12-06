@@ -125,7 +125,7 @@ const Footer = () => {
             <Grid item xs={12} md={4} lg={4} p={0}>
               <LogoCustomizable
                 instituteName='Bangladesh Industrial Technical Assistance Centre'
-                instituteLogo='/images/bitac-logo.jpg'
+                instituteLogo='/images/tsp-logo/dydlogo.jpg'
               />
               <Box mt={4}>
                 <Text className={classes.textColor}>
