@@ -8,3 +8,8 @@ export interface IDashboardStatistics {
   total_Certificate_Issue: number | bigint;
   Total_Trending_Course: number | bigint;
 }
+
+export interface IDashboardMostDemandableCourse {
+  Value: number;
+  Name: string;
+}
