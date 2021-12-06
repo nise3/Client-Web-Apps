@@ -118,13 +118,13 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
           .string()
           .required()
           .label(messages['common.title'] as string),
-        /*image_path: yup
-           .mixed()
-           .label(messages['common.image_path'] as string)
-           .when('content_type', {
-             is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
-             then: yup.string().required(),
-           }),*/
+        image_path: yup
+          .mixed()
+          .label(messages['common.image_path'] as string)
+          .when('content_type', {
+            is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
+            then: yup.string().required(),
+          }),
         video_type: yup
           .mixed()
           .label(messages['common.video_type'] as string)

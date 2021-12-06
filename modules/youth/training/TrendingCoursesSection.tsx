@@ -36,7 +36,9 @@ const TrendingCoursesSection = ({
 
   console.log('Trending CourseList----', courseList);
   useEffect(() => {
-    setCourseFilters(objectFilter({...courseFilters, ...filters}));
+    setCourseFilters((prev: any) => {
+      return objectFilter({...prev, ...filters});
+    });
   }, [filters]);
 
   return (

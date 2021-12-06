@@ -88,16 +88,13 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             />
           )}
 
-          {course?.enroll_count && course.enroll_count > 0 && (
+          {course?.enroll_count > 0 && (
             <TagChip
               label={
                 <IntlMessages
                   id={'course_details.enrolled'}
                   values={{
-                    total: getIntlNumber(
-                      formatNumber,
-                      course?.enroll_count ?? '0',
-                    ),
+                    total: getIntlNumber(formatNumber, course.enroll_count),
                   }}
                 />
               }

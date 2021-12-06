@@ -124,8 +124,8 @@ const Footer = () => {
           <Grid container spacing={8}>
             <Grid item xs={12} md={4} lg={4} p={0}>
               <LogoCustomizable
-                instituteName='Bangladesh Industrial Technical Assistance Centre'
-                instituteLogo='/images/tsp-logo/dydlogo.jpg'
+                instituteName={'যুব উন্নয়ন অধিদপ্তর'}
+                instituteLogo='/images/DYD-and-gov-Logo.png'
               />
               <Box mt={4}>
                 <Text className={classes.textColor}>
@@ -168,7 +168,7 @@ const Footer = () => {
               <Box display='flex' mt={4}>
                 <LocalPhone className={classes.primary} />
                 <Text style={{marginLeft: '6px'}} className={classes.textColor}>
-                  +৮৮-০২-৯৯৩৯৪৯৩, +৮৮-০২-৮৩৮৪৮৪৮৪
+                  +৮৮-০২-৯৫৫৯৩৮৯
                 </Text>
               </Box>
             </Grid>

@@ -1,9 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/material';
-import {ThemeMode} from '../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
 
 const PREFIX = 'LogoCustomizable';
 
@@ -66,12 +63,21 @@ type Prop = {
 };
 
 const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
-  const {themeMode} = useContext<AppContextPropsType>(AppContext);
+  //const {themeMode} = useContext<AppContextPropsType>(AppContext);
 
   return (
     <StyledBox className={className}>
       <Box className={classes.logoRoot}>
-        <Box sx={{display: {md: 'none', sm: 'block'}}}>
+        <Box sx={{display: {sm: 'block'}}}>
+          <img
+            className={classes.logo}
+            src={instituteLogo}
+            alt={instituteName}
+          />
+        </Box>
+
+        {/*TODO temporary work*/}
+        {/*<Box sx={{display: {md: 'none', sm: 'block'}}}>
           <img
             className={classes.logo}
             src={
@@ -106,7 +112,7 @@ const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
             src={instituteLogo}
             alt='crema-logo'
           />
-        </Box>
+        </Box>*/}
       </Box>
     </StyledBox>
   );
