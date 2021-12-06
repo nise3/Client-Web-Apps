@@ -9,7 +9,7 @@ import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList, eventsDateTimeMap} from '../../../services/global/globalService';
+import {addStartEndPropsToList} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 
@@ -90,14 +90,14 @@ const EventCalendar = () => {
 
   useEffect(() => {
     if (events) {
-      events = eventsDateTimeMap(events);
-      // events.map((e: ICalendar) => {
-      //   let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
-      //   let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
-      //   e.start = new Date(start);
-      //   e.end = new Date(end);
-      //   return e;
-      // });
+      // events = eventsDateTimeMap(events);
+      events.map((e: ICalendar) => {
+        let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
+        let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+        e.start = new Date(start);
+        e.end = new Date(end);
+        return e;
+      });
       // console.log(events);
       setEventsList(events);
     }
