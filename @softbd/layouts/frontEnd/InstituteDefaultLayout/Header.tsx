@@ -25,8 +25,7 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser, useVendor} from '../../../../@crema/utility/AppHooks';
 import {CurrentInstitute} from '../../../../redux/types/models/Vendor';
-import {gotoLoginSignUpPage, niseDomain} from '../../../common/constants';
-import {getHostUrl} from "../../../common/SSOConfig";
+import {gotoLoginSignUpPage} from '../../../common/constants';
 
 interface AppHeaderProps {
 }
