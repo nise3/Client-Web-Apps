@@ -34,7 +34,7 @@ const SkillMatchingCoursesSection = ({
   useEffect(() => {
     if (authUser) {
       let skillIDs: Array<number> = [];
-      authUser?.skills?.map((skill: any) => {
+      authUser.skills?.map((skill: any) => {
         skillIDs.push(skill.id);
       });
       setCourseFilters((prev: any) => {
@@ -44,7 +44,9 @@ const SkillMatchingCoursesSection = ({
   }, [authUser]);
 
   useEffect(() => {
-    setCourseFilters(objectFilter({...courseFilters, ...filters}));
+    setCourseFilters((prev: any) => {
+      return objectFilter({...prev, ...filters});
+    });
   }, [filters]);
 
   const pathValue = 'skill-matching';
