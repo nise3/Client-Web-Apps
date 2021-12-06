@@ -1,5 +1,5 @@
 import {Card, CardContent, CardHeader} from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis} from 'recharts';
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
@@ -8,7 +8,6 @@ import {useDashboardMostDemandableCourse} from '../../../services/global/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const StyledContainer = styled(Box)(({theme}) => ({
-  // marginRight: 10,
   [`& .MuiCardHeader-title`]: {
     fontSize: '1.4rem',
     color: '#000',
@@ -19,49 +18,14 @@ const StyledContainer = styled(Box)(({theme}) => ({
 const MostDemandableCourseChart = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser();
-  const [dashDemandable, setDashDemandable] = useState<any>();
-  let {data: dash_data} = useDashboardMostDemandableCourse(authUser?.isInstituteUser ? authUser?.institute_id as number : undefined);
-  // const dta = useDashboardStatistics();
-  // console.log(`useAuthUser`, authUser)
-  // debugger
-  useEffect(() => {
-    // dash_data[0].value = 25;
-    // dash_data[1].value = 50;
-    // dash_data[2].value = 63;
-    setDashDemandable(dash_data);
-  }, [dash_data]);
-  // const data = [
-  //   {
-  //     "name": "Welding",
-  //     "value": 1200
-  //   },
-  //   {
-  //     "name": "Computer Operating",
-  //     "value": 1000
-  //   },
-  //   {
-  //     "name": "Mobile Servicing",
-  //     "value": 900
-  //   },
-  //   {
-  //     "name": "Office Management",
-  //     "value": 800
-  //   },
-  //   {
-  //     "name": "Salesman",
-  //     "value": 700
-  //   },
-  //   {
-  //     "name": "Graphic Design",
-  //     "value": 600
-  //   }
-  // ]
+  const {data: dashData} = useDashboardMostDemandableCourse(authUser?.isInstituteUser ? authUser?.institute_id as number : undefined);
+
   return (
     <StyledContainer>
       <Card>
         <CardHeader title={messages['dashboard.MostDemandableCourse']}/>
         <CardContent>
-          <BarChart width={750} height={520} data={dashDemandable} layout={ 'vertical'}>
+          <BarChart width={750} height={520} data={dashData} layout={ 'vertical'}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number"/>
             <YAxis type="category" dataKey="Name"/>
