@@ -8,6 +8,7 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import {useRouter} from 'next/router';
 
 interface TrendingCoursesSectionProps {
   filters?: any;
@@ -19,6 +20,8 @@ const TrendingCoursesSection = ({
   page_size,
 }: TrendingCoursesSectionProps) => {
   const {messages} = useIntl();
+  const router = useRouter();
+  const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState({
     page_size: page_size,
@@ -47,7 +50,7 @@ const TrendingCoursesSection = ({
           </Grid>
           {page_size && courseListMetaData?.total_page > 1 && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={`/${pathValue}`}>
+              <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />

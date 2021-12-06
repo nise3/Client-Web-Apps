@@ -286,7 +286,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     {courseDuration(messages, formatNumber, course?.duration)}
                   </Typography>
                 )}
-                {course?.enroll_count && (
+                {course?.enroll_count && course.enroll_count > 0 && (
                   <Typography>
                     {course?.duration ? ', ' : ''}
                     <IntlMessages

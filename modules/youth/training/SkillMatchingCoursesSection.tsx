@@ -10,6 +10,7 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import {useRouter} from 'next/router';
 
 interface skillMatchingCoursesSectionProps {
   filters?: any;
@@ -21,22 +22,26 @@ const SkillMatchingCoursesSection = ({
   page_size,
 }: skillMatchingCoursesSectionProps) => {
   const {messages} = useIntl();
+  const router = useRouter();
+  const path = router.pathname;
   const authUser = useAuthUser<YouthAuthUser>();
 
-  const [youthSkillIds, setYouthSkillIds] = useState<Array<number>>([]);
-
-  useEffect(() => {
-    let skillIDs: Array<number> = [];
-    authUser?.skills?.map((skill: any) => {
-      skillIDs.push(skill.id);
-    });
-    setYouthSkillIds(skillIDs);
-  }, [authUser]);
-
   const [courseFilters, setCourseFilters] = useState<any>({
-    skill_ids: youthSkillIds,
+    skill_ids: [],
     page_size: page_size ? page_size : null,
   });
+
+  useEffect(() => {
+    if (authUser) {
+      let skillIDs: Array<number> = [];
+      authUser?.skills?.map((skill: any) => {
+        skillIDs.push(skill.id);
+      });
+      setCourseFilters((prev: any) => {
+        return {...prev, ...{skill_ids: skillIDs}};
+      });
+    }
+  }, [authUser]);
 
   useEffect(() => {
     setCourseFilters(objectFilter({...courseFilters, ...filters}));
@@ -60,7 +65,7 @@ const SkillMatchingCoursesSection = ({
           </Grid>
           {page_size && courseListMetaData?.total_page > 1 && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={`/${pathValue}`}>
+              <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />
