@@ -127,7 +127,12 @@ const EventCalendar = () => {
           onView={(view: View) =>
             setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
           }
-          onNavigate={(e: any) => console.log('onNavigate ', e)}
+          onNavigate={(e: any) => {
+            // console.log('onNavigate ', e);
+            const monthNumber = moment(e).month() + 1;
+            // console.log('month numver ', monthNumber);
+            setViewFilters({...requestQuery, ...{ month: monthNumber }})
+          }}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
         />

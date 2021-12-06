@@ -74,6 +74,12 @@ const EventCalendarView = () => {
                     return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
                   })
                 }
+                onNavigate={(e: any) => {
+                  const monthNumber = moment(e).month() + 1;
+                  setViewFilters((prev)=>{
+                    return {...prev, ...{ month: monthNumber }}
+                  })
+              }}
                 onSelectEvent={onSelectEvent}
               />
             )}
