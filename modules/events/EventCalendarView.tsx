@@ -14,12 +14,11 @@ import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/g
 const localizer = momentLocalizer(moment);
 const EventCalendarView = () => {
   const {messages} = useIntl();
-  let requestQuery: ICalendarQuery = {
-    type: 'month',
-  };
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
-  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
+    type: 'month',
+  });
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
@@ -32,8 +31,7 @@ const EventCalendarView = () => {
 
   useEffect(() => {
     if (events) {
-      events = eventsDateTimeMap(events);
-      setEventsList(events);
+      setEventsList(eventsDateTimeMap(events));
     }
   }, [events]);
 
@@ -72,7 +70,9 @@ const EventCalendarView = () => {
                 endAccessor='end'
                 defaultDate={moment().toDate()}
                 onView={(view: View) =>
-                  setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
+                  setViewFilters((prev)=>{
+                    return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
+                  })
                 }
                 onSelectEvent={onSelectEvent}
               />

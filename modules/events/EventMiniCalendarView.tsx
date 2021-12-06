@@ -13,10 +13,6 @@ import {useForm} from 'react-hook-form';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
-  let requestQuery: ICalendarQuery = {
-    type: 'month',
-  };
-
   const {
     control,
     reset,
@@ -24,7 +20,9 @@ const EventMiniCalendarView = () => {
   } = useForm<any>();
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
-  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
+    type: 'month',
+  });
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
@@ -37,8 +35,7 @@ const EventMiniCalendarView = () => {
 
   useEffect(() => {
     if (events) {
-      events = eventsDateTimeMap(events);
-      setEventsList(events);
+      setEventsList(eventsDateTimeMap(events));
     }
   }, [events]);
 
@@ -94,7 +91,9 @@ const EventMiniCalendarView = () => {
                 defaultDate={moment().toDate()}
                 views={['month']}
                 onView={(view: View) =>
-                  setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
+                  setViewFilters((prev)=>{
+                   return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
+                  })
                 }
                 onSelectEvent={onSelectEvent}
               />
