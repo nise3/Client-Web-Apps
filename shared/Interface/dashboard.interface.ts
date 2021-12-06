@@ -7,4 +7,5 @@ export interface IDashboardStatistics {
   total_Demand_From_Industry: number | bigint;
   total_Certificate_Issue: number | bigint;
   Total_Trending_Course: number | bigint;
+  total_training_centers: number | bigint;
 }
