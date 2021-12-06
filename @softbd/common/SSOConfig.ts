@@ -62,7 +62,7 @@ export const getSSOLogoutUrl = (idToken: string) => {
 };
 
 export const getHostUrl = () => {
-    return typeof window !== 'undefined' && window.location.origin
+    return typeof window !== 'undefined' &&  window?.location?.origin
         ? window.location.origin
         : '';
 };
