@@ -108,6 +108,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         .string()
         .required()
         .label('common.is_button_available'),
+
       link: yup
         .mixed()
         .label(messages['common.link'] as string)
@@ -117,9 +118,9 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+
       button_text: yup
-        .string()
-        .max(20)
+        .mixed()
         .label(messages['common.button_text'] as string)
         .when('is_button_available', {
           is: (val: number) => {
@@ -127,6 +128,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -429,6 +431,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='sub_title'

@@ -921,6 +921,7 @@
   "common.read_at": "পড়া হইয়াছে",
   "common.achieved_at": "অর্জিত হইয়াছে",
   "common.comment": "কমেন্ট",
+  "common.comment_en": "ইংরেজী কমেন্ট",
   "organization_association.label": "সংস্থা সংঘ",
   "common.static_page": "স্ট্যাটিক পেজ",
   "static_page.label": "স্ট্যাটিক পেজ",
