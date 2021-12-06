@@ -1,0 +1,209 @@
+import {styled} from '@mui/material/styles';
+import {
+  Card,
+  Container,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
+// import {Fade} from 'react-awesome-reveal';
+import UnderlinedHeading from './UnderlinedHeading';
+import {H4} from '../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
+import React, {useEffect, useState} from 'react';
+import {getMomentDateFormat} from '../../@softbd/utilities/helpers';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import moment from 'moment';
+import {momentLocalizer, View} from 'react-big-calendar';
+import Calendar from '../../@softbd/calendar/Calendar';
+import {
+  ICalendar,
+  ICalendarQuery,
+} from '../../shared/Interface/common.interface';
+import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
+import {
+  addStartEndPropsToList,
+  eventsDateTimeMap,
+} from '../../services/global/globalService';
+
+const localizer = momentLocalizer(moment);
+const PREFIX = 'EventSection';
+
+const classes = {
+  boxItem: `${PREFIX}-boxItem`,
+  button: `${PREFIX}-button`,
+  dateHeader: `${PREFIX}-dateHeader`,
+  gridContainer: `${PREFIX}-gridContainer`,
+  listIcon: `${PREFIX}-listIcon`,
+};
+
+const StyledContainer = styled(Container)(({theme}) => ({
+  marginTop: '40px',
+  [`& .${classes.boxItem}`]: {
+    background: theme.palette.background.paper,
+    borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
+    padding: '20px 15px 30px 15px',
+    margin: 0,
+    [theme.breakpoints.down('xl')]: {
+      padding: '20px 10px 30px 10px',
+    },
+  },
+  [`& .${classes.button}`]: {
+    borderRadius: 40,
+  },
+  [`& .${classes.listIcon}`]: {
+    transform: 'translateY(5px)',
+    marginRight: '12px',
+  },
+  [`& .${classes.gridContainer}`]: {
+    borderRadius: 8,
+    padding: '24px',
+    marginTop: '24px',
+    // boxShadow: '0 0 1px #888 inset',
+  },
+  [`& .${classes.dateHeader}`]: {
+    borderRadius: 8,
+    padding: '12px',
+    paddingTop: '16px',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
+  '.rbc-month-row,.rbc-row-content,.rbc-row-content>.rbc-row,.rbc-date-cell': {
+    padding: 0,
+    position: 'relative',
+    height: '100%',
+  },
+  '& .rbc-date-cell': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+  },
+  '& .rbc-date-cell>a': {
+    pointerEvents: 'none',
+  },
+  '& .rbc-toolbar .rbc-btn-group>button:first-of-type': {
+    display: 'none',
+  },
+  '& .rbc-toolbar .rbc-btn-group>button:first-of-type+button': {
+    borderBottomLeftRadius: '4px',
+    borderTopLeftRadius: '4px',
+  },
+}));
+
+const EventSection = () => {
+  const {messages} = useIntl();
+  const dateFormat = 'YYYY-MM-DD';
+
+  let requestQuery: ICalendarQuery = {
+    type: 'month',
+  };
+
+  const [selectedItems, setSelectedItems] = useState<Array<ICalendar>>();
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
+  const [currentDate, setCurrentDate] = useState<any>(
+    moment(Date.now()).format(dateFormat),
+  );
+
+  let {data: events} = useFetchCalenderEvents(viewFilters);
+
+  useEffect(() => {}, [currentDate]);
+
+  useEffect(() => {
+    addStartEndPropsToList(events);
+  }, [events]);
+
+  useEffect(() => {
+    if (events) {
+      const evts = eventsDateTimeMap(events);
+      setEventsList(evts);
+      setSelectedDateItems(new Date(), evts);
+    }
+  }, [events]);
+  const setSelectedDateItems = (date: Date, evtList?: any) => {
+    const list: Array<ICalendar> = Array.isArray(evtList)
+      ? evtList
+      : eventsList;
+    const items = list.filter(
+      (ev: ICalendar) =>
+        moment(ev.start).format(dateFormat) === moment(date).format(dateFormat),
+    );
+    setSelectedItems(items);
+  };
+
+  const onSelectSlot = (e: any) => {
+    console.log('onSelectSlot >>', e, eventsList);
+    setCurrentDate(moment(e.start).format(dateFormat));
+    setSelectedDateItems(e.start);
+    // console.log(item);
+  };
+
+  return (
+    <StyledContainer maxWidth='lg'>
+      <>
+        {/*Fade direction='up'*/}
+        <UnderlinedHeading>{messages['menu.events']}</UnderlinedHeading>
+        <Card className={classes.gridContainer}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <H4 centered className={classes.dateHeader}>
+                {getMomentDateFormat(currentDate, 'dddd, D MMMM YYYY')}
+              </H4>
+              {selectedItems && selectedItems.length ? (
+                <List>
+                  {selectedItems
+                    .slice(0, 4)
+                    .map((selectedItem: any, i: number) => (
+                      <ListItem key={i}>
+                        <ListItemText
+                          primary={selectedItem.title}
+                          secondary={
+                            <>
+                              <DateRangeIcon className={classes.listIcon} />
+                              {getMomentDateFormat(
+                                selectedItem.start_date,
+                                'D / MM / YYYY',
+                              )}
+                            </>
+                          }
+                        />
+                      </ListItem>
+                    ))}
+                </List>
+              ) : (
+                <NoDataFoundComponent
+                  message={messages['common.no_data_found'] as string}
+                  messageTextType={'h6'}
+                />
+              )}
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Calendar
+                getNow={() => currentDate}
+                events={[]}
+                localizer={localizer}
+                selectable={true}
+                style={{height: 500}}
+                startAccessor='start'
+                endAccessor='end'
+                defaultDate={moment().toDate()}
+                views={['month']}
+                onView={(view: View) =>
+                  setViewFilters({
+                    ...requestQuery,
+                    ...{type: view === 'agenda' ? 'schedule' : view},
+                  })
+                }
+                onSelectSlot={onSelectSlot}
+              />
+            </Grid>
+          </Grid>
+        </Card>
+      </>
+    </StyledContainer>
+  );
+};
+export default EventSection;

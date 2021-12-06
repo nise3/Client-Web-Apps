@@ -4,6 +4,7 @@ import InfoCardSection from './InfoCardSection';
 import CoursesSection from './CoursesSection';
 import GallerySection from './GallerySection';
 import AboutSection from './AboutSection';
+import EventSection from './EventSection';
 
 const Institute = () => {
   return (
@@ -12,6 +13,7 @@ const Institute = () => {
       <AboutSection />
       <InfoCardSection />
       <CoursesSection />
+      <EventSection />
       <GallerySection />
     </>
   );
