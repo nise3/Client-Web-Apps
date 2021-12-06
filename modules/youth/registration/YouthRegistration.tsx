@@ -512,7 +512,7 @@ const YouthRegistration = () => {
               </Typography>
               <Typography style={{marginTop: '15px'}} variant={'body1'}>
                 {messages['common.already_have_account']}{' '}
-                <Link href={getSSOLoginUrl()} className={classes.signInStyle}>
+                <Link href={getSSOLoginUrl(router.query)} className={classes.signInStyle}>
                   {messages['common.signin_here']}
                 </Link>
               </Typography>
