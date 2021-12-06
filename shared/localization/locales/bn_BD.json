@@ -1022,5 +1022,6 @@
   "common.user_section": "ইউজার ধরন",
   "user.institute_user": "প্রতিষ্ঠান ইউজার",
   "user.branch_user": "ব্রাঞ্চ ইউজার",
-  "user.training_center_user": "প্রশিক্ষণ কেন্দ্র ইউজার"
+  "user.training_center_user": "প্রশিক্ষণ কেন্দ্র ইউজার",
+  "common.not_available": "এভেইলেবল না"
 }

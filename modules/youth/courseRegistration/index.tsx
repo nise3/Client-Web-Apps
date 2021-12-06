@@ -1202,6 +1202,8 @@ const YouthCourseRegistrationPage = () => {
     }
   };
 
+  console.log('errors', errors);
+
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       console.log('submit', formData);
@@ -1221,6 +1223,18 @@ const YouthCourseRegistrationPage = () => {
         data.address_info.permanent_address = formData.is_permanent_address
           ? formData.present_address
           : formData.permanent_address;
+
+        if (
+          !visibleFormConfigKeys.includes(CourseConfigKeys.FREEDOM_FIGHTER_KEY)
+        ) {
+          delete data.freedom_fighter_status;
+        }
+
+        if (!visibleFormConfigKeys.includes(CourseConfigKeys.DISABILITY_KEY)) {
+          if (!data?.physical_disability_status)
+            data.physical_disability_status = PhysicalDisabilityStatus.NO;
+          delete data.physical_disabilities;
+        }
 
         if (visibleFormConfigKeys.includes(CourseConfigKeys.EDUCATION_KEY)) {
           data.education_info = {};
