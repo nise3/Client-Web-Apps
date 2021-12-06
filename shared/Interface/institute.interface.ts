@@ -23,7 +23,7 @@ export interface IProgramme {
   id: number;
   title_en?: string;
   title: string;
-  institute_id: string | number;
+  institute_id?: string | number;
   institute_title_en?: string;
   code?: string;
   logo?: string;

@@ -386,7 +386,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -399,35 +399,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -456,7 +456,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -469,35 +469,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -530,7 +530,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -543,35 +543,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -604,7 +604,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -617,35 +617,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -674,7 +674,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -687,35 +687,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -744,7 +744,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -757,35 +757,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -814,7 +814,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -827,35 +827,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,
@@ -888,7 +888,7 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.is_foreign_institute'] as string),
                 foreign_institute_country_id: yup
-                  .string()
+                  .mixed()
                   .label(
                     messages['education.foreign_institute_country'] as string,
                   )
@@ -901,35 +901,35 @@ const YouthCourseRegistrationPage = () => {
                   .required()
                   .label(messages['education.result'] as string),
                 marks_in_percentage: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.marks'] as string)
                   .when('result', {
                     is: (value: any) => ResultCodeDivisionIds.includes(value),
                     then: yup.string().max(3).required(),
                   }),
                 cgpa_scale: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa_scale'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 cgpa: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
                   }),
                 year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value != ResultCodeAppearedId,
                     then: yup.string().required(),
                   }),
                 expected_year_of_passing: yup
-                  .string()
+                  .mixed()
                   .label(messages['education.expected_passing_year'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeAppearedId,

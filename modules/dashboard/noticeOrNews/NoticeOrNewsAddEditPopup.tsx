@@ -203,6 +203,10 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         image_alt_title: itemData?.image_alt_title,
         show_in: itemData?.show_in,
         file_alt_title: itemData?.file_alt_title,
+        main_image_path: itemData?.main_image_path,
+        grid_image_path: itemData?.grid_image_path,
+        file_path: itemData?.file_path,
+        thumb_image_path: itemData?.thumb_image_path,
         published_at: itemData?.published_at
           ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
           : '',

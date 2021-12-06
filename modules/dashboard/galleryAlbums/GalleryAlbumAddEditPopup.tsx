@@ -110,11 +110,27 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   const {data: courses, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
-  const [galleryAlbumFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [galleryAlbumFilters, setGalleryAlbumFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
   const [filteredGalleryAlbums, setFilteredGalleryAlbums] = useState([]);
   const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
     useFetchGalleryAlbums(galleryAlbumFilters);
-
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.isInstituteUser) {
+        setGalleryAlbumFilter({
+          row_status: RowStatus.ACTIVE,
+          institute_id: authUser.institute_id,
+        });
+      } else if (authUser.isOrganizationUser) {
+        setGalleryAlbumFilter({
+          row_status: RowStatus.ACTIVE,
+          organization_id: authUser.organization_id,
+        });
+      }
+    }
+  }, [authUser]);
   useEffect(() => {
     if (cmsGlobalConfig) {
       const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
@@ -125,6 +141,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
     }
   }, [cmsGlobalConfig]);
+
   useEffect(() => {
     if (galleryAlbums) {
       const filteredGalleryAlbums = itemId
@@ -135,6 +152,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       setFilteredGalleryAlbums(filteredGalleryAlbums);
     }
   }, [galleryAlbums]);
+
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -378,6 +396,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   const onLanguageListChange = useCallback((selected: any) => {
     setSelectedLanguageCode(selected);
   }, []);
+
   const onDeleteLanguage = useCallback(
     (language: any) => {
       if (language) {
@@ -396,6 +415,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     },
     [selectedLanguageList, languageList, selectedCodes],
   );
+
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       if (formData.show_in != ShowInTypes.TSP) {

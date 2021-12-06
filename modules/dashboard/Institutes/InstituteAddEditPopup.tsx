@@ -151,7 +151,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     return yup.object().shape(
       {
         value: yup
-          .string()
+          .mixed()
           .nullable()
           .notRequired()
           .when('value', {
@@ -170,7 +170,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     return yup.object().shape(
       {
         value: yup
-          .string()
+          .mixed()
           .nullable()
           .notRequired()
           .when('value', {

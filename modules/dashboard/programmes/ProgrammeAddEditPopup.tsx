@@ -26,6 +26,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IProgramme} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -61,20 +62,20 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: institutes, isLoading: isLoadingInstitutes} =
     useFetchInstitutes(instituteFilters);
-
+  const authUser = useAuthUser();
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.label'] as string),
-      logo: yup.string(),
-      row_status: yup.string(),
+      institute_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string)
+        : yup.string(),
     });
   }, []);
 
@@ -107,8 +108,12 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
+  console.log('errors', errors);
   const onSubmit: SubmitHandler<IProgramme> = async (data: IProgramme) => {
     try {
+      if (authUser?.isInstituteUser) {
+        data.institute_id = authUser?.institute_id;
+      }
       if (itemId) {
         await updateProgramme(itemId, data);
         updateSuccessMessage('programme.label');
@@ -172,20 +177,21 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
-        <Grid item xs={6}>
-          <CustomFormSelect
-            required
-            id='institute_id'
-            label={messages['institute.label']}
-            isLoading={isLoadingInstitutes}
-            control={control}
-            options={institutes}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {authUser?.isSystemUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              required
+              id='institute_id'
+              label={messages['institute.label']}
+              isLoading={isLoadingInstitutes}
+              control={control}
+              options={institutes}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomTextInput
             id='code'
