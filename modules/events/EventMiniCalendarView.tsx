@@ -114,8 +114,9 @@ const EventMiniCalendarView = () => {
                 }
                 onNavigate={(e: any) => {
                   const monthNumber = moment(e).month() + 1;
+                  const yearNumber = moment(e).year();
                   setViewFilters((prev)=>{
-                    return {...prev, ...{ month: monthNumber }}
+                    return {...prev, ...{ month: monthNumber, year: yearNumber }}
                   })
                 }}
                 onSelectEvent={onSelectEvent}
