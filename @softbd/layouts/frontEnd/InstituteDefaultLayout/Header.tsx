@@ -7,7 +7,6 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {Login} from '@mui/icons-material';
-/*import LogoCustomizable from '../../../elements/common/LogoCustomizable';*/
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_INSTITUTE_CALENDAR,
@@ -22,14 +21,15 @@ import {
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
 import {Container, Grid} from '@mui/material';
-// import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser, useVendor} from '../../../../@crema/utility/AppHooks';
 import {CurrentInstitute} from '../../../../redux/types/models/Vendor';
 import {niseDomain} from '../../../common/constants';
+import {getHostUrl} from "../../../common/SSOConfig";
 
-interface AppHeaderProps {}
+interface AppHeaderProps {
+}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
@@ -100,14 +100,14 @@ const Header: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <LanguageSwitcher />
+        <LanguageSwitcher/>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         {authUser ? (
-          <GotoDashboardButton />
+          <GotoDashboardButton/>
         ) : (
-          <Link href={niseDomain() + LINK_SIGNUP}>
-            <Login className={classes.menuIcons} />
+          <Link href={niseDomain() + LINK_SIGNUP + '?login_request_from=' + getHostUrl()}>
+            <Login className={classes.menuIcons}/>
             {messages['common.registration_login']}
           </Link>
         )}
@@ -230,15 +230,15 @@ const Header: React.FC<AppHeaderProps> = () => {
 
             <Box className={classes.headerMenuGroup}>
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
-                <LanguageSwitcher />
+                <LanguageSwitcher/>
               </Box>
               {authUser ? (
-                <GotoDashboardButton />
+                <GotoDashboardButton/>
               ) : (
                 <Link
-                  href={niseDomain() + LINK_SIGNUP}
+                  href={niseDomain() + LINK_SIGNUP + '?login_request_from=' + getHostUrl()}
                   className={classes.menuItemRegOrLogin}>
-                  <Login className={classes.menuIcons} />
+                  <Login className={classes.menuIcons}/>
                   {messages['common.registration_login']}
                 </Link>
               )}
@@ -253,7 +253,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                 // color='inherit'
                 className={classes.mobileMenuButton}
                 size='large'>
-                <MoreIcon />
+                <MoreIcon/>
               </IconButton>
             </Box>
           </Container>
