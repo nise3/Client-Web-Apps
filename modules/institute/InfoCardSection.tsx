@@ -8,6 +8,7 @@ import {H4, H5} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import { useDashboardStatistics } from '../../services/global/hooks';
 import {IDashboardStatistics} from '../../shared/Interface/dashboard.interface';
+import {useVendor} from '../../@crema/utility/AppHooks';
 
 const PREFIX = 'InfoCardSection';
 
@@ -67,9 +68,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
 const InfoCardSection = () => {
   const {messages, formatNumber} = useIntl();
-
+  const vendor = useVendor();
   const [instituteInfo, setInstituteInfo] = useState<IDashboardStatistics | null>();
-  let {data: statistics} = useDashboardStatistics();
+  let {data: statistics} = useDashboardStatistics(vendor?.id);
   useEffect(() => {
     setInstituteInfo(statistics);
   }, [statistics]);

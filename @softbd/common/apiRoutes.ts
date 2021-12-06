@@ -3,6 +3,7 @@ export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH = INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
+export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE = INSTITUTE_SERVICE_PATH + '/demanded-courses';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
