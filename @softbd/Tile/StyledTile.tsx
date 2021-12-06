@@ -16,7 +16,7 @@ const StyledTile = (props: IStyledCardProps) => {
     <H3 style={{fontWeight: '500'}}>
     {/*<H3 style={{fontSize: '2.5rem', fontWeight: '500'}}>*/}
       {/*{props.headerNumber}*/}
-      {formatNumber(props.headerNumber as number)}
+      {formatNumber(props.headerNumber || 0 as number)}
     </H3>
     <Text>
     {/*<Text style={{fontSize: '1.563rem'}}>*/}

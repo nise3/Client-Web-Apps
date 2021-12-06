@@ -104,27 +104,27 @@ const StyledTileSection = () => {
       <Grid container className={classes.card} spacing={2}>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={dashStatistics?.total_Course} message={'dashboard.totalCourse'}/>
+                    headerNumber={dashStatistics?.total_course} message={'dashboard.totalCourse'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor2)}
-                    headerNumber={dashStatistics?.total_Enroll} message={'dashboard.totalEnroll'}/>
+                    headerNumber={dashStatistics?.total_enroll} message={'dashboard.totalEnroll'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor3)}
-                    headerNumber={dashStatistics?.total_Certificate_Issue} message={'dashboard.totalCertificateIssue'}/>
+                    headerNumber={dashStatistics?.total_certificate_issue} message={'dashboard.totalCertificateIssue'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor4)}
-                    headerNumber={dashStatistics?.Total_Trending_Course} message={'dashboard.totalTrendingCourse'}/>
+                    headerNumber={dashStatistics?.total_trending_course} message={'dashboard.totalTrendingCourse'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor5)}
-                    headerNumber={dashStatistics?.total_Demand_From_Industry} message={'dashboard.DemandFromIndustry'}/>
+                    headerNumber={dashStatistics?.total_demand_from_industry} message={'dashboard.DemandFromIndustry'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor6)}
-                    headerNumber={dashStatistics?.total_Batch} message={'dashboard.totalNumberOfBatch'}/>
+                    headerNumber={dashStatistics?.total_batch} message={'dashboard.totalNumberOfBatch'}/>
       </Grid>
       <Grid item md={3} sm={3}>
         <StyledTile className={clsx(classes.cardColors, classes.cardColor7)}

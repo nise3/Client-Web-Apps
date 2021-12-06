@@ -34,7 +34,6 @@ const Dashboard = () => {
           { authUser?.isInstituteUser ?
             <Grid item md={5} sm={5}>
               <EventMiniCalendarView />
-              {/*<EventCalendarView views={['month']}/>*/}
             </Grid> : <></>
           }
 

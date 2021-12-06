@@ -10,6 +10,11 @@ import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface
 import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/globalService';
 import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useForm} from 'react-hook-form';
+import {useFetchTrainingCenters} from '../../services/instituteManagement/hooks';
+import {useAuthUser, useVendor} from '../../@crema/utility/AppHooks';
+import RowStatus from '../../@softbd/utilities/RowStatus';
+import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
+import {useIntl} from 'react-intl';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
@@ -18,17 +23,21 @@ const EventMiniCalendarView = () => {
     reset,
     formState: {errors},
   } = useForm<any>();
-
+  const {messages} = useIntl();
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
     type: 'month',
   });
+
+  // const [trainingCenterList, setTrainingCenterList] = useState<Array<ITrainingCenter>>([]);
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
-
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
-
   let {data: events} = useFetchCalenderEvents(viewFilters);
-
+  // const vendor = useAuthUser();
+  const [trainingCenterFilters] = useState({});
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenter} =
+    useFetchTrainingCenters(trainingCenterFilters);
+  console.log('trainingCenters ', trainingCenters);
   useEffect(() => {
     addStartEndPropsToList(events);
   }, [events]);
@@ -39,11 +48,11 @@ const EventMiniCalendarView = () => {
     }
   }, [events]);
 
-  useEffect(() => {
-      reset({
-        inst_id: '1'
-      });
-  }, []);
+  // useEffect(() => {
+  //     reset({
+  //       inst_id: vendor?.id
+  //     });
+  // }, []);
 
   const onSelectEvent = (e: any) => {
     const item = eventsList.find((ev: ICalendar) => ev.id === e.id) as ICalendar;
@@ -57,15 +66,14 @@ const EventMiniCalendarView = () => {
 
   return (
       <Card>
-        <Grid style={{padding: 20}} xs={8} md={8}>
-          <CustomFormSelect
-            id='inst_id'
-            // label={'Institute Calendar'}
-            isLoading={false}
-            control={control}
-            options={[{'id': 1, 'name': 'Institute Calendar'}]}
+        <Grid style={{padding: 20}} xs={12} md={12}>
+          <CustomFilterableSelect
+            id='institute_id'
+            label={messages['common.training_center']}
+            isLoading={isLoadingTrainingCenter}
+            options={trainingCenters}
             optionValueProp={'id'}
-            optionTitleProp={['name']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
