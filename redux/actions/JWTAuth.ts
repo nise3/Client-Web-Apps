@@ -52,11 +52,13 @@ export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode) => {
 
             await cookieInstance.set(
                 COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-                JSON.stringify(tokenData),
+                JSON.stringify({access_token: tokenData.access_token, expires_in: tokenData.expires_in}),
                 {
                     path: '/',
                 },
-            );
+            )
+            let cookie = cookieInstance.get(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+            console.log('cookie', cookie)
             //TODO: temporary
             setDefaultAuthorizationHeader(tokenData?.access_token);
             await dispatch(setAuthAccessTokenData(tokenData));
@@ -80,9 +82,18 @@ export const loadAuthUser = async (
         console.log(ssoTokenData);
         const coreResponse =
             ssoTokenData.userType == UserTypes.YOUTH_USER
-                ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile')
+                ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile', {
+                    headers: {
+                        Authorization: 'Bearer ' + tokenData.access_token
+                    }
+                })
                 : await apiGet(
                     CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + tokenData.access_token
+                        }
+                    }
                 );
         console.log(coreResponse);
 

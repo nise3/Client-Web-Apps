@@ -118,11 +118,9 @@ async function refreshAuthAccessToken() {
     } catch (e) {
       console.log("refreshAuthAccessToken-error", e);
       cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-      window.location.href = getSSOLoginUrl();
     }
   } else {
     cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-    window.location.href = getSSOLoginUrl();
   }
 }
 

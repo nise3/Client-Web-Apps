@@ -1,7 +1,3 @@
-// @ts-ignore
-import cookieInstance from '../libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-
 interface TConfig {
   authUrl: string;
   logoutUrl: string;
@@ -51,17 +47,13 @@ export const getSSOLoginUrl = () => {
 //   );
 // };
 
-export const getSSOLogoutUrl = () => {
+export const getSSOLogoutUrl = (idToken: string) => {
   const origin = getHostUrl();
-
-  const authAccessTokenData = cookieInstance.get(
-    COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-  );
 
   return (
     SSO_CONFIG.logoutUrl +
     '?id_token_hint=' +
-    authAccessTokenData.id_token +
+    idToken +
     '&post_logout_redirect_uri=' +
     origin +
     '/logout' +
