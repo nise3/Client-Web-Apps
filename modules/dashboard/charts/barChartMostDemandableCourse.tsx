@@ -33,7 +33,7 @@ const MostDemandableCourseChart = () => {
       <Card>
         <CardHeader title={messages['dashboard.MostDemandableCourse']}/>
         <CardContent>
-          <BarChart width={500} height={520} data={dashDemandable} layout={ 'vertical'}>
+          <BarChart width={authUser?.isInstituteUser ? 500 : 750 } height={520} data={dashDemandable} layout={ 'vertical'}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number"/>
             <YAxis type="category" dataKey="name"/>
