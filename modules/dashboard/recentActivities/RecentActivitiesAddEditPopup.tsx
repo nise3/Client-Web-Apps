@@ -266,6 +266,10 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         image_alt_title: itemData?.image_alt_title,
         video_id: itemData?.video_id,
         video_url: itemData?.video_url,
+        image_path: itemData?.image_path,
+        grid_image_path: itemData?.grid_image_path,
+        collage_image_path: itemData?.collage_image_path,
+        thumb_image_path: itemData?.thumb_image_path,
         published_at: itemData?.published_at
           ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
           : '',
