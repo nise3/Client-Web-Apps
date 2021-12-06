@@ -125,6 +125,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
     }
   }, [cmsGlobalConfig]);
+
   useEffect(() => {
     if (galleryAlbums) {
       const filteredGalleryAlbums = itemId
@@ -135,6 +136,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       setFilteredGalleryAlbums(filteredGalleryAlbums);
     }
   }, [galleryAlbums]);
+
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -378,6 +380,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   const onLanguageListChange = useCallback((selected: any) => {
     setSelectedLanguageCode(selected);
   }, []);
+
   const onDeleteLanguage = useCallback(
     (language: any) => {
       if (language) {
@@ -396,6 +399,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     },
     [selectedLanguageList, languageList, selectedCodes],
   );
+
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       if (formData.show_in != ShowInTypes.TSP) {
