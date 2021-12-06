@@ -21,6 +21,7 @@ import {
   API_PUBLIC_GALLERY_ALBUMS,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_VISITOR_FEEDBACKS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -170,4 +171,11 @@ export function useFetchBatchesToAssign(courseId: number | null) {
 /** fetches a single FAQ's details */
 export function useFetchFAQ(faqId: number | null) {
   return useAxiosSWR(faqId ? API_ALL_FAQS + '/' + faqId : null);
+}
+
+/** fetches a single user's feedback */
+export function useFetchVisitorFeedback(visitorId: number | null) {
+  return useAxiosSWR(
+    visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
+  );
 }
