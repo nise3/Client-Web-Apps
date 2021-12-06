@@ -8,27 +8,37 @@ import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
 import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/globalService';
-import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useForm} from 'react-hook-form';
+import {useFetchTrainingCenters} from '../../services/instituteManagement/hooks';
+import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
+import {useIntl} from 'react-intl';
+import {useAuthUser, useVendor} from '../../@crema/utility/AppHooks';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
   const {
-    control,
     reset,
     formState: {errors},
   } = useForm<any>();
-
+  const {messages} = useIntl();
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
-    type: 'month',
+    type: 'month'
   });
+  const vendor = useVendor();
+  const authUser = useAuthUser();
+  if (authUser?.isInstituteUser) {
+    viewFilters.institute_id = vendor?.id;
+  }
+
 
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
-
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
-
   let {data: events} = useFetchCalenderEvents(viewFilters);
+
+  const [trainingCenterFilters] = useState({});
+  const {data: trainingCenters, isLoading: isLoadingTrainingCenter} =
+    useFetchTrainingCenters(trainingCenterFilters);
 
   useEffect(() => {
     addStartEndPropsToList(events);
@@ -42,7 +52,7 @@ const EventMiniCalendarView = () => {
 
   useEffect(() => {
       reset({
-        inst_id: '1'
+        inst_id: vendor?.id
       });
   }, []);
 
@@ -56,18 +66,24 @@ const EventMiniCalendarView = () => {
     setIsOpenDetailsView(false);
   };
 
+  // const changeCalendar = (e) => {
+  //   console.log(e);
+  // }
+
   return (
       <Card>
-        <Grid style={{padding: 20}} xs={8} md={8}>
-          <CustomFormSelect
-            id='inst_id'
-            // label={'Institute Calendar'}
-            isLoading={false}
-            control={control}
-            options={[{'id': 1, 'name': 'Institute Calendar'}]}
+        <Grid style={{padding: 20}} xs={12} md={12}>
+          <CustomFilterableSelect
+            id='institute_id'
+            label={messages['common.training_center']}
+            isLoading={isLoadingTrainingCenter}
+            options={trainingCenters}
             optionValueProp={'id'}
-            optionTitleProp={['name']}
+            optionTitleProp={['title']}
             errorInstance={errors}
+            // onChange={(e)=> {
+            //   changeCalendar(e)
+            // }}
           />
         </Grid>
         <CardContent>
