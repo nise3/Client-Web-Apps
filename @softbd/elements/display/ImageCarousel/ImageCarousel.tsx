@@ -136,16 +136,16 @@ const ImageCarousel = ({banners}: Props) => {
       swipeable>
       {banners &&
         banners?.length &&
-        banners.map((banner: any) => {
+        banners.map((banner: any, i) => {
           switch (banner?.banner_template_code) {
             case 'BT_CB':
-              return <BannerTemplateCenterBackground banner={banner} />;
+              return <BannerTemplateCenterBackground key={i} banner={banner} />;
             case 'BT_RL':
-              return <BannerTemplateRightLeft banner={banner} />;
+              return <BannerTemplateRightLeft key={i} banner={banner} />;
             case 'BT_LR':
-              return <BannerTemplateLeftRight banner={banner} />;
+              return <BannerTemplateLeftRight key={i} banner={banner} />;
             default:
-              return <BannerTemplateCenterBackground banner={banner} />;
+              return <BannerTemplateCenterBackground key={i} banner={banner} />;
           }
         })}
     </StyledCarousel>

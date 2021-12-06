@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Box, Button, CardMedia, Container, Grid, Skeleton} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
 import {H3, Link} from '../../@softbd/elements/common';
-import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
 import {
   BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_INSTITUTE_DETAILS,
@@ -17,6 +16,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {useVendor} from '../../@crema/utility/AppHooks';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
+import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'AboutSection';
 
@@ -103,49 +103,50 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const AboutSection = () => {
   const vendor = useVendor();
   const {messages} = useIntl();
-  const [blockData, setBlockData] = useState<any>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
   });
 
+  const [staticPageParams] = useState<any>({
+    show_in: ShowInTypes.TSP,
+    institute_id: vendor?.id,
+  });
+
+  const {data: blockData, isLoading} = useFetchStaticPageBlock(
+    BLOCK_ID_INSTITUTE_DETAILS,
+    staticPageParams,
+  );
+
+  console.log('blockdata-------', blockData);
+
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await getPublicStaticPageOrBlockByPageCode(
-          BLOCK_ID_INSTITUTE_DETAILS,
-          {
-            show_in: ShowInTypes.TSP,
-            institute_id: vendor?.id,
-          },
-        );
+    if (blockData) {
+      if (
+        blockData.attachment_type != ContentTypes.IMAGE &&
+        blockData?.video_url
+      ) {
+        const embeddedUrl = getEmbeddedVideoUrl(blockData?.video_url);
+        setVideoUrl(embeddedUrl);
+      }
 
-        if (response && response.data) {
-          const data = response.data;
-          setBlockData(data);
-
-          if (data.attachment_type != ContentTypes.IMAGE && data?.video_url) {
-            const embeddedUrl = getEmbeddedVideoUrl(data?.video_url);
-            setVideoUrl(embeddedUrl);
-          }
-
-          if (data.template_code == PageBlockTemplateTypes.PBT_RL) {
-            setTemplateConfig({
-              textLeft: false,
-            });
-          } else if (data.template_code == PageBlockTemplateTypes.PBT_LR) {
-            setTemplateConfig({
-              textLeft: true,
-            });
-          }
-        }
-      } catch (e) {}
-    })();
-  }, []);
+      if (blockData.template_code == PageBlockTemplateTypes.PBT_RL) {
+        setTemplateConfig({
+          textLeft: false,
+        });
+      } else if (blockData.template_code == PageBlockTemplateTypes.PBT_LR) {
+        setTemplateConfig({
+          textLeft: true,
+        });
+      }
+    }
+  }, [blockData]);
 
   return (
     <StyledGrid container xl={12} className={classes.root}>
-      {blockData ? (
+      {isLoading ? (
+        <Skeleton variant={'rectangular'} width={'100%'} height={400} />
+      ) : blockData ? (
         <Container maxWidth='lg'>
           <Grid
             container
