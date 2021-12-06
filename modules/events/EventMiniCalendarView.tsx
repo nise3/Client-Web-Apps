@@ -8,36 +8,38 @@ import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
 import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/globalService';
-import CustomFormSelect from '../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useForm} from 'react-hook-form';
 import {useFetchTrainingCenters} from '../../services/instituteManagement/hooks';
-import {useAuthUser, useVendor} from '../../@crema/utility/AppHooks';
-import RowStatus from '../../@softbd/utilities/RowStatus';
 import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
 import {useIntl} from 'react-intl';
+import {useAuthUser, useVendor} from '../../@crema/utility/AppHooks';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
   const {
-    control,
     reset,
     formState: {errors},
   } = useForm<any>();
   const {messages} = useIntl();
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
-    type: 'month',
+    type: 'month'
   });
+  const vendor = useVendor();
+  const authUser = useAuthUser();
+  if (authUser?.isInstituteUser) {
+    viewFilters.institute_id = vendor?.id;
+  }
 
-  // const [trainingCenterList, setTrainingCenterList] = useState<Array<ITrainingCenter>>([]);
+
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
   let {data: events} = useFetchCalenderEvents(viewFilters);
-  // const vendor = useAuthUser();
+
   const [trainingCenterFilters] = useState({});
   const {data: trainingCenters, isLoading: isLoadingTrainingCenter} =
     useFetchTrainingCenters(trainingCenterFilters);
-  console.log('trainingCenters ', trainingCenters);
+
   useEffect(() => {
     addStartEndPropsToList(events);
   }, [events]);
@@ -48,11 +50,11 @@ const EventMiniCalendarView = () => {
     }
   }, [events]);
 
-  // useEffect(() => {
-  //     reset({
-  //       inst_id: vendor?.id
-  //     });
-  // }, []);
+  useEffect(() => {
+      reset({
+        inst_id: vendor?.id
+      });
+  }, []);
 
   const onSelectEvent = (e: any) => {
     const item = eventsList.find((ev: ICalendar) => ev.id === e.id) as ICalendar;
@@ -63,6 +65,10 @@ const EventMiniCalendarView = () => {
   const onClose = () => {
     setIsOpenDetailsView(false);
   };
+
+  // const changeCalendar = (e) => {
+  //   console.log(e);
+  // }
 
   return (
       <Card>
@@ -75,6 +81,9 @@ const EventMiniCalendarView = () => {
             optionValueProp={'id'}
             optionTitleProp={['title']}
             errorInstance={errors}
+            // onChange={(e)=> {
+            //   changeCalendar(e)
+            // }}
           />
         </Grid>
         <CardContent>
