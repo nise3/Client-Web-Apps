@@ -28,8 +28,6 @@ import {
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
-import {useSelector} from "react-redux";
-import {AppState} from "../../../../redux/store";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -62,7 +60,6 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 const YouthProfileMenu = () => {
-  const {authAccessTokenData} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
   const {messages} = useIntl();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -148,7 +145,7 @@ const YouthProfileMenu = () => {
           </MenuItem>
         </Link>
         <Divider />
-        <Link href={getSSOLogoutUrl(authAccessTokenData?.id_token)}>
+        <Link href={getSSOLogoutUrl()}>
           <MenuItem>
             <ListItemIcon>
               <Logout />

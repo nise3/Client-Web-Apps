@@ -9,8 +9,8 @@ export default DefaultPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.signup'] as string} />
-      <SignUpPage />
+      <PageMeta title={messages['common.signup'] as string}/>
+      <SignUpPage/>
     </>
   );
 });

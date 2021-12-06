@@ -12,9 +12,11 @@ import {
 } from '../../@softbd/common/appLinks';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {classes, StyledContainer} from './index.style';
+import {useRouter} from "next/router";
 
 const YouthSignupPage = () => {
   const {messages} = useIntl();
+  const {query} = useRouter();
 
   return (
     <StyledContainer sx={{display: 'flex'}}>
@@ -26,7 +28,7 @@ const YouthSignupPage = () => {
           <Grid item xs={12} sm={4} md={4}>
             <Link href={LINK_YOUTH_SIGNUP}>
               <Box className={clsx(classes.iconBoxYouth, classes.icon)}>
-                <PeopleIcon sx={{color: '#fff'}} />
+                <PeopleIcon sx={{color: '#fff'}}/>
                 <Typography className={classes.text}>
                   {messages['common.youth']}
                 </Typography>
@@ -36,7 +38,7 @@ const YouthSignupPage = () => {
           <Grid item xs={12} sm={4} md={4}>
             <Link href={LINK_INSTITUTE_SIGNUP}>
               <Box className={clsx(classes.iconBoxTc, classes.icon)}>
-                <BusinessIcon style={{color: '#ffffff'}} />
+                <BusinessIcon style={{color: '#ffffff'}}/>
                 <Typography className={classes.text}>
                   {messages['common.training_center']}
                 </Typography>
@@ -46,7 +48,7 @@ const YouthSignupPage = () => {
           <Grid item xs={12} sm={4} md={4}>
             <Link href={LINK_ORGANIZATION_SIGNUP}>
               <Box className={clsx(classes.iconBoxIndustry, classes.icon)}>
-                <BusinessIcon style={{color: '#ffffff'}} />
+                <BusinessIcon style={{color: '#ffffff'}}/>
                 <Typography className={classes.text}>
                   {messages['common.industry']}
                 </Typography>
@@ -57,7 +59,7 @@ const YouthSignupPage = () => {
         <Typography variant={'h6'} align={'right'} mt={4}>
           {messages['common.already_have_account']}{' '}
           <Link
-            href={getSSOLoginUrl()}
+            href={getSSOLoginUrl(query)}
             className={classes.signInStyle}>
             {messages['common.signin_here']}
           </Link>

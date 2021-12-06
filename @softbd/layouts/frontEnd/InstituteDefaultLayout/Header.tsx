@@ -25,7 +25,7 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser, useVendor} from '../../../../@crema/utility/AppHooks';
 import {CurrentInstitute} from '../../../../redux/types/models/Vendor';
-import {niseDomain} from '../../../common/constants';
+import {gotoLoginSignUpPage, niseDomain} from '../../../common/constants';
 import {getHostUrl} from "../../../common/SSOConfig";
 
 interface AppHeaderProps {
@@ -106,7 +106,7 @@ const Header: React.FC<AppHeaderProps> = () => {
         {authUser ? (
           <GotoDashboardButton/>
         ) : (
-          <Link href={niseDomain() + LINK_SIGNUP + '?login_request_from=' + getHostUrl()}>
+          <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
             <Login className={classes.menuIcons}/>
             {messages['common.registration_login']}
           </Link>
@@ -236,7 +236,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                 <GotoDashboardButton/>
               ) : (
                 <Link
-                  href={niseDomain() + LINK_SIGNUP + '?login_request_from=' + getHostUrl()}
+                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
                   className={classes.menuItemRegOrLogin}>
                   <Login className={classes.menuIcons}/>
                   {messages['common.registration_login']}

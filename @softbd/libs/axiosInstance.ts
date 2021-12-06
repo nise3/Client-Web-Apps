@@ -7,6 +7,7 @@ import {
 import cookieInstance from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {getSSOLoginUrl} from '../common/SSOConfig';
+import {cookieDomain} from "../common/constants";
 
 let retryAppRefreshToken = 0;
 const axiosInstance: AxiosInstance = axios.create({
@@ -34,7 +35,7 @@ axiosInstance.interceptors.request.use(
         );
         config.headers[
           'Authorization'
-        ] = `Bearer ${appAccessTokenData?.access_token}`;
+          ] = `Bearer ${appAccessTokenData?.access_token}`;
       }
     }
 
@@ -85,31 +86,32 @@ async function refreshAuthAccessToken() {
   );
 
   var appAccessTokenData = cookieInstance.get(
-      COOKIE_KEY_APP_ACCESS_TOKEN,
+    COOKIE_KEY_APP_ACCESS_TOKEN,
   );
   if (!appAccessTokenData) {
     await refreshAppAccessToken();
     appAccessTokenData = cookieInstance.get(
-        COOKIE_KEY_APP_ACCESS_TOKEN,
+      COOKIE_KEY_APP_ACCESS_TOKEN,
     );
   }
 
   if (authAccessTokenData?.refresh_token) {
     try {
-      let {data: responseTokenData} = await axiosInstance.post(
+      let {data: {id_token, ...responseTokenData}} = await axiosInstance.post(
         'https://core.bus-staging.softbdltd.com/sso-renew-access-token',
         {
           refresh_token: authAccessTokenData.refresh_token,
         },
-          {
-            headers: {
-              Authorization: appAccessTokenData?.access_token
-            }
+        {
+          headers: {
+            Authorization: appAccessTokenData?.access_token
           }
+        }
       );
 
       cookieInstance.set(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, responseTokenData, {
         path: '/',
+        domain: cookieDomain()
       });
 
       //TODO: temporary
@@ -131,6 +133,7 @@ export async function refreshAppAccessToken() {
     });
     cookieInstance.set(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data, {
       path: '/',
+      domain: cookieDomain()
     });
     //TODO: temporary
     setDefaultAuthorizationHeader(response?.data?.access_token);

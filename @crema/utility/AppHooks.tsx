@@ -8,7 +8,7 @@ import {
 } from '../../redux/actions';
 import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
-  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN,
 } from '../../shared/constants/AppConst';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../redux/types/actions/Auth.actions';
@@ -42,7 +42,8 @@ export const useAuthToken = () => {
       const authAccessTokenData = cookieInstance.get(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
       );
-      if (!authAccessTokenData) {
+      const idToken = cookieInstance.get(COOKIE_KEY_AUTH_ID_TOKEN);
+      if (!authAccessTokenData || !idToken) {
         dispatch(fetchSuccess());
         dispatch({type: USER_LOADED});
         return;
@@ -51,7 +52,7 @@ export const useAuthToken = () => {
       //TODO: temporary
       setDefaultAuthorizationHeader(authAccessTokenData?.access_token);
       try {
-        await loadAuthUser(dispatch, authAccessTokenData);
+        await loadAuthUser(dispatch, {...authAccessTokenData, ...{id_token: idToken}});
         dispatch(fetchSuccess());
         return;
       } catch (err) {
@@ -72,9 +73,8 @@ export const useAuthToken = () => {
   return [loading, user];
 };
 
-export const useAuthUser = <
-  T extends AuthUser = CommonAuthUser,
->(): T | null => {
+export const useAuthUser = <T extends AuthUser = CommonAuthUser,
+  >(): T | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {
