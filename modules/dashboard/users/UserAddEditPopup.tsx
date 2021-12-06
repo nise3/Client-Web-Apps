@@ -506,6 +506,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
                 required
                 id='password'
                 label={messages['common.password']}
+                helperText={messages['common.passwordHint']}
                 type={'password'}
                 register={register}
                 errorInstance={errors}

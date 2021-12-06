@@ -61,13 +61,13 @@ const StyledBox = styled(Box)(({theme}) => ({
 }));
 
 const AccessibilityToolbar = () => {
-  console.log('AccessibilityToolbar');
+  // console.log('AccessibilityToolbar');
   const [isOpened, setIsOpened] = useState(false);
   const toggleFn = useCallback(() => {
     setIsOpened(!isOpened);
   }, [isOpened, setIsOpened]);
   const formToggle = useCallback((e) => {
-    console.log('a11y togg', e);
+    // console.log('a11y togg', e);
     document.documentElement.classList.toggle(e.target.name);
   }, []);
   useEffect(() => {

@@ -371,6 +371,7 @@ const OrganizationRegistration = () => {
                 required
                 id='password'
                 type={'password'}
+                helperText={messages['common.passwordHint']}
                 label={messages['common.password']}
                 register={register}
                 errorInstance={errors}

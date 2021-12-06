@@ -94,15 +94,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const EventSection = () => {
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
   const dateFormat = 'YYYY-MM-DD';
 
-  let requestQuery: ICalendarQuery = {
-    type: 'month',
-  };
-
   const [selectedItems, setSelectedItems] = useState<Array<ICalendar>>();
-  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
+    type: 'month',
+  });
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
   const [currentDate, setCurrentDate] = useState<any>(
     moment(Date.now()).format(dateFormat),
@@ -135,7 +133,7 @@ const EventSection = () => {
   };
 
   const onSelectSlot = (e: any) => {
-    console.log('onSelectSlot >>', e, eventsList);
+    // console.log('onSelectSlot >>', e, eventsList);
     setCurrentDate(moment(e.start).format(dateFormat));
     setSelectedDateItems(e.start);
     // console.log(item);
@@ -150,7 +148,7 @@ const EventSection = () => {
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
               <H4 centered className={classes.dateHeader}>
-                {getMomentDateFormat(currentDate, 'dddd, D MMMM YYYY')}
+                {formatDate(currentDate, {dateStyle: 'full'})}
               </H4>
               {selectedItems && selectedItems.length ? (
                 <List>
@@ -192,10 +190,10 @@ const EventSection = () => {
                 defaultDate={moment().toDate()}
                 views={['month']}
                 onView={(view: View) =>
-                  setViewFilters({
-                    ...requestQuery,
+                  setViewFilters((prev) => ({
+                    ...prev,
                     ...{type: view === 'agenda' ? 'schedule' : view},
-                  })
+                  }))
                 }
                 onSelectSlot={onSelectSlot}
               />
