@@ -19,6 +19,7 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
   itemId: number;
@@ -140,23 +141,23 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.main_image_path']}
-              value={itemData?.main_image_path}
+              imageUrl={itemData?.main_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.grid_image_path']}
-              value={itemData?.grid_image_path}
+              imageUrl={itemData?.grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.thumb_image_path']}
-              value={itemData?.thumb_image_path}
+              imageUrl={itemData?.thumb_image_path}
               isLoading={isLoading}
             />
           </Grid>

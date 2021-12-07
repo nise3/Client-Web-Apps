@@ -23,7 +23,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import {niseDomain} from '../../../@softbd/common/constants';
+import {gotoLoginSignUpPage, youthDomain} from '../../../@softbd/common/constants';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -53,7 +53,6 @@ interface CourseDetailsHeaderProps {
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
-  const niseDom = niseDomain();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -101,27 +100,34 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             />
           )}
 
-          {!course?.enrolled ? (
-            <Box mt={4}>
-              <Link
-                href={
-                  authUser
-                    ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
-                    : niseDom + LINK_YOUTH_SIGNUP
-                }>
-                <Button variant={'contained'} color={'primary'}>
-                  {messages['common.enroll_now']}
-                </Button>
-              </Link>
-            </Box>
-          ) : (
-            <Box mt={4}>
-              <CustomChip
-                label={messages['common.already_enrolled']}
-                color={'primary'}
-              />
-            </Box>
-          )}
+          <Box mt={4} mb={3}>
+            {!course?.enrolled ? (
+              course?.enrollable ? (
+                <Link
+                  href={
+                    authUser
+                      ? youthDomain() + LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
+                      : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                  }>
+                  <Button variant={'contained'} color={'primary'}>
+                    {messages['common.enroll_now']}
+                  </Button>
+                </Link>
+              ) : (
+                <CustomChip
+                  label={messages['common.not_available']}
+                  color={'primary'}
+                />
+              )
+            ) : (
+              <Box mt={4}>
+                <CustomChip
+                  label={messages['common.already_enrolled']}
+                  color={'primary'}
+                />
+              </Box>
+            )}
+          </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CardMedia

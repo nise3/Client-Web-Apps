@@ -15,8 +15,6 @@ import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
 import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
 import {Link} from '../../../@softbd/elements/common';
-import {useSelector} from "react-redux";
-import {AppState} from "../../../redux/store";
 
 const PREFIX = 'UserInfo';
 
@@ -80,7 +78,6 @@ const StyledBox = styled(Box)(({theme}) => {
 });
 
 const UserInfo: React.FC = () => {
-  const {authAccessTokenData} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
   const {themeMode} = useContext<AppContextPropsType>(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -149,7 +146,7 @@ const UserInfo: React.FC = () => {
                 onClose={handleClose}>
                 <MenuItem onClick={openDetailsModal}>My account</MenuItem>
                 <MenuItem>
-                  <Link href={getSSOLogoutUrl(authAccessTokenData?.id_token)}>Logout</Link>
+                  <Link href={getSSOLogoutUrl()}>Logout</Link>
                 </MenuItem>
               </Menu>
             </Box>

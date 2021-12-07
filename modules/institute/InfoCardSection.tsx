@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
@@ -6,8 +6,7 @@ import {Assignment, HomeWork, People, PeopleAlt} from '@mui/icons-material';
 import UnderlinedHeading from './UnderlinedHeading';
 import {H4, H5} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import { useDashboardStatistics } from '../../services/global/hooks';
-import {IDashboardStatistics} from '../../shared/Interface/dashboard.interface';
+import {useDashboardStatistics} from '../../services/global/hooks';
 import {useVendor} from '../../@crema/utility/AppHooks';
 
 const PREFIX = 'InfoCardSection';
@@ -69,11 +68,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const InfoCardSection = () => {
   const {messages, formatNumber} = useIntl();
   const vendor = useVendor();
-  const [instituteInfo, setInstituteInfo] = useState<IDashboardStatistics | null>();
   let {data: statistics} = useDashboardStatistics(vendor?.id);
-  useEffect(() => {
-    setInstituteInfo(statistics);
-  }, [statistics]);
 
   return (
     <StyledGrid container xl={12} className={classes.root}>
@@ -90,7 +85,7 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <Assignment className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  {formatNumber(instituteInfo?.total_course | 0 as number)} {messages['institute_home.ti']}
+                  {formatNumber(statistics?.total_course || 0 as number)} {messages['institute_home.ti']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
                   {messages['institute_home.total_course_subject']}
@@ -101,7 +96,7 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <PeopleAlt className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  {formatNumber(instituteInfo?.total_enroll | 0 as number)} {messages['institute_home.people']}
+                  {formatNumber(statistics?.total_enroll || 0 as number)} {messages['institute_home.people']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
                   {messages['institute_home.total_youth_trained']}
@@ -112,7 +107,7 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <HomeWork className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  {formatNumber(instituteInfo?.total_training_centers | 0 as number)} {messages['institute_home.ti']}
+                  {formatNumber(statistics?.total_training_centers || 0 as number)} {messages['institute_home.ti']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
                   {messages['institute_home.total_training_center']}
@@ -123,7 +118,7 @@ const InfoCardSection = () => {
               <Card className={classes.boxItem}>
                 <People className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
-                  {formatNumber(instituteInfo?.total_trainers | 0 as number)} {messages['institute_home.people']}
+                  {formatNumber(statistics?.total_trainers || 0 as number)} {messages['institute_home.people']}
                 </H4>
                 <H5 gutterBottom={true} className={classes.desc}>
                   {messages['institute_home.total_skilled_trainer']}

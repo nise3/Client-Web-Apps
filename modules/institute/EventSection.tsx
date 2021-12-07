@@ -7,13 +7,12 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-// import {Fade} from 'react-awesome-reveal';
+import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from './UnderlinedHeading';
 import {H4} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useEffect, useState} from 'react';
-import {getMomentDateFormat} from '../../@softbd/utilities/helpers';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
@@ -26,7 +25,6 @@ import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
 import {
   addStartEndPropsToList,
   eventsDateTimeMap,
-  getCalenderViewFilter,
 } from '../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
@@ -95,15 +93,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const EventSection = () => {
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
   const dateFormat = 'YYYY-MM-DD';
 
-  let requestQuery: ICalendarQuery = {
-    type: 'month',
-  };
-
   const [selectedItems, setSelectedItems] = useState<Array<ICalendar>>();
-  const [viewFilters, setViewFilters] = useState<ICalendarQuery>(requestQuery);
+  const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
+    type: 'month',
+  });
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
   const [currentDate, setCurrentDate] = useState<any>(
     moment(Date.now()).format(dateFormat),
@@ -142,21 +138,15 @@ const EventSection = () => {
     // console.log(item);
   };
 
-  const onViewEvent = (view: View) => {
-    setViewFilters((prev) => {
-      return getCalenderViewFilter(view, prev);
-    })
-  }
-
   return (
     <StyledContainer maxWidth='lg'>
-      <>
+      <Fade direction='up'>
         <UnderlinedHeading>{messages['menu.events']}</UnderlinedHeading>
         <Card className={classes.gridContainer}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
               <H4 centered className={classes.dateHeader}>
-                {getMomentDateFormat(currentDate, 'dddd, D MMMM YYYY')}
+                {formatDate(currentDate, {dateStyle: 'full'})}
               </H4>
               {selectedItems && selectedItems.length ? (
                 <List>
@@ -169,10 +159,7 @@ const EventSection = () => {
                           secondary={
                             <>
                               <DateRangeIcon className={classes.listIcon} />
-                              {getMomentDateFormat(
-                                selectedItem.start_date,
-                                'D / MM / YYYY',
-                              )}
+                              {formatDate(selectedItem.start_date)}
                             </>
                           }
                         />
@@ -197,13 +184,25 @@ const EventSection = () => {
                 endAccessor='end'
                 defaultDate={moment().toDate()}
                 views={['month']}
-                onView={onViewEvent}
+                onView={(view: View) =>
+                  setViewFilters((prev) => ({
+                    ...prev,
+                    ...{type: view === 'agenda' ? 'schedule' : view},
+                  }))
+                }
                 onSelectSlot={onSelectSlot}
+                onNavigate={(e: any) => {
+                  const year = moment(e).year();
+                  const month = moment(e).month() + 1;
+                  setViewFilters((prev) => {
+                    return {...prev, month, year};
+                  });
+                }}
               />
             </Grid>
           </Grid>
         </Card>
-      </>
+      </Fade>
     </StyledContainer>
   );
 };

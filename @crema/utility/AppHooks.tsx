@@ -8,7 +8,7 @@ import {
 } from '../../redux/actions';
 import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
-  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN,
 } from '../../shared/constants/AppConst';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../redux/types/actions/Auth.actions';
@@ -23,6 +23,9 @@ import {
 } from '../../@softbd/libs/axiosInstance';
 import {CurrentInstitute} from '../../redux/types/models/Vendor';
 
+/**
+ * Get auth access token on app initialized.
+ */
 export const useAuthToken = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -30,11 +33,10 @@ export const useAuthToken = () => {
 
   useEffect(() => {
     const validateAuth = async () => {
-      //TODO: temporary
       const appAccessTokenData = cookieInstance.get(
         COOKIE_KEY_APP_ACCESS_TOKEN,
       );
-      if (!appAccessTokenData && !!appAccessTokenData?.access_token) {
+      if (!appAccessTokenData || !appAccessTokenData?.access_token) {
         await refreshAppAccessToken();
       }
       dispatch(fetchStart());
@@ -42,7 +44,8 @@ export const useAuthToken = () => {
       const authAccessTokenData = cookieInstance.get(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
       );
-      if (!authAccessTokenData) {
+      const idToken = cookieInstance.get(COOKIE_KEY_AUTH_ID_TOKEN);
+      if (!authAccessTokenData || !idToken) {
         dispatch(fetchSuccess());
         dispatch({type: USER_LOADED});
         return;
@@ -51,7 +54,7 @@ export const useAuthToken = () => {
       //TODO: temporary
       setDefaultAuthorizationHeader(authAccessTokenData?.access_token);
       try {
-        await loadAuthUser(dispatch, authAccessTokenData);
+        await loadAuthUser(dispatch, {...authAccessTokenData, ...{id_token: idToken}});
         dispatch(fetchSuccess());
         return;
       } catch (err) {
@@ -72,9 +75,41 @@ export const useAuthToken = () => {
   return [loading, user];
 };
 
-export const useAuthUser = <
-  T extends AuthUser = CommonAuthUser,
->(): T | null => {
+/**
+ * Get app access token on app initialized.
+ */
+export const useAppToken = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const validateAppToken = async () => {
+      try {
+        const appAccessTokenData = cookieInstance.get(
+          COOKIE_KEY_APP_ACCESS_TOKEN,
+        );
+        if (!appAccessTokenData || !appAccessTokenData?.access_token) {
+          await refreshAppAccessToken();
+        }
+        return;
+      } catch (err) {
+        await validateAppToken();
+        return;
+      }
+    };
+
+    const checkAppToken = () => {
+      Promise.all([validateAppToken()]).then(() => {
+        setLoading(false);
+      });
+    };
+    checkAppToken();
+  }, []);
+
+  return [loading];
+};
+
+export const useAuthUser = <T extends AuthUser = CommonAuthUser,
+  >(): T | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {
