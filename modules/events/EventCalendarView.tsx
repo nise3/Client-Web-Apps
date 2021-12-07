@@ -9,7 +9,7 @@ import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButto
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
-import {addStartEndPropsToList, eventsDateTimeMap, getNavigationFilter} from '../../services/global/globalService';
+import {addStartEndPropsToList, eventsDateTimeMap, getCalenderViewFilter, getNavigationFilter} from '../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 const EventCalendarView = () => {
@@ -50,6 +50,11 @@ const EventCalendarView = () => {
       return getNavigationFilter(e, prev);
     })
   }
+  const onViewEvent = (view: View) => {
+    setViewFilters((prev) => {
+      return getCalenderViewFilter(view, prev);
+    })
+  }
 
   return (
     <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
@@ -75,11 +80,7 @@ const EventCalendarView = () => {
                 startAccessor='start'
                 endAccessor='end'
                 defaultDate={moment().toDate()}
-                onView={(view: View) =>
-                  setViewFilters((prev)=>{
-                    return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
-                  })
-                }
+                onView={onViewEvent}
                 onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
               />

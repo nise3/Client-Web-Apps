@@ -26,6 +26,7 @@ import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
 import {
   addStartEndPropsToList,
   eventsDateTimeMap,
+  getCalenderViewFilter,
 } from '../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
@@ -135,16 +136,21 @@ const EventSection = () => {
   };
 
   const onSelectSlot = (e: any) => {
-    console.log('onSelectSlot >>', e, eventsList);
+    // console.log('onSelectSlot >>', e, eventsList);
     setCurrentDate(moment(e.start).format(dateFormat));
     setSelectedDateItems(e.start);
     // console.log(item);
   };
 
+  const onViewEvent = (view: View) => {
+    setViewFilters((prev) => {
+      return getCalenderViewFilter(view, prev);
+    })
+  }
+
   return (
     <StyledContainer maxWidth='lg'>
       <>
-        {/*Fade direction='up'*/}
         <UnderlinedHeading>{messages['menu.events']}</UnderlinedHeading>
         <Card className={classes.gridContainer}>
           <Grid container spacing={4}>
@@ -191,12 +197,7 @@ const EventSection = () => {
                 endAccessor='end'
                 defaultDate={moment().toDate()}
                 views={['month']}
-                onView={(view: View) =>
-                  setViewFilters({
-                    ...requestQuery,
-                    ...{type: view === 'agenda' ? 'schedule' : view},
-                  })
-                }
+                onView={onViewEvent}
                 onSelectSlot={onSelectSlot}
               />
             </Grid>
