@@ -70,7 +70,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 const CourseListSection = () => {
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState('recent');
-  const URL = `/youth/course-list/${selectedValue}`;
+  const URL = `/course-list/${selectedValue}`;
   const authYouth = useAuthUser<YouthAuthUser>();
 
   const [courseFilters, setCourseFilters] = useState({page_size: 3});
