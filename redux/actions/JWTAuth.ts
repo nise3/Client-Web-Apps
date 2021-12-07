@@ -35,7 +35,6 @@ import {getHostUrl, paramsBuilder} from '../../@softbd/common/SSOConfig';
 import {IOrganization} from '../../shared/Interface/organization.interface';
 import {IInstitute} from '../../shared/Interface/institute.interface';
 import {IRole} from '../../shared/Interface/userManagement.interface';
-import {cookieDomain} from '../../@softbd/common/constants';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -70,17 +69,10 @@ export const onSSOSignInCallback = (
         JSON.stringify({
           access_token: tokenData.access_token,
           expires_in: tokenData.expires_in,
-        }),
-        {
-          path: '/',
-          domain: cookieDomain(),
-        },
+        })
       );
 
-      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
-        path: '/',
-        domain: cookieDomain(),
-      });
+      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token);
 
       //TODO: temporary
       setDefaultAuthorizationHeader(tokenData?.access_token);

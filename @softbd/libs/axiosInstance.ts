@@ -11,7 +11,6 @@ import {
 } from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {getSSOLoginUrl} from '../common/SSOConfig';
-import {cookieDomain} from '../common/constants';
 
 let retryAuthRefreshToken = 0;
 const axiosInstance: AxiosInstance = axios.create({
@@ -111,10 +110,7 @@ async function refreshAuthAccessToken() {
         },
       );
 
-      setBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, responseTokenData, {
-        path: '/',
-        domain: cookieDomain(),
-      });
+      setBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, responseTokenData);
 
       //TODO: temporary
       setDefaultAuthorizationHeader(responseTokenData.access_token);
@@ -133,10 +129,7 @@ export async function refreshAppAccessToken() {
     let response = await getAppAccessToken({
       throwError: true,
     });
-    setBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data, {
-      path: '/',
-      domain: cookieDomain(),
-    });
+    setBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data);
     //TODO: temporary
     setDefaultAuthorizationHeader(response?.data?.access_token);
   } catch (e) {

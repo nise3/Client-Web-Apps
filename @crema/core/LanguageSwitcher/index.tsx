@@ -11,7 +11,6 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
-import {cookieDomain} from '../../../@softbd/common/constants';
 
 const PREFIX = 'LanguageSwitcher';
 
@@ -93,10 +92,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     } else {
       setRTL!(false);
     }
-    setBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG, language.locale, {
-      path: '/',
-      domain: cookieDomain()
-    });
+    setBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG, language.locale);
     changeLocale!(language);
     setAnchorElLng(null);
   };
