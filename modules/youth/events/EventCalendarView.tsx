@@ -10,7 +10,7 @@ import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {addStartEndPropsToList, eventsDateTimeMap} from '../../../services/global/globalService';
+import {addStartEndPropsToList, eventsDateTimeMap, getCalenderViewFilter} from '../../../services/global/globalService';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
 
 const localizer = momentLocalizer(moment);
@@ -55,6 +55,11 @@ const YouthEventCalendarView = () => {
   const onClose = () => {
     setIsOpenDetailsView(false);
   };
+  const onViewEvent = (view: View) => {
+    setViewFilters((prev) => {
+      return getCalenderViewFilter(view, prev);
+    })
+  }
 
   return (
     <Card>
@@ -80,11 +85,7 @@ const YouthEventCalendarView = () => {
               startAccessor='start'
               endAccessor='end'
               defaultDate={moment().toDate()}
-              onView={(view: View) =>
-                setViewFilters((prev)=>{
-                  return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
-                })
-              }
+              onView={onViewEvent}
               onSelectEvent={onSelectEvent}
             />
           )}

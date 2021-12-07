@@ -9,7 +9,7 @@ import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList, getNavigationFilter} from '../../../services/global/globalService';
+import {addStartEndPropsToList, getCalenderViewFilter, getNavigationFilter} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 
@@ -116,6 +116,11 @@ const EventCalendar = () => {
       return getNavigationFilter(e, prev);
     })
   }
+  const onViewEvent = (view: View) => {
+    setViewFilters((prev) => {
+      return getCalenderViewFilter(view, prev);
+    })
+  }
 
   return (
     <>
@@ -129,9 +134,7 @@ const EventCalendar = () => {
           startAccessor='start'
           endAccessor='end'
           defaultDate={moment().toDate()}
-          onView={(view: View) =>
-            setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
-          }
+          onView={onViewEvent}
           onNavigate={onNavigateEvent}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
