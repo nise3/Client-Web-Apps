@@ -15,6 +15,7 @@ import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import SliderTemplateShowTypes from './SliderTemplateShowTypes';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
   itemId: number;
@@ -114,6 +115,14 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['slider.banner_template_code']}
               value={getTemplateCodeTitle(itemData?.banner_template_code)}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <ImageView
+              label={messages['common.image_path']}
+              imageUrl={itemData?.banner_image_path}
               isLoading={isLoading}
             />
           </Grid>

@@ -19,6 +19,7 @@ import StaticPageTypes from './StaticPageTypes';
 import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplateTypes';
 import ContentTypes from '../recentActivities/ContentTypes';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
   pageCode: string;
@@ -233,9 +234,9 @@ const StaticPageDetailsPopup = ({
                   {itemData?.attachment_type == ContentTypes.IMAGE && (
                     <React.Fragment>
                       <Grid item xs={12} md={6}>
-                        <DetailsInputView
+                        <ImageView
                           label={messages['common.image_path']}
-                          value={itemData?.image_path}
+                          imageUrl={itemData?.image_path}
                           isLoading={isLoading}
                         />
                       </Grid>
