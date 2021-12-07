@@ -6,11 +6,14 @@ import {useRouter} from 'next/router';
 import {niseDomain} from "../../@softbd/common/constants";
 import {CommonAuthUser} from "../../redux/types/models/CommonAuthUser";
 import NiseFrontPage from "../../@softbd/layouts/hoc/NiseFrontPage";
+import {Loader} from "../../@crema";
 import cookieInstance from "../../@softbd/libs/cookieInstance";
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN} from "../../shared/constants/AppConst";
-import {Loader} from "../../@crema";
 
 export default NiseFrontPage(() => {
+  cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+  cookieInstance.remove(COOKIE_KEY_AUTH_ID_TOKEN);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const authUser = useAuthUser<CommonAuthUser>();
@@ -19,8 +22,6 @@ export default NiseFrontPage(() => {
   useEffect(() => {
     if (authUser) {
       dispatch(onJWTAuthSignout());
-      cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-      cookieInstance.remove(COOKIE_KEY_AUTH_ID_TOKEN);
       setStaleAuthUser(authUser);
     } else {
       if (staleAuthUser?.institute?.domain) {
