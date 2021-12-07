@@ -19,7 +19,7 @@ import {
   createCalendar,
   updateCalendar,
 } from '../../../services/cmsManagement/EventService';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -58,6 +58,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
+  const vendor = useVendor();
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
@@ -123,8 +124,10 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         : `${data.end_time}:00`;
     }
 
+    if (authUser?.isInstituteUser){
+      data.institute_id = vendor?.id;
+    }
 
-    data.institute_id = authUser?.institute_id;
     try {
       if (itemId) {
         await updateCalendar(itemId, data);
