@@ -4,7 +4,7 @@ import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from './UnderlinedHeading';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {useFetchInstitutesGallery} from '../../services/instituteManagement/hooks';
+import {useFetchInstitutesPublicGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';
 import {Link} from '../../@softbd/elements/common';
 import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../@softbd/common/appLinks';
@@ -13,6 +13,7 @@ import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
 import {useVendor} from '../../@crema/utility/AppHooks';
 import BoxCardsSkeleton from './Components/BoxCardsSkeleton';
+import RowStatus from '../../@softbd/utilities/RowStatus';
 
 const PREFIX = 'GallerySection';
 
@@ -55,9 +56,12 @@ const GallerySection = () => {
     only_parent_gallery_album: 1,
     page_size: pageSize,
     institute_id: vendor?.id,
+    row_status: RowStatus.ACTIVE,
   });
+
   const {data: galleryItems, isLoading: isLoadingGallery} =
-    useFetchInstitutesGallery(galleryFilter);
+    useFetchInstitutesPublicGallery(galleryFilter);
+
   return (
     <StyledContainer maxWidth='lg'>
       <Grid container mt={{xs: 5}}>
