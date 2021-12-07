@@ -2,8 +2,8 @@ import {startCase as lodashStartCase} from 'lodash';
 import moment from 'moment';
 import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
 import ShowInTypes from './ShowInTypes';
-import cookieInstance from "../libs/cookieInstance";
-import {COOKIE_KEY_INSTITUTE_ID} from "../../shared/constants/AppConst";
+import {getBrowserCookie} from '../libs/cookieInstance';
+import {COOKIE_KEY_INSTITUTE_ID} from '../../shared/constants/AppConst';
 import {getHostUrl} from '../common/SSOConfig';
 import {niseDomain, youthDomain} from '../common/constants';
 
@@ -422,5 +422,5 @@ export const getEmbeddedVideoUrl = (video_url: any) => {
 };
 
 export const getInstituteIdByDomain = (cookies?: any) => {
-    return cookies && cookies?.institute_id ? cookies.institute_id : cookieInstance.get(COOKIE_KEY_INSTITUTE_ID) || 40;
+    return cookies && cookies?.institute_id ? cookies.institute_id : getBrowserCookie(COOKIE_KEY_INSTITUTE_ID) || 40;
 }

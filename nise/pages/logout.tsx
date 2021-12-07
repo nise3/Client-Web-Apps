@@ -3,16 +3,19 @@ import {useEffect, useState} from 'react';
 import {onJWTAuthSignout} from '../../redux/actions';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {useRouter} from 'next/router';
-import {niseDomain} from "../../@softbd/common/constants";
-import {CommonAuthUser} from "../../redux/types/models/CommonAuthUser";
-import NiseFrontPage from "../../@softbd/layouts/hoc/NiseFrontPage";
-import {Loader} from "../../@crema";
-import cookieInstance from "../../@softbd/libs/cookieInstance";
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN} from "../../shared/constants/AppConst";
+import {niseDomain} from '../../@softbd/common/constants';
+import {CommonAuthUser} from '../../redux/types/models/CommonAuthUser';
+import NiseFrontPage from '../../@softbd/layouts/hoc/NiseFrontPage';
+import {Loader} from '../../@crema';
+import {removeBrowserCookie} from '../../@softbd/libs/cookieInstance';
+import {
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+} from '../../shared/constants/AppConst';
 
 export default NiseFrontPage(() => {
-  cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-  cookieInstance.remove(COOKIE_KEY_AUTH_ID_TOKEN);
+  removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+  removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
 
   const dispatch = useDispatch();
   const router = useRouter();

@@ -13,7 +13,7 @@ import {
 } from '../../../shared/constants/AppEnums';
 import theme from '../../../@softbd/layouts/themes/dashboard';
 import defaultTheme from '../../../@softbd/layouts/themes/default';
-import cookieInstance from '../../../@softbd/libs/cookieInstance';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 import languageData from '../../core/LanguageSwitcher/data';
 
@@ -22,7 +22,7 @@ const ContextProvider: React.FC<React.ReactNode> = ({children}) => {
     theme(defaultTheme(defaultConfig.locale)),
   );
 
-  const language = cookieInstance.get(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
   const locale = languageData.find((item: any) => item.locale === language);
 
   const ContextState = {

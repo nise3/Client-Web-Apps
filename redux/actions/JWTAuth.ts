@@ -19,7 +19,10 @@ import {
   YOUTH_SERVICE_PATH,
 } from '../../@softbd/common/apiRoutes';
 import UserTypes from '../../@softbd/utilities/UserTypes';
-import cookieInstance from '../../@softbd/libs/cookieInstance';
+import {
+  removeBrowserCookie,
+  setBrowserCookie,
+} from '../../@softbd/libs/cookieInstance';
 import {Gender} from '../../@softbd/utilities/Genders';
 import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
 import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
@@ -62,7 +65,7 @@ export const onSSOSignInCallback = (
         },
       );
 
-      await cookieInstance.set(
+      await setBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify({
           access_token: tokenData.access_token,
@@ -74,7 +77,7 @@ export const onSSOSignInCallback = (
         },
       );
 
-      await cookieInstance.set(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
+      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
         path: '/',
         domain: cookieDomain(),
       });
@@ -325,8 +328,8 @@ export const onJWTAuthSignout = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchStart());
     dispatch({type: SIGNOUT_AUTH_SUCCESS});
-    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-    cookieInstance.remove(COOKIE_KEY_AUTH_ID_TOKEN);
+    removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
     dispatch(fetchSuccess());
     console.log('logged out.');
   };
