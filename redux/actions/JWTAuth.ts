@@ -1,6 +1,9 @@
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN} from '../../shared/constants/AppConst';
+import {
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+} from '../../shared/constants/AppConst';
 import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 import {AppActions} from '../types';
 import {Dispatch} from 'redux';
@@ -29,7 +32,7 @@ import {getHostUrl, paramsBuilder} from '../../@softbd/common/SSOConfig';
 import {IOrganization} from '../../shared/Interface/organization.interface';
 import {IInstitute} from '../../shared/Interface/institute.interface';
 import {IRole} from '../../shared/Interface/userManagement.interface';
-import { cookieDomain } from '../../@softbd/common/constants';
+import {cookieDomain} from '../../@softbd/common/constants';
 
 type TOnSSOSignInCallback = {
   access_token: string; // Inorder to consume api, use access token to authorize.
@@ -40,7 +43,10 @@ type TOnSSOSignInCallback = {
 
 type TOnSSOSignInCallbackCode = string;
 
-export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode, redirected_from?: string) => {
+export const onSSOSignInCallback = (
+  code: TOnSSOSignInCallbackCode,
+  redirected_from?: string,
+) => {
   return async (dispatch: Dispatch<AppActions>) => {
     const redirectUrl = new URL(getHostUrl() + '/callback');
     if (redirected_from) {
@@ -48,7 +54,7 @@ export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode, redirected_f
     }
 
     try {
-      const {data: tokenData}: { data: TOnSSOSignInCallback } = await axios.post(
+      const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
         'https://core.bus-staging.softbdltd.com/sso-authorize-code-grant',
         {
           code,
@@ -58,21 +64,20 @@ export const onSSOSignInCallback = (code: TOnSSOSignInCallbackCode, redirected_f
 
       await cookieInstance.set(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-        JSON.stringify({access_token: tokenData.access_token, expires_in: tokenData.expires_in}),
+        JSON.stringify({
+          access_token: tokenData.access_token,
+          expires_in: tokenData.expires_in,
+        }),
         {
           path: '/',
-          domain: cookieDomain()
+          domain: cookieDomain(),
         },
-      )
+      );
 
-      await cookieInstance.set(
-        COOKIE_KEY_AUTH_ID_TOKEN,
-        tokenData.id_token,
-        {
-          path: '/',
-          domain: cookieDomain()
-        },
-      )
+      await cookieInstance.set(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
+        path: '/',
+        domain: cookieDomain(),
+      });
 
       //TODO: temporary
       setDefaultAuthorizationHeader(tokenData?.access_token);
@@ -101,18 +106,18 @@ export const loadAuthUser = async (
     const coreResponse =
       ssoTokenData.userType == UserTypes.YOUTH_USER
         ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile', {
-          headers: {
-            Authorization: 'Bearer ' + tokenData.access_token
-          }
-        })
-        : await apiGet(
-          CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
-          {
             headers: {
-              Authorization: 'Bearer ' + tokenData.access_token
-            }
-          }
-        );
+              Authorization: 'Bearer ' + tokenData.access_token,
+            },
+          })
+        : await apiGet(
+            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+            {
+              headers: {
+                Authorization: 'Bearer ' + tokenData.access_token,
+              },
+            },
+          );
     console.log(coreResponse);
 
     const {data} = coreResponse.data;
@@ -140,7 +145,7 @@ export const setAuthAccessTokenData = (
 type TAuthUserSSOResponse = {
   sub: string;
   upn: string;
-  id: string | number;
+  user_id: string | number;
   given_name: string;
   family_name: string;
   userType: 'system' | 'institute' | 'organization' | 'youth';
@@ -156,7 +161,8 @@ type TAuthUserSSOResponse = {
   email?: string;
   username: string;
   permissions: string[];
-  photoURL?: string;
+  profile_pic?: string;
+  name?: string;
   institute_user_type?: string;
   training_center_id?: number;
   branch_id?: number;
@@ -224,7 +230,7 @@ export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
   return {
-    userId: authUser?.id,
+    userId: authUser?.user_id,
     isYouthUser: false,
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
@@ -241,7 +247,8 @@ export const getCommonAuthUserObject = (
     uid: authUser.sub,
     username: authUser.username,
     permissions: authUser.permissions,
-    photoURL: authUser?.photoURL,
+    profile_pic: authUser?.profile_pic,
+    name: authUser?.name,
     institute_user_type: authUser?.institute_user_type,
     training_center_id: authUser?.training_center_id,
     branch_id: authUser?.branch_id,
@@ -323,4 +330,3 @@ export const onJWTAuthSignout = () => {
     console.log('logged out.');
   };
 };
-

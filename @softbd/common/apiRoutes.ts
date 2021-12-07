@@ -2,8 +2,10 @@ export const API_BASE_URL = 'https://gateway.bus-staging.softbdltd.com';
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
-export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH = INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
-export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE = INSTITUTE_SERVICE_PATH + '/demanded-courses';
+export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
+  INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
+export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
+  INSTITUTE_SERVICE_PATH + '/demanded-courses';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
@@ -20,6 +22,7 @@ export const API_PERMISSION_SUB_GROUPS =
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
+export const PROFILE_UPDATE = '/profile-update';
 
 export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';

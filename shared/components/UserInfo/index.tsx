@@ -121,8 +121,8 @@ const UserInfo: React.FC = () => {
   return (
     <StyledBox>
       <Box display='flex' alignItems='center'>
-        {user && user.photoURL ? (
-          <Avatar className={classes.profilePic} src={user.photoURL} />
+        {user && user?.profile_pic ? (
+          <Avatar className={classes.profilePic} src={user.profile_pic} />
         ) : (
           <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>
         )}

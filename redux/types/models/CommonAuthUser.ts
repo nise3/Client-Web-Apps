@@ -35,6 +35,8 @@ export interface CommonAuthUser extends AuthUser {
   institute_user_type?: string;
   training_center_id?: number;
   branch_id?: number;
+  profile_pic?: string;
+  name?: string;
 }
 
 export interface YouthAuthUser extends AuthUser {

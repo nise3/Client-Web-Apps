@@ -1,15 +1,24 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {styled} from '@mui/material/styles';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
 import IconUser from '../../../@softbd/icons/IconUser';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import yup from '../../../@softbd/libs/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
+import FileUploadComponent from '../../../modules/filepond/FileUploadComponent';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {updateProfile} from '../../../services/userManagement/UserService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {useDispatch} from 'react-redux';
+import {UPDATE_AUTH_USER} from '../../../redux/types/actions/Auth.actions';
+import {getCommonAuthUserObject} from '../../../redux/actions';
 
 const PREFIX = 'UserInfoEditPopup';
 
@@ -29,32 +38,64 @@ interface UserInfoEditPopupProps {
 }
 
 const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
-  const [profileImage, setProfileImage] = useState<any>(
-    '/images/userPageImages/profileImage.jpeg',
-  );
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
+  const {updateSuccessMessage} = useSuccessMessage();
+  const authUser = useAuthUser();
+  const dispatch = useDispatch();
 
-  const imageHandler = (event: any) => {
-    console.log(event);
-    const reader = new FileReader();
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      name_en: yup
+        .string()
+        .title('en')
+        .label(messages['common.name_en'] as string),
+      name: yup
+        .string()
+        .title()
+        .label(messages['common.name'] as string),
+    });
+  }, [messages]);
 
-    reader.onload = () => {
-      if (reader.readyState == 2) {
-        setProfileImage(reader.result);
-        console.log(reader.result);
-      }
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  };
   const {
     register,
+    reset,
     handleSubmit,
+    setError,
+    setValue,
     formState: {errors, isSubmitting},
-  } = useForm<any>();
+  } = useForm<any>({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const isLoading = false;
+  useEffect(() => {
+    if (authUser) {
+      reset({
+        name: authUser?.name,
+        name_en: authUser?.displayName,
+        profile_pic: authUser?.profile_pic,
+      });
+    }
+  }, [authUser]);
 
-  const onSubmit: SubmitHandler<any> = async (data: []) => {};
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    try {
+      if (authUser?.userId) {
+        const userId: number = Number(authUser?.userId);
+        await updateProfile(userId, data);
+        updateSuccessMessage('user.label');
+        data.displayName = data.name_en;
+        data.user_id = userId;
+        dispatch({
+          type: UPDATE_AUTH_USER,
+          payload: getCommonAuthUserObject({...authUser, ...data}),
+        });
+        props.onClose();
+      }
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
+  };
 
   return (
     <StyledHookFormMuiModal
@@ -78,71 +119,34 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <Avatar className={classes.ProfileImage} src={profileImage} />
-          <label htmlFor='contained-button-file'>
-            <Button variant='contained' color='primary' component='label'>
-              Upload
-              <input
-                type='file'
-                accept='image/*'
-                onChange={imageHandler}
-                hidden
-              />
-            </Button>
-          </label>
+          <FileUploadComponent
+            id='profile_pic'
+            defaultFileUrl={authUser?.profile_pic}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['common.profile_picture_upload']}
+            required={false}
+          />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
-            id='title_en'
+            required
+            id='name'
+            label={messages['common.name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            required
+            id='name_en'
             label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='title_bn'
-            label={messages['common.title_bn']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='username'
-            label={messages['user.username']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='email'
-            label={messages['common.email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='mobile'
-            label={messages['common.mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='role'
-            label={messages['role.label']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
+            isLoading={false}
           />
         </Grid>
       </Grid>
