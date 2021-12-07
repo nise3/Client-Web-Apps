@@ -1230,9 +1230,8 @@ const YouthCourseRegistrationPage = () => {
           delete data.freedom_fighter_status;
         }
 
-        if (!visibleFormConfigKeys.includes(CourseConfigKeys.DISABILITY_KEY)) {
-          if (!data?.physical_disability_status)
-            data.physical_disability_status = PhysicalDisabilityStatus.NO;
+        if (!data?.physical_disability_status) {
+          data.physical_disability_status = PhysicalDisabilityStatus.NO;
           delete data.physical_disabilities;
         }
 

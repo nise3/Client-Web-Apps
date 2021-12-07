@@ -273,7 +273,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.overview']}
               </Box>
 
-              <Typography sx={{paddingTop: 4}}>{course?.objectives}</Typography>
+              <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
             </Box>
 
             <Box ref={lessonRef} style={{marginTop: 20, marginBottom: 20}}>
