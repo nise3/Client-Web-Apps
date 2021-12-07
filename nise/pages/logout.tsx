@@ -8,6 +8,7 @@ import {CommonAuthUser} from "../../redux/types/models/CommonAuthUser";
 import NiseFrontPage from "../../@softbd/layouts/hoc/NiseFrontPage";
 import cookieInstance from "../../@softbd/libs/cookieInstance";
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN} from "../../shared/constants/AppConst";
+import {Loader} from "../../@crema";
 
 export default NiseFrontPage(() => {
   const dispatch = useDispatch();
@@ -25,12 +26,12 @@ export default NiseFrontPage(() => {
       if (staleAuthUser?.institute?.domain) {
         const logoutUrl = new URL(staleAuthUser?.institute?.domain);
         logoutUrl.pathname = '/logout';
-        router.push(logoutUrl.toString());
+        window.location.href = logoutUrl.toString();
       } else {
         router.push(niseDomain());
       }
     }
   }, [dispatch, authUser, staleAuthUser]);
 
-  return <></>;
+  return <Loader/>;
 });

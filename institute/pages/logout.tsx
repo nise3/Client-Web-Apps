@@ -3,13 +3,11 @@ import {useEffect} from 'react';
 import {onJWTAuthSignout} from '../../redux/actions';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {useRouter} from 'next/router';
-import cookieInstance from '../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {instituteDomain} from "../../@softbd/common/constants";
+import InstituteFrontPage from "../../@softbd/layouts/hoc/InstituteDefaultFrontPage";
+import {Loader} from "../../@crema";
 
-export default () => {
-    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-
+export default InstituteFrontPage(() => {
     const router = useRouter();
     const authUser = useAuthUser();
 
@@ -23,5 +21,5 @@ export default () => {
         }
     }, [dispatch, authUser]);
 
-    return <></>;
-};
+    return <Loader/>;
+});
