@@ -10,7 +10,12 @@ import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H3} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList, eventsDateTimeMap} from '../../../services/global/globalService';
+import {
+  addStartEndPropsToList,
+  eventsDateTimeMap,
+  getCalenderViewFilter,
+  getNavigationFilter,
+} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 
@@ -52,10 +57,21 @@ const InstituteEventCalendarView = () => {
     setIsOpenDetailsView(false);
   };
 
+  const onNavigateEvent = (e: any) => {
+    setViewFilters((prev) => {
+      return getNavigationFilter(e, prev);
+    })
+  }
+
+  const onViewEvent = (view: View) => {
+    setViewFilters((prev) => {
+      return getCalenderViewFilter(view, prev);
+    })
+  }
+
   return (
     <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
       <Card>
-        {/*<CardHeader title={<H3>Calendar</H3>} />*/}
         <CardHeader title={<H3>{messages['menu.calendar']}</H3>} />
         <CardContent>
           <Grid item xs={12} md={12} style={{paddingTop: 20}}>
@@ -77,18 +93,8 @@ const InstituteEventCalendarView = () => {
                 startAccessor='start'
                 endAccessor='end'
                 defaultDate={moment().toDate()}
-                onView={(view: View) =>
-                  setViewFilters((prev)=>{
-                    return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
-                  })
-                }
-                onNavigate={(e: any) => {
-                  const monthNumber = moment(e).month() + 1;
-                  const yearNumber = moment(e).year();
-                  setViewFilters((prev)=>{
-                    return {...prev, ...{ month: monthNumber, year: yearNumber }}
-                  })
-                }}
+                onView={onViewEvent}
+                onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
               />
             )}

@@ -9,7 +9,7 @@ import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList} from '../../../services/global/globalService';
+import {addStartEndPropsToList, getNavigationFilter} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 
@@ -111,6 +111,11 @@ const EventCalendar = () => {
   const onSelectEvent = (e: any) => {
     openDetailsModal(e.id as number);
   };
+  const onNavigateEvent = (e: any) => {
+    setViewFilters((prev) => {
+      return getNavigationFilter(e, prev);
+    })
+  }
 
   return (
     <>
@@ -127,11 +132,7 @@ const EventCalendar = () => {
           onView={(view: View) =>
             setViewFilters({...requestQuery, ...{type: view === 'agenda' ? 'schedule' : view}})
           }
-          onNavigate={(e: any) => {
-            const monthNumber = moment(e).month() + 1;
-            const yearNumber = moment(e).year();
-            setViewFilters({...requestQuery, ...{ month: monthNumber, year: yearNumber }})
-          }}
+          onNavigate={onNavigateEvent}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
         />

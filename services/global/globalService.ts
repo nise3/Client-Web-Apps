@@ -2,6 +2,7 @@ import moment from 'moment';
 import {DATE_FORMAT, TIME_FORMAT} from '../../@softbd/utilities/DateTime';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {ICalendar} from '../../shared/Interface/common.interface';
+import {View} from 'react-big-calendar';
 
 export const addStartEndPropsToList = (events: ICalendar[]) => {
   try {
@@ -28,6 +29,14 @@ export const formatDateTime = (itemData: ICalendar) => {
   }
 };
 
+export const getNavigationFilter = (event: any, prev: any) => {
+  const monthNumber = moment(event).month() + 1;
+  const yearNumber = moment(event).year();
+  return {...prev, ...{ month: monthNumber, year: yearNumber }}
+}
+export const getCalenderViewFilter = (view: View, prev: any) => {
+  return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}};
+}
 export const eventsDateTimeMap = (events: ICalendar[]) => {
   return (events || []).map((e: any) => {
     const start = e?.start_time ? `${e?.start}T${e.start_time}` : `${e?.start}`;
