@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react';
 import Router, {useRouter} from 'next/router';
-import {
-  initialUrl,
-} from '../../../../shared/constants/AppConst';
 import Loader from '../../../../@crema/core/Loader';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../../../redux/store';
 import {adminDomain, youthDomain} from "../../../common/constants";
+import {LINK_FRONTEND_YOUTH_FEED} from "../../../common/appLinks";
 
 const withData = (ComposedComponent: any) => (props: any) => {
   const {user: authUser, loading} = useSelector<AppState, AppState['auth']>(
@@ -19,7 +17,7 @@ const withData = (ComposedComponent: any) => (props: any) => {
     if (authUser) {
       if (authUser?.isYouthUser) {
         Router.push(
-          youthDomain() + (queryParams ? '?' + queryParams : ''),
+          youthDomain() + LINK_FRONTEND_YOUTH_FEED + (queryParams ? '?' + queryParams : ''),
         );
       } else if (
         authUser?.isSystemUser ||
@@ -30,7 +28,10 @@ const withData = (ComposedComponent: any) => (props: any) => {
           adminDomain() + (queryParams ? '?' + queryParams : ''),
         );
       } else {
-        Router.push(initialUrl + (queryParams ? '?' + queryParams : ''));
+        //TODO: will change logic latter.
+        Router.push(
+          adminDomain() + (queryParams ? '?' + queryParams : ''),
+        );
       }
     }
   }, [authUser]);

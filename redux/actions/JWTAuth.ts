@@ -319,6 +319,7 @@ export const onJWTAuthSignout = () => {
     dispatch(fetchStart());
     dispatch({type: SIGNOUT_AUTH_SUCCESS});
     cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    cookieInstance.remove(COOKIE_KEY_AUTH_ID_TOKEN);
     dispatch(fetchSuccess());
     console.log('logged out.');
   };

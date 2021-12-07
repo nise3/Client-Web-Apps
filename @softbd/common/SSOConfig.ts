@@ -1,6 +1,7 @@
 import {ParsedUrlQuery} from "querystring";
 import cookieInstance from "../libs/cookieInstance";
 import {COOKIE_KEY_AUTH_ID_TOKEN} from "../../shared/constants/AppConst";
+import {niseDomain} from "./constants";
 
 interface TConfig {
   authUrl: string;
@@ -76,7 +77,7 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
 // };
 
 export const getSSOLogoutUrl = () => {
-  const origin = getHostUrl();
+  const origin = niseDomain();
   const idToken = cookieInstance.get(COOKIE_KEY_AUTH_ID_TOKEN);
 
   return (

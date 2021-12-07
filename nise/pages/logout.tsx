@@ -1,27 +1,30 @@
 import {useDispatch} from 'react-redux';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {onJWTAuthSignout} from '../../redux/actions';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {useRouter} from 'next/router';
-import cookieInstance from '../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
 import {niseDomain} from "../../@softbd/common/constants";
+import {CommonAuthUser} from "../../redux/types/models/CommonAuthUser";
+import NiseFrontPage from "../../@softbd/layouts/hoc/NiseFrontPage";
 
-export default () => {
-    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+export default NiseFrontPage(() => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const authUser = useAuthUser<CommonAuthUser>();
+  const [staleAuthUser, setStaleAuthUser] = useState<any>({});
 
-    const router = useRouter();
-    const authUser = useAuthUser();
+  useEffect(() => {
+    if (authUser) {
+      dispatch(onJWTAuthSignout());
+      setStaleAuthUser(authUser);
+    } else {
+      if (staleAuthUser?.institute?.domain) {
+        router.push(staleAuthUser?.institute?.domain);
+      } else {
+        router.push(niseDomain());
+      }
+    }
+  }, [dispatch, authUser, staleAuthUser]);
 
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (authUser) {
-            dispatch(onJWTAuthSignout());
-        } else {
-            router.push(niseDomain());
-        }
-    }, [dispatch, authUser]);
-
-    return <></>;
-};
+  return <></>;
+});
