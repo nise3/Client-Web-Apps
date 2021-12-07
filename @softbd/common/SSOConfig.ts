@@ -21,6 +21,13 @@ const SSO_CONFIG: TConfig = {
 };
 
 
+export const getHostUrl = () => {
+  return typeof window !== 'undefined' && window?.location?.origin
+    ? window.location.origin
+    : '';
+};
+
+
 export const paramsBuilder = (extraParams: any) => {
   let params = '';
   if (extraParams) {
@@ -82,12 +89,6 @@ export const getSSOLogoutUrl = () => {
     '&state=' +
     'hello'
   );
-};
-
-export const getHostUrl = () => {
-  return typeof window !== 'undefined' && window?.location?.origin
-    ? window.location.origin
-    : '';
 };
 
 export default SSO_CONFIG;

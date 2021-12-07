@@ -23,6 +23,9 @@ import {
 } from '../../@softbd/libs/axiosInstance';
 import {CurrentInstitute} from '../../redux/types/models/Vendor';
 
+/**
+ * Get auth access token on app initialized.
+ */
 export const useAuthToken = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -30,11 +33,10 @@ export const useAuthToken = () => {
 
   useEffect(() => {
     const validateAuth = async () => {
-      //TODO: temporary
       const appAccessTokenData = cookieInstance.get(
         COOKIE_KEY_APP_ACCESS_TOKEN,
       );
-      if (!appAccessTokenData && !!appAccessTokenData?.access_token) {
+      if (!appAccessTokenData || !appAccessTokenData?.access_token) {
         await refreshAppAccessToken();
       }
       dispatch(fetchStart());
@@ -71,6 +73,39 @@ export const useAuthToken = () => {
   }, [dispatch]);
 
   return [loading, user];
+};
+
+/**
+ * Get app access token on app initialized.
+ */
+export const useAppToken = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const validateAppToken = async () => {
+      try {
+        const appAccessTokenData = cookieInstance.get(
+          COOKIE_KEY_APP_ACCESS_TOKEN,
+        );
+        if (!appAccessTokenData || !appAccessTokenData?.access_token) {
+          await refreshAppAccessToken();
+        }
+        return;
+      } catch (err) {
+        await validateAppToken();
+        return;
+      }
+    };
+
+    const checkAppToken = () => {
+      Promise.all([validateAppToken()]).then(() => {
+        setLoading(false);
+      });
+    };
+    checkAppToken();
+  }, []);
+
+  return [loading];
 };
 
 export const useAuthUser = <T extends AuthUser = CommonAuthUser,
