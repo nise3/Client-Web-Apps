@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {useFetchProgramme} from '../../../services/instituteManagement/hooks';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
   itemId: number;
@@ -47,18 +48,19 @@ const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
               label={messages['common.title']}
               value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['institute.label']}
@@ -77,6 +79,13 @@ const ProgrammeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.description']}
               value={itemData?.description}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <ImageView
+              label={messages['common.logo']}
+              imageUrl={itemData?.logo}
               isLoading={isLoading}
             />
           </Grid>

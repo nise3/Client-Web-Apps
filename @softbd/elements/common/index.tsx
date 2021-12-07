@@ -10,6 +10,7 @@ interface LinkProp {
   className?: string;
   decorated?: boolean;
   passHref?: boolean;
+  target?: '_self' | '_blank' | '_parent' | '_top';
   [x: string]: any;
 }
 
@@ -31,11 +32,12 @@ export const Link = ({
   href = '',
   className = '',
   passHref = true,
+  target = '_self',
   ...props
 }: LinkProp) => {
   return (
     <NextLink href={href} passHref={passHref} {...props}>
-      <a href={href} className={className}>
+      <a href={href} target={target} className={className}>
         {children}
       </a>
     </NextLink>
