@@ -7,7 +7,7 @@ import {Box, Card, CardContent, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
 import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
-import {addStartEndPropsToList, eventsDateTimeMap} from '../../services/global/globalService';
+import {addStartEndPropsToList, eventsDateTimeMap, getNavigationFilter} from '../../services/global/globalService';
 import {useForm} from 'react-hook-form';
 import {useFetchTrainingCenters} from '../../services/instituteManagement/hooks';
 import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
@@ -66,9 +66,11 @@ const EventMiniCalendarView = () => {
     setIsOpenDetailsView(false);
   };
 
-  // const changeCalendar = (e) => {
-  //   console.log(e);
-  // }
+  const onNavigateEvent = (e: any) => {
+    setViewFilters((prev) => {
+      return getNavigationFilter(e, prev);
+    })
+  }
 
   return (
       <Card>
@@ -112,13 +114,7 @@ const EventMiniCalendarView = () => {
                    return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
                   })
                 }
-                onNavigate={(e: any) => {
-                  const monthNumber = moment(e).month() + 1;
-                  const yearNumber = moment(e).year();
-                  setViewFilters((prev)=>{
-                    return {...prev, ...{ month: monthNumber, year: yearNumber }}
-                  })
-                }}
+                onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
               />
             )}
