@@ -59,7 +59,7 @@ const RecentCourseComponent = ({data: course}: any) => {
 
           <Box>
             <Link
-              href={'../../youth/course-details/__'.replace('__', course.id)}
+              href={'../../course-details/__'.replace('__', course.id)}
               passHref>
               <Button
                 className={classes.detailsButton}
