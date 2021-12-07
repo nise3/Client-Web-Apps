@@ -17,6 +17,7 @@ import {
   getMomentDateFormat,
 } from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 interface NoticeOrNewsDetailsPopupProps {
   itemId: number | null;
@@ -103,31 +104,31 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
           )}
 
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.file_path']}
-              value={itemData?.file_path}
+              imageUrl={itemData?.file_path}
               isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.main_image_path']}
-              value={itemData?.main_image_path}
+              imageUrl={itemData?.main_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.grid_image_path']}
-              value={itemData?.grid_image_path}
+              imageUrl={itemData?.grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.thumb_image_path']}
-              value={itemData?.thumb_image_path}
+              imageUrl={itemData?.thumb_image_path}
               isLoading={isLoading}
             />
           </Grid>

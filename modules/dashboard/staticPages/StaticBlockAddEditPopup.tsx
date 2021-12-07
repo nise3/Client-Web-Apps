@@ -391,8 +391,6 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.image_path = 'http://lorempixel.com/400/200/';
-
       if (authUser?.isSystemUser) {
         formData.show_in = showIn;
       } else if (authUser?.isInstituteUser) {

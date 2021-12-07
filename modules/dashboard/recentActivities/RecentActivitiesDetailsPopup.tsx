@@ -17,6 +17,7 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ContentTypes from './ContentTypes';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 interface RecentActivitiesDetailsPopupProps {
   itemId: number | null;
@@ -103,9 +104,9 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           </Grid>
 
           <Grid item xs={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.image_path']}
-              value={itemData?.image_path}
+              imageUrl={itemData?.image_path}
               isLoading={isLoading}
             />
           </Grid>
@@ -120,26 +121,26 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
 
           {itemData?.collage_image_path && (
             <Grid item xs={6}>
-              <DetailsInputView
+              <ImageView
                 label={messages['common.collage_image_path']}
-                value={itemData?.collage_image_path}
+                imageUrl={itemData?.collage_image_path}
                 isLoading={isLoading}
               />
             </Grid>
           )}
 
           <Grid item xs={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.grid_image_path']}
-              value={itemData?.grid_image_path}
+              imageUrl={itemData?.grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={6}>
-            <DetailsInputView
+            <ImageView
               label={messages['common.thumb_image_path']}
-              value={itemData?.thumb_image_path}
+              imageUrl={itemData?.thumb_image_path}
               isLoading={isLoading}
             />
           </Grid>
