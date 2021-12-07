@@ -7,13 +7,12 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-// import {Fade} from 'react-awesome-reveal';
+import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from './UnderlinedHeading';
 import {H4} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useEffect, useState} from 'react';
-import {getMomentDateFormat} from '../../@softbd/utilities/helpers';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
@@ -141,8 +140,7 @@ const EventSection = () => {
 
   return (
     <StyledContainer maxWidth='lg'>
-      <>
-        {/*Fade direction='up'*/}
+      <Fade direction='up'>
         <UnderlinedHeading>{messages['menu.events']}</UnderlinedHeading>
         <Card className={classes.gridContainer}>
           <Grid container spacing={4}>
@@ -161,10 +159,7 @@ const EventSection = () => {
                           secondary={
                             <>
                               <DateRangeIcon className={classes.listIcon} />
-                              {getMomentDateFormat(
-                                selectedItem.start_date,
-                                'D / MM / YYYY',
-                              )}
+                              {formatDate(selectedItem.start_date)}
                             </>
                           }
                         />
@@ -196,11 +191,18 @@ const EventSection = () => {
                   }))
                 }
                 onSelectSlot={onSelectSlot}
+                onNavigate={(e: any) => {
+                  const year = moment(e).year();
+                  const month = moment(e).month() + 1;
+                  setViewFilters((prev) => {
+                    return {...prev, month, year};
+                  });
+                }}
               />
             </Grid>
           </Grid>
         </Card>
-      </>
+      </Fade>
     </StyledContainer>
   );
 };
