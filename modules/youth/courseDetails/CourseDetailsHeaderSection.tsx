@@ -23,7 +23,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
+import {gotoLoginSignUpPage, youthDomain} from '../../../@softbd/common/constants';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -106,7 +106,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 <Link
                   href={
                     authUser
-                      ? LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
+                      ? youthDomain() + LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
                       : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                   }>
                   <Button variant={'contained'} color={'primary'}>
