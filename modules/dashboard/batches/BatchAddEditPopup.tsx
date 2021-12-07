@@ -372,7 +372,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isInstituteUser && (
+        {authUser?.isSystemUser && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
               required
