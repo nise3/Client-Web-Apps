@@ -4,10 +4,13 @@ import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
 } from '../../shared/constants/AppConst';
-import cookieInstance from './cookieInstance';
+import {
+  getBrowserCookie,
+  removeBrowserCookie,
+  setBrowserCookie,
+} from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {getSSOLoginUrl} from '../common/SSOConfig';
-import {cookieDomain} from "../common/constants";
 
 let retryAuthRefreshToken = 0;
 const axiosInstance: AxiosInstance = axios.create({
@@ -19,7 +22,7 @@ axiosInstance.defaults.headers.common['Content-Type'] = 'application/json';
 
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
-    const authAccessTokenData = cookieInstance.get(
+    const authAccessTokenData = getBrowserCookie(
       COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
     // console.log('authAccessTokenData', authAccessTokenData);
@@ -30,12 +33,12 @@ axiosInstance.interceptors.request.use(
       if (userAccessToken) {
         config.headers['Authorization'] = `Bearer ${userAccessToken}`;
       } else {
-        const appAccessTokenData = cookieInstance.get(
+        const appAccessTokenData = getBrowserCookie(
           COOKIE_KEY_APP_ACCESS_TOKEN,
         );
         config.headers[
           'Authorization'
-          ] = `Bearer ${appAccessTokenData?.access_token}`;
+        ] = `Bearer ${appAccessTokenData?.access_token}`;
       }
     }
 
@@ -55,7 +58,7 @@ axiosInstance.interceptors.response.use(
   async function (error) {
     console.count('countFailedRequest');
     if (error?.response?.status === 401) {
-      const authAccessTokenData = cookieInstance.get(
+      const authAccessTokenData = getBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
       );
       if (authAccessTokenData) {
@@ -76,53 +79,48 @@ export function setDefaultAuthorizationHeader(accessToken?: string) {
 
 async function refreshAuthAccessToken() {
   if (retryAuthRefreshToken === 20) {
-    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
     window.location.href = getSSOLoginUrl();
   }
   retryAuthRefreshToken++;
-  console.log('refreshAuthAccessToken')
-  const authAccessTokenData = cookieInstance.get(
+  console.log('refreshAuthAccessToken');
+  const authAccessTokenData = getBrowserCookie(
     COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   );
 
-  var appAccessTokenData = cookieInstance.get(
-    COOKIE_KEY_APP_ACCESS_TOKEN,
-  );
+  var appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
   if (!appAccessTokenData) {
     await refreshAppAccessToken();
-    appAccessTokenData = cookieInstance.get(
-      COOKIE_KEY_APP_ACCESS_TOKEN,
-    );
+    appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
   }
 
   if (authAccessTokenData?.refresh_token) {
     try {
-      let {data: {id_token, ...responseTokenData}} = await axiosInstance.post(
+      let {
+        data: {id_token, ...responseTokenData},
+      } = await axiosInstance.post(
         'https://core.bus-staging.softbdltd.com/sso-renew-access-token',
         {
           refresh_token: authAccessTokenData.refresh_token,
         },
         {
           headers: {
-            Authorization: appAccessTokenData?.access_token
-          }
-        }
+            Authorization: appAccessTokenData?.access_token,
+          },
+        },
       );
 
-      cookieInstance.set(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, responseTokenData, {
-        path: '/',
-        domain: cookieDomain()
-      });
+      setBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, responseTokenData);
 
       //TODO: temporary
       setDefaultAuthorizationHeader(responseTokenData.access_token);
       retryAuthRefreshToken = 0;
     } catch (e) {
-      console.log("refreshAuthAccessToken-error", e);
-      cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+      console.log('refreshAuthAccessToken-error', e);
+      removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
     }
   } else {
-    cookieInstance.remove(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+    removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
   }
 }
 
@@ -131,10 +129,7 @@ export async function refreshAppAccessToken() {
     let response = await getAppAccessToken({
       throwError: true,
     });
-    cookieInstance.set(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data, {
-      path: '/',
-      domain: cookieDomain()
-    });
+    setBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN, response?.data);
     //TODO: temporary
     setDefaultAuthorizationHeader(response?.data?.access_token);
   } catch (e) {

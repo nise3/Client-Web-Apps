@@ -8,7 +8,8 @@ import {
 } from '../../redux/actions';
 import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
-  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ID_TOKEN,
 } from '../../shared/constants/AppConst';
 import {AppState} from '../../redux/store';
 import {USER_LOADED} from '../../redux/types/actions/Auth.actions';
@@ -16,7 +17,7 @@ import {
   AuthUser,
   CommonAuthUser,
 } from '../../redux/types/models/CommonAuthUser';
-import cookieInstance from '../../@softbd/libs/cookieInstance';
+import {getBrowserCookie} from '../../@softbd/libs/cookieInstance';
 import {
   refreshAppAccessToken,
   setDefaultAuthorizationHeader,
@@ -33,18 +34,16 @@ export const useAuthToken = () => {
 
   useEffect(() => {
     const validateAuth = async () => {
-      const appAccessTokenData = cookieInstance.get(
-        COOKIE_KEY_APP_ACCESS_TOKEN,
-      );
+      const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
       if (!appAccessTokenData || !appAccessTokenData?.access_token) {
         await refreshAppAccessToken();
       }
       dispatch(fetchStart());
 
-      const authAccessTokenData = cookieInstance.get(
+      const authAccessTokenData = getBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
       );
-      const idToken = cookieInstance.get(COOKIE_KEY_AUTH_ID_TOKEN);
+      const idToken = getBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
       if (!authAccessTokenData || !idToken) {
         dispatch(fetchSuccess());
         dispatch({type: USER_LOADED});
@@ -54,7 +53,10 @@ export const useAuthToken = () => {
       //TODO: temporary
       setDefaultAuthorizationHeader(authAccessTokenData?.access_token);
       try {
-        await loadAuthUser(dispatch, {...authAccessTokenData, ...{id_token: idToken}});
+        await loadAuthUser(dispatch, {
+          ...authAccessTokenData,
+          ...{id_token: idToken},
+        });
         dispatch(fetchSuccess());
         return;
       } catch (err) {
@@ -84,7 +86,7 @@ export const useAppToken = () => {
   useEffect(() => {
     const validateAppToken = async () => {
       try {
-        const appAccessTokenData = cookieInstance.get(
+        const appAccessTokenData = getBrowserCookie(
           COOKIE_KEY_APP_ACCESS_TOKEN,
         );
         if (!appAccessTokenData || !appAccessTokenData?.access_token) {
@@ -108,8 +110,9 @@ export const useAppToken = () => {
   return [loading];
 };
 
-export const useAuthUser = <T extends AuthUser = CommonAuthUser,
-  >(): T | null => {
+export const useAuthUser = <
+  T extends AuthUser = CommonAuthUser,
+>(): T | null => {
   const {user} = useSelector<AppState, AppState['auth']>(({auth}) => auth);
 
   if (user) {

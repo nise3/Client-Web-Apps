@@ -18,8 +18,8 @@ const classes = {
 
 const StyledCustomDetailsViewMuiModal = styled(CustomDetailsViewMuiModal)({
   [`& .${classes.ProfileImage}`]: {
-    height: '200px',
-    width: '200px',
+    height: '100px',
+    width: '100px',
   },
 });
 
@@ -29,7 +29,7 @@ type Props = {
 };
 
 export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
-  const user: CommonAuthUser | null = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
 
   return (
@@ -50,48 +50,49 @@ export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <Avatar
-            className={classes.ProfileImage}
-            src='/images/userPageImages/profileImage.jpeg'
+          {authUser?.profile_pic ? (
+            <Avatar
+              className={classes.ProfileImage}
+              src={authUser?.profile_pic}
+            />
+          ) : (
+            <Avatar className={classes.ProfileImage}>{authUser?.name}</Avatar>
+          )}
+        </Grid>
+        <Grid item xs={6}>
+          <DetailsInputView
+            label={messages['common.name']}
+            value={authUser?.name}
           />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
-            label={messages['common.profile_name']}
-            value={user?.displayName}
+            label={messages['common.name_en']}
+            value={authUser?.displayName}
           />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['common.user_name']}
-            value={user?.username}
+            value={authUser?.username}
           />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['common.email']}
-            value={user?.email}
+            value={authUser?.email}
           />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['common.mobile']}
-            value={user?.mobile}
+            value={authUser?.mobile}
           />
         </Grid>
         <Grid item xs={6}>
           <DetailsInputView
             label={messages['role.label']}
-            value={user?.role?.title}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <DetailsInputView label={messages['institute.label']} value={'xyz'} />
-        </Grid>
-        <Grid item xs={6}>
-          <DetailsInputView
-            label={messages['organization.label']}
-            value={'abc'}
+            value={authUser?.role?.title}
           />
         </Grid>
       </Grid>

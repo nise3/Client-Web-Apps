@@ -1,7 +1,7 @@
-import {ParsedUrlQuery} from "querystring";
-import cookieInstance from "../libs/cookieInstance";
-import {COOKIE_KEY_AUTH_ID_TOKEN} from "../../shared/constants/AppConst";
-import {niseDomain} from "./constants";
+import {ParsedUrlQuery} from 'querystring';
+import {getBrowserCookie} from '../libs/cookieInstance';
+import {COOKIE_KEY_AUTH_ID_TOKEN} from '../../shared/constants/AppConst';
+import {niseDomain} from './constants';
 
 interface TConfig {
   authUrl: string;
@@ -78,7 +78,7 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
 
 export const getSSOLogoutUrl = () => {
   const origin = niseDomain();
-  const idToken = cookieInstance.get(COOKIE_KEY_AUTH_ID_TOKEN);
+  const idToken = getBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
 
   return (
     SSO_CONFIG.logoutUrl +

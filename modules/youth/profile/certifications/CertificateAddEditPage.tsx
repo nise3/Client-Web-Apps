@@ -99,7 +99,6 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
   const watchStartDate: any = watch(['start_date', 'end_date']);
 
   useEffect(() => {
@@ -117,7 +116,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
         end_date: itemData?.end_date
           ? getMomentDateFormat(itemData?.end_date, 'YYYY-MM-DD')
           : '',
-        certificate_file_path: itemData.certification_file_path,
+        certificate_file_path: itemData?.certificate_file_path,
       });
     } else {
       reset(initialValues);

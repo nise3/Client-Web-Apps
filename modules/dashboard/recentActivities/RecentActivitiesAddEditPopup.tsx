@@ -541,7 +541,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               setValue={setValue}
               register={register}
               label={messages['common.image_path']}
-              required={false}
+              required={true}
             />
           </Grid>
         )}
