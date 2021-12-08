@@ -1025,5 +1025,7 @@
   "user.branch_user": "ব্রাঞ্চ ইউজার",
   "user.training_center_user": "প্রশিক্ষণ কেন্দ্র ইউজার",
   "common.not_available": "এখন এভেইলেবল না",
-  "common.no_image": "কোনো ছবি নেই"
+  "common.no_image": "কোনো ছবি নেই",
+  "common.purpose": "আমাদের উদ্দেশ্য",
+  "common.goal": "আমাদের লক্ষ্য"
 }
