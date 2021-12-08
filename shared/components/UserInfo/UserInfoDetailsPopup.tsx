@@ -14,12 +14,17 @@ const PREFIX = 'UserInfoDetailsPopup';
 
 const classes = {
   ProfileImage: `${PREFIX}-ProfileImage`,
+  noProfileImage: `${PREFIX}-noProfileImage`,
 };
 
 const StyledCustomDetailsViewMuiModal = styled(CustomDetailsViewMuiModal)({
   [`& .${classes.ProfileImage}`]: {
     height: '100px',
     width: '100px',
+  },
+  [`& .${classes.noProfileImage}`]: {
+    height: '50px',
+    width: '50px',
   },
 });
 
@@ -56,7 +61,9 @@ export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
               src={authUser?.profile_pic}
             />
           ) : (
-            <Avatar className={classes.ProfileImage}>{authUser?.name}</Avatar>
+            <Avatar className={classes.noProfileImage}>
+              {authUser?.displayName?.charAt(0)}
+            </Avatar>
           )}
         </Grid>
         <Grid item xs={6}>
