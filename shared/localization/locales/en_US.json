@@ -1023,5 +1023,7 @@
   "user.branch_user": "Branch User",
   "user.training_center_user": "Training center User",
   "common.not_available": "Not available now",
-  "common.no_image": "No image"
+  "common.no_image": "No image",
+  "industry.publications": "Publications",
+  "industry.writer_name": "Writer name"
 }
