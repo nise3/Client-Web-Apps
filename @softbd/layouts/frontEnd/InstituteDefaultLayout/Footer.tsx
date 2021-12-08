@@ -285,9 +285,8 @@ const Footer = () => {
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
-                    />{' '}
+                    />
                     {messages['footer.privacy_policy']}
-                    নীতি
                   </Link>
                 </Box>
               </Box>
