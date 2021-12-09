@@ -96,3 +96,4 @@ export const LINK_FRONTEND_FAQ = '/faqs';
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_YOUTH_FRONTEND_STATIC_CONTENT = '/sc/';
+export const LINK_INDUSTRY_FRONTEND_STATIC_CONTENT = '/sc/';

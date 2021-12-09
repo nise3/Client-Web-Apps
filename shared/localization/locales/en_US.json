@@ -329,6 +329,7 @@
   "menu.nise3_partners": "NISE3 Partners",
   "menu.recent_activities": "Recent Activities",
   "menu.events": "Events",
+  "industry.notice_and_events": "Notice and Events",
   "menu.sliders": "Slider",
   "menu.calendar": "Calendar",
   "customizer.layoutTypes": "Layout type",
@@ -509,6 +510,7 @@
   "common.popular_jobs": "Popular Jobs",
   "common.recent_jobs": "Recent Jobs",
   "common.apply_now": "Apply Now",
+  "industry.apply_now": "Apply Now",
   "common.apply": "Apply",
   "common.details": "Details",
   "training.search_header": "Search Training",
@@ -1030,5 +1032,8 @@
   "common.not_available": "Not available now",
   "common.no_image": "No image",
   "common.purpose": "Our purpose",
-  "common.goal": "Our goal"
+  "industry.purpose_and_goal": "Our Purpose and Goal",
+  "industry.training": "Training",
+  "common.goal": "Our goal",
+  "common.taka": "taka"
 }
