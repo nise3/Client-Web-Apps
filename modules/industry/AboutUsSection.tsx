@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import {Body1, H3} from '../../@softbd/elements/common';
 import React from 'react';
 import {ArrowRightAlt} from '@mui/icons-material';
-import UnderlinedHeading from '../institute/UnderlinedHeading';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 
 const PREFIX = 'AboutUsSection';
 

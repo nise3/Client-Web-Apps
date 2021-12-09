@@ -2,7 +2,7 @@ import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid} from '@mui/material';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
-import UnderlinedHeading from './UnderlinedHeading';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {useFetchInstitutesPublicGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';

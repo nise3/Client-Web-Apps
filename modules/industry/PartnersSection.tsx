@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {H6} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
-import UnderlinedHeading from '../institute/UnderlinedHeading';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 
 const PREFIX = 'Partners';
 

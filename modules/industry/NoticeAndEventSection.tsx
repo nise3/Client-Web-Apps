@@ -25,7 +25,7 @@ import {
   addStartEndPropsToList,
   eventsDateTimeMap,
 } from '../../services/global/globalService';
-import UnderlinedHeading from '../institute/UnderlinedHeading';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 
 const localizer = momentLocalizer(moment);
 const PREFIX = 'EventSection';
