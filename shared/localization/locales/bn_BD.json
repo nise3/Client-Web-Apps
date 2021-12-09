@@ -1027,5 +1027,7 @@
   "common.not_available": "এখন এভেইলেবল না",
   "common.no_image": "কোনো ছবি নেই",
   "industry.publications": "প্রকাশনা সমূহ",
-  "industry.writer_name": "লেখকের নাম"
+  "industry.writer_name": "লেখকের নাম",
+  "industry.publication_details": "প্রকাশনা বিস্তারিত",
+  "industry.publication_list":"প্রকাশনা সমূহ লিস্ট"
 }

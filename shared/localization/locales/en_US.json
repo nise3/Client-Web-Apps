@@ -1025,5 +1025,7 @@
   "common.not_available": "Not available now",
   "common.no_image": "No image",
   "industry.publications": "Publications",
-  "industry.writer_name": "Writer name"
+  "industry.writer_name": "Writer name",
+  "industry.publication_details": "Publication details",
+  "industry.publication_list":"Publication lists"
 }
