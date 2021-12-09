@@ -59,14 +59,17 @@ const CourseListPage = () => {
         <Grid container>
           {authUser && authUser?.isYouthUser && (
             <Grid item xs={12}>
-              <SkillMatchingCoursesSection filters={filters} page_size={4} />
+              <SkillMatchingCoursesSection
+                filters={filters}
+                showAllCourses={false}
+              />
             </Grid>
           )}
           <Grid item xs={12}>
-            <PopularCoursesSection filters={filters} page_size={4} />
+            <PopularCoursesSection filters={filters} showAllCourses={false} />
           </Grid>
           <Grid item xs={12}>
-            <TrendingCoursesSection filters={filters} page_size={4} />
+            <TrendingCoursesSection filters={filters} showAllCourses={false} />
           </Grid>
           <Grid item xs={12}>
             <NearbyTrainingCenterSection showInType={showInType} />
