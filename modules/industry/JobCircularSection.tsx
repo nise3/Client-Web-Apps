@@ -10,6 +10,7 @@ import {
   industryDomain,
 } from '../../@softbd/common/constants';
 import {
+  LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR,
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
   LINK_YOUTH_SIGNUP,
 } from '../../@softbd/common/appLinks';
@@ -213,13 +214,15 @@ const JobCircularSection = () => {
           </CustomCarousel>
         </Box>
         <Grid item container justifyContent='center'>
-          <Button
-            sx={{borderRadius: '10px'}}
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}>
-            {messages['common.see_more']}
-          </Button>
+          <Link href={LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR}>
+            <Button
+              sx={{borderRadius: '10px'}}
+              variant='outlined'
+              color='primary'
+              endIcon={<ArrowRightAlt />}>
+              {messages['common.see_more']}
+            </Button>
+          </Link>
         </Grid>
       </Container>
     </StyledGrid>
