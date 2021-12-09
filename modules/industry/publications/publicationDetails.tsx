@@ -1,7 +1,5 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
-import {useRouter} from 'next/router';
-import {useFetchPublication} from '../../../services/IndustryManagement/hooks';
 import {styled} from '@mui/material/styles';
 import {Box, Button, CardMedia, Container, Grid, Tooltip} from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -37,9 +35,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 const PublicationDetails = () => {
   const {messages} = useIntl();
-  const router = useRouter();
+  /*  const router = useRouter();
   const {publicationId}: any = router.query;
-  const {data: publicationData} = useFetchPublication(publicationId);
+  const {data: publicationData} = useFetchPublication(publicationId);*/
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
