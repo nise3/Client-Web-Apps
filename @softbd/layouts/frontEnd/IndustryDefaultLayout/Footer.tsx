@@ -2,16 +2,11 @@ import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Container, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {
-  LINK_FRONTEND_FAQ,
-  LINK_NICE3_FRONTEND_STATIC_CONTENT,
-} from '../../../common/appLinks';
+import {LINK_INDUSTRY_FRONTEND_STATIC_CONTENT} from '../../../common/appLinks';
 import {
   CONTENT_ID_ABOUT_US,
   CONTENT_ID_CAREER_ADVICE,
   CONTENT_ID_GUIDELINES,
-  CONTENT_ID_PRIVACY_POLICY,
-  CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
 import GoToTop from '../../../../modules/goToTop';
 import {Link} from '../../../elements/common';
@@ -52,20 +47,16 @@ const Footer = () => {
             </Typography>
             <Typography gutterBottom={true}>
               <Link
-                href={LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US}
+                href={
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
+                }
                 component={'span'}
                 mt={2}>
                 {messages['footer.about_us']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                  CONTENT_ID_TERMS_AND_CONDITIONS
-                }
-                component={'span'}
-                mt={2}>
+              <Link href='/' component={'span'} mt={2}>
                 {messages['footer.terms_and_condition']}
               </Link>
             </Typography>
@@ -75,12 +66,7 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_PRIVACY_POLICY
-                }
-                component={'span'}
-                mt={2}>
+              <Link href='/' component={'span'} mt={2}>
                 {messages['footer.privacy_policy']}
               </Link>
             </Typography>
@@ -109,7 +95,8 @@ const Footer = () => {
             <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_CAREER_ADVICE
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
+                  CONTENT_ID_CAREER_ADVICE
                 }
                 component={'span'}
                 mt={2}>
@@ -122,14 +109,14 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href={LINK_FRONTEND_FAQ} component={'span'} mt={2}>
+              <Link href='/' component={'span'} mt={2}>
                 {messages['footer.faq']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Link
                 href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
                 }
                 component={'span'}
                 mt={2}>
@@ -145,37 +132,18 @@ const Footer = () => {
             </Typography>
             <Typography gutterBottom={true}>
               <Link
-                href={LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US}
+                href={
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
+                }
                 component={'span'}
                 mt={2}>
                 {messages['footer.about_us']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                  CONTENT_ID_TERMS_AND_CONDITIONS
-                }
-                component={'span'}
-                mt={2}>
+              <Link href='/' component={'span'} mt={2}>
                 {messages['footer.terms_and_condition']}
               </Link>
-            </Typography>
-          </Grid>
-          <Grid item md={3}>
-            <Typography variant='subtitle2' gutterBottom={true}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['common.contact']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['common.email']}: contactus@nise.gov.bd,
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true} sx={{textAlign: 'center'}}>
-              <Box component={'span'}>nise@a2i.gov.bd</Box>
             </Typography>
           </Grid>
           <Grid item md={3}>
@@ -196,8 +164,9 @@ const Footer = () => {
                 />
               </Box>
             </a>
-
-            <Typography variant='subtitle2' gutterBottom={true} mt={5}>
+          </Grid>
+          <Grid item md={3}>
+            <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
                 {messages['common.technical_support']}
               </Box>
