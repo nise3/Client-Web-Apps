@@ -31,17 +31,16 @@ const StyledBoxLine = styled(Box)(() => ({
 
 type Props = {
   children?: ReactNode;
-  color?: string;
 };
 
-const UnderlinedHeading = ({children, color}: Props) => {
+const UnderlinedHeading = ({children}: Props) => {
   return (
     <>
       <Typography
         variant='h3'
         sx={{
           fontSize: '30px',
-          color: color ?? 'primary.main',
+          color: 'primary.main',
           textAlign: 'center',
           marginBottom: '20px',
         }}

@@ -139,7 +139,7 @@ const NoticeAndEventSection = () => {
   return (
     <StyledContainer maxWidth='lg'>
       <Fade direction='up'>
-        <UnderlinedHeading color='black'>
+        <UnderlinedHeading>
           {messages['industry.notice_and_events']}
         </UnderlinedHeading>
         <Card className={classes.gridContainer}>

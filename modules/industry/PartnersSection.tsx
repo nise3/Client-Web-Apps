@@ -71,9 +71,7 @@ const PartnersSection = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <UnderlinedHeading color='black'>
-          {messages['nise.partners']}
-        </UnderlinedHeading>
+        <UnderlinedHeading>{messages['nise.partners']}</UnderlinedHeading>
         <Box mb={2}>
           {partners && partners.length > 0 ? (
             <CustomCarousel>
