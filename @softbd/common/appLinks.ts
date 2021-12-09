@@ -49,6 +49,14 @@ export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR = '/training-calendar';
 export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES = '/recent-activities';
 
+/** industry links  */
+export const LINK_FRONTEND_INDUSTRY_ROOT = '/';
+export const LINK_FRONTEND_INDUSTRY_ABOUT_US = '/about-us';
+export const LINK_FRONTEND_INDUSTRY_PUBLICATION = '/publication';
+export const LINK_FRONTEND_INDUSTRY_CONTACT = '/contact';
+export const LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR = '/job-circular';
+export const LINK_FRONTEND_INDUSTRY_MEMBER_LIST = '/member-list';
+
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/';
 export const LINK_FRONTEND_YOUTH_FEED = '/feed';
@@ -88,3 +96,4 @@ export const LINK_FRONTEND_FAQ = '/faqs';
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_YOUTH_FRONTEND_STATIC_CONTENT = '/sc/';
+export const LINK_INDUSTRY_FRONTEND_STATIC_CONTENT = '/sc/';

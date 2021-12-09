@@ -8,7 +8,6 @@ import {
   ListItemText,
 } from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
-import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {H4} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
@@ -26,6 +25,7 @@ import {
   addStartEndPropsToList,
   eventsDateTimeMap,
 } from '../../services/global/globalService';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 
 const localizer = momentLocalizer(moment);
 const PREFIX = 'EventSection';
@@ -92,7 +92,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
 }));
 
-const EventSection = () => {
+const NoticeAndEventSection = () => {
   const {messages, formatDate} = useIntl();
   const dateFormat = 'YYYY-MM-DD';
 
@@ -132,16 +132,16 @@ const EventSection = () => {
   };
 
   const onSelectSlot = (e: any) => {
-    // console.log('onSelectSlot >>', e, eventsList);
     setCurrentDate(moment(e.start).format(dateFormat));
     setSelectedDateItems(e.start);
-    // console.log(item);
   };
 
   return (
     <StyledContainer maxWidth='lg'>
       <Fade direction='up'>
-        <UnderlinedHeading>{messages['menu.events']}</UnderlinedHeading>
+        <UnderlinedHeading>
+          {messages['industry.notice_and_events']}
+        </UnderlinedHeading>
         <Card className={classes.gridContainer}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
@@ -206,4 +206,4 @@ const EventSection = () => {
     </StyledContainer>
   );
 };
-export default EventSection;
+export default NoticeAndEventSection;
