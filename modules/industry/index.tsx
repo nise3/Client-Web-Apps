@@ -1,6 +1,6 @@
 import React from 'react';
 import CoverArea from '../industry/CoverArea';
-import JobCircular from './JobCircular';
+import JobCircularSection from './JobCircularSection';
 import NoticeAndEventSection from './NoticeAndEventSection';
 import AboutUsSection from './AboutUsSection';
 import TrainingSection from './TrainingSection';
@@ -10,7 +10,7 @@ const Industry = () => {
   return (
     <>
       <CoverArea />
-      <JobCircular />
+      <JobCircularSection />
       <NoticeAndEventSection />
       <AboutUsSection />
       <TrainingSection />

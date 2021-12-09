@@ -596,6 +596,7 @@
   "common.popular_jobs": "জনপ্রিয় চাকরি",
   "common.recent_jobs": "সাম্প্রতিক চাকরি",
   "common.apply_now": "আবেদন ",
+  "industry.apply_now": "আবেদন করুন",
   "common.apply": "আবেদন",
   "common.details": "বিস্তারিত",
   "training.search_header": "অনুসন্ধান প্রশিক্ষণ",
@@ -1035,5 +1036,6 @@
   "common.purpose": "আমাদের উদ্দেশ্য",
   "industry.purpose_and_goal": "আমাদের উদ্দেশ্য ও লক্ষ্য",
   "industry.training": "ট্রেনিং",
-  "common.goal": "আমাদের লক্ষ্য"
+  "common.goal": "আমাদের লক্ষ্য",
+  "common.taka": "টাকা"
 }
