@@ -1,5 +1,5 @@
 import React from 'react';
-import IndustryDefaultLayout from '../../frontEnd/InstituteDefaultLayout';
+import IndustryDefaultLayout from '../../frontEnd/IndustryDefaultLayout';
 import {responsiveFontSizes, useTheme} from '@mui/material';
 import {ThemeProvider} from '@mui/material/styles';
 import theme from '../../themes/instituteDefault';
@@ -9,7 +9,7 @@ const withLayout = (ComposedComponent: any) => (props: any) => {
   return (
     <ThemeProvider theme={responsiveFontSizes(theme(defaultTheme))}>
       <IndustryDefaultLayout>
-          <ComposedComponent {...props} />
+        <ComposedComponent {...props} />
       </IndustryDefaultLayout>
     </ThemeProvider>
   );
