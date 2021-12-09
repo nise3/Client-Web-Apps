@@ -9,6 +9,7 @@ import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 
 interface SimilarCourseSectionProps {
   courseId: number;
@@ -49,10 +50,11 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   }, [showInType, skillIds]);
 
   const pathVariable = 'skill-matching';
-  const {data: courseList, metaData} = useFetchCourseList(
-    pathVariable,
-    courseFilters,
-  );
+  const {
+    data: courseList,
+    metaData,
+    isLoading,
+  } = useFetchCourseList(pathVariable, courseFilters);
 
   return (
     <Container maxWidth={'lg'}>
@@ -79,7 +81,11 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
             )}
           </Grid>
         </Grid>
-        {courseList?.length > 0 ? (
+        {isLoading ? (
+          <Grid item xs={12}>
+            <BoxCardsSkeleton />
+          </Grid>
+        ) : courseList?.length > 0 ? (
           <Grid item xs={12}>
             <Grid container spacing={5}>
               {courseList &&
