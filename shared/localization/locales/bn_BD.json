@@ -48,7 +48,7 @@
   "common.back": "ফিরে যান",
   "common.previous": "পূর্ববর্তী",
   "common.print": "প্রিন্ট",
-  "common.passport_size_photo":"পাসপোর্ট সাইজের ছবি",
+  "common.passport_size_photo": "পাসপোর্ট সাইজের ছবি",
   "common.cancel": "বাতিল",
   "common.save": "সংরক্ষণ",
   "common.no": "না",
@@ -155,7 +155,7 @@
   "common.institute_address": "প্রতিষ্ঠানের ঠিকানা",
   "common.key": "কী",
   "common.logout": "লগআউট",
-  "common.logo":"লগো",
+  "common.logo": "লগো",
   "common.company_type": "কোম্পানির ধরন",
   "common.file_upload": "ফাইল আপলোড",
   "signup.label": "নিবন্ধন",
@@ -1029,5 +1029,8 @@
   "industry.publications": "প্রকাশনা সমূহ",
   "industry.writer_name": "লেখকের নাম",
   "industry.publication_details": "প্রকাশনা বিস্তারিত",
-  "industry.publication_list":"প্রকাশনা সমূহ লিস্ট"
+  "industry.publication_list": "প্রকাশনা সমূহ লিস্ট",
+  "industry.member_list": "সদস্য তালিকা",
+  "common.filter": "ফিল্টার",
+  "common.total_result": "মোট ফলাফল পাওয়া গেছে"
 }

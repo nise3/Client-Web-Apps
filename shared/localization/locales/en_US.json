@@ -46,7 +46,7 @@
   "common.delete_btn": "Delete",
   "common.bbs_code": "BBS Code",
   "common.cancel": "Cancel",
-  "common.passport_size_photo":"Passport size photo",
+  "common.passport_size_photo": "Passport size photo",
   "common.select": "Select",
   "common.no_data_found": "No data found",
   "common.print": "Print",
@@ -1027,5 +1027,8 @@
   "industry.publications": "Publications",
   "industry.writer_name": "Writer name",
   "industry.publication_details": "Publication details",
-  "industry.publication_list":"Publication lists"
+  "industry.publication_list": "Publication lists",
+  "industry.member_list": "Member list",
+  "common.filter": "Filter",
+  "common.total_result": "Total Results"
 }
