@@ -1042,7 +1042,9 @@
   "industry.writer_name": "Writer name",
   "industry.publication_details": "Publication details",
   "industry.publication_list": "Publication lists",
-  "industry.member_list": "Member list",
+  "common.member_list": "Member list",
   "common.filter": "Filter",
-  "common.total_result": "Total Results"
+  "common.total_result": "Total Results",
+  "common.establish_date": "Establishment date: ",
+  "common.organization_details": "Organization details"
 }

@@ -1044,7 +1044,9 @@
   "industry.writer_name": "লেখকের নাম",
   "industry.publication_details": "প্রকাশনা বিস্তারিত",
   "industry.publication_list": "প্রকাশনা সমূহ লিস্ট",
-  "industry.member_list": "সদস্য তালিকা",
+  "common.member_list": "সদস্য তালিকা",
   "common.filter": "ফিল্টার",
-  "common.total_result": "মোট ফলাফল পাওয়া গেছে"
+  "common.total_result": "মোট ফলাফল পাওয়া গেছে",
+  "common.establish_date": "প্রতিষ্ঠার তারিখঃ ",
+  "common.organization_details": "প্রতিষ্ঠানের বিবরণ"
 }
