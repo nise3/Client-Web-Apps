@@ -1037,5 +1037,8 @@
   "industry.purpose_and_goal": "আমাদের উদ্দেশ্য ও লক্ষ্য",
   "industry.training": "ট্রেনিং",
   "common.goal": "আমাদের লক্ষ্য",
-  "common.taka": "টাকা"
+  "common.taka": "টাকা",
+  "industry.writer_name": "লেখকের নাম",
+  "industry.publication_details": "প্রকাশনা বিস্তারিত",
+  "industry.publication_list":"প্রকাশনা সমূহ লিস্ট"
 }

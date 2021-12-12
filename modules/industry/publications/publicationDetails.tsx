@@ -7,7 +7,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {Body1, H1, Link} from '../../../@softbd/elements/common';
+import {Body1, H2, Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'PublicationDetails';
 
@@ -43,18 +43,18 @@ const PublicationDetails = () => {
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
         <Grid item xs={12} mt={5}>
-          <Grid container>
-            <Grid item xs={5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={5}>
               <Box className={classes.date}>
                 <Link href={'/publications'}>
                   <Button variant={'outlined'} color={'primary'}>
-                    <ArrowBackIosIcon style={{fontSize: 15}} />
+                    <ArrowBackIosIcon style={{fontSize: 'small'}} />
                     {messages['industry.publication_list']}
                   </Button>
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={7} textAlign={'right'}>
+            <Grid item xs={12} md={7} textAlign={'right'}>
               <Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
@@ -99,7 +99,7 @@ const PublicationDetails = () => {
             image={'/images/testPublication.png'}
             alt={'notice-details'}
           />
-          <H1 mt={3}>Publications details tilte</H1>
+          <H2 mt={3}>Publications details tilte</H2>
         </Grid>
 
         <Grid item xs={12}>

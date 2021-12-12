@@ -1035,6 +1035,10 @@
   "industry.purpose_and_goal": "Our Purpose and Goal",
   "industry.training": "Training",
   "common.goal": "Our goal",
-  "common.taka": "taka"
+  "common.taka": "taka",
+  "industry.writer_name": "Writer name",
+  "industry.publication_details": "Publication details",
+  "industry.publication_list":"Publication lists"
+
 
 }
