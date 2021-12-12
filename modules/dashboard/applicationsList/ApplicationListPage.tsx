@@ -46,6 +46,21 @@ const ApplicationListPage = () => {
         accessor: 'memberId',
       },
       {
+        Header: messages['applicationManagement.status'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data.row_status === 0) {
+            return <p>Inactive</p>;
+          } else if (data.row_status === 1) {
+            return <p>Approved</p>;
+          } else if (data.row_status === 2) {
+            return <p>Pending</p>;
+          } else {
+            return <p>Rejected</p>;
+          }
+        },
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
