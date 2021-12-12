@@ -139,7 +139,6 @@
   "common.description": "বর্ণণা",
   "common.description_en": "বর্ণণা (ইংরেজি)",
   "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
-  "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
   "common.no_data_found": "কোনো তথ্য পাওয়া যায়নি",
   "common.remove_one": "একটি মুছুন",
   "common.cover_image": "কভার ইমেজ",
@@ -875,7 +874,6 @@
   "common.like": "লাইক",
   "common.share_label": "শেয়ার",
   "common.download_label": "ডাউনলোড",
-  "common.print": "প্রিন্ট",
   "common.map_of_bangladesh": "বাংলাদেশের মানচিত্র",
   "certificate.to": " থেকে ",
   "education.cgpa_out_of_scale": "{scale} এর মধ্যে {cgpa}",
@@ -1038,7 +1036,15 @@
   "industry.training": "ট্রেনিং",
   "common.goal": "আমাদের লক্ষ্য",
   "common.taka": "টাকা",
+  "common.advice": "মতামত",
+  "common.find_our_location_on_map": "আমাদের লোকেশন ম্যাপ এ খুজুন",
+  "common.contact_with_us": "আমাদের সাথে যোগাযোগ করুন",
+  "common.contact_office": "যোগাযোগের অফিস",
+  "industry.publications": "প্রকাশনা সমূহ",
   "industry.writer_name": "লেখকের নাম",
   "industry.publication_details": "প্রকাশনা বিস্তারিত",
-  "industry.publication_list":"প্রকাশনা সমূহ লিস্ট"
+  "industry.publication_list": "প্রকাশনা সমূহ লিস্ট",
+  "industry.member_list": "সদস্য তালিকা",
+  "common.filter": "ফিল্টার",
+  "common.total_result": "মোট ফলাফল পাওয়া গেছে"
 }
