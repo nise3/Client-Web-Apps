@@ -1044,7 +1044,10 @@
   "industry.publication_list": "Publication lists",
   "industry.member_list": "Member list",
   "common.filter": "Filter",
-  "common.total_result": "Total Results"
+  "common.total_result": "Total Results",
+  "application_list.label": "Applications list",
+  "common.memberId": "Member ID",
+  "common.accept": "Accept"
 
 
 

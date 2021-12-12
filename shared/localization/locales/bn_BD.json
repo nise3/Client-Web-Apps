@@ -1046,5 +1046,8 @@
   "industry.publication_list": "প্রকাশনা সমূহ লিস্ট",
   "industry.member_list": "সদস্য তালিকা",
   "common.filter": "ফিল্টার",
-  "common.total_result": "মোট ফলাফল পাওয়া গেছে"
+  "common.total_result": "মোট ফলাফল পাওয়া গেছে",
+  "application_list.label": "আবেদন তালিকা",
+  "common.memberId": "সদস্য আইডি",
+  "common.accept": "এপ্রুভ"
 }
