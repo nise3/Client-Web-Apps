@@ -1049,5 +1049,9 @@
   "industry.publication_list": "Publication lists",
   "industry.member_list": "Member list",
   "common.filter": "Filter",
-  "common.total_result": "Total Results"
+  "common.total_result": "Total Results",
+  "common.employed": "Employed",
+  "common.unemployed": "Unemployed",
+  "common.job_vacancy": "Job Vacancy",
+  "common.trending_skills": "Trending Skills"
 }

@@ -1050,5 +1050,9 @@
   "industry.publication_list": "প্রকাশনা সমূহ লিস্ট",
   "industry.member_list": "সদস্য তালিকা",
   "common.filter": "ফিল্টার",
-  "common.total_result": "মোট ফলাফল পাওয়া গেছে"
+  "common.total_result": "মোট ফলাফল পাওয়া গেছে",
+  "common.employed": "নিযুক্ত",
+  "common.unemployed": "বেকার",
+  "common.job_vacancy": "চাকরি খালি আছে",
+  "common.trending_skills": "ট্রেন্ডিং স্কিল"
 }
