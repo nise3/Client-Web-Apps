@@ -12,6 +12,7 @@ import {
 import {useIntl} from 'react-intl';
 import {BusinessCenter, LocationOn, Share} from '@mui/icons-material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
+import {Link} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'JobCardComponent';
 
@@ -69,12 +70,14 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={5} md={5} style={{textAlign: 'end'}}>
-              <Button
-                variant={'outlined'}
-                color={'primary'}
-                sx={{marginRight: '5px'}}>
-                {messages['industry.details']}
-              </Button>
+              <Link passHref href={`/job-circular-details/${job.id}`}>
+                <Button
+                  variant={'outlined'}
+                  color={'primary'}
+                  sx={{marginRight: '5px'}}>
+                  {messages['industry.details']}
+                </Button>
+              </Link>
               <Button variant={'contained'} color={'primary'}>
                 {messages['industry.apply']}
               </Button>
