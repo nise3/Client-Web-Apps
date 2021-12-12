@@ -143,6 +143,7 @@ const MemberDetails = () => {
               md={9}
               order={{
                 xs: 2,
+                sm: 1,
                 md: 1,
               }}>
               <Box>
@@ -161,6 +162,7 @@ const MemberDetails = () => {
               md={3}
               order={{
                 xs: 1,
+                sm: 2,
                 md: 2,
               }}>
               <Grid container className={classes.contact_person_info}>
