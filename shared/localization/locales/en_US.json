@@ -304,6 +304,11 @@
   "common.youth": "Youth",
   "common.industry": "Industry",
   "common.training_center": "Training Center",
+  "menu.about_us": "About Us",
+  "menu.publication": "Publication",
+  "menu.industry_contact": "Contact",
+  "menu.job_circular": "Job Circular",
+  "menu.member_list": "Member List",
   "menu.organization_management": "Organization management",
   "menu.institute_management": "Institute management",
   "menu.training_center": "Training center",
@@ -324,6 +329,7 @@
   "menu.nise3_partners": "NISE3 Partners",
   "menu.recent_activities": "Recent Activities",
   "menu.events": "Events",
+  "industry.notice_and_events": "Notice and Events",
   "menu.sliders": "Slider",
   "menu.calendar": "Calendar",
   "customizer.layoutTypes": "Layout type",
@@ -504,6 +510,7 @@
   "common.popular_jobs": "Popular Jobs",
   "common.recent_jobs": "Recent Jobs",
   "common.apply_now": "Apply Now",
+  "industry.apply_now": "Apply Now",
   "common.apply": "Apply",
   "common.details": "Details",
   "training.search_header": "Search Training",
@@ -1024,8 +1031,10 @@
   "user.training_center_user": "Training center User",
   "common.not_available": "Not available now",
   "common.no_image": "No image",
-  "industry.publications": "Publications",
-  "industry.writer_name": "Writer name",
-  "industry.publication_details": "Publication details",
-  "industry.publication_list":"Publication lists"
+  "common.purpose": "Our purpose",
+  "industry.purpose_and_goal": "Our Purpose and Goal",
+  "industry.training": "Training",
+  "common.goal": "Our goal",
+  "common.taka": "taka"
+
 }
