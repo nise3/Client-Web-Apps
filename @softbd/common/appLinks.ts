@@ -52,7 +52,7 @@ export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES = '/recent-activities';
 /** industry links  */
 export const LINK_FRONTEND_INDUSTRY_ROOT = '/';
 export const LINK_FRONTEND_INDUSTRY_ABOUT_US = '/about-us';
-export const LINK_FRONTEND_INDUSTRY_PUBLICATION = '/publication';
+export const LINK_FRONTEND_INDUSTRY_PUBLICATION = '/publications';
 export const LINK_FRONTEND_INDUSTRY_CONTACT = '/contact';
 export const LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR = '/job-circular';
 export const LINK_FRONTEND_INDUSTRY_MEMBER_LIST = '/member-list';

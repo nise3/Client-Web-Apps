@@ -1039,5 +1039,12 @@
   "common.advice": "মতামত",
   "common.find_our_location_on_map": "আমাদের লোকেশন ম্যাপ এ খুজুন",
   "common.contact_with_us": "আমাদের সাথে যোগাযোগ করুন",
-  "common.contact_office": "যোগাযোগের অফিস"
+  "common.contact_office": "যোগাযোগের অফিস",
+  "industry.publications": "প্রকাশনা সমূহ",
+  "industry.writer_name": "লেখকের নাম",
+  "industry.publication_details": "প্রকাশনা বিস্তারিত",
+  "industry.publication_list": "প্রকাশনা সমূহ লিস্ট",
+  "industry.member_list": "সদস্য তালিকা",
+  "common.filter": "ফিল্টার",
+  "common.total_result": "মোট ফলাফল পাওয়া গেছে"
 }
