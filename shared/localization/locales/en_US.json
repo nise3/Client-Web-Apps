@@ -46,7 +46,7 @@
   "common.delete_btn": "Delete",
   "common.bbs_code": "BBS Code",
   "common.cancel": "Cancel",
-  "common.passport_size_photo":"Passport size photo",
+  "common.passport_size_photo": "Passport size photo",
   "common.select": "Select",
   "common.no_data_found": "No data found",
   "common.print": "Print",
@@ -867,7 +867,6 @@
   "common.like": "Like",
   "common.share_label": "Share",
   "common.download_label": "Download",
-  "common.print": "Print",
   "common.map_of_bangladesh": "Map of Bangladesh",
   "certificate.to": "to",
   "education.cgpa_out_of_scale": "{cgpa} out of {scale}",
@@ -1035,6 +1034,8 @@
   "industry.purpose_and_goal": "Our Purpose and Goal",
   "industry.training": "Training",
   "common.goal": "Our goal",
-  "common.taka": "taka"
-
+  "common.taka": "taka",
+  "common.advice": "Advice",
+  "common.contact_with_us": "Contact with us",
+  "common.contact_office": "Contact office"
 }
