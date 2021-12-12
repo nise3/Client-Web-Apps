@@ -3,6 +3,8 @@ export const LINK_SIGNUP = '/sign-up';
 export const LINK_YOUTH_SIGNUP = '/youth-registration';
 export const LINK_INSTITUTE_SIGNUP = '/institute-registration';
 export const LINK_ORGANIZATION_SIGNUP = '/organization-registration';
+export const LINK_INDUSTRY_ASSOCIATION_SIGNUP =
+  '/industry-association-registration';
 export const LINK_YOUTH_REGISTRATION_VERIFICATION =
   '/registration-verification';
 
