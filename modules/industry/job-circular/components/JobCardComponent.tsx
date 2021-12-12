@@ -13,7 +13,7 @@ import {useIntl} from 'react-intl';
 import {BusinessCenter, LocationOn, Share} from '@mui/icons-material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 
-const PREFIX = 'Index';
+const PREFIX = 'JobCardComponent';
 
 const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
@@ -68,15 +68,15 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5} md={5}>
+            <Grid item xs={12} sm={5} md={5} style={{textAlign: 'end'}}>
               <Button
                 variant={'outlined'}
                 color={'primary'}
                 sx={{marginRight: '5px'}}>
-                {messages['common.profile']}
+                {messages['industry.details']}
               </Button>
               <Button variant={'contained'} color={'primary'}>
-                {messages['common.contact']}
+                {messages['industry.apply']}
               </Button>
             </Grid>
           </Grid>
@@ -87,7 +87,9 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
             <Box>
               <TagChip label={job.location} icon={<LocationOn />} />
               <TagChip label={job.experience} icon={<BusinessCenter />} />
-              <TagChip label={job.remuneration} />
+              <TagChip
+                label={`৳ ${job.remuneration} ${messages['common.taka']}`}
+              />
             </Box>
             <Box display={'flex'}>
               <TagChip
