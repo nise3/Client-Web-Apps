@@ -109,7 +109,15 @@ const Publications = () => {
         <Grid container mt={4} spacing={2}>
           <Grid item md={6} xs={12}>
             <Grid container spacing={1}>
-              <Grid item xs={12} md={2} sx={{display: 'contents'}}>
+              <Grid
+                item
+                xs={12}
+                md={2}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <Box display={'flex'}>
                   <FilterListIcon />
                   <Typography sx={{marginLeft: '15px'}}>
