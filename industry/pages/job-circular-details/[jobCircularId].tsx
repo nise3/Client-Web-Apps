@@ -9,7 +9,7 @@ const JobCircularDetailsPage = asyncComponent(
 export default InstituteDefaultFrontPage(() => {
   return (
     <>
-      <PageMeta title={'Course Details'} />
+      <PageMeta title={'Job Circular Details'} />
       <JobCircularDetailsPage />
     </>
   );

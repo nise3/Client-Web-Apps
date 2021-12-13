@@ -1048,5 +1048,17 @@
   "industry.publication_list": "Publication lists",
   "industry.member_list": "Member list",
   "common.filter": "Filter",
-  "common.total_result": "Total Results"
+  "common.total_result": "Total Results",
+  "industry.release_date": "Release Date",
+  "industry.vacancy": "Vacancy",
+  "industry.job_type": "Job Type",
+  "industry.required_age": "Required Age",
+  "industry.salary": "Salary",
+  "industry.application_deadline": "Application Deadline",
+  "industry.gender": "Gender",
+  "industry.job_responsibility": "Job Responsibility",
+  "industry.educational_requirement": "Educational Requirements",
+  "industry.job_requirements": "Job Requirements",
+  "industry.working_place": "Working Place",
+  "industry.facilities": "Facilities"
 }
