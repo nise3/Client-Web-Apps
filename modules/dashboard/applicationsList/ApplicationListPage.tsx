@@ -10,6 +10,11 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import IconList from '../../../@softbd/icons/IconList';
 import ApplicationsListDetailsPopup from './ApplicationsListDetailsPopup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {
+  API_APPLICATIONS_LIST, API_APPLICATIONS_LISTS,
+  API_COURSE_ENROLLMENTS,
+} from '../../../@softbd/common/apiRoutes';
 
 const ApplicationListPage = () => {
   const {messages} = useIntl();
@@ -66,7 +71,7 @@ const ApplicationListPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(1)} />
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
               <ApproveButton />
               {data.row_status !== 3 ? (
                 <RejectButton
@@ -83,15 +88,11 @@ const ApplicationListPage = () => {
     ],
     [messages],
   );
-  const data = React.useMemo(
-    () => [
-      {
-        name: 'Hello',
-        memberId: 'World',
-      },
-    ],
-    [],
-  );
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_APPLICATIONS_LISTS,
+    });
+
   return (
     <>
       <PageBlock
@@ -102,10 +103,11 @@ const ApplicationListPage = () => {
         }>
         <ReactTable
           columns={columns}
-          loading={false}
           data={data}
-          pageCount={1}
-          totalCount={1}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
 

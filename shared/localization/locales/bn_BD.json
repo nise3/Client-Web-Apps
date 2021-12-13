@@ -1049,5 +1049,6 @@
   "common.total_result": "মোট ফলাফল পাওয়া গেছে",
   "application_list.label": "আবেদন তালিকা",
   "common.memberId": "সদস্য আইডি",
-  "common.accept": "এপ্রুভ"
+  "common.accept": "এপ্রুভ",
+  "common.industry_details": "সংস্থা বিস্তারিত"
 }

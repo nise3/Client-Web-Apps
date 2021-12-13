@@ -203,3 +203,9 @@ export const API_INSTITUTE_TRAINING_CENTER_LIST =
 
 export const API_INDUSTRY_PUBLICATIONS =
   INDUSTRY_SERVICE_PATH + '/publications';
+
+export const API_APPLICATIONS_LISTS =
+  INDUSTRY_SERVICE_PATH + '/application-lists';
+
+export const API_APPLICATIONS_LIST =
+  INDUSTRY_SERVICE_PATH + '/application-lists';

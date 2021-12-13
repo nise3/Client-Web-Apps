@@ -6,8 +6,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
 import IconList from '../../../@softbd/icons/IconList';
+import {useFetchApplicationList} from '../../../services/IndustryManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -16,7 +16,7 @@ type Props = {
 
 const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
+  const {data: itemData, isLoading} = useFetchApplicationList(itemId);
 
   return (
     <>
@@ -26,7 +26,7 @@ const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
         title={
           <>
             <IconList />
-            <IntlMessages id='application_list.label' />
+            <IntlMessages id='common.industry_details' />
           </>
         }
         maxWidth={'xl'}
