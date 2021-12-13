@@ -17,7 +17,6 @@ type Props = {
 const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationList(itemId);
-
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -29,28 +28,63 @@ const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
             <IntlMessages id='common.industry_details' />
           </>
         }
-        maxWidth={'xl'}
+        maxWidth={'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
           </>
         }>
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.name']}
-              value={'Hello'}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.memberId']}
-              value={'1'}
+              value={itemData?.name}
               isLoading={isLoading}
             />
           </Grid>
 
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.company_name']}
+              value={itemData?.company_name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.company_type']}
+              value={itemData?.company_type}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.email']}
+              value={itemData?.email}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.mobile']}
+              value={itemData?.mobile}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation']}
+              value={itemData?.designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.company_address']}
+              value={itemData?.company_address}
+              isLoading={isLoading}
+            />
+          </Grid>
           <Grid item xs={12} md={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}

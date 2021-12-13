@@ -6,29 +6,22 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import RejectButton from '../applicationManagement/RejectButton';
 import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import IconList from '../../../@softbd/icons/IconList';
 import ApplicationsListDetailsPopup from './ApplicationsListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {
-  API_APPLICATIONS_LIST, API_APPLICATIONS_LISTS,
-  API_COURSE_ENROLLMENTS,
-} from '../../../@softbd/common/apiRoutes';
+import {API_APPLICATIONS_LISTS} from '../../../@softbd/common/apiRoutes';
 
 const ApplicationListPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
   }, []);
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
-  }, [isToggleTable]);
+
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
@@ -92,7 +85,7 @@ const ApplicationListPage = () => {
     useReactTableFetchData({
       urlPath: API_APPLICATIONS_LISTS,
     });
-
+  console.log('data---', data);
   return (
     <>
       <PageBlock
@@ -108,7 +101,6 @@ const ApplicationListPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
 
         {isOpenDetailsModal && selectedItemId && (

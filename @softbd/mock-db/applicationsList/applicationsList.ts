@@ -4,6 +4,12 @@ const applicationsList = [
     name: 'Lizard a ddfde df widespread group',
     memberId: '1',
     row_status: 1,
+    company_name: 'lorem5',
+    company_type: 'private',
+    email: 'test',
+    mobile: 'test',
+    designation: 'test',
+    company_address: 'test',
   },
   {
     id: 2,

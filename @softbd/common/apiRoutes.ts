@@ -206,6 +206,3 @@ export const API_INDUSTRY_PUBLICATIONS =
 
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
-
-export const API_APPLICATIONS_LIST =
-  INDUSTRY_SERVICE_PATH + '/application-lists';

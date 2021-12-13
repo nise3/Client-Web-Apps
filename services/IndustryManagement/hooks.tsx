@@ -1,5 +1,8 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
-import {API_APPLICATIONS_LIST, API_INDUSTRY_PUBLICATIONS} from '../../@softbd/common/apiRoutes';
+import {
+  API_APPLICATIONS_LISTS,
+  API_INDUSTRY_PUBLICATIONS,
+} from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
   return useAxiosSWR([API_INDUSTRY_PUBLICATIONS, params]);
@@ -11,8 +14,6 @@ export function useFetchPublication(publicationId: number | null) {
   );
 }
 /**Application list**/
-export function useFetchApplicationList(listId:number | null){
-  return useAxiosSWR(
-    listId ? API_APPLICATIONS_LIST + '/' + listId : null,
-  );
+export function useFetchApplicationList(listId: number | null) {
+  return useAxiosSWR(listId ? API_APPLICATIONS_LISTS + '/' + listId : null);
 }
