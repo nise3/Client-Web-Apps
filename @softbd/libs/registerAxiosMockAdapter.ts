@@ -9,6 +9,7 @@ import {
   API_FRONT_END_VIDEO,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
+  API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_NOTICE_BOARD,
 } from '../common/apiRoutes';
@@ -20,6 +21,7 @@ import recentActivityDetails from '../mock-db/recentActivityDetails';
 import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
 import publications from '../mock-db/Industry/publications/publications';
+import {members} from '../mock-db/Industry/members';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -72,6 +74,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
 
   /**Industry**/
   mock.onGet(API_INDUSTRY_PUBLICATIONS).reply(200, {data: publications});
+  mock.onGet(API_INDUSTRY_MEMBERS).reply(200, {data: members});
+  mock
+    .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
+    .reply(200, {data: members.members[0]});
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();
