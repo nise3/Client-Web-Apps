@@ -29,6 +29,7 @@ interface HeadingProp {
 
 export const Link = ({
   children,
+  style,
   href = '',
   className = '',
   passHref = true,
@@ -37,7 +38,7 @@ export const Link = ({
 }: LinkProp) => {
   return (
     <NextLink href={href} passHref={passHref} {...props}>
-      <a href={href} target={target} className={className}>
+      <a href={href} target={target} className={className} style={style}>
         {children}
       </a>
     </NextLink>
@@ -46,6 +47,7 @@ export const Link = ({
 
 export const NavLink = ({
   children,
+  style,
   href = '',
   className = '',
   passHref = true,
@@ -55,7 +57,7 @@ export const NavLink = ({
   const active = route.pathname == href ? 'active' : '';
   return (
     <NextLink href={href} passHref={passHref} {...props}>
-      <a href={href} className={clsx(className, active)}>
+      <a href={href} className={clsx(className, active)} style={style}>
         {children}
       </a>
     </NextLink>
