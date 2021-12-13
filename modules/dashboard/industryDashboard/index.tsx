@@ -1,8 +1,12 @@
 import React, {useMemo} from 'react';
-import {Grid} from '@mui/material';
+import {Card, CardContent, CardHeader, CardMedia, Grid} from '@mui/material';
 import clsx from 'clsx';
-import StyledTile from '../../@softbd/Tile/StyledTile';
+import StyledTile from '../../../@softbd/Tile/StyledTile';
 import {styled} from '@mui/material/styles';
+import IndustryOneMonthStatisticsChart from './IndustryOneMonthStatisticsChart';
+import SectorBasedPeopleChart from './SectorBasedPeopleChart';
+import DashboardTabView from './DashboardTabView';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'IndustryDashboard';
 
@@ -14,6 +18,7 @@ const classes = {
   cardColor3: `${PREFIX}-cardColor3`,
   cardColor4: `${PREFIX}-cardColor4`,
   cardColor5: `${PREFIX}-cardColor5`,
+  mapStyle: `${PREFIX}-mapStyle`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -21,7 +26,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     position: 'relative',
     display: 'inline-block',
     width: 'calc((100% - 80px) / 5)',
-    '&:not(:first-child)': {
+    '&:not(:first-of-type)': {
       marginLeft: '20px',
     },
     '&::before, &::after': {
@@ -75,9 +80,17 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     padding: theme.spacing(1),
     color: '#fff',
   },
+  [`& .${classes.mapStyle}`]: {
+    height: '100%',
+    objectFit: 'unset',
+    maxHeight: '500px',
+    margin: 'auto',
+  },
 }));
 
 const IndustryDashboard = () => {
+  const {messages} = useIntl();
+
   const industryStatistics = useMemo(
     () => ({
       industry: 2415,
@@ -90,7 +103,7 @@ const IndustryDashboard = () => {
   );
 
   return (
-    <StyledGrid container>
+    <StyledGrid container spacing={3}>
       <Grid item xs={12}>
         <StyledTile
           className={clsx(classes.cardColors, classes.cardColor1)}
@@ -120,8 +133,38 @@ const IndustryDashboard = () => {
           message={'common.trending_skills'}
         />
       </Grid>
-      <Grid item xs={12} md={7}></Grid>
-      <Grid item xs={12} md={5}></Grid>
+      <Grid item xs={12} md={7}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <IndustryOneMonthStatisticsChart />
+          </Grid>
+          <Grid item xs={12}>
+            <SectorBasedPeopleChart />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={12} md={5}>
+        <Card
+          sx={{
+            height: '100%',
+          }}>
+          <CardHeader title={messages['common.district_map']} />
+          <CardContent
+            sx={{
+              height: '100%',
+              display: 'flex',
+            }}>
+            <CardMedia
+              component={'img'}
+              image={'/images/district_map.png'}
+              className={classes.mapStyle}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <DashboardTabView />
+      </Grid>
     </StyledGrid>
   );
 };

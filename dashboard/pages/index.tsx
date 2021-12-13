@@ -11,7 +11,7 @@ const DashboardHomePage = asyncComponent(
 );
 
 const IndustryDashboardHomePage = asyncComponent(
-  () => import('../../modules/dashboard/IndustryDashboard'),
+  () => import('../../modules/dashboard/industryDashboard'),
 );
 
 export default DashboardPage(() => {

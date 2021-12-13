@@ -1054,5 +1054,15 @@
   "common.employed": "নিযুক্ত",
   "common.unemployed": "বেকার",
   "common.job_vacancy": "চাকরি খালি আছে",
-  "common.trending_skills": "ট্রেন্ডিং স্কিল"
+  "common.trending_skills": "ট্রেন্ডিং স্কিল",
+  "dashboard.one_month_stat": "গত 1 মাসের পরিসংখ্যান",
+  "dashboard.sector_based_people": "সেক্টর ভিত্তিক মানুষ",
+  "dashboard.tab_industry": "শিল্প",
+  "dashboard.tab_unemployed_people": "বেকার জনগণ",
+  "dashboard.tab_job_vacancy": "চাকরি খালি আছে",
+  "dashboard.tab_employed_people": "কর্মরত মানুষ",
+  "dashboard.tab_skilled_people": "দক্ষ মানুষ",
+  "dashboard.new_recruits": "নতুন নিয়োগপ্রাপ্তরা",
+  "common.month": "মাস",
+  "common.district_map": "জেলার মানচিত্র"
 }
