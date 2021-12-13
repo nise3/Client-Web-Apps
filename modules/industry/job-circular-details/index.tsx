@@ -11,7 +11,6 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {useIntl} from 'react-intl';
 import {ArrowBack, ArrowRightAlt} from '@mui/icons-material';
-import Divider from "@mui/material/Divider";
 import {gotoLoginSignUpPage, industryDomain} from "../../../@softbd/common/constants";
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT, LINK_YOUTH_SIGNUP} from "../../../@softbd/common/appLinks";
 
@@ -29,6 +28,7 @@ const classes = {
     subTitle: `${PREFIX}-subTitle`,
     value: `${PREFIX}-value`,
     sideBox: `${PREFIX}-sideBox`,
+    divDesign: `${PREFIX}-divDesign`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -80,6 +80,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
     [`& .${classes.value}`]: {
         marginTop: '-10px'
+    },
+
+    [`& .${classes.divDesign}`]: {
+        width: 'auto',
+        maxWidth: '100%',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+        display: 'inline-block',
     },
 
     [`& .${classes.sideBox}`]: {
@@ -192,8 +199,9 @@ const JobCircularDetails = () => {
                     <Grid container>
                         {/** main  content: left texts */}
                         <Grid item xs={12} md={8}>
-                            <div style={{width: 'auto', maxWidth: '100%', borderBottom: '1px solid rgba(0, 0, 0, 0.12)'}}>
-                                <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
                                     {messages['industry.vacancy']}
                                 </Typography>
                                 <Typography
@@ -202,68 +210,87 @@ const JobCircularDetails = () => {
                                     {jobCircularDetails.vacancy}
                                 </Typography>
                             </div>
+                            <br/>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
+                                    {messages['industry.job_responsibility']}
+                                </Typography>
+                                <Typography
+                                    gutterBottom={true}
+                                    className={classes.value}>
+                                    {jobCircularDetails.job_responsibility}
+                                </Typography>
+                            </div>
+                            <br/>
 
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
-                                {messages['industry.job_responsibility']}
-                            </Typography>
-                            <Typography
-                                gutterBottom={true}
-                                className={classes.value}>
-                                {jobCircularDetails.job_responsibility}
-                            </Typography>
-                            <Divider/>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
+                                    {messages['industry.job_type']}
+                                </Typography>
+                                <Typography
+                                    gutterBottom={true}
+                                    className={classes.value}>
+                                    {jobCircularDetails.job_type}
+                                </Typography>
+                            </div>
+                            <br/>
 
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
-                                {messages['industry.job_type']}
-                            </Typography>
-                            <Typography
-                                gutterBottom={true}
-                                className={classes.value}>
-                                {jobCircularDetails.job_type}
-                            </Typography>
-                            <Divider/>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
+                                    {messages['industry.educational_requirement']}
+                                </Typography>
+                                <Typography
+                                    gutterBottom={true}
+                                    className={classes.value}>
+                                    {jobCircularDetails.educational_requirement}
+                                </Typography>
+                            </div>
+                            <br/>
 
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
-                                {messages['industry.educational_requirement']}
-                            </Typography>
-                            <Typography
-                                gutterBottom={true}
-                                className={classes.value}>
-                                {jobCircularDetails.educational_requirement}
-                            </Typography>
-                            <Divider/>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
+                                    {messages['industry.job_requirements']}
+                                </Typography>
+                                <Typography
+                                    gutterBottom={true}
+                                    className={classes.value}>
+                                    {jobCircularDetails.job_requirements}
+                                </Typography>
+                            </div>
+                            <br/>
 
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
-                                {messages['industry.job_requirements']}
-                            </Typography>
-                            <Typography
-                                gutterBottom={true}
-                                className={classes.value}>
-                                {jobCircularDetails.job_requirements}
-                            </Typography>
-                            <Divider/>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
+                                    {messages['industry.working_place']}
+                                </Typography>
+                                <Typography
+                                    gutterBottom={true}
+                                    className={classes.value}>
+                                    {jobCircularDetails.working_place}
+                                </Typography>
+                            </div>
+                            <br/>
 
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
-                                {messages['industry.working_place']}
-                            </Typography>
-                            <Typography
-                                gutterBottom={true}
-                                className={classes.value}>
-                                {jobCircularDetails.working_place}
-                            </Typography>
-                            <Divider/>
+                            <div className={classes.divDesign}>
+                                <Typography gutterBottom={true} className={classes.subTitle}
+                                            style={{marginTop: '30px'}}>
+                                    {messages['industry.facilities']}
+                                </Typography>
+                                <Typography
+                                    gutterBottom={true}
+                                    className={classes.value}>
+                                    {jobCircularDetails.facilities}
+                                </Typography>
+                            </div>
+                            <br/>
 
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
-                                {messages['industry.facilities']}
-                            </Typography>
-                            <Typography
-                                gutterBottom={true}
-                                className={classes.value}>
-                                {jobCircularDetails.facilities}
-                            </Typography>
-                            <Divider/>
-
-                            <Typography gutterBottom={true} className={classes.subTitle} style={{marginTop: '30px'}}>
+                            <Typography gutterBottom={true} className={classes.subTitle}
+                                        style={{marginTop: '30px'}}>
                                 {messages['industry.salary']}
                             </Typography>
                             <Typography
@@ -276,6 +303,7 @@ const JobCircularDetails = () => {
                                     &#2547;
                                 </Box>{jobCircularDetails.salary} {messages['common.taka']}
                             </Typography>
+
                         </Grid>
 
                         {/** main  content: right side box */}
