@@ -35,7 +35,7 @@ import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {courseEnroll} from '../../../services/youthManagement/YouthService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS} from '../../../@softbd/common/appLinks';
+import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUBMITTED} from '../../../@softbd/common/appLinks';
 import {
   EducationLevelId,
   ResultCodeAppearedId,
@@ -1634,11 +1634,13 @@ const YouthCourseRegistrationPage = () => {
         delete data.mobile;
 
         console.log('data ', data);
-        await courseEnroll(data);
+        const response = await courseEnroll(data);
 
         router
           .push({
-            pathname: LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS + course.id,
+            pathname:
+              LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUBMITTED + course.id,
+            query: {enrollment_id: response?.id},
           })
           .then((r) => {});
       }

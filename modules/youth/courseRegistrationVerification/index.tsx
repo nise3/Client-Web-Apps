@@ -1,19 +1,17 @@
-import React, {FC, useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Box, Grid, Input, Link, Typography} from '@mui/material';
-import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
-
 import {useIntl} from 'react-intl';
-import yup from '../../@softbd/libs/yup';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {classes, StyledPaper} from '../../registrationVerification/index.style';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {youthRegistrationVerification} from '../../services/youthManagement/YouthRegistrationService';
-import IntlMessages from '../../@crema/utility/IntlMessages';
-import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
-import useNotiStack from '../../@softbd/hooks/useNotifyStack';
-import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
-import {classes, StyledPaper} from './index.style';
-import {createVerificationCode} from '../../services/youthManagement/RegistrationVerificationService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useRouter} from 'next/router';
+import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD} from '../../../@softbd/common/appLinks';
 
 const inputProps = {
   maxLength: 1,
@@ -22,15 +20,11 @@ const inputProps = {
   },
 };
 
-interface VerifyCodeComponentProps {
-  userEmailAndMobile?: any;
-}
-
-const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
-  userEmailAndMobile,
-}) => {
+const CourseRegistrationVerification = () => {
   const {messages} = useIntl();
-  const {successStack, errorStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
+  const router = useRouter();
+  const {courseId, enrollment_id}: any = router.query;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -63,27 +57,9 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
     if (index >= 0 && index < 4) setFocus('code' + (index + 1));
   };
 
-  const redirectToSSO = () => {
-    window.location.href = getSSOLoginUrl();
-  };
-
   const resendVerificationCode = useCallback(
     () => async () => {
       try {
-        const response = await createVerificationCode(userEmailAndMobile);
-        const successMsg = userEmailAndMobile.email ? (
-          <IntlMessages
-            id='common.verification_message_on_email'
-            values={{subject: userEmailAndMobile.email}}
-          />
-        ) : (
-          <IntlMessages
-            id='common.verification_message_on_mobile'
-            values={{subject: userEmailAndMobile.mobile}}
-          />
-        );
-
-        response && successStack(successMsg);
       } catch (error: any) {
         processServerSideErrors({
           error,
@@ -93,7 +69,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
         });
       }
     },
-    [userEmailAndMobile],
+    [],
   );
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
@@ -101,17 +77,17 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
       let requestData: any = {};
       requestData.verification_code =
         data.code1 + data.code2 + data.code3 + data.code4;
+      requestData.enrollment_id = enrollment_id;
+      console.log('data', requestData);
 
-      if (userEmailAndMobile?.mobile)
-        requestData.mobile = userEmailAndMobile.mobile;
-      if (userEmailAndMobile?.email)
-        requestData.email = userEmailAndMobile.email;
-
-      await youthRegistrationVerification(requestData);
-      successStack(
-        <IntlMessages id='youth_registration.verification_success' />,
-      );
-      redirectToSSO();
+      router
+        .push({
+          pathname:
+            LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
+            courseId,
+          query: {enrollment_id: enrollment_id},
+        })
+        .then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -122,21 +98,10 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
       <Typography
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
-        {messages['common.enter_verification_code']}
+        {messages['common.enter_validation_code']}
       </Typography>
       <Typography style={{marginBottom: '10px'}}>
-        {userEmailAndMobile?.email && (
-          <IntlMessages
-            id='common.verification_message_on_email'
-            values={{subject: userEmailAndMobile.email}}
-          />
-        )}
-        {userEmailAndMobile?.mobile && (
-          <IntlMessages
-            id='common.verification_message_on_mobile'
-            values={{subject: userEmailAndMobile.mobile}}
-          />
-        )}
+        <IntlMessages id='common.validation_code_mobile' />
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <Grid container spacing={3}>
@@ -200,10 +165,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
 
         <Grid item xs={12}>
           <SubmitButton
-            isSubmitting={
-              isSubmitting ||
-              (!userEmailAndMobile?.mobile && !userEmailAndMobile?.email)
-            }
+            isSubmitting={isSubmitting}
             isLoading={false}
             label={messages['common.verify'] as string}
           />
@@ -213,4 +175,4 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   );
 };
 
-export default VerifyCodeComponent;
+export default CourseRegistrationVerification;
