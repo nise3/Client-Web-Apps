@@ -484,6 +484,9 @@
   "common.deactivate_confirm_text": "Do you still want to continue the process of Delete Account?",
   "common.profile": "Profile",
   "common.experience": "Experience",
+  "common.not_interviewed": "Not Interviewed",
+  "common.interviewed": "Interviewed",
+  "common.interview": "Interview",
   "common.year_of_experience": "Year of experience",
   "common.year_of": "Year of",
   "common.achieved": "Achieved",
@@ -497,6 +500,8 @@
   "common.download": "Download",
   "common.certificate": "Certificate",
   "common.position_bn": "Position",
+  "common.position": "Position",
+  "common.qualification": "Qualification",
   "common.type_of_employee": "Job Type",
   "job_experience.start_date": "Joining Date",
   "job_experience.end_date": "Resign Date",
@@ -1091,6 +1096,6 @@
   "common.memberId": "Member ID",
   "common.accept": "Accept",
   "common.industry_details": "Industry Details",
-  "password.not_matched": "Password must match"
-
+  "password.not_matched": "Password must match",
+  "applicant.label": "Applicant List"
 }
