@@ -205,3 +205,6 @@ export const API_INDUSTRY_PUBLICATIONS =
   INDUSTRY_SERVICE_PATH + '/publications';
 export const API_INDUSTRY_MEMBERS =
   INDUSTRY_SERVICE_PATH + '/members';
+
+export const API_APPLICATIONS_LISTS =
+  INDUSTRY_SERVICE_PATH + '/application-lists';
