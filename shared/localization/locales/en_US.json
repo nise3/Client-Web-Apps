@@ -1087,10 +1087,10 @@
   "industry.job_requirements": "Job Requirements",
   "industry.working_place": "Working Place",
   "industry.facilities": "Facilities",
+  "association_information": "Association Information",
   "application_list.label": "Applications list",
   "common.memberId": "Member ID",
   "common.accept": "Accept",
   "common.industry_details": "Industry Details",
   "password.not_matched": "Password must match"
-
 }
