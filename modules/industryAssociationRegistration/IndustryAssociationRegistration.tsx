@@ -44,7 +44,7 @@ const OrganizationRegistration = () => {
         .string()
         .title()
         .label(messages['association.association_name'] as string),
-      organization_type_id: yup
+      association_type_id: yup
         .string()
         .trim()
         .required()
@@ -163,7 +163,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='association_type'
+                id='association_type_id'
                 isLoading={isLoading}
                 label={messages['association.association_type']}
                 control={control}
@@ -225,6 +225,8 @@ const OrganizationRegistration = () => {
                 label={messages['association.association_address']}
                 register={register}
                 errorInstance={errors}
+                multiline={true}
+                rows={3}
               />
             </Grid>
 
