@@ -13,6 +13,7 @@ const PREFIX = 'PopularCourse';
 
 const classes = {
   title: `${PREFIX}-title`,
+  seeMore: `${PREFIX}-seeMore`,
 };
 
 const StyledGrid = styled(Grid)(() => ({
@@ -23,6 +24,11 @@ const StyledGrid = styled(Grid)(() => ({
     color: '#682988',
     display: 'flex',
     alignItems: 'center',
+  },
+
+  [`& .${classes.seeMore}`]: {
+    marginTop: '15px',
+    marginBottom: '15px',
   },
 
   '& .react-multi-carousel-list': {
@@ -72,14 +78,15 @@ const PopularCourse = () => {
         </Box>
         {courseList && courseList?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
-            <Link href={'/course-list/popular'} passHref>
+            <Link
+              href={'/course-list/popular'}
+              passHref
+              className={classes.seeMore}>
               <Button
                 variant='outlined'
                 color='primary'
                 endIcon={<ArrowRightAlt />}
                 style={{
-                  marginTop: '15px',
-                  marginBottom: '15px',
                   borderRadius: '10px',
                 }}>
                 {messages['common.see_more']}
