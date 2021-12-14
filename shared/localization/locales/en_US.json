@@ -1070,5 +1070,6 @@
   "industry.educational_requirement": "Educational Requirements",
   "industry.job_requirements": "Job Requirements",
   "industry.working_place": "Working Place",
-  "industry.facilities": "Facilities"
+  "industry.facilities": "Facilities",
+  "association_information": "Association Information"
 }
