@@ -167,7 +167,7 @@
   "common.file_upload": "ফাইল আপলোড",
   "signup.label": "নিবন্ধন",
   "common.youth": "ইয়ুথ",
-  "common.industry": "ইন্ডাস্ট্রি",
+  "common.industry": "সংস্থা",
   "common.training_center": "ট্রেনিং সেন্টার",
   "common.miscellaneous": "অন্যান্য",
   "button.click_me": "ক্লিক",
@@ -1095,5 +1095,10 @@
   "common.memberId": "সদস্য আইডি",
   "common.accept": "এপ্রুভ",
   "common.industry_details": "সংস্থা বিস্তারিত",
+  "job_lists.label": "চাকরি তালিকা",
+  "common.job_id": "চাকরির আইডি",
+  "common.position": "অবস্থান",
+  "common.applicants": "আবেদনকারী",
+  "common.job_type": "Job type",
   "password.not_matched": "পাসওয়ার্ড অবশ্যই একই হতে হবে"
 }

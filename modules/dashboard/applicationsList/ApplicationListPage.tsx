@@ -85,7 +85,6 @@ const ApplicationListPage = () => {
     useReactTableFetchData({
       urlPath: API_APPLICATIONS_LISTS,
     });
-  console.log('data---', data);
   return (
     <>
       <PageBlock
