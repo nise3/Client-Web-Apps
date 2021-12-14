@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
 import {
+  API_APPLICATIONS_LISTS,
   API_FONT_END_CONTACT_MAP,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_GALLERY,
@@ -22,6 +23,7 @@ import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
 import publications from '../mock-db/Industry/publications/publications';
 import {members} from '../mock-db/Industry/members';
+import applicationsList from '../mock-db/applicationsList/applicationsList';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -78,6 +80,13 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock
     .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
     .reply(200, {data: members.members[0]});
+
+  /**Application list**/
+  mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
+
+  mock
+    .onGet(new RegExp(API_APPLICATIONS_LISTS + '/(.*)'))
+    .reply(200, {data: applicationsList[0]});
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();

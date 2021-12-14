@@ -4,7 +4,10 @@ html.monochrome {
   filter: grayscale(100%) contrast(120%);
 }
 html.inverted {
-  filter: invert(75%) contrast(90%);
+  filter: invert(75%) contrast(120%);
+}
+html.inverted.monochrome {
+  filter: grayscale(100%) invert(75%) contrast(120%);
 }
 html.bigCursor, html.bigcursor * {
   cursor: url('/images/cursor.svg'), auto !important 
