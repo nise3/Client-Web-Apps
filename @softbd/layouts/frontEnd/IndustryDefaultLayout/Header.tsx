@@ -59,7 +59,8 @@ const Header: React.FC<AppHeaderProps> = () => {
 
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INDUSTRY_ABOUT_US}>
-          {messages['menu.about_us']}
+          {/*{messages['menu.about_us']}*/}
+          About us
         </Link>
       </MenuItem>
 
@@ -147,7 +148,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                   <Link
                     href={LINK_FRONTEND_INDUSTRY_ABOUT_US}
                     className={classes.menuItem}>
-                    {messages['menu.about_us']}
+                    {messages['footer.about_us']}
                   </Link>
 
                   <Link

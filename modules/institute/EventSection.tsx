@@ -8,7 +8,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
-import UnderlinedHeading from './UnderlinedHeading';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {H4} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
