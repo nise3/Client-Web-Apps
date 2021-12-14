@@ -60,7 +60,9 @@ const TrendingCoursesSection = ({
           </Grid>
           {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link href={`${path}/${pathValue}`}>
+              <Link
+                href={`${path}/${pathValue}`}
+                style={{display: 'inline-block'}}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
                   <ChevronRight />

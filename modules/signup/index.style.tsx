@@ -11,6 +11,7 @@ export const classes = {
   icon: `${PREFIX}-icon`,
   text: `${PREFIX}-text`,
   signInStyle: `${PREFIX}-signInStyle`,
+  iconBoxIndustryAssociation: `${PREFIX}-iconBoxInstitute`,
 };
 
 export const StyledContainer = styled(Container)(({theme}) => ({
@@ -29,6 +30,10 @@ export const StyledContainer = styled(Container)(({theme}) => ({
 
   [`& .${classes.iconBoxIndustry}`]: {
     background: '#e67f22',
+  },
+
+  [`& .${classes.iconBoxIndustryAssociation}`]: {
+    background: '#228b10',
   },
 
   [`& .${classes.icon}`]: {

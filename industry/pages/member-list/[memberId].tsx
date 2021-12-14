@@ -4,8 +4,8 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import {useIntl} from 'react-intl';
 import PageMeta from '../../../@crema/core/PageMeta';
 
-const MemberListPage = asyncComponent(
-  () => import('../../../modules/industry/memberList'),
+const MemberDetailsPage = asyncComponent(
+  () => import('../../../modules/industry/memberList/MemberDetails'),
 );
 
 export default IndustryDefaultFrontPage(() => {
@@ -14,7 +14,7 @@ export default IndustryDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['common.member_list']} />
-      <MemberListPage />
+      <MemberDetailsPage />
     </>
   );
 });

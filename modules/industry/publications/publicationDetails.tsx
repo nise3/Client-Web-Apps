@@ -34,6 +34,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
     marginTop: '50px',
   },
 }));
+
 const PublicationDetails = () => {
   const {messages} = useIntl();
   /*  const router = useRouter();

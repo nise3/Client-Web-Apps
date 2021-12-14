@@ -18,7 +18,6 @@ const YouthPage = () => {
 
   const router = useRouter();
   const path = router.asPath;
-  console.log('router.pathname: ', router.asPath);
   const {batchId} = router.query;
 
   const columns = useMemo(
