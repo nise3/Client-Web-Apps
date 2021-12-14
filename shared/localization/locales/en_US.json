@@ -1090,6 +1090,11 @@
   "application_list.label": "Applications list",
   "common.memberId": "Member ID",
   "common.accept": "Accept",
-  "common.industry_details": "Industry Details"
+  "common.industry_details": "Industry Details",
+  "job_lists.label": "Job Lists",
+  "common.job_id": "Job Id",
+  "common.position": "Position",
+  "common.applicants": "Applicants",
+  "common.job_type": "Job type"
 
 }
