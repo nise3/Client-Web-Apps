@@ -13,7 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import {H2, H6, Link} from '../../../@softbd/elements/common';
+import {Body2, H2, Link} from '../../../@softbd/elements/common';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 import clsx from 'clsx';
@@ -109,7 +109,15 @@ const Publications = () => {
         <Grid container mt={4} spacing={2}>
           <Grid item md={6} xs={12}>
             <Grid container spacing={1}>
-              <Grid item xs={12} md={2} sx={{display: 'contents'}}>
+              <Grid
+                item
+                xs={12}
+                md={2}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <Box display={'flex'}>
                   <FilterListIcon />
                   <Typography sx={{marginLeft: '15px'}}>
@@ -171,19 +179,19 @@ const Publications = () => {
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container>
               <Grid item xs={12}>
-                <Typography gutterBottom variant='h6'>
+                <Body2 gutterBottom>
                   {messages['total_result.institute']}{' '}
                   <Chip label={'4'} className={classes.chipStyle} />
-                </Typography>
+                </Body2>
               </Grid>
               <Grid item xs={12}>
-                <Grid container spacing={5}>
+                <Grid container spacing={1}>
                   {publications && publications?.length ? (
                     publications.map((publication: any) => {
                       return (
                         <Grid
                           item
-                          md
+                          md={3}
                           xs={12}
                           justifyContent={'center'}
                           mt={3}
@@ -193,16 +201,16 @@ const Publications = () => {
                             sx={{maxWidth: 150}}>
                             <CardMedia
                               component='img'
-                              height='220'
+                              height='227'
                               image='/images/testPublication.png'
                               alt='publication'
                             />
                           </Box>
-                          <Box sx={{width: '150px'}}>
+                          <Box sx={{width: '150px'}} mt={1}>
                             <Link href={`/publications/${publication.id}`}>
-                              <H6 className={classes.title}>
+                              <Body2 className={classes.title}>
                                 {publication?.title}
-                              </H6>
+                              </Body2>
                             </Link>
                           </Box>
                         </Grid>

@@ -6,7 +6,8 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
-import {Body1, H1, Link} from '../../../@softbd/elements/common';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import {Body1, H2, Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'PublicationDetails';
 
@@ -43,17 +44,18 @@ const PublicationDetails = () => {
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
         <Grid item xs={12} mt={5}>
-          <Grid container>
-            <Grid item xs={5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={5}>
               <Box className={classes.date}>
                 <Link href={'/publications'}>
                   <Button variant={'outlined'} color={'primary'}>
+                    <ArrowBackIosIcon style={{fontSize: 'small'}} />
                     {messages['industry.publication_list']}
                   </Button>
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={7} textAlign={'right'}>
+            <Grid item xs={12} md={7} textAlign={'right'}>
               <Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
@@ -98,21 +100,23 @@ const PublicationDetails = () => {
             image={'/images/testPublication.png'}
             alt={'notice-details'}
           />
-          <H1 mt={3}>Publications details tilte</H1>
+          <H2 mt={3}>Publications details tilte</H2>
         </Grid>
 
         <Grid item xs={12}>
           <Body1>
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum is that it has a more-or-less normal
-            distribution of letters, as opposed to using 'Content here, content
-            here', making it look like readable English. Many desktop publishing
-            packages and web page editors now use Lorem Ipsum as their default
-            model text, and a search for 'lorem ipsum' will uncover many web
-            sites still in their infancy. Various versions have evolved over the
-            years, sometimes by accident, sometimes on purpose (injected humour
-            and the like).
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
+            aspernatur aut commodi consectetur culpa cupiditate delectus,
+            eveniet excepturi exercitationem laboriosam minima natus nobis nulla
+            officia pariatur porro provident quaerat quisquam quos recusandae
+            repellat sequi similique sint soluta unde velit voluptate? Alias
+            animi asperiores aspernatur atque blanditiis, dignissimos ea eius
+            error fugit modi quaerat sequi voluptatibus? Accusamus aut, beatae
+            cum, delectus dignissimos dolores eligendi eos et ex expedita
+            explicabo id illo in ipsa iure labore libero magnam natus nemo non
+            quaerat rem sed similique voluptate voluptates? Asperiores
+            consequuntur, deserunt dicta exercitationem labore laboriosam,
+            nesciunt non possimus quo, quos soluta ullam veniam.
           </Body1>
         </Grid>
       </Grid>
