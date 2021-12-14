@@ -1093,5 +1093,6 @@
   "application_list.label": "আবেদন তালিকা",
   "common.memberId": "সদস্য আইডি",
   "common.accept": "এপ্রুভ",
-  "common.industry_details": "সংস্থা বিস্তারিত"
+  "common.industry_details": "সংস্থা বিস্তারিত",
+  "password.not_matched": "পাসওয়ার্ড অবশ্যই একই হতে হবে"
 }
