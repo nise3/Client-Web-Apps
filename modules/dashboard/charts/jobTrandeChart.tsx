@@ -21,7 +21,6 @@ const JobTrandsChart = () => {
     reset,
     formState: {errors},
   } = useForm<any>();
-
   useEffect(() => {
     reset({
       year_id: '1'
@@ -37,11 +36,9 @@ const JobTrandsChart = () => {
     { name: 'JUl', design: 2100, salesman: 850, mgt: 2400, servicing: 3700, operating: 1500, welding: 630 }
   ]
 
-
   return (
     <StyledContainer>
       <Card>
-
         <Grid container>
           <Grid item xs={6} md={6}>
             <CardHeader title={messages['dashboard.JobTrends']}/>

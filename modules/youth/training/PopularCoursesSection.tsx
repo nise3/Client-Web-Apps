@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Grid, Typography} from '@mui/material';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Button, Grid, Pagination, Stack, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
@@ -12,24 +12,25 @@ import {useRouter} from 'next/router';
 
 interface PopularCoursesSectionProps {
   filters?: any;
-  page_size?: number;
+  showAllCourses: boolean;
 }
 
 const PopularCoursesSection = ({
   filters,
-  page_size,
+  showAllCourses,
 }: PopularCoursesSectionProps) => {
   const {messages} = useIntl();
   const router = useRouter();
   const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState<any>({
-    page_size: page_size ? page_size : null,
+    page_size: showAllCourses ? 8 : 4,
   });
 
   useEffect(() => {
+    page.current = 1;
     setCourseFilters((prev: any) => {
-      return objectFilter({...prev, ...filters});
+      return objectFilter({...prev, ...filters, page: page.current});
     });
   }, [filters]);
 
@@ -39,6 +40,14 @@ const PopularCoursesSection = ({
     metaData: popularCoursesMetaData,
     isLoading: isLoadingCourseList,
   } = useFetchCourseList(pathValue, courseFilters);
+
+  const page = useRef<any>(1);
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setCourseFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
 
   return (
     <Grid container spacing={3} mb={8}>
@@ -50,7 +59,7 @@ const PopularCoursesSection = ({
             </Typography>
           </Grid>
 
-          {page_size && popularCoursesMetaData?.total_page > 1 && (
+          {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
@@ -80,6 +89,25 @@ const PopularCoursesSection = ({
                     </Grid>
                   );
                 })}
+
+              {showAllCourses && popularCoursesMetaData.total_page > 1 && (
+                <Grid
+                  item
+                  md={12}
+                  mt={4}
+                  display={'flex'}
+                  justifyContent={'center'}>
+                  <Stack spacing={2}>
+                    <Pagination
+                      page={page.current}
+                      count={popularCoursesMetaData.total_page}
+                      color={'primary'}
+                      shape='rounded'
+                      onChange={onPaginationChange}
+                    />
+                  </Stack>
+                </Grid>
+              )}
             </>
           ) : (
             <NoDataFoundComponent />

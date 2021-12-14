@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Grid, Typography} from '@mui/material';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Button, Grid, Pagination, Stack, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
@@ -14,12 +14,12 @@ import {useRouter} from 'next/router';
 
 interface skillMatchingCoursesSectionProps {
   filters?: any;
-  page_size?: number;
+  showAllCourses: boolean;
 }
 
 const SkillMatchingCoursesSection = ({
   filters,
-  page_size,
+  showAllCourses,
 }: skillMatchingCoursesSectionProps) => {
   const {messages} = useIntl();
   const router = useRouter();
@@ -28,7 +28,8 @@ const SkillMatchingCoursesSection = ({
 
   const [courseFilters, setCourseFilters] = useState<any>({
     skill_ids: [],
-    page_size: page_size ? page_size : null,
+    page_size: showAllCourses ? 8 : 4,
+    page: 1,
   });
 
   useEffect(() => {
@@ -44,8 +45,9 @@ const SkillMatchingCoursesSection = ({
   }, [authUser]);
 
   useEffect(() => {
+    page.current = 1;
     setCourseFilters((prev: any) => {
-      return objectFilter({...prev, ...filters});
+      return objectFilter({...prev, ...filters, page: page.current});
     });
   }, [filters]);
 
@@ -56,6 +58,13 @@ const SkillMatchingCoursesSection = ({
     isLoading: isLoadingCourseList,
   } = useFetchCourseList(pathValue, courseFilters);
 
+  const page = useRef<any>(1);
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setCourseFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
   return (
     <Grid container spacing={3} mb={8}>
       <Grid item xs={12} sm={12}>
@@ -65,7 +74,7 @@ const SkillMatchingCoursesSection = ({
               {messages['common.skill_matching_course']}
             </Typography>
           </Grid>
-          {page_size && courseListMetaData?.total_page > 1 && (
+          {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
@@ -92,6 +101,24 @@ const SkillMatchingCoursesSection = ({
                   </Link>
                 </Grid>
               ))}
+              {showAllCourses && courseListMetaData.total_page > 1 && (
+                <Grid
+                  item
+                  md={12}
+                  mt={4}
+                  display={'flex'}
+                  justifyContent={'center'}>
+                  <Stack spacing={2}>
+                    <Pagination
+                      page={page.current}
+                      count={courseListMetaData.total_page}
+                      color={'primary'}
+                      shape='rounded'
+                      onChange={onPaginationChange}
+                    />
+                  </Stack>
+                </Grid>
+              )}
             </>
           ) : (
             <NoDataFoundComponent />

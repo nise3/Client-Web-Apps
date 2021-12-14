@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Grid, Typography} from '@mui/material';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Button, Grid, Pagination, Stack, Typography} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
@@ -12,19 +12,20 @@ import {useRouter} from 'next/router';
 
 interface TrendingCoursesSectionProps {
   filters?: any;
-  page_size?: number;
+  showAllCourses: boolean;
 }
 
 const TrendingCoursesSection = ({
   filters,
-  page_size,
+  showAllCourses,
 }: TrendingCoursesSectionProps) => {
   const {messages} = useIntl();
   const router = useRouter();
   const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState({
-    page_size: page_size,
+    page_size: showAllCourses ? 8 : 4,
+    page: 1,
   });
 
   const pathValue = 'trending';
@@ -34,10 +35,17 @@ const TrendingCoursesSection = ({
     isLoading: isLoadingCourseList,
   } = useFetchCourseList(pathValue, courseFilters);
 
-  console.log('Trending CourseList----', courseList);
+  const page = useRef<any>(1);
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setCourseFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
   useEffect(() => {
+    page.current = 1;
     setCourseFilters((prev: any) => {
-      return objectFilter({...prev, ...filters});
+      return objectFilter({...prev, ...filters, page: page.current});
     });
   }, [filters]);
 
@@ -50,7 +58,7 @@ const TrendingCoursesSection = ({
               {messages['common.trending_courses']}
             </Typography>
           </Grid>
-          {page_size && courseListMetaData?.total_page > 1 && (
+          {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link href={`${path}/${pathValue}`}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
@@ -79,6 +87,24 @@ const TrendingCoursesSection = ({
                   </Grid>
                 );
               })}
+              {showAllCourses && courseListMetaData.total_page > 1 && (
+                <Grid
+                  item
+                  md={12}
+                  mt={4}
+                  display={'flex'}
+                  justifyContent={'center'}>
+                  <Stack spacing={2}>
+                    <Pagination
+                      page={page.current}
+                      count={courseListMetaData.total_page}
+                      color={'primary'}
+                      shape='rounded'
+                      onChange={onPaginationChange}
+                    />
+                  </Stack>
+                </Grid>
+              )}
             </>
           ) : (
             <NoDataFoundComponent />

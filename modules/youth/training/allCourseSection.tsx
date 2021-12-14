@@ -58,18 +58,21 @@ const CourseListPage = () => {
         <Grid container spacing={5}>
           {courseType == 'skill-matching' && (
             <Grid item xs={12}>
-              <SkillMatchingCoursesSection filters={filters} />
+              <SkillMatchingCoursesSection
+                filters={filters}
+                showAllCourses={true}
+              />
             </Grid>
           )}
           {courseType == 'popular' && (
             <Grid item xs={12}>
-              <PopularCoursesSection filters={filters} />
+              <PopularCoursesSection filters={filters} showAllCourses={true} />
             </Grid>
           )}
 
           {courseType == 'trending' && (
             <Grid item xs={12}>
-              <TrendingCoursesSection filters={filters} />
+              <TrendingCoursesSection filters={filters} showAllCourses={true} />
             </Grid>
           )}
         </Grid>
