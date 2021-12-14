@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Box, Container, Tabs, Tab, Grid, Skeleton} from '@mui/material';
-import UnderlinedHeading from './UnderlinedHeading';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {
   useFetchCourseList,
   useFetchUpcomingCourseList,

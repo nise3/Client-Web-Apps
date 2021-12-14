@@ -63,14 +63,21 @@ const StyledBox = styled(Box)(({theme}) => ({
 const AccessibilityToolbar = () => {
   // console.log('AccessibilityToolbar');
   const [isOpened, setIsOpened] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const toggleFn = useCallback(() => {
     setIsOpened(!isOpened);
   }, [isOpened, setIsOpened]);
   const formToggle = useCallback((e) => {
     // console.log('a11y togg', e);
     document.documentElement.classList.toggle(e.target.name);
+    localStorage.HTMLClasses = document.documentElement.getAttribute('class');
   }, []);
   useEffect(() => {
+    if (window?.localStorage?.HTMLClasses)
+      document.documentElement.setAttribute(
+        'class',
+        window.localStorage.HTMLClasses,
+      );
     let elem: any = document.createElement('div');
     elem.style.height = '4px';
     elem.style.width = '100vw';
@@ -87,6 +94,7 @@ const AccessibilityToolbar = () => {
       elem.style.top = e?.y + 'px';
     };
     document.documentElement.addEventListener('mousemove', mousemoveCB);
+    setIsReady(true);
     return () => {
       elem.remove();
       document.documentElement.removeEventListener('mousemove', mousemoveCB);
@@ -96,86 +104,88 @@ const AccessibilityToolbar = () => {
     <StyledBox className={isOpened ? 'opened' : ''}>
       <Card className={classes.card} elevation={8}>
         <H4>Accessibility</H4>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked={document.documentElement.classList.contains(
-                  'monochrome',
-                )}
-              />
-            }
-            onClick={formToggle}
-            label='Monochrome'
-            name='monochrome'
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked={document.documentElement.classList.contains(
-                  'inverted',
-                )}
-              />
-            }
-            onClick={formToggle}
-            label='Inverted Colors'
-            name='inverted'
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked={document.documentElement.classList.contains(
-                  'bigCursor',
-                )}
-              />
-            }
-            onClick={formToggle}
-            label='Big Cursor'
-            name='bigCursor'
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked={document.documentElement.classList.contains(
-                  'highlightLinks',
-                )}
-              />
-            }
-            onClick={formToggle}
-            label='Highlight Links'
-            name='highlightLinks'
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked={document.documentElement.classList.contains(
-                  'highlightHeadings',
-                )}
-              />
-            }
-            onClick={formToggle}
-            label='Highlight Headings'
-            name='highlightHeadings'
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                defaultChecked={document.documentElement.classList.contains(
-                  'guide',
-                )}
-              />
-            }
-            onClick={formToggle}
-            label='Reading Guide'
-            name='guide'
-          />
-          {/*<FormControlLabel
+        {isReady && (
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={document.documentElement.classList.contains(
+                    'monochrome',
+                  )}
+                />
+              }
+              onClick={formToggle}
+              label='Monochrome'
+              name='monochrome'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={document.documentElement.classList.contains(
+                    'inverted',
+                  )}
+                />
+              }
+              onClick={formToggle}
+              label='Inverted Colors'
+              name='inverted'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={document.documentElement.classList.contains(
+                    'bigCursor',
+                  )}
+                />
+              }
+              onClick={formToggle}
+              label='Big Cursor'
+              name='bigCursor'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={document.documentElement.classList.contains(
+                    'highlightLinks',
+                  )}
+                />
+              }
+              onClick={formToggle}
+              label='Highlight Links'
+              name='highlightLinks'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={document.documentElement.classList.contains(
+                    'highlightHeadings',
+                  )}
+                />
+              }
+              onClick={formToggle}
+              label='Highlight Headings'
+              name='highlightHeadings'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={document.documentElement.classList.contains(
+                    'guide',
+                  )}
+                />
+              }
+              onClick={formToggle}
+              label='Reading Guide'
+              name='guide'
+            />
+            {/*<FormControlLabel
               control={<Button />}
               onClick={formToggle}
               label='Reset'
               name='Reset'
             />*/}
-        </FormGroup>
+          </FormGroup>
+        )}
       </Card>
       <Card
         className={classes.button}

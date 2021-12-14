@@ -26,14 +26,17 @@ interface TagChipProps {
   icon?: any;
   label?: string | ReactNode;
   className?: string;
+
+  [x: string]: any;
 }
 
-const TagChip = ({icon, label, className}: TagChipProps) => {
+const TagChip = ({icon, label, className, ...props}: TagChipProps) => {
   return (
     <StyledChip
       className={clsx(classes.chipStyle, classes.colorGray, className)}
       icon={icon}
       label={label}
+      {...props}
     />
   );
 };

@@ -2,6 +2,7 @@ export const API_BASE_URL = 'https://gateway.bus-staging.softbdltd.com';
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
+export const INDUSTRY_SERVICE_PATH = '/industry';
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
   INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
 export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
@@ -195,3 +196,15 @@ export const API_INSTITUTE_BRANCH_LIST = INSTITUTE_SERVICE_PATH + '/branches';
  */
 export const API_INSTITUTE_TRAINING_CENTER_LIST =
   INSTITUTE_SERVICE_PATH + '/training-centers';
+
+/**
+ * Industry Api routes
+ */
+
+export const API_INDUSTRY_PUBLICATIONS =
+  INDUSTRY_SERVICE_PATH + '/publications';
+export const API_INDUSTRY_MEMBERS =
+  INDUSTRY_SERVICE_PATH + '/members';
+
+export const API_APPLICATIONS_LISTS =
+  INDUSTRY_SERVICE_PATH + '/application-lists';
