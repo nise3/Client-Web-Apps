@@ -4,40 +4,38 @@ import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 import {styled} from '@mui/material/styles';
+import {useIntl} from 'react-intl';
 
 const StyledContainer = styled(Container)(({theme}) => ({
-  height: 'calc(100vh - 70px)',
   display: 'flex',
-  [theme.breakpoints.only('xs')]: {
-    height: 'calc(100vh - 56px)',
-  },
-  [theme.breakpoints.only('sm')]: {
-    height: 'calc(100vh - 75px)',
-  },
+  marginTop: '20px',
 }));
 
 const YouthCourseRegistrationSuccessPage = () => {
+  const {messages} = useIntl();
   const router = useRouter();
   const {courseId} = router.query;
 
   return (
     <StyledContainer maxWidth={'lg'}>
-      <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
-        <CardMedia
-          component='img'
-          alt='green iguana'
-          height='350'
-          image='/images/success.png'
-        />
+      <Box sx={{textAlign: 'center', margin: 'auto'}}>
+        <Box sx={{margin: 'auto', maxWidth: '700px'}}>
+          <CardMedia
+            component='img'
+            alt='Course enrollment success'
+            height='350'
+            image='/images/success.png'
+          />
+        </Box>
         <Typography
           variant={'h5'}
           align={'center'}
           style={{marginTop: '10px', marginBottom: '10px'}}>
-          Congratulations!You have enrolled your course!
+          {messages['course_enroll.success']}
         </Typography>
         <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + courseId}>
           <Button color='primary' variant={'contained'}>
-            Go to Course
+            {messages['course_enroll.go_to_course']}
           </Button>
         </Link>
       </Box>

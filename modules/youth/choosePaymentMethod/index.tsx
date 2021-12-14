@@ -14,7 +14,6 @@ const classes = {
 
 const StyledContainer = styled(Container)(({theme}) => ({
   display: 'flex',
-  height: 'calc(100vh - 70px)',
 
   [`& .${classes.paperBox}`]: {
     margin: 'auto',
@@ -26,6 +25,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
 
   [`& .${classes.img}`]: {
+    border: '1px solid #fff',
     '&:hover': {
       border: '1px solid #42b326',
       cursor: 'pointer',
@@ -36,8 +36,11 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const ChoosePayment = () => {
   const {messages} = useIntl();
+  const router = useRouter();
+  const {courseId, enrollment_id}: any = router.query;
+
   return (
-    <StyledContainer maxWidth={'md'}>
+    <StyledContainer maxWidth={'lg'}>
       <Paper style={{padding: '20px'}} className={classes.paperBox}>
         <Typography variant={'h6'} style={{fontWeight: 'bold'}} mb={5}>
           {messages['common.choose_payment_method']}

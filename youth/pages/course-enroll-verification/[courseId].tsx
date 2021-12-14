@@ -4,8 +4,8 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import AuthenticatedBlankPage from '../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
 
-const CourseEnrollmentSuccessPage = asyncComponent(
-  () => import('../../../modules/youth/courseRegistrationSuccess'),
+const CourseEnrollmentVerificationPage = asyncComponent(
+  () => import('../../../modules/youth/courseRegistrationVerification'),
 );
 export default AuthenticatedBlankPage(() => {
   const {messages} = useIntl();
@@ -13,7 +13,7 @@ export default AuthenticatedBlankPage(() => {
   return (
     <>
       <PageMeta title={messages['common.course_registration']} />
-      <CourseEnrollmentSuccessPage />
+      <CourseEnrollmentVerificationPage />
     </>
   );
 });
