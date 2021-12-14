@@ -1089,7 +1089,8 @@
   "industry.educational_requirement": "শিক্ষাগত যোগ্যতা",
   "industry.job_requirements": "চাকরির প্রয়োজনীয়তা",
   "industry.working_place": "কর্মস্থল",
-  "industry.facilities": "কোম্পানির সুযোগ সুবিধা",
+  "industry.facilities": "কোম্পানির সুযোগ সুবিধা ",
+  "association_information": "অ্যাসোসিয়েশান তথ্য",
   "application_list.label": "আবেদন তালিকা",
   "common.memberId": "সদস্য আইডি",
   "common.accept": "এপ্রুভ",
@@ -1098,6 +1099,6 @@
   "common.job_id": "চাকরির আইডি",
   "common.position": "অবস্থান",
   "common.applicants": "আবেদনকারী",
-  "common.job_type": "Job type"
-
+  "common.job_type": "Job type",
+  "password.not_matched": "পাসওয়ার্ড অবশ্যই একই হতে হবে"
 }
