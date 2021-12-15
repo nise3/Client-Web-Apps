@@ -92,7 +92,7 @@ const MemberDetails = () => {
                 color: 'primary.main',
               }}>
               {messages['common.establish_date']}
-              {formatDate(data?.establishedDate, {
+              {formatDate(data?.created_at, {
                 month: 'long',
                 year: 'numeric',
               })}
@@ -149,7 +149,7 @@ const MemberDetails = () => {
               <Box>
                 <CardMedia
                   component={'img'}
-                  image={data?.image}
+                  image={data?.logo}
                   alt={data?.title}
                   className={classes.logo}
                 />
@@ -175,7 +175,7 @@ const MemberDetails = () => {
                   flexDirection={'column'}>
                   <Avatar
                     className={classes.contact_person_avatar}
-                    src={data?.contact_person_image}
+                    src={data?.logo}
                   />
                   <H6 fontWeight={'bold'} mt={1}>
                     {data?.contact_person_name}
@@ -255,7 +255,7 @@ const MemberDetails = () => {
           </Grid>
         </Grid>
         <Grid item xs={12} sm={8} md={9}>
-          <Body1>{data?.details}</Body1>
+          <Body1>{data?.description}</Body1>
         </Grid>
       </Grid>
     </StyledContainer>
