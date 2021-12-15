@@ -1097,12 +1097,16 @@
   "common.memberId": "Member ID",
   "common.accept": "Accept",
   "common.industry_details": "Industry Details",
-  "password.not_matched": "Password must match",
   "applicant.label": "Applicant List",
   "job_lists.label": "Job Lists",
   "common.job_id": "Job Id",
   "common.post": "Position",
   "common.applicants": "Applicants",
   "common.job_type": "Job type",
-  "password.not_matched": "Password must match"
+  "password.not_matched": "Password must match",
+  "common.member_id": "Member Id",
+  "common.approved": "Approved",
+  "common.rejected": "Rejected",
+  "common.reject": "Discard"
+
 }

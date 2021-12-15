@@ -846,7 +846,7 @@
   "footer.login": "লগইন",
   "footer.sign_up": "সাইন আপ",
   "footer.terms_and_conditions": "শর্তাবলী",
-  "footer.privacy_policy": "গোপনীয়তানীতি",
+  "footer.privacy_policy": "গোপনীয়তা",
   "footer.implementation": "পরিকল্পনা ও বাস্তবায়নে",
   "footer.technical_assistance": "কারিগরি সহায়তায়",
   "level.beginner": "শিক্ষানবিস",
@@ -1098,7 +1098,7 @@
   "association_information": "অ্যাসোসিয়েশান তথ্য",
   "application_list.label": "আবেদন তালিকা",
   "common.memberId": "সদস্য আইডি",
-  "common.accept": "এপ্রুভ",
+  "common.accept": "অনুমোদন",
   "common.industry_details": "সংস্থা বিস্তারিত",
   "password.not_matched": "পাসওয়ার্ড অবশ্যই একই হতে হবে",
   "applicant.label": "আবেদনকারীর তালিকা",
@@ -1106,5 +1106,10 @@
   "common.job_id": "চাকরির আইডি",
   "common.position": "অবস্থান",
   "common.applicants": "আবেদনকারী",
-  "common.job_type": "Job type"
+  "common.job_type": "চাকরির ধরন",
+  "common.member_id": "ম্যাম্বার আইডি",
+  "common.approved": "অনুমোদিত",
+  "common.rejected": "প্রত্যাখ্যাত",
+  "common.reject": "প্রত্যাখ্যান"
+
 }
