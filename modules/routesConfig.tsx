@@ -82,6 +82,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'person',
             url: '/cv-lists',
           },
+          {
+            id: 'profile',
+            title: 'Profile',
+            messageId: 'common.profile',
+            permissionKey: 'view_any_profile',
+            type: 'item',
+            icon: 'person',
+            url: '/profile',
+          },
         ],
       },
       {

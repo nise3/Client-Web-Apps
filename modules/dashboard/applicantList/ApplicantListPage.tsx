@@ -51,7 +51,7 @@ const ApplicantListPage = () => {
                 accessor: 'name',
             },
             {
-                Header: messages['common.position'],
+                Header: messages['common.post'],
                 accessor: 'position',
                 inVisible: false,
             },

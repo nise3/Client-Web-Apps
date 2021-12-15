@@ -72,7 +72,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       position: yup
         .string()
         .required()
-        .label(messages['common.position_bn'] as string),
+        .label(messages['common.post_bn'] as string),
       employment_type_id: yup
         .string()
         .required()
@@ -199,7 +199,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               <CustomTextInput
                 required
                 id='position'
-                label={messages['common.position_bn']}
+                label={messages['common.post_bn']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
@@ -208,7 +208,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='position_en'
-                label={messages['common.position_en']}
+                label={messages['common.post_en']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}

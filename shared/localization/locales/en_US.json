@@ -1092,10 +1092,17 @@
   "industry.job_requirements": "Job Requirements",
   "industry.working_place": "Working Place",
   "industry.facilities": "Facilities",
+  "association_information": "Association Information",
   "application_list.label": "Applications list",
   "common.memberId": "Member ID",
   "common.accept": "Accept",
   "common.industry_details": "Industry Details",
   "password.not_matched": "Password must match",
-  "applicant.label": "Applicant List"
+  "applicant.label": "Applicant List",
+  "job_lists.label": "Job Lists",
+  "common.job_id": "Job Id",
+  "common.post": "Position",
+  "common.applicants": "Applicants",
+  "common.job_type": "Job type",
+  "password.not_matched": "Password must match"
 }
