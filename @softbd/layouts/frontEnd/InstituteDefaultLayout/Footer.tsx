@@ -27,6 +27,7 @@ import {
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
 import {useVendor} from '../../../../@crema/utility/AppHooks';
+import {gotoLoginSignUpPage} from '../../../common/constants';
 
 const PREFIX = 'Footer';
 
@@ -254,7 +255,9 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.login']}
                   </Link>
-                  <Link href={LINK_SIGNUP} className={classes.bullet}>
+                  <Link
+                    href={gotoLoginSignUpPage(LINK_SIGNUP)}
+                    className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
@@ -282,9 +285,8 @@ const Footer = () => {
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
-                    />{' '}
+                    />
                     {messages['footer.privacy_policy']}
-                    নীতি
                   </Link>
                 </Box>
               </Box>

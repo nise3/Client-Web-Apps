@@ -54,7 +54,7 @@ const JobDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.position']}
+              label={messages['common.post']}
               value={itemData?.position}
               isLoading={isLoading}
             />

@@ -85,7 +85,7 @@ const JobListPage = () => {
         accessor: 'job_id',
       },
       {
-        Header: messages['common.position'],
+        Header: messages['common.post'],
         accessor: 'position',
       },
       {
