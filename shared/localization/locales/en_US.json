@@ -1097,5 +1097,8 @@
   "common.position": "Position",
   "common.applicants": "Applicants",
   "common.job_type": "Job type",
-  "password.not_matched": "Password must match"
+  "password.not_matched": "Password must match",
+  "publication.label": "Publications",
+  "publication.author": "Author",
+  "publication.author_en": "Author (En)"
 }

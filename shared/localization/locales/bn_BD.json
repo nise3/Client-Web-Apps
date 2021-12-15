@@ -811,7 +811,7 @@
   "language.en": "ইংরেজী",
   "menu.home": "হোম",
   "menu.about_us": "আমাদের সম্পর্কে",
-  "menu.publication": "পাবলিকেশন",
+  "menu.publication": "প্রকাশনা",
   "industry.notice_and_events": "নোটিশ এবং ইভেন্ট",
   "menu.my_life": "মাই লাইফ",
   "menu.training": "প্রশিক্ষণ",
@@ -1100,5 +1100,8 @@
   "common.position": "অবস্থান",
   "common.applicants": "আবেদনকারী",
   "common.job_type": "Job type",
-  "password.not_matched": "পাসওয়ার্ড অবশ্যই একই হতে হবে"
+  "password.not_matched": "পাসওয়ার্ড অবশ্যই একই হতে হবে",
+  "publication.label": "প্রকাশনা সমূহ",
+  "publication.author": "লেখক",
+  "publication.author_en": "লেখক (ইং)"
 }

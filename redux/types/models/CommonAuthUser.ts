@@ -21,6 +21,7 @@ export interface AuthUser {
   isSystemUser: boolean;
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
+  isIndustryAssociationUser: boolean;
 }
 
 export interface CommonAuthUser extends AuthUser {
@@ -37,6 +38,7 @@ export interface CommonAuthUser extends AuthUser {
   branch_id?: number;
   profile_pic?: string;
   name?: string;
+  industry_association_id?: string | number;
 }
 
 export interface YouthAuthUser extends AuthUser {
