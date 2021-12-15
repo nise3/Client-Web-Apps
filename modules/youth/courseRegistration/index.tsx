@@ -260,6 +260,7 @@ const YouthCourseRegistrationPage = () => {
     useState<boolean>(false);
   const [isPermanentAddressSameAsPresent, setIsPermanentAddressSameAsPresent] =
     useState<boolean>(false);
+  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);
 
   // const postalCodeRegex = /^([1-9]{1})[0-9]{3}$/g;
 
@@ -1630,17 +1631,16 @@ const YouthCourseRegistrationPage = () => {
         delete data.present_address;
         delete data.is_permanent_address;
         delete data.permanent_address;
-        delete data.email;
-        delete data.mobile;
 
         console.log('data ', data);
         const response = await courseEnroll(data);
+        setIsSuccessSubmit(true);
 
         router
           .push({
             pathname:
               LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUBMITTED + course.id,
-            query: {enrollment_id: response?.id},
+            query: {enrollment_id: response?.data?.id},
           })
           .then((r) => {});
       }
@@ -1702,7 +1702,7 @@ const YouthCourseRegistrationPage = () => {
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
-                    disabled={isSubmitting}>
+                    disabled={isSubmitting || isSuccessSubmit}>
                     {activeStep == stepKeys.length - 1
                       ? messages['common.submit']
                       : messages['common.next']}

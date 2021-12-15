@@ -3,6 +3,9 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import AuthenticatedBlankPage from '../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
+import {responsiveFontSizes, ThemeProvider} from '@mui/material';
+import theme from '../../../@softbd/layouts/themes/youth';
+import {useTheme} from '@mui/material/styles';
 
 const CourseEnrollmentPage = asyncComponent(
   () => import('../../../modules/youth/courseRegistration'),
@@ -13,7 +16,9 @@ export default AuthenticatedBlankPage(() => {
   return (
     <>
       <PageMeta title={messages['common.course_registration']} />
-      <CourseEnrollmentPage />
+      <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
+        <CourseEnrollmentPage />
+      </ThemeProvider>
     </>
   );
 });
