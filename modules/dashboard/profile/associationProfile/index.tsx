@@ -57,7 +57,7 @@ const AssociationProfile = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <StyledGrid container>
         <Grid item xs={4}>
           <Grid container className={classes.card}>
@@ -182,7 +182,7 @@ const AssociationProfile = () => {
       {!closeEditModal && (
         <AssociationProfileEditPopup onClose={onClickCloseEditModal} />
       )}
-    </React.Fragment>
+    </>
   );
 };
 

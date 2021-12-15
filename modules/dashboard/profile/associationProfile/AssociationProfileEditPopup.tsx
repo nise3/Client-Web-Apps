@@ -1,7 +1,6 @@
 import React, {FC, useMemo, useState} from 'react';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
-// import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {Grid, Typography} from '@mui/material';
 import HookFormMuiModal from '../../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -86,7 +85,8 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
 
   // Todo: waiting for api
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('submit');
+    console.log('submit->', data);
+    props.onClose();
   };
 
   return (
@@ -125,7 +125,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             setValue={setValue}
             register={register}
             label={messages['common.image_path']}
-            required={true}
+            required={false}
           />
         </Grid>
 
