@@ -14,6 +14,7 @@ interface HorLightNavProps {
 const NiseLayout: React.FC<HorLightNavProps> = (props) => {
   return (
     <StyledBox className={clsx(classes.appMain, 'appMainHor')}>
+      <AccessibilityToolbar />
       <AppHeader />
       <Box className={classes.mainContent}>
         <Box className={classes.mainContainer}>
@@ -21,7 +22,6 @@ const NiseLayout: React.FC<HorLightNavProps> = (props) => {
         </Box>
       </Box>
       <Footer />
-      <AccessibilityToolbar />
     </StyledBox>
   );
 };
