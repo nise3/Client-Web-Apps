@@ -1,14 +1,13 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
+import {API_INDUSTRY_ASSOCIATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -17,6 +16,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
+import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
 
 const IndustryAssociationsPage = () => {
   const {messages} = useIntl();
@@ -49,12 +49,12 @@ const IndustryAssociationsPage = () => {
   }, []);
 
   const deleteInstituteItem = async (itemId: number) => {
-    let response = await deleteInstitute(itemId);
+    let response = await deleteIndustryAssoc(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='institute.label' />}}
+          values={{subject: <IntlMessages id='common.industry_association' />}}
         />,
       );
 
@@ -91,8 +91,8 @@ const IndustryAssociationsPage = () => {
         accessor: 'domain',
       },
       {
-        Header: messages['common.code'],
-        accessor: 'code',
+        Header: messages['industry_associations.type'],
+        accessor: 'industry_association_type_id',
       },
       {
         Header: messages['common.status'],
@@ -126,7 +126,7 @@ const IndustryAssociationsPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_INSTITUTES,
+      urlPath: API_INDUSTRY_ASSOCIATIONS,
     });
 
   return (
@@ -134,7 +134,7 @@ const IndustryAssociationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='institute.label' />
+            <IconInstitute /> <IntlMessages id='menu.industry_associations' />
           </>
         }
         extra={[
@@ -146,7 +146,7 @@ const IndustryAssociationsPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['institute.label'],
+                  subject: messages['common.industry_association'],
                 }}
               />
             }

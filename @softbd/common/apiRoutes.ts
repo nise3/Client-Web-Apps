@@ -204,6 +204,8 @@ export const API_INSTITUTE_TRAINING_CENTER_LIST =
 export const API_INDUSTRY_PUBLICATIONS = INDUSTRY_SERVICE_PATH + '/publication';
 
 export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
+export const API_INDUSTRY_ASSOCIATIONS =
+  INDUSTRY_SERVICE_PATH + '/industry-associations';
 
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';

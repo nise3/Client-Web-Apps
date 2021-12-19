@@ -9,8 +9,8 @@ import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
+  DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
-  PHONE_NUMBER_REGEX,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -26,7 +26,6 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -42,15 +41,18 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
-import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
+import {PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
 
-export enum InstituteType {
-  GOVERNMENT = '1',
-  NON_GOVERNMENT = '0',
+export enum INDUSTRY_ASSOCIATION_TYPE {
+  GOVT = 1,
+  NON_GOVT = 2,
+  OTHERS = 3,
 }
 
 interface IndustryAssociationAddEditPopup {
@@ -63,13 +65,10 @@ const initialValues = {
   title_en: '',
   title: '',
   domain: '',
-  institute_type_id: '0',
-  code: '',
+  industry_association_type_id: '0',
   address: '',
-  primary_phone: '',
-  phone_numbers: [{value: ''}],
-  primary_mobile: '',
-  mobile_numbers: [{value: ''}],
+  phone_code: '',
+  mobile: '',
   permission_sub_group_id: '',
   loc_division_id: '',
   loc_district_id: '',
@@ -87,6 +86,8 @@ const initialValues = {
   contact_person_designation_en: '',
   contact_person_email: '',
   contact_person_mobile: '',
+  trade_number: '',
+  logo: '',
 };
 
 const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
@@ -100,12 +101,16 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
   const instituteTypes = useMemo(
     () => [
       {
-        key: InstituteType.GOVERNMENT,
+        key: INDUSTRY_ASSOCIATION_TYPE.GOVT,
         label: messages['common.government'],
       },
       {
-        key: InstituteType.NON_GOVERNMENT,
+        key: INDUSTRY_ASSOCIATION_TYPE.NON_GOVT,
         label: messages['common.non_government'],
+      },
+      {
+        key: INDUSTRY_ASSOCIATION_TYPE.OTHERS,
+        label: messages['common.others'],
       },
     ],
     [messages],
@@ -116,10 +121,10 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
     data: itemData,
     isLoading,
     mutate: mutateInstitute,
-  } = useFetchInstitute(itemId);
+  } = useFetchIndustryAssociation(itemId);
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: PERMISSION_GROUP_INSTITUTE_KEY,
+    key: PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
@@ -147,63 +152,28 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
-  const nonRequiredPhoneValidationSchema = useMemo(() => {
-    return yup.object().shape(
-      {
-        value: yup
-          .mixed()
-          .nullable()
-          .notRequired()
-          .when('value', {
-            is: (value: any) => value && value.length > 0,
-            then: (rule: any) =>
-              rule
-                .matches(PHONE_NUMBER_REGEX)
-                .label(messages['common.phone'] as string),
-          }),
-      },
-      [['value', 'value']],
-    );
-  }, [messages]);
-
-  const nonRequiredMobileValidationSchema = useMemo(() => {
-    return yup.object().shape(
-      {
-        value: yup
-          .mixed()
-          .nullable()
-          .notRequired()
-          .when('value', {
-            is: (value: any) => value && value.length > 0,
-            then: (rule: any) =>
-              rule
-                .matches(MOBILE_NUMBER_REGEX)
-                .label(messages['common.phone'] as string),
-          }),
-      },
-      [['value', 'value']],
-    );
-  }, [messages]);
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_type_id: yup
+      industry_association_type_id: yup
         .string()
         .trim()
         .required()
         .label(messages['institute.type'] as string),
-      phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
-      primary_mobile: yup
+      mobile: yup
         .string()
         .trim()
         .required()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
-      mobile_numbers: yup.array().of(nonRequiredMobileValidationSchema),
+      trade_number: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.trade_number'] as string),
       address: yup
         .string()
         .trim()
@@ -269,6 +239,11 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .matches(MOBILE_NUMBER_REGEX)
         .required()
         .label(messages['common.contact_person_mobile'] as string),
+      domain: yup
+        .string()
+        .trim()
+        .matches(DOMAIN_REGEX)
+        .label(messages['common.domain'] as string),
     });
   }, [messages]);
 
@@ -277,6 +252,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
     control,
     reset,
     setError,
+    setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -548,6 +524,17 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 placeholder='example@gmail.com'
               />
             </Grid>
+            <Grid item xs={12}>
+              <FileUploadComponent
+                id='logo'
+                defaultFileUrl={itemData?.logo}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.logo']}
+                required={true}
+              />
+            </Grid>
           </Grid>
         </Grid>
 
@@ -588,7 +575,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 label={'institute.type'}
                 radios={instituteTypes}
                 control={control}
-                defaultValue={initialValues.institute_type_id}
+                defaultValue={initialValues.industry_association_type_id}
                 isLoading={isLoading}
               />
             </Grid>
@@ -685,6 +672,17 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 errorInstance={errors}
                 isLoading={isLoading}
                 placeholder='017xxxxxxxx'
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextInput
+                required
+                id='trade_number'
+                label={messages['common.trade_number']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='trade number'
               />
             </Grid>
           </Grid>
