@@ -62,6 +62,11 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
 }));
 
+const dummyData = {
+  isLoading: false,
+  total_page: 2,
+};
+
 const MemberListPage = () => {
   const {messages, formatNumber} = useIntl();
   const inputFieldRef = useRef<any>();
@@ -71,6 +76,7 @@ const MemberListPage = () => {
     page_size: 8,
   });
   const {data} = useFetchIndustryMembers(industryMemberFilter);
+  console.log('data->', data);
 
   const onResetClicked = useCallback(() => {}, []);
 
@@ -157,7 +163,7 @@ const MemberListPage = () => {
         </Grid>
       </Grid>
 
-      {data?.isLoading ? (
+      {dummyData.isLoading ? (
         <Typography variant={'h6'} alignItems={'center'}>
           {messages['common.no_data_found']}
         </Typography>
@@ -166,14 +172,14 @@ const MemberListPage = () => {
           <Typography gutterBottom variant='h6' mt={3} mb={3}>
             {messages['common.total_result']}{' '}
             <Chip
-              label={formatNumber(data?.members ? data?.members.length : '0')}
+              label={formatNumber(data ? data.length : '0')}
               className={classes.chipStyle}
             />
           </Typography>
 
-          {data?.members && data?.members.length > 0 && (
+          {data && data.length > 0 && (
             <Grid container spacing={3}>
-              {data?.members.map((member: any) => (
+              {data.map((member: any) => (
                 <Grid item xs={12} key={member.id}>
                   <MemberComponent member={member} />
                 </Grid>
@@ -181,11 +187,11 @@ const MemberListPage = () => {
             </Grid>
           )}
 
-          {data?.total_page > 1 && (
+          {dummyData?.total_page > 1 && (
             <Stack spacing={2} mt={3} alignItems={'center'}>
               <Pagination
                 page={page.current}
-                count={data?.total_page}
+                count={dummyData?.total_page}
                 color={'primary'}
                 shape='rounded'
                 onChange={onPaginationChange}

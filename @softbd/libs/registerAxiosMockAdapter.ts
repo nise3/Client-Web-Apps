@@ -81,7 +81,7 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(API_INDUSTRY_MEMBERS).reply(200, {data: members});
   mock
     .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
-    .reply(200, {data: members.members[0]});
+    .reply(200, {data: members[0]});
 
   /**Application list**/
   mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
