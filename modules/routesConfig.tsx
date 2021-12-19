@@ -275,6 +275,42 @@ const routesConfig: NavItemProps[] = [
         ],
       },
       {
+        id: 'industry_association_management',
+        title: 'Industry Association Management',
+        messageId: 'menu.industry_association_management',
+        type: 'collapse',
+        icon: 'room',
+        children: [
+          /*          {
+            id: 'industry_association',
+            title: 'Industry Association',
+            messageId: 'menu.industry_association_management',
+            permissionKey: 'view_any_industry_association',
+            type: 'item',
+            icon: 'timeline',
+            url: '/industry-association',
+          },*/
+          {
+            id: 'publications',
+            title: 'Publications',
+            messageId: 'menu.publications',
+            permissionKey: 'view_any_publication',
+            type: 'item',
+            icon: 'timeline',
+            url: '/publications',
+          },
+          {
+            id: 'job-applicant-list',
+            title: 'Job Applicant List',
+            messageId: 'applicant.label',
+            permissionKey: 'view_any_job_applicant',
+            type: 'item',
+            icon: 'timeline',
+            url: '/applicant-list',
+          },
+        ],
+      },
+      {
         id: 'location',
         title: 'Location',
         messageId: 'menu.location',
