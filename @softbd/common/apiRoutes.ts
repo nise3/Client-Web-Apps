@@ -201,8 +201,8 @@ export const API_INSTITUTE_TRAINING_CENTER_LIST =
  * Industry Api routes
  */
 
-export const API_INDUSTRY_PUBLICATIONS =
-  INDUSTRY_SERVICE_PATH + '/publications';
+export const API_INDUSTRY_PUBLICATIONS = INDUSTRY_SERVICE_PATH + '/publication';
+
 export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
 
 export const API_APPLICATIONS_LISTS =

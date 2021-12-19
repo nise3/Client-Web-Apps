@@ -48,6 +48,7 @@ const InstituteDefaultLayout: React.FC<InstituteDefaultLayoutProps> = (
 ) => {
   return (
     <StyledBox className={'appMainHor'}>
+      <AccessibilityToolbar />
       <Header />
       <Box className={classes.mainContent}>
         <Box className={classes.mainContainer}>
@@ -55,7 +56,6 @@ const InstituteDefaultLayout: React.FC<InstituteDefaultLayoutProps> = (
         </Box>
       </Box>
       <Footer />
-      <AccessibilityToolbar />
     </StyledBox>
   );
 };

@@ -1,6 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Card, FormGroup, FormControlLabel, Checkbox} from '@mui/material';
+import {
+  Box,
+  Card,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Button,
+} from '@mui/material';
 import {H4} from '../../elements/common';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
@@ -12,6 +19,8 @@ const classes = {
   label: `${PREFIX}-label`,
   card: `${PREFIX}-card`,
   button: `${PREFIX}-button`,
+  action: `${PREFIX}-action`,
+  downloadLink: `${PREFIX}-downloadLink`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -25,6 +34,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   top: 0,
   height: '100vh',
   display: 'flex',
+  flexDirection: 'row-reverse',
   justifyContent: 'space-between',
   alignItems: 'center',
   pointerEvents: 'none',
@@ -56,7 +66,43 @@ const StyledBox = styled(Box)(({theme}) => ({
     backgroundColor: theme.palette.primary.main,
     borderRadius: '40px',
     marginLeft: '8px',
-    padding: '15px',
+    // padding: '15px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  [`& .${classes.action}`]: {
+    width: '100%',
+    marginTop: '12px',
+  },
+
+  [`& .${classes.downloadLink}`]: {
+    textAlign: 'center',
+    marginBottom: '0px',
+    color: theme.palette.primary.main,
+    textDecoration: 'underline',
+    fontSize: `${14 / 16}rem`,
+  },
+}));
+
+const StyledLink = styled('a')(({theme}) => ({
+  display: 'block',
+  padding: '10px 20px',
+  borderRadius: '40px',
+  fontSize: `${14 / 16}rem`,
+  cursor: 'pointer',
+  color: theme.palette.primary.contrastText,
+  backgroundColor: theme.palette.primary.main,
+  zIndex: 99999,
+  position: 'fixed',
+  top: '10px',
+  left: '50%',
+  transition: 'transform 200ms ease 200ms',
+  transform: 'translateX(-50%) translateY(-150%)',
+  '&:focus': {
+    backgroundColor: theme.palette.primary.light,
+    transform: 'translateX(-50%) translateY(0%)',
   },
 }));
 
@@ -64,12 +110,75 @@ const AccessibilityToolbar = () => {
   // console.log('AccessibilityToolbar');
   const [isOpened, setIsOpened] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const toggleFn = useCallback(() => {
-    setIsOpened(!isOpened);
-  }, [isOpened, setIsOpened]);
+  const toggleFn = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsOpened(!isOpened);
+    },
+    [isOpened, setIsOpened],
+  );
+  const skipFn = useCallback((e) => {
+    // console.log('skipFn >>');
+    const main = document.querySelector('#maincontent');
+    if (!main) {
+      e.preventDefault();
+      const head =
+        document.querySelector('h1') ||
+        document.querySelector('h2') ||
+        document.querySelector('h3');
+      if (head)
+        window.scrollTo({
+          left: 0,
+          top: -8 + head.getBoundingClientRect().y + window.scrollY,
+        });
+    }
+  }, []);
   const formToggle = useCallback((e) => {
-    // console.log('a11y togg', e);
-    document.documentElement.classList.toggle(e.target.name);
+    // console.log('a11y togg', e?.target?.name);
+    if (e?.target?.name) {
+      const name = e.target.name;
+      // const size = parseInt(document.documentElement.style.fontSize) || 16;
+      const classAttr = document?.documentElement?.getAttribute('class') || '';
+      const size =
+        classAttr.search('fontsize-') >= 0
+          ? parseInt(classAttr.split('fontsize-')[1])
+          : 16;
+      let newClass = classAttr;
+      let newSize = size;
+      switch (name) {
+        case 'fontInc':
+          newSize = Math.max(16, Math.min(36, size + 2));
+          newClass = classAttr.replace(/fontsize-\d\d/, `fontsize-${newSize}`);
+          // document.documentElement.style.fontSize = newSize + 'px';
+          document.documentElement.setAttribute('class', newClass);
+          document.documentElement.classList.add(`fontsize-${newSize}`);
+          break;
+        case 'fontDec':
+          newSize = Math.max(16, Math.min(36, size - 2));
+          newClass = classAttr.replace(/fontsize-\d\d/, `fontsize-${newSize}`);
+          // document.documentElement.style.fontSize = newSize + 'px';
+          document.documentElement.setAttribute('class', newClass);
+          document.documentElement.classList.add(`fontsize-${newSize}`);
+          break;
+        case 'reset':
+          if (e?.target?.parentElement) {
+            const checkboxes = e.target.parentElement.querySelectorAll('input');
+            for (let elem of checkboxes) {
+              // console.log(elem);
+              // elem.checked = false;
+              const evt = new MouseEvent('click', e);
+              if (elem.checked) elem.dispatchEvent(evt);
+            }
+          }
+          // document.documentElement.style.fontSize = 'inherit';
+          document.documentElement.setAttribute('class', '');
+          break;
+        default:
+          document.documentElement.classList.toggle(name);
+          break;
+      }
+    }
     localStorage.HTMLClasses = document.documentElement.getAttribute('class');
   }, []);
   useEffect(() => {
@@ -101,100 +210,150 @@ const AccessibilityToolbar = () => {
     };
   }, []);
   return (
-    <StyledBox className={isOpened ? 'opened' : ''}>
-      <Card className={classes.card} elevation={8}>
-        <H4>Accessibility</H4>
-        {isReady && (
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked={document.documentElement.classList.contains(
-                    'monochrome',
-                  )}
-                />
-              }
-              onClick={formToggle}
-              label='Monochrome'
-              name='monochrome'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked={document.documentElement.classList.contains(
-                    'inverted',
-                  )}
-                />
-              }
-              onClick={formToggle}
-              label='Inverted Colors'
-              name='inverted'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked={document.documentElement.classList.contains(
-                    'bigCursor',
-                  )}
-                />
-              }
-              onClick={formToggle}
-              label='Big Cursor'
-              name='bigCursor'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked={document.documentElement.classList.contains(
-                    'highlightLinks',
-                  )}
-                />
-              }
-              onClick={formToggle}
-              label='Highlight Links'
-              name='highlightLinks'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked={document.documentElement.classList.contains(
-                    'highlightHeadings',
-                  )}
-                />
-              }
-              onClick={formToggle}
-              label='Highlight Headings'
-              name='highlightHeadings'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked={document.documentElement.classList.contains(
-                    'guide',
-                  )}
-                />
-              }
-              onClick={formToggle}
-              label='Reading Guide'
-              name='guide'
-            />
-            {/*<FormControlLabel
+    <>
+      <StyledLink onClick={skipFn} onKeyPress={skipFn} href='#maincontent'>
+        Skip to content
+      </StyledLink>
+      <StyledBox className={isOpened ? 'opened' : ''}>
+        <Card
+          tabIndex={0}
+          className={classes.button}
+          onClick={toggleFn}
+          onKeyPress={toggleFn}
+          elevation={8}
+          title='Accessibility Options'>
+          {isOpened ? <ArrowBackIcon /> : <SettingsAccessibilityIcon />}
+        </Card>
+        <Card className={classes.card} elevation={8}>
+          <H4 style={{fontSize: '1.5rem'}}>Accessibility</H4>
+          {isReady && (
+            <FormGroup>
+              <Button
+                variant='outlined'
+                name='fontInc'
+                size='small'
+                className={classes.action}
+                disabled={!isOpened}
+                onClick={formToggle}>
+                Increase Font Size
+              </Button>
+              <Button
+                variant='outlined'
+                name='fontDec'
+                size='small'
+                className={classes.action}
+                disabled={!isOpened}
+                onClick={formToggle}>
+                Decrease Font Size
+              </Button>
+              <div style={{borderBottom: '1px solid #bbb', marginTop: 12}} />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isOpened}
+                    defaultChecked={document.documentElement.classList.contains(
+                      'monochrome',
+                    )}
+                  />
+                }
+                onClick={formToggle}
+                label='Monochrome'
+                name='monochrome'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isOpened}
+                    defaultChecked={document.documentElement.classList.contains(
+                      'inverted',
+                    )}
+                  />
+                }
+                onClick={formToggle}
+                label='Inverted Colors'
+                name='inverted'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isOpened}
+                    defaultChecked={document.documentElement.classList.contains(
+                      'bigCursor',
+                    )}
+                  />
+                }
+                onClick={formToggle}
+                label='Big Cursor'
+                name='bigCursor'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isOpened}
+                    defaultChecked={document.documentElement.classList.contains(
+                      'highlightLinks',
+                    )}
+                  />
+                }
+                onClick={formToggle}
+                label='Highlight Links'
+                name='highlightLinks'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isOpened}
+                    defaultChecked={document.documentElement.classList.contains(
+                      'highlightHeadings',
+                    )}
+                  />
+                }
+                onClick={formToggle}
+                label='Highlight Headings'
+                name='highlightHeadings'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isOpened}
+                    defaultChecked={document.documentElement.classList.contains(
+                      'guide',
+                    )}
+                  />
+                }
+                onClick={formToggle}
+                label='Reading Guide'
+                name='guide'
+              />
+              {/*<FormControlLabel
               control={<Button />}
               onClick={formToggle}
               label='Reset'
               name='Reset'
             />*/}
-          </FormGroup>
-        )}
-      </Card>
-      <Card
-        className={classes.button}
-        onClick={toggleFn}
-        elevation={8}
-        title='Accessibility Options'>
-        {isOpened ? <ArrowBackIcon /> : <SettingsAccessibilityIcon />}
-      </Card>
-    </StyledBox>
+              <div style={{borderBottom: '1px solid #bbb'}} />
+              <Button
+                variant='contained'
+                className={classes.action}
+                disabled={!isOpened}
+                onClick={formToggle}
+                name='reset'>
+                RESET
+              </Button>
+              <p className={classes.downloadLink}>
+                <a
+                  tabIndex={isOpened ? 0 : -1}
+                  target='_blank'
+                  rel='noreferrer'
+                  href='https://www.nvaccess.org/files/nvda/releases/2020.4/nvda_2020.4.exe'>
+                  Download Screen Reader
+                </a>
+              </p>
+            </FormGroup>
+          )}
+        </Card>
+      </StyledBox>
+    </>
   );
 };
 export default AccessibilityToolbar;

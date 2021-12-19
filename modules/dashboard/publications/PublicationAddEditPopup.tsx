@@ -12,40 +12,41 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  createProgramme,
-  updateProgramme,
-} from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
-  useFetchInstitutes,
-  useFetchProgramme,
+  useFetchIndustryAssociationMembers,
+  useFetchPublication,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IProgramme} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {IPublication} from '../../../shared/Interface/industryAssociation.interface';
+import {
+  createPublication,
+  updatePublication,
+} from '../../../services/IndustryManagement/PublicationService';
 
-interface ProgrammeAddEditPopupProps {
+interface PublicationAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  title_en: '',
   title: '',
-  institute_id: '',
-  description_en: '',
-  logo: '',
-  code: '',
+  title_en: '',
+  author: '',
+  author_en: '',
   description: '',
+  description_en: '',
+  industry_association_id: '',
+  image_path: '',
   row_status: '1',
 };
 
-const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
+const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -54,28 +55,47 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+
   const {
     data: itemData,
     isLoading,
-    mutate: mutateProgramme,
-  } = useFetchProgramme(itemId);
+    mutate: mutatePublication,
+  } = useFetchPublication(itemId);
 
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
+  const [industryAssociationMemberFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+
+  const {data: industryAssociationMembers, isLoading: isLoadingMembers} =
+    useFetchIndustryAssociationMembers(industryAssociationMemberFilters);
+
   const authUser = useAuthUser();
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
         .title()
+        .required()
         .label(messages['common.title'] as string),
-      institute_id: authUser?.isSystemUser
+      author: yup
+        .string()
+        .required()
+        .label(messages['publication.author'] as string),
+      description: yup
+        .string()
+        .required()
+        .label(messages['common.description'] as string),
+      image_path: yup
+        .string()
+        .required()
+        .label(messages['common.logo'] as string),
+      industry_association_id: authUser?.isSystemUser
         ? yup
             .string()
             .trim()
             .required()
-            .label(messages['institute.label'] as string)
+            .label(messages['common.association'] as string)
         : yup.string(),
     });
   }, []);
@@ -88,21 +108,22 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IProgramme>({
+  } = useForm<IPublication>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
     if (itemData) {
       reset({
-        title_en: itemData?.title_en,
         title: itemData?.title,
-        institute_id: itemData?.institute_id,
-        code: itemData?.code,
+        title_en: itemData?.title_en,
+        author: itemData?.author,
+        author_en: itemData?.author_en,
         description: itemData?.description,
         description_en: itemData?.description_en,
+        industry_association_id: itemData?.industry_association_id,
+        image_path: itemData?.image_path,
         row_status: String(itemData?.row_status),
-        logo: itemData?.logo,
       });
     } else {
       reset(initialValues);
@@ -110,17 +131,18 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   }, [itemData]);
 
   console.log('errors', errors);
-  const onSubmit: SubmitHandler<IProgramme> = async (data: IProgramme) => {
+  const onSubmit: SubmitHandler<IPublication> = async (data: IPublication) => {
     try {
-      if (authUser?.isInstituteUser) {
-        data.institute_id = authUser?.institute_id;
+      if (authUser?.isIndustryAssociationUser) {
+        data.industry_association_id = authUser.industry_association_id;
       }
+
       if (itemId) {
-        await updateProgramme(itemId, data);
+        await updatePublication(itemId, data);
         updateSuccessMessage('programme.label');
-        mutateProgramme();
+        mutatePublication();
       } else {
-        await createProgramme(data);
+        await createPublication(data);
         createSuccessMessage('programme.label');
       }
       props.onClose();
@@ -140,12 +162,12 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='programme.label' />}}
+              values={{subject: <IntlMessages id='menu.publication' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='programme.label' />}}
+              values={{subject: <IntlMessages id='menu.publication' />}}
             />
           )}
         </>
@@ -178,25 +200,11 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {authUser?.isSystemUser && (
-          <Grid item xs={6}>
-            <CustomFormSelect
-              required
-              id='institute_id'
-              label={messages['institute.label']}
-              isLoading={isLoadingInstitutes}
-              control={control}
-              options={institutes}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-        )}
         <Grid item xs={6}>
           <CustomTextInput
-            id='code'
-            label={messages['programme.programme_code']}
+            required
+            id='author'
+            label={messages['publication.author']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -204,6 +212,16 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            id='author_en'
+            label={messages['publication.author_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            required
             id='description'
             label={messages['common.description']}
             register={register}
@@ -220,15 +238,30 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        {authUser?.isSystemUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              required
+              id='industry_association_id'
+              label={messages['common.association']}
+              isLoading={isLoadingMembers}
+              control={control}
+              options={industryAssociationMembers}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <FileUploadComponent
-            id='logo'
-            defaultFileUrl={itemData?.logo}
+            id='image_path'
+            defaultFileUrl={itemData?.image_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}
             label={messages['common.logo']}
-            required={false}
+            required={true}
           />
         </Grid>
         <Grid item xs={6}>
@@ -243,4 +276,4 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default ProgrammeAddEditPopup;
+export default PublicationAddEditPopup;

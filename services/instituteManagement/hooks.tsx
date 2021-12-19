@@ -15,6 +15,8 @@ import {
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_END_VIDEOS_LIST,
   API_GALLERY_ALBUMS,
+  API_INDUSTRY_MEMBERS,
+  API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_PUBLIC_COURSE_LIST,
@@ -30,6 +32,10 @@ export function useFetchInstitute(instituteId: number | null) {
 
 export function useFetchInstitutes(params: any) {
   return useAxiosSWR([API_INSTITUTES, params]);
+}
+
+export function useFetchIndustryAssociationMembers(params: any) {
+  return useAxiosSWR([API_INDUSTRY_MEMBERS, params]);
 }
 
 export function useFetchInstitutesGallery(params: any) {
@@ -62,6 +68,12 @@ export function useFetchBranches(params: any) {
 
 export function useFetchProgramme(programmeId: number | null) {
   return useAxiosSWR(programmeId ? API_PROGRAMMES + '/' + programmeId : null);
+}
+
+export function useFetchPublication(publicationId: number | null) {
+  return useAxiosSWR(
+    publicationId ? API_INDUSTRY_PUBLICATIONS + '/' + publicationId : null,
+  );
 }
 
 export function useFetchProgrammes(params: any) {
