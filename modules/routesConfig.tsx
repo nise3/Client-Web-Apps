@@ -281,16 +281,15 @@ const routesConfig: NavItemProps[] = [
         type: 'collapse',
         icon: 'room',
         children: [
-          /*          {
+          {
             id: 'industry_association',
             title: 'Industry Association',
-            messageId: 'menu.industry_association_management',
+            messageId: 'menu.industry_associations',
             permissionKey: 'view_any_industry_association',
             type: 'item',
             icon: 'timeline',
             url: '/industry-association',
-          },*/
-
+          },
           {
             id: 'member-list',
             title: 'Member List',
