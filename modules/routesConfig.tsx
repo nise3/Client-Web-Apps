@@ -290,6 +290,16 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/industry-association',
           },*/
+
+          {
+            id: 'member-list',
+            title: 'Member List',
+            messageId: 'common.member_list',
+            permissionKey: 'view_association_member_list',
+            type: 'item',
+            icon: 'timeline',
+            url: '/member-management',
+          },
           {
             id: 'publications',
             title: 'Publications',
