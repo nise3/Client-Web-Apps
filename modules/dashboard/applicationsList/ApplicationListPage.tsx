@@ -11,6 +11,7 @@ import IconList from '../../../@softbd/icons/IconList';
 import ApplicationsListDetailsPopup from './ApplicationsListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_APPLICATIONS_LISTS} from '../../../@softbd/common/apiRoutes';
+import CustomChipApplicationStatus from './CustomChipApplicationStatus';
 
 const ApplicationListPage = () => {
   const {messages} = useIntl();
@@ -25,6 +26,8 @@ const ApplicationListPage = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
+
+  const onClickApprove: any = useCallback((id: any) => {}, []);
   const columns = useMemo(
     () => [
       {
@@ -47,15 +50,7 @@ const ApplicationListPage = () => {
         Header: messages['applicationManagement.status'],
         Cell: (props: any) => {
           let data = props.row.original;
-          if (data.row_status === 0) {
-            return <p>Inactive</p>;
-          } else if (data.row_status === 1) {
-            return <p>Approved</p>;
-          } else if (data.row_status === 2) {
-            return <p>Pending</p>;
-          } else {
-            return <p>Rejected</p>;
-          }
+          return <CustomChipApplicationStatus value={data?.row_status} />;
         },
       },
       {
@@ -65,7 +60,7 @@ const ApplicationListPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <ApproveButton />
+              <ApproveButton onClick={() => onClickApprove(data.id)} />
               {data.row_status !== 3 ? (
                 <RejectButton
                   rejectAction={() => {}}
@@ -107,6 +102,7 @@ const ApplicationListPage = () => {
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
+            onApprove={onClickApprove}
           />
         )}
       </PageBlock>
