@@ -40,7 +40,7 @@ const ApplicationListPage = () => {
       },
       {
         Header: messages['common.name'],
-        accessor: 'name',
+        accessor: 'title',
       },
       {
         Header: messages['common.memberId'],
@@ -60,8 +60,12 @@ const ApplicationListPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <ApproveButton onClick={() => onClickApprove(data.id)} />
-              {data.row_status !== 3 ? (
+              {data.row_status != 1 ? (
+                <ApproveButton onClick={() => onClickApprove(data.id)} />
+              ) : (
+                ''
+              )}
+              {data.row_status != 3 && data.row_status != 0 ? (
                 <RejectButton
                   rejectAction={() => {}}
                   rejectTitle={messages['common.delete_confirm'] as string}

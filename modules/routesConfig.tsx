@@ -101,6 +101,15 @@ const routesConfig: NavItemProps[] = [
         icon: 'room',
         children: [
           {
+            id: 'organization_profile',
+            title: 'organization profile',
+            messageId: 'common.profile',
+            permissionKey: 'view_any_organization_profile',
+            type: 'item',
+            icon: 'timeline',
+            url: '/organization-profile',
+          },
+          {
             id: 'rank_types',
             title: 'Rank Type',
             messageId: 'menu.rank_type',
@@ -208,6 +217,15 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'timeline',
             url: '/institutes',
+          },
+          {
+            id: 'profile',
+            title: 'Institute-Profile',
+            messageId: 'menu.profile',
+            permissionKey: 'view_institute_profile',
+            type: 'item',
+            icon: 'timeline',
+            url: '/institute-profile',
           },
           {
             id: 'branch',

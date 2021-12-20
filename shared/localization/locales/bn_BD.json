@@ -25,6 +25,7 @@
   "association.designation": "অফিস প্রধানের পদবি",
   "association.association_address": "অ্যাসোসিয়েশান ঠিকানা",
   "association.association_information": "অ্যাসোসিয়েশান তথ্য",
+  "common.institute_information": "প্রতিষ্ঠানের তথ্য",
   "error.comingSoonNotification": "ইমেল জমা দেওয়ার জন্য আপনাকে ধন্যবাদ!",
   "dashboard.messages": "মেসেজ",
   "dashboard.totalCourse": "মোট কোর্স",
@@ -193,6 +194,7 @@
   "menu.dashboard": "ড্যাশবোর্ড",
   "menu.pages": "পেজ",
   "menu.institute": "প্রতিষ্ঠান",
+  "menu.profile": "প্রফাইল",
   "menu.training_center": "প্রশিক্ষণ কেন্দ্র",
   "menu.organization_type": "সংস্থার ধরণ",
   "menu.organization_unit_type": "সংস্থা ইউনিটের ধরণ",
@@ -1107,6 +1109,7 @@
   "job_lists.label": "চাকরি তালিকা",
   "common.job_id": "চাকরির আইডি",
   "common.position": "অবস্থান",
+  "common.applicants": "আবেদনকারী",
   "common.job_type": "চাকরির ধরন",
   "common.member_id": "ম্যাম্বার আইডি",
   "common.approved": "অনুমোদিত",
@@ -1114,5 +1117,7 @@
   "common.reject": "প্রত্যাখ্যান",
   "publication.label": "প্রকাশনা সমূহ",
   "publication.author": "লেখক",
-  "publication.author_en": "লেখক (ইং)"
+  "publication.author_en": "লেখক (ইং)",
+  "common.organization_info": "সংস্থার তথ্য",
+  "common.organization_address": "সংস্থার ঠিকানা"
 }
