@@ -101,6 +101,15 @@ const routesConfig: NavItemProps[] = [
         icon: 'room',
         children: [
           {
+            id: 'organization_profile',
+            title: 'organization profile',
+            messageId: 'common.profile',
+            permissionKey: 'view_any_organization_profile',
+            type: 'item',
+            icon: 'timeline',
+            url: '/organization-profile',
+          },
+          {
             id: 'rank_types',
             title: 'Rank Type',
             messageId: 'menu.rank_type',

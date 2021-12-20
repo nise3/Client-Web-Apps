@@ -1112,5 +1112,7 @@
   "common.reject": "Discard",
   "publication.label": "Publications",
   "publication.author": "Author",
-  "publication.author_en": "Author (En)"
+  "publication.author_en": "Author (En)",
+  "common.organization_info": "Organization Information",
+  "common.organization_address": "Organization Address"
 }

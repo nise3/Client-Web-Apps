@@ -1114,5 +1114,7 @@
   "common.reject": "প্রত্যাখ্যান",
   "publication.label": "প্রকাশনা সমূহ",
   "publication.author": "লেখক",
-  "publication.author_en": "লেখক (ইং)"
+  "publication.author_en": "লেখক (ইং)",
+  "common.organization_info": "সংস্থার তথ্য",
+  "common.organization_address": "সংস্থার ঠিকানা"
 }
