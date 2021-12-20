@@ -52,6 +52,7 @@ interface MemberComponentProps {
   member: any;
 }
 
+//Todo: interface is not appropriate have to add IAssociationMember
 const MemberComponent = ({member}: MemberComponentProps) => {
   const {messages, formatDate} = useIntl();
   const router = useRouter();
@@ -62,8 +63,8 @@ const MemberComponent = ({member}: MemberComponentProps) => {
       <CardHeader
         className={classes.cardHeader}
         avatar={
-          member?.image ? (
-            <Avatar className={classes.avatar} src={member.image} />
+          member?.logo ? (
+            <Avatar className={classes.avatar} src={member.logo} />
           ) : (
             <Avatar className={classes.avatar}>
               {member?.title?.charAt(0)}
@@ -77,7 +78,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
               color: 'primary.main',
             }}>
             {messages['common.establish_date']}
-            {formatDate(member?.establishedDate, {
+            {formatDate(member?.created_at, {
               month: 'long',
               year: 'numeric',
             })}
@@ -93,7 +94,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
         </Button>
       </Link>
       <CardContent>
-        <Text>{member?.details}</Text>
+        <Text>{member?.description}</Text>
         <TagChip icon={<Room />} label={member?.address} />
       </CardContent>
     </StyledCard>

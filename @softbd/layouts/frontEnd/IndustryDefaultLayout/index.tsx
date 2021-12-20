@@ -43,11 +43,10 @@ interface IndustryDefaultLayoutProps {
   props?: any;
 }
 
-const IndustryDefaultLayout: React.FC<IndustryDefaultLayoutProps> = (
-  props,
-) => {
+const IndustryDefaultLayout: React.FC<IndustryDefaultLayoutProps> = (props) => {
   return (
     <StyledBox className={'appMainHor'}>
+      <AccessibilityToolbar />
       <Header />
       <Box className={classes.mainContent}>
         <Box className={classes.mainContainer}>
@@ -55,7 +54,6 @@ const IndustryDefaultLayout: React.FC<IndustryDefaultLayoutProps> = (
         </Box>
       </Box>
       <Footer />
-      <AccessibilityToolbar />
     </StyledBox>
   );
 };
