@@ -47,12 +47,15 @@ const StyledGrid = styled(Grid)(({theme}) => {
     },
     [`& .${classes.formCard}`]: {
       [theme.breakpoints.up('md')]: {
-        height: '428px',
+        height: '525px',
       },
     },
     [`& .${classes.mapDiv}`]: {
       height: '320px',
       width: '100%',
+      [theme.breakpoints.up('md')]: {
+        height: '420px',
+      },
     },
     [`& .${classes.textStyle}`]: {
       color:

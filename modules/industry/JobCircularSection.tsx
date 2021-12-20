@@ -5,18 +5,12 @@ import {ArrowRightAlt, BusinessCenter, LocationOn} from '@mui/icons-material';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
-import {
-  gotoLoginSignUpPage,
-  industryDomain,
-} from '../../@softbd/common/constants';
+import {industryDomain} from '../../@softbd/common/constants';
 import {
   LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR,
-  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
-  LINK_YOUTH_SIGNUP,
+  LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS,
 } from '../../@softbd/common/appLinks';
 import {Link} from '../../@softbd/elements/common';
-import {useAuthUser} from '../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
 
 const PREFIX = 'JobCircularSection';
 
@@ -135,7 +129,7 @@ let items = [
 
 const JobCircularSection = () => {
   const {messages} = useIntl();
-  const authUser = useAuthUser<YouthAuthUser>();
+  /*const authUser = useAuthUser<YouthAuthUser>();*/
 
   const cardItem = (item: any, key: number) => {
     return (
@@ -187,12 +181,17 @@ const JobCircularSection = () => {
           </Box>
           <Box style={{margin: '0 0 20px 21px'}}>
             <Link
+              /*href={
+                                              authUser
+                                                ? industryDomain() +
+                                                  LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS +
+                                                  item?.id
+                                                : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                                            }>*/
               href={
-                authUser
-                  ? industryDomain() +
-                    LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT +
-                    item?.id
-                  : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                industryDomain() +
+                LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS +
+                `/${item.id}`
               }>
               <Button variant={'contained'} color={'primary'}>
                 {messages['industry.apply_now']}
