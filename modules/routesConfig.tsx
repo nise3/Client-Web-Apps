@@ -219,6 +219,15 @@ const routesConfig: NavItemProps[] = [
             url: '/institutes',
           },
           {
+            id: 'profile',
+            title: 'Institute-Profile',
+            messageId: 'menu.profile',
+            permissionKey: 'view_institute_profile',
+            type: 'item',
+            icon: 'timeline',
+            url: '/institute-profile',
+          },
+          {
             id: 'branch',
             title: 'Branch',
             messageId: 'branch.label',
