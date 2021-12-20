@@ -1,6 +1,5 @@
 import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {Button, Grid} from '@mui/material';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
@@ -8,10 +7,13 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconList from '../../../@softbd/icons/IconList';
 import {useFetchApplicationList} from '../../../services/IndustryManagement/hooks';
+import DoneIcon from '@mui/icons-material/Done';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type Props = {
   itemId: number;
   onClose: () => void;
+  onApprove: (id: any) => void;
 };
 
 const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
@@ -31,7 +33,21 @@ const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
         maxWidth={'md'}
         actions={
           <>
-            <CancelButton onClick={props.onClose} isLoading={isLoading} />
+            <Button
+              color={'primary'}
+              variant={'contained'}
+              startIcon={<DoneIcon />}
+              onClick={() => props.onApprove(itemData?.id)}>
+              {messages['common.accept']}
+            </Button>
+
+            <Button
+              variant={'contained'}
+              startIcon={<DeleteIcon />}
+              color={'secondary'}
+              onClick={props.onClose}>
+              {messages['common.reject']}
+            </Button>
           </>
         }>
         <Grid container spacing={3}>
