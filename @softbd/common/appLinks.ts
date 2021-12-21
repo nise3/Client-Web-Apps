@@ -73,6 +73,8 @@ export const LINK_FRONTEND_YOUTH_SETTINGS = '/settings';
 export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/freelance-corner';
 export const LINK_FRONTEND_YOUTH_COURSE_DETAILS = '/course-details/';
 export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT = '/course-enroll/';
+export const LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS =
+  '/job-circular-details/';
 export const LINK_FRONTEND_YOUTH_REGISTRATION = '/registration';
 export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS =
   '/course-enroll-success/';

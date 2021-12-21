@@ -69,7 +69,7 @@ export const onSSOSignInCallback = (
         JSON.stringify({
           access_token: tokenData.access_token,
           expires_in: tokenData.expires_in,
-        })
+        }),
       );
 
       await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token);
@@ -147,6 +147,7 @@ type TAuthUserSSOResponse = {
   isSystemUser: boolean;
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
+  isIndustryAssociationUser: boolean;
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: IInstitute;
@@ -225,6 +226,7 @@ export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
   return {
+    isIndustryAssociationUser: authUser.isIndustryAssociationUser,
     userId: authUser?.user_id,
     isYouthUser: false,
     isInstituteUser: authUser?.isInstituteUser,
@@ -254,6 +256,7 @@ export const getYouthAuthUserObject = (
   authUser: TYouthAuthUserSSOResponse,
 ): YouthAuthUser => {
   return {
+    isIndustryAssociationUser: false,
     isYouthUser: true,
     userType: authUser?.userType,
     authType: AuthType.AUTH2,

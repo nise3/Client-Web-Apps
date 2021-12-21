@@ -1,10 +1,11 @@
 import {styled} from '@mui/material/styles';
 import {Button, CardMedia, Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {Body1, H4} from '../../@softbd/elements/common';
+import {Body1, H4, Link} from '../../@softbd/elements/common';
 import React from 'react';
 import {ArrowRightAlt} from '@mui/icons-material';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
+import {LINK_FRONTEND_INDUSTRY_ABOUT_US} from '../../@softbd/common/appLinks';
 
 const PREFIX = 'AboutUsSection';
 
@@ -42,13 +43,15 @@ const AboutUsSection = () => {
             বিকাশ করা এবং ওয়ান বাংলাদেশ-এ বেসিস অবদানকে নেতৃত্ব দেওয়া ও প্রদান
             করা।
           </Body1>
-          <Button
-            sx={{borderRadius: '10px', marginTop: '2rem'}}
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}>
-            {messages['common.see_more']}
-          </Button>
+          <Link href={LINK_FRONTEND_INDUSTRY_ABOUT_US}>
+            <Button
+              sx={{borderRadius: '10px', marginTop: '2rem'}}
+              variant='outlined'
+              color='primary'
+              endIcon={<ArrowRightAlt />}>
+              {messages['common.see_more']}
+            </Button>
+          </Link>
         </Grid>
         <Grid item md={6} xs={12}>
           <H4 fontWeight={'bold'}>{messages['industry.purpose_and_goal']}</H4>
@@ -57,13 +60,15 @@ const AboutUsSection = () => {
             বিকাশ করা এবং ওয়ান বাংলাদেশ-এ বেসিস অবদানকে নেতৃত্ব দেওয়া ও প্রদান
             করা।
           </Body1>
-          <Button
-            sx={{borderRadius: '10px', marginTop: '2rem'}}
-            variant='outlined'
-            color='primary'
-            endIcon={<ArrowRightAlt />}>
-            {messages['common.see_more']}
-          </Button>
+          <Link href={LINK_FRONTEND_INDUSTRY_ABOUT_US}>
+            <Button
+              sx={{borderRadius: '10px', marginTop: '2rem'}}
+              variant='outlined'
+              color='primary'
+              endIcon={<ArrowRightAlt />}>
+              {messages['common.see_more']}
+            </Button>
+          </Link>
         </Grid>
         <Grid item md={6} xs={12}>
           <iframe
