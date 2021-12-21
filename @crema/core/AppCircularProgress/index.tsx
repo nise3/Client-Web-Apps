@@ -103,7 +103,7 @@ const AppCircularProgress: React.FC<AppCircularProgressProps> = ({
         {centerNode}
         {hidePercentage ? null : (
           <Box
-            fontSize={30}
+            fontSize='1.85rem'
             fontWeight={500}
             color='secondary.main'
             style={valueStyle}>

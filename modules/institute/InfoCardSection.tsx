@@ -49,7 +49,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.icon}`]: {
-    fontSize: '72px',
+    fontSize: '4.5rem',
     color: theme.palette.primary.main,
   },
 

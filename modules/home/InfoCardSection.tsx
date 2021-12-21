@@ -23,11 +23,11 @@ const StyledFade = styled(Fade)(({theme}) => ({
     '& h3': {
       marginTop: '30px !important',
       marginBottom: '10px !important',
-      fontSize: '28px !important',
+      fontSize: '1.75rem !important',
       fontWeight: '600 !important',
     },
     '& p': {
-      fontSize: '16px !important',
+      fontSize: '1rem !important',
       lineHeight: '22px',
     },
   },
@@ -41,11 +41,11 @@ const StyledFade = styled(Fade)(({theme}) => ({
     '& h3': {
       marginTop: '30px !important',
       marginBottom: '10px !important',
-      fontSize: '28px !important',
+      fontSize: '1.75rem !important',
       fontWeight: '600 !important',
     },
     '& p': {
-      fontSize: '16px !important',
+      fontSize: '1rem !important',
       lineHeight: '22px',
     },
   },
@@ -59,11 +59,11 @@ const StyledFade = styled(Fade)(({theme}) => ({
     '& h3': {
       marginTop: '30px !important',
       marginBottom: '10px !important',
-      fontSize: '28px !important',
+      fontSize: '1.75rem !important',
       fontWeight: '600 !important',
     },
     '& p': {
-      fontSize: '16px !important',
+      fontSize: '1rem !important',
       lineHeight: '22px',
     },
   },

@@ -109,7 +109,7 @@ const ReactBigCalendarCSS = {
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: '10px',
-    fontSize: '16px',
+    fontSize: '1rem',
   },
   '.rbc-toolbar .rbc-toolbar-label': {
     flexGrow: '1',

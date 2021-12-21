@@ -54,8 +54,8 @@ const StyledCard = styled(Card)(({theme}) => ({
     },
   },
   [`& .${classes.iconSizes}`]: {
-    width: 43,
-    height: 43,
+    width: '2.68rem',
+    height: '2.68rem',
   },
 
   [`& .${classes.dividerStyle}`]: {
@@ -174,8 +174,7 @@ const PersonalInfoSection = () => {
                       formatNumber,
                       authUser?.profile_completed || '0',
                     )}
-                    size={35}
-                    className={classes.iconSizes}
+                    size={'2.68rem'}
                   />
                 }
                 text1={messages['common.complete'] as string}

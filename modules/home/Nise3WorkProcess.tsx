@@ -133,7 +133,7 @@ const Nise3WorkProcess = () => {
                 py={{xs: 3, md: 5}}
                 order={{xs: templateConfig.textLeft ? 1 : 2}}>
                 <Fade direction='down'>
-                  <H3 style={{fontSize: '44px', fontWeight: 'bold'}}>
+                  <H3 style={{fontSize: '2.75rem', fontWeight: 'bold'}}>
                     {blockData?.title}
                   </H3>
                   <div
