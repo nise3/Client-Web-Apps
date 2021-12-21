@@ -1119,5 +1119,14 @@
   "publication.author": "লেখক",
   "publication.author_en": "লেখক (ইং)",
   "common.organization_info": "সংস্থার তথ্য",
-  "common.organization_address": "সংস্থার ঠিকানা"
+  "common.organization_address": "সংস্থার ঠিকানা",
+  "job_post.label": "চাকরির পোস্ট",
+  "job_posting.primary_job_info": "প্রাথমিক কাজের তথ্য",
+  "job_posting.more_job_info": "আরও কাজের তথ্য",
+  "job_posting.candidate_requirement": "প্রার্থীর প্রয়োজনীয়তা",
+  "job_posting.company_info_visibility": "কোম্পানির তথ্য দৃশ্যমানতা",
+  "job_posting.matching_criteria": "ম্যাচিং ক্রাইটেরিয়া",
+  "job_posting.billing_and_contract_info": "বিলিং ও যোগাযোগ তথ্য",
+  "job_posting.preview": "প্রিভিউ",
+  "job_posting.complete": "সম্পূর্ণ"
 }
