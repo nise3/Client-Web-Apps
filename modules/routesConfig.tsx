@@ -82,15 +82,6 @@ const routesConfig: NavItemProps[] = [
             icon: 'person',
             url: '/cv-lists',
           },
-          {
-            id: 'profile',
-            title: 'Profile',
-            messageId: 'common.profile',
-            permissionKey: 'view_any_profile',
-            type: 'item',
-            icon: 'person',
-            url: '/profile',
-          },
         ],
       },
       {
@@ -106,7 +97,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'common.profile',
             permissionKey: 'view_any_organization_profile',
             type: 'item',
-            icon: 'timeline',
+            icon: 'person',
             url: '/organization-profile',
           },
           {
@@ -308,7 +299,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/industry-association',
           },*/
-
+          {
+            id: 'association-profile',
+            title: 'association profile',
+            messageId: 'common.profile',
+            permissionKey: 'view_any_association-profile',
+            type: 'item',
+            icon: 'person',
+            url: '/association-profile',
+          },
           {
             id: 'member-list',
             title: 'Member List',
