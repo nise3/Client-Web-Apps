@@ -174,8 +174,7 @@ const PersonalInfoSection = () => {
                       formatNumber,
                       authUser?.profile_completed || '0',
                     )}
-                    size={35}
-                    className={classes.iconSizes}
+                    size={'2.68rem'}
                   />
                 }
                 text1={messages['common.complete'] as string}
