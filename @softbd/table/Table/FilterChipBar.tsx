@@ -25,7 +25,7 @@ const Root = styled('div')(({theme}): any => ({
 
   [`& .${classes.filtersActiveLabel}`]: {
     color: theme.palette.mode === ThemeMode.DARK ? '#FFF' : '#998',
-    fontSize: '14px',
+    fontSize: '.87rem',
     paddingRight: 10,
   },
 

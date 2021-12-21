@@ -54,8 +54,8 @@ const StyledCard = styled(Card)(({theme}) => ({
     },
   },
   [`& .${classes.iconSizes}`]: {
-    width: 43,
-    height: 43,
+    width: '2.68rem',
+    height: '2.68rem',
   },
 
   [`& .${classes.dividerStyle}`]: {

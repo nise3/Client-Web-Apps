@@ -79,7 +79,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
   },
 
   [`& .${classes.menuItem}`]: {
-    fontSize: '16px',
+    fontSize: '1rem',
     padding: '20px 10px',
     color: '#746F6F',
     '&>a': {
@@ -141,7 +141,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     '& .navLinkIcon': {
       marginRight: 10,
       color: theme.palette.grey[800],
-      fontSize: 20,
+      fontSize: '1.25rem',
     },
   },
 

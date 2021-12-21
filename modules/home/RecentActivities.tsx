@@ -25,7 +25,7 @@ const StyledContainer = styled(Container)(({theme}) => {
     [`& .${classes.titleTypography}`]: {
       color: theme.palette.primary.dark,
       display: 'flex',
-      fontSize: '33px',
+      fontSize: '2rem',
       fontWeight: 'bold',
       marginBottom: '38px',
     },

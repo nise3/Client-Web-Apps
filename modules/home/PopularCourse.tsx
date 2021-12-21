@@ -46,7 +46,7 @@ const PopularCourse = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <H3 style={{fontSize: '33px', fontWeight: 'bold'}}>
+        <H3 style={{fontSize: '2rem', fontWeight: 'bold'}}>
           <Box
             style={{marginBottom: '50px', marginTop: '50px'}}
             className={classes.title}

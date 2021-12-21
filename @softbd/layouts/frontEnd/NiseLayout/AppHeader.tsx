@@ -132,7 +132,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_NISE_ROOT}>
                     <HomeOutlinedIcon
                       className={classes.menuIcons}
-                      sx={{fontSize: 42}}
+                      sx={{fontSize: '2.6rem'}}
                     />{' '}
                     {messages['menu.home']}
                   </Link>
@@ -141,7 +141,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_NISE_TRAINING}>
                     <CastForEducationOutlinedIcon
                       className={classes.menuIcons}
-                      sx={{fontSize: 42}}
+                      sx={{fontSize: '2.6rem'}}
                     />{' '}
                     {messages['menu.training']}
                   </Link>
@@ -150,7 +150,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_NISE_JOBS}>
                     <WorkIcon
                       className={classes.menuIcons}
-                      sx={{fontSize: 42}}
+                      sx={{fontSize: '2.6rem'}}
                     />{' '}
                     {messages['menu.jobs']}
                   </Link>
@@ -159,7 +159,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
                     <ContentPasteOutlinedIcon
                       className={classes.menuIcons}
-                      sx={{fontSize: 42}}
+                      sx={{fontSize: '2.6rem'}}
                     />{' '}
                     {messages['menu.notice']}
                   </Link>
@@ -168,7 +168,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}>
                     <LocalActivityOutlined
                       className={classes.menuIcons}
-                      sx={{fontSize: 42}}
+                      sx={{fontSize: '2.6rem'}}
                     />{' '}
                     {messages['menu.recent_activity']}
                   </Link>
@@ -177,7 +177,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_NISE_CALENDAR}>
                     <CalendarViewMonth
                       className={classes.menuIcons}
-                      sx={{fontSize: 42}}
+                      sx={{fontSize: '2.6rem'}}
                     />{' '}
                     {messages['menu.calendar']}
                   </Link>
