@@ -1116,5 +1116,8 @@
   "publication.author": "Author",
   "publication.author_en": "Author (En)",
   "common.organization_info": "Organization Information",
-  "common.organization_address": "Organization Address"
+  "common.organization_address": "Organization Address",
+  "common.human_resource": "HR Demand",
+  "common.industry_name": "Industry Name",
+  "common.no_of_vacancy": "No. of Vacancy"
 }

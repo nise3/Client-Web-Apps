@@ -209,3 +209,6 @@ export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
 
 export const API_JOB_LISTS = INDUSTRY_SERVICE_PATH + '/job-lists';
+
+export const API_HUMAN_RESOURCE_DEMAND_LIST =
+  INDUSTRY_SERVICE_PATH + '/hr-demand';

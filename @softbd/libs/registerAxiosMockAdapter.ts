@@ -10,6 +10,7 @@ import {
   API_FRONT_END_VIDEO,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
+  API_HUMAN_RESOURCE_DEMAND_LIST,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_JOB_LISTS,
@@ -26,6 +27,7 @@ import publications from '../mock-db/Industry/publications/publications';
 import {members} from '../mock-db/Industry/members';
 import applicationsList from '../mock-db/applicationsList/applicationsList';
 import jobLists from '../mock-db/jobLists/jobLists';
+import {hrDemand} from '../mock-db/Industry/hr-demand';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -95,6 +97,12 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock
     .onGet(new RegExp(API_JOB_LISTS + '/(.*)'))
     .reply(200, {data: jobLists[0]});
+
+  /** API_HUMAN_RESOURCE_DEMAND **/
+  mock.onGet(API_HUMAN_RESOURCE_DEMAND_LIST).reply(200, {data: hrDemand});
+  mock
+    .onGet(new RegExp(API_HUMAN_RESOURCE_DEMAND_LIST + '/(.*)'))
+    .reply(200, {data: hrDemand[0]});
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();

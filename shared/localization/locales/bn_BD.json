@@ -1119,5 +1119,8 @@
   "publication.author": "লেখক",
   "publication.author_en": "লেখক (ইং)",
   "common.organization_info": "সংস্থার তথ্য",
-  "common.organization_address": "সংস্থার ঠিকানা"
+  "common.organization_address": "সংস্থার ঠিকানা",
+  "common.human_resource": "হিউম্যান রিসোর্স এর চাহিদা",
+  "common.industry_name": "সংস্থা নাম",
+  "common.no_of_vacancy": "শূন্যপদের সংখ্যা"
 }

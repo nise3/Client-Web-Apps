@@ -499,6 +499,24 @@ const routesConfig: NavItemProps[] = [
           },
         ],
       },
+      {
+        id: 'hr_demand',
+        title: 'HR Demand',
+        messageId: 'common.human_resource',
+        type: 'collapse',
+        icon: 'room',
+        children: [
+          {
+            id: 'hr_demand_list',
+            title: 'HR Demand',
+            messageId: 'common.human_resource',
+            permissionKey: 'view_any_hr_demand',
+            type: 'item',
+            icon: 'person',
+            url: '/hr-demand',
+          },
+        ],
+      },
     ],
   },
 ];
