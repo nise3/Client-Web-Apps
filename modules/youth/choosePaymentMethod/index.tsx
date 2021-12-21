@@ -10,6 +10,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import cookieInstance from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_COURSE_ID} from '../../../shared/constants/AppConst';
+import {youthDomain} from '../../../@softbd/common/constants';
 
 const PREFIX = 'ChoosePayment';
 
@@ -67,10 +68,18 @@ const ChoosePayment = () => {
     (async () => {
       try {
         if (enrollment_id) {
+          const paymentRedirectTo = youthDomain() + '/course-enroll-payment/';
+
           let data = {
             payment_gateway_type: method,
             course_enrollment_id: enrollment_id,
+            feed_uri: {
+              success: paymentRedirectTo + 'success',
+              failed: paymentRedirectTo + 'failed',
+              cancel: paymentRedirectTo + 'cancelled',
+            },
           };
+
           const response = await courseEnrollmentPaymentPay(data);
 
           if (response?.redirect_url) {
