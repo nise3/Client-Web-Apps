@@ -53,9 +53,8 @@ const InstituteRegistration = () => {
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
 
   const instituteType = {
+    NON_GOVT: '0',
     GOVT: '1',
-    NON_GOVT: '2',
-    OTHERS: '3',
   };
 
   const validationSchema = useMemo(() => {
@@ -227,10 +226,6 @@ const InstituteRegistration = () => {
                   {
                     key: instituteType.NON_GOVT,
                     label: messages['common.non_government'],
-                  },
-                  {
-                    key: instituteType.OTHERS,
-                    label: messages['common.others'],
                   },
                 ]}
                 control={control}

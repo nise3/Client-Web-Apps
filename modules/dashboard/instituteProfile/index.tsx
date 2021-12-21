@@ -7,6 +7,8 @@ import {RiEditBoxFill} from 'react-icons/ri';
 import {H4, H6} from '../../../@softbd/elements/common';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import InstituteProfileEditPopup from './InstituteProfileEditPopup';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {useFetchInstituteProfile} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'InstituteProfile';
 
@@ -38,7 +40,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
   [`& .${classes.form}`]: {
     background: theme.palette.common.white,
-    border: '1px solid #e9e9e9',
     borderRadius: '7px',
     padding: '40px',
   },
@@ -49,13 +50,22 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
 const InstituteProfile = () => {
   const {messages} = useIntl();
-
   const [closeEditModal, setCloseEditModal] = useState<boolean>(true);
-
+  const authUser = useAuthUser();
+  const {data: profileData} = useFetchInstituteProfile(authUser?.institute_id);
   const onClickCloseEditModal = useCallback(() => {
     setCloseEditModal((previousToggle) => !previousToggle);
   }, []);
-
+  const institute_types = [
+    {
+      key: 0,
+      label: messages['common.government'],
+    },
+    {
+      key: 1,
+      label: messages['common.non_government'],
+    },
+  ];
   return (
     <>
       <StyledGrid container>
@@ -73,10 +83,10 @@ const InstituteProfile = () => {
                 src={'https://www.bgmea.com.bd/img/logo.png?v=5'}
               />
               <H6 fontWeight={'bold'} mt={1}>
-                {'BGMEA'}
+                {profileData?.title}
               </H6>
               <Typography variant={'subtitle2'}>
-                {'Trade Association'}
+                {institute_types[profileData?.institute_type_id]?.label}
               </Typography>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
@@ -88,7 +98,7 @@ const InstituteProfile = () => {
               alignItems={'center'}>
               <Email sx={{color: '#F0B501'}} />
               <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
-                {'bgmea@gmail.com'}
+                {profileData?.email}
               </Typography>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
@@ -100,7 +110,7 @@ const InstituteProfile = () => {
               alignItems={'center'}>
               <Call sx={{color: '#3FB0EF'}} />
               <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
-                {'01849862976'}
+                {profileData?.mobile}
               </Typography>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
@@ -123,56 +133,50 @@ const InstituteProfile = () => {
           </Grid>
         </Grid>
         <Grid item xs={7}>
-          <Grid container className={classes.form}>
+          <Grid container className={classes.form} spacing={2}>
             <Grid item xs={12}>
               <H4>{messages['common.institute_information']}</H4>
             </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['common.institute_name']}
-                value={'BGMEA'}
+                value={profileData?.title}
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['common.institute_name_bn']}
+                value={profileData?.title_bn}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['common.institute_type']}
-                value={'Association Type'}
+                value={institute_types[profileData?.institute_type_id]?.label}
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
-                label={messages['association.trade_no']}
-                value={'2635'}
+                label={messages['common.domain']}
+                value={profileData?.domain}
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['districts.label']}
-                value={'Dhaka'}
-                isLoading={false}
-              />
-            </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['association.head_of_office_or_chairman']}
                 value={'Mr Atiqur Rahman'}
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['common.designation']}
                 value={'Designation'}
-                isLoading={false}
-              />
-            </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
-              <DetailsInputView
-                label={messages['common.institute_address']}
-                value={'Mirpur -10'}
                 isLoading={false}
               />
             </Grid>
