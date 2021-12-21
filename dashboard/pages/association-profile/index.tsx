@@ -4,15 +4,15 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const Profile = asyncComponent(
-  () => import('../../../modules/dashboard/profile/index'),
+const AssociationProfile = asyncComponent(
+  () => import('../../../modules/dashboard/associationProfile/index'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
       <PageMeta title={messages['common.profile']} />
-      <Profile />
+      <AssociationProfile />
     </>
   );
 });
