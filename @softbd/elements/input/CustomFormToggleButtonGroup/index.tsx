@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
   ToggleButton,
   ToggleButtonGroup,
@@ -10,11 +11,13 @@ import {styled} from '@mui/material/styles';
 import {Check} from '@mui/icons-material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 const PREFIX = 'ToggleButtonGroup';
 
 const classes = {
   buttonIcon: `${PREFIX}-buttonIcon`,
+  spacing: `${PREFIX}-spacing`,
 };
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({theme}) => ({
@@ -22,8 +25,9 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({theme}) => ({
   '& .MuiToggleButtonGroup-grouped': {
     borderRadius: '4px !important',
     border: '1px solid #e9e9e9 !important',
+    padding: '8px 10px 5px 10px',
   },
-  '& .MuiToggleButtonGroup-grouped:not(:first-of-type)': {
+  [`&.${classes.spacing} .MuiToggleButtonGroup-grouped:not(:first-of-type)`]: {
     marginLeft: '15px !important',
   },
   '& .MuiToggleButtonGroup-grouped.Mui-selected': {
@@ -56,7 +60,9 @@ interface Props {
   multiSelect?: boolean;
   control: any;
   defaultValue?: any;
+  errorInstance?: any;
   onChange?: (e: any) => any;
+  space?: boolean;
 }
 
 const CustomFormToggleButtonGroup = ({
@@ -64,19 +70,30 @@ const CustomFormToggleButtonGroup = ({
   label,
   buttons,
   isLoading,
+  errorInstance,
   required = false,
   multiSelect = false,
   control,
   defaultValue = '',
   onChange: onChangeCallback,
+  space = true,
 }: Props) => {
+  let errorObj = errorInstance?.[id];
+  const reg = new RegExp('(.*)\\[(.*?)]', '');
+  const matches = id.match(reg);
+  if (matches) {
+    errorObj = errorInstance?.[matches[1]]?.[matches[2]];
+  }
+
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <FormControl component='fieldset'>
-      <FormLabel component='legend' required={required}>
-        {label}
-      </FormLabel>
+      {label && label != '' && (
+        <FormLabel component='legend' required={required}>
+          {label}
+        </FormLabel>
+      )}
       <Controller
         render={({field: {onChange, value = defaultValue}}) => (
           <StyledToggleButtonGroup
@@ -90,7 +107,8 @@ const CustomFormToggleButtonGroup = ({
               if (onChangeCallback && typeof onChangeCallback === 'function') {
                 onChangeCallback(newValues);
               }
-            }}>
+            }}
+            className={space ? classes.spacing : ''}>
             {buttons.map((button) => (
               <ToggleButton value={button.value} key={button.value}>
                 <Check
@@ -106,6 +124,20 @@ const CustomFormToggleButtonGroup = ({
         control={control}
         defaultValue={defaultValue}
       />
+      <FormHelperText sx={{color: 'error.main'}}>
+        {errorObj && errorObj.message ? (
+          errorObj.message.hasOwnProperty('key') ? (
+            <IntlMessages
+              id={errorObj.message.key}
+              values={errorObj.message?.values || {}}
+            />
+          ) : (
+            errorObj.message
+          )
+        ) : (
+          ''
+        )}
+      </FormHelperText>
     </FormControl>
   );
 };

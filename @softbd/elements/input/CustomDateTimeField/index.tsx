@@ -16,6 +16,7 @@ type Props = {
   errorInstance?: any;
   defaultValue?: string;
   disabled?: boolean;
+  inputProps?: any;
 };
 
 const CustomDateTimeField = ({
@@ -30,6 +31,7 @@ const CustomDateTimeField = ({
   errorInstance,
   defaultValue,
   disabled = false,
+  inputProps = {},
 }: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
@@ -48,8 +50,11 @@ const CustomDateTimeField = ({
       type='date'
       defaultValue={defaultValue}
       inputProps={{
-        max: '9999-12-31',
-        disabled: disabled,
+        ...{
+          max: '9999-12-31',
+          disabled: disabled,
+        },
+        ...inputProps,
       }}
       error={errorInstance?.[id] && Boolean(errorInstance?.[id])}
       helperText={

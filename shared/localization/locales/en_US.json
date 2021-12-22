@@ -1143,5 +1143,13 @@
   "job_posting.service_type_st_out_premium": "Stand-out Premium",
   "common.human_resource": "HR Demand",
   "common.industry_name": "Industry Name",
-  "common.no_of_vacancy": "No. of Vacancy"
+  "common.no_of_vacancy": "No. of Vacancy",
+  "job_posting.application_deadline": "Application Deadline",
+  "job_posting.application_deadline_warning": "You can select a deadline within next 30 days",
+  "job_posting.special_instruction": "Special Instruction for Job Seekers",
+  "job_posting.resume_receiving_option": "Resume Receiving Option",
+  "common.apply_online": "Apply Online",
+  "job_posting.hard_copy": "Hard Copy",
+  "job_posting.walk_in_interview": "Walk in Interview",
+  "job_posting.use_nise3_email": "Applicant can use Nise3 email system"
 }
