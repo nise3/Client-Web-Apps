@@ -4,6 +4,14 @@ import {useIntl} from 'react-intl';
 import {Paper, Step, StepLabel, Stepper} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import PrimaryJobInformation from './steps/PrimaryJobInformation';
+import MoreJobInformation from './steps/MoreJobInformation';
+import CandidateRequirements from './steps/CandidateRequirements';
+import CompanyInfoVisibility from './steps/CompanyInfoVisibility';
+import MatchingCriteria from './steps/MatchingCriteria';
+import BillingAndContactInformation from './steps/BillingAndContactInformation';
+import PreviewJob from './steps/PreviewJob';
+import CompleteJobPost from './steps/CompleteJobPost';
+import {adminDomain} from '../../../@softbd/common/constants';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -78,9 +86,7 @@ const JobPostingView = () => {
   const {postStep, jobId} = router.query;
   const [activeStep, setActiveStep] = useState<number>(1);
   const [completedSteps] = useState<any>([1, 2, 3, 4, 5]);
-
-  console.log('step', postStep);
-  console.log('jobId', jobId);
+  const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
     if (postStep && jobId && stepNames.includes(postStep.toString())) {
@@ -88,6 +94,8 @@ const JobPostingView = () => {
       const regex = new RegExp('step(.*)');
       const match = step.match(regex);
       if (match) setActiveStep(Number(match[1]));
+    } else if (postStep) {
+      setIsValid(false);
     }
   }, [postStep, jobId]);
 
@@ -128,6 +136,31 @@ const JobPostingView = () => {
     switch (activeStep) {
       case 1:
         return <PrimaryJobInformation onContinue={handleNext} />;
+      case 2:
+        return (
+          <MoreJobInformation onBack={handleBack} onContinue={handleNext} />
+        );
+      case 3:
+        return (
+          <CandidateRequirements onBack={handleBack} onContinue={handleNext} />
+        );
+      case 4:
+        return (
+          <CompanyInfoVisibility onBack={handleBack} onContinue={handleNext} />
+        );
+      case 5:
+        return <MatchingCriteria onBack={handleBack} onContinue={handleNext} />;
+      case 6:
+        return (
+          <BillingAndContactInformation
+            onBack={handleBack}
+            onContinue={handleNext}
+          />
+        );
+      case 7:
+        return <PreviewJob onBack={handleBack} onContinue={handleNext} />;
+      case 8:
+        return <CompleteJobPost onBack={handleBack} onContinue={handleNext} />;
       default:
         return <></>;
     }
@@ -135,12 +168,19 @@ const JobPostingView = () => {
 
   const onStepIconClick = (step: number) => {
     if (completedSteps.includes(step)) {
-      console.log('step', step);
       gotoStep(step);
     }
   };
 
-  return (
+  if (!isValid) {
+    router
+      .push({
+        pathname: adminDomain(),
+      })
+      .then(() => {});
+  }
+
+  return isValid ? (
     <StyledPaper>
       <Stepper activeStep={activeStep - 1} alternativeLabel>
         {steps.map((step: StepObj) => {
@@ -171,6 +211,8 @@ const JobPostingView = () => {
       </Stepper>
       <React.Fragment>{getCurrentStepForm()}</React.Fragment>
     </StyledPaper>
+  ) : (
+    <></>
   );
 };
 
