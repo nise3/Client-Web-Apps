@@ -10,7 +10,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
 
-interface Props{
+interface Props {
   id: string;
   label: string;
   radios: Array<any>;

@@ -1145,6 +1145,13 @@
   "job_posting.service_type_basic": "Basic Listing",
   "job_posting.service_type_st_out_listing": "Stand-out Listing",
   "job_posting.service_type_st_out_premium": "Stand-out Premium",
+  "job_posting.candidates_requirement": "প্রার্থীদের প্রয়োজনীয়তা",
+  "common.preferred_educational_institute": "পছন্দের শিক্ষা প্রতিষ্ঠান",
+  "common.other_educational_qualification": "অন্যান্য শিক্ষাগত যোগ্যতা",
+  "common.professional_certification": "পেশাগত  সনদপত্র",
+  "common.experience_required": "অভিজ্ঞতা প্রয়োজন",
+  "common.min_year_of_experience": "সর্বনিম্ন বছরের অভিজ্ঞতা",
+  "common.max_years_of_experience": "সর্বোচ্চ বছরের অভিজ্ঞতা",
   "common.human_resource": "হিউম্যান রিসোর্স এর চাহিদা",
   "common.industry_name": "সংস্থা নাম",
   "common.no_of_vacancy": "শূন্যপদের সংখ্যা"
