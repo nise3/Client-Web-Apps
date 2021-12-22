@@ -4,13 +4,13 @@ import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/Custom
 import {ArrowRightAlt, BusinessCenter, LocationOn} from '@mui/icons-material';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {industryDomain} from '../../@softbd/common/constants';
 import {
   LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR,
   LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS,
 } from '../../@softbd/common/appLinks';
 import {Link} from '../../@softbd/elements/common';
+import UnderlinedHeadingH1 from '../../@softbd/elements/common/UnderlinedHeadingH1';
 
 const PREFIX = 'JobCircularSection';
 
@@ -182,12 +182,12 @@ const JobCircularSection = () => {
           <Box style={{margin: '0 0 20px 21px'}}>
             <Link
               /*href={
-                                              authUser
-                                                ? industryDomain() +
-                                                  LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS +
-                                                  item?.id
-                                                : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
-                                            }>*/
+                                                            authUser
+                                                              ? industryDomain() +
+                                                                LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS +
+                                                                item?.id
+                                                              : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                                                          }>*/
               href={
                 industryDomain() +
                 LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS +
@@ -206,7 +206,9 @@ const JobCircularSection = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <UnderlinedHeading>{messages['menu.job_circular']}</UnderlinedHeading>
+        <UnderlinedHeadingH1>
+          {messages['menu.job_circular']}
+        </UnderlinedHeadingH1>
         <Box mb={2}>
           <CustomCarousel>
             {items.map((item: any, key: number) => cardItem(item, key))}
