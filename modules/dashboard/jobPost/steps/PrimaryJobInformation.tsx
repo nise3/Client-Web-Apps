@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Button, Grid, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -10,6 +10,8 @@ import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {ServiceTypes} from '../enums/ServiceTypes';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
 
 interface Props {
   onContinue: () => void;
@@ -32,11 +34,18 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
     register,
     control,
     setError,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    reset({
+      employment_status: [1, 4],
+    });
+  }, []);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
@@ -119,6 +128,64 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
                 />
               </Grid>
             </Grid>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomFilterableFormSelect
+              required
+              id='job_sector_id'
+              label={messages['job_sectors.label']}
+              isLoading={false}
+              control={control}
+              options={[]}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <CustomFilterableFormSelect
+              required
+              id='occupation_id'
+              label={messages['occupations.label']}
+              isLoading={false}
+              control={control}
+              options={[]}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <CustomFormToggleButtonGroup
+              id={'employment_status'}
+              label={messages['job_posting.employment_status']}
+              buttons={[
+                {
+                  value: 1,
+                  label: messages['job_posting.employment_status_full_time'],
+                },
+                {
+                  value: 2,
+                  label: messages['job_posting.employment_status_part_time'],
+                },
+                {
+                  value: 3,
+                  label: messages['job_posting.employment_status_internship'],
+                },
+                {
+                  value: 4,
+                  label: messages['job_posting.employment_status_contractual'],
+                },
+                {
+                  value: 5,
+                  label: messages['job_posting.employment_status_freelance'],
+                },
+              ]}
+              control={control}
+              multiSelect={true}
+            />
           </Grid>
         </Grid>
         <Box display={'flex'} justifyContent={'flex-end'} mt={'15px'}>
