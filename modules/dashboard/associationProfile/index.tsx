@@ -1,8 +1,8 @@
 import {Avatar, Button, Divider, Grid, Typography} from '@mui/material';
-import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H4, H6} from '../../../../@softbd/elements/common';
+import {H4, H6} from '../../../@softbd/elements/common';
 import {Call, Email} from '@mui/icons-material';
 import {styled} from '@mui/material/styles';
 import {RiEditBoxFill} from 'react-icons/ri';

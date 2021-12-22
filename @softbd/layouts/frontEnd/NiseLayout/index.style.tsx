@@ -100,7 +100,7 @@ export const StyledBox = styled(Box)(({theme}) => {
           width: '100%',
         },
         '& .grid-btn': {
-          fontSize: 11,
+          fontSize: '0.68rem',
         },
       },
       [theme.breakpoints.up('xl')]: {

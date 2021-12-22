@@ -4,15 +4,19 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const Profile = asyncComponent(
-  () => import('../../../modules/dashboard/profile/index'),
+const HrDemand = asyncComponent(
+  () =>
+    import(
+      '../../../modules/dashboard/humanResourceDemand/humanResourceDemandListPage'
+    ),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
-      <PageMeta title={messages['common.profile']} />
-      <Profile />
+      <PageMeta title={messages['common.human_resource'] as string} />
+      <HrDemand />
     </>
   );
 });

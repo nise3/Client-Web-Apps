@@ -327,6 +327,7 @@
   "menu.rank_type": "Rank type",
   "menu.rank": "Rank",
   "menu.skill": "Skill",
+  "job_requirement_list.label": "Job requirement list",
   "menu.job_sector": "Job sector",
   "menu.services": "Service",
   "menu.static_page": "Static Page",
@@ -1139,5 +1140,8 @@
   "job_posting.employment_status_freelance": "Freelance",
   "job_posting.service_type_basic": "Basic Listing",
   "job_posting.service_type_st_out_listing": "Stand-out Listing",
-  "job_posting.service_type_st_out_premium": "Stand-out Premium"
+  "job_posting.service_type_st_out_premium": "Stand-out Premium",
+  "common.human_resource": "HR Demand",
+  "common.industry_name": "Industry Name",
+  "common.no_of_vacancy": "No. of Vacancy"
 }

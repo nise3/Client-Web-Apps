@@ -1,17 +1,17 @@
 import React, {FC, useMemo, useState} from 'react';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {Grid, Typography} from '@mui/material';
-import HookFormMuiModal from '../../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import yup from '../../../../@softbd/libs/yup';
+import yup from '../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
 import {useIntl} from 'react-intl';
-import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchOrganizationTypes} from '../../../../services/organaizationManagement/hooks';
-import FileUploadComponent from '../../../filepond/FileUploadComponent';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
