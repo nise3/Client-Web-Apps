@@ -228,7 +228,6 @@
   "common.video": "ভিডিও",
   "gallery_album.parent_gallery_album": "প্যারেন্ট গ্যালারি",
   "gallery_album_content.label": "গ্যালারি এলবাম কন্টেন্ট",
-
   "common.publish_at": "প্রকাশের তারিখ",
   "common.archived_at": "সংরক্ষনের তারিখ",
   "gallery_album.featured_status": "ফিচারড স্ট্যাটাস",
@@ -1145,6 +1144,10 @@
   "job_posting.service_type_basic": "Basic Listing",
   "job_posting.service_type_st_out_listing": "Stand-out Listing",
   "job_posting.service_type_st_out_premium": "Stand-out Premium",
+  "job_posting.company_type": "কোম্পানির ধরন",
+  "job_posting.contact_person_billing": "বিলিং এর জন্য যোগাযোগ ব্যক্তি",
+  "job_posting.contact_person_job": "জব এর জন্য যোগাযোগ ব্যক্তি",
+  "job_posting.contact_add_edit": "কন্টাক্ট যোগ / সম্পাদনা করুন",
   "common.human_resource": "হিউম্যান রিসোর্স এর চাহিদা",
   "common.industry_name": "সংস্থা নাম",
   "common.no_of_vacancy": "শূন্যপদের সংখ্যা"
