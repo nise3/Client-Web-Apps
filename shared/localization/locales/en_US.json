@@ -1143,5 +1143,20 @@
   "job_posting.service_type_st_out_premium": "Stand-out Premium",
   "common.human_resource": "HR Demand",
   "common.industry_name": "Industry Name",
-  "common.no_of_vacancy": "No. of Vacancy"
+  "common.no_of_vacancy": "No. of Vacancy",
+  "common.job_context": "Job Context",
+  "common.job_responsibility": "Job Responsibility",
+  "common.workplace": "Workplace",
+  "common.work_at_office": "Work at office",
+  "common.work_from_home": "Work form home",
+  "common.job_location": "Job Location",
+  "label.inside_bd": "Inside Bangladesh",
+  "label.min_salary": "Min salary",
+  "label.max_salary": "Max salary",
+  "label.salary_details_option": "What do want to show for salary in Job Details?",
+  "label.show_salary": "Show salary",
+  "label.show_nothing": "Show nothing",
+  "label.show_negotiable": "Show 'Negotiable' instead of given salary range",
+  "label.compare_provided_expected_salary": "Do you want to use this salary to compare with applicant provided expected salary in applicant list?",
+  "label.alert_salary_range": "Do you want to alert applicant while his provided salary is excessive than given salary range at the time of applying?"
 }
