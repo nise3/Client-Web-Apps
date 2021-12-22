@@ -1,7 +1,8 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_INDUSTRY_MEMBERS,
   API_APPLICATIONS_LISTS,
+  API_HUMAN_RESOURCE_DEMAND_LIST,
+  API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_JOB_LISTS,
 } from '../../@softbd/common/apiRoutes';
@@ -33,4 +34,11 @@ export function useFetchIndustryMembers(params: any) {
 
 export function useFetchIndustryMember(memberId: number | null) {
   return useAxiosSWR(memberId ? API_INDUSTRY_MEMBERS + '/' + memberId : null);
+}
+
+/**
+ * Human resource details
+ */
+export function useFetchHrDemandDetails(id: number | null) {
+  return useAxiosSWR(id ? API_HUMAN_RESOURCE_DEMAND_LIST + '/' + id : null);
 }
