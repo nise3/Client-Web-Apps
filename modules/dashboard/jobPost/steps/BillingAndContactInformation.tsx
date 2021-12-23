@@ -1,13 +1,5 @@
 import React, {useMemo} from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-  Typography,
-} from '@mui/material';
+import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import yup from '../../../../@softbd/libs/yup';
@@ -16,6 +8,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import {InfoOutlined, Refresh} from '@mui/icons-material';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {S1} from '../../../../@softbd/elements/common';
 
 interface Props {
   onBack: () => void;
@@ -65,7 +58,7 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
   };
 
   return (
-    <Box mt={2} mb={3}>
+    <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.billing_and_contract_info']}
       </Typography>
@@ -120,11 +113,12 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
                 backgroundColor: 'grey.300',
                 border: '1px solid #c5c5c5',
               }}>
-              <CardHeader title='Abdur Razzak' subheader='Rouzex' />
               <CardContent>
-                <Typography variant='body2' color='text.secondary'>
-                  01733341663
+                <S1>Mr. Masud</S1>
+                <Typography color='text.secondary'>
+                  Asst. Executive (HR & Admin)
                 </Typography>
+                <Typography color='text.secondary'>01733341663</Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -179,17 +173,18 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
                 backgroundColor: 'grey.300',
                 border: '1px solid #c5c5c5',
               }}>
-              <CardHeader title='Abdur Razzak' subheader='Rouzex' />
               <CardContent>
-                <Typography variant='body2' color='text.secondary'>
-                  01733341663
+                <S1>Mr. Masud</S1>
+                <Typography color='text.secondary'>
+                  Asst. Executive (HR & Admin)
                 </Typography>
+                <Typography color='text.secondary'>01733341663</Typography>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
 
-        <Box display={'flex'} justifyContent={'space-between'} mt={'15px'}>
+        <Box display={'flex'} justifyContent={'space-between'} mt={3}>
           <Button onClick={onBack} variant={'outlined'} color={'primary'}>
             {messages['common.previous']}
           </Button>

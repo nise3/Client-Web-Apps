@@ -167,9 +167,9 @@ const JobPostingView = () => {
   }, [activeStep]);
 
   const onStepIconClick = (step: number) => {
-    if (completedSteps.includes(step)) {
-      gotoStep(step);
-    }
+    //if (completedSteps.includes(step)) {
+    gotoStep(step);
+    //}
   };
 
   if (!isValid) {

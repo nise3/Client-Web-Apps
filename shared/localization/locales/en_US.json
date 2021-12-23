@@ -1166,6 +1166,15 @@
   "job_posting.application_deadline_warning": "You can select a deadline within next 30 days",
   "job_posting.special_instruction": "Special Instruction for Job Seekers",
   "job_posting.resume_receiving_option": "Resume Receiving Option",
+  "job_posting.enclose_photograph": "Photograph (Enclose with resume)",
+  "job_posting.prefer_video_resume": "Prefer video resume",
+  "job_posting.prefer_video_resume_tooltip": "Video resume is short videos of a jobseeker presenting him/herself. Through a Video resume, you can quickly examine his/her smartness, communication, presentation, and other abilities more effectively than a Text resume. If you set video resumes preferable for this job, it will encourage applicants to submit video resumes along with other resumes.",
+  "common.show": "Show",
+  "common.hide": "Hide",
+  "common.company_business": "Company Business",
+  "job_posting.company_info_name_tooltip": "If you hide company name then alternative one should be written. Would you like to make visible your company?",
+  "job_posting.company_info_address_tooltip": "Your company address will not be visible to job seekers if you choose \"Hide\".",
+  "job_posting.company_info_business_tooltip": "Your company business will not be visible to job seekers if you choose \"Hide\".",
   "common.apply_online": "Apply Online",
   "job_posting.hard_copy": "Hard Copy",
   "job_posting.walk_in_interview": "Walk in Interview",
@@ -1184,5 +1193,11 @@
   "label.show_nothing": "Show nothing",
   "label.show_negotiable": "Show 'Negotiable' instead of given salary range",
   "label.compare_provided_expected_salary": "Do you want to use this salary to compare with applicant provided expected salary in applicant list?",
-  "label.alert_salary_range": "Do you want to alert applicant while his provided salary is excessive than given salary range at the time of applying?"
+  "label.alert_salary_range": "Do you want to alert applicant while his provided salary is excessive than given salary range at the time of applying?",
+  "label.alert_salary_range_tooltips_text": "Applicant will be notified if he provides excessive expected salary but your salary will not disclosed unless you show it in Job Detail.",
+  "label.additional_salary_info": "Additional Salary Info.",
+  "label.job_level": "Job Level",
+  "label.job_level_entry": "Entry",
+  "label.job_level_mid": "Mid",
+  "label.job_level_top": "Top"
 }

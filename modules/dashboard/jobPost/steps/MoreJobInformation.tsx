@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 import yup from '../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {Box, Button, Grid, Typography} from '@mui/material';
+import {Box, Button, Grid, Tooltip, Typography} from '@mui/material';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
@@ -12,8 +12,10 @@ import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/Cu
 import CustomSelectAutoComplete from '../../../youth/registration/CustomSelectAutoComplete';
 import ToggleButton from '@mui/material/ToggleButton';
 import CheckIcon from '@mui/icons-material/Check';
-import {HorizontalRule} from '@mui/icons-material';
+import {HelpOutlined, HorizontalRule} from '@mui/icons-material';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
+import {JobLevel} from '../enums/JobLevel';
 
 interface Props {
   onBack: () => void;
@@ -45,7 +47,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data', data);
+      console.log('data-->', data);
 
       //do data save work here
 
@@ -63,6 +65,31 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <CustomFormToggleButtonGroup
+              required
+              id={'job_level'}
+              label={messages['label.job_level']}
+              buttons={[
+                {
+                  value: JobLevel.entry,
+                  label: messages['label.job_level_entry'],
+                },
+                {
+                  value: JobLevel.mid,
+                  label: messages['label.job_level_mid'],
+                },
+                {
+                  value: JobLevel.top,
+                  label: messages['label.job_level_top'],
+                },
+              ]}
+              control={control}
+              errorInstance={errors}
+              multiSelect={true}
+            />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <CustomTextInput
               id='job_context'
@@ -215,20 +242,24 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
               // defaultValue={'1'}
               isLoading={false}
             />
-
-            {/*{messages['label.alert_salary_range']}*/}
-            {/*<CustomCheckbox*/}
-            {/*  id='alert_salary_range'*/}
-            {/*  label={messages['common.yes']}*/}
-            {/*  register={register}*/}
-            {/*  errorInstance={errors}*/}
-            {/*  checked={isAlertSalaryRange}*/}
-            {/*  onChange={() => {*/}
-            {/*    setIsAlertSalaryRange((prev) => !prev);*/}
-            {/*  }}*/}
-            {/*  isLoading={false}*/}
-            {/*/>*/}
+            <Tooltip
+              title={messages['label.alert_salary_range_tooltips_text']}
+              placement='top'>
+              <HelpOutlined />
+            </Tooltip>
           </Box>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='additional_salary_info'
+            label={messages['label.additional_salary_info']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+            multiline={true}
+            rows={3}
+          />
         </Grid>
 
         <Box display={'flex'} justifyContent={'space-between'} mt={'15px'}>
