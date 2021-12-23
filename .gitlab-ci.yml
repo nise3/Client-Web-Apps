@@ -1,0 +1,142 @@
+# This file is a template, and might need editing before it works on your project.
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# This template uses one generic job with conditional builds
+# for the default branch and all other (MR) branches.
+include: '/deploy/values.yaml'
+docker-build:
+  # Use the official docker image.
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login $imageRepository -u "kalyan" -p "kalyan"
+  # Default branch leaves tag empty (= latest tag)
+  # All other branches are tagged with the escaped branch name (commit ref slug)
+  script:
+    - |
+      echo  "Info============"
+      echo "development branch: $GIT_DEVELOPMENT_BRANCH"
+      echo "Production branch: $GIT_PRODUCTION_BRANCH"
+      echo "Build Repo: $imageRepository"
+
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        tag=":$imageAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = $imageAppVersion"
+      else
+        tag=":$imageAppVersion"
+        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+      fi
+    - docker build --pull -t "$imageRepository${tag}" .
+    - docker push "$imageRepository${tag}"
+  only:
+   - staging
+
+codestyle:
+  stage: test
+  dependencies: []
+  script:
+    - echo "Code quality check will be added later"
+  only:
+   - develop
+    
+phpunit:
+  stage: test
+  dependencies:
+    - docker-build
+  script:
+    - echo "unit test will be added later."
+  only:
+   - develop
+  
+staging:
+  stage: deploy
+  dependencies:
+    - docker-build
+  script:# This file is a template, and might need editing before it works on your project.
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# This template uses one generic job with conditional builds
+# for the default branch and all other (MR) branches.
+include: '/deploy/values.yaml'
+docker-build:
+  # Use the official docker image.
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login $imageRepository -u "kalyan" -p "kalyan"
+  # Default branch leaves tag empty (= latest tag)
+  # All other branches are tagged with the escaped branch name (commit ref slug)
+  script:
+    - |
+      echo  "Info============"
+      echo "development branch: $GIT_DEVELOPMENT_BRANCH"
+      echo "Production branch: $GIT_PRODUCTION_BRANCH"
+      echo "Build Repo: $imageRepository"
+
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        tag=":$imageAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = $imageAppVersion"
+      else
+        tag=":$imageAppVersion"
+        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+      fi
+    - docker build --pull -t "$imageRepository${tag}" .
+    - docker push "$imageRepository${tag}"
+  only:
+   - develop
+
+codestyle:
+  stage: test
+  dependencies: []
+  script:
+    - echo "Code quality check will be added later"
+  only:
+   - develop
+    
+phpunit:
+  stage: test
+  dependencies:
+    - docker-build
+  script:
+    - echo "unit test will be added later."
+  only:
+   - develop
+  
+staging:
+  stage: deploy
+  dependencies:
+    - docker-build
+  script:
+    #- curl https://cd.bus.softbd.xyz/api/webhook
+    - echo "wait untill site go live"
+  only:
+    - develop
+  
+production:
+  stage: deploy
+  script:
+   - echo "production is not ready yet!"
+  environment:
+    name: production
+    url: "$hostName"
+  when: manual
+  only:
+   - develop
+
+    #- curl https://cd.bus.softbd.xyz/api/webhook
+    - echo "wait untill site go live"
+  only:
+    - develop
+  
+production:
+  stage: deploy
+  script:
+   - echo "production is not ready yet!"
+  environment:
+    name: production
+    url: "$hostName"
+  when: manual
+  only:
+   - develop
