@@ -6,6 +6,7 @@ import {
   Divider,
   Grid,
   Typography,
+  useTheme,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
@@ -13,7 +14,7 @@ import {BorderColor, EmojiEventsOutlined, Schedule} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import SkillInfo from '../SkillInfo';
 import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {useIntl} from 'react-intl';
 import PersonalInformationEdit from './PersonalInformationEdit';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
@@ -27,6 +28,11 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {H1} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -89,6 +95,10 @@ const StyledCard = styled(Card)(({theme}) => ({
 /** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
   const {messages, formatNumber} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
 
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
@@ -136,9 +146,13 @@ const PersonalInfoSection = () => {
           <Grid item xs={12} sm={10} md={10}>
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <Box>
-                <Typography variant={'h5'} className={classes.textColor}>
+                <H1
+                  sx={{
+                    ...result.h5,
+                  }}
+                  className={classes.textColor}>
                   {authUser?.first_name} {authUser?.last_name}
-                </Typography>
+                </H1>
                 <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}
                 </Typography>

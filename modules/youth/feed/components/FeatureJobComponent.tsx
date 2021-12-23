@@ -1,8 +1,13 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Card, Grid} from '@mui/material';
+import {Avatar, Box, Card, Grid, useTheme} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {Star} from '@mui/icons-material';
+import {H3} from '../../../../@softbd/elements/common';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
 
 const PREFIX = 'FeatureJobComponent';
 
@@ -64,6 +69,11 @@ interface FeatureJobProps {
 }
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
+
   return (
     <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
@@ -75,9 +85,12 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
           />
         </Grid>
         <Grid item xs={8}>
-          <Box className={classes.jobTitle} title={data.jobTitle}>
+          <H3
+            sx={{...result.body2}}
+            className={classes.jobTitle}
+            title={data.jobTitle}>
             {data.jobTitle}
-          </Box>
+          </H3>
           <Box>{data.jobProviderName}</Box>
         </Grid>
         <Grid item>

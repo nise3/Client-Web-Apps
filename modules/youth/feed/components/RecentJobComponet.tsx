@@ -1,8 +1,13 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button} from '@mui/material';
+import {Avatar, Box, Button, useTheme} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {H3} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'RecentJobComponent';
 
@@ -47,6 +52,10 @@ interface RecentJobProps {
 
 const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
 
   return (
     <StyledBox display={'flex'}>
@@ -58,7 +67,9 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
         />
       </Box>
       <Box marginLeft={'10px'}>
-        <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+        <H3 sx={{...result.body2}} className={classes.jobTitle}>
+          {data.jobTitle}
+        </H3>
         <Box className={classes.jobProviderName}>
           {data.jobProviderName} &#8226; {data.location}
         </Box>

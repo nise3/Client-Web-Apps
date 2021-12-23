@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Grid} from '@mui/material';
+import {Box, Grid, useTheme} from '@mui/material';
 import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
@@ -8,6 +8,11 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import AppContext from '../../../@crema/utility/AppContext';
+import AppLocale from '../../../shared/localization';
+import typography from '../../../@softbd/layouts/themes/default/typography';
+import {H2} from '../../../@softbd/elements/common';
 
 const PREFIX = 'PostSection';
 
@@ -17,7 +22,6 @@ const classes = {
 
 const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.featuredCourseSectionTitle}`]: {
-    fontSize: 17,
     fontWeight: 'bold',
   },
 }));
@@ -42,6 +46,11 @@ const PostSection = ({
   isSearching,
 }: PostSectionProps) => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
+
   const [courseFilters, setCourseFilters] = useState({});
   const authUser = useAuthUser<YouthAuthUser>();
 
@@ -81,9 +90,11 @@ const PostSection = ({
   return (
     <StyledGrid container spacing={2}>
       <Grid item xs={12} sm={12} md={12}>
-        <Box className={classes.featuredCourseSectionTitle}>
+        <H2
+          sx={{...result.body1}}
+          className={classes.featuredCourseSectionTitle}>
           {messages['youth_feed.recent_post']}
-        </Box>
+        </H2>
       </Grid>
 
       {posts && posts.length > 0 ? (

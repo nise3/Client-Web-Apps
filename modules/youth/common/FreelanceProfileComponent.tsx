@@ -4,8 +4,9 @@ import {
   FormControlLabel,
   Switch,
   Typography,
+  useTheme,
 } from '@mui/material';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -16,6 +17,11 @@ import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import * as _ from 'lodash';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../shared/constants/AppEnums';
+import {H2} from '../../../@softbd/elements/common';
+import AppLocale from '../../../shared/localization';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import typography from '../../../@softbd/layouts/themes/default/typography';
+import AppContext from '../../../@crema/utility/AppContext';
 
 const PREFIX = 'FreelanceProfileComponent';
 
@@ -35,6 +41,10 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 const FreelanceProfileComponent = () => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<YouthAuthUser>();
 
@@ -74,9 +84,13 @@ const FreelanceProfileComponent = () => {
   return (
     <StyledCard>
       <CardContent>
-        <Typography variant={'h6'} className={classes.textStyle}>
+        <H2
+          sx={{
+            ...result.h6,
+          }}
+          className={classes.textStyle}>
           {messages['common.freelance_profile']}
-        </Typography>
+        </H2>
         <Typography variant={'body2'}>
           {messages['youth_profile.freelance_profile_turing_on_hint']}
         </Typography>

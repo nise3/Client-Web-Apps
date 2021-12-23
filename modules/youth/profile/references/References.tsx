@@ -1,6 +1,6 @@
 import HorizontalLine from '../component/HorizontalLine';
-import React from 'react';
-import {Avatar, Box, Grid, Typography} from '@mui/material';
+import React, {useContext} from 'react';
+import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor, Email, LocationOn} from '@mui/icons-material';
@@ -11,6 +11,11 @@ import TextPrimary from '../component/TextPrimary';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {H3} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'References';
 const classes = {
@@ -39,6 +44,10 @@ const References = ({
   onDeleteReference,
 }: ReferencesProp) => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
 
   return (
     <React.Fragment>
@@ -58,12 +67,12 @@ const References = ({
                 </Grid>
                 <StyledGrid item xs={8} md={10}>
                   <Box>
-                    <Typography
-                      variant={'subtitle2'}
+                    <H3
+                      sx={{...result.subtitle2}}
                       className={classes.textStyle}>
                       {reference?.referrer_first_name}{' '}
                       {reference?.referrer_last_name}
-                    </Typography>
+                    </H3>
                     <Typography variant={'caption'}>
                       {reference?.referrer_designation},
                     </Typography>

@@ -1,6 +1,6 @@
-import {Avatar, Box, Typography} from '@mui/material';
+import {Avatar, Box, Typography, useTheme} from '@mui/material';
 import {Add} from '@mui/icons-material';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {useIntl} from 'react-intl';
 import LanguageAddEditPage from './LanguageAddEditPage';
 import LanguageProficiencyViewPage from './LanguageProficiencyViewPage';
@@ -19,6 +19,11 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
+import {H3} from '../../../../@softbd/elements/common';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
 
 const PREFIX = 'LanguageSection';
 const classes = {
@@ -37,6 +42,11 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const LanguageSection = () => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
+
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
   const {
@@ -126,9 +136,11 @@ const LanguageSection = () => {
                         <React.Fragment key={language.id}>
                           {index != 0 && <VerticalLine />}
                           {/*<TextPrimary text={language.language_title} />*/}
-                          <Typography className={classes.textStyle}>
+                          <H3
+                            sx={{...result.body1}}
+                            className={classes.textStyle}>
                             {language.language_title}
-                          </Typography>
+                          </H3>
                         </React.Fragment>
                       ),
                     )}

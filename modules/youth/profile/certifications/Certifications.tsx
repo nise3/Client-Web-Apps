@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {YouthCertificate} from '../../../../services/youthManagement/typing';
-import {Avatar, Box, Grid, Typography} from '@mui/material';
+import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import {AccessTime, BorderColor, Verified} from '@mui/icons-material';
 import TextPrimary from '../component/TextPrimary';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -12,6 +12,11 @@ import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {H3} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'Certifications';
 const classes = {
@@ -40,6 +45,10 @@ const Certifications: FC<CertificationsProps> = ({
   onDeleteClick,
 }) => {
   const {messages, formatDate} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
 
   return (
     <React.Fragment>
@@ -65,11 +74,11 @@ const Certifications: FC<CertificationsProps> = ({
                   )}
 
                   <Box sx={{marginLeft: '15px'}}>
-                    <Typography
-                      variant={'subtitle2'}
+                    <H3
+                      sx={{...result.subtitle2}}
                       className={classes.textStyle}>
                       {certificate.certification_name}
-                    </Typography>
+                    </H3>
                     <Typography variant={'caption'}>
                       {certificate.institute_name}
                     </Typography>

@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Grid} from '@mui/material';
+import {Grid, useTheme} from '@mui/material';
 import FeatureJobComponent from './components/FeatureJobComponent';
 import {useIntl} from 'react-intl';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import AppContext from '../../../@crema/utility/AppContext';
+import AppLocale from '../../../shared/localization';
+import typography from '../../../@softbd/layouts/themes/default/typography';
+import {H2} from '../../../@softbd/elements/common';
 
 const PREFIX = 'FeatureJobSection';
 
@@ -12,13 +17,16 @@ const classes = {
 
 const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.featureSectionTitle}`]: {
-    fontSize: 20,
     fontWeight: 'bold',
   },
 }));
 
 const FeatureJobSection = () => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
 
   const items = [
     {
@@ -46,9 +54,9 @@ const FeatureJobSection = () => {
   return (
     <StyledGrid container spacing={2}>
       <Grid item xs={12}>
-        <Box className={classes.featureSectionTitle}>
+        <H2 sx={{...result.body1}} className={classes.featureSectionTitle}>
           {messages['common.featured']}
-        </Box>
+        </H2>
       </Grid>
       {items.map((job: any, index: number) => {
         return (

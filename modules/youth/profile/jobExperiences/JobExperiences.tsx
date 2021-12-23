@@ -1,8 +1,8 @@
 import {useIntl} from 'react-intl';
 import CustomParabolaButton from '../component/CustomParabolaButton';
-import React from 'react';
+import React, {useContext} from 'react';
 import {AccessTime, BorderColor, Verified} from '@mui/icons-material';
-import {Avatar, Box, Grid, Typography} from '@mui/material';
+import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthJobExperience} from '../../../../services/youthManagement/typing';
 import TextPrimary from '../component/TextPrimary';
@@ -12,6 +12,11 @@ import VerticalLine from '../component/VerticalLine';
 import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {H3} from '../../../../@softbd/elements/common';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
 
 const PREFIX = 'JobExperience';
 const classes = {
@@ -40,6 +45,10 @@ const JobExperiences = ({
   onDeleteJobExperience,
 }: JobExperienceProp) => {
   const {messages, formatDate} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
 
   return (
     <React.Fragment>
@@ -53,11 +62,9 @@ const JobExperiences = ({
                   <Verified />
                 </Avatar>
                 <Box sx={{marginLeft: '15px'}}>
-                  <Typography
-                    variant={'subtitle2'}
-                    className={classes.textStyle}>
+                  <H3 sx={{...result.subtitle2}} className={classes.textStyle}>
                     {jobExperience?.company_name}
-                  </Typography>
+                  </H3>
                   <Typography variant={'caption'}>
                     {jobExperience?.position}
                   </Typography>

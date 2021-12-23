@@ -1,6 +1,14 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  Grid,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
@@ -13,6 +21,11 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
 import {niseDomain} from '../../../../@softbd/common/constants';
+import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
+import AppContext from '../../../../@crema/utility/AppContext';
+import AppLocale from '../../../../shared/localization';
+import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {H3} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'CourseInfoBlock';
 
@@ -83,6 +96,11 @@ interface CourseInfoBlockProps {
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
+
   const authUser = useAuthUser<YouthAuthUser>();
 
   return (
@@ -122,9 +140,13 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     </Grid>
 
                     <Grid item xs={10}>
-                      <Box mt={2} ml={2} className={classes.titleStyle}>
+                      <H3
+                        sx={{...result.body2}}
+                        mt={2}
+                        ml={2}
+                        className={classes.titleStyle}>
                         {course.title}
-                      </Box>
+                      </H3>
                       <Box ml={2}>{course?.trainer_name}</Box>
                     </Grid>
                   </Grid>
