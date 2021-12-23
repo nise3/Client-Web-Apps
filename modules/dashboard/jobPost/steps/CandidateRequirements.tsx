@@ -11,19 +11,26 @@ import CustomSelectAutoComplete from '../../../youth/registration/CustomSelectAu
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
+import {Gender} from '../enums/Gender';
+import CustomAddFilterableFormSelect from '../CustomAddFilterableFormSelect';
 
 interface Props {
   onBack: () => void;
   onContinue: () => void;
 }
 const experienceYears: Array<any> = [];
+const ages: Array<any> = [];
 
 for (let i = 1; i <= 50; i++) experienceYears.push({id: i, title: i});
+for (let i = 14; i <= 90; i++) ages.push({id: i, title: i});
 
 const CandidateRequirements = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-
+  const [isFresherApplicable, setIsFresherApplicable] =
+    useState<boolean>(false);
   const [notExperienced, setNotExperienced] = useState<boolean>(true);
   const demoOptions = [
     {
@@ -85,7 +92,9 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant={'h6'}>Educational Qualification</Typography>
+            <Typography variant={'h6'}>
+              {messages['common.educational_qualification']}
+            </Typography>
           </Grid>
           <Grid item xs={12} md={12}>
             <CustomEducationalQualificationFieldArray
@@ -102,14 +111,11 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               options={[]}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomSelectAutoComplete
-              required
+          <Grid item xs={12}>
+            <CustomAddFilterableFormSelect
               id='preferred_educational_institute'
               label={messages['common.preferred_educational_institute']}
               control={control}
-              options={demoOptions}
-              optionTitleProp={['title', 'title_en']}
               optionValueProp={'id'}
               errorInstance={errors}
             />
@@ -148,7 +154,9 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant={'h6'}>Experience and Business Area</Typography>
+            <Typography variant={'h6'}>
+              {messages['common.experience_business_area']}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <FormRadioButtons
@@ -170,45 +178,144 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               onChange={onChangeIsExperienced}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomFilterableFormSelect
-              id={'min_year_of_experience'}
-              label={messages['common.min_year_of_experience']}
-              isLoading={false}
+          {!notExperienced && (
+            <>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  id={'min_year_of_experience'}
+                  label={messages['common.min_year_of_experience']}
+                  isLoading={false}
+                  control={control}
+                  options={experienceYears}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  id={'max_years_of_experience'}
+                  label={messages['common.max_years_of_experience']}
+                  isLoading={false}
+                  control={control}
+                  options={experienceYears}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomCheckbox
+                  id='is_fresher_applicable'
+                  label={messages['job_post.is_fresher_applicable']}
+                  register={register}
+                  errorInstance={errors}
+                  checked={isFresherApplicable}
+                  onChange={() => {
+                    setIsFresherApplicable((prev) => !prev);
+                  }}
+                  isLoading={false}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomAddFilterableFormSelect
+                  id={'area_of_experience'}
+                  label={messages['common.area_of_experience']}
+                  isLoading={false}
+                  control={control}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomAddFilterableFormSelect
+                  id={'area_of_business'}
+                  label={messages['common.area_of_business']}
+                  isLoading={false}
+                  control={control}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomAddFilterableFormSelect
+                  id={'skills'}
+                  label={messages['common.skills']}
+                  isLoading={false}
+                  control={control}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomTextInput
+                  id={'additional_requirements'}
+                  label={messages['job_posts.additional_requirements']}
+                  isLoading={false}
+                  register={register}
+                  multiline={true}
+                  rows={3}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            </>
+          )}
+          <Grid item xs={12}>
+            <Typography variant={'h6'}>
+              {messages['personal_info.label']}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <CustomFormToggleButtonGroup
+              id={'gender'}
+              label={messages['common.gender']}
+              buttons={[
+                {
+                  value: Gender.MALE,
+                  label: messages['common.male'],
+                },
+                {
+                  value: Gender.FEMALE,
+                  label: messages['common.female'],
+                },
+                {
+                  value: Gender.OTHERS,
+                  label: messages['common.others'],
+                },
+              ]}
               control={control}
-              options={experienceYears}
-              optionValueProp={'id'}
-              optionTitleProp={['title']}
               errorInstance={errors}
-              isDisabled={notExperienced}
+              multiSelect={true}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
-              id={'max_years_of_experience'}
-              label={messages['common.max_years_of_experience']}
+              id={'minimum_age'}
+              label={messages['common.minimum_age']}
               isLoading={false}
               control={control}
-              options={experienceYears}
+              options={ages}
               optionValueProp={'id'}
               optionTitleProp={['title']}
               errorInstance={errors}
-              isDisabled={notExperienced}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            {/*<CustomCheckbox
-              id='is_permanent_address'
-              label={'Freshers are encouraged to apply'}
-              register={register}
-              errorInstance={errors}
-              checked={disabledPermanentAddress}
-              onChange={() => {
-                onChangeSameAsPresentCheck(!disabledPermanentAddress);
-                setDisabledPermanentAddress((prev) => !prev);
-              }}
+            <CustomFilterableFormSelect
+              id={'maximum_age'}
+              label={messages['common.maximum_age']}
               isLoading={false}
-            />*/}
+              control={control}
+              options={ages}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+            />
           </Grid>
         </Grid>
         <Box display={'flex'} justifyContent={'space-between'} mt={'15px'}>
