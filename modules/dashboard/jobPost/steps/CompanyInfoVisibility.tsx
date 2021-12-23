@@ -1,69 +1,16 @@
 import React, {useMemo, useState} from 'react';
-import {Box, Button, Grid, Switch, Typography} from '@mui/material';
+import {Box, Button, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import yup from '../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {styled} from '@mui/material/styles';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-
-const PREFIX = 'CompanyInfoVisibility';
-
-const classes = {
-  root: `${PREFIX}-root`,
-  switchBase: `${PREFIX}-switchBase`,
-  thumb: `${PREFIX}-thumb`,
-  track: `${PREFIX}-track`,
-  checked: `${PREFIX}-checked`,
-};
-
-const StyledBox = styled(Box)(({theme}) => ({
-  [`& .${classes.root}`]: {
-    width: '50px',
-    height: '24px',
-    padding: '0px',
-  },
-  [`& .${classes.switchBase}`]: {
-    color: '#818181',
-    padding: '1px',
-    '&$checked': {
-      '& + $track': {
-        backgroundColor: '#23bf58',
-      },
-    },
-  },
-  [`& .${classes.thumb}`]: {
-    color: 'white',
-    width: '20px',
-    height: '20px',
-    margin: '1px',
-  },
-  [`& .${classes.track}`]: {
-    borderRadius: '20px',
-    backgroundColor: '#818181',
-    opacity: '1 !important',
-    '&:after, &:before': {
-      color: 'white',
-      fontSize: '11px',
-      position: 'absolute',
-      top: '6px',
-    },
-    '&:after': {
-      content: "'on'",
-      left: '8px',
-    },
-    '&:before': {
-      content: "'Off'",
-      right: '7px',
-    },
-  },
-  [`& .${classes.checked}`]: {
-    color: '#23bf58 !important',
-    transform: 'translateX(26px) !important',
-  },
-}));
+import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
+import Tooltip from '@mui/material/Tooltip';
+import {Help} from '@mui/icons-material';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
 interface Props {
   onBack: () => void;
@@ -73,10 +20,7 @@ interface Props {
 const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const [isCompanyNameVisible, setIsCompanyNameVisible] = useState(false);
-  const [isCompanyAddressVisible, setIsCompanyAddressVisible] = useState(false);
-  const [isCompanyBusinessVisible, setIsCompanyBusinessVisible] =
-    useState(false);
+  const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -88,6 +32,7 @@ const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
   }, [messages]);
 
   const {
+    register,
     control,
     setError,
     handleSubmit,
@@ -109,60 +54,85 @@ const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
   };
 
   return (
-    <StyledBox mt={2} mb={3}>
+    <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.company_info_visibility']}
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={6} md={3}>
-                <Typography variant='body1'>Company Name</Typography>
-              </Grid>
-              <Grid item xs={6} md={9}>
-                <Switch
-                  classes={{
-                    root: classes.root,
-                    switchBase: classes.switchBase,
-                    thumb: classes.thumb,
-                    track: classes.track,
-                    checked: classes.checked,
-                  }}
-                  color={'primary'}
-                  onChange={() =>
-                    setIsCompanyNameVisible((prevState) => !prevState)
-                  }
-                  checked={isCompanyNameVisible}
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} md={3}>
+            <CustomFormSwitch
+              id={'is_show_company_name'}
+              label={
+                <Typography display={'flex'} alignItems={'center'}>
+                  {messages['common.company_name_bn']}
+                  <Tooltip
+                    arrow
+                    title={
+                      messages[
+                        'job_posting.company_info_name_tooltip'
+                      ] as string
+                    }>
+                    <Help
+                      sx={{
+                        marginLeft: '8px',
+                      }}
+                    />
+                  </Tooltip>
+                </Typography>
+              }
+              yesLabel={messages['common.show'] as string}
+              noLabel={messages['common.hide'] as string}
+              register={register}
+              defaultChecked={true}
+              isLoading={false}
+              onChange={(value: boolean) => {
+                setIsShowCompanyName(!value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={7}>
+            {isShowCompanyName && (
+              <CustomTextInput
+                required
+                id='company_name'
+                label={messages['common.company_name_bn']}
+                register={register}
+                errorInstance={errors}
+                isLoading={false}
+              />
+            )}
           </Grid>
           <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={6} md={3}>
-                <Typography variant='body1'>Company Address</Typography>
-              </Grid>
-              <Grid item xs={6} md={9}>
-                <Switch
-                  classes={{
-                    root: classes.root,
-                    switchBase: classes.switchBase,
-                    thumb: classes.thumb,
-                    track: classes.track,
-                    checked: classes.checked,
-                  }}
-                  color={'primary'}
-                  onChange={() =>
-                    setIsCompanyAddressVisible((prevState) => !prevState)
-                  }
-                  checked={isCompanyAddressVisible}
-                />
-              </Grid>
-            </Grid>
+            <CustomFormSwitch
+              id={'is_show_company_address'}
+              label={
+                <Typography display={'flex'} alignItems={'center'}>
+                  {messages['common.company_address']}
+                  <Tooltip
+                    arrow
+                    title={
+                      messages[
+                        'job_posting.company_info_address_tooltip'
+                      ] as string
+                    }>
+                    <Help
+                      sx={{
+                        marginLeft: '8px',
+                      }}
+                    />
+                  </Tooltip>
+                </Typography>
+              }
+              yesLabel={messages['common.show'] as string}
+              noLabel={messages['common.hide'] as string}
+              register={register}
+              defaultChecked={true}
+              isLoading={false}
+            />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={10}>
             <CustomFormSelect
               required
               id='company_type'
@@ -175,32 +145,37 @@ const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
               errorInstance={errors}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={6} md={3}>
-                <Typography variant='body1'>Company Business</Typography>
-              </Grid>
-              <Grid item xs={6} md={9}>
-                <Switch
-                  classes={{
-                    root: classes.root,
-                    switchBase: classes.switchBase,
-                    thumb: classes.thumb,
-                    track: classes.track,
-                    checked: classes.checked,
-                  }}
-                  color={'primary'}
-                  onChange={() =>
-                    setIsCompanyBusinessVisible((prevState) => !prevState)
-                  }
-                  checked={isCompanyBusinessVisible}
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} md={3}>
+            <CustomFormSwitch
+              id={'is_show_company_business'}
+              label={
+                <Typography display={'flex'} alignItems={'center'}>
+                  {messages['common.company_business']}
+                  <Tooltip
+                    arrow
+                    title={
+                      messages[
+                        'job_posting.company_info_business_tooltip'
+                      ] as string
+                    }>
+                    <Help
+                      sx={{
+                        marginLeft: '8px',
+                      }}
+                    />
+                  </Tooltip>
+                </Typography>
+              }
+              yesLabel={messages['common.show'] as string}
+              noLabel={messages['common.hide'] as string}
+              register={register}
+              defaultChecked={true}
+              isLoading={false}
+            />
           </Grid>
         </Grid>
 
-        <Box display={'flex'} justifyContent={'space-between'} mt={'15px'}>
+        <Box mt={3} display={'flex'} justifyContent={'space-between'}>
           <Button onClick={onBack} variant={'outlined'} color={'primary'}>
             {messages['common.previous']}
           </Button>
@@ -213,7 +188,7 @@ const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
           </Button>
         </Box>
       </form>
-    </StyledBox>
+    </Box>
   );
 };
 

@@ -27,13 +27,7 @@ const StyledFormControl = styled(FormControl)(({theme}) => ({
     padding: '0px',
   },
   [`& .${classes.switchBase}`]: {
-    color: '#818181',
     padding: '1px',
-    '&$checked': {
-      '& + $track': {
-        backgroundColor: '#23bf58',
-      },
-    },
   },
   [`& .${classes.thumb}`]: {
     color: 'white',
@@ -67,7 +61,6 @@ const StyledFormControl = styled(FormControl)(({theme}) => ({
     },
   },
   [`& .${classes.checked}`]: {
-    color: '#23bf58 !important',
     transform: 'translateX(46px) !important',
   },
   [`& .Mui-checked~.MuiSwitch-track:after`]: {
@@ -75,6 +68,9 @@ const StyledFormControl = styled(FormControl)(({theme}) => ({
   },
   [`& .Mui-checked~.MuiSwitch-track:before`]: {
     opacity: '1',
+  },
+  [`& .Mui-disabled+.MuiSwitch-track`]: {
+    opacity: '0.5 !important',
   },
 }));
 
@@ -88,6 +84,7 @@ interface CustomFormSwitchProps {
   onChange?: (e: any) => any;
   yesLabel?: string;
   noLabel?: string;
+  disabled?: boolean;
 }
 
 const CustomFormSwitch = ({
@@ -99,6 +96,7 @@ const CustomFormSwitch = ({
   defaultChecked = false,
   yesLabel,
   noLabel,
+  disabled = false,
   onChange: onChangeCallback,
 }: CustomFormSwitchProps) => {
   const el = document.getElementById(id);
@@ -144,6 +142,7 @@ const CustomFormSwitch = ({
           />
         }
         label={''}
+        disabled={disabled}
       />
     </StyledFormControl>
   );
