@@ -1,16 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-  useTheme,
-} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {H1} from '../../../@softbd/elements/common';
@@ -26,20 +19,14 @@ import {
   ICalendar,
   ICalendarQuery,
 } from '../../../shared/Interface/common.interface';
-import AppLocale from '../../../shared/localization';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const localizer = momentLocalizer(moment);
 
 const YouthEventCalendarView = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({

@@ -21,6 +21,7 @@ import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import AppContext from '../../../@crema/utility/AppContext';
 import AppLocale from '../../../shared/localization';
 import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'JobCircularDetails';
 
@@ -106,10 +107,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const JobCircularDetails = () => {
   const {messages} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   /*const authUser = useAuthUser<YouthAuthUser>();*/
   /*const router = useRouter();*/
   /*let {jobCircularId} = router.query;*/

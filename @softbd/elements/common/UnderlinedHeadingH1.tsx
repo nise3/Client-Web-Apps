@@ -1,11 +1,8 @@
-import React, {ReactNode, useContext} from 'react';
+import React, {ReactNode} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, useTheme} from '@mui/material';
-import typography from '../../layouts/themes/default/typography';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
+import {Box} from '@mui/material';
 import {H1} from './index';
+import {useCustomStyle} from '../../hooks/useCustomStyle';
 
 const PREFIX = 'UnderlinedHeading';
 
@@ -40,10 +37,7 @@ type Props = {
 };
 
 const UnderlinedHeading = ({children}: Props) => {
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   return (
     <>
       <H1

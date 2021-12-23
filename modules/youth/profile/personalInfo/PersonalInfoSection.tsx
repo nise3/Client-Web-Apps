@@ -6,7 +6,6 @@ import {
   Divider,
   Grid,
   Typography,
-  useTheme,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
@@ -14,7 +13,7 @@ import {BorderColor, EmojiEventsOutlined, Schedule} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import SkillInfo from '../SkillInfo';
 import CircularProgressWithLabel from '../component/CircularProgressWithLabel';
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import PersonalInformationEdit from './PersonalInformationEdit';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
@@ -28,11 +27,8 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
 import {H1} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -95,10 +91,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 /** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
   const {messages, formatNumber} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();

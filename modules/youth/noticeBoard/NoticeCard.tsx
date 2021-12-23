@@ -1,4 +1,4 @@
-import React, {FC, useContext} from 'react';
+import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Avatar,
@@ -8,15 +8,11 @@ import {
   CardContent,
   Grid,
   Typography,
-  useTheme,
 } from '@mui/material';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
 import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {H2, Link} from '../../../@softbd/elements/common';
-import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'NoticeCard';
 
@@ -65,10 +61,7 @@ const logo = '/images/creativeIt.png';
 
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const {messages, formatDate} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   const URL = `/notice-details/${notice.id}`;
   return (
     <StyledCard>

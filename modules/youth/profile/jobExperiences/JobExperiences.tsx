@@ -1,8 +1,8 @@
 import {useIntl} from 'react-intl';
 import CustomParabolaButton from '../component/CustomParabolaButton';
-import React, {useContext} from 'react';
+import React from 'react';
 import {AccessTime, BorderColor, Verified} from '@mui/icons-material';
-import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
 import CircularDeleteButton from '../component/CircularDeleteButton';
 import {YouthJobExperience} from '../../../../services/youthManagement/typing';
 import TextPrimary from '../component/TextPrimary';
@@ -13,10 +13,7 @@ import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
 import {H3} from '../../../../@softbd/elements/common';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'JobExperience';
 const classes = {
@@ -45,10 +42,7 @@ const JobExperiences = ({
   onDeleteJobExperience,
 }: JobExperienceProp) => {
   const {messages, formatDate} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   return (
     <React.Fragment>

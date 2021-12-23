@@ -1,13 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Grid, useTheme} from '@mui/material';
+import {Grid} from '@mui/material';
 import FeatureJobComponent from './components/FeatureJobComponent';
 import {useIntl} from 'react-intl';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
 import {H2} from '../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'FeatureJobSection';
 
@@ -23,10 +20,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
 const FeatureJobSection = () => {
   const {messages} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   const items = [
     {

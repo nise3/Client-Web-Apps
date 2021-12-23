@@ -1,5 +1,5 @@
-import React, {FC, useContext} from 'react';
-import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
+import React, {FC} from 'react';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
 import {
   AccessTime,
   BorderColor,
@@ -19,11 +19,8 @@ import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
 import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'Educations';
 const classes = {
@@ -52,10 +49,7 @@ const Educations: FC<EducationsProps> = ({
   onDeleteClick,
 }) => {
   const {messages, formatNumber} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   const getResult = (education: YouthEducation) => {
     if (education.result?.code == ResultCodeGrade) {

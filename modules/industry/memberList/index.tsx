@@ -27,6 +27,7 @@ import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import AppContext from '../../../@crema/utility/AppContext';
 import AppLocale from '../../../shared/localization';
 import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -74,10 +75,7 @@ const dummyData = {
 
 const MemberListPage = () => {
   const {messages, formatNumber} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({

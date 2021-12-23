@@ -1,6 +1,6 @@
 import HorizontalLine from '../component/HorizontalLine';
-import React, {useContext} from 'react';
-import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
+import React from 'react';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor, Email, LocationOn} from '@mui/icons-material';
@@ -11,11 +11,8 @@ import TextPrimary from '../component/TextPrimary';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
 import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'References';
 const classes = {
@@ -44,10 +41,7 @@ const References = ({
   onDeleteReference,
 }: ReferencesProp) => {
   const {messages} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   return (
     <React.Fragment>

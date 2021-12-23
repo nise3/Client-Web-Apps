@@ -1,13 +1,9 @@
-import React, {FC, useContext} from 'react';
-import {Card, CardContent, Grid, useTheme} from '@mui/material';
+import React, {FC} from 'react';
+import {Card, CardContent, Grid} from '@mui/material';
 import ContentWithImageSkeleton from './ContentWithImageSkeleton';
 import {H2} from '../../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
 
 const PREFIX = 'ContentLayout';
 
@@ -40,10 +36,7 @@ const ContentLayout: FC<ContentLayoutProps> = ({
   children,
   ...props
 }) => {
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   return (
     <StyledCard>

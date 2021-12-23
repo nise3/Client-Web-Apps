@@ -1,25 +1,14 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
-import {
-  Box,
-  Button,
-  CardMedia,
-  Container,
-  Grid,
-  Tooltip,
-  useTheme,
-} from '@mui/material';
+import {Box, Button, CardMedia, Container, Grid, Tooltip} from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {Body1, H1, Link} from '../../../@softbd/elements/common';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'PublicationDetails';
 
@@ -49,13 +38,10 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const PublicationDetails = () => {
   const {messages} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   /*  const router = useRouter();
-    const {publicationId}: any = router.query;
-    const {data: publicationData} = useFetchPublication(publicationId);*/
+      const {publicationId}: any = router.query;
+      const {data: publicationData} = useFetchPublication(publicationId);*/
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>

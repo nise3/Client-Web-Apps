@@ -4,9 +4,8 @@ import {
   FormControlLabel,
   Switch,
   Typography,
-  useTheme,
 } from '@mui/material';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -18,10 +17,7 @@ import * as _ from 'lodash';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../shared/constants/AppEnums';
 import {H2} from '../../../@softbd/elements/common';
-import AppLocale from '../../../shared/localization';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import typography from '../../../@softbd/layouts/themes/default/typography';
-import AppContext from '../../../@crema/utility/AppContext';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'FreelanceProfileComponent';
 
@@ -41,10 +37,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 const FreelanceProfileComponent = () => {
   const {messages} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<YouthAuthUser>();
 

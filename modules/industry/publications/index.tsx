@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Box,
   Button,
@@ -12,7 +12,6 @@ import {
   Paper,
   Stack,
   Typography,
-  useTheme,
 } from '@mui/material';
 import {Body2, H1, Link} from '../../../@softbd/elements/common';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -23,10 +22,7 @@ import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {useFetchPublications} from '../../../services/IndustryManagement/hooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -97,10 +93,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const Publications = () => {
   const {messages} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   const [publicationFilter] = useState<any>({});
   const {data: publications} = useFetchPublications(publicationFilter);
   const onResetClicked = useCallback(() => {}, []);

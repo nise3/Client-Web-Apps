@@ -1,13 +1,10 @@
-import React, {FC, useContext} from 'react';
+import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Card, Grid, useTheme} from '@mui/material';
+import {Avatar, Box, Card, Grid} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {Star} from '@mui/icons-material';
 import {H3} from '../../../../@softbd/elements/common';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'FeatureJobComponent';
 
@@ -69,10 +66,7 @@ interface FeatureJobProps {
 }
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   return (
     <StyledCard>

@@ -1,14 +1,6 @@
-import React, {FC, useContext} from 'react';
+import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {
-  Box,
-  Button,
-  Card,
-  CardMedia,
-  Grid,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
@@ -21,11 +13,8 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
 import {niseDomain} from '../../../../@softbd/common/constants';
-import AppContextPropsType from '../../../../redux/types/AppContextPropsType';
-import AppContext from '../../../../@crema/utility/AppContext';
-import AppLocale from '../../../../shared/localization';
-import typography from '../../../../@softbd/layouts/themes/default/typography';
 import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'CourseInfoBlock';
 
@@ -96,10 +85,7 @@ interface CourseInfoBlockProps {
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
 
   const authUser = useAuthUser<YouthAuthUser>();
 

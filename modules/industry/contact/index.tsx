@@ -20,6 +20,7 @@ import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import AppContext from '../../../@crema/utility/AppContext';
 import AppLocale from '../../../shared/localization';
 import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'IndustryContact';
 
@@ -146,10 +147,7 @@ const officePersonsContact = [
 ];
 
 const ContactPage = () => {
-  const theme = useTheme();
-  const {locale} = useContext<AppContextPropsType>(AppContext);
-  const currentAppLocale = AppLocale[locale.locale];
-  const result = typography(theme, currentAppLocale.locale);
+  const result = useCustomStyle();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [mapCenter] = useState({
