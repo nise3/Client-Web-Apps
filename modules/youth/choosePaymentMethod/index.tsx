@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, CardMedia, Container, Paper, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
@@ -63,40 +63,54 @@ const ChoosePayment = () => {
   const {errorStack} = useNotiStack();
   const router = useRouter();
   const {courseId, enrollment_id}: any = router.query;
+  const [isDisableLayout, setIsDisableLayout] = useState<boolean>(false);
 
-  const onPaymentMethodSelect = useCallback((method: number) => {
-    (async () => {
-      try {
-        if (enrollment_id) {
-          const paymentRedirectTo = youthDomain() + '/course-enroll-payment/';
+  const onPaymentMethodSelect = useCallback(
+    (method: number) => {
+      if (!isDisableLayout) {
+        (async () => {
+          try {
+            setIsDisableLayout(true);
+            if (enrollment_id) {
+              const paymentRedirectTo =
+                youthDomain() + '/course-enroll-payment/';
 
-          let data = {
-            payment_gateway_type: method,
-            course_enrollment_id: enrollment_id,
-            feed_uri: {
-              success: paymentRedirectTo + 'success',
-              failed: paymentRedirectTo + 'failed',
-              cancel: paymentRedirectTo + 'cancelled',
-            },
-          };
+              let data = {
+                payment_gateway_type: method,
+                course_enrollment_id: enrollment_id,
+                feed_uri: {
+                  success: paymentRedirectTo + 'success',
+                  failed: paymentRedirectTo + 'failed',
+                  cancel: paymentRedirectTo + 'cancelled',
+                },
+              };
 
-          const response = await courseEnrollmentPaymentPay(data);
+              const response = await courseEnrollmentPaymentPay(data);
 
-          if (response?.redirect_url) {
-            let expireDate = new Date();
-            expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
-            cookieInstance.set(COOKIE_KEY_COURSE_ID, courseId, {
-              expires: expireDate,
-            });
+              if (response?.redirect_url) {
+                let expireDate = new Date();
+                expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
+                cookieInstance.set(COOKIE_KEY_COURSE_ID, courseId, {
+                  expires: expireDate,
+                });
 
-            window.location.href = response?.redirect_url;
+                window.location.href = response?.redirect_url;
+              }
+            } else {
+              errorStack(<IntlMessages id={'common.missing_enrollment_id'} />);
+            }
+          } catch (error: any) {
+            setIsDisableLayout(false);
+            errorStack(
+              error.response?.data?._response_status?.message ||
+                'Unknown Error',
+            );
           }
-        } else {
-          errorStack(<IntlMessages id={'common.missing_enrollment_id'} />);
-        }
-      } catch (error: any) {}
-    })();
-  }, []);
+        })();
+      }
+    },
+    [isDisableLayout],
+  );
 
   return (
     <StyledContainer maxWidth={'lg'}>
