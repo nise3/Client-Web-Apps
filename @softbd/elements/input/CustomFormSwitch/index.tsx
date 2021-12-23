@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import {FormControl, FormControlLabel, FormLabel, Switch} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
@@ -99,17 +99,19 @@ const CustomFormSwitch = ({
   disabled = false,
   onChange: onChangeCallback,
 }: CustomFormSwitchProps) => {
-  const el = document.getElementById(id);
-  if (el) {
-    const parent: any = el.parentElement;
-    if (parent) {
-      const track = parent.nextSibling;
-      if (track) {
-        track.setAttribute('data-on', yesLabel ? yesLabel : '');
-        track.setAttribute('data-off', noLabel ? noLabel : '');
+  useEffect(() => {
+    const el = document.getElementById(id);
+    if (el) {
+      const parent: any = el.parentElement;
+      if (parent) {
+        const track = parent.nextSibling;
+        if (track) {
+          track.setAttribute('data-on', yesLabel ? yesLabel : '');
+          track.setAttribute('data-off', noLabel ? noLabel : '');
+        }
       }
     }
-  }
+  }, [yesLabel, noLabel]);
 
   return isLoading ? (
     <TextInputSkeleton />
