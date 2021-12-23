@@ -20,6 +20,7 @@ import {
 } from '../../../../@softbd/utilities/helpers';
 import {Error} from '@mui/icons-material';
 import {ResumeReceivingOptions} from '../enums/ResumeReceivingOptions';
+import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
 
 interface Props {
   onContinue: () => void;
@@ -381,6 +382,17 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               isLoading={false}
               multiline={true}
               rows={3}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomFormSwitch
+              id={'is_photograph_enclosed'}
+              label={'Photograph (Enclose with resume)'}
+              yesLabel={messages['common.yes'] as string}
+              noLabel={messages['common.no'] as string}
+              register={register}
+              defaultChecked={true}
+              isLoading={false}
             />
           </Grid>
         </Grid>
