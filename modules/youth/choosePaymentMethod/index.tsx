@@ -8,7 +8,7 @@ import {PaymentMethods} from '../../../@softbd/utilities/PaymentMethods';
 import {courseEnrollmentPaymentPay} from '../../../services/youthManagement/YouthService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import cookieInstance from '../../../@softbd/libs/cookieInstance';
+import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_COURSE_ID} from '../../../shared/constants/AppConst';
 import {youthDomain} from '../../../@softbd/common/constants';
 
@@ -90,7 +90,7 @@ const ChoosePayment = () => {
               if (response?.redirect_url) {
                 let expireDate = new Date();
                 expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
-                cookieInstance.set(COOKIE_KEY_COURSE_ID, courseId, {
+                setBrowserCookie(COOKIE_KEY_COURSE_ID, courseId, {
                   expires: expireDate,
                 });
 

@@ -5,7 +5,10 @@ import {Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import cookieInstance from '../../../@softbd/libs/cookieInstance';
+import {
+  getBrowserCookie,
+  removeBrowserCookie,
+} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_COURSE_ID} from '../../../shared/constants/AppConst';
 import {youthDomain} from '../../../@softbd/common/constants';
 
@@ -21,10 +24,10 @@ const YouthCourseRegistrationSuccessPage = () => {
   const [courseId, setCourseId] = useState<number | null>(null);
 
   useEffect(() => {
-    const courseId = cookieInstance.get(COOKIE_KEY_COURSE_ID);
+    const courseId = getBrowserCookie(COOKIE_KEY_COURSE_ID);
     if (courseId) {
       setCourseId(courseId);
-      cookieInstance.remove(COOKIE_KEY_COURSE_ID);
+      removeBrowserCookie(COOKIE_KEY_COURSE_ID);
     }
   }, []);
 
