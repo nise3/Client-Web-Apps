@@ -38,7 +38,7 @@ codestyle:
   script:
     - echo "Code quality check will be added later"
   only:
-   - develop
+   - staging
     
 phpunit:
   stage: test
@@ -47,7 +47,7 @@ phpunit:
   script:
     - echo "unit test will be added later."
   only:
-   - develop
+   - staging
   
 staging:
   stage: deploy
@@ -85,7 +85,7 @@ docker-build:
     - docker build --pull -t "$imageRepository${tag}" .
     - docker push "$imageRepository${tag}"
   only:
-   - develop
+   - staging
 
 codestyle:
   stage: test
@@ -93,7 +93,7 @@ codestyle:
   script:
     - echo "Code quality check will be added later"
   only:
-   - develop
+   - staging
     
 phpunit:
   stage: test
@@ -102,7 +102,7 @@ phpunit:
   script:
     - echo "unit test will be added later."
   only:
-   - develop
+   - staging
   
 staging:
   stage: deploy
