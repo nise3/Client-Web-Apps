@@ -1,10 +1,12 @@
 import React, {ReactNode, useContext} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Typography, useTheme} from '@mui/material';
+import {Box, useTheme} from '@mui/material';
 import typography from '../../layouts/themes/default/typography';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import AppContext from '../../../@crema/utility/AppContext';
 import AppLocale from '../../../shared/localization';
+import {H1} from './index';
+
 const PREFIX = 'UnderlinedHeading';
 
 const classes = {
@@ -44,13 +46,19 @@ const UnderlinedHeading = ({children}: Props) => {
   const result = typography(theme, currentAppLocale.locale);
   return (
     <>
-      <Typography
-        variant='h1'
-        sx={result.h2}
+      <H1
+        sx={{
+          ...result.h2,
+          fontSize: '1.875rem',
+          color: 'primary.main',
+          textAlign: 'center',
+          marginBottom: '20px',
+          fontWeight: 'bold',
+        }}
         gutterBottom={true}
         fontWeight='fontWeightBold'>
         {children}
-      </Typography>
+      </H1>
       <StyledBoxLine mb={12}>
         <Box className={classes.lineOne} />
         <Box className={classes.lineTwo} />

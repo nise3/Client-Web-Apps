@@ -1,8 +1,12 @@
-import {CardMedia, Container, Grid} from '@mui/material';
-import {Body1, H2} from '../../../@softbd/elements/common';
-import React from 'react';
+import {CardMedia, Container, Grid, useTheme} from '@mui/material';
+import {Body1, H1, H2} from '../../../@softbd/elements/common';
+import React, {useContext} from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import AppContext from '../../../@crema/utility/AppContext';
+import AppLocale from '../../../shared/localization';
+import typography from '../../../@softbd/layouts/themes/default/typography';
 
 const PREFIX = 'AboutUs';
 
@@ -19,13 +23,23 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const AboutUs = () => {
   const {messages} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
+
   return (
     <StyledContainer maxWidth='lg' sx={{marginTop: '20px'}}>
       <Grid container spacing={4}>
         <Grid item xs={6}>
-          <H2 py={3} fontWeight={'bold'}>
+          <H1
+            py={3}
+            sx={{
+              ...result.h2,
+              fontWeight: 'bold',
+            }}>
             {messages['footer.about_us']}
-          </H2>
+          </H1>
           <Body1>
             বেসিস সদস্য কোম্পানিগুলোর উচ্চাকাঙ্ক্ষা, সক্ষমতা এবং টেকসই প্রবৃদ্ধি
             বিকাশ করা এবং ওয়ান বাংলাদেশ-এ বেসিস অবদানকে নেতৃত্ব দেওয়া ও প্রদান

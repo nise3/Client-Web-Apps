@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useContext, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -12,16 +12,21 @@ import {
   Paper,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 import clsx from 'clsx';
 import SearchIcon from '@mui/icons-material/Search';
-import {H2} from '../../../@softbd/elements/common';
+import {H1, H2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import MemberComponent from './MemberComponent';
 import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import AppContext from '../../../@crema/utility/AppContext';
+import AppLocale from '../../../shared/localization';
+import typography from '../../../@softbd/layouts/themes/default/typography';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -69,6 +74,10 @@ const dummyData = {
 
 const MemberListPage = () => {
   const {messages, formatNumber} = useIntl();
+  const theme = useTheme();
+  const {locale} = useContext<AppContextPropsType>(AppContext);
+  const currentAppLocale = AppLocale[locale.locale];
+  const result = typography(theme, currentAppLocale.locale);
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({
@@ -100,9 +109,15 @@ const MemberListPage = () => {
 
   return (
     <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
-      <H2 py={3} fontWeight={'bold'} centered={true}>
+      <H1
+        py={3}
+        sx={{
+          ...result.h2,
+          fontWeight: 'bold',
+        }}
+        centered={true}>
         {messages['common.member_list']}
-      </H2>
+      </H1>
 
       <Grid container justifyContent={'space-between'} mt={3}>
         <Grid item>
@@ -169,13 +184,19 @@ const MemberListPage = () => {
         </Typography>
       ) : (
         <React.Fragment>
-          <Typography gutterBottom variant='h6' mt={3} mb={3}>
+          <H2
+            gutterBottom
+            mt={3}
+            mb={3}
+            sx={{
+              ...result.h6,
+            }}>
             {messages['common.total_result']}{' '}
             <Chip
               label={formatNumber(data ? data.length : '0')}
               className={classes.chipStyle}
             />
-          </Typography>
+          </H2>
 
           {data && data.length > 0 && (
             <Grid container spacing={3}>
