@@ -5,7 +5,7 @@
 
 variables:
 
-  hostName: coreapi.bus.softbd.xyz
+  hostName: main.softbd.xyz
 
   # app version, changing version will auto deploy the app to current version
 
@@ -25,7 +25,7 @@ variables:
   serviceTargetPort: 80
 
   #app buil image
-  imageRepository: registry.bus-staging.softbdltd.com/nise3-core-api-docker
+  imageRepository: registry.bus-staging.softbdltd.com/nise3-client-next
 
 
   #auto scaling config
