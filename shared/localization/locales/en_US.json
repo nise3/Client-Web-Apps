@@ -1177,5 +1177,11 @@
   "label.show_nothing": "Show nothing",
   "label.show_negotiable": "Show 'Negotiable' instead of given salary range",
   "label.compare_provided_expected_salary": "Do you want to use this salary to compare with applicant provided expected salary in applicant list?",
-  "label.alert_salary_range": "Do you want to alert applicant while his provided salary is excessive than given salary range at the time of applying?"
+  "label.alert_salary_range": "Do you want to alert applicant while his provided salary is excessive than given salary range at the time of applying?",
+  "label.alert_salary_range_tooltips_text": "Applicant will be notified if he provides excessive expected salary but your salary will not disclosed unless you show it in Job Detail.",
+  "label.additional_salary_info": "Additional Salary Info.",
+  "label.job_level": "Job Level",
+  "label.job_level_entry": "Entry",
+  "label.job_level_mid": "Mid",
+  "label.job_level_top": "Top"
 }
