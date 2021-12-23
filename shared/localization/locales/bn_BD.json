@@ -1164,6 +1164,7 @@
   "common.minimum_age": "সর্বোচ্চ বয়স",
   "common.maximum_age": "সর্বনিম্ন বয়স",
   "common.apply_online": "অনলাইনে আবেদন",
+  "common.ready_to_process": "প্রক্রিয়া করার জন্য প্রস্তুত",
   "common.area_of_experience": "অভিজ্ঞতার বিষয়",
   "common.area_of_business": "বিজনেসের বিষয়",
   "job_post.is_fresher_applicable": "নতুনরা আবেদন করতে পারবে",

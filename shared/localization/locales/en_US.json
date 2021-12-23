@@ -1176,6 +1176,7 @@
   "job_posting.company_info_address_tooltip": "Your company address will not be visible to job seekers if you choose \"Hide\".",
   "job_posting.company_info_business_tooltip": "Your company business will not be visible to job seekers if you choose \"Hide\".",
   "common.apply_online": "Apply Online",
+  "common.ready_to_process": "Ready to Process",
   "job_posting.hard_copy": "Hard Copy",
   "job_posting.walk_in_interview": "Walk in Interview",
   "job_posting.use_nise3_email": "Applicant can use Nise3 email system",
