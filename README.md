@@ -21,3 +21,4 @@ pm2 start yarn --name "admin" --interpreter bash -- start:admin
 pm2 start yarn --name "youth" --interpreter bash -- start:youth
 pm2 start yarn --name "youth" --interpreter bash -- start:youth
 ```
+ok
