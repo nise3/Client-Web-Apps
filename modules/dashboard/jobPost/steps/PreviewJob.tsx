@@ -2,7 +2,8 @@ import React from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {EmploymentStatus} from '../enums/EmploymentStatus';
-import {Body2, H3} from '../../../../@softbd/elements/common';
+import {Body2, H3, H6} from '../../../../@softbd/elements/common';
+import JobPreviewSubComponent from './components/JobPreviewSubComponent';
 
 interface Props {
   onBack: () => void;
@@ -24,6 +25,9 @@ const data = {
     min_salary: 10000,
     max_salary: 50000,
     salary_show_type: 1,
+    additional_salary_info: 'Negotiable based on experience.',
+    job_responsibilities:
+      'Develop, Test and Deploy web application.\nWrite clean and organized code',
   },
   step3: {
     experience_status: 1,
@@ -33,7 +37,9 @@ const data = {
     max_age: 45,
     can_fresher_apply: true,
   },
-  step4: {},
+  step4: {
+    companyName: 'SOFT-BD',
+  },
   step5: {},
   step6: {},
   publish_date: '2021-09-11',
@@ -135,9 +141,75 @@ const PreviewJob = ({onBack, onContinue}: Props) => {
 
   return (
     <Box mt={3}>
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item xs={12} md={8}>
           <H3>{data.step1.job_title}</H3>
+          <H6 fontWeight={'bold'}>{data.step4.companyName}</H6>
+          <JobPreviewSubComponent title={'Vacancy'}>
+            {data.step1.not_applicable
+              ? 'N/A'
+              : formatNumber(data.step1.vacancy)}
+          </JobPreviewSubComponent>
+
+          <JobPreviewSubComponent title={'Job Responsibilities'}>
+            {data.step2.job_responsibilities}
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['job_posting.employment_status'] as string}>
+            {getJobNature()}
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['job_posting.educational_requirements'] as string}>
+            hi
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['job_posting.experience_requirements'] as string}>
+            hi
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['job_posting.additional_requirements'] as string}>
+            hi
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['common.job_location'] as string}>
+            {data.step2.job_location}
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['common.salary'] as string}
+            childContainerProps={{
+              sx: {
+                paddingLeft: '0',
+              },
+            }}>
+            {data.step2.additional_salary_info &&
+            data.step2.additional_salary_info != '' ? (
+              <ul>
+                <li>{getSalary()}</li>
+                <li>{data.step2.additional_salary_info}</li>
+              </ul>
+            ) : (
+              getSalary()
+            )}
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={
+              messages['job_posting.compensation_and_other_benefits'] as string
+            }>
+            Other
+          </JobPreviewSubComponent>
+
+          <JobPreviewSubComponent
+            title={messages['job_posting.job_source'] as string}>
+            Nise3 Online Job Posting.
+          </JobPreviewSubComponent>
+          <JobPreviewSubComponent
+            title={messages['job_posting.published_on'] as string}>
+            {formatDate(data.publish_date, {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            })}
+          </JobPreviewSubComponent>
         </Grid>
         <Grid item xs={1} md={4}>
           <Typography>
@@ -155,7 +227,7 @@ const PreviewJob = ({onBack, onContinue}: Props) => {
             </Box>
             <CardContent>
               <Body2>
-                <b>Published on:</b>{' '}
+                <b>{messages['job_posting.published_on']}</b>{' '}
                 {formatDate(data.publish_date, {
                   day: '2-digit',
                   month: 'short',
@@ -199,6 +271,7 @@ const PreviewJob = ({onBack, onContinue}: Props) => {
             </CardContent>
           </Card>
         </Grid>
+        <Grid item xs={12}></Grid>
       </Grid>
       <Box mt={3} display={'flex'} justifyContent={'space-between'}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>

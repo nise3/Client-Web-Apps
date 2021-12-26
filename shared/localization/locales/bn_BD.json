@@ -1171,6 +1171,12 @@
   "job_posting.hard_copy": "মুদ্রিত সংস্করণ",
   "job_posting.walk_in_interview": "ওয়াক ইন ইন্টারভিউ",
   "job_posting.use_nise3_email": "আবেদনকারী Nise3 ইমেল সিস্টেম ব্যবহার করতে পারেন",
+  "job_posting.educational_requirements": "শিক্ষাগত যোগ্যতা",
+  "job_posting.experience_requirements": "প্রয়োজনীয় অভিজ্ঞতা",
+  "job_posting.additional_requirements": "অতিরিক্ত আবশ্যক",
+  "job_posting.published_on": "প্রকাশিত:",
+  "job_posting.job_source": "চাকরির উৎস",
+  "job_posting.compensation_and_other_benefits": "কম্পেন্সেশন এবং অন্যান্য সুবিধা",
   "job_posting.candidates_requirement": "প্রার্থীদের প্রয়োজনীয়তা",
   "common.preferred_educational_institute": "পছন্দের শিক্ষা প্রতিষ্ঠান",
   "common.other_educational_qualification": "অন্যান্য শিক্ষাগত যোগ্যতা",
@@ -1189,6 +1195,7 @@
   "common.work_at_office": "অফিস থেকে কাজ",
   "common.work_from_home": "বাসা থেকে কাজ",
   "common.job_location": "কাজের স্থান",
+  "common.salary": "বেতন",
   "label.inside_bd": "বাংলাদেশের ভিতরে",
   "label.min_salary": "সর্বনিম্ন বেতন",
   "label.max_salary": "সর্বোচ্চ বেতন",
@@ -1204,5 +1211,4 @@
   "label.job_level_entry": "প্রাথমিক",
   "label.job_level_mid": "মধ্যবর্তী",
   "label.job_level_top": "শীর্ষ"
-
 }
