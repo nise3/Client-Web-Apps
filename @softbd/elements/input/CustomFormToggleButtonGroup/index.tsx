@@ -101,7 +101,7 @@ const CustomFormToggleButtonGroup = ({
             exclusive={!multiSelect}
             onChange={(
               event: React.MouseEvent<HTMLElement>,
-              newValues: any[],
+              newValues: any,
             ) => {
               onChange(newValues);
               if (onChangeCallback && typeof onChangeCallback === 'function') {

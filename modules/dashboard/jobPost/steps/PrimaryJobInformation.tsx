@@ -306,7 +306,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
                     label: messages['job_posting.hard_copy'],
                   },
                   {
-                    value: ResumeReceivingOptions.WAIL_IN_INTERVIEW,
+                    value: ResumeReceivingOptions.WALK_IN_INTERVIEW,
                     label: messages['job_posting.walk_in_interview'],
                   },
                 ]}
@@ -363,7 +363,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
           )}
 
           {resumeReceivingOption ==
-            ResumeReceivingOptions.WAIL_IN_INTERVIEW && (
+            ResumeReceivingOptions.WALK_IN_INTERVIEW && (
             <Grid item xs={12}>
               <CustomTextInput
                 required
