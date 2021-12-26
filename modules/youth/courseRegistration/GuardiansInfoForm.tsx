@@ -40,7 +40,6 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          required
           id='guardian_info[father_mobile]'
           label={messages['common.mobile']}
           register={register}
@@ -91,7 +90,6 @@ const GuardiansInfoForm: FC<GuardiansInfoFormProps> = ({register, errors}) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          required
           id='guardian_info[mother_mobile]'
           label={messages['common.mobile']}
           register={register}

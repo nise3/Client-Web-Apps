@@ -167,22 +167,15 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   }, [messages]);
 
   const nonRequiredMobileValidationSchema = useMemo(() => {
-    return yup.object().shape(
-      {
-        value: yup
-          .mixed()
-          .nullable()
-          .notRequired()
-          .when('value', {
-            is: (value: any) => value && value.length > 0,
-            then: (rule: any) =>
-              rule
-                .matches(MOBILE_NUMBER_REGEX)
-                .label(messages['common.phone'] as string),
-          }),
-      },
-      [['value', 'value']],
-    );
+    return yup.object().shape({
+      value: yup
+        .mixed()
+        .test(
+          'mobile_number_validation',
+          messages['common.invalid_mobile'] as string,
+          (value) => !value || Boolean(value.match(MOBILE_NUMBER_REGEX)),
+        ),
+    });
   }, [messages]);
 
   const validationSchema = useMemo(() => {
