@@ -168,7 +168,6 @@ const AddressForm: FC<AddressFormProps> = ({
 
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          required
           id='present_address[zip_or_postal_code]'
           label={messages['common.zip_or_postal_code']}
           register={register}
@@ -275,7 +274,6 @@ const AddressForm: FC<AddressFormProps> = ({
 
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          required
           id='permanent_address[zip_or_postal_code]'
           label={messages['common.zip_or_postal_code']}
           register={register}
