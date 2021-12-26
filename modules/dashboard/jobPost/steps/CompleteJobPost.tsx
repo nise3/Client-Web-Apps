@@ -5,6 +5,7 @@ import {H6} from '../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
+import CallIcon from '@mui/icons-material/Call';
 interface Props {
   onBack: () => void;
   onContinue: () => void;
@@ -47,8 +48,13 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
         </Typography>
       </Grid>
       <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-        <H6>{messages['common.job_status']}:</H6>
-        <Chip icon={<ReportProblemIcon />} label={messages['common.pending']} />
+        <H6 sx={{marginRight: '10px'}}>{messages['common.job_status']}:</H6>
+        <Chip
+          icon={<ReportProblemIcon />}
+          label={messages['common.pending']}
+          color={'warning'}
+          size={'medium'}
+        />
       </Grid>
       <Grid item xs={12} display={'flex'} justifyContent={'center'}>
         <Box>
@@ -61,6 +67,17 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
           <Button startIcon={<FindInPageIcon />} variant={'outlined'}>
             View job
           </Button>
+        </Box>
+      </Grid>
+      <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+        <Box
+          sx={{backgroundColor: '#d9edf7', width: '75%', height: '35px'}}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}>
+          <Typography align={'center'}>Customer Support:</Typography>
+          <CallIcon />
+          <Typography>0961283833</Typography>
         </Box>
       </Grid>
     </Grid>
