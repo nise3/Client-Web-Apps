@@ -15,10 +15,12 @@ const PREFIX = 'CompleteJob';
 const classes = {
   image: `${PREFIX}-image`,
 };
-const StyledBox = styled(Box)(() => {
+const StyledGrid = styled(Grid)(() => {
   return {
     [`& .${classes.image}`]: {
       borderRadius: '100px',
+      height: '120px',
+      width: '120px',
     },
   };
 });
@@ -26,18 +28,14 @@ const StyledBox = styled(Box)(() => {
 const CompleteJobPost = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   return (
-    <Grid container spacing={5}>
+    <StyledGrid container spacing={3}>
       <Grid item xs={12} mt={2} display={'flex'} justifyContent={'center'}>
-        <StyledBox>
-          <CardMedia
-            component='img'
-            width={'160'}
-            height='154'
-            className={classes.image}
-            image={'/images/done.jpeg'}
-            alt={'Completed'}
-          />
-        </StyledBox>
+        <CardMedia
+          component='img'
+          className={classes.image}
+          image={'/images/done.jpeg'}
+          alt={'Completed'}
+        />
       </Grid>
       <Grid item xs={12} display={'flex'} justifyContent={'center'}>
         <H6>{messages['common.job_posting_successful']}</H6>
@@ -80,7 +78,7 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
           <Typography>0961283833</Typography>
         </Box>
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 
