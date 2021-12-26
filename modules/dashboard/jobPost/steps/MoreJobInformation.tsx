@@ -16,11 +16,45 @@ import {HelpOutlined, HorizontalRule} from '@mui/icons-material';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
 import {JobLevel} from '../enums/JobLevel';
+import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface Props {
   onBack: () => void;
   onContinue: () => void;
 }
+
+const numberOfFestivalBonus: Array<any> = [];
+for (let i = 1; i <= 10; i++) numberOfFestivalBonus.push({id: i, title: i});
+const facilities = [
+  {
+    id: 1,
+    title: 'T/A',
+  },
+  {
+    id: 2,
+    title: 'Mobile  bill',
+  },
+  {
+    id: 3,
+    title: 'Tour allowance',
+  },
+  {
+    id: 4,
+    title: 'Credit card',
+  },
+  {
+    id: 5,
+    title: 'Medical allowance',
+  },
+  {
+    id: 6,
+    title: 'Performance bonus',
+  },
+  {
+    id: 7,
+    title: 'Profit share',
+  },
+];
 
 const MoreJobInformation = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
@@ -163,106 +197,199 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
               errorInstance={errors}
             />
           </Grid>
-        </Grid>
 
-        <Grid item xs={12}>
-          <Body1 sx={{mb: '10px'}}>{messages['industry.salary']}</Body1>
-          <Box sx={{display: 'flex'}} justifyContent={'space-between'}>
-            <CustomTextInput
-              id='min_salary'
-              label={messages['label.min_salary']}
-              register={register}
-              errorInstance={errors}
-              isLoading={false}
-            />
-            <HorizontalRule fontSize={'small'} sx={{margin: 'auto'}} />
-            <CustomTextInput
-              id='max_salary'
-              label={messages['label.max_salary']}
-              register={register}
-              errorInstance={errors}
-              isLoading={false}
-            />
-            <Body2 sx={{ml: '10px', display: 'flex', alignItems: 'center'}}>
-              Monthly
+          <Grid item xs={12}>
+            <Body1 sx={{mb: '10px'}}>{messages['industry.salary']}</Body1>
+            <Box sx={{display: 'flex'}} justifyContent={'space-between'}>
+              <CustomTextInput
+                id='min_salary'
+                label={messages['label.min_salary']}
+                register={register}
+                errorInstance={errors}
+                isLoading={false}
+              />
+              <HorizontalRule fontSize={'small'} sx={{margin: 'auto'}} />
+              <CustomTextInput
+                id='max_salary'
+                label={messages['label.max_salary']}
+                register={register}
+                errorInstance={errors}
+                isLoading={false}
+              />
+              <Body2 sx={{ml: '10px', display: 'flex', alignItems: 'center'}}>
+                Monthly
+              </Body2>
+            </Box>
+            <Box sx={{mt: '20px'}}>
+              <FormRadioButtons
+                id='salary_details_option'
+                label={'label.salary_details_option'}
+                radios={[
+                  {
+                    key: '1',
+                    label: messages['label.show_salary'],
+                  },
+                  {
+                    key: '2',
+                    label: messages['label.show_nothing'],
+                  },
+                  {
+                    key: '3',
+                    label: messages['label.show_negotiable'],
+                  },
+                ]}
+                control={control}
+                // defaultValue={'2'}
+                isLoading={false}
+              />
+            </Box>
+            <Body2 sx={{my: '10px'}}>
+              {messages['label.compare_provided_expected_salary']}
+              <CustomCheckbox
+                id='alert_salary_range'
+                label={messages['common.yes']}
+                register={register}
+                errorInstance={errors}
+                checked={isCompareProvidedExpectedSalary}
+                onChange={() => {
+                  setIsCompareProvidedExpectedSalary((prev) => !prev);
+                }}
+                isLoading={false}
+              />
             </Body2>
-          </Box>
-          <Box sx={{mt: '20px'}}>
-            <FormRadioButtons
-              id='salary_details_option'
-              label={'label.salary_details_option'}
-              radios={[
-                {
-                  key: '1',
-                  label: messages['label.show_salary'],
-                },
-                {
-                  key: '2',
-                  label: messages['label.show_nothing'],
-                },
-                {
-                  key: '3',
-                  label: messages['label.show_negotiable'],
-                },
-              ]}
-              control={control}
-              // defaultValue={'2'}
-              isLoading={false}
-            />
-          </Box>
-          <Body2 sx={{my: '10px'}}>
-            {messages['label.compare_provided_expected_salary']}
-            <CustomCheckbox
-              id='alert_salary_range'
-              label={messages['common.yes']}
+            <Box sx={{my: '10px'}}>
+              <FormRadioButtons
+                id='alert_salary_range'
+                label={'label.alert_salary_range'}
+                radios={[
+                  {
+                    key: '1',
+                    label: messages['common.yes'],
+                  },
+                  {
+                    key: '2',
+                    label: messages['common.no'],
+                  },
+                ]}
+                control={control}
+                // defaultValue={'1'}
+                isLoading={false}
+              />
+              <Tooltip
+                title={messages['label.alert_salary_range_tooltips_text']}
+                placement='top'>
+                <HelpOutlined />
+              </Tooltip>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            <CustomTextInput
+              id='additional_salary_info'
+              label={messages['label.additional_salary_info']}
               register={register}
               errorInstance={errors}
-              checked={isCompareProvidedExpectedSalary}
-              onChange={() => {
-                setIsCompareProvidedExpectedSalary((prev) => !prev);
-              }}
               isLoading={false}
+              multiline={true}
+              rows={3}
             />
-          </Body2>
-          <Box sx={{my: '10px'}}>
-            <FormRadioButtons
-              id='alert_salary_range'
-              label={'label.alert_salary_range'}
-              radios={[
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomFormToggleButtonGroup
+              id={'compensation_other_benefits'}
+              label={messages['common.compensation_other_benefits']}
+              buttons={[
                 {
-                  key: '1',
-                  label: messages['common.yes'],
-                },
-                {
-                  key: '2',
+                  value: 0,
                   label: messages['common.no'],
                 },
+                {
+                  value: 1,
+                  label: messages['common.yes'],
+                },
               ]}
               control={control}
-              // defaultValue={'1'}
-              isLoading={false}
+              errorInstance={errors}
+              multiSelect={false}
+              defaultValue={1}
             />
-            <Tooltip
-              title={messages['label.alert_salary_range_tooltips_text']}
-              placement='top'>
-              <HelpOutlined />
-            </Tooltip>
-          </Box>
-        </Grid>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomSelectAutoComplete
+              id='facilities'
+              label={messages['common.facilities']}
+              control={control}
+              options={facilities}
+              optionTitleProp={['title']}
+              optionValueProp={'id'}
+              errorInstance={errors}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomFormToggleButtonGroup
+              id={'salary_review'}
+              label={messages['common.salary_review']}
+              buttons={[
+                {
+                  value: 0,
+                  label: messages['common.half_yearly'],
+                },
+                {
+                  value: 1,
+                  label: messages['common.yearly'],
+                },
+              ]}
+              control={control}
+              errorInstance={errors}
+              multiSelect={false}
+              defaultValue={1}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomFormToggleButtonGroup
+              id={'lunch_facilities'}
+              label={messages['common.lunch_facilities']}
+              buttons={[
+                {
+                  value: 0,
+                  label: messages['common.partially_subsidize'],
+                },
+                {
+                  value: 1,
+                  label: messages['common.full_subsidize'],
+                },
+              ]}
+              control={control}
+              errorInstance={errors}
+              multiSelect={false}
+              defaultValue={1}
+            />
+          </Grid>
 
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='additional_salary_info'
-            label={messages['label.additional_salary_info']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-            multiline={true}
-            rows={3}
-          />
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              isLoading={false}
+              id='festival_bonus'
+              label={messages['common.festival_bonus']}
+              options={numberOfFestivalBonus}
+              optionValueProp={'id'}
+              optionTitleProp={['title', 'title_en']}
+              control={control}
+              errorInstance={errors}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomTextInput
+              id='others'
+              label={messages['common.others']}
+              register={register}
+              errorInstance={errors}
+              multiline={true}
+              rows={3}
+            />
+          </Grid>
         </Grid>
-
-        <Box display={'flex'} justifyContent={'space-between'} mt={'15px'}>
+        <Box display={'flex'} justifyContent={'space-between'} mt={3}>
           <Button onClick={onBack} variant={'outlined'} color={'primary'}>
             {messages['common.previous']}
           </Button>
