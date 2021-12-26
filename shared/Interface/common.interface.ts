@@ -13,8 +13,10 @@ import {
   CellValue,
 } from 'react-table';
 
-export interface IidTitle {
+export interface IidHolder {
   id: number;
+}
+export interface IidTitle extends IidHolder {
   title: string;
 }
 export interface IidTitles extends IidTitle {
