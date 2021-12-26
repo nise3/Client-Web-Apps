@@ -4,9 +4,9 @@ import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
 import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
 import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
+import { ICreateUpdateAt, IidHolder, IidTitleCreateUpdateAt, IidTitles } from './common.interface';
 
-export interface IYouthJobExperience {
-  id: number;
+export interface IYouthJobExperience extends IidHolder{
   youth_id?: number;
   company_name: string;
   company_name_en?: string;
@@ -58,8 +58,7 @@ export interface IYouthPersonalInfo {
   bid?: string;
 }
 
-export interface IYouthEducation {
-  id: number;
+export interface IYouthEducation extends IidHolder{
   education_level_id: string | number;
   education_level_title?: string;
   education_level_title_en?: string;
@@ -96,8 +95,7 @@ export interface IYouthEducation {
   achievements_en?: string;
 }
 
-export interface IYouthReference{
-  id: number;
+export interface IYouthReference extends IidHolder{
   youth_id?: number;
   referrer_first_name_en?: string;
   referrer_first_name: string;
@@ -115,8 +113,7 @@ export interface IYouthReference{
   referrer_relation: string;
 }
 
-export interface IYouthCertificate{
-  id: number;
+export interface IYouthCertificate extends IidHolder{
   youth_id?: number;
   certification_name: string;
   certification_name_en?: string;
@@ -133,8 +130,7 @@ export interface IYouthCertificate{
   deleted_at?: string;
 }
 
-export interface IYouthLanguageProficiency {
-  id: number;
+export interface IYouthLanguageProficiency extends IidHolder{
   youth_id?: number;
   language_id: number | string;
   language_title?: string;
@@ -146,18 +142,14 @@ export interface IYouthLanguageProficiency {
   understand_proficiency_level: number | string;
 }
 
-export interface IYouthPortfolio {
-  id: number;
+export interface IYouthPortfolio extends IidTitles{
   youth_id?: number;
-  title: string;
-  title_en?: string;
   description?: string;
   description_en?: string;
   file_path?: string;
 }
 
-export interface IGuardian {
-  id: number;
+export interface IGuardian extends IidHolder,ICreateUpdateAt{
   youth_id: string;
   name: string;
   name_en?: string;
@@ -167,7 +159,5 @@ export interface IGuardian {
   relationship_type: any;
   relationship_title?: string;
   relationship_title_en?: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }

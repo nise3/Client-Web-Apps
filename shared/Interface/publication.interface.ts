@@ -1,7 +1,6 @@
-export interface IPublication {
-    id: number;
-    title: string;
-    title_en?: string;
+import { IidTitleCreateUpdateAt, IidTitles } from "./common.interface";
+
+export interface IPublication extends IidTitleCreateUpdateAt{
     author: string;
     author_en?: string;
     description: string;
@@ -9,8 +8,6 @@ export interface IPublication {
     industry_association_id?: string | number;
     image_path: string;
     row_status: string;
-    created_at?: string;
-    updated_at?: string;
     deleted_at?: string;
   }
 

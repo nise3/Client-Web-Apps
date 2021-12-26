@@ -1,7 +1,6 @@
-import {IidTitles} from './common.interface';
+import {IidHolder, IidTitles} from './common.interface';
 
-export interface IUser {
-  id: number;
+export interface IUser extends IidHolder{
   role_id: string;
   name_en: string;
   name: string;

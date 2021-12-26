@@ -24,7 +24,12 @@ export interface IidTitles extends IidTitle {
 }
 export interface IidTitleCreateUpdateAt extends IidTitles {
   updated_at?: string;
-  crated_at?: string;
+  created_at?: string;
+}
+
+export interface ICreateUpdateAt{
+  updated_at?: string;
+  created_at?: string;
 }
 export interface IFAQ {
   show_in: number;

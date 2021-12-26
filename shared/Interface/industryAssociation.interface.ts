@@ -1,6 +1,6 @@
-import { IidTitles } from "./common.interface";
+import { IidTitleCreateUpdateAt, IidTitles } from "./common.interface";
 
-export interface IAssociationMember extends IidTitles {
+export interface IAssociationMember extends IidTitleCreateUpdateAt {
   organization_type_id: number;
   title_en: string;
   loc_division_id: number;
@@ -31,8 +31,6 @@ export interface IAssociationMember extends IidTitles {
   logo: string;
   domain: string;
   row_status: string;
-  created_at: string;
-  updated_at?: string;
 }
 
 

@@ -1,7 +1,6 @@
-export interface IInstitute {
-  id: number;
-  title_en: string;
-  title: string;
+import { ICreateUpdateAt, IidHolder, IidTitle, IidTitleCreateUpdateAt, IidTitles } from "./common.interface";
+
+export interface IInstitute extends IidTitleCreateUpdateAt{
   code: string;
   domain: string;
   address: string;
@@ -14,15 +13,10 @@ export interface IInstitute {
   email: string;
   config: string;
   row_status: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }
 
-export interface IProgramme {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IProgramme extends IidTitleCreateUpdateAt{
   institute_id?: string | number;
   institute_title_en?: string;
   code?: string;
@@ -30,13 +24,10 @@ export interface IProgramme {
   description?: string;
   description_en?: string;
   row_status: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }
 
-export interface ICourse {
-  id: string;
+export interface ICourse extends IidTitleCreateUpdateAt{
   code: string;
   institute_id: number | string;
   institute_title?: string;
@@ -50,8 +41,6 @@ export interface ICourse {
   level: number | string;
   language_medium: number | string;
   skills: Array<number | string>;
-  title_en: string;
-  title: string;
   course_fee: string;
   duration?: string;
   target_group?: string;
@@ -72,17 +61,12 @@ export interface ICourse {
   row_status: string;
   crated_by?: string;
   updated_by?: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
   dynamic_form_field: string | object;
   application_form_settings: string | object;
 }
 
-export interface IBranch {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IBranch extends IidTitleCreateUpdateAt{
   institute_id: number | string;
   institute_title_en?: string;
   address?: string;
@@ -92,15 +76,10 @@ export interface IBranch {
   loc_upazila_id: number | string;
   google_map_src?: string;
   row_status: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }
 
-export interface ITrainingCenter {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface ITrainingCenter extends IidTitleCreateUpdateAt{
   institute_id: number | string;
   branch_id?: number | string;
   loc_division_id?: number | string;
@@ -113,12 +92,9 @@ export interface ITrainingCenter {
   address?: string;
   google_map_src?: string;
   row_status: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }
-export interface ITrainer {
-  id: number;
+export interface ITrainer extends IidHolder,ICreateUpdateAt{
   institute_id?: number | string;
   trainer_name_en?: string;
   trainer_name: string;
@@ -153,14 +129,9 @@ export interface ITrainer {
   skills?: string;
   skills_en?: string;
   row_status?: string;
-  updated_at?: string;
-  crated_at?: string;
 }
 
-export interface IBatch {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IBatch extends IidTitleCreateUpdateAt{
   institute_id: number | string;
   course_id: number | string;
   training_center_id: number | string;
@@ -175,13 +146,10 @@ export interface IBatch {
   trainers?: Array<number>;
   crated_by?: string;
   updated_by?: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }
 
-export interface IApplication {
-  id: number;
+export interface IApplication extends IidHolder,ICreateUpdateAt{
   Gender: string;
   full_name: string;
   course_name: string;
@@ -200,6 +168,4 @@ export interface IApplication {
   approval_status: string;
   accepted: number;
   rejected: number;
-  created_at: string;
-  updated_at: string;
 }
