@@ -1,7 +1,7 @@
-export interface IAssociationMember {
-  id: number;
+import { IidTitles } from "./common.interface";
+
+export interface IAssociationMember extends IidTitles {
   organization_type_id: number;
-  title: string;
   title_en: string;
   loc_division_id: number;
   loc_district_id: number;
@@ -35,18 +35,4 @@ export interface IAssociationMember {
   updated_at?: string;
 }
 
-export interface IPublication {
-  id: number;
-  title: string;
-  title_en?: string;
-  author: string;
-  author_en?: string;
-  description: string;
-  description_en?: string;
-  industry_association_id?: string | number;
-  image_path: string;
-  row_status: string;
-  created_at?: string;
-  updated_at?: string;
-  deleted_at?: string;
-}
+
