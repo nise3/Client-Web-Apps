@@ -7,7 +7,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import {Box, Button, Grid, Typography} from '@mui/material';
 import CustomEducationalQualificationFieldArray from '../CustomFieldArrayJobRequirements';
-import CustomSelectAutoComplete from '../../../youth/registration/CustomSelectAutoComplete';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
@@ -15,6 +14,9 @@ import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/Cu
 import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
 import {Gender} from '../enums/Gender';
 import CustomAddFilterableFormSelect from '../CustomAddFilterableFormSelect';
+import Tooltip from '@mui/material/Tooltip';
+import {Help} from '@mui/icons-material';
+import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
 
 interface Props {
   onBack: () => void;
@@ -48,7 +50,6 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
   ];
 
   const onChangeIsExperienced = (value: any) => {
-    console.log('exper');
     setNotExperienced((prev) => !prev);
   };
   const validationSchema = useMemo(() => {
@@ -84,7 +85,7 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
   };
 
   return (
-    <Box mt={3} mb={3}>
+    <Box mt={3}>
       <Typography mb={2} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.candidates_requirement']}
       </Typography>
@@ -132,7 +133,7 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <CustomSelectAutoComplete
+            <CustomAddFilterableFormSelect
               id='training_trade_course'
               label={messages['common.training_courses']}
               control={control}
@@ -143,7 +144,7 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <CustomSelectAutoComplete
+            <CustomAddFilterableFormSelect
               id='professional_certification'
               label={messages['common.professional_certification']}
               control={control}
@@ -317,8 +318,64 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               errorInstance={errors}
             />
           </Grid>
+          <Grid item xs={12}>
+            <CustomFormSwitch
+              id={'person_with_disability'}
+              label={
+                <Typography display={'flex'} alignItems={'center'}>
+                  {messages['common.person_with_disability']}
+                  <Tooltip
+                    arrow
+                    title={
+                      messages[
+                        'job_posting.company_info_business_tooltip'
+                      ] as string
+                    }>
+                    <Help
+                      sx={{
+                        marginLeft: '8px',
+                      }}
+                    />
+                  </Tooltip>
+                </Typography>
+              }
+              yesLabel={messages['common.show'] as string}
+              noLabel={messages['common.hide'] as string}
+              register={register}
+              defaultChecked={true}
+              isLoading={false}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomFormSwitch
+              id={'preferred_retired_army'}
+              label={
+                <Typography display={'flex'} alignItems={'center'}>
+                  {messages['common.preferred_retired_army']}
+                  <Tooltip
+                    arrow
+                    title={
+                      messages[
+                        'job_posting.company_info_business_tooltip'
+                      ] as string
+                    }>
+                    <Help
+                      sx={{
+                        marginLeft: '8px',
+                      }}
+                    />
+                  </Tooltip>
+                </Typography>
+              }
+              yesLabel={messages['common.show'] as string}
+              noLabel={messages['common.hide'] as string}
+              register={register}
+              defaultChecked={true}
+              isLoading={false}
+            />
+          </Grid>
         </Grid>
-        <Box display={'flex'} justifyContent={'space-between'} mt={'15px'}>
+        <Box display={'flex'} justifyContent={'space-between'} mt={3}>
           <Button onClick={onBack} variant={'outlined'} color={'primary'}>
             {messages['common.previous']}
           </Button>
