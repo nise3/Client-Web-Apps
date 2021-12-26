@@ -1,6 +1,14 @@
 import React from 'react';
-
-const JobRequirementDetailsPopup = () => {
+interface props {
+  itemId: number;
+  onClose: () => void;
+  openEditModal: (id: number) => void;
+}
+const JobRequirementDetailsPopup = ({
+  itemId,
+  onClose,
+  openEditModal,
+}: props) => {
   return <div></div>;
 };
 
