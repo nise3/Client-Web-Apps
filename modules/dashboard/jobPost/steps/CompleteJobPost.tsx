@@ -60,10 +60,10 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
             startIcon={'৳'}
             variant={'contained'}
             sx={{marginRight: '5px'}}>
-            Pay Now
+            {messages['common.pay_now']}
           </Button>
           <Button startIcon={<FindInPageIcon />} variant={'outlined'}>
-            View job
+            {messages['common.view_job']}
           </Button>
         </Box>
       </Grid>
@@ -73,7 +73,9 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
           display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}>
-          <Typography align={'center'}>Customer Support:</Typography>
+          <Typography align={'center'}>
+            {messages['common.customer_support']}:
+          </Typography>
           <CallIcon />
           <Typography>0961283833</Typography>
         </Box>

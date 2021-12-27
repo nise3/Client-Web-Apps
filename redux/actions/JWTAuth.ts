@@ -218,6 +218,7 @@ type TYouthAuthUserSSOResponse = {
   youth_educations?: any[];
   youth_languages_proficiencies?: any[];
   youth_portfolios?: any[];
+  youth_addresses?: any[];
   profile_completed?: any;
   total_job_experience?: any;
 };
@@ -313,6 +314,7 @@ export const getYouthAuthUserObject = (
     languages_proficiencies: authUser?.youth_languages_proficiencies,
     profile_completed: authUser?.profile_completed,
     total_job_experience: authUser?.total_job_experience,
+    addresses: authUser?.youth_addresses,
   };
 };
 
