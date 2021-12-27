@@ -22,15 +22,69 @@ export interface IidTitle extends IidHolder {
 export interface IidTitles extends IidTitle {
   title_en?: string;
 }
-export interface IidTitleCreateUpdateAt extends IidTitles {
+
+export interface ITitles extends Omit<IidTitles, 'id'> {}
+
+export interface IRowStatus {
+  row_status?: number | string;
+}
+
+export interface ICreateUpdateAt {
   updated_at?: string;
   created_at?: string;
 }
 
-export interface ICreateUpdateAt{
-  updated_at?: string;
-  created_at?: string;
+export interface IidTitleCreateUpdateAt extends IidTitles, ICreateUpdateAt {}
+
+export interface ICreateUpdateBy {
+  updated_by?: string;
+  created_by?: string;
 }
+
+export interface IDeleteAt {
+  deleted_at?: string;
+}
+
+export interface IContactPerson {
+  contact_person_name: string;
+  contact_person_name_en?: string;
+  contact_person_mobile: string;
+  contact_person_email: string;
+  contact_person_designation: string;
+  contact_person_designation_en?: string;
+}
+
+export interface IOrganizationInfo {
+  organization_id: number | string;
+  organization_title_en?: string;
+  organization_title: string;
+  organization_unit_id: number | string;
+  organization_unit_title_en?: string;
+  organization_unit_title: string;
+}
+
+export interface IOfficeHeadInfo {
+  name_of_the_office_head: string;
+  name_of_the_office_head_en?: string;
+  name_of_the_office_head_designation: string;
+  name_of_the_office_head_designation_en?: string;
+}
+
+export interface IParent {
+  parent_id?: number | string | null;
+  parent?: number | string | null;
+}
+
+export interface IMobileEmail {
+  mobile: string;
+  email: string;
+}
+
+export interface IMobileEmailAddress extends IMobileEmail {
+  address?: string;
+  address_en?: string;
+}
+
 export interface IFAQ {
   show_in: number;
   institute_id?: number;
