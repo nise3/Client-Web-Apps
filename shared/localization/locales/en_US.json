@@ -264,6 +264,8 @@
   "common.domain": "Domain",
   "common.code": "Code",
   "common.mobile": "Mobile number",
+  "common.invalid_mobile": "Invalid mobile number",
+  "common.invalid_phone": "Invalid phone number",
   "common.phone": "Phone no",
   "common.phone_number": "Phone Number",
   "common.email": "Email",
@@ -1209,7 +1211,6 @@
   "label.job_level": "Job Level",
   "label.job_level_entry": "Entry",
   "label.job_level_mid": "Mid",
-  "label.job_level_top": "Top",
   "common.compensation_other_benefits": "Compensation and other benefits",
   "common.facilities": "Facilities",
   "common.partially_subsidize": "Partially subsidize",
@@ -1221,5 +1222,7 @@
   "common.salary_review": "Salary review",
   "common.job_posting_successful": "Job has been posted successfully yet waiting for approval",
   "common.job_posting_test": "The job will be live after the payment procedure.If you need any help regarding the payment procedure ,please contact to the sell manager(mentioned below) or customer support",
-  "common.job_status": "Job status"
+  "common.job_status": "Job status",
+  "label.job_level_top": "Top",
+  "common.four_digit": "Must be four digit"
 }
