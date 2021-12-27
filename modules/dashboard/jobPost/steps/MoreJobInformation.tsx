@@ -24,7 +24,7 @@ interface Props {
 }
 
 const numberOfFestivalBonus: Array<any> = [];
-for (let i = 1; i <= 10; i++) numberOfFestivalBonus.push({id: i, title: i});
+for (let i = 1; i <= 4; i++) numberOfFestivalBonus.push({id: i, title: i});
 const facilities = [
   {
     id: 1,
@@ -36,23 +36,47 @@ const facilities = [
   },
   {
     id: 3,
-    title: 'Tour allowance',
+    title: 'Pension Policy',
   },
   {
     id: 4,
-    title: 'Credit card',
+    title: 'Tour allowance',
   },
   {
     id: 5,
-    title: 'Medical allowance',
+    title: 'Credit card',
   },
   {
     id: 6,
-    title: 'Performance bonus',
+    title: 'Medical allowance',
   },
   {
     id: 7,
+    title: 'Performance bonus',
+  },
+  {
+    id: 8,
     title: 'Profit share',
+  },
+  {
+    id: 9,
+    title: 'Provident fund',
+  },
+  {
+    id: 10,
+    title: 'Weekly 2 holidays',
+  },
+  {
+    id: 11,
+    title: 'Insurance',
+  },
+  {
+    id: 12,
+    title: 'Gratuity',
+  },
+  {
+    id: 13,
+    title: 'Over time allowance',
   },
 ];
 
