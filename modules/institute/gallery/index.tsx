@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H3, H6} from '../../../@softbd/elements/common';
+import {H1, H6} from '../../../@softbd/elements/common';
 import {useFetchInstitutesPublicGallery} from '../../../services/instituteManagement/hooks';
 import GalleryItemCardView from './GalleryItemCardView';
 import {useVendor} from '../../../@crema/utility/AppHooks';
@@ -78,9 +78,9 @@ const InstituteGallery = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <Paper>
-            <H3 py={3} fontWeight={'bold'}>
+            <H1 py={3} style={{fontWeight: 'bold', fontSize: '2.25rem'}}>
               {messages['common.gallery_album']}
-            </H3>
+            </H1>
           </Paper>
         </Grid>
       </Grid>

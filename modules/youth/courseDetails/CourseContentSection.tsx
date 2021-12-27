@@ -49,7 +49,7 @@ const classes = {
 
 const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.sectionTitleStyle}`]: {
-    fontSize: 17,
+    fontSize: '1rem',
     fontWeight: 'bold',
     textTransform: 'uppercase',
     color: theme.palette.primary.main,
@@ -269,17 +269,17 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             </Grid>
 
             <Box ref={overviewRef} className={classes.boxMargin}>
-              <Box className={classes.sectionTitleStyle}>
+              <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.overview']}
-              </Box>
+              </h2>
 
               <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
             </Box>
 
             <Box ref={lessonRef} style={{marginTop: 20, marginBottom: 20}}>
-              <Box className={classes.sectionTitleStyle}>
+              <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.lesson']}
-              </Box>
+              </h2>
               <Box style={{display: 'flex', alignItems: 'center'}}>
                 {course?.duration && (
                   <Typography>
@@ -325,26 +325,26 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 </Grid>
               </Grid>
               <Box>
-                <Box className={classes.sectionTitleStyle}>
+                <h2 className={classes.sectionTitleStyle}>
                   {messages['course_details.assisment_method']}
-                </Box>
+                </h2>
                 <Typography>{course?.evaluation_system}</Typography>
               </Box>
             </Box>
 
             <Box ref={requirementRef} className={classes.boxMargin}>
-              <Box className={classes.sectionTitleStyle}>
+              <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.requirements']}
-              </Box>
+              </h2>
               <Box>
                 <Typography>{course?.prerequisite}</Typography>
               </Box>
             </Box>
 
             <Box ref={trainerRef} className={classes.boxMargin}>
-              <Box className={classes.sectionTitleStyle}>
+              <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.trainer']}
-              </Box>
+              </h2>
               {course?.trainers &&
                 course.trainers.map((trainer: any, index: number) => (
                   <Box

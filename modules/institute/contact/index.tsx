@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
+import {Button, Card, CardContent, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -10,7 +10,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {H3} from '../../../@softbd/elements/common';
+import {H1, H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
 import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
@@ -59,6 +59,7 @@ const StyledGrid = styled(Grid)(({theme}) => {
         theme.palette.mode === ThemeMode.DARK
           ? theme.palette.common.white
           : theme.palette.common.black,
+      fontSize: '1.375rem',
     },
   };
 });
@@ -166,9 +167,9 @@ const InstituteContact = () => {
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H3 py={3} fontWeight={'bold'}>
+        <H1 py={3} style={{fontSize: '2.25rem', fontWeight: 'bold'}}>
           {messages['contact.institute']}
-        </H3>
+        </H1>
       </Grid>
       <Grid sx={{maxWidth: '100%'}} className={classes.mainGrid}>
         <Grid
@@ -181,12 +182,9 @@ const InstituteContact = () => {
             <Card>
               <CardContent className={classes.formCard}>
                 <Grid>
-                  <Typography
-                    variant={'h6'}
-                    mb={4}
-                    className={classes.textStyle}>
+                  <H2 mb={4} className={classes.textStyle}>
                     {messages['contact_with_us.institute']}
-                  </Typography>
+                  </H2>
                 </Grid>
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
@@ -267,9 +265,9 @@ const InstituteContact = () => {
           <Grid item md={6} xs={12} p={2}>
             <Card>
               <CardContent>
-                <Typography variant={'h6'} mb={4} className={classes.textStyle}>
+                <H2 mb={4} className={classes.textStyle}>
                   {messages['find_our_location_in_map.institute']}
-                </Typography>
+                </H2>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
                     <CustomFormSelect

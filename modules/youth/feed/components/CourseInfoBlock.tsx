@@ -13,6 +13,8 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
 import {niseDomain} from '../../../../@softbd/common/constants';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'CourseInfoBlock';
 
@@ -83,6 +85,8 @@ interface CourseInfoBlockProps {
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
+  const result = useCustomStyle();
+
   const authUser = useAuthUser<YouthAuthUser>();
 
   return (
@@ -122,9 +126,13 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     </Grid>
 
                     <Grid item xs={10}>
-                      <Box mt={2} ml={2} className={classes.titleStyle}>
+                      <H3
+                        sx={{...result.body2}}
+                        mt={2}
+                        ml={2}
+                        className={classes.titleStyle}>
                         {course.title}
-                      </Box>
+                      </H3>
                       <Box ml={2}>{course?.trainer_name}</Box>
                     </Grid>
                   </Grid>

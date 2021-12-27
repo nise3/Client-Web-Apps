@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -8,14 +8,20 @@ import {
   Grid,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
-import {Link} from '../../../@softbd/elements/common';
+import {H1, H2, Link} from '../../../@softbd/elements/common';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {useIntl} from 'react-intl';
 import {ArrowBack, ArrowRightAlt} from '@mui/icons-material';
+import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+import AppContext from '../../../@crema/utility/AppContext';
+import AppLocale from '../../../shared/localization';
+import typography from '../../../@softbd/layouts/themes/default/typography';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'JobCircularDetails';
 
@@ -101,13 +107,14 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const JobCircularDetails = () => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
   /*const authUser = useAuthUser<YouthAuthUser>();*/
   /*const router = useRouter();*/
   /*let {jobCircularId} = router.query;*/
 
   /*  const {data: jobCircularDetails} = useFetchCourseDetails(
-      Number(jobCircularId),
-    );*/
+        Number(jobCircularId),
+      );*/
 
   const jobCircularDetails = {
     id: 5,
@@ -154,18 +161,22 @@ const JobCircularDetails = () => {
 
           <Grid container mt={5}>
             <Grid item xs={12} md={8}>
-              <Typography
-                variant='subtitle1'
+              <H1
+                sx={{
+                  ...result.subtitle1,
+                }}
                 gutterBottom={true}
                 className={classes.title}>
                 {jobCircularDetails.title}
-              </Typography>
-              <Typography
-                variant='subtitle2'
+              </H1>
+              <H2
+                sx={{
+                  ...result.subtitle2,
+                }}
                 gutterBottom={true}
                 className={classes.company}>
                 {jobCircularDetails.company}
-              </Typography>
+              </H2>
             </Grid>
 
             {/** share buttons */}
