@@ -22,6 +22,7 @@ interface Props {
   onBack: () => void;
   onContinue: () => void;
 }
+
 const experienceYears: Array<any> = [];
 const ages: Array<any> = [];
 
@@ -165,16 +166,16 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               label={'common.experience_required'}
               radios={[
                 {
-                  key: '1',
+                  key: 1,
                   label: messages['common.yes'],
                 },
                 {
-                  key: '2',
+                  key: 0,
                   label: messages['common.no'],
                 },
               ]}
               control={control}
-              defaultValue={'2'}
+              defaultValue={0}
               isLoading={false}
               onChange={onChangeIsExperienced}
             />
