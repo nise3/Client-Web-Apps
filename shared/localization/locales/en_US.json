@@ -265,6 +265,7 @@
   "common.code": "Code",
   "common.mobile": "Mobile number",
   "common.invalid_mobile": "Invalid mobile number",
+  "common.invalid_phone": "Invalid phone number",
   "common.phone": "Phone no",
   "common.phone_number": "Phone Number",
   "common.email": "Email",
