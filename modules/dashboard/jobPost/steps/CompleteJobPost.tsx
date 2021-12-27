@@ -5,6 +5,7 @@ import {H6} from '../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
+import CallIcon from '@mui/icons-material/Call';
 interface Props {
   onBack: () => void;
   onContinue: () => void;
@@ -14,10 +15,12 @@ const PREFIX = 'CompleteJob';
 const classes = {
   image: `${PREFIX}-image`,
 };
-const StyledBox = styled(Box)(() => {
+const StyledGrid = styled(Grid)(() => {
   return {
     [`& .${classes.image}`]: {
       borderRadius: '100px',
+      height: '120px',
+      width: '120px',
     },
   };
 });
@@ -25,18 +28,14 @@ const StyledBox = styled(Box)(() => {
 const CompleteJobPost = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   return (
-    <Grid container spacing={5}>
+    <StyledGrid container spacing={3}>
       <Grid item xs={12} mt={2} display={'flex'} justifyContent={'center'}>
-        <StyledBox>
-          <CardMedia
-            component='img'
-            width={'160'}
-            height='154'
-            className={classes.image}
-            image={'/images/done.jpeg'}
-            alt={'Completed'}
-          />
-        </StyledBox>
+        <CardMedia
+          component='img'
+          className={classes.image}
+          image={'/images/done.jpeg'}
+          alt={'Completed'}
+        />
       </Grid>
       <Grid item xs={12} display={'flex'} justifyContent={'center'}>
         <H6>{messages['common.job_posting_successful']}</H6>
@@ -47,8 +46,13 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
         </Typography>
       </Grid>
       <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-        <H6>{messages['common.job_status']}:</H6>
-        <Chip icon={<ReportProblemIcon />} label={messages['common.pending']} />
+        <H6 sx={{marginRight: '10px'}}>{messages['common.job_status']}:</H6>
+        <Chip
+          icon={<ReportProblemIcon />}
+          label={messages['common.pending']}
+          color={'warning'}
+          size={'medium'}
+        />
       </Grid>
       <Grid item xs={12} display={'flex'} justifyContent={'center'}>
         <Box>
@@ -56,14 +60,27 @@ const CompleteJobPost = ({onBack, onContinue}: Props) => {
             startIcon={'৳'}
             variant={'contained'}
             sx={{marginRight: '5px'}}>
-            Pay Now
+            {messages['common.pay_now']}
           </Button>
           <Button startIcon={<FindInPageIcon />} variant={'outlined'}>
-            View job
+            {messages['common.view_job']}
           </Button>
         </Box>
       </Grid>
-    </Grid>
+      <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+        <Box
+          sx={{backgroundColor: '#d9edf7', width: '75%', height: '35px'}}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}>
+          <Typography align={'center'}>
+            {messages['common.customer_support']}:
+          </Typography>
+          <CallIcon />
+          <Typography>0961283833</Typography>
+        </Box>
+      </Grid>
+    </StyledGrid>
   );
 };
 

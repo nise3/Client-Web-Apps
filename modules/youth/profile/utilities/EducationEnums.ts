@@ -53,3 +53,7 @@ export enum EducationLevelId {
   MASTERS = 7,
   PHD = 8,
 }
+export enum AddressLevelId {
+  PRESENT = 1,
+  PERMANENT = 2,
+}
