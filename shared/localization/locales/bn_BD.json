@@ -132,6 +132,7 @@
   "common.bbs_code": "বিবিএস কোড",
   "common.mobile": "মোবাইল নাম্বার",
   "common.invalid_mobile": "মোবাইল নাম্বার সঠিক নয়",
+  "common.invalid_phone": "ফোন নাম্বার সঠিক নয়",
   "common.phone": "ফোন নাম্বার",
   "common.phone_number": "ফোন নাম্বার",
   "common.email": "ইমেইল",
