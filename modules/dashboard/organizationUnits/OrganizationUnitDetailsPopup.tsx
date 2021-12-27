@@ -9,7 +9,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {useFetchOrganizationUnit} from '../../../services/organaizationManagement/hooks';
-import {IService} from '../../../shared/Interface/organization.interface';
+import {IService} from '../../../shared/Interface/services.interface';
 
 type Props = {
   itemId: number;

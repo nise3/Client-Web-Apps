@@ -24,7 +24,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IOccupation} from '../../../shared/Interface/organization.interface';
+import {IOccupation} from '../../../shared/Interface/occupation.interface';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;

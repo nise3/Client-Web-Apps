@@ -22,11 +22,11 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {IPublication} from '../../../shared/Interface/industryAssociation.interface';
 import {
   createPublication,
   updatePublication,
 } from '../../../services/IndustryManagement/PublicationService';
+import {IPublication} from '../../../shared/Interface/publication.interface';
 
 interface PublicationAddEditPopupProps {
   itemId: number | null;
