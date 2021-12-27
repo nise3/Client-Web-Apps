@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, CardMedia, Container, Grid, Skeleton} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
-import {H3, Link} from '../../@softbd/elements/common';
+import {H1, Link} from '../../@softbd/elements/common';
 import {
   BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_INSTITUTE_DETAILS,
@@ -48,6 +48,8 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
   [`& .${classes.heading}`]: {
     color: theme.palette.primary.main,
+    fontSize: '2.25rem',
+    fontWeight: 'bold',
   },
 
   [`& .${classes.desc}`]: {
@@ -159,12 +161,9 @@ const AboutSection = () => {
               md={7}
               order={{xs: templateConfig.textLeft ? 1 : 2}}>
               <Fade direction='down'>
-                <H3
-                  gutterBottom={true}
-                  className={classes.heading}
-                  fontWeight='fontWeightBold'>
+                <H1 gutterBottom={true} className={classes.heading}>
                   {blockData?.title}
-                </H3>
+                </H1>
                 <div
                   dangerouslySetInnerHTML={{
                     __html: blockData?.content,

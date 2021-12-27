@@ -1,8 +1,9 @@
 import React from 'react';
-import {Button, Container, Grid, Typography} from '@mui/material';
+import {Button, Container, Grid} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import JobComponent from './components/JobComponent';
 import {useIntl} from 'react-intl';
+import {H2} from '../../../@softbd/elements/common';
 
 const CourseDetailsSkillMatchingJobSection = () => {
   const {messages} = useIntl();
@@ -48,9 +49,9 @@ const CourseDetailsSkillMatchingJobSection = () => {
         <Grid item xs={12} sm={12} md={12}>
           <Grid container alignItems={'center'}>
             <Grid item xs={8} sm={9} md={10}>
-              <Typography variant={'h5'} fontWeight={'bold'}>
+              <H2 style={{fontWeight: 'bold', fontSize: '1.421875rem'}}>
                 {messages['common.skill_matching_job']}
-              </Typography>
+              </H2>
             </Grid>
             <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
               <Button variant={'outlined'} size={'medium'} color={'primary'}>

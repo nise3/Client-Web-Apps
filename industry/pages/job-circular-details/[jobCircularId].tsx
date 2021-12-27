@@ -4,7 +4,7 @@ import React from 'react';
 import IndustryDefaultFrontPage from '../../../@softbd/layouts/hoc/IndustryDefaultFrontPage';
 
 const JobCircularDetailsPage = asyncComponent(
-  () => import('../../../modules/industry/job-circular-details/index'),
+  () => import('../../../modules/industry/jobCircularDetails'),
 );
 export default IndustryDefaultFrontPage(() => {
   return (

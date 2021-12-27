@@ -12,6 +12,8 @@ import {Guardian} from '../../../../services/youthManagement/typing';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'GuardianSection';
 const classes = {
@@ -30,6 +32,8 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const GuardianSection = () => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
+
   const {
     data: guardians,
     isLoading,
@@ -101,9 +105,11 @@ const GuardianSection = () => {
                     {guardians.map((guardian: Guardian, index: number) => (
                       <React.Fragment key={guardian.id}>
                         {index != 0 && <VerticalLine />}
-                        <Typography className={classes.textStyle}>
+                        <H3
+                          sx={{...result.body1}}
+                          className={classes.textStyle}>
                           {guardian.name}
-                        </Typography>
+                        </H3>
                       </React.Fragment>
                     ))}
                   </StyledBox>

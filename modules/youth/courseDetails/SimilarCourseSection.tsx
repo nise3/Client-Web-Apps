@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Button, Container, Grid, Typography} from '@mui/material';
+import {Button, Container, Grid} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
@@ -62,9 +62,9 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
         <Grid item xs={12}>
           <Grid container alignItems={'center'}>
             <Grid item xs={8} sm={9} md={10}>
-              <Typography variant={'h5'} fontWeight={'bold'}>
+              <h2 style={{fontWeight: 'bold', fontSize: '1.421875rem'}}>
                 {messages['common.similar_course']}
-              </Typography>
+              </h2>
             </Grid>
             {metaData?.total_page > 1 && (
               <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>

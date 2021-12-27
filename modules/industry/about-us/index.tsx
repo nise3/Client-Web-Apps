@@ -1,8 +1,9 @@
 import {CardMedia, Container, Grid} from '@mui/material';
-import {Body1, H2} from '../../../@softbd/elements/common';
+import {Body1, H1, H2} from '../../../@softbd/elements/common';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'AboutUs';
 
@@ -19,13 +20,20 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const AboutUs = () => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
+
   return (
     <StyledContainer maxWidth='lg' sx={{marginTop: '20px'}}>
       <Grid container spacing={4}>
         <Grid item xs={6}>
-          <H2 py={3} fontWeight={'bold'}>
+          <H1
+            py={3}
+            sx={{
+              ...result.h2,
+              fontWeight: 'bold',
+            }}>
             {messages['footer.about_us']}
-          </H2>
+          </H1>
           <Body1>
             বেসিস সদস্য কোম্পানিগুলোর উচ্চাকাঙ্ক্ষা, সক্ষমতা এবং টেকসই প্রবৃদ্ধি
             বিকাশ করা এবং ওয়ান বাংলাদেশ-এ বেসিস অবদানকে নেতৃত্ব দেওয়া ও প্রদান
