@@ -19,7 +19,7 @@ import {useFetchJobSector} from '../../../services/organaizationManagement/hooks
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IJobSector } from '../../../shared/Interface/organization.interface';
+import {IJobSector} from '../../../shared/Interface/jobSectors.interface';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;

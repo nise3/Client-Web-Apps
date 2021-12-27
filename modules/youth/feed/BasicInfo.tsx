@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import {Avatar, Box, Button, Card, LinearProgress} from '@mui/material';
 import BasicInfoItemBox from './components/BasicInfoItemBox';
 import {useIntl} from 'react-intl';
-import {Link} from '../../../@softbd/elements/common';
+import {H2, Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_ROOT} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -69,9 +69,9 @@ const BasicInfo = () => {
             src={'/images/userPageImages/profileImage.jpeg'}
             className={classes.userImage}
           />
-          <Box className={classes.userName}>
+          <H2 className={classes.userName}>
             {authUser?.first_name} {authUser?.last_name}
-          </Box>
+          </H2>
           <Box sx={{width: '100%'}}>
             <LinearProgress
               variant='determinate'

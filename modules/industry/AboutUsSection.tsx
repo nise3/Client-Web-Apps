@@ -1,7 +1,7 @@
 import {styled} from '@mui/material/styles';
 import {Button, CardMedia, Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {Body1, H4, Link} from '../../@softbd/elements/common';
+import {Body1, H3, Link} from '../../@softbd/elements/common';
 import React from 'react';
 import {ArrowRightAlt} from '@mui/icons-material';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
@@ -37,7 +37,7 @@ const AboutUsSection = () => {
           />
         </Grid>
         <Grid item md={6} xs={12}>
-          <H4 fontWeight={'bold'}>{messages['footer.about_us']}</H4>
+          <H3 fontWeight={'bold'}>{messages['footer.about_us']}</H3>
           <Body1>
             বেসিস সদস্য কোম্পানিগুলোর উচ্চাকাঙ্ক্ষা, সক্ষমতা এবং টেকসই প্রবৃদ্ধি
             বিকাশ করা এবং ওয়ান বাংলাদেশ-এ বেসিস অবদানকে নেতৃত্ব দেওয়া ও প্রদান
@@ -54,7 +54,7 @@ const AboutUsSection = () => {
           </Link>
         </Grid>
         <Grid item md={6} xs={12}>
-          <H4 fontWeight={'bold'}>{messages['industry.purpose_and_goal']}</H4>
+          <H3 fontWeight={'bold'}>{messages['industry.purpose_and_goal']}</H3>
           <Body1>
             বেসিস সদস্য কোম্পানিগুলোর উচ্চাকাঙ্ক্ষা, সক্ষমতা এবং টেকসই প্রবৃদ্ধি
             বিকাশ করা এবং ওয়ান বাংলাদেশ-এ বেসিস অবদানকে নেতৃত্ব দেওয়া ও প্রদান

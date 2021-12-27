@@ -23,6 +23,7 @@ import {styled} from '@mui/material/styles';
 import CustomFilterableSelect from './components/CustomFilterableSelect';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {H1} from '../../../@softbd/elements/common';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -205,7 +206,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
       <Container maxWidth={'lg'}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
-            <Box fontSize={'1rem'}>{messages['training.search_header']}</Box>
+            <H1 style={{fontSize: '1rem'}}>
+              {messages['training.search_header']}
+            </H1>
             <Card sx={{alignItems: 'center'}}>
               <Grid container spacing={3} sx={{alignItems: 'center'}}>
                 <Grid item xs={8} sm={9}>

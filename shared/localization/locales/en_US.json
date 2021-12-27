@@ -264,6 +264,8 @@
   "common.domain": "Domain",
   "common.code": "Code",
   "common.mobile": "Mobile number",
+  "common.invalid_mobile": "Invalid mobile number",
+  "common.invalid_phone": "Invalid phone number",
   "common.phone": "Phone no",
   "common.phone_number": "Phone Number",
   "common.email": "Email",
@@ -1209,7 +1211,6 @@
   "label.job_level": "Job Level",
   "label.job_level_entry": "Entry",
   "label.job_level_mid": "Mid",
-  "label.job_level_top": "Top",
   "common.compensation_other_benefits": "Compensation and other benefits",
   "common.facilities": "Facilities",
   "common.partially_subsidize": "Partially subsidize",
@@ -1224,5 +1225,7 @@
   "common.job_status": "Job status",
   "common.customer_support": "Customer support",
   "common.pay_now":"Pay Now",
-  "common.view_job": "View Job"
+  "common.view_job": "View Job",
+  "label.job_level_top": "Top",
+  "common.four_digit": "Must be four digit"
 }

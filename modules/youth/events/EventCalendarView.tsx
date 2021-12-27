@@ -6,18 +6,27 @@ import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import {Box, Card, CardContent, CardHeader, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {H3} from '../../../@softbd/elements/common';
+import {H1} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {addStartEndPropsToList, eventsDateTimeMap, getCalenderViewFilter} from '../../../services/global/globalService';
-import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
+import {
+  addStartEndPropsToList,
+  eventsDateTimeMap,
+  getCalenderViewFilter,
+} from '../../../services/global/globalService';
+import {
+  ICalendar,
+  ICalendarQuery,
+} from '../../../shared/Interface/common.interface';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const localizer = momentLocalizer(moment);
 
 const YouthEventCalendarView = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
+  const result = useCustomStyle();
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
@@ -30,10 +39,10 @@ const YouthEventCalendarView = () => {
   let {data: events} = useFetchCalenderEvents(viewFilters);
 
   useEffect(() => {
-    if (authUser?.isYouthUser){
-      setViewFilters((prev)=>{
-        return {...prev, ...{youth_id: authUser?.youthId}}
-      })
+    if (authUser?.isYouthUser) {
+      setViewFilters((prev) => {
+        return {...prev, ...{youth_id: authUser?.youthId}};
+      });
     }
   }, [authUser]);
 
@@ -58,13 +67,15 @@ const YouthEventCalendarView = () => {
   const onViewEvent = (view: View) => {
     setViewFilters((prev) => {
       return getCalenderViewFilter(view, prev);
-    })
-  }
+    });
+  };
 
   return (
     <Card>
       {/*<CardHeader title={<H3>Calendar</H3>} />*/}
-      <CardHeader title={<H3>{messages['menu.calendar']}</H3>} />
+      <CardHeader
+        title={<H1 sx={{...result.h3}}>{messages['menu.calendar']}</H1>}
+      />
       <CardContent>
         <Grid item xs={12} md={12} style={{paddingTop: 20}}>
           {isOpenDetailsView ? (

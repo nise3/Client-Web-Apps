@@ -1,7 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_INDUSTRY_PUBLICATIONS} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {IPublication} from '../../shared/Interface/industryAssociation.interface';
+import {IPublication} from '../../shared/Interface/publication.interface';
 
 /** delete a publication */
 export const deletePublication = async (publicationId: number) => {
