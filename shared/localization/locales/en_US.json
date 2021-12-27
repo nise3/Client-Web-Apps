@@ -1227,5 +1227,6 @@
   "common.pay_now":"Pay Now",
   "common.view_job": "View Job",
   "label.job_level_top": "Top",
-  "common.four_digit": "Must be four digit"
+  "common.four_digit": "Must be four digit",
+  "common.cgpa_scale": "Should be within 5"
 }
