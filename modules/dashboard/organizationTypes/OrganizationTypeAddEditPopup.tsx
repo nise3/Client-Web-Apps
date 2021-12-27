@@ -20,7 +20,7 @@ import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import {useFetchOrganizationType} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IOrganizationType } from '../../../shared/Interface/organization.interface';
+import {IOrganizationType} from '../../../shared/Interface/organizationType.interface';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;

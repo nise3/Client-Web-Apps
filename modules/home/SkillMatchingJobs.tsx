@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {AccessTime, ArrowRightAlt, Info} from '@mui/icons-material';
 import React from 'react';
-import {H3} from '../../@softbd/elements/common';
+import {H2} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import VerticalBar from './components/VerticalBar';
 
@@ -129,21 +129,19 @@ const SkillMatchingJobs = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <H3>
-          <Box
-            style={{
-              fontSize: '2.063rem',
-              marginBottom: '50px',
-              marginTop: '10px',
-            }}
-            className={classes.title}
-            justifyContent={'center'}>
-            <VerticalBar />
-            <Box fontWeight='fontWeightBold'>
-              {messages['nise.skill_matching_Job']}
-            </Box>
-          </Box>
-        </H3>
+        <Box
+          style={{
+            fontSize: '2.063rem',
+            marginBottom: '50px',
+            marginTop: '10px',
+          }}
+          className={classes.title}
+          justifyContent={'center'}>
+          <VerticalBar />
+          <H2 style={{fontSize: '2rem', fontWeight: 'bold'}}>
+            {messages['nise.skill_matching_Job']}
+          </H2>
+        </Box>
         <Box mb={2}>
           <CustomCarousel>
             {items.map((item: any, key: number) => cardItem(item, key))}

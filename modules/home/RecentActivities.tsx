@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, Container, Grid} from '@mui/material';
+import {Button, Container, Grid} from '@mui/material';
 import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
-import {H3, H6, Link} from '../../@softbd/elements/common';
+import {H2, H6, Link} from '../../@softbd/elements/common';
 import {getShowInTypeByDomain} from '../../@softbd/utilities/helpers';
 import VerticalBar from './components/VerticalBar';
 
@@ -93,10 +93,10 @@ const RecentActivities = () => {
     <StyledContainer maxWidth={'lg'} style={{marginTop: '78px'}}>
       <Grid container>
         <Grid item md={12}>
-          <H3 className={classes.titleTypography}>
+          <H2 className={classes.titleTypography}>
             <VerticalBar />
-            <Box>{messages['recent_activities.label']}</Box>
-          </H3>
+            {messages['recent_activities.label']}
+          </H2>
           {recentActivitiesList && recentActivitiesList.length > 0 ? (
             <RecentActivityMasonryGroupView items={recentActivitiesList} />
           ) : (

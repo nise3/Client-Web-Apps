@@ -131,6 +131,8 @@
   "common.code": "কোড",
   "common.bbs_code": "বিবিএস কোড",
   "common.mobile": "মোবাইল নাম্বার",
+  "common.invalid_mobile": "মোবাইল নাম্বার সঠিক নয়",
+  "common.invalid_phone": "ফোন নাম্বার সঠিক নয়",
   "common.phone": "ফোন নাম্বার",
   "common.phone_number": "ফোন নাম্বার",
   "common.email": "ইমেইল",
@@ -1227,5 +1229,6 @@
   "common.job_status": "কাজের অবস্থা",
   "common.customer_support": "গ্রাহক সাহায্য",
   "common.pay_now":"এখন পরিশোধ করুন",
-  "common.view_job": "চাকরি দেখুন"
+  "common.view_job": "চাকরি দেখুন",
+  "common.four_digit": "অবশ্যই চার সংখ্যার হতে হবে"
 }

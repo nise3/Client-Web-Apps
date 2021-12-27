@@ -37,9 +37,9 @@ const UnderlinedHeading = ({children}: Props) => {
   return (
     <>
       <Typography
-        variant='h3'
+        variant='h2'
         sx={{
-          fontSize: '30px',
+          fontSize: '1.875rem',
           color: 'primary.main',
           textAlign: 'center',
           marginBottom: '20px',

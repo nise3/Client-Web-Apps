@@ -16,6 +16,8 @@ import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import * as _ from 'lodash';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../shared/constants/AppEnums';
+import {H2} from '../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'FreelanceProfileComponent';
 
@@ -35,6 +37,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 const FreelanceProfileComponent = () => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<YouthAuthUser>();
 
@@ -74,9 +77,13 @@ const FreelanceProfileComponent = () => {
   return (
     <StyledCard>
       <CardContent>
-        <Typography variant={'h6'} className={classes.textStyle}>
+        <H2
+          sx={{
+            ...result.h6,
+          }}
+          className={classes.textStyle}>
           {messages['common.freelance_profile']}
-        </Typography>
+        </H2>
         <Typography variant={'body2'}>
           {messages['youth_profile.freelance_profile_turing_on_hint']}
         </Typography>

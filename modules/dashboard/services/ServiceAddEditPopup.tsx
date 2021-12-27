@@ -19,7 +19,7 @@ import IconService from '../../../@softbd/icons/IconService';
 import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IService } from '../../../shared/Interface/organization.interface';
+import {IService} from '../../../shared/Interface/services.interface';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;

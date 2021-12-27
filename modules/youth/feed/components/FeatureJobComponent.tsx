@@ -3,6 +3,8 @@ import {styled} from '@mui/material/styles';
 import {Avatar, Box, Card, Grid} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {Star} from '@mui/icons-material';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'FeatureJobComponent';
 
@@ -64,6 +66,8 @@ interface FeatureJobProps {
 }
 
 const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
+  const result = useCustomStyle();
+
   return (
     <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
@@ -75,9 +79,12 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
           />
         </Grid>
         <Grid item xs={8}>
-          <Box className={classes.jobTitle} title={data.jobTitle}>
+          <H3
+            sx={{...result.body2}}
+            className={classes.jobTitle}
+            title={data.jobTitle}>
             {data.jobTitle}
-          </Box>
+          </H3>
           <Box>{data.jobProviderName}</Box>
         </Grid>
         <Grid item>

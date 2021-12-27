@@ -341,9 +341,12 @@ const YouthCourseRegistrationPage = () => {
               .label(messages['districts.label'] as string),
             zip_or_postal_code: yup
               .string()
-              .min(4)
-              .max(4)
-              .label(messages['common.zip_or_postal_code'] as string),
+              .label(messages['common.zip_or_postal_code'] as string)
+              .test(
+                'min_max_check',
+                messages['common.four_digit'] as string,
+                (value) => !value || Boolean(value.length === 4),
+              ),
           }),
           permanent_address: !isPermanentAddressSameAsPresent
             ? yup.object().shape({
@@ -359,9 +362,12 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['districts.label'] as string),
                 zip_or_postal_code: yup
                   .string()
-                  .min(4)
-                  .max(4)
-                  .label(messages['common.zip_or_postal_code'] as string),
+                  .label(messages['common.zip_or_postal_code'] as string)
+                  .test(
+                    'min_max_check',
+                    messages['common.four_digit'] as string,
+                    (value) => !value || Boolean(value.length === 4),
+                  ),
               })
             : yup.object().shape({}),
         });
@@ -975,9 +981,12 @@ const YouthCourseRegistrationPage = () => {
             father_mobile: yup
               .string()
               .trim()
-              .nullable()
-              .matches(MOBILE_NUMBER_REGEX)
-              .label(messages['common.mobile'] as string),
+              .label(messages['common.mobile'] as string)
+              .test(
+                'mobile_number_validation',
+                messages['common.invalid_mobile'] as string,
+                (value) => !value || Boolean(value.match(MOBILE_NUMBER_REGEX)),
+              ),
             mother_name: yup
               .string()
               .trim()
@@ -986,9 +995,12 @@ const YouthCourseRegistrationPage = () => {
             mother_mobile: yup
               .string()
               .trim()
-              .nullable()
-              .matches(MOBILE_NUMBER_REGEX)
-              .label(messages['common.mobile'] as string),
+              .label(messages['common.mobile'] as string)
+              .test(
+                'mobile_number_validation',
+                messages['common.invalid_mobile'] as string,
+                (value) => !value || Boolean(value.match(MOBILE_NUMBER_REGEX)),
+              ),
           }),
         });
       case CourseConfigKeys.MISCELLANEOUS_KEY:
