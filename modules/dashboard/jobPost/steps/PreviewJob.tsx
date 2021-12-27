@@ -139,6 +139,26 @@ const PreviewJob = ({onBack, onContinue}: Props) => {
     return ageText;
   };
 
+  const getResponsibilities = () => {
+    let strArr: Array<string> = [];
+    if (data.step2.job_responsibilities) {
+      strArr = data.step2.job_responsibilities.split('\n');
+    }
+    if (strArr.length == 0) {
+      return '';
+    } else if (strArr.length == 1) {
+      return strArr[0];
+    } else {
+      return (
+        <ul style={{paddingLeft: '20px'}}>
+          {strArr.map((item: string, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      );
+    }
+  };
+
   return (
     <Box mt={3}>
       <Grid container spacing={1}>
@@ -152,7 +172,7 @@ const PreviewJob = ({onBack, onContinue}: Props) => {
           </JobPreviewSubComponent>
 
           <JobPreviewSubComponent title={'Job Responsibilities'}>
-            {data.step2.job_responsibilities}
+            {getResponsibilities()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
             title={messages['job_posting.employment_status'] as string}>
@@ -174,16 +194,10 @@ const PreviewJob = ({onBack, onContinue}: Props) => {
             title={messages['common.job_location'] as string}>
             {data.step2.job_location}
           </JobPreviewSubComponent>
-          <JobPreviewSubComponent
-            title={messages['common.salary'] as string}
-            childContainerProps={{
-              sx: {
-                paddingLeft: '0',
-              },
-            }}>
+          <JobPreviewSubComponent title={messages['common.salary'] as string}>
             {data.step2.additional_salary_info &&
             data.step2.additional_salary_info != '' ? (
-              <ul>
+              <ul style={{paddingLeft: '20px'}}>
                 <li>{getSalary()}</li>
                 <li>{data.step2.additional_salary_info}</li>
               </ul>

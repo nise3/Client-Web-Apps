@@ -2,7 +2,7 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import IndustryDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
+import IndustryDefaultFrontPage from '../../../@softbd/layouts/hoc/IndustryDefaultFrontPage';
 
 const PublicationDetails = asyncComponent(
   () => import('../../../modules/industry/publications/publicationDetails'),

@@ -11,11 +11,10 @@ import {
   Paper,
   Skeleton,
   Stack,
-  Typography,
 } from '@mui/material';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H6} from '../../../@softbd/elements/common';
+import {H1, H2, H6} from '../../../@softbd/elements/common';
 import SearchIcon from '@mui/icons-material/Search';
 import GalleryItemCardView from './GalleryItemCardView';
 import {
@@ -29,7 +28,7 @@ import {useVendor} from '../../../@crema/utility/AppHooks';
 import CustomizedDialogs from '../Components/ImageDialog';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 
-const PREFIX = 'InstituteGallery';
+const PREFIX = 'GalleryAlbumDetails';
 
 const classes = {
   searchIcon: `${PREFIX}-searchIcon`,
@@ -41,6 +40,7 @@ const classes = {
 const StyledContainer = styled(Container)(({theme}) => ({
   padding: '0 !important',
   position: 'relative',
+  marginBottom: '20px',
   [`& .${classes.searchIcon}`]: {
     position: 'absolute',
     right: 0,
@@ -62,6 +62,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
     margin: 'auto',
     zIndex: 1,
     padding: '10px',
+    fontSize: '2.25rem',
+    fontWeight: 'bold',
   },
 }));
 
@@ -147,13 +149,9 @@ const GalleryAlbumDetails = () => {
                   title={currentGalleryAlbum?.title}
                 />
 
-                <Typography
-                  gutterBottom
-                  variant='h3'
-                  component='h3'
-                  className={classes.coverTitle}>
+                <H1 gutterBottom className={classes.coverTitle}>
                   {currentGalleryAlbum?.title}
-                </Typography>
+                </H1>
               </Box>
             )}
           </Grid>
@@ -173,9 +171,9 @@ const GalleryAlbumDetails = () => {
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Typography variant='h4'>
+                    <H2 style={{fontSize: '1.875rem'}}>
                       {messages['common.gallery_album']}
-                    </Typography>
+                    </H2>
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container spacing={5}>
@@ -204,8 +202,8 @@ const GalleryAlbumDetails = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}>
-                  <Typography
-                    variant='h4'
+                  <H2
+                    style={{fontSize: '1.875rem'}}
                     display={'flex'}
                     alignItems={'center'}>
                     {messages['total_result.institute']}
@@ -216,7 +214,7 @@ const GalleryAlbumDetails = () => {
                       color={'primary'}
                       sx={{marginLeft: '5px'}}
                     />
-                  </Typography>
+                  </H2>
                   <Paper
                     style={{
                       padding: '7px 0px',

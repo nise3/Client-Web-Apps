@@ -2,7 +2,7 @@ import IndustryDefaultFrontPage from '../../../@softbd/layouts/hoc/IndustryDefau
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 
 const JobCircular = asyncComponent(
-  () => import('../../../modules/industry/job-circular/index'),
+  () => import('../../../modules/industry/jobCircular'),
 );
 
 export default IndustryDefaultFrontPage(() => {

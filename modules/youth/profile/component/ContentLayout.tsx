@@ -1,9 +1,10 @@
 import React, {FC} from 'react';
 import {Card, CardContent, Grid} from '@mui/material';
 import ContentWithImageSkeleton from './ContentWithImageSkeleton';
-import {H6} from '../../../../@softbd/elements/common';
+import {H2} from '../../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'ContentLayout';
 
@@ -36,12 +37,20 @@ const ContentLayout: FC<ContentLayoutProps> = ({
   children,
   ...props
 }) => {
+  const result = useCustomStyle();
+
   return (
     <StyledCard>
       <CardContent>
         <Grid container>
           <Grid item xs={6}>
-            <H6 className={classes.textStyle}>{title}</H6>
+            <H2
+              sx={{
+                ...result.h6,
+              }}
+              className={classes.textStyle}>
+              {title}
+            </H2>
           </Grid>
           {actions && (
             <Grid item xs={6} sx={{textAlign: 'right'}}>

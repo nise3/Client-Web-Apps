@@ -1,22 +1,22 @@
-import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
+import {Button, Card, CardContent, Grid} from '@mui/material';
 import Image from 'next/image';
 import youthCV from '../../../public/images/youth/youth-cv.jpg';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import {Link} from '../../../@softbd/elements/common';
+import {H2, Link} from '../../../@softbd/elements/common';
 import {LINK_FRONTEND_YOUTH_MY_CV} from '../../../@softbd/common/appLinks';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const MyCVSection = () => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
 
   return (
     <Card>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant={'h6'}>
-              {messages['youth_profile.my_cv']}
-            </Typography>
+            <H2 sx={{...result.h6}}>{messages['youth_profile.my_cv']}</H2>
           </Grid>
           <Grid item xs={12}>
             <Image src={youthCV} />

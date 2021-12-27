@@ -19,6 +19,8 @@ import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'Educations';
 const classes = {
@@ -47,6 +49,7 @@ const Educations: FC<EducationsProps> = ({
   onDeleteClick,
 }) => {
   const {messages, formatNumber} = useIntl();
+  const result = useCustomStyle();
 
   const getResult = (education: YouthEducation) => {
     if (education.result?.code == ResultCodeGrade) {
@@ -84,16 +87,14 @@ const Educations: FC<EducationsProps> = ({
                   <Verified />
                 </Avatar>
                 <Box sx={{marginLeft: '15px'}}>
-                  <Typography
-                    variant={'subtitle2'}
-                    className={classes.textStyle}>
+                  <H3 sx={{...result.subtitle2}} className={classes.textStyle}>
                     {education?.education_level_title}
                     {' ('}
                     {education?.exam_degree_id
                       ? education?.exam_degree_title
                       : education?.exam_degree_name}
                     {')'}
-                  </Typography>
+                  </H3>
                   {education?.major_or_concentration && (
                     <Typography variant={'subtitle2'}>
                       {education.major_or_concentration}

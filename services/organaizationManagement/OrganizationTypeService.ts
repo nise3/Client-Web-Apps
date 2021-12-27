@@ -1,7 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ORGANIZATION_TYPES} from '../../@softbd/common/apiRoutes';
-import {IOrganizationType} from '../../shared/Interface/organization.interface';
+import {IOrganizationType} from '../../shared/Interface/organizationType.interface';
 
 /**
  * @deprecated
@@ -31,7 +31,10 @@ export const getOrganizationType = async (OrganizationTypeId: number) => {
 
 export const createOrganizationType = async (data: IOrganizationType) => {
   try {
-    let response: any = await apiPost<IOrganizationType>(API_ORGANIZATION_TYPES, data);
+    let response: any = await apiPost<IOrganizationType>(
+      API_ORGANIZATION_TYPES,
+      data,
+    );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

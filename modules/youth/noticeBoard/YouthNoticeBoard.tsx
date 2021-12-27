@@ -9,7 +9,6 @@ import {
   Paper,
   Skeleton,
   Stack,
-  Typography,
 } from '@mui/material';
 import NoticeCard from './NoticeCard';
 import SearchIcon from '@mui/icons-material/Search';
@@ -24,6 +23,7 @@ import {
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
+import {H1} from '../../../@softbd/elements/common';
 
 const PREFIX = 'YouthNoticeBoard';
 
@@ -38,6 +38,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
   padding: 20,
   [`& .${classes.noticeBoardText}`]: {
     fontWeight: 'bold',
+    fontSize: '1.421875rem',
+    color: theme.palette.primary.main,
   },
 
   [`& .${classes.paperSearch}`]: {
@@ -118,12 +120,9 @@ const YouthNoticeBoard = () => {
   return (
     <StyledContainer maxWidth={'lg'}>
       <Box className={classes.noticeTopBox}>
-        <Typography
-          color={'primary'}
-          variant={'h5'}
-          className={classes.noticeBoardText}>
+        <H1 className={classes.noticeBoardText}>
           {messages['common.notice_board']}
-        </Typography>
+        </H1>
         <Box>
           <Paper className={classes.paperSearch}>
             <InputBase
