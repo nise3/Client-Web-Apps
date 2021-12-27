@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Button,
@@ -11,7 +11,6 @@ import {
   Paper,
   Stack,
   Typography,
-  useTheme,
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H1, H2} from '../../../@softbd/elements/common';
@@ -23,10 +22,6 @@ import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
 import JobCardComponent from './components/JobCardComponent';
 import clsx from 'clsx';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 let jobCircularList = [
@@ -151,32 +146,34 @@ const JobCircular = () => {
   const result = useCustomStyle();
 
   /*  const [jobCircularFilters] = useState<any>({
-        page: 1,
-        page_size: 8,
-      });*/
+          page: 1,
+          page_size: 8,
+        });*/
 
   /*const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
-        useFetchJobCircular(objectFilter(jobCircularFilters));*/
+          useFetchJobCircular(objectFilter(jobCircularFilters));*/
   const isLoadingJobCirculars = false;
 
-  const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');
+  /*const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');*/
+  const [selectedVideoAlbumId] = useState<any>('');
 
   /*  const {data: videoAlbums, isLoading: isLoadingVideoAlbums} =
-        useFetchPublicGalleryAlbums(videoAlbumFilter);*/
+          useFetchPublicGalleryAlbums(videoAlbumFilter);*/
   const videoAlbums: any = [];
   const isLoadingVideoAlbums = false;
 
-  const onChangeVideoAlbum = useCallback(
-    /*(videoAlbumId: number | null) => {
-              setSelectedVideoAlbumId(videoAlbumId);
-              setVideoAlbumContentFilter({
-                gallery_album_id: videoAlbumId,
-                album_type: 2,
-              });
-            },*/
-    console.log('change this later'),
-    [selectedVideoAlbumId],
-  );
+  /*  const onChangeVideoAlbum = useCallback(
+        (videoAlbumId: number | null) => {
+                  setSelectedVideoAlbumId(videoAlbumId);
+                  setVideoAlbumContentFilter({
+                    gallery_album_id: videoAlbumId,
+                    album_type: 2,
+                  });
+                },
+        [selectedVideoAlbumId],
+      );*/
+  const onChangeVideoAlbum = () => isLoadingJobCirculars;
+
   return (
     <>
       <Grid container sx={{maxWidth: '100%'}}>

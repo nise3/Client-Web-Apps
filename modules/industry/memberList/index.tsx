@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   Paper,
   Stack,
   Typography,
-  useTheme,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
@@ -23,10 +22,6 @@ import {useIntl} from 'react-intl';
 import MemberComponent from './MemberComponent';
 import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'IndustryMemberList';

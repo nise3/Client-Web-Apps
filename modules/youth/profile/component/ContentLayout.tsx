@@ -4,6 +4,7 @@ import ContentWithImageSkeleton from './ContentWithImageSkeleton';
 import {H2} from '../../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'ContentLayout';
 
