@@ -1,5 +1,5 @@
-import React, {useContext, useMemo, useState} from 'react';
-import {Box, Button, Card, CardContent, Grid, useTheme} from '@mui/material';
+import React, {useMemo, useState} from 'react';
+import {Box, Button, Card, CardContent, Grid} from '@mui/material';
 import {H1, H2, H3, H5, Text} from '../../../@softbd/elements/common';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import GoogleMapReact from 'google-map-react';
@@ -16,10 +16,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {Call, Email} from '@mui/icons-material';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'IndustryContact';

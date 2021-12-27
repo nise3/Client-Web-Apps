@@ -1,6 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_HUMAN_RESOURCE_TEMPLATES} from '../../@softbd/common/apiRoutes';
-import { IHumanResourceTemplate } from '../../shared/Interface/organization.interface';
+import {IHumanResourceTemplate} from '../../shared/Interface/humanResourceTemplates.interface';
 
 export const getAllHumanResourceTemplates = async (params = {}) => {
   try {
