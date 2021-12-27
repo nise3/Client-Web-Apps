@@ -1185,26 +1185,20 @@ const YouthCourseRegistrationPage = () => {
     }
   };
   const getAddressDataByLevel = (address: any) => {
-    if (Number(address?.address_type) === AddressLevelId.PRESENT) {
+    if (address.address_type == AddressLevelId.PRESENT) {
       return {
         loc_division_id: address?.loc_division_id,
-        loc_division_title: address?.loc_division_title,
         loc_upazila_id: address?.loc_upazila_id,
-        loc_upazila_title: address?.loc_upazila_title,
         loc_district_id: address?.loc_district_id,
-        loc_district_title: address?.loc_district_title,
         zip_or_postal_code: address?.zip_or_postal_code,
         village_or_area: address?.village_or_area,
         house_n_road: address?.house_n_road,
       };
-    } else if (Number(address?.address_type) === AddressLevelId.PRESENT) {
+    } else if (address.address_type == AddressLevelId.PRESENT) {
       return {
         loc_division_id: address?.loc_division_id,
-        loc_division_title: address?.loc_division_title,
         loc_upazila_id: address?.loc_upazila_id,
-        loc_upazila_title: address?.loc_upazila_title,
         loc_district_id: address?.loc_district_id,
-        loc_district_title: address?.loc_district_title,
         zip_or_postal_code: address?.zip_or_postal_code,
         village_or_area: address?.village_or_area,
         house_n_road: address?.house_n_road,
