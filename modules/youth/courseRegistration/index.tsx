@@ -37,13 +37,13 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS} from '../../../@softbd/common/appLinks';
 import {
-  AddressLevelId,
   EducationLevelId,
   ResultCodeAppearedId,
   ResultCodeDivisionIds,
   ResultCodeGradeId,
 } from '../profile/utilities/EducationEnums';
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
+import {AddressTypeId} from '../profile/utilities/AddressType';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -1197,7 +1197,7 @@ const YouthCourseRegistrationPage = () => {
     }
   };
   const getAddressDataByLevel = (address: any) => {
-    if (address.address_type == AddressLevelId.PRESENT) {
+    if (address.address_type == AddressTypeId.PRESENT) {
       return {
         loc_division_id: address?.loc_division_id,
         loc_upazila_id: address?.loc_upazila_id,
@@ -1206,7 +1206,7 @@ const YouthCourseRegistrationPage = () => {
         village_or_area: address?.village_or_area,
         house_n_road: address?.house_n_road,
       };
-    } else if (address.address_type == AddressLevelId.PRESENT) {
+    } else if (address.address_type == AddressTypeId.PRESENT) {
       return {
         loc_division_id: address?.loc_division_id,
         loc_upazila_id: address?.loc_upazila_id,
@@ -1271,9 +1271,9 @@ const YouthCourseRegistrationPage = () => {
       });
 
       (authUser?.addresses || []).forEach((address: any) => {
-        if (address.address_type == AddressLevelId.PRESENT) {
+        if (address.address_type == AddressTypeId.PRESENT) {
           youthData.present_address = getAddressDataByLevel(address);
-        } else if (address.address_type == AddressLevelId.PERMANENT) {
+        } else if (address.address_type == AddressTypeId.PERMANENT) {
           youthData.permanent_address = getAddressDataByLevel(address);
         }
       });
