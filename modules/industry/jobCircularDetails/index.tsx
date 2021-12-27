@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -8,7 +8,6 @@ import {
   Grid,
   Tooltip,
   Typography,
-  useTheme,
 } from '@mui/material';
 import {H1, H2, Link} from '../../../@softbd/elements/common';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -17,10 +16,6 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {useIntl} from 'react-intl';
 import {ArrowBack, ArrowRightAlt} from '@mui/icons-material';
-import AppContextPropsType from '../../../redux/types/AppContextPropsType';
-import AppContext from '../../../@crema/utility/AppContext';
-import AppLocale from '../../../shared/localization';
-import typography from '../../../@softbd/layouts/themes/default/typography';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'JobCircularDetails';
@@ -113,8 +108,8 @@ const JobCircularDetails = () => {
   /*let {jobCircularId} = router.query;*/
 
   /*  const {data: jobCircularDetails} = useFetchCourseDetails(
-        Number(jobCircularId),
-      );*/
+          Number(jobCircularId),
+        );*/
 
   const jobCircularDetails = {
     id: 5,

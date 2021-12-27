@@ -27,7 +27,7 @@ import {
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IHumanResourceTemplate} from '../../../shared/Interface/organization.interface';
+import {IHumanResourceTemplate} from '../../../shared/Interface/humanResourceTemplates.interface';
 
 interface HumanResourceTemplateAddEditPopupProps {
   itemId: number | null;
