@@ -1,7 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_RANK_TYPES} from '../../@softbd/common/apiRoutes';
-import { IRankType } from '../../shared/Interface/organization.interface';
+import {IRankType} from '../../shared/Interface/rankType.interface';
 
 /**
  * @deprecated
