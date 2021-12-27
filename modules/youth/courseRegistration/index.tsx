@@ -419,14 +419,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -489,14 +499,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -563,14 +583,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -637,14 +667,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -707,14 +747,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -777,14 +827,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -847,14 +907,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
@@ -921,14 +991,24 @@ const YouthCourseRegistrationPage = () => {
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
                     then: yup.string().max(1).required(),
-                  }),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 cgpa: yup
                   .mixed()
                   .label(messages['education.cgpa'] as string)
                   .when('result', {
                     is: (value: any) => value == ResultCodeGradeId,
-                    then: yup.string().max(1).required(),
-                  }),
+                    then: yup.string().max(4).required(),
+                  })
+                  .test(
+                    'cgpa_scale_validation',
+                    messages['common.cgpa_scale'] as string,
+                    (value) => Boolean(value <= 5),
+                  ),
                 year_of_passing: yup
                   .mixed()
                   .label(messages['education.passing_year'] as string)
