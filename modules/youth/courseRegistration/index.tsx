@@ -37,6 +37,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS} from '../../../@softbd/common/appLinks';
 import {
+  AddressLevelId,
+  EducationLevelId,
   ResultCodeAppearedId,
   ResultCodeDivisionIds,
   ResultCodeGradeId,
@@ -1061,39 +1063,224 @@ const YouthCourseRegistrationPage = () => {
       physicalDisabilityStatus == PhysicalDisabilityStatus.YES,
     );
   }, [getValues]);
-
+  const getEducationDataByLevel = (education: any) => {
+    switch (Number(education?.education_level_id)) {
+      case EducationLevelId.PSC:
+        return {
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          edu_board_id: education?.edu_board_id,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.JSC:
+        return {
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          edu_board_id: education?.edu_board_id,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.SSC:
+        return {
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          edu_board_id: education?.edu_board_id,
+          edu_group_id: education?.edu_group_id,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.HSC:
+        return {
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          edu_board_id: education?.edu_board_id,
+          edu_group_id: education?.edu_group_id,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.DIPLOMA:
+        return {
+          major_or_concentration: education?.major_or_concentration,
+          major_or_concentration_en: education?.major_or_concentration_en,
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.HONOURS:
+        return {
+          major_or_concentration: education?.major_or_concentration,
+          major_or_concentration_en: education?.major_or_concentration_en,
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.MASTERS:
+        return {
+          major_or_concentration: education?.major_or_concentration,
+          major_or_concentration_en: education?.major_or_concentration_en,
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          exam_degree_id: education?.exam_degree_id,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      case EducationLevelId.PHD:
+        return {
+          exam_degree_name: education?.exam_degree_name,
+          exam_degree_name_en: education?.exam_degree_name_en,
+          major_or_concentration: education?.major_or_concentration,
+          major_or_concentration_en: education?.major_or_concentration_en,
+          cgpa: education.cgpa,
+          cgpa_scale: education?.cgpa_scale,
+          expected_year_of_passing: education?.expected_year_of_passing,
+          foreign_institute_country_id: education?.foreign_institute_country_id,
+          institute_name: education?.institute_name,
+          institute_name_en: education?.institute_name_en,
+          is_foreign_institute: education?.is_foreign_institute,
+          marks_in_percentage: education?.marks_in_percentage,
+          result: education?.result?.id,
+          year_of_passing: education?.year_of_passing,
+        };
+      default:
+        return {};
+    }
+  };
+  const getAddressDataByLevel = (address: any) => {
+    if (address.address_type == AddressLevelId.PRESENT) {
+      return {
+        loc_division_id: address?.loc_division_id,
+        loc_upazila_id: address?.loc_upazila_id,
+        loc_district_id: address?.loc_district_id,
+        zip_or_postal_code: address?.zip_or_postal_code,
+        village_or_area: address?.village_or_area,
+        house_n_road: address?.house_n_road,
+      };
+    } else if (address.address_type == AddressLevelId.PRESENT) {
+      return {
+        loc_division_id: address?.loc_division_id,
+        loc_upazila_id: address?.loc_upazila_id,
+        loc_district_id: address?.loc_district_id,
+        zip_or_postal_code: address?.zip_or_postal_code,
+        village_or_area: address?.village_or_area,
+        house_n_road: address?.house_n_road,
+      };
+    }
+  };
   useEffect(() => {
     if (course && authUser?.isYouthUser) {
       setFormSettings(course.application_form_settings);
+      const youthData: any = {
+        first_name: authUser?.first_name,
+        last_name: authUser?.last_name,
+        date_of_birth: getMomentDateFormat(
+          authUser?.date_of_birth,
+          'YYYY-MM-DD',
+        ),
+        physical_disability_status: authUser?.physical_disability_status,
+        physical_disabilities: getPhysicalDisabilityIds(
+          authUser?.physical_disabilities,
+        ),
+        gender: authUser?.gender,
+        mobile: authUser?.mobile,
+        email: authUser?.email,
+        marital_status: authUser?.marital_status,
+        freedom_fighter_status: authUser?.freedom_fighter_status
+          ? authUser?.freedom_fighter_status
+          : FreedomFighterStatus.NO,
+        religion: authUser?.religion,
+        nationality: authUser?.nationality,
+        does_belong_to_ethnic_group:
+          String(authUser?.does_belong_to_ethnic_group) ==
+          EthnicGroupStatus.YES,
+        /* present_address: {
+          loc_division_id: authUser?.loc_division_id,
+          loc_district_id: authUser?.loc_district_id,
+          loc_upazila_id: authUser?.loc_upazila_id,
+        },*/
+      };
+
+      (authUser.educations || []).forEach((education: any) => {
+        if (education.education_level_id == EducationLevelId.PSC) {
+          youthData.psc_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.JSC) {
+          youthData.jsc_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.SSC) {
+          youthData.ssc_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.HSC) {
+          youthData.hsc_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.DIPLOMA) {
+          youthData.diploma_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.HONOURS) {
+          youthData.honours_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.MASTERS) {
+          youthData.masters_info = getEducationDataByLevel(education);
+        } else if (education.education_level_id == EducationLevelId.PHD) {
+          youthData.phd_info = getEducationDataByLevel(education);
+        }
+      });
+
+      (authUser?.addresses || []).forEach((address: any) => {
+        if (address.address_type == AddressLevelId.PRESENT) {
+          youthData.present_address = getAddressDataByLevel(address);
+        } else if (address.address_type == AddressLevelId.PERMANENT) {
+          youthData.permanent_address = getAddressDataByLevel(address);
+        }
+      });
+
       reset({
         ...initialValues,
-        ...{
-          first_name: authUser?.first_name,
-          last_name: authUser?.last_name,
-          date_of_birth: getMomentDateFormat(
-            authUser?.date_of_birth,
-            'YYYY-MM-DD',
-          ),
-          physical_disability_status: authUser?.physical_disability_status,
-          physical_disabilities: getPhysicalDisabilityIds(
-            authUser?.physical_disabilities,
-          ),
-          gender: authUser?.gender,
-          mobile: authUser?.mobile,
-          email: authUser?.email,
-          marital_status: authUser?.marital_status,
-          freedom_fighter_status: authUser?.freedom_fighter_status,
-          religion: authUser?.religion,
-          nationality: authUser?.nationality,
-          does_belong_to_ethnic_group:
-            String(authUser?.does_belong_to_ethnic_group) ==
-            EthnicGroupStatus.YES,
-          present_address: {
-            loc_division_id: authUser?.loc_division_id,
-            loc_district_id: authUser?.loc_district_id,
-            loc_upazila_id: authUser?.loc_upazila_id,
-          },
-        },
+        ...youthData,
       });
     }
   }, [course, authUser]);
