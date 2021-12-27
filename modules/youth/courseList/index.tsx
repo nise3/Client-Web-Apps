@@ -1,12 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Grid, Typography} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {useFetchCourseList} from '../../../services/youthManagement/hooks';
-import {Link} from '../../../@softbd/elements/common';
+import {H1, Link} from '../../../@softbd/elements/common';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'CourseList';
+
+export const classes = {
+  header: `${PREFIX}-header`,
+};
+
+export const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.header}`]: {
+    fontSize: '1.75rem',
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+  },
+}));
 
 const CourseList = () => {
   const {messages} = useIntl();
@@ -42,14 +57,14 @@ const CourseList = () => {
   };
 
   return (
-    <Container>
+    <StyledContainer>
       <Grid container spacing={3} padding={5}>
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={6}>
-              <Typography fontWeight={'bold'} variant={'h6'}>
+              <H1 className={classes.header}>
                 {messages[getMessageId(courseCategory)]}
-              </Typography>
+              </H1>
             </Grid>
             {/*<Grid item xs={6} textAlign={'right'}>*/}
             {/*  <IconButton>*/}
@@ -65,17 +80,14 @@ const CourseList = () => {
           courseList.map((course: any) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={course.id}>
-                <Link
-                  href={`/course-details/${
-                    course.id
-                  }`}>
+                <Link href={`/course-details/${course.id}`}>
                   <CourseCardComponent course={course} />
                 </Link>
               </Grid>
             );
           })}
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

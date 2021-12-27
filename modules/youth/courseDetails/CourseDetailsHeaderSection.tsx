@@ -1,20 +1,13 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {
-  Box,
-  Button,
-  CardMedia,
-  Container,
-  Grid,
-  Typography,
-} from '@mui/material';
+import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import {
   courseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
-import {Link} from '../../../@softbd/elements/common';
+import {H1, Link} from '../../../@softbd/elements/common';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
   LINK_YOUTH_SIGNUP,
@@ -23,7 +16,10 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import {gotoLoginSignUpPage, youthDomain} from '../../../@softbd/common/constants';
+import {
+  gotoLoginSignUpPage,
+  youthDomain,
+} from '../../../@softbd/common/constants';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -66,9 +62,9 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 : messages['common.free']}
             </Box>
           </Box>
-          <Typography variant={'h4'} mb={8} fontWeight={'bold'}>
+          <H1 mb={8} style={{fontWeight: 'bold', fontSize: '1.640625rem'}}>
             {course?.title}
-          </Typography>
+          </H1>
           {course?.duration && (
             <TagChip
               label={courseDuration(messages, formatNumber, course.duration)}
@@ -106,7 +102,9 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 <Link
                   href={
                     authUser
-                      ? youthDomain() + LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT + course?.id
+                      ? youthDomain() +
+                        LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT +
+                        course?.id
                       : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                   }>
                   <Button variant={'contained'} color={'primary'}>

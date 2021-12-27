@@ -26,7 +26,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IRank } from '../../../shared/Interface/organization.interface';
+import {IRank} from '../../../shared/Interface/rank.interface';
 interface RankAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;

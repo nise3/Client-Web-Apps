@@ -19,6 +19,8 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'LanguageSection';
 const classes = {
@@ -37,6 +39,8 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const LanguageSection = () => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
+
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
   const {
@@ -126,9 +130,11 @@ const LanguageSection = () => {
                         <React.Fragment key={language.id}>
                           {index != 0 && <VerticalLine />}
                           {/*<TextPrimary text={language.language_title} />*/}
-                          <Typography className={classes.textStyle}>
+                          <H3
+                            sx={{...result.body1}}
+                            className={classes.textStyle}>
                             {language.language_title}
-                          </Typography>
+                          </H3>
                         </React.Fragment>
                       ),
                     )}
