@@ -84,6 +84,7 @@ export const API_YOUTH_JOB_EXPERIENCES =
 export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
 export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
+export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
