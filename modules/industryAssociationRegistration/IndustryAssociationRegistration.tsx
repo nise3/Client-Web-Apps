@@ -13,7 +13,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
-import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
 import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
 import {
   useFetchDistricts,
@@ -24,8 +23,8 @@ import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {useRouter} from 'next/router';
 import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 import {classes, StyledContainer} from './Registration.style';
-import {District} from '../../shared/Interface/location.interface';
 import {filterDistrictsByDivisionId} from '../../services/locationManagement/locationUtils';
+import {industryAssociationRegistration} from '../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 
 const OrganizationRegistration = () => {
   const router = useRouter();
@@ -157,7 +156,7 @@ const OrganizationRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
-      await organizationRegistration(data);
+      await industryAssociationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       router
         .push({
