@@ -194,9 +194,6 @@ const SectionPhdForm: FC<SectionPhdFormProps> = ({
                   required
                   id='phd_info[cgpa_scale]'
                   type={'number'}
-                  inputProps={{
-                    step: 0.01,
-                  }}
                   label={messages['education.cgpa_scale']}
                   register={register}
                   errorInstance={errors}
