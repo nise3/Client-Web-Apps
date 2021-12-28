@@ -33,11 +33,6 @@ import {
 } from '../../../../shared/Interface/location.interface';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
-// enum AddressType {
-//   PRESENT_ADDRESS = '1',
-//   PERMANENT_ADDRESS = '2'
-// }
-
 const addressType = [
   {
     id: 1,
@@ -140,7 +135,6 @@ const AddressAddEditPage = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<IAddressAddEdit> = async (data) => {
-    console.log('data->', data);
     try {
       if (itemId) {
         await updateAddress(itemData, data);

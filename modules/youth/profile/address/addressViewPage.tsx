@@ -39,7 +39,6 @@ const AddressViewPage = ({
 }: Props) => {
   const {messages} = useIntl();
   const style = useCustomStyle();
-  console.log('address->', addresses);
 
   const getAddressString = (address: IAddress) => {
     const addressStr: Array<string> = [];
