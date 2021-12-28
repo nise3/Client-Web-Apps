@@ -97,6 +97,14 @@ const AddressAddEditPage = ({
         .string()
         .required()
         .label(messages['label.address_type'] as string),
+      loc_division_id: yup
+        .string()
+        .required()
+        .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .required()
+        .label(messages['districts.label'] as string),
     });
   }, [messages]);
 
