@@ -1232,5 +1232,6 @@
   "common.view_job": "চাকরি দেখুন",
   "common.four_digit": "অবশ্যই চার সংখ্যার হতে হবে",
   "label.new_address": "নতুন ঠিকানা",
-  "label.address_type": "ঠিকানা ধরন"
+  "label.address_type": "ঠিকানা ধরন",
+  "common.cgpa_scale": " ৫ এর মধ্যে হতে হবে"
 }

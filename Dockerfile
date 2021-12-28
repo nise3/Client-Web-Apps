@@ -16,7 +16,8 @@ RUN cd /usr/src/app && ln -s /tmp/node_modules
 
 # Bundle app source
 COPY . /usr/src/app
-
-RUN yarn install
-EXPOSE 3000
-CMD ["npm", "start"] 
+RUN cd /usr/src/app && rm -rf dashboard/public && rm -rf nise/public && rm -rf institute/public  && rm -rf youth/public
+RUN cd /usr/src/app && cp public -R dashboard/public && cp public -R nise/public && cp public -R institute/public  && cp public -R youth/public
+RUN cd /usr/src/app && yarn build:nise && yarn build:institute && yarn build:admin && yarn build:youth
+EXPOSE 3000 3001 3002 3003
+CMD ["npm", "staging:start"] 

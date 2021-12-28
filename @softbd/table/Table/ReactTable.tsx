@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import {
   HeaderProps,
   Row,
@@ -305,6 +305,13 @@ export default function ReactTable<T extends object>({
     }
   }, [fetchData, pageIndex, pageSize, sortBy, filters, toggleResetTable]);
 
+  useEffect(() => {
+    if (isServerSideTable) {
+      if (page.length == 0 && !loading && pageIndex != 0) {
+        gotoPage(pageIndex - 1);
+      }
+    }
+  }, [page, loading, pageIndex]);
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,

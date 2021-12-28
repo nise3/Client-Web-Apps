@@ -60,6 +60,12 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   );
   const [isBelongToEthnicGroup, setIsBelongToEthnicGroup] =
     useState<boolean>(false);
+  const [defaultPassportImagePath, setDefaultPassportImagePath] = useState<
+    string | null
+  >(null);
+  const [defaultSignatureImagePath, setDefaultSignatureImagePath] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     if (getValues) {
@@ -73,6 +79,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setIsBelongToEthnicGroup(doesBelongsToEthnicGroup);
 
       setDisabilityStatus(physicalDisabilityStatus);
+
+      const passportPath = getValues('passport_photo_path');
+      if (passportPath) setDefaultPassportImagePath(passportPath);
+      else setDefaultPassportImagePath(null);
+
+      const signaturePath = getValues('signature_image_path');
+      if (signaturePath) setDefaultSignatureImagePath(signaturePath);
+      else setDefaultSignatureImagePath(null);
     }
   }, [getValues]);
 
@@ -422,7 +436,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       <Grid item xs={12} md={6}>
         <FileUploadComponent
           id='passport_photo_path'
-          defaultFileUrl={getValues('passport_photo_path')}
+          defaultFileUrl={defaultPassportImagePath}
           errorInstance={errors}
           setValue={setValue}
           register={register}
@@ -433,7 +447,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       <Grid item xs={12} md={6}>
         <FileUploadComponent
           id='signature_image_path'
-          defaultFileUrl={getValues('signature_image_path')}
+          defaultFileUrl={defaultSignatureImagePath}
           errorInstance={errors}
           setValue={setValue}
           register={register}
