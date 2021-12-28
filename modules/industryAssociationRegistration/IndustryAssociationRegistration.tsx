@@ -135,6 +135,7 @@ const OrganizationRegistration = () => {
         <StyledContainer maxWidth={'md'}>
             <Paper className={classes.PaperBox}>
                 <Typography
+                  data-test-id="heading"
                     align={'center'}
                     variant={'h6'}
                     style={{
