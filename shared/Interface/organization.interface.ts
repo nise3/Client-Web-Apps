@@ -1,4 +1,11 @@
-import {IidTitleCreateUpdateAt} from './common.interface';
+import {
+  IContactPerson,
+  IidTitleCreateUpdateAt,
+  IMobileEmailAddress,
+  IOfficeHeadInfo,
+  IRowStatus,
+} from './common.interface';
+import {IGeometryGoogle, IUpazila} from './location.interface';
 
 // export interface IRankType extends IidTitles{
 //   key: number;
@@ -24,38 +31,48 @@ import {IidTitleCreateUpdateAt} from './common.interface';
 //   row_status: number | string;
 // }
 
-export interface IOrganization extends IidTitleCreateUpdateAt{
-  permission_sub_group: number | string;
-  contact_person_designation: string;
-  contact_person_designation_en?: string;
-  contact_person_email: string;
-  contact_person_mobile: string;
-  contact_person_name: string;
-  contact_person_name_en?: string;
-  name_of_the_office_head?: string;
-  name_of_the_office_head_en?: string;
-  name_of_the_office_head_designation?: string;
-  name_of_the_office_head_designation_en?: string;
+export interface IOrganization
+  extends IidTitleCreateUpdateAt,
+    IRowStatus,
+    IContactPerson,
+    IUpazila,
+    Partial<IOfficeHeadInfo>,
+    IGeometryGoogle,
+    IMobileEmailAddress {
+  permission_sub_group_id: number | string;
+  industry_association_id: number;
+  address: string;
+  // contact_person_designation: string;
+  // contact_person_designation_en?: string;
+  // contact_person_email: string;
+  // contact_person_mobile: string;
+  // contact_person_name: string;
+  // contact_person_name_en?: string;
+  // name_of_the_office_head?: string;
+  // name_of_the_office_head_en?: string;
+  // name_of_the_office_head_designation?: string;
+  // name_of_the_office_head_designation_en?: string;
   description?: string;
+
   description_en?: string;
   domain?: string;
-  email?: string;
+  // email?: string;
   fax_no?: string;
-  loc_district_id?: number | string;
-  loc_division_id?: number | string;
-  loc_upazila_id?: number | string;
-  location_latitude?: number | string;
-  location_longitude?: number | string;
-  google_map_src?: number | string;
+  // loc_district_id?: number | string;
+  // loc_division_id?: number | string;
+  // loc_upazila_id?: number | string;
+  // location_latitude?: number | string;
+  // location_longitude?: number | string;
+  // google_map_src?: number | string;
   logo?: string;
-  address?: string;
-  address_en?: string;
+  // address?: string;
+  // address_en?: string;
   country?: string;
   phone_code?: string | number;
-  mobile?: string;
+  // mobile?: string;
   organization_types_title?: string;
   organization_type_id: number | string;
-  row_status?: number | string;
+  //row_status?: number | string;
 }
 
 // export interface IService extends IidTitleCreateUpdateAt{
@@ -99,9 +116,9 @@ export interface IOrganization extends IidTitleCreateUpdateAt{
 //   row_status?: number | string;
 // }
 
-export interface ISkill extends IidTitleCreateUpdateAt{
+export interface ISkill extends IidTitleCreateUpdateAt, IRowStatus {
   description: string;
-  row_status?: number | string;
+  //row_status?: number | string;
 }
 
 // export interface IHumanResourceTemplate extends IidTitleCreateUpdateAt{
@@ -135,6 +152,6 @@ export interface ISkill extends IidTitleCreateUpdateAt{
 //   row_status?: string;
 // }
 
-export interface IBatchAssign{
+export interface IBatchAssign {
   batch_id?: number | string | null;
 }
