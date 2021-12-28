@@ -1,6 +1,6 @@
-import { IidTitleCreateUpdateAt } from "./common.interface";
+import {IidTitleCreateUpdateAt, IRowStatus} from './common.interface';
 
-export interface IService extends IidTitleCreateUpdateAt{
-    key: number;
-    row_status: number | string;
-  }
+export interface IService extends IidTitleCreateUpdateAt, IRowStatus {
+  key: number;
+  //row_status: number | string;
+}
