@@ -18,10 +18,9 @@ import {
   addMonths,
   getMomentDateFormat,
 } from '../../../../@softbd/utilities/helpers';
-import {Error, Help} from '@mui/icons-material';
+import {Error} from '@mui/icons-material';
 import {ResumeReceivingOptions} from '../enums/ResumeReceivingOptions';
 import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
-import Tooltip from '@mui/material/Tooltip';
 
 interface Props {
   onContinue: () => void;
@@ -51,8 +50,6 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
     number | null
   >(ResumeReceivingOptions.EMAIL);
   const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
-  const [isOnlineApplication, setIsOnlineApplication] =
-    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -278,9 +275,6 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
                 ]}
                 control={control}
                 errorInstance={errors}
-                onChange={(value: number) => {
-                  setIsOnlineApplication(!!value);
-                }}
               />
 
               <Divider
@@ -399,35 +393,6 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               register={register}
               defaultChecked={true}
               isLoading={false}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomFormSwitch
-              id={'prefer_video_resume'}
-              label={
-                <Typography display={'flex'} alignItems={'center'}>
-                  {messages['job_posting.prefer_video_resume']}
-                  <Tooltip
-                    arrow
-                    title={
-                      messages[
-                        'job_posting.prefer_video_resume_tooltip'
-                      ] as string
-                    }>
-                    <Help
-                      sx={{
-                        marginLeft: '8px',
-                      }}
-                    />
-                  </Tooltip>
-                </Typography>
-              }
-              yesLabel={messages['common.yes'] as string}
-              noLabel={messages['common.no'] as string}
-              register={register}
-              defaultChecked={false}
-              isLoading={false}
-              disabled={!isOnlineApplication}
             />
           </Grid>
         </Grid>

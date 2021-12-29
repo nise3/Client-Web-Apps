@@ -6,7 +6,7 @@ import yup from '../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
-import {InfoOutlined, Refresh} from '@mui/icons-material';
+import {InfoOutlined} from '@mui/icons-material';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {S1} from '../../../../@softbd/elements/common';
 
@@ -15,17 +15,13 @@ interface Props {
   onContinue: () => void;
 }
 
-const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
+const ContactInformation = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      /*      contact_person_billing: yup
-        .string()
-        .required()
-        .label(messages['job_posting.contact_person_billing'] as string),
-      contact_person_job: yup
+      /*contact_person_job: yup
         .string()
         .required()
         .label(messages['job_posting.contact_person_job'] as string),*/
@@ -53,77 +49,13 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
     }
   };
 
-  const resetBillingPersonHandler = () => {
-    console.log('billing person reset');
-  };
-
   return (
     <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
-        {messages['job_posting.billing_and_contract_info']}
+        {messages['job_posting.contract_info']}
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        {/** Billing information section */}
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={3}>
-            <Typography variant='body1'>Billing Information</Typography>
-          </Grid>
-          <Grid item xs={12} md={9}>
-            <Box sx={{color: 'warning.light'}} display={'flex'}>
-              <InfoOutlined sx={{paddingRight: '5px'}} />
-              <Typography variant='body1'>
-                For any kind of query about billing issue for this particular
-                job Nise3 team will contact the person
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3} mt={'15px'}>
-          <Grid item xs={12} md={7}>
-            <CustomFormSelect
-              required
-              id='contact_person_billing'
-              label={messages['job_posting.contact_person_billing']}
-              isLoading={false}
-              control={control}
-              options={[]}
-              optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={4} md={1}>
-            <span onClick={resetBillingPersonHandler}>
-              {<Refresh sx={{marginTop: '8px', cursor: 'pointer'}} />}
-            </span>
-          </Grid>
-          <Grid item xs={8} md={4}>
-            <Button variant={'outlined'} color={'primary'}>
-              {messages['job_posting.contact_add_edit']}
-            </Button>
-          </Grid>
-        </Grid>
-        {/** the following grid will be dynamic based on the selection of the dropdown */}
-        <Grid container spacing={3} mt={'15px'}>
-          <Grid item xs={12} md={7}>
-            <Card
-              sx={{
-                backgroundColor: 'grey.300',
-                border: '1px solid #c5c5c5',
-              }}>
-              <CardContent>
-                <S1>Mr. Masud</S1>
-                <Typography color='text.secondary'>
-                  Asst. Executive (HR & Admin)
-                </Typography>
-                <Typography color='text.secondary'>01733341663</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
         {/** Contact information section */}
         <Grid container spacing={3} mt={3}>
           <Grid item xs={12} md={3}>
@@ -133,8 +65,9 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
             <Box sx={{color: 'warning.light'}} display={'flex'}>
               <InfoOutlined sx={{paddingRight: '5px'}} />
               <Typography variant='body1'>
-                For any kind of query about billing issue for this particular
-                job Nise3 team will contact the person
+                If it's required to contact for any kind of query about this
+                particular circular, then Nise3 team will contact with the
+                following person.
               </Typography>
             </Box>
           </Grid>
@@ -153,16 +86,6 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
             />
-          </Grid>
-          <Grid item xs={4} md={1}>
-            <span onClick={resetBillingPersonHandler}>
-              {<Refresh style={{marginTop: '8px', cursor: 'pointer'}} />}
-            </span>
-          </Grid>
-          <Grid item xs={8} md={4}>
-            <Button variant={'outlined'} color={'primary'}>
-              {messages['job_posting.contact_add_edit']}
-            </Button>
           </Grid>
         </Grid>
         {/** the following grid will be dynamic based on the selection of the dropdown */}
@@ -201,4 +124,4 @@ const BillingAndContactInformation = ({onBack, onContinue}: Props) => {
   );
 };
 
-export default BillingAndContactInformation;
+export default ContactInformation;
