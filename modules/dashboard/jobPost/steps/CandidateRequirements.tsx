@@ -12,7 +12,7 @@ import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButt
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
-import {Gender} from '../enums/Gender';
+import {Gender} from '../enums/JobPostEnums';
 import CustomAddFilterableFormSelect from '../CustomAddFilterableFormSelect';
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';

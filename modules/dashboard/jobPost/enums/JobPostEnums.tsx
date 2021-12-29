@@ -1,0 +1,52 @@
+export enum ServiceTypes {
+  BASIC_LISTING = 1,
+  STAND_OUT_LISTING = 2,
+  STAND_OUT_PREMIUM = 3,
+}
+
+export enum ResumeReceivingOptions {
+  EMAIL = 1,
+  HARD_COPY = 2,
+  WALK_IN_INTERVIEW = 3,
+}
+
+export enum EmploymentStatus {
+  FULL_TIME = 1,
+  PART_TIME = 2,
+  INTERNSHIP = 3,
+  CONTRACTUAL = 4,
+  FREELANCE = 5,
+}
+
+export enum JobLevel {
+  ENTRY = 1,
+  MID = 2,
+  TOP = 3,
+}
+
+export enum SalaryShowOption {
+  SALARY = 1,
+  NOTHING = 2,
+  NEGOTIABLE = 3,
+}
+
+export enum OtherBenefit {
+  YES = 1,
+  NO = 0,
+}
+
+export enum SalaryReviewType {
+  YEARLY = 1,
+  HALF_YEARLY = 0,
+}
+
+export enum LunchFacilityType {
+  FULL_SUBSIDIZE = 1,
+  PARTIALLY_SUBSIDIZE = 0,
+}
+
+export enum Gender {
+  MALE = 1,
+  FEMALE = 2,
+  OTHERS = 3,
+}

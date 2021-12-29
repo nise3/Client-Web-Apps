@@ -1,7 +1,6 @@
 import React from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {EmploymentStatus} from '../enums/EmploymentStatus';
 import {
   Body1,
   Body2,
@@ -12,7 +11,7 @@ import {
 } from '../../../../@softbd/elements/common';
 import JobPreviewSubComponent from './components/JobPreviewSubComponent';
 import {styled} from '@mui/material/styles';
-import {Gender} from '../enums/Gender';
+import {Gender, EmploymentStatus} from '../enums/JobPostEnums';
 
 interface Props {
   onBack: () => void;
