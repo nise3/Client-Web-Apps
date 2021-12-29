@@ -1,6 +1,6 @@
-import {IidTitleCreateUpdateAt, IRowStatus} from './common.interface';
+import {IIdTitleCreateUpdateAt} from './common.interface';
 
-export interface IOrganizationType extends IidTitleCreateUpdateAt, IRowStatus {
+export interface IOrganizationType extends IIdTitleCreateUpdateAt {
   is_government?: number;
-  //row_status: number | string;
+  row_status?: number | string;
 }

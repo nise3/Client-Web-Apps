@@ -1,4 +1,4 @@
-import {Checkbox} from '@mui/material';
+import {Checkbox, FormControlLabel} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import React from 'react';
@@ -27,14 +27,29 @@ const CustomCheckbox = ({
     <TextInputSkeleton />
   ) : (
     <Typography color={errorInstance?.[id] ? 'error' : 'inherit'}>
-      <Checkbox
+      {/*<Checkbox
         color='primary'
         {...register(id)}
         checked={checked}
         onChange={onChange}
         style={{padding: '2px', marginRight: 5}}
       />
-      {label}
+      {label}*/}
+      <FormControlLabel
+        sx={{
+          marginLeft: '0',
+        }}
+        control={
+          <Checkbox
+            color='primary'
+            {...register(id)}
+            checked={checked}
+            onChange={onChange}
+            style={{padding: '2px', marginRight: 5}}
+          />
+        }
+        label={label}
+      />
     </Typography>
   );
 };

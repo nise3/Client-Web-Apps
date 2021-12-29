@@ -171,3 +171,32 @@ export interface Guardian {
   updated_at?: string;
   deleted_at?: string;
 }
+
+export interface IAddress {
+  id: number;
+  address_type: number;
+  loc_division_id: number;
+  loc_division_title: string;
+  loc_district_id: number;
+  loc_district_title: string;
+  loc_upazila_id?: number;
+  loc_upazila_title?: string;
+  village_or_area?: string;
+  village_or_area_en?: string;
+  house_n_road?: string;
+  house_n_road_en?: string;
+  zip_or_postal_code?: string;
+}
+
+export interface IAddressAddEdit {
+  id: number;
+  address_type: number;
+  loc_division_id: number;
+  loc_district_id: number;
+  loc_upazila_id?: number;
+  village_or_area?: string;
+  village_or_area_en?: string;
+  house_n_road?: string;
+  house_n_road_en?: string;
+  zip_or_postal_code?: string;
+}

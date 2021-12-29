@@ -4,15 +4,9 @@ import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
 import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
 import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
-import {
-  ICreateUpdateAt,
-  IDeleteAt,
-  IidHolder,
-  IidTitles,
-} from './common.interface';
-import {IUpazila} from './location.interface';
+import {ICreateUpdateAt, IIdHolder, IIdTitles} from './common.interface';
 
-export interface IYouthJobExperience extends IidHolder {
+export interface IYouthJobExperience extends IIdHolder {
   youth_id?: number;
   company_name: string;
   company_name_en?: string;
@@ -28,7 +22,7 @@ export interface IYouthJobExperience extends IidHolder {
   is_currently_working?: number;
 }
 
-export interface IYouthPersonalInfo extends IUpazila {
+export interface IYouthPersonalInfo {
   first_name: string;
   first_name_en?: string;
   last_name: string;
@@ -47,9 +41,9 @@ export interface IYouthPersonalInfo extends IUpazila {
   religion: Religion;
   nationality?: string;
   does_belong_to_ethnic_group: EthnicGroupStatusType;
-  // loc_division_id: string | number;
-  // loc_district_id: string | number;
-  // loc_upazila_id?: string | number;
+  loc_division_id: string | number;
+  loc_district_id: string | number;
+  loc_upazila_id?: string | number;
   village_or_area?: string;
   village_or_area_en?: string;
   house_n_road?: string;
@@ -64,7 +58,7 @@ export interface IYouthPersonalInfo extends IUpazila {
   bid?: string;
 }
 
-export interface IYouthEducation extends IidHolder {
+export interface IYouthEducation extends IIdHolder {
   education_level_id: string | number;
   education_level_title?: string;
   education_level_title_en?: string;
@@ -101,7 +95,7 @@ export interface IYouthEducation extends IidHolder {
   achievements_en?: string;
 }
 
-export interface IYouthReference extends IidHolder {
+export interface IYouthReference extends IIdHolder {
   youth_id?: number;
   referrer_first_name_en?: string;
   referrer_first_name: string;
@@ -119,10 +113,7 @@ export interface IYouthReference extends IidHolder {
   referrer_relation: string;
 }
 
-export interface IYouthCertificate
-  extends IidHolder,
-    IDeleteAt,
-    ICreateUpdateAt {
+export interface IYouthCertificate extends IIdHolder {
   youth_id?: number;
   certification_name: string;
   certification_name_en?: string;
@@ -134,12 +125,12 @@ export interface IYouthCertificate
   start_date?: string;
   end_date?: string;
   certificate_file_path: string;
-  // created_at?: string;
-  // updated_at?: string;
-  //deleted_at?: string;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
 }
 
-export interface IYouthLanguageProficiency extends IidHolder {
+export interface IYouthLanguageProficiency extends IIdHolder {
   youth_id?: number;
   language_id: number | string;
   language_title?: string;
@@ -151,14 +142,14 @@ export interface IYouthLanguageProficiency extends IidHolder {
   understand_proficiency_level: number | string;
 }
 
-export interface IYouthPortfolio extends IidTitles {
+export interface IYouthPortfolio extends IIdTitles {
   youth_id?: number;
   description?: string;
   description_en?: string;
   file_path?: string;
 }
 
-export interface IGuardian extends IidHolder, ICreateUpdateAt, IDeleteAt {
+export interface IGuardian extends IIdHolder, ICreateUpdateAt {
   youth_id: string;
   name: string;
   name_en?: string;
@@ -168,5 +159,5 @@ export interface IGuardian extends IidHolder, ICreateUpdateAt, IDeleteAt {
   relationship_type: any;
   relationship_title?: string;
   relationship_title_en?: string;
-  //deleted_at?: string;
+  deleted_at?: string;
 }

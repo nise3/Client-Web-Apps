@@ -3,6 +3,7 @@ export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
 export const INDUSTRY_SERVICE_PATH = '/industry';
+export const INDUSTRY_ASSOCIATION_SERVICE_PATH = '/industry-association';
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
   INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
 export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
@@ -36,6 +37,8 @@ export const API_ORGANIZATION_UNITS =
   ORGANIZATION_SERVICE_PATH + '/organization-units';
 export const API_ORGANIZATION_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/organization-registration';
+export const API_INDUSTRY_ASSOCIATION_REGISTRATION =
+  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/industry-association-registration';
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
@@ -84,6 +87,7 @@ export const API_YOUTH_JOB_EXPERIENCES =
 export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
 export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
+export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =

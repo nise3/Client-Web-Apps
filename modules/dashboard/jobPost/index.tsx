@@ -8,7 +8,7 @@ import MoreJobInformation from './steps/MoreJobInformation';
 import CandidateRequirements from './steps/CandidateRequirements';
 import CompanyInfoVisibility from './steps/CompanyInfoVisibility';
 import MatchingCriteria from './steps/MatchingCriteria';
-import BillingAndContactInformation from './steps/BillingAndContactInformation';
+import ContactInformation from './steps/ContactInformation';
 import PreviewJob from './steps/PreviewJob';
 import CompleteJobPost from './steps/CompleteJobPost';
 import {adminDomain} from '../../../@softbd/common/constants';
@@ -57,7 +57,7 @@ const steps: Array<StepObj> = [
   },
   {
     id: 6,
-    langKey: 'job_posting.billing_and_contract_info',
+    langKey: 'job_posting.contract_info',
   },
   {
     id: 7,
@@ -152,10 +152,7 @@ const JobPostingView = () => {
         return <MatchingCriteria onBack={handleBack} onContinue={handleNext} />;
       case 6:
         return (
-          <BillingAndContactInformation
-            onBack={handleBack}
-            onContinue={handleNext}
-          />
+          <ContactInformation onBack={handleBack} onContinue={handleNext} />
         );
       case 7:
         return <PreviewJob onBack={handleBack} onContinue={handleNext} />;

@@ -1,15 +1,8 @@
-import {
-  ICreateUpdateBy,
-  IidTitleCreateUpdateAt,
-  IRowStatus,
-} from './common.interface';
+import {IIdTitleCreateUpdateAt} from './common.interface';
 
-export interface IOccupation
-  extends IidTitleCreateUpdateAt,
-    IRowStatus,
-    ICreateUpdateBy {
-  job_sector_id: number;
+export interface IOccupation extends IIdTitleCreateUpdateAt {
+  job_sector_id: number | string;
   job_sector_title?: string;
   job_sector_title_en?: string;
-  //row_status: number | string;
+  row_status?: number | string;
 }
