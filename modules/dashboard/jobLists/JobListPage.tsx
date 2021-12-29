@@ -13,10 +13,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  deleteJob,
-  getJobId,
-} from '../../../services/IndustryManagement/JobService';
+import {deleteJob} from '../../../services/IndustryManagement/JobService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
