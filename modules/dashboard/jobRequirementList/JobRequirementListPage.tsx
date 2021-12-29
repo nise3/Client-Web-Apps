@@ -106,7 +106,7 @@ const JobRequirementListPage = () => {
       },
 
       {
-        Header: messages['rank_types.label'],
+        Header: messages['job_requirement_list.label'],
         accessor: 'rank_type_title_en',
       },
       {
@@ -159,7 +159,7 @@ const JobRequirementListPage = () => {
       <PageBlock
         title={
           <>
-            <IconRank /> <IntlMessages id='ranks.label' />
+            <IconRank /> <IntlMessages id='job_requirement_list.label' />
           </>
         }
         extra={[
@@ -171,7 +171,7 @@ const JobRequirementListPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['ranks.label'],
+                  subject: messages['job_requirement_list.label'],
                 }}
               />
             }
