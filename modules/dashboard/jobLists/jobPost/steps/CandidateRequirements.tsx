@@ -19,6 +19,7 @@ import {Help} from '@mui/icons-material';
 import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
@@ -36,7 +37,7 @@ const demoOptions = [
   {id: 4, title: 'Test 3'},
 ];
 
-const CandidateRequirements = ({onBack, onContinue}: Props) => {
+const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [isFresherApplicable, setIsFresherApplicable] =

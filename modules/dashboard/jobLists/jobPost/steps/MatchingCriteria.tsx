@@ -20,6 +20,7 @@ import MatchingCriteriaFormItem from './components/MatchingCriteriaFormItem';
 import {Gender, JobLevel} from '../enums/JobPostEnums';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
@@ -53,7 +54,7 @@ const data = {
   skills: ['Computer Operator', 'Computer Operator related Skill is required'],
 };
 
-const MatchingCriteria = ({onBack, onContinue}: Props) => {
+const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 

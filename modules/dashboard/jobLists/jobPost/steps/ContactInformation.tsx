@@ -11,11 +11,12 @@ import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSe
 import {S1} from '../../../../../@softbd/elements/common';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
 
-const ContactInformation = ({onBack, onContinue}: Props) => {
+const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 

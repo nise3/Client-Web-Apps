@@ -6,10 +6,13 @@ import {useIntl} from 'react-intl';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import CallIcon from '@mui/icons-material/Call';
+
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
+
 const PREFIX = 'CompleteJob';
 
 const classes = {
@@ -25,7 +28,7 @@ const StyledGrid = styled(Grid)(() => {
   };
 });
 
-const CompleteJobPost = ({onBack, onContinue}: Props) => {
+const CompleteJobPost = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   return (
     <StyledGrid container spacing={3}>
