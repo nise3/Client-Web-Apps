@@ -11,7 +11,8 @@ import MatchingCriteria from './steps/MatchingCriteria';
 import ContactInformation from './steps/ContactInformation';
 import PreviewJob from './steps/PreviewJob';
 import CompleteJobPost from './steps/CompleteJobPost';
-import {adminDomain} from '../../../@softbd/common/constants';
+import {adminDomain} from '../../../../@softbd/common/constants';
+import {LINK_JOB_CREATE_OR_UPDATE} from '../../../../@softbd/common/appLinks';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -102,7 +103,7 @@ const JobPostingView = () => {
   const handleNext = () => {
     router
       .push({
-        pathname: '/job-post/step' + (activeStep + 1),
+        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + (activeStep + 1),
         query: {
           jobId: jobId,
         },
@@ -113,7 +114,7 @@ const JobPostingView = () => {
   const handleBack = () => {
     router
       .push({
-        pathname: '/job-post/step' + (activeStep - 1),
+        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + (activeStep - 1),
         query: {
           jobId: jobId,
         },
@@ -124,7 +125,7 @@ const JobPostingView = () => {
   const gotoStep = (step: number) => {
     router
       .push({
-        pathname: '/job-post/step' + step,
+        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + step,
         query: {
           jobId: jobId,
         },

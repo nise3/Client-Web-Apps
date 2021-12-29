@@ -8,7 +8,7 @@ import {
   Link,
   S1,
   S2,
-} from '../../../../@softbd/elements/common';
+} from '../../../../../@softbd/elements/common';
 import JobPreviewSubComponent from './components/JobPreviewSubComponent';
 import {styled} from '@mui/material/styles';
 import {Gender, EmploymentStatus} from '../enums/JobPostEnums';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, CardMedia, Chip, Grid, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
-import {H6} from '../../../../@softbd/elements/common';
+import {H6} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import FindInPageIcon from '@mui/icons-material/FindInPage';

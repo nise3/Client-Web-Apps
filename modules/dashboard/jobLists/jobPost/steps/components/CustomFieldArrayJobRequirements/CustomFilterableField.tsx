@@ -2,9 +2,9 @@ import React from 'react';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import {Autocomplete, FormControl, TextField} from '@mui/material';
 import {Controller} from 'react-hook-form';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import TextInputSkeleton from '../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import TextInputSkeleton from '../../../../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
 type Props = {
   id: string;

@@ -335,6 +335,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/applicant-list',
           },
+          {
+            id: 'jobs',
+            title: 'Jobs',
+            messageId: 'menu.jobs',
+            permissionKey: 'view_any_jobs',
+            type: 'item',
+            icon: 'timeline',
+            url: '/jobs',
+          },
         ],
       },
       {

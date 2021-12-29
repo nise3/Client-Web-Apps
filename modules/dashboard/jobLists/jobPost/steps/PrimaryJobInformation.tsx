@@ -2,27 +2,27 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Button, Chip, Divider, Grid, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import yup from '../../../../@softbd/libs/yup';
+import yup from '../../../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
-import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
-import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
+import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {processServerSideErrors} from '../../../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import FormRadioButtons from '../../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomFormToggleButtonGroup from '../../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
+import CustomDateTimeField from '../../../../../@softbd/elements/input/CustomDateTimeField';
 import {
   addMonths,
   getMomentDateFormat,
-} from '../../../../@softbd/utilities/helpers';
+} from '../../../../../@softbd/utilities/helpers';
 import {Error} from '@mui/icons-material';
 import {
   ServiceTypes,
   EmploymentStatus,
   ResumeReceivingOptions,
 } from '../enums/JobPostEnums';
-import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
+import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
 
 interface Props {
   onContinue: () => void;
@@ -135,11 +135,21 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <CustomTextInput
+              required
+              id='job_title_en'
+              label={messages['job_posting.job_title_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={5}>
                 <CustomTextInput
                   required={!isNotApplicable}
-                  id='vacancy'
+                  id='no_of_vacancies'
                   type={'number'}
                   label={messages['job_posting.no_of_vacancy']}
                   register={register}
@@ -150,7 +160,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               </Grid>
               <Grid item xs={12} md={7} alignItems={'center'} display={'flex'}>
                 <CustomCheckbox
-                  id='not_applicable'
+                  id='is_number_of_vacancy_na'
                   label={messages['job_posting.not_applicable']}
                   register={register}
                   errorInstance={errors}
@@ -194,7 +204,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
           <Grid item xs={12}>
             <CustomFormToggleButtonGroup
               required
-              id={'employment_status'}
+              id={'employment_type'}
               label={messages['job_posting.employment_status']}
               buttons={[
                 {
@@ -228,7 +238,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               <Grid item xs={12} md={4}>
                 <CustomDateTimeField
                   required
-                  id='deadline'
+                  id='application_deadline'
                   label={messages['job_posting.application_deadline']}
                   isLoading={false}
                   register={register}
@@ -290,7 +300,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
 
               <CustomFormToggleButtonGroup
                 required
-                id={'resume_receiving_status'}
+                id={'resume_receiving_option'}
                 label={''}
                 buttons={[
                   {

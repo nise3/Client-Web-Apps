@@ -1133,6 +1133,7 @@
   "common.save_and_continue": "Save & Continue",
   "job_posting.service_type": "Service Type",
   "job_posting.job_title": "Job Title",
+  "job_posting.job_title_en": "Job Title (EN)",
   "job_posting.no_of_vacancy": "No. of Vacancy",
   "job_posting.not_applicable": "Not Applicable",
   "job_posting.employment_status": "Employment Status",
