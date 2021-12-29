@@ -7,7 +7,7 @@ import {Box, Button, Grid, Tooltip, Typography} from '@mui/material';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {Body1, Body2} from '../../../../@softbd/elements/common';
+import {Body1, Body2, S2} from '../../../../@softbd/elements/common';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import CustomSelectAutoComplete from '../../../youth/registration/CustomSelectAutoComplete';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const numberOfFestivalBonus: Array<any> = [];
-for (let i = 1; i <= 10; i++) numberOfFestivalBonus.push({id: i, title: i});
+for (let i = 1; i <= 4; i++) numberOfFestivalBonus.push({id: i, title: i});
 const facilities = [
   {
     id: 1,
@@ -36,23 +36,47 @@ const facilities = [
   },
   {
     id: 3,
-    title: 'Tour allowance',
+    title: 'Pension Policy',
   },
   {
     id: 4,
-    title: 'Credit card',
+    title: 'Tour allowance',
   },
   {
     id: 5,
-    title: 'Medical allowance',
+    title: 'Credit card',
   },
   {
     id: 6,
-    title: 'Performance bonus',
+    title: 'Medical allowance',
   },
   {
     id: 7,
+    title: 'Performance bonus',
+  },
+  {
+    id: 8,
     title: 'Profit share',
+  },
+  {
+    id: 9,
+    title: 'Provident fund',
+  },
+  {
+    id: 10,
+    title: 'Weekly 2 holidays',
+  },
+  {
+    id: 11,
+    title: 'Insurance',
+  },
+  {
+    id: 12,
+    title: 'Gratuity',
+  },
+  {
+    id: 13,
+    title: 'Over time allowance',
   },
 ];
 
@@ -106,15 +130,15 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
               label={messages['label.job_level']}
               buttons={[
                 {
-                  value: JobLevel.entry,
+                  value: JobLevel.ENTRY,
                   label: messages['label.job_level_entry'],
                 },
                 {
-                  value: JobLevel.mid,
+                  value: JobLevel.MID,
                   label: messages['label.job_level_mid'],
                 },
                 {
-                  value: JobLevel.top,
+                  value: JobLevel.TOP,
                   label: messages['label.job_level_top'],
                 },
               ]}
@@ -151,7 +175,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
             <Body1>{messages['common.workplace']}</Body1>
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <CustomCheckbox
-                id='work_at_office'
+                id='workplace[work_at_office]'
                 label={messages['common.work_at_office']}
                 register={register}
                 errorInstance={errors}
@@ -162,7 +186,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                 isLoading={false}
               />
               <CustomCheckbox
-                id='work_from_home'
+                id='workplace[work_from_home]'
                 label={messages['common.work_from_home']}
                 register={register}
                 errorInstance={errors}
@@ -243,8 +267,14 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                 isLoading={false}
               />
             </Box>
-            <Body2 sx={{my: '10px'}}>
-              {messages['label.compare_provided_expected_salary']}
+            <Box sx={{mt: '10px'}}>
+              <S2
+                color={'grey.500'}
+                sx={{
+                  fontWeight: '400',
+                }}>
+                {messages['label.compare_provided_expected_salary']}
+              </S2>
               <CustomCheckbox
                 id='alert_salary_range'
                 label={messages['common.yes']}
@@ -256,7 +286,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                 }}
                 isLoading={false}
               />
-            </Body2>
+            </Box>
             <Box sx={{my: '10px'}}>
               <FormRadioButtons
                 id='alert_salary_range'
