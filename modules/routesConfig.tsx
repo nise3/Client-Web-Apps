@@ -336,7 +336,7 @@ const routesConfig: NavItemProps[] = [
             url: '/applicant-list',
           },
           {
-            id: 'job-requirement-list',
+            id: 'job-requirements',
             title: 'Job Requirement List',
             messageId: 'job_requirement_list.label',
             permissionKey: 'view_any_job_requirement',

@@ -20,7 +20,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import JobRequirementAddEditPopup from './JobRequirementAddEditPopup';
 import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
 
-const JobRequirementListPage = () => {
+const JobRequirementsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser();
@@ -106,24 +106,10 @@ const JobRequirementListPage = () => {
       },
 
       {
-        Header: messages['job_requirement_list.label'],
+        Header: messages['job_requirement.label'],
         accessor: 'rank_type_title_en',
       },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['ranks.display_order'],
-        accessor: 'display_order',
-        isVisible: false,
-      },
-      {
-        Header: messages['ranks.grade'],
-        accessor: 'grade',
-        isVisible: false,
-      },
+
       {
         Header: messages['common.status'],
         accessor: 'row_status',
@@ -159,7 +145,7 @@ const JobRequirementListPage = () => {
       <PageBlock
         title={
           <>
-            <IconRank /> <IntlMessages id='job_requirement_list.label' />
+            <IconRank /> <IntlMessages id='job_requirement.label' />
           </>
         }
         extra={[
@@ -205,4 +191,4 @@ const JobRequirementListPage = () => {
   );
 };
 
-export default JobRequirementListPage;
+export default JobRequirementsPage;
