@@ -1,5 +1,5 @@
 export enum JobLevel {
-  entry = 1,
-  mid = 2,
-  top = 3,
+  ENTRY = 1,
+  MID = 2,
+  TOP = 3,
 }
