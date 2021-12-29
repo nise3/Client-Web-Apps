@@ -15,8 +15,14 @@ import CheckIcon from '@mui/icons-material/Check';
 import {HelpOutlined, HorizontalRule} from '@mui/icons-material';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
-import {JobLevel} from '../enums/JobLevel';
+import {JobLevel} from '../enums/JobPostEnums';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {
+  LunchFacilityType,
+  OtherBenefit,
+  SalaryReviewType,
+  SalaryShowOption,
+} from '../enums/JobPostEnums';
 
 interface Props {
   onBack: () => void;
@@ -89,6 +95,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
   const [isCompareProvidedExpectedSalary, setIsCompareProvidedExpectedSalary] =
     useState<boolean>(false);
   // const [isAlertSalaryRange, setIsAlertSalaryRange] = useState<boolean>(false);
+  const [hasOtherBenefits, setHasOtherBenefits] = useState<boolean>(true);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({});
@@ -250,20 +257,20 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                 label={'label.salary_details_option'}
                 radios={[
                   {
-                    key: '1',
+                    key: SalaryShowOption.SALARY,
                     label: messages['label.show_salary'],
                   },
                   {
-                    key: '2',
+                    key: SalaryShowOption.NOTHING,
                     label: messages['label.show_nothing'],
                   },
                   {
-                    key: '3',
+                    key: SalaryShowOption.NEGOTIABLE,
                     label: messages['label.show_negotiable'],
                   },
                 ]}
                 control={control}
-                // defaultValue={'2'}
+                defaultValue={SalaryShowOption.SALARY}
                 isLoading={false}
               />
             </Box>
@@ -330,94 +337,102 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
               label={messages['common.compensation_other_benefits']}
               buttons={[
                 {
-                  value: 0,
+                  value: OtherBenefit.NO,
                   label: messages['common.no'],
                 },
                 {
-                  value: 1,
+                  value: OtherBenefit.YES,
                   label: messages['common.yes'],
                 },
               ]}
               control={control}
               errorInstance={errors}
               multiSelect={false}
-              defaultValue={1}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomSelectAutoComplete
-              id='facilities'
-              label={messages['common.facilities']}
-              control={control}
-              options={facilities}
-              optionTitleProp={['title']}
-              optionValueProp={'id'}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomFormToggleButtonGroup
-              id={'salary_review'}
-              label={messages['common.salary_review']}
-              buttons={[
-                {
-                  value: 0,
-                  label: messages['common.half_yearly'],
-                },
-                {
-                  value: 1,
-                  label: messages['common.yearly'],
-                },
-              ]}
-              control={control}
-              errorInstance={errors}
-              multiSelect={false}
-              defaultValue={1}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomFormToggleButtonGroup
-              id={'lunch_facilities'}
-              label={messages['common.lunch_facilities']}
-              buttons={[
-                {
-                  value: 0,
-                  label: messages['common.partially_subsidize'],
-                },
-                {
-                  value: 1,
-                  label: messages['common.full_subsidize'],
-                },
-              ]}
-              control={control}
-              errorInstance={errors}
-              multiSelect={false}
-              defaultValue={1}
+              defaultValue={OtherBenefit.YES}
+              onChange={(value: number) => {
+                setHasOtherBenefits(value == OtherBenefit.YES);
+              }}
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <CustomFilterableFormSelect
-              isLoading={false}
-              id='festival_bonus'
-              label={messages['common.festival_bonus']}
-              options={numberOfFestivalBonus}
-              optionValueProp={'id'}
-              optionTitleProp={['title', 'title_en']}
-              control={control}
-              errorInstance={errors}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextInput
-              id='others'
-              label={messages['common.others']}
-              register={register}
-              errorInstance={errors}
-              multiline={true}
-              rows={3}
-            />
-          </Grid>
+          {hasOtherBenefits && (
+            <React.Fragment>
+              <Grid item xs={12}>
+                <CustomSelectAutoComplete
+                  id='facilities'
+                  label={messages['common.facilities']}
+                  control={control}
+                  options={facilities}
+                  optionTitleProp={['title']}
+                  optionValueProp={'id'}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFormToggleButtonGroup
+                  id={'salary_review'}
+                  label={messages['common.salary_review']}
+                  buttons={[
+                    {
+                      value: SalaryReviewType.HALF_YEARLY,
+                      label: messages['common.half_yearly'],
+                    },
+                    {
+                      value: SalaryReviewType.YEARLY,
+                      label: messages['common.yearly'],
+                    },
+                  ]}
+                  control={control}
+                  errorInstance={errors}
+                  multiSelect={false}
+                  defaultValue={SalaryReviewType.YEARLY}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFormToggleButtonGroup
+                  id={'lunch_facilities'}
+                  label={messages['common.lunch_facilities']}
+                  buttons={[
+                    {
+                      value: LunchFacilityType.PARTIALLY_SUBSIDIZE,
+                      label: messages['common.partially_subsidize'],
+                    },
+                    {
+                      value: LunchFacilityType.FULL_SUBSIDIZE,
+                      label: messages['common.full_subsidize'],
+                    },
+                  ]}
+                  control={control}
+                  errorInstance={errors}
+                  multiSelect={false}
+                  defaultValue={LunchFacilityType.FULL_SUBSIDIZE}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <CustomFilterableFormSelect
+                  isLoading={false}
+                  id='festival_bonus'
+                  label={messages['common.festival_bonus']}
+                  options={numberOfFestivalBonus}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title', 'title_en']}
+                  control={control}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomTextInput
+                  id='others'
+                  label={messages['common.others']}
+                  register={register}
+                  errorInstance={errors}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+            </React.Fragment>
+          )}
         </Grid>
         <Box display={'flex'} justifyContent={'space-between'} mt={3}>
           <Button onClick={onBack} variant={'outlined'} color={'primary'}>

@@ -8,18 +8,20 @@ import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {ServiceTypes} from '../enums/ServiceTypes';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
-import {EmploymentStatus} from '../enums/EmploymentStatus';
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import {
   addMonths,
   getMomentDateFormat,
 } from '../../../../@softbd/utilities/helpers';
 import {Error} from '@mui/icons-material';
-import {ResumeReceivingOptions} from '../enums/ResumeReceivingOptions';
+import {
+  ServiceTypes,
+  EmploymentStatus,
+  ResumeReceivingOptions,
+} from '../enums/JobPostEnums';
 import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
 
 interface Props {
