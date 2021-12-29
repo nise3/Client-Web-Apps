@@ -17,8 +17,7 @@ import {styled} from '@mui/material/styles';
 import {S2} from '../../../../@softbd/elements/common';
 import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import MatchingCriteriaFormItem from './components/MatchingCriteriaFormItem';
-import {Gender} from '../enums/Gender';
-import {JobLevel} from '../enums/JobLevel';
+import {Gender, JobLevel} from '../enums/JobPostEnums';
 
 interface Props {
   onBack: () => void;
