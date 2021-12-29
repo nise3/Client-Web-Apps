@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Button, Chip, Divider, Grid, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -23,8 +23,13 @@ import {
   ServiceTypes,
 } from '../enums/JobPostEnums';
 import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
+import {useFetchJobSectors} from '../../../../../services/organaizationManagement/hooks';
+import RowStatus from '../../../../../@softbd/utilities/RowStatus';
+import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
+import {getAllOccupations} from '../../../../../services/organaizationManagement/OccupationService';
 
 interface Props {
+  jobId: string;
   onContinue: () => void;
 }
 
@@ -50,7 +55,7 @@ const initialValue = {
   is_photograph_enclose_with_resume: false,
 };
 
-const PrimaryJobInformation = ({onContinue}: Props) => {
+const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const [isNotApplicable, setIsNotApplicable] = useState<boolean>(false);
@@ -58,6 +63,10 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
     number | null
   >(ResumeReceivingOptions.EMAIL);
   const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
+  const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: jobSectors, isLoading}: any =
+    useFetchJobSectors(jobSectorFilters);
+  const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -135,6 +144,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       console.log('data', data);
+      data.job_id = jobId;
       //do data save work here
       //const response = await savePrimaryJobInformation(data);
       successStack('Data saved successfully');
@@ -143,6 +153,22 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
+  const onJobSectorChange = useCallback(async (jobSectorId: number | null) => {
+    if (jobSectorId) {
+      try {
+        const response = await getAllOccupations({
+          row_status: RowStatus.ACTIVE,
+          job_sector_id: jobSectorId,
+        });
+        setOccupations(response.data);
+      } catch (e) {
+        setOccupations([]);
+      }
+    } else {
+      setOccupations([]);
+    }
+  }, []);
 
   return (
     <Box mt={2}>
@@ -229,12 +255,13 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               required
               id='job_sector_id'
               label={messages['job_sectors.label']}
-              isLoading={false}
+              isLoading={isLoading}
               control={control}
-              options={[]}
+              options={jobSectors}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
+              onChange={onJobSectorChange}
             />
           </Grid>
 
@@ -245,7 +272,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               label={messages['occupations.label']}
               isLoading={false}
               control={control}
-              options={[]}
+              options={occupations}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}

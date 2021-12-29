@@ -85,6 +85,7 @@ const JobPostingView = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const {postStep, jobId} = router.query;
+  const [jobIdState] = useState<string | null>(jobId ? String(jobId) : null);
   const [activeStep, setActiveStep] = useState<number>(1);
   const [completedSteps] = useState<any>([1, 2, 3, 4, 5]);
   const [isValid, setIsValid] = useState(true);
@@ -134,33 +135,73 @@ const JobPostingView = () => {
   };
 
   const getCurrentStepForm = useCallback(() => {
-    switch (activeStep) {
-      case 1:
-        return <PrimaryJobInformation onContinue={handleNext} />;
-      case 2:
-        return (
-          <MoreJobInformation onBack={handleBack} onContinue={handleNext} />
-        );
-      case 3:
-        return (
-          <CandidateRequirements onBack={handleBack} onContinue={handleNext} />
-        );
-      case 4:
-        return (
-          <CompanyInfoVisibility onBack={handleBack} onContinue={handleNext} />
-        );
-      case 5:
-        return <MatchingCriteria onBack={handleBack} onContinue={handleNext} />;
-      case 6:
-        return (
-          <ContactInformation onBack={handleBack} onContinue={handleNext} />
-        );
-      case 7:
-        return <PreviewJob onBack={handleBack} onContinue={handleNext} />;
-      case 8:
-        return <CompleteJobPost onBack={handleBack} onContinue={handleNext} />;
-      default:
-        return <></>;
+    if (jobIdState) {
+      switch (activeStep) {
+        case 1:
+          return (
+            <PrimaryJobInformation jobId={jobIdState} onContinue={handleNext} />
+          );
+        case 2:
+          return (
+            <MoreJobInformation
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        case 3:
+          return (
+            <CandidateRequirements
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        case 4:
+          return (
+            <CompanyInfoVisibility
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        case 5:
+          return (
+            <MatchingCriteria
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        case 6:
+          return (
+            <ContactInformation
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        case 7:
+          return (
+            <PreviewJob
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        case 8:
+          return (
+            <CompleteJobPost
+              jobId={jobIdState}
+              onBack={handleBack}
+              onContinue={handleNext}
+            />
+          );
+        default:
+          return <></>;
+      }
+    } else {
+      return <></>;
     }
   }, [activeStep]);
 

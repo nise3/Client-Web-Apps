@@ -13,11 +13,12 @@ import {Help} from '@mui/icons-material';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
 
-const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
+const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);
