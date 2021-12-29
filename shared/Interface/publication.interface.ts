@@ -1,19 +1,12 @@
-import {
-  IDeleteAt,
-  IidTitleCreateUpdateAt,
-  IRowStatus,
-} from './common.interface';
+import {IIdTitleCreateUpdateAt} from './common.interface';
 
-export interface IPublication
-  extends IidTitleCreateUpdateAt,
-    IRowStatus,
-    IDeleteAt {
+export interface IPublication extends IIdTitleCreateUpdateAt {
   author: string;
   author_en?: string;
   description: string;
   description_en?: string;
-  industry_association_id: number;
+  industry_association_id: string | number;
   image_path?: string;
-  //row_status: string;
-  //deleted_at?: string;
+  row_status?: string;
+  deleted_at?: string;
 }
