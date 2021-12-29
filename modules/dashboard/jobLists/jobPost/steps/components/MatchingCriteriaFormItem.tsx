@@ -1,9 +1,9 @@
 import React from 'react';
-import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
+import CustomFormSwitch from '../../../../../../@softbd/elements/input/CustomFormSwitch';
 import {Box, Tooltip, Typography} from '@mui/material';
 import {Help} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {Body2, Link} from '../../../../../@softbd/elements/common';
+import {Body2, Link} from '../../../../../../@softbd/elements/common';
 
 interface Props {
   id: string;
