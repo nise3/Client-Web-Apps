@@ -1,10 +1,6 @@
-import {
-  IidTitleCreateUpdateAt,
-  IidTitles,
-  IRowStatus,
-} from './common.interface';
+import {IIdTitleCreateUpdateAt, IIdTitles} from './common.interface';
 
-export interface IJobSectorDto extends IidTitleCreateUpdateAt, IRowStatus {
-  //row_status?: number | string;
+export interface IJobSectorDto extends IIdTitleCreateUpdateAt {
+  row_status?: number | string;
 }
-export interface IJobSector extends IJobSectorDto, IidTitles {}
+export interface IJobSector extends IJobSectorDto, IIdTitles {}
