@@ -8,14 +8,14 @@ import {
   Typography,
 } from '@mui/material';
 import {useIntl} from 'react-intl';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import yup from '../../../../@softbd/libs/yup';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import yup from '../../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../../@softbd/utilities/validationErrorHandler';
 import {styled} from '@mui/material/styles';
-import {S2} from '../../../../@softbd/elements/common';
-import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {S2} from '../../../../../@softbd/elements/common';
+import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import MatchingCriteriaFormItem from './components/MatchingCriteriaFormItem';
 import {Gender, JobLevel} from '../enums/JobPostEnums';
 

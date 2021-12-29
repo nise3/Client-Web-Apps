@@ -1,18 +1,10 @@
-import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
-import {API_JOB_LISTS} from '../../@softbd/common/apiRoutes';
+import {apiDelete, apiPost} from '../../@softbd/common/api';
+import {API_JOB_ID, API_JOB_LISTS} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-export const createJob = async (data: any) => {
-  try {
-    let response: any = await apiPost(API_JOB_LISTS, data);
-    return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
 
-export const updateJob = async (branchId: number, data: any) => {
+export const getJobId = async () => {
   try {
-    let response: any = await apiPut(API_JOB_LISTS + '/' + branchId, data);
+    let response: any = await apiPost(API_JOB_ID);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

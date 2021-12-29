@@ -1,22 +1,22 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import yup from '../../../../@softbd/libs/yup';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import yup from '../../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../../../@softbd/utilities/validationErrorHandler';
 import {Box, Button, Grid, Typography} from '@mui/material';
-import CustomEducationalQualificationFieldArray from '../CustomFieldArrayJobRequirements';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
-import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
+import CustomEducationalQualificationFieldArray from './components/CustomFieldArrayJobRequirements';
+import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import FormRadioButtons from '../../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomFormToggleButtonGroup from '../../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
 import {Gender} from '../enums/JobPostEnums';
-import CustomAddFilterableFormSelect from '../CustomAddFilterableFormSelect';
+import CustomAddFilterableFormSelect from './components/CustomAddFilterableFormSelect';
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';
-import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
+import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
 
 interface Props {
   onBack: () => void;
@@ -29,26 +29,19 @@ const ages: Array<any> = [];
 for (let i = 1; i <= 50; i++) experienceYears.push({id: i, title: i});
 for (let i = 14; i <= 90; i++) ages.push({id: i, title: i});
 
+const demoOptions = [
+  {id: 1, title: 'BGC Trust'},
+  {id: 2, title: 'Test 1'},
+  {id: 3, title: 'Test 2'},
+  {id: 4, title: 'Test 3'},
+];
+
 const CandidateRequirements = ({onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [isFresherApplicable, setIsFresherApplicable] =
     useState<boolean>(false);
   const [notExperienced, setNotExperienced] = useState<boolean>(true);
-  const demoOptions = [
-    {
-      id: 1,
-      title: 'test1',
-    },
-    {
-      id: 2,
-      title: 'test2',
-    },
-    {
-      id: 3,
-      title: 'test3',
-    },
-  ];
 
   const onChangeIsExperienced = (value: any) => {
     setNotExperienced((prev) => !prev);
@@ -118,8 +111,9 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               id='preferred_educational_institute'
               label={messages['common.preferred_educational_institute']}
               control={control}
-              optionValueProp={'id'}
               errorInstance={errors}
+              optionTitleProp={['title']}
+              options={demoOptions}
             />
           </Grid>
           <Grid item xs={12}>
@@ -138,9 +132,8 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               id='training_trade_course'
               label={messages['common.training_courses']}
               control={control}
+              optionTitleProp={['title']}
               options={demoOptions}
-              optionTitleProp={['title', 'title_en']}
-              optionValueProp={'id'}
               errorInstance={errors}
             />
           </Grid>
@@ -149,9 +142,8 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
               id='professional_certification'
               label={messages['common.professional_certification']}
               control={control}
+              optionTitleProp={['title']}
               options={demoOptions}
-              optionTitleProp={['title', 'title_en']}
-              optionValueProp={'id'}
               errorInstance={errors}
             />
           </Grid>
@@ -225,8 +217,8 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
                   label={messages['common.area_of_experience']}
                   isLoading={false}
                   control={control}
-                  optionValueProp={'id'}
                   optionTitleProp={['title']}
+                  options={demoOptions}
                   errorInstance={errors}
                 />
               </Grid>
@@ -236,8 +228,8 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
                   label={messages['common.area_of_business']}
                   isLoading={false}
                   control={control}
-                  optionValueProp={'id'}
                   optionTitleProp={['title']}
+                  options={demoOptions}
                   errorInstance={errors}
                 />
               </Grid>
@@ -247,8 +239,8 @@ const CandidateRequirements = ({onBack, onContinue}: Props) => {
                   label={messages['common.skills']}
                   isLoading={false}
                   control={control}
-                  optionValueProp={'id'}
                   optionTitleProp={['title']}
+                  options={demoOptions}
                   errorInstance={errors}
                 />
               </Grid>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {S2} from '../../../../../@softbd/elements/common';
+import {S2} from '../../../../../../@softbd/elements/common';
 import {Box} from '@mui/material';
 
 interface Props {
