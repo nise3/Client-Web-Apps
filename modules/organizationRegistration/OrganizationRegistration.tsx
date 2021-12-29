@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Grid, Paper, Typography} from '@mui/material';
@@ -30,8 +30,7 @@ import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {useRouter} from 'next/router';
 import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 import {classes, StyledContainer} from './Registration.style';
-import {District, Upazila} from '../../shared/Interface/location.interface';
-import CustomIndustryFieldArray from './CustomIndustryFieldArray';
+import {IDistrict, IUpazila} from '../../shared/Interface/location.interface';
 
 const OrganizationRegistration = () => {
   const router = useRouter();
@@ -57,8 +56,8 @@ const OrganizationRegistration = () => {
     organizationTypesFilter,
   );
 
-  const [districtList, setDistrictList] = useState<Array<District> | []>([]);
-  const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
+  const [districtList, setDistrictList] = useState<Array<IDistrict> | []>([]);
+  const [upazilaList, setUpazilaList] = useState<Array<IUpazila> | []>([]);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -112,7 +111,7 @@ const OrganizationRegistration = () => {
         .trim()
         .required()
         .label(messages['common.contact_person_designation'] as string),
-      member_id: yup.array(),
+      // member_id: yup.array(),
       contact_person_email: yup
         .string()
         .trim()
@@ -148,15 +147,14 @@ const OrganizationRegistration = () => {
     register,
     handleSubmit,
     setError,
-    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  useEffect(() => {
+  /*useEffect(() => {
     setValue('array_field', [{member_id: '', association_id: ''}]);
-  }, []);
+  }, []);*/
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('data--', data);
+    console.log('data - ', data);
 
     try {
       await organizationRegistration(data);
@@ -271,7 +269,7 @@ const OrganizationRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item container xs={12} md={12}>
+            {/* <Grid item container xs={12} md={12}>
               <CustomIndustryFieldArray
                 id='array_field'
                 labelLanguageId={[
@@ -284,7 +282,7 @@ const OrganizationRegistration = () => {
                 errors={errors}
                 options={divisions}
               />
-            </Grid>
+            </Grid>*/}
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
