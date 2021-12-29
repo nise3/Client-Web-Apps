@@ -215,6 +215,12 @@ export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
 
 export const API_JOB_LISTS = INDUSTRY_SERVICE_PATH + '/job-lists';
+export const API_JOB = INDUSTRY_SERVICE_PATH + '/job';
+export const API_JOB_ID = API_JOB + '/job-id';
+export const API_JOB_STORE_PRIMARY_INFORMATION =
+  API_JOB + '/store-primary-job-information';
+export const API_JOB_STORE_ADDITIONAL_INFORMATION =
+  API_JOB + '/store-additional-job-information';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   INDUSTRY_SERVICE_PATH + '/hr-demand';

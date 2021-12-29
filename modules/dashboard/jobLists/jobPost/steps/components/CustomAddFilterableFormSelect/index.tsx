@@ -2,9 +2,9 @@ import React from 'react';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import {Autocomplete, Chip, FormControl, TextField} from '@mui/material';
 import {Controller} from 'react-hook-form';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import TextInputSkeleton from '../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import TextInputSkeleton from '../../../../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
 type Props = {
   id: string;
@@ -16,7 +16,6 @@ type Props = {
   options?: Array<any>;
   errorInstance?: any;
   defaultValue?: number | Array<string>;
-  optionValueProp?: any;
   optionTitleProp?: Array<string>;
   onChange?: (e: any) => any;
   isDisabled?: boolean;
@@ -34,7 +33,6 @@ const CustomAddFilterableFormSelect = ({
   onChange: onChangeCallback,
   defaultValue,
   options,
-  optionValueProp,
   optionTitleProp,
 }: Props) => {
   const {messages} = useIntl();
@@ -46,6 +44,24 @@ const CustomAddFilterableFormSelect = ({
         {required && <span style={{color: '#dd4744'}}> *</span>}
       </>
     );
+  };
+
+  const getTitle = (
+    option: any,
+    optionTitleProp: Array<string> | undefined,
+  ) => {
+    let title = '';
+    if (option && optionTitleProp) {
+      let arr = [];
+      for (let i = 0; i < optionTitleProp.length; i++) {
+        arr.push(option[optionTitleProp[i]]);
+      }
+
+      title = arr.join('-').split('').join('');
+      title = title[0] == '-' ? title.slice(1) : title;
+    }
+
+    return title;
   };
 
   let errorObj = errorInstance?.[id];
@@ -64,26 +80,35 @@ const CustomAddFilterableFormSelect = ({
           <Autocomplete
             multiple
             noOptionsText={messages['common.no_data_found']}
-            options={demo.map((option) => option.title)}
+            options={options || []}
             freeSolo
             onChange={(event, selected) => {
-              //const value = selected ? selected[optionValueProp] : '';
               onChange(selected);
               if (onChangeCallback && typeof onChangeCallback === 'function') {
                 onChangeCallback(selected);
               }
             }}
             renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <React.Fragment key={index}>
-                  <Chip
-                    variant='filled'
-                    label={option}
-                    {...getTagProps({index})}
-                  />
-                </React.Fragment>
-              ))
+              value.map((option, index) => {
+                let label = option;
+                if (label instanceof Object) {
+                  label = getTitle(option, optionTitleProp);
+                }
+
+                return (
+                  <React.Fragment key={index}>
+                    <Chip
+                      variant='filled'
+                      label={label}
+                      {...getTagProps({index})}
+                    />
+                  </React.Fragment>
+                );
+              })
             }
+            getOptionLabel={(item) => {
+              return getTitle(item, optionTitleProp);
+            }}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -115,10 +140,5 @@ const CustomAddFilterableFormSelect = ({
     </FormControl>
   );
 };
-const demo = [
-  {title: 'The Shawshank Redemption', year: 1994},
-  {title: 'The Godfather', year: 1972},
-  {title: 'The Godfather: Part II', year: 1974},
-  {title: 'The Dark Knight', year: 2008},
-];
+
 export default CustomAddFilterableFormSelect;

@@ -1,30 +1,29 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import yup from '../../../../@softbd/libs/yup';
+import yup from '../../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Grid, Tooltip, Typography} from '@mui/material';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import {Body1, Body2, S2} from '../../../../@softbd/elements/common';
-import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import CustomSelectAutoComplete from '../../../youth/registration/CustomSelectAutoComplete';
-import ToggleButton from '@mui/material/ToggleButton';
-import CheckIcon from '@mui/icons-material/Check';
+import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {processServerSideErrors} from '../../../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import {Body1, Body2, S2} from '../../../../../@softbd/elements/common';
+import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomSelectAutoComplete from '../../../../youth/registration/CustomSelectAutoComplete';
 import {HelpOutlined, HorizontalRule} from '@mui/icons-material';
-import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
-import {JobLevel} from '../enums/JobPostEnums';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import FormRadioButtons from '../../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomFormToggleButtonGroup from '../../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
 import {
+  JobLevel,
   LunchFacilityType,
   OtherBenefit,
   SalaryReviewType,
   SalaryShowOption,
 } from '../enums/JobPostEnums';
+import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
@@ -86,9 +85,11 @@ const facilities = [
   },
 ];
 
-const MoreJobInformation = ({onBack, onContinue}: Props) => {
+const initialValue = {};
+
+const MoreJobInformation = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
 
   const [isWorkAtOffice, setIsWorkAtOffice] = useState<boolean>(false);
   const [isWorkFromHome, setIsWorkFromHome] = useState<boolean>(false);
@@ -98,24 +99,53 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
   const [hasOtherBenefits, setHasOtherBenefits] = useState<boolean>(true);
 
   const validationSchema = useMemo(() => {
-    return yup.object().shape({});
+    return yup.object().shape({
+      job_level: yup
+        .array()
+        .of(yup.number())
+        .min(1)
+        .label(messages['label.job_level'] as string),
+      job_responsibilities: yup
+        .string()
+        .required()
+        .label(messages['common.job_responsibility'] as string),
+      job_location: yup
+        .array()
+        .of(yup.number())
+        .min(1)
+        .label(messages['common.job_location'] as string),
+      salary_min: yup
+        .number()
+        .required()
+        .label(messages['label.min_salary'] as string),
+      salary_max: yup
+        .number()
+        .required()
+        .label(messages['label.max_salary'] as string),
+    });
   }, [messages]);
   const {
     register,
     setError,
     control,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    reset(initialValue);
+  }, []);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       console.log('data-->', data);
-
+      data.job_id = jobId;
       //do data save work here
-
+      //const response = await saveAdditionalJobInformation(data);
+      successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -166,10 +196,21 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
               rows={3}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='job_context_en'
+              label={messages['common.job_context_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+              multiline={true}
+              rows={3}
+            />
+          </Grid>
 
           <Grid item xs={12} md={6}>
             <CustomTextInput
-              id='job_responsibility'
+              id='job_responsibilities'
               label={messages['common.job_responsibility']}
               register={register}
               errorInstance={errors}
@@ -179,21 +220,21 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='job_responsibilities_en'
+              label={messages['common.job_responsibility_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+              multiline={true}
+              rows={3}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Body1>{messages['common.workplace']}</Body1>
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+            <Box display={'flex'}>
               <CustomCheckbox
-                id='workplace[work_at_office]'
-                label={messages['common.work_at_office']}
-                register={register}
-                errorInstance={errors}
-                checked={isWorkAtOffice}
-                onChange={() => {
-                  setIsWorkAtOffice((prev) => !prev);
-                }}
-                isLoading={false}
-              />
-              <CustomCheckbox
-                id='workplace[work_from_home]'
+                id='work_place[0]'
                 label={messages['common.work_from_home']}
                 register={register}
                 errorInstance={errors}
@@ -203,24 +244,37 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                 }}
                 isLoading={false}
               />
+              <CustomCheckbox
+                id='work_place[1]'
+                label={messages['common.work_at_office']}
+                register={register}
+                errorInstance={errors}
+                checked={isWorkAtOffice}
+                onChange={() => {
+                  setIsWorkAtOffice((prev) => !prev);
+                }}
+                isLoading={false}
+              />
             </Box>
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Body1>{messages['common.job_location']}</Body1>
-            <ToggleButton
-              size={'small'}
-              sx={{mb: '20px'}}
-              value='check'
-              selected={true}
-              onChange={() => {
-                console.log('selected!');
-              }}>
-              <CheckIcon sx={{mr: '10px'}} /> {messages['label.inside_bd']}
-            </ToggleButton>
+            <CustomFormToggleButtonGroup
+              id={'job_place_type'}
+              label={''}
+              buttons={[
+                {
+                  value: 1,
+                  label: messages['label.inside_bd'],
+                },
+              ]}
+              control={control}
+              errorInstance={errors}
+              defaultValue={1}
+            />
             <CustomSelectAutoComplete
               id='job_location'
-              label=''
+              label={messages['common.job_location']}
               control={control}
               options={[]}
               optionTitleProp={['title']}
@@ -229,11 +283,17 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'flex-end'}>
             <Body1 sx={{mb: '10px'}}>{messages['industry.salary']}</Body1>
             <Box sx={{display: 'flex'}} justifyContent={'space-between'}>
               <CustomTextInput
-                id='min_salary'
+                id='salary_min'
                 label={messages['label.min_salary']}
                 register={register}
                 errorInstance={errors}
@@ -241,7 +301,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
               />
               <HorizontalRule fontSize={'small'} sx={{margin: 'auto'}} />
               <CustomTextInput
-                id='max_salary'
+                id='salary_max'
                 label={messages['label.max_salary']}
                 register={register}
                 errorInstance={errors}
@@ -251,76 +311,79 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                 Monthly
               </Body2>
             </Box>
-            <Box sx={{mt: '20px'}}>
-              <FormRadioButtons
-                id='salary_details_option'
-                label={'label.salary_details_option'}
-                radios={[
-                  {
-                    key: SalaryShowOption.SALARY,
-                    label: messages['label.show_salary'],
-                  },
-                  {
-                    key: SalaryShowOption.NOTHING,
-                    label: messages['label.show_nothing'],
-                  },
-                  {
-                    key: SalaryShowOption.NEGOTIABLE,
-                    label: messages['label.show_negotiable'],
-                  },
-                ]}
-                control={control}
-                defaultValue={SalaryShowOption.SALARY}
-                isLoading={false}
-              />
-            </Box>
-            <Box sx={{mt: '10px'}}>
-              <S2
-                color={'grey.500'}
-                sx={{
-                  fontWeight: '400',
-                }}>
-                {messages['label.compare_provided_expected_salary']}
-              </S2>
-              <CustomCheckbox
-                id='alert_salary_range'
-                label={messages['common.yes']}
-                register={register}
-                errorInstance={errors}
-                checked={isCompareProvidedExpectedSalary}
-                onChange={() => {
-                  setIsCompareProvidedExpectedSalary((prev) => !prev);
-                }}
-                isLoading={false}
-              />
-            </Box>
-            <Box sx={{my: '10px'}}>
-              <FormRadioButtons
-                id='alert_salary_range'
-                label={'label.alert_salary_range'}
-                radios={[
-                  {
-                    key: '1',
-                    label: messages['common.yes'],
-                  },
-                  {
-                    key: '2',
-                    label: messages['common.no'],
-                  },
-                ]}
-                control={control}
-                // defaultValue={'1'}
-                isLoading={false}
-              />
-              <Tooltip
-                title={messages['label.alert_salary_range_tooltips_text']}
-                placement='top'>
-                <HelpOutlined />
-              </Tooltip>
-            </Box>
           </Grid>
 
           <Grid item xs={12}>
+            <FormRadioButtons
+              id='is_salary_info_show'
+              label={'label.salary_details_option'}
+              radios={[
+                {
+                  key: SalaryShowOption.SALARY,
+                  label: messages['label.show_salary'],
+                },
+                {
+                  key: SalaryShowOption.NOTHING,
+                  label: messages['label.show_nothing'],
+                },
+                {
+                  key: SalaryShowOption.NEGOTIABLE,
+                  label: messages['label.show_negotiable'],
+                },
+              ]}
+              control={control}
+              defaultValue={SalaryShowOption.SALARY}
+              isLoading={false}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <S2
+              color={'grey.500'}
+              sx={{
+                fontWeight: '400',
+              }}>
+              {messages['label.compare_provided_expected_salary']}
+            </S2>
+            <CustomCheckbox
+              id='is_salary_compare_to_expected_salary'
+              label={messages['common.yes']}
+              register={register}
+              errorInstance={errors}
+              checked={isCompareProvidedExpectedSalary}
+              onChange={() => {
+                setIsCompareProvidedExpectedSalary((prev) => !prev);
+              }}
+              isLoading={false}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormRadioButtons
+              id='is_salary_alert_excessive_than_given_salary_range'
+              label={'label.alert_salary_range'}
+              radios={[
+                {
+                  key: '1',
+                  label: messages['common.yes'],
+                },
+                {
+                  key: '2',
+                  label: messages['common.no'],
+                },
+              ]}
+              control={control}
+              // defaultValue={'1'}
+              isLoading={false}
+            />
+            <Tooltip
+              title={messages['label.alert_salary_range_tooltips_text']}
+              placement='top'>
+              <HelpOutlined />
+            </Tooltip>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
             <CustomTextInput
               id='additional_salary_info'
               label={messages['label.additional_salary_info']}
@@ -332,8 +395,19 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='additional_salary_info_en'
+              label={messages['label.additional_salary_info_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+              multiline={true}
+              rows={3}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <CustomFormToggleButtonGroup
-              id={'compensation_other_benefits'}
+              id={'is_other_benefits'}
               label={messages['common.compensation_other_benefits']}
               buttons={[
                 {
@@ -359,7 +433,7 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
             <React.Fragment>
               <Grid item xs={12}>
                 <CustomSelectAutoComplete
-                  id='facilities'
+                  id='other_benefits'
                   label={messages['common.facilities']}
                   control={control}
                   options={facilities}
@@ -421,10 +495,20 @@ const MoreJobInformation = ({onBack, onContinue}: Props) => {
                   errorInstance={errors}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id='others'
                   label={messages['common.others']}
+                  register={register}
+                  errorInstance={errors}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='others_en'
+                  label={messages['common.others_en']}
                   register={register}
                   errorInstance={errors}
                   multiline={true}
