@@ -288,7 +288,7 @@
   "organization_type.is_government": "সরকারী?",
   "occupations.label": "পেশা",
   "job_sectors.label": "চাকরির খাত",
-  "job_requirement_list.label": "চাকরির প্রয়োজনীয়তা",
+  "job_requirement.label": "চাকরির প্রয়োজনীয়তা",
   "divisions.label": "বিভাগ",
   "organization.label": "সংস্থা",
   "organization_type.label": "সংস্থার ধরন",
