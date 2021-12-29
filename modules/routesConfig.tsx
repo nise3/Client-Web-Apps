@@ -344,6 +344,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/jobs',
           },
+          {
+            id: 'job-requirements',
+            title: 'Job Requirement List',
+            messageId: 'job_requirement_list.label',
+            permissionKey: 'view_any_job_requirement',
+            type: 'item',
+            icon: 'timeline',
+            url: '/job-requirement-list'
+          }
         ],
       },
       {
