@@ -16,6 +16,7 @@ interface Props {
   defaultChecked?: boolean;
   isLoading?: boolean;
   checkBoxComponent?: React.ReactNode;
+  onChange?: (e: any) => any;
 }
 
 const MatchingCriteriaFormItem = ({
@@ -29,6 +30,7 @@ const MatchingCriteriaFormItem = ({
   defaultChecked = false,
   isLoading = false,
   checkBoxComponent,
+  onChange: onChangeCallback,
 }: Props) => {
   const {messages} = useIntl();
 
@@ -60,6 +62,11 @@ const MatchingCriteriaFormItem = ({
         register={register}
         defaultChecked={defaultChecked}
         isLoading={isLoading}
+        onChange={(value: boolean) => {
+          if (onChangeCallback && typeof onChangeCallback === 'function') {
+            onChangeCallback(value);
+          }
+        }}
       />
       <Box ml={3} display={'inline-block'}>
         {checkBoxComponent ? checkBoxComponent : <>&nbsp;</>}

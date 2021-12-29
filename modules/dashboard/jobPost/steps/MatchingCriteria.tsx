@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
   Box,
   Button,
@@ -76,6 +76,8 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
     skillValue: null,
   });
   const [progress, setProgress] = useState<number>(0);
+  const totalField = useRef<number>(9);
+  const [selectedCount, setSelectedCount] = useState<number>(0);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({});
@@ -106,6 +108,10 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
       setCriteriaValue(criteria);
     }
   }, [data]);
+
+  useEffect(() => {
+    setProgress(Math.floor((selectedCount * 100) / totalField.current));
+  }, [selectedCount]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
@@ -261,11 +267,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Age" as matching criteria for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={getAge()}
+              additionalValue={criteriaValue.ageValue}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
               checkBoxComponent={
                 <CustomCheckbox
                   id='age_mandatory'
@@ -291,11 +302,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Job Location(Current/ Permanent)" for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={data?.job_location}
+              additionalValue={criteriaValue.jobLocation}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
               checkBoxComponent={
                 <CustomCheckbox
                   id='job_location_mandatory'
@@ -321,11 +337,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'If you select "Total year of experience", it will match with applicant'
               }
               register={register}
-              additionalValue={data?.job_location}
+              additionalValue={criteriaValue.totalExperience}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
               checkBoxComponent={
                 <CustomCheckbox
                   id='total_experience_mandatory'
@@ -354,11 +375,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Salary" as matching criteria for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={getSalary()}
+              additionalValue={criteriaValue.salary}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -369,11 +395,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Gender" for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={getGender()}
+              additionalValue={criteriaValue.gender}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
               checkBoxComponent={
                 <CustomCheckbox
                   id='gender_mandatory'
@@ -399,11 +430,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Your selected business area will match with candidate`s current working "business area" or their preferable business area.'
               }
               register={register}
-              additionalValue={getBusinessArea()}
+              additionalValue={criteriaValue.businessAreaValue}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -414,11 +450,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Work area" for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={getExperienceArea()}
+              additionalValue={criteriaValue.experienceAreaValue}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -429,11 +470,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Job level" as matching criteria for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={getJobLevel()}
+              additionalValue={criteriaValue.jobLevelValue}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -444,11 +490,16 @@ const MatchingCriteria = ({onBack, onContinue}: Props) => {
                 'Select "Skills" for more authentic/accurate matching.'
               }
               register={register}
-              additionalValue={getSkills()}
+              additionalValue={criteriaValue.skillValue}
               linkAdd={''}
               linkEdit={''}
               isLoading={false}
               defaultChecked={false}
+              onChange={(value: boolean) => {
+                setSelectedCount((prev) => {
+                  return value ? prev + 1 : prev - 1;
+                });
+              }}
             />
           </Grid>
         </Grid>
