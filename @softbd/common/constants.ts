@@ -5,7 +5,7 @@ export const PERMISSION_GROUP_INSTITUTE_KEY = 'institute';
 export const HIERARCHY_NODE_ID_PREFIX_STRING = 'm';
 export const GOOGLE_MAP_API_KEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
 
-const isLocalHost = () =>
+export const isLocalHost = () =>
   typeof window !== 'undefined' && window?.location?.hostname
     ? location.hostname === 'localhost' || location.hostname === '127.0.0.1'
     : '';

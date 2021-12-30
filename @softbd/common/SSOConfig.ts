@@ -1,6 +1,6 @@
 import {ParsedUrlQuery} from 'querystring';
 import {getBrowserCookie} from '../libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ID_TOKEN} from '../../shared/constants/AppConst';
+import {COOKIE_KEY_AUTH_ID_TOKEN, IS_LOCAL_IDP} from '../../shared/constants/AppConst';
 import {niseDomain} from './constants';
 
 interface TConfig {
@@ -13,11 +13,11 @@ interface TConfig {
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: 'https://bus-staging.softbdltd.com/oauth2/authorize/',
-  logoutUrl: 'https://bus-staging.softbdltd.com/oidc/logout',
-  tokenUrl: 'https://bus-staging.softbdltd.com/oauth2/token',
-  clientKey: 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
-  clientSecret: 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
+  authUrl: IS_LOCAL_IDP ? 'https://192.168.13.206:9448/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  logoutUrl: IS_LOCAL_IDP ? 'https://192.168.13.206:9448/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
+  tokenUrl: IS_LOCAL_IDP ? 'https://192.168.13.206:9448/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
+  clientKey: IS_LOCAL_IDP ? 'FoYnKgvzdAwUGgyfDjj4torgkYYa' : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
+  clientSecret: IS_LOCAL_IDP ? 'pASKCuZCu_w7erAsWNkCZHMHMv8a' : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
   callbackUrl: '/callback',
 };
 
