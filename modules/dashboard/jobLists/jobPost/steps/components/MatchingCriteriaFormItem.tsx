@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomFormSwitch from '../../../../../../@softbd/elements/input/CustomFormSwitch';
-import {Box, Tooltip, Typography} from '@mui/material';
+import {Box, Tooltip} from '@mui/material';
 import {Help} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {Body2, Link} from '../../../../../../@softbd/elements/common';
@@ -43,19 +43,21 @@ const MatchingCriteriaFormItem = ({
       }}>
       <CustomFormSwitch
         id={id}
-        label={
-          <Typography display={'flex'} alignItems={'center'}>
-            {label}
-            {tooltipText && (
-              <Tooltip arrow title={tooltipText}>
-                <Help
-                  sx={{
-                    marginLeft: '8px',
-                  }}
-                />
-              </Tooltip>
-            )}
-          </Typography>
+        label={label}
+        additionalInfo={
+          tooltipText && (
+            <Tooltip
+              arrow
+              title={
+                additionalValue ? label + ': ' + additionalValue : tooltipText
+              }>
+              <Help
+                sx={{
+                  marginLeft: '8px',
+                }}
+              />
+            </Tooltip>
+          )
         }
         yesLabel={messages['common.yes'] as string}
         noLabel={messages['common.no'] as string}
