@@ -1,23 +1,24 @@
 import React, {useMemo, useState} from 'react';
 import {Box, Button, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
-import yup from '../../../../@softbd/libs/yup';
+import yup from '../../../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
+import {processServerSideErrors} from '../../../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
 
-const CompanyInfoVisibility = ({onBack, onContinue}: Props) => {
+const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);

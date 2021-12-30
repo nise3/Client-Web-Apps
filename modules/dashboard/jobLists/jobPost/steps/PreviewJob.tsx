@@ -8,12 +8,13 @@ import {
   Link,
   S1,
   S2,
-} from '../../../../@softbd/elements/common';
+} from '../../../../../@softbd/elements/common';
 import JobPreviewSubComponent from './components/JobPreviewSubComponent';
 import {styled} from '@mui/material/styles';
 import {Gender, EmploymentStatus} from '../enums/JobPostEnums';
 
 interface Props {
+  jobId: string;
   onBack: () => void;
   onContinue: () => void;
 }
@@ -141,7 +142,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   },
 }));
 
-const PreviewJob = ({onBack, onContinue}: Props) => {
+const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
 
   const onReadyToProcess = () => {

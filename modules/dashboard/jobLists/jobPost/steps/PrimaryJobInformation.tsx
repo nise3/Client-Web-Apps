@@ -1,69 +1,129 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Button, Chip, Divider, Grid, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import yup from '../../../../@softbd/libs/yup';
+import yup from '../../../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
-import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
-import CustomFormToggleButtonGroup from '../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
-import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
+import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {processServerSideErrors} from '../../../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import FormRadioButtons from '../../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomFormToggleButtonGroup from '../../../../../@softbd/elements/input/CustomFormToggleButtonGroup';
+import CustomDateTimeField from '../../../../../@softbd/elements/input/CustomDateTimeField';
 import {
   addMonths,
   getMomentDateFormat,
-} from '../../../../@softbd/utilities/helpers';
+} from '../../../../../@softbd/utilities/helpers';
 import {Error} from '@mui/icons-material';
 import {
-  ServiceTypes,
   EmploymentStatus,
   ResumeReceivingOptions,
+  ServiceTypes,
 } from '../enums/JobPostEnums';
-import CustomFormSwitch from '../../../../@softbd/elements/input/CustomFormSwitch';
+import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
+import {useFetchJobSectors} from '../../../../../services/organaizationManagement/hooks';
+import RowStatus from '../../../../../@softbd/utilities/RowStatus';
+import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
+import {getAllOccupations} from '../../../../../services/organaizationManagement/OccupationService';
 
 interface Props {
+  jobId: string;
   onContinue: () => void;
 }
 
 const initialValue = {
   service_type: ServiceTypes.BASIC_LISTING,
   job_title: '',
-  employment_status: [],
-  vacancy: '',
-  not_applicable: false,
+  job_title_en: '',
+  employment_type: [],
+  no_of_vacancies: '',
+  is_number_of_vacancy_na: false,
   job_sector_id: '',
   occupation_id: '',
-  resume_receiving_status: ResumeReceivingOptions.EMAIL,
+  application_deadline: '',
+  resume_receiving_option: ResumeReceivingOptions.EMAIL,
   email: '',
-  use_nise3_email: true,
-  hard_copy: '',
-  walk_in_interview: '',
-  special_instruction: '',
+  is_use_nise3_mail_system: true,
+  instruction_for_hard_copy: '',
+  instruction_for_hard_copy_en: '',
+  instruction_for_walk_in_interview: '',
+  instruction_for_walk_in_interview_en: '',
+  special_instruction_for_job_seekers: '',
+  special_instruction_for_job_seekers_en: '',
+  is_photograph_enclose_with_resume: false,
 };
 
-const PrimaryJobInformation = ({onContinue}: Props) => {
+const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [isNotApplicable, setIsNotApplicable] = useState<boolean>(false);
   const [resumeReceivingOption, setResumeReceivingOption] = useState<
     number | null
   >(ResumeReceivingOptions.EMAIL);
   const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
+  const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
+  const {data: jobSectors, isLoading}: any =
+    useFetchJobSectors(jobSectorFilters);
+  const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      service_type: yup
+        .number()
+        .required()
+        .label(messages['job_posting.service_type'] as string),
       job_title: yup
         .string()
         .required()
         .label(messages['job_posting.job_title'] as string),
-      employment_status: yup
+      is_number_of_vacancy_na: yup
+        .boolean()
+        .required()
+        .label(messages['job_posting.not_applicable'] as string),
+      no_of_vacancies: yup
+        .mixed()
+        .label(messages['job_posting.no_of_vacancy'] as string)
+        .when('is_number_of_vacancy_na', {
+          is: true,
+          then: yup.number().required(),
+        }),
+      employment_type: yup
         .array()
         .of(yup.number())
         .min(1)
         .label(messages['job_posting.employment_status'] as string),
+      application_deadline: yup
+        .string()
+        .required()
+        .label(messages['job_posting.application_deadline'] as string),
+      resume_receiving_option: yup.number(),
+      email: yup
+        .mixed()
+        .label(messages['common.email'] as string)
+        .when('resume_receiving_option', {
+          is: (value: any) => value == ResumeReceivingOptions.EMAIL,
+          then: yup.string().trim().email().required(),
+        }),
+      instruction_for_hard_copy: yup
+        .mixed()
+        .label(messages['job_posting.hard_copy'] as string)
+        .when('resume_receiving_option', {
+          is: (value: any) => value == ResumeReceivingOptions.HARD_COPY,
+          then: yup.string().trim().required(),
+        }),
+      instruction_for_walk_in_interview: yup
+        .mixed()
+        .label(messages['job_posting.walk_in_interview'] as string)
+        .when('resume_receiving_option', {
+          is: (value: any) => value == ResumeReceivingOptions.WALK_IN_INTERVIEW,
+          then: yup.string().trim().required(),
+        }),
+      is_photograph_enclose_with_resume: yup
+        .boolean()
+        .required()
+        .label(messages['job_posting.enclose_photograph'] as string),
     });
   }, [messages]);
   const {
@@ -84,14 +144,31 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       console.log('data', data);
-
+      data.job_id = jobId;
       //do data save work here
-
+      //const response = await savePrimaryJobInformation(data);
+      successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
+  const onJobSectorChange = useCallback(async (jobSectorId: number | null) => {
+    if (jobSectorId) {
+      try {
+        const response = await getAllOccupations({
+          row_status: RowStatus.ACTIVE,
+          job_sector_id: jobSectorId,
+        });
+        setOccupations(response.data);
+      } catch (e) {
+        setOccupations([]);
+      }
+    } else {
+      setOccupations([]);
+    }
+  }, []);
 
   return (
     <Box mt={2}>
@@ -122,6 +199,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               control={control}
               defaultValue={ServiceTypes.BASIC_LISTING}
               isLoading={false}
+              required={true}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -135,11 +213,20 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='job_title_en'
+              label={messages['job_posting.job_title_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={5}>
                 <CustomTextInput
                   required={!isNotApplicable}
-                  id='vacancy'
+                  id='no_of_vacancies'
                   type={'number'}
                   label={messages['job_posting.no_of_vacancy']}
                   register={register}
@@ -150,7 +237,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               </Grid>
               <Grid item xs={12} md={7} alignItems={'center'} display={'flex'}>
                 <CustomCheckbox
-                  id='not_applicable'
+                  id='is_number_of_vacancy_na'
                   label={messages['job_posting.not_applicable']}
                   register={register}
                   errorInstance={errors}
@@ -168,12 +255,13 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               required
               id='job_sector_id'
               label={messages['job_sectors.label']}
-              isLoading={false}
+              isLoading={isLoading}
               control={control}
-              options={[]}
+              options={jobSectors}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
+              onChange={onJobSectorChange}
             />
           </Grid>
 
@@ -184,7 +272,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               label={messages['occupations.label']}
               isLoading={false}
               control={control}
-              options={[]}
+              options={occupations}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
@@ -194,7 +282,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
           <Grid item xs={12}>
             <CustomFormToggleButtonGroup
               required
-              id={'employment_status'}
+              id={'employment_type'}
               label={messages['job_posting.employment_status']}
               buttons={[
                 {
@@ -228,7 +316,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               <Grid item xs={12} md={4}>
                 <CustomDateTimeField
                   required
-                  id='deadline'
+                  id='application_deadline'
                   label={messages['job_posting.application_deadline']}
                   isLoading={false}
                   register={register}
@@ -267,7 +355,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
             </Typography>
             <Box display={'flex'}>
               <CustomFormToggleButtonGroup
-                id={'apply_online'}
+                id={'is_apply_online'}
                 label={''}
                 buttons={[
                   {
@@ -289,8 +377,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
               />
 
               <CustomFormToggleButtonGroup
-                required
-                id={'resume_receiving_status'}
+                id={'resume_receiving_option'}
                 label={''}
                 buttons={[
                   {
@@ -330,7 +417,7 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
                 }}
               />
               <CustomCheckbox
-                id='use_nise3_email'
+                id='is_use_nise3_mail_system'
                 label={messages['job_posting.use_nise3_email']}
                 register={register}
                 errorInstance={errors}
@@ -344,40 +431,65 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
           )}
 
           {resumeReceivingOption == ResumeReceivingOptions.HARD_COPY && (
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='hard_copy'
-                label={messages['job_posting.hard_copy']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-                multiline={true}
-                rows={3}
-              />
-            </Grid>
+            <React.Fragment>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='instruction_for_hard_copy'
+                  label={messages['job_posting.hard_copy']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='instruction_for_hard_copy_en'
+                  label={messages['job_posting.hard_copy_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+            </React.Fragment>
           )}
 
           {resumeReceivingOption ==
             ResumeReceivingOptions.WALK_IN_INTERVIEW && (
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='walk_in_interview'
-                label={messages['job_posting.walk_in_interview']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-                multiline={true}
-                rows={3}
-              />
-            </Grid>
+            <React.Fragment>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='instruction_for_walk_in_interview'
+                  label={messages['job_posting.walk_in_interview']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='instruction_for_walk_in_interview_en'
+                  label={messages['job_posting.walk_in_interview_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                  multiline={true}
+                  rows={3}
+                />
+              </Grid>
+            </React.Fragment>
           )}
 
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <CustomTextInput
-              required
-              id='special_instruction'
+              id='special_instruction_for_job_seekers'
               label={messages['job_posting.special_instruction']}
               register={register}
               errorInstance={errors}
@@ -387,8 +499,19 @@ const PrimaryJobInformation = ({onContinue}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='special_instruction_for_job_seekers_en'
+              label={messages['job_posting.special_instruction_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+              multiline={true}
+              rows={3}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <CustomFormSwitch
-              id={'is_photograph_enclosed'}
+              id={'is_photograph_enclose_with_resume'}
               label={messages['job_posting.enclose_photograph']}
               yesLabel={messages['common.yes'] as string}
               noLabel={messages['common.no'] as string}
