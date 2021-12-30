@@ -32,7 +32,7 @@ const withData = (ComposedComponent: any) => (props: any) => {
         authUser?.isInstituteUser
       ) {
         let params = queryParams
-          .split('&')
+          ?.split('&')
           .filter((param) => !param.startsWith('redirected_from'))
           .join('&');
         Router.push(adminDomain() + (params ? '?' + params : ''));
