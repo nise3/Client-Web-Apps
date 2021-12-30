@@ -3,8 +3,8 @@ import {Button, ButtonGroup, Grid, TextField} from '@mui/material';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import TextInputSkeleton from '../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import IntlMessages from '../../../../../../../@crema/utility/IntlMessages';
+import TextInputSkeleton from '../../../../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import CustomFilterableField from './CustomFilterableField';
 
 type Props = {

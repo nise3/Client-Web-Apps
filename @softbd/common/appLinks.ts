@@ -38,6 +38,9 @@ export const LINK_BRANCHES = '/branches';
 export const LINK_PROGRAMMES = '/programmes';
 export const LINK_COURSES = '/courses';
 
+/**  industry association links */
+export const LINK_JOB_CREATE_OR_UPDATE = '/jobs/job-post/';
+
 /** institute links  */
 export const LINK_FRONTEND_INSTITUTE_ROOT = '/';
 export const LINK_FRONTEND_INSTITUTE_COURSES = '/courses';
