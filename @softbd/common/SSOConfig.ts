@@ -1,6 +1,6 @@
 import {ParsedUrlQuery} from 'querystring';
 import {getBrowserCookie} from '../libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ID_TOKEN, IS_LOCAL_IDP} from '../../shared/constants/AppConst';
+import {COOKIE_KEY_AUTH_ID_TOKEN} from '../../shared/constants/AppConst';
 import {niseDomain} from './constants';
 
 interface TConfig {
@@ -13,11 +13,11 @@ interface TConfig {
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: IS_LOCAL_IDP ? 'https://192.168.13.206:9448/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
-  logoutUrl: IS_LOCAL_IDP ? 'https://192.168.13.206:9448/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
-  tokenUrl: IS_LOCAL_IDP ? 'https://192.168.13.206:9448/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
-  clientKey: IS_LOCAL_IDP ? 'FoYnKgvzdAwUGgyfDjj4torgkYYa' : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
-  clientSecret: IS_LOCAL_IDP ? 'pASKCuZCu_w7erAsWNkCZHMHMv8a' : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
+  authUrl: process.env.IDP_BASE ? process.env.IDP_BASE + '/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  logoutUrl: process.env.IDP_BASE ? process.env.IDP_BASE + '/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
+  tokenUrl: process.env.IDP_BASE ? process.env.IDP_BASE + '/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
+  clientKey: process.env.IDP_OPENID_KEY ? process.env.IDP_OPENID_KEY : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
+  clientSecret: process.env.IDP_OPENID_SECRET ? process.env.IDP_OPENID_SECRET : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
   callbackUrl: '/callback',
 };
 
@@ -34,14 +34,14 @@ export const paramsBuilder = (extraParams: any) => {
   if (extraParams) {
     Object.keys(extraParams).forEach((key, index) => {
       if (index) {
-        params += '&'
+        params += '&';
       }
       params += key + '=' + extraParams[key];
     });
   }
 
   return params;
-}
+};
 
 export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
   const redirectUrl = new URL(getHostUrl() + SSO_CONFIG.callbackUrl);

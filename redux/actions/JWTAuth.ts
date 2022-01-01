@@ -2,7 +2,7 @@ import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {
     COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-    COOKIE_KEY_AUTH_ID_TOKEN, IS_LOCAL_IDP,
+    COOKIE_KEY_AUTH_ID_TOKEN
 } from '../../shared/constants/AppConst';
 import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 import {AppActions} from '../types';
@@ -56,10 +56,8 @@ export const onSSOSignInCallback = (
             redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
         }
 
-        let urlHost = 'https://core.bus-staging.softbdltd.com';
-        if (IS_LOCAL_IDP) {
-            urlHost = 'http://nise-core.softbd'
-        }
+        let urlHost = process.env.CORE_API_BASE ? process.env.CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+
         console.log('urlHost', urlHost);
 
         try {
