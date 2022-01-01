@@ -2,7 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import {API_BASE_URL} from '../common/apiRoutes';
 import {
     COOKIE_KEY_APP_ACCESS_TOKEN,
-    COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA, IS_LOCAL_IDP,
+    COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA
 } from '../../shared/constants/AppConst';
 import {
     getBrowserCookie,
@@ -96,10 +96,7 @@ async function refreshAuthAccessToken() {
 
     if (authAccessTokenData?.refresh_token) {
 
-        let urlHost = 'https://core.bus-staging.softbdltd.com';
-        if (IS_LOCAL_IDP) {
-            urlHost = 'http://nise-core.softbd'
-        }
+        let urlHost = process.env.CORE_API_BASE ? process.env.CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
 
         try {
             let {
