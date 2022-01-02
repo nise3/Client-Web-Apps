@@ -303,6 +303,7 @@
   "upazilas.label": "উপজেলা",
   "services.label": "সার্ভিস",
   "trainers.label": "প্রশিক্ষক",
+  "trainers.assign_success": "প্রশিক্ষক বরাদ্দ সফল",
   "organization_unit_type.label": "সংস্থা ইউনিটের ধরন",
   "organization_unit.label": "সংস্থা ইউনিট",
   "organization_unit.employee_size": "কর্মচারীর সংখ্যা",
