@@ -1,6 +1,9 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_APPLICATIONS_LISTS,
+  API_GET_JOB_ADDITIONAL_INFORMATION,
+  API_GET_JOB_COMPANY_INFO_VISIBILITY,
+  API_GET_JOB_PRIMARY_INFORMATION,
   API_HUMAN_RESOURCE_DEMAND_LIST,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
@@ -16,6 +19,7 @@ export function useFetchPublication(publicationId: number | null) {
     publicationId ? API_INDUSTRY_PUBLICATIONS + '/' + publicationId : null,
   );
 }
+
 /**Application list**/
 export function useFetchApplicationList(applicationId: number | null) {
   return useAxiosSWR(
@@ -26,6 +30,20 @@ export function useFetchApplicationList(applicationId: number | null) {
 /**Job lists**/
 export function useFetchJob(jobId: number | null) {
   return useAxiosSWR(jobId ? API_JOB_LISTS + '/' + jobId : null);
+}
+
+export function useFetchJobPrimaryInformation(jobId: number | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null);
+}
+
+export function useFetchJobAdditionalInformation(jobId: number | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null);
+}
+
+export function useFetchJobCompanyInfoVisibility(jobId: number | null) {
+  return useAxiosSWR(
+    jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
+  );
 }
 
 export function useFetchIndustryMembers(params: any) {

@@ -315,23 +315,21 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           <Grid item xs={12}>
             <CustomFormSwitch
               id={'person_with_disability'}
-              label={
-                <Typography display={'flex'} alignItems={'center'}>
-                  {messages['common.person_with_disability']}
-                  <Tooltip
-                    arrow
-                    title={
-                      messages[
-                        'job_posting.company_info_business_tooltip'
-                      ] as string
-                    }>
-                    <Help
-                      sx={{
-                        marginLeft: '8px',
-                      }}
-                    />
-                  </Tooltip>
-                </Typography>
+              label={messages['common.person_with_disability']}
+              additionalInfo={
+                <Tooltip
+                  arrow
+                  title={
+                    messages[
+                      'job_posting.company_info_business_tooltip'
+                    ] as string
+                  }>
+                  <Help
+                    sx={{
+                      marginLeft: '8px',
+                    }}
+                  />
+                </Tooltip>
               }
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
@@ -343,23 +341,21 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           <Grid item xs={12}>
             <CustomFormSwitch
               id={'preferred_retired_army'}
-              label={
-                <Typography display={'flex'} alignItems={'center'}>
-                  {messages['common.preferred_retired_army']}
-                  <Tooltip
-                    arrow
-                    title={
-                      messages[
-                        'job_posting.company_info_business_tooltip'
-                      ] as string
-                    }>
-                    <Help
-                      sx={{
-                        marginLeft: '8px',
-                      }}
-                    />
-                  </Tooltip>
-                </Typography>
+              label={messages['common.preferred_retired_army']}
+              additionalInfo={
+                <Tooltip
+                  arrow
+                  title={
+                    messages[
+                      'job_posting.company_info_business_tooltip'
+                    ] as string
+                  }>
+                  <Help
+                    sx={{
+                      marginLeft: '8px',
+                    }}
+                  />
+                </Tooltip>
               }
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}

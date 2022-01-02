@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Button, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import yup from '../../../../../@softbd/libs/yup';
@@ -18,17 +18,37 @@ interface Props {
   onContinue: () => void;
 }
 
+const initialValue = {
+  is_company_name_visible: false,
+  is_company_address_visible: false,
+  is_company_business_visible: false,
+  company_industry_type: '',
+  company_name: '',
+  company_name_en: '',
+};
+
 const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      /*      company_type: yup
+      is_company_name_visible: yup
+        .boolean()
+        .required()
+        .label(messages['common.company_name_bn'] as string),
+      company_name: yup
+        .mixed()
+        .label(messages['common.company_name_bn'] as string)
+        .when('is_company_name_visible', {
+          is: true,
+          then: yup.string().required(),
+        }),
+      company_industry_type: yup
         .string()
         .required()
-        .label(messages['job_posting.company_type'] as string),*/
+        .label(messages['job_posting.company_type'] as string),
     });
   }, [messages]);
 
@@ -36,18 +56,24 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
     register,
     control,
     setError,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    reset(initialValue);
+  }, []);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data', data);
-
+      console.log('data-->', data);
+      data.job_id = jobId;
       //do data save work here
-
+      //const response = await saveCompanyInfoVisibility(data);
+      successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -64,24 +90,21 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={3}>
             <CustomFormSwitch
-              id={'is_show_company_name'}
-              label={
-                <Typography display={'flex'} alignItems={'center'}>
-                  {messages['common.company_name_bn']}
-                  <Tooltip
-                    arrow
-                    title={
-                      messages[
-                        'job_posting.company_info_name_tooltip'
-                      ] as string
-                    }>
-                    <Help
-                      sx={{
-                        marginLeft: '8px',
-                      }}
-                    />
-                  </Tooltip>
-                </Typography>
+              required
+              id={'is_company_name_visible'}
+              label={messages['common.company_name_bn']}
+              additionalInfo={
+                <Tooltip
+                  arrow
+                  title={
+                    messages['job_posting.company_info_name_tooltip'] as string
+                  }>
+                  <Help
+                    sx={{
+                      marginLeft: '8px',
+                    }}
+                  />
+                </Tooltip>
               }
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
@@ -95,36 +118,49 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12} md={7}>
             {isShowCompanyName && (
-              <CustomTextInput
-                required
-                id='company_name'
-                label={messages['common.company_name_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-              />
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <CustomTextInput
+                    required
+                    id='company_name'
+                    label={messages['common.company_name_bn']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={false}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <CustomTextInput
+                    required
+                    id='company_name_en'
+                    label={messages['common.company_name_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={false}
+                  />
+                </Grid>
+              </Grid>
             )}
           </Grid>
           <Grid item xs={12}>
             <CustomFormSwitch
-              id={'is_show_company_address'}
-              label={
-                <Typography display={'flex'} alignItems={'center'}>
-                  {messages['common.company_address']}
-                  <Tooltip
-                    arrow
-                    title={
-                      messages[
-                        'job_posting.company_info_address_tooltip'
-                      ] as string
-                    }>
-                    <Help
-                      sx={{
-                        marginLeft: '8px',
-                      }}
-                    />
-                  </Tooltip>
-                </Typography>
+              required
+              id={'is_company_address_visible'}
+              label={messages['common.company_address']}
+              additionalInfo={
+                <Tooltip
+                  arrow
+                  title={
+                    messages[
+                      'job_posting.company_info_address_tooltip'
+                    ] as string
+                  }>
+                  <Help
+                    sx={{
+                      marginLeft: '8px',
+                    }}
+                  />
+                </Tooltip>
               }
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
@@ -136,7 +172,7 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
           <Grid item xs={12} md={10}>
             <CustomFormSelect
               required
-              id='company_type'
+              id='company_industry_type'
               label={messages['job_posting.company_type']}
               isLoading={false}
               control={control}
@@ -148,24 +184,22 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12} md={3}>
             <CustomFormSwitch
-              id={'is_show_company_business'}
-              label={
-                <Typography display={'flex'} alignItems={'center'}>
-                  {messages['common.company_business']}
-                  <Tooltip
-                    arrow
-                    title={
-                      messages[
-                        'job_posting.company_info_business_tooltip'
-                      ] as string
-                    }>
-                    <Help
-                      sx={{
-                        marginLeft: '8px',
-                      }}
-                    />
-                  </Tooltip>
-                </Typography>
+              id={'is_company_business_visible'}
+              label={messages['common.company_business']}
+              additionalInfo={
+                <Tooltip
+                  arrow
+                  title={
+                    messages[
+                      'job_posting.company_info_business_tooltip'
+                    ] as string
+                  }>
+                  <Help
+                    sx={{
+                      marginLeft: '8px',
+                    }}
+                  />
+                </Tooltip>
               }
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
