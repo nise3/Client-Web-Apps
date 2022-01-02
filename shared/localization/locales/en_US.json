@@ -358,6 +358,7 @@
   "organization.label": "Organization",
   "organization_type.label": "Organization type",
   "trainers.label": "Trainer",
+  "trainers.assign_success": "Trainer assign successful",
   "organization_unit_type.label": "Organization unit type",
   "organization_unit.label": "Organization unit",
   "organization_unit.employee_size": "Employee size",
