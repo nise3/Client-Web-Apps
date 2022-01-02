@@ -1,6 +1,12 @@
 import React, {ReactNode, useEffect} from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import {FormControl, FormControlLabel, FormLabel, Switch} from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Switch,
+  Typography,
+} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import {styled} from '@mui/material/styles';
 
@@ -85,6 +91,7 @@ interface CustomFormSwitchProps {
   yesLabel?: string;
   noLabel?: string;
   disabled?: boolean;
+  additionalInfo?: string | ReactNode;
 }
 
 const CustomFormSwitch = ({
@@ -96,6 +103,7 @@ const CustomFormSwitch = ({
   defaultChecked = false,
   yesLabel,
   noLabel,
+  additionalInfo,
   disabled = false,
   onChange: onChangeCallback,
 }: CustomFormSwitchProps) => {
@@ -117,11 +125,20 @@ const CustomFormSwitch = ({
     <TextInputSkeleton />
   ) : (
     <StyledFormControl>
-      {label && label != '' && (
-        <FormLabel component='legend' required={required}>
-          {label}
-        </FormLabel>
-      )}
+      {label &&
+        label != '' &&
+        (additionalInfo ? (
+          <Typography display={'flex'} alignItems={'flex-start'}>
+            <FormLabel component='legend' required={required}>
+              {label}
+            </FormLabel>
+            {additionalInfo}
+          </Typography>
+        ) : (
+          <FormLabel component='legend' required={required}>
+            {label}
+          </FormLabel>
+        ))}
       <FormControlLabel
         className={classes.controlLabel}
         control={
