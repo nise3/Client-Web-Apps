@@ -8,6 +8,7 @@ import {
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_JOB_LISTS,
+  API_JOB_REQUIREMENT,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
@@ -30,6 +31,15 @@ export function useFetchApplicationList(applicationId: number | null) {
 /**Job lists**/
 export function useFetchJob(jobId: number | null) {
   return useAxiosSWR(jobId ? API_JOB_LISTS + '/' + jobId : null);
+}
+
+export function useFetchJobRequirement(jobRequirementId: number | null) {
+  return useAxiosSWR(
+    jobRequirementId ? API_JOB_REQUIREMENT + '/' + jobRequirementId : null,
+  );
+}
+export function useFetchJobRequirements(params: any) {
+  return useAxiosSWR([API_JOB_REQUIREMENT, params]);
 }
 
 export function useFetchJobPrimaryInformation(jobId: number | null) {
