@@ -79,8 +79,12 @@ export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT = '/course-enroll/';
 export const LINK_FRONTEND_YOUTH_JOB_CIRCULAR_DETAILS =
   '/job-circular-details/';
 export const LINK_FRONTEND_YOUTH_REGISTRATION = '/registration';
-export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS =
-  '/course-enroll-success/';
+export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUBMITTED =
+  '/course-enroll-submitted/';
+export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION =
+  '/course-enroll-verification/';
+export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD =
+  '/course-enroll-choose-payment-method/';
 export const LINK_FRONTEND_YOUTH_FAQ = '/faqs';
 
 export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =
