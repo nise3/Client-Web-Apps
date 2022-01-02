@@ -38,6 +38,9 @@ export function useFetchJobRequirement(jobRequirementId: number | null) {
     jobRequirementId ? API_JOB_REQUIREMENT + '/' + jobRequirementId : null,
   );
 }
+export function useFetchJobRequirements(params: any) {
+  return useAxiosSWR([API_JOB_REQUIREMENT, params]);
+}
 
 export function useFetchJobPrimaryInformation(jobId: number | null) {
   return useAxiosSWR(jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null);
