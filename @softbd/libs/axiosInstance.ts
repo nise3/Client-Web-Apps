@@ -96,7 +96,7 @@ async function refreshAuthAccessToken() {
 
     if (authAccessTokenData?.refresh_token) {
 
-        let urlHost = process.env.CORE_API_BASE ? process.env.CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+        let urlHost = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
 
         try {
             let {

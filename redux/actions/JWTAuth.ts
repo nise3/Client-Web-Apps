@@ -56,7 +56,7 @@ export const onSSOSignInCallback = (
             redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
         }
 
-        let urlHost = process.env.CORE_API_BASE ? process.env.CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+        let urlHost = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
 
         console.log('urlHost', urlHost);
 

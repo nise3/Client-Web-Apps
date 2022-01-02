@@ -13,11 +13,11 @@ interface TConfig {
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: process.env.IDP_BASE ? process.env.IDP_BASE + '/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
-  logoutUrl: process.env.IDP_BASE ? process.env.IDP_BASE + '/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
-  tokenUrl: process.env.IDP_BASE ? process.env.IDP_BASE + '/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
-  clientKey: process.env.IDP_OPENID_KEY ? process.env.IDP_OPENID_KEY : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
-  clientSecret: process.env.IDP_OPENID_SECRET ? process.env.IDP_OPENID_SECRET : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
+  authUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  logoutUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
+  tokenUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
+  clientKey: process.env.NEXT_PUBLIC_IDP_OPENID_KEY ? process.env.NEXT_PUBLIC_IDP_OPENID_KEY : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
+  clientSecret: process.env.NEXT_PUBLIC_IDP_OPENID_SECRET ? process.env.NEXT_PUBLIC_IDP_OPENID_SECRET : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
   callbackUrl: '/callback',
 };
 
