@@ -157,7 +157,7 @@ const JobRequirementsPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['job_requirement_list.label'],
+                  subject: messages['job_requirement.label'],
                 }}
               />
             }

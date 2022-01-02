@@ -1234,5 +1234,7 @@
   "common.four_digit": "Must be four digit",
   "label.new_address": "New Address",
   "label.address_type": "Address type",
-  "common.cgpa_scale": "Should be within 5"
+  "common.cgpa_scale": "Should be within 5",
+  "common.vacancy": "Vacancy",
+  "common.industry": "Industry"
 }
