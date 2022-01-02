@@ -130,7 +130,6 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  console.log('errors', errors);
   const onSubmit: SubmitHandler<IPublication> = async (data: IPublication) => {
     try {
       if (authUser?.isIndustryAssociationUser) {

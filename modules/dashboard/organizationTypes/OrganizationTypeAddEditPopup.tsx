@@ -88,7 +88,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     data: IOrganizationType,
   ) => {
     const {is_government} = data;
-    if (data) {
+    if (data && is_government) {
       data = {...data, is_government: 1 * is_government};
     }
     try {
