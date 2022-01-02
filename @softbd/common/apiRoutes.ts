@@ -225,7 +225,7 @@ export const API_JOB_STORE_PRIMARY_INFORMATION =
   API_JOB + '/store-primary-job-information';
 export const API_GET_JOB_PRIMARY_INFORMATION =
   API_JOB + '/primary-job-information/';
-
+export const API_JOB_REQUIREMENT = INDUSTRY_SERVICE_PATH + '/job-requirement';
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
   API_JOB + '/store-additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
