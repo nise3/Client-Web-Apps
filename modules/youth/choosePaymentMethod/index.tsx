@@ -2,6 +2,7 @@ import React from 'react';
 import {styled} from '@mui/material/styles';
 import {CardMedia, Container, Grid, Paper, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
+import {useRouter} from 'next/router';
 
 const PREFIX = 'ChoosePayment';
 
