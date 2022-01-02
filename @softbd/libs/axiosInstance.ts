@@ -25,21 +25,19 @@ axiosInstance.interceptors.request.use(
         const authAccessTokenData = getBrowserCookie(
             COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         );
-        // console.log('authAccessTokenData', authAccessTokenData);
-        const userAccessToken = authAccessTokenData?.access_token;
 
-        //TODO: temporary
         if (!config.headers['Authorization']) {
-            if (userAccessToken) {
-                config.headers['Authorization'] = `Bearer ${userAccessToken}`;
-            } else {
-                const appAccessTokenData = getBrowserCookie(
-                    COOKIE_KEY_APP_ACCESS_TOKEN,
-                );
-                config.headers[
-                    'Authorization'
-                    ] = `Bearer ${appAccessTokenData?.access_token}`;
-            }
+            const appAccessTokenData = getBrowserCookie(
+                COOKIE_KEY_APP_ACCESS_TOKEN,
+            );
+            config.headers[
+                'Authorization'
+                ] = `Bearer ${appAccessTokenData?.access_token}`;
+        }
+
+        const userAccessToken = authAccessTokenData?.access_token;
+        if (!config.headers['UserToken'] && userAccessToken) {
+            config.headers['UserToken'] = `Bearer ${userAccessToken}`;
         }
 
         return config;
@@ -88,7 +86,7 @@ async function refreshAuthAccessToken() {
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
     );
 
-    var appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
+    let appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
     if (!appAccessTokenData) {
         await refreshAppAccessToken();
         appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
@@ -141,9 +139,10 @@ export async function refreshAppAccessToken() {
 }
 
 export async function getAppAccessToken({throwError = false} = {}) {
+    const urlBase = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
     try {
         return await axios.get(
-            'https://core.bus-staging.softbdltd.com/nise3-app-api-access-token',
+            urlBase + '/nise3-app-api-access-token',
         );
     } catch (e: any) {
         if (throwError) {

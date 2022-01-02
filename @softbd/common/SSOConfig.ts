@@ -53,7 +53,7 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
     SSO_CONFIG.authUrl +
     '?response_type=code&client_id=' +
     SSO_CONFIG.clientKey +
-    '&scope=openid email&nonce=13e2312637dg136e1&' +
+    '&scope=openid&nonce=13e2312637dg136e1&' +
     'redirect_uri=' +
     redirectUrl.toString()
   );
