@@ -22,6 +22,12 @@ export const instituteDomain = () => {
   return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise.gov.bd';
 };
 
+export const industryDomain = () => {
+  return isLocalHost()
+    ? 'http://localhost:3004'
+    : 'https://industry.nise.gov.bd';
+};
+
 export const niseDomain = () => {
   return isLocalHost() ? 'http://localhost:3001' : 'https://nise.gov.bd';
 };
