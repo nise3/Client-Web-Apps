@@ -78,7 +78,6 @@ const MemberListPage = () => {
     page_size: 8,
   });
   const {data} = useFetchIndustryMembers(industryMemberFilter);
-  console.log('data->', data);
 
   const onResetClicked = useCallback(() => {}, []);
 
