@@ -137,6 +137,10 @@ export const API_COURSE_ENROLLMENTS =
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
+export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
+export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
+export const COURSE_ENROLL_PAYMENT_PAY =
+  INSTITUTE_SERVICE_PATH + '/payment/pay-now';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
