@@ -14,10 +14,6 @@ import {
 } from '../types/actions/Auth.actions';
 import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
-import {
-    CORE_SERVICE_PATH,
-    YOUTH_SERVICE_PATH,
-} from '../../@softbd/common/apiRoutes';
 import UserTypes from '../../@softbd/utilities/UserTypes';
 import {
     removeBrowserCookie,
@@ -103,18 +99,22 @@ export const loadAuthUser = async (
             Base64.decode((tokenData.id_token || '..').split('.')[1]),
         );
         console.log(ssoTokenData);
+        const youthServicePath = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH;
+        const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
         const coreResponse =
             ssoTokenData.userType == UserTypes.YOUTH_USER
-                ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile', {
+                ? await apiGet(youthServicePath + '/youth-profile', {
                     headers: {
                         Authorization: 'Bearer ' + tokenData.access_token,
+                        UserToken: 'Bearer ' + tokenData.access_token,
                     },
                 })
                 : await apiGet(
-                    CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+                    coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
                     {
                         headers: {
                             Authorization: 'Bearer ' + tokenData.access_token,
+                            UserToken: 'Bearer ' + tokenData.access_token,
                         },
                     },
                 );
