@@ -23,15 +23,12 @@ export interface IIdTitle extends IIdHolder {
 export interface IIdTitles extends IIdTitle {
   title_en?: string;
 }
-export interface IidTitleCreateUpdateAt extends IIdTitles {
-  updated_at?: string;
-  created_at?: string;
+export interface ICreateUpdateAt {
+  updated_at?: string | undefined;
+  created_at?: string | undefined;
 }
+export interface IIdTitleCreateUpdateAt extends IIdTitles, ICreateUpdateAt {}
 
-export interface ICreateUpdateAt{
-  updated_at?: string;
-  created_at?: string;
-}
 export interface IFAQ {
   show_in: number;
   institute_id?: number;
