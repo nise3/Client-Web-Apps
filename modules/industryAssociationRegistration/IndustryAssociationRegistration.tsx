@@ -27,7 +27,7 @@ import {filterDistrictsByDivisionId} from '../../services/locationManagement/loc
 import {industryAssociationRegistration} from '../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 import {District} from '../../shared/Interface/location.interface';
 
-const OrganizationRegistration = () => {
+const IndustryAssociationRegistration = () => {
   const router = useRouter();
 
   const {messages} = useIntl();
@@ -399,4 +399,4 @@ const OrganizationRegistration = () => {
   );
 };
 
-export default OrganizationRegistration;
+export default IndustryAssociationRegistration;
