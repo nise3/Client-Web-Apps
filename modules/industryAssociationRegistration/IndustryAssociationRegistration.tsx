@@ -155,6 +155,8 @@ const IndustryAssociationRegistration = () => {
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
+  console.log('errors', errors);
+
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       await industryAssociationRegistration(data);
@@ -238,7 +240,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='loc_district_id '
+                id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}
                 control={control}
