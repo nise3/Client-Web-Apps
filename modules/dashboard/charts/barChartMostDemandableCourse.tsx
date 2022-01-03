@@ -16,7 +16,7 @@ import {useIntl} from 'react-intl';
 import {useDashboardMostDemandableCourse} from '../../../services/global/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
-const StyledContainer = styled(Box)(({theme}) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   [`& .MuiCardHeader-title`]: {
     fontSize: '1.4rem',
     color: '#000',
@@ -72,7 +72,7 @@ const MostDemandableCourseChart = () => {
   };
 
   return (
-    <StyledContainer>
+    <StyledBox>
       <Card>
         <CardHeader title={messages['dashboard.MostDemandableCourse']} />
         <CardContent>
@@ -95,7 +95,7 @@ const MostDemandableCourseChart = () => {
           </ResponsiveContainer>
         </CardContent>
       </Card>
-    </StyledContainer>
+    </StyledBox>
   );
 };
 

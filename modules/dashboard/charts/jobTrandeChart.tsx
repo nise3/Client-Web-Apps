@@ -16,7 +16,7 @@ import {useForm} from 'react-hook-form';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
 
-const StyledContainer = styled(Box)(({theme}) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   [`& .MuiCardHeader-title`]: {
     fontSize: '1.4rem',
     color: '#000',
@@ -102,7 +102,7 @@ const JobTrandsChart = () => {
   ];
 
   return (
-    <StyledContainer>
+    <StyledBox>
       <Card>
         <Grid container>
           <Grid item xs={6} md={6}>
@@ -139,7 +139,7 @@ const JobTrandsChart = () => {
           </ResponsiveContainer>
         </CardContent>
       </Card>
-    </StyledContainer>
+    </StyledBox>
   );
 };
 
