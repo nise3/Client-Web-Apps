@@ -25,6 +25,7 @@ import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilte
 import {classes, StyledContainer} from './Registration.style';
 import {filterDistrictsByDivisionId} from '../../services/locationManagement/locationUtils';
 import {industryAssociationRegistration} from '../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
+import {District} from '../../shared/Interface/location.interface';
 
 const OrganizationRegistration = () => {
   const router = useRouter();

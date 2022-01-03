@@ -78,9 +78,11 @@ export const onSSOSignInCallback = (
       setDefaultAuthorizationHeader(tokenData?.access_token);
       await dispatch(setAuthAccessTokenData(tokenData));
       await loadAuthUser(dispatch, tokenData);
-      if (redirected_from?.length) {
+
+      /**This redirection logic is moved to @softbd/layouts/hoc/DefaultPage/withData.tsx*/
+      /* if (redirected_from?.length) {
         window.location.href = redirected_from;
-      }
+      }*/
     } catch (err: any) {
       console.log('onSSOSignInCallback - error!!!!', err);
     }
