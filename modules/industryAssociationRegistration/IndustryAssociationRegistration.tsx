@@ -175,6 +175,7 @@ const OrganizationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
+          data-test-id="heading"
           style={{
             marginBottom: '10px',
             fontWeight: 'bold',
@@ -281,6 +282,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='email'
+                data-test-id="email"
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -337,6 +339,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_email'
+                inputProps={{'data-test-id':"contact_person_email"}}
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
@@ -347,6 +350,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_mobile'
+                inputProps={{'data-test-id':'contact_person_mobile'}}
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
