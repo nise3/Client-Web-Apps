@@ -34,3 +34,5 @@ export interface IAssociationMember extends IIdTitleCreateUpdateAt {
   domain?: string;
   row_status?: string;
 }
+
+
