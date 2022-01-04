@@ -235,6 +235,7 @@ export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOB + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
   API_JOB + '/company-info-visibility/';
+export const API_GET_JOB = API_JOB + '/job-details/';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   INDUSTRY_SERVICE_PATH + '/hr-demand';

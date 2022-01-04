@@ -50,3 +50,5 @@ export enum Gender {
   FEMALE = 2,
   OTHERS = 3,
 }
+
+export const SHOW = 1;
