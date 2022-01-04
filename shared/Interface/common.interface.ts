@@ -24,8 +24,8 @@ export interface IIdTitles extends IIdTitle {
   title_en?: string;
 }
 export interface ICreateUpdateAt {
-  updated_at?: string;
-  created_at?: string;
+  updated_at?: string | undefined;
+  created_at?: string | undefined;
 }
 export interface IIdTitleCreateUpdateAt extends IIdTitles, ICreateUpdateAt {}
 

@@ -1,9 +1,12 @@
 import {apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {
   API_COURSE_ENROLL,
+  COURSE_ENROLL_VERIFICATION,
   API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE,
   API_YOUTH_PERSONAL_INFO_UPDATE,
   API_YOUTH_PROFILE,
+  COURSE_ENROLL_RESEND_VERIFICATION,
+  COURSE_ENROLL_PAYMENT_PAY,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {YouthPersonalInfo} from './typing';
@@ -41,6 +44,46 @@ export const updateYouthFreelanceProfileStatus = async (data: any) => {
 export const courseEnroll = async (data: any) => {
   try {
     let response: any = await apiPost(API_COURSE_ENROLL, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const courseEnrollmentVerification = async (
+  enrollment_id: number,
+  data: any,
+) => {
+  try {
+    let response: any = await apiPost(
+      API_COURSE_ENROLL + '/' + enrollment_id + COURSE_ENROLL_VERIFICATION,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const courseEnrollmentResendVerificationCode = async (
+  enrollment_id: number,
+) => {
+  try {
+    let response: any = await apiPost(
+      API_COURSE_ENROLL +
+        '/' +
+        enrollment_id +
+        COURSE_ENROLL_RESEND_VERIFICATION,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const courseEnrollmentPaymentPay = async (data: any) => {
+  try {
+    let response: any = await apiPost(COURSE_ENROLL_PAYMENT_PAY, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

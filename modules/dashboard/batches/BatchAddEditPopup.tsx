@@ -64,7 +64,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
@@ -315,7 +315,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           );
         }
         if (assignTrainersResponse) {
-          createSuccessMessage('batches.label');
+          successStack(messages['trainers.assign_success'] as string);
         }
       }
       props.onClose();

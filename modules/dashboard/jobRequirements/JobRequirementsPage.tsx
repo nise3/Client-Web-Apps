@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -7,43 +7,28 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteRank} from '../../../services/organaizationManagement/RankService';
 import IconRank from '../../../@softbd/icons/IconRank';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchRanks} from '../../../services/organaizationManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import JobRequirementAddEditPopup from './JobRequirementAddEditPopup';
 import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
+import {useFetchJobRequirements} from '../../../services/IndustryManagement/hooks';
 
 const JobRequirementsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [rankFilters, setRankFilters] = useState({});
+  const [jobRequirementFilters] = useState({});
   const {
     data: ranks,
     isLoading,
     mutate: mutateRanks,
-  } = useFetchRanks(rankFilters);
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isOrganizationUser && authUser.organization_id) {
-        setRankFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, []);
+  } = useFetchJobRequirements(jobRequirementFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -96,28 +81,16 @@ const JobRequirementsPage = () => {
         },
       },
       {
-        Header: messages['common.title'],
-        accessor: 'title',
+        Header: messages['common.institute'],
+        accessor: 'institute_name',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
+        Header: messages['common.skills'],
+        accessor: 'skills',
       },
-
       {
-        Header: messages['job_requirement.label'],
-        accessor: 'rank_type_title_en',
-      },
-
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
+        Header: messages['common.end_date'],
+        accessor: 'end_date',
       },
       {
         Header: messages['common.actions'],
@@ -157,7 +130,7 @@ const JobRequirementsPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['job_requirement_list.label'],
+                  subject: messages['job_requirement.label'],
                 }}
               />
             }

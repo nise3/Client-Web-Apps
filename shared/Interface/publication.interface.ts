@@ -5,7 +5,7 @@ export interface IPublication extends IIdTitleCreateUpdateAt {
   author_en?: string;
   description: string;
   description_en?: string;
-  industry_association_id: string | number;
+  industry_association_id: string | number | undefined;
   image_path?: string;
   row_status?: string;
   deleted_at?: string;
