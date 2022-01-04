@@ -142,7 +142,7 @@ export async function getAppAccessToken({throwError = false} = {}) {
     const urlBase = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
     try {
         return await axios.get(
-            urlBase + '/nise3-app-api-access-token',
+            urlBase + '/apim-app-oauth2-access-token',
         );
     } catch (e: any) {
         if (throwError) {
