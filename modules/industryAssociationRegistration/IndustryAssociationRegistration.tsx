@@ -177,6 +177,7 @@ const IndustryAssociationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
+          data-test-id="heading"
           style={{
             marginBottom: '10px',
             fontWeight: 'bold',
@@ -283,6 +284,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='email'
+                inputProps={{ 'data-test-id':'email'}}
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -339,6 +341,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_email'
+                inputProps={{'data-test-id':"contact_person_email"}}
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
@@ -349,6 +352,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_mobile'
+                inputProps={{'data-test-id':'contact_person_mobile'}}
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}

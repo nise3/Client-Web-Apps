@@ -219,6 +219,7 @@ const JobCircularSection = () => {
             <Button
               sx={{borderRadius: '10px'}}
               variant='outlined'
+              data-test-id="jobceicular-more"
               color='primary'
               endIcon={<ArrowRightAlt />}>
               {messages['common.see_more']}
