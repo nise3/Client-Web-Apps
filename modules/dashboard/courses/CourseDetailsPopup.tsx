@@ -147,13 +147,13 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          {/*<Grid item xs={12} sm={6} md={6}>
             <DetailsInputView
               label={messages['branch.label']}
               value={itemData?.branch_title}
               isLoading={isLoading}
             />
-          </Grid>
+          </Grid>*/}
           <Grid item xs={12} sm={6} md={6}>
             <DetailsInputView
               label={messages['programme.label']}
