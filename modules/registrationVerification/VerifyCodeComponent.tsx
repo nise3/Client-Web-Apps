@@ -31,7 +31,6 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
-  console.log('user email & mobile:', userEmailAndMobile);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -117,6 +116,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
   return (
     <StyledPaper>
       <Typography

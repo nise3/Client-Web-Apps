@@ -35,7 +35,7 @@ import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {courseEnroll} from '../../../services/youthManagement/YouthService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS} from '../../../@softbd/common/appLinks';
+import {LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUBMITTED} from '../../../@softbd/common/appLinks';
 import {
   EducationLevelId,
   ResultCodeAppearedId,
@@ -260,6 +260,7 @@ const YouthCourseRegistrationPage = () => {
     useState<boolean>(false);
   const [isPermanentAddressSameAsPresent, setIsPermanentAddressSameAsPresent] =
     useState<boolean>(false);
+  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);
 
   // const postalCodeRegex = /^([1-9]{1})[0-9]{3}$/g;
 
@@ -1151,14 +1152,16 @@ const YouthCourseRegistrationPage = () => {
           cgpa_scale: education?.cgpa_scale,
           edu_board_id: education?.edu_board_id,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(
+            String(education?.expected_year_of_passing),
+          ),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.JSC:
         return {
@@ -1166,14 +1169,14 @@ const YouthCourseRegistrationPage = () => {
           cgpa_scale: education?.cgpa_scale,
           edu_board_id: education?.edu_board_id,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.SSC:
         return {
@@ -1182,14 +1185,14 @@ const YouthCourseRegistrationPage = () => {
           edu_board_id: education?.edu_board_id,
           edu_group_id: education?.edu_group_id,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.HSC:
         return {
@@ -1198,14 +1201,14 @@ const YouthCourseRegistrationPage = () => {
           edu_board_id: education?.edu_board_id,
           edu_group_id: education?.edu_group_id,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.DIPLOMA:
         return {
@@ -1214,14 +1217,14 @@ const YouthCourseRegistrationPage = () => {
           cgpa: education.cgpa,
           cgpa_scale: education?.cgpa_scale,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.HONOURS:
         return {
@@ -1230,14 +1233,14 @@ const YouthCourseRegistrationPage = () => {
           cgpa: education.cgpa,
           cgpa_scale: education?.cgpa_scale,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.MASTERS:
         return {
@@ -1246,14 +1249,14 @@ const YouthCourseRegistrationPage = () => {
           cgpa: education.cgpa,
           cgpa_scale: education?.cgpa_scale,
           exam_degree_id: education?.exam_degree_id,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       case EducationLevelId.PHD:
         return {
@@ -1263,14 +1266,14 @@ const YouthCourseRegistrationPage = () => {
           major_or_concentration_en: education?.major_or_concentration_en,
           cgpa: education.cgpa,
           cgpa_scale: education?.cgpa_scale,
-          expected_year_of_passing: education?.expected_year_of_passing,
+          expected_year_of_passing: String(education?.expected_year_of_passing),
           foreign_institute_country_id: education?.foreign_institute_country_id,
           institute_name: education?.institute_name,
           institute_name_en: education?.institute_name_en,
           is_foreign_institute: education?.is_foreign_institute,
           marks_in_percentage: education?.marks_in_percentage,
           result: education?.result?.id,
-          year_of_passing: education?.year_of_passing,
+          year_of_passing: String(education?.year_of_passing),
         };
       default:
         return {};
@@ -1286,7 +1289,7 @@ const YouthCourseRegistrationPage = () => {
         village_or_area: address?.village_or_area,
         house_n_road: address?.house_n_road,
       };
-    } else if (address.address_type == AddressTypeId.PRESENT) {
+    } else if (address.address_type == AddressTypeId.PERMANENT) {
       return {
         loc_division_id: address?.loc_division_id,
         loc_upazila_id: address?.loc_upazila_id,
@@ -1630,15 +1633,16 @@ const YouthCourseRegistrationPage = () => {
         delete data.present_address;
         delete data.is_permanent_address;
         delete data.permanent_address;
-        delete data.email;
-        delete data.mobile;
 
         console.log('data ', data);
-        await courseEnroll(data);
+        const response = await courseEnroll(data);
+        setIsSuccessSubmit(true);
 
         router
           .push({
-            pathname: LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUCCESS + course.id,
+            pathname:
+              LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_SUBMITTED + course.id,
+            query: {enrollment_id: response?.data?.id},
           })
           .then((r) => {});
       }
@@ -1700,7 +1704,7 @@ const YouthCourseRegistrationPage = () => {
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
-                    disabled={isSubmitting}>
+                    disabled={isSubmitting || isSuccessSubmit}>
                     {activeStep == stepKeys.length - 1
                       ? messages['common.submit']
                       : messages['common.next']}

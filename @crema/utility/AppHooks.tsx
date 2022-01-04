@@ -130,7 +130,7 @@ export const useVendor = <T extends CurrentInstitute = CurrentInstitute>():
     id: 40,
     title: 'যুব উন্নয়ন অধিদপ্তর',
     title_en: 'DYD',
-    domain: 'https://dyd.nise3.xyz',
+    domain: 'https://dyd.nise.gov.bd',
     code: 'dyd',
     address: 'যুব উন্নয়ন অধিদপ্তর , যুব ভবন ১০৮, মতিঝিল বা/এ, ঢাকা-১০০০',
     loc_division_id: 3,

@@ -11,27 +11,29 @@ export const isLocalHost = () =>
     : '';
 
 export const adminDomain = () => {
-  return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise3.xyz';
+  return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise.gov.bd';
 };
 
 export const youthDomain = () => {
-  return isLocalHost() ? 'http://localhost:3002' : 'https://youth.nise3.xyz';
+  return isLocalHost() ? 'http://localhost:3002' : 'https://youth.nise.gov.bd';
 };
 
 export const instituteDomain = () => {
-  return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise3.xyz';
-};
-
-export const niseDomain = () => {
-  return isLocalHost() ? 'http://localhost:3001' : 'https://nise3.xyz';
+  return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise.gov.bd';
 };
 
 export const industryDomain = () => {
-  return isLocalHost() ? 'http://localhost:3004' : 'https://industry.nise3.xyz';
+  return isLocalHost()
+    ? 'http://localhost:3004'
+    : 'https://industry.nise.gov.bd';
+};
+
+export const niseDomain = () => {
+  return isLocalHost() ? 'http://localhost:3001' : 'https://nise.gov.bd';
 };
 
 export const cookieDomain = () => {
-  return isLocalHost() ? 'localhost' : 'nise3.xyz';
+  return isLocalHost() ? 'localhost' : 'nise.gov.bd';
 };
 
 export const gotoLoginSignUpPage = (path: string) => {

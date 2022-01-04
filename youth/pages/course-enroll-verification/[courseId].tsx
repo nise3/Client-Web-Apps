@@ -7,8 +7,8 @@ import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import theme from '../../../@softbd/layouts/themes/youth';
 import {useTheme} from '@mui/material/styles';
 
-const CourseEnrollmentPage = asyncComponent(
-  () => import('../../../modules/youth/courseRegistration'),
+const CourseEnrollmentVerificationPage = asyncComponent(
+  () => import('../../../modules/youth/courseRegistrationVerification'),
 );
 export default AuthenticatedBlankPage(() => {
   const {messages} = useIntl();
@@ -17,7 +17,7 @@ export default AuthenticatedBlankPage(() => {
     <>
       <PageMeta title={messages['common.course_registration']} />
       <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
-        <CourseEnrollmentPage />
+        <CourseEnrollmentVerificationPage />
       </ThemeProvider>
     </>
   );

@@ -19,7 +19,6 @@ import {
 import IconCourse from '../../../@softbd/icons/IconProgramme';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  useFetchBranches,
   useFetchCourse,
   useFetchProgrammes,
 } from '../../../services/instituteManagement/hooks';
@@ -76,9 +75,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     mutate: mutateCourse,
   } = useFetchCourse(itemId);
 
-  const [branchFilters, setBranchFilters] = useState<any>({
+  /*  const [branchFilters, setBranchFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
-  });
+  });*/
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -95,12 +94,12 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         });
       });
 
-      setBranchFilters((prevState: any) => {
+      /*setBranchFilters((prevState: any) => {
         return objectFilter({
           ...prevState,
           ...{institute_id: authUser.institute_id},
         });
-      });
+      });*/
     } else {
       setIsLoadingInstitutes(true);
       (async () => {
@@ -118,8 +117,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   // const {data: institutes, isLoading: isLoadingInstitutes} =
   //   useFetchInstitutes(instituteFilters);
 
-  const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
+  /*  const {data: branches, isLoading: isLoadingBranches} =
+        useFetchBranches(branchFilters);*/
 
   const {data: programmes, isLoading: isLoadingProgrammes} =
     useFetchProgrammes(programmeFilters);
@@ -374,10 +373,10 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    setBranchFilters({
+    /*setBranchFilters({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
-    });
+    });*/
     setProgrammeFilters({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
@@ -501,7 +500,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        <Grid item xs={12} sm={6} md={6}>
+        {/*<Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='branch_id'
             label={messages['branch.label']}
@@ -512,7 +511,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
-        </Grid>
+        </Grid>*/}
 
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
