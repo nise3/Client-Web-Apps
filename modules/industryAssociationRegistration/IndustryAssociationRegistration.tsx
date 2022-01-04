@@ -158,6 +158,7 @@ const IndustryAssociationRegistration = () => {
   console.log('errors', errors);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log('submitted data', data);
     try {
       await industryAssociationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
@@ -274,7 +275,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='mobile '
+                id='mobile'
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
