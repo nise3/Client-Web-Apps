@@ -284,7 +284,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='email'
-                data-test-id="email"
+                inputProps={{ 'data-test-id':'email'}}
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
