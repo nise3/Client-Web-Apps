@@ -105,19 +105,20 @@ export const loadAuthUser = async (
             ssoTokenData.userType == UserTypes.YOUTH_USER
                 ? await apiGet(youthServicePath + '/youth-profile', {
                     headers: {
-                        Authorization: 'Bearer ' + tokenData.access_token,
-                        UserToken: 'Bearer ' + tokenData.access_token,
+                        'Authorization': "Bearer " + tokenData.access_token,
+                        "User-Token": "Bearer " + tokenData.access_token,
                     },
                 })
                 : await apiGet(
                     coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
                     {
                         headers: {
-                            Authorization: 'Bearer ' + tokenData.access_token,
-                            UserToken: 'Bearer ' + tokenData.access_token,
+                            'Authorization': "Bearer " + tokenData.access_token,
+                            "User-Token": "Bearer " + tokenData.access_token,
                         },
                     },
                 );
+
         console.log(coreResponse);
 
         const {data} = coreResponse.data;
