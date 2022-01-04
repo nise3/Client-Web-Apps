@@ -36,8 +36,8 @@ axiosInstance.interceptors.request.use(
         }
 
         const userAccessToken = authAccessTokenData?.access_token;
-        if (!config.headers['UserToken'] && userAccessToken) {
-            config.headers['UserToken'] = `Bearer ${userAccessToken}`;
+        if (!config.headers['User-Token'] && userAccessToken) {
+            config.headers['User-Token'] = `Bearer ${userAccessToken}`;
         }
 
         return config;
@@ -95,6 +95,7 @@ async function refreshAuthAccessToken() {
     if (authAccessTokenData?.refresh_token) {
 
         let urlHost = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+        const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
 
         try {
             let {
@@ -106,7 +107,7 @@ async function refreshAuthAccessToken() {
                 },
                 {
                     headers: {
-                        Authorization: appAccessTokenData?.access_token,
+                        apikey: apiKey,
                     },
                 },
             );
@@ -140,9 +141,15 @@ export async function refreshAppAccessToken() {
 
 export async function getAppAccessToken({throwError = false} = {}) {
     const urlBase = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
     try {
         return await axios.get(
             urlBase + '/apim-app-oauth2-access-token',
+            {
+                headers: {
+                    apikey: apiKey,
+                },
+            }
         );
     } catch (e: any) {
         if (throwError) {
