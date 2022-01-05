@@ -40,6 +40,7 @@ export const LINK_COURSES = '/courses';
 
 /**  industry association links */
 export const LINK_JOB_CREATE_OR_UPDATE = '/jobs/job-post/';
+export const LINK_JOB_DETAILS_VIEW = '/jobs/view/';
 
 /** institute links  */
 export const LINK_FRONTEND_INSTITUTE_ROOT = '/';
