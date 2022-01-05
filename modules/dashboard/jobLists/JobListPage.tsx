@@ -19,7 +19,10 @@ import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import PersonIcon from '@mui/icons-material/Person';
 import {useRouter} from 'next/router';
-import {LINK_JOB_CREATE_OR_UPDATE} from '../../../@softbd/common/appLinks';
+import {
+  LINK_JOB_CREATE_OR_UPDATE,
+  LINK_JOB_DETAILS_VIEW,
+} from '../../../@softbd/common/appLinks';
 
 const JobListPage = () => {
   const {messages} = useIntl();
@@ -35,12 +38,7 @@ const JobListPage = () => {
         const jobId = 'IDSA-2fe8e68e-4456-43be-9d9d-481974a41890'; //await getJobId();
 
         if (jobId) {
-          router
-            .push({
-              pathname: LINK_JOB_CREATE_OR_UPDATE + 'step1',
-              query: {jobId: jobId},
-            })
-            .then(() => {});
+          openJobAddUpdateView(jobId);
         } else {
           errorStack('Failed to get job id');
         }
@@ -48,6 +46,23 @@ const JobListPage = () => {
         errorStack('Failed to get job id');
       }
     })();
+  }, []);
+
+  const openJobAddUpdateView = useCallback((jobId: string) => {
+    router
+      .push({
+        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step1',
+        query: {jobId: jobId},
+      })
+      .then(() => {});
+  }, []);
+
+  const openJobDetailsView = useCallback((jobId: string) => {
+    router
+      .push({
+        pathname: LINK_JOB_DETAILS_VIEW + jobId,
+      })
+      .then(() => {});
   }, []);
 
   const deleteJobItem = async (jobId: number) => {
@@ -76,10 +91,6 @@ const JobListPage = () => {
         Cell: (props: any) => {
           return props.row.index + 1;
         },
-      },
-      {
-        Header: messages['common.job_id'],
-        accessor: 'job_id',
       },
       {
         Header: messages['common.post'],
@@ -118,10 +129,19 @@ const JobListPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => {}} />
-              <EditButton onClick={() => {}} />
+              <ReadButton
+                onClick={() => {
+                  openJobDetailsView(data.job_id);
+                }}
+              />
+              <EditButton
+                onClick={() => {
+                  openJobAddUpdateView(data.job_id);
+                }}
+              />
               <DeleteButton
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}

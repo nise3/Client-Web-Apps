@@ -24,7 +24,120 @@ interface Props {
   onContinue: () => void;
 }
 
-const data: any = {};
+const data: any = {
+  primary_job_information: {
+    job_title: 'Software Engineer',
+    job_sector_title: 'IT',
+    occupation_title: 'Telecommunication',
+    no_of_vacancies: 5,
+    is_number_of_vacancy_na: 0,
+    employment_types: [
+      {
+        id: 1,
+        title: 'ফুল টাইম',
+      },
+      {
+        id: 2,
+        title: 'খন্ডকালীন',
+      },
+    ],
+    application_deadline: '2022-01-20',
+    published_at: '2021-09-11',
+    is_photograph_enclose_with_resume: 1,
+    special_instruction_for_job_seekers:
+      'We are looking for a talented and experienced (2+ years) PHP developer, who able to work php framework preferably (cakephp, laravel) . The developer should work with AngularJS/ReactJS/VueJS. Having knowledge in Python is good. Knowing Android / IOS will be added advantage.',
+    is_apply_online: 0,
+    resume_receiving_option: 1,
+    email: 'admin@softbdltd.com',
+    is_use_nise3_mail_system: 1,
+    instruction_for_hard_copy:
+      'Apply procedure 1\n' +
+      'Apply procedure 2 sdlkfj sdkfskdjfsk jskd slkdjflskd jskldfjsdkl fjsdklfj slkdfj kdfjsdl fjksdl kf\n' +
+      'Apply procedure 3\nApply procedure 4',
+    instruction_for_walk_in_interview:
+      'Apply procedure 1\n' +
+      'Apply procedure 2 sdlkfj sdkfskdjfsk jskd slkdjflskd jskldfjsdkl fjsdklfj slkdfj kdfjsdl fjksdl kf\n' +
+      'Apply procedure 3\nApply procedure 4',
+  },
+  additional_job_information: {
+    job_locations: ['Anywhere in Bangladesh'],
+    salary_min: 10000,
+    salary_max: 50000,
+    is_salary_info_show: 1,
+    additional_salary_info: 'Negotiable based on experience.',
+    job_context: 'Job Context 1\nJob Context 2\nJob Context 3',
+    job_responsibilities:
+      'Develop, Test and Deploy web application.\nWrite clean and organized code',
+    job_place_type: 0,
+    work_places: [1, 2],
+    is_other_benefits: 1,
+    other_benefits: [4, 5, 6, 7, 9, 10],
+    lunch_facilities: 1,
+    salary_review: 1,
+    festival_bonus: 2,
+    others:
+      'Excellent environment to learn\nOther benefits as per company policies',
+  },
+  candidate_requirement: {
+    experience_status: 1,
+    min_experience: 3,
+    max_experience: null,
+    min_age: 27,
+    max_age: 45,
+    is_fresher_applicable: true,
+    area_of_experience: [
+      'Cake PHP',
+      'Develop API',
+      'HTML & CSS',
+      'Programmer/Software Engineer',
+      'Software Development',
+    ],
+    area_of_business: ['IT Enabled Service', 'Software Company'],
+    genders: [1, 2],
+    additional_requirements:
+      'Advanced programming Skill in PHP\nExperience on PHP framework Laravel\n' +
+      'Experience with cloud-based infrastructure and platform services\n' +
+      'Experience with AngularJS, jQuery or React etc.\nExperience with MySQL, MongoDB, PostgreSQL.\n' +
+      'Ability to express ideas clearly within the team\n' +
+      'Should have experience in integrating 3rd party APIs like Google map, ' +
+      'payment gateways, service APIs etc\nShould have knowledge working in Linux Environment\n' +
+      'Manage individual project priorities, deadlines and deliverable.\n' +
+      'Knowledge in Git, Docker is plus.\nGood understanding of requirements analysis and database design.\n' +
+      'Team player with excellent English Communication skills\n' +
+      'Must be able to handle multiple projects and deadline\n' +
+      'Technical blog or open source contribution will be considered as added advantage.',
+    skills: [
+      'Ability to work under pressure',
+      'HTML & CSS',
+      'Cake PHP',
+      'Develop API',
+    ],
+    educations: [
+      {
+        education_level_title: 'Bachelor',
+        exam_degree_title: 'Bachelor in Engineering (BEng)',
+        major_concentration: 'CSE, Math, Physics',
+      },
+    ],
+    other_educational_qualification:
+      'Bachelor/Masters degree from recognise institute',
+    is_person_with_disability_can_apply: true,
+    preferred_educational_institute: [
+      'BGC Trust University Bangladesh, Chittagong',
+      'Chittagong University of Engineering and Technology',
+    ],
+    training_trade_course: ['Java Training', 'PHP'],
+    professional_Certificate: ['Java Certificate', 'JavaScript Certificate'],
+  },
+  company_info_visibility: {
+    is_company_name_visible: 0,
+    company_name: 'SOFT-BD',
+    company_name_en: 'SOFT-BD',
+    is_company_address_visible: 0,
+    company_industry_type: 1,
+    is_company_business_visible: 0,
+  },
+};
 
 const PREFIX = 'JobPreview';
 
@@ -566,11 +679,13 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
             title={messages['job_posting.published_on'] as string}>
-            {formatDate(data?.primary_job_information?.published_at, {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
+            {data?.primary_job_information?.published_at
+              ? formatDate(data.primary_job_information.published_at, {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })
+              : ''}
           </JobPreviewSubComponent>
         </Grid>
         <Grid item xs={1} md={4}>
@@ -590,11 +705,13 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
             <CardContent>
               <Body2>
                 <b>{messages['job_posting.published_on']}</b>{' '}
-                {formatDate(data?.primary_job_information?.published_at, {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })}
+                {data?.primary_job_information?.published_at
+                  ? formatDate(data.primary_job_information.published_at, {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                    })
+                  : ''}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
                 <b>Vacancy: </b>
@@ -626,14 +743,16 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
               )}
               <Body2 sx={{marginTop: '6px'}}>
                 <b>Application Deadline: </b>
-                {formatDate(
-                  data?.primary_job_information?.application_deadline,
-                  {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                  },
-                )}
+                {data?.primary_job_information?.application_deadline
+                  ? formatDate(
+                      data.primary_job_information.application_deadline,
+                      {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      },
+                    )
+                  : ''}
               </Body2>
             </CardContent>
           </Card>
@@ -721,11 +840,13 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
           <Body1 mt={2}>
             Application Deadline:{' '}
-            {formatDate(data?.primary_job_information?.application_deadline, {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
+            {data?.primary_job_information?.application_deadline
+              ? formatDate(data.primary_job_information.application_deadline, {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })
+              : ''}
           </Body1>
         </Grid>
         <Grid
