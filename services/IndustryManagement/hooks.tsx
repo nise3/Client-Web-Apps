@@ -7,7 +7,6 @@ import {
   API_HUMAN_RESOURCE_DEMAND_LIST,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
-  API_JOB_LISTS,
   API_JOB_REQUIREMENT,
 } from '../../@softbd/common/apiRoutes';
 
@@ -28,16 +27,12 @@ export function useFetchApplicationList(applicationId: number | null) {
   );
 }
 
-/**Job lists**/
-export function useFetchJob(jobId: number | null) {
-  return useAxiosSWR(jobId ? API_JOB_LISTS + '/' + jobId : null);
-}
-
 export function useFetchJobRequirement(jobRequirementId: number | null) {
   return useAxiosSWR(
     jobRequirementId ? API_JOB_REQUIREMENT + '/' + jobRequirementId : null,
   );
 }
+
 export function useFetchJobRequirements(params: any) {
   return useAxiosSWR([API_JOB_REQUIREMENT, params]);
 }
@@ -51,6 +46,12 @@ export function useFetchJobAdditionalInformation(jobId: number | null) {
 }
 
 export function useFetchJobCompanyInfoVisibility(jobId: number | null) {
+  return useAxiosSWR(
+    jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
+  );
+}
+
+export function useFetchJob(jobId: string | null) {
   return useAxiosSWR(
     jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
   );
