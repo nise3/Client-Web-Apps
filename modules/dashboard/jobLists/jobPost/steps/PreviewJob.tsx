@@ -24,120 +24,7 @@ interface Props {
   onContinue: () => void;
 }
 
-const data = {
-  primary_job_information: {
-    job_title: 'Software Engineer',
-    job_sector_title: 'IT',
-    occupation_title: 'Telecommunication',
-    no_of_vacancies: 5,
-    is_number_of_vacancy_na: 0,
-    employment_types: [
-      {
-        id: 1,
-        title: 'ফুল টাইম',
-      },
-      {
-        id: 2,
-        title: 'খন্ডকালীন',
-      },
-    ],
-    application_deadline: '2022-01-20',
-    published_at: '2021-09-11',
-    is_photograph_enclose_with_resume: 1,
-    special_instruction_for_job_seekers:
-      'We are looking for a talented and experienced (2+ years) PHP developer, who able to work php framework preferably (cakephp, laravel) . The developer should work with AngularJS/ReactJS/VueJS. Having knowledge in Python is good. Knowing Android / IOS will be added advantage.',
-    is_apply_online: 0,
-    resume_receiving_option: 1,
-    email: 'admin@softbdltd.com',
-    is_use_nise3_mail_system: 1,
-    instruction_for_hard_copy:
-      'Apply procedure 1\n' +
-      'Apply procedure 2 sdlkfj sdkfskdjfsk jskd slkdjflskd jskldfjsdkl fjsdklfj slkdfj kdfjsdl fjksdl kf\n' +
-      'Apply procedure 3\nApply procedure 4',
-    instruction_for_walk_in_interview:
-      'Apply procedure 1\n' +
-      'Apply procedure 2 sdlkfj sdkfskdjfsk jskd slkdjflskd jskldfjsdkl fjsdklfj slkdfj kdfjsdl fjksdl kf\n' +
-      'Apply procedure 3\nApply procedure 4',
-  },
-  additional_job_information: {
-    job_locations: ['Anywhere in Bangladesh'],
-    salary_min: 10000,
-    salary_max: 50000,
-    is_salary_info_show: 1,
-    additional_salary_info: 'Negotiable based on experience.',
-    job_context: 'Job Context 1\nJob Context 2\nJob Context 3',
-    job_responsibilities:
-      'Develop, Test and Deploy web application.\nWrite clean and organized code',
-    job_place_type: 0,
-    work_places: [1, 2],
-    is_other_benefits: 1,
-    other_benefits: [4, 5, 6, 7, 9, 10],
-    lunch_facilities: 1,
-    salary_review: 1,
-    festival_bonus: 2,
-    others:
-      'Excellent environment to learn\nOther benefits as per company policies',
-  },
-  candidate_requirement: {
-    experience_status: 1,
-    min_experience: 3,
-    max_experience: null,
-    min_age: 27,
-    max_age: 45,
-    is_fresher_applicable: true,
-    area_of_experience: [
-      'Cake PHP',
-      'Develop API',
-      'HTML & CSS',
-      'Programmer/Software Engineer',
-      'Software Development',
-    ],
-    area_of_business: ['IT Enabled Service', 'Software Company'],
-    genders: [1, 2],
-    additional_requirements:
-      'Advanced programming Skill in PHP\nExperience on PHP framework Laravel\n' +
-      'Experience with cloud-based infrastructure and platform services\n' +
-      'Experience with AngularJS, jQuery or React etc.\nExperience with MySQL, MongoDB, PostgreSQL.\n' +
-      'Ability to express ideas clearly within the team\n' +
-      'Should have experience in integrating 3rd party APIs like Google map, ' +
-      'payment gateways, service APIs etc\nShould have knowledge working in Linux Environment\n' +
-      'Manage individual project priorities, deadlines and deliverable.\n' +
-      'Knowledge in Git, Docker is plus.\nGood understanding of requirements analysis and database design.\n' +
-      'Team player with excellent English Communication skills\n' +
-      'Must be able to handle multiple projects and deadline\n' +
-      'Technical blog or open source contribution will be considered as added advantage.',
-    skills: [
-      'Ability to work under pressure',
-      'HTML & CSS',
-      'Cake PHP',
-      'Develop API',
-    ],
-    educations: [
-      {
-        education_level_title: 'Bachelor',
-        exam_degree_title: 'Bachelor in Engineering (BEng)',
-        major_concentration: 'CSE, Math, Physics',
-      },
-    ],
-    other_educational_qualification:
-      'Bachelor/Masters degree from recognise institute',
-    is_person_with_disability_can_apply: true,
-    preferred_educational_institute: [
-      'BGC Trust University Bangladesh, Chittagong',
-      'Chittagong University of Engineering and Technology',
-    ],
-    training_trade_course: ['Java Training', 'PHP'],
-    professional_Certificate: ['Java Certificate', 'JavaScript Certificate'],
-  },
-  company_info_visibility: {
-    is_company_name_visible: 0,
-    company_name: 'SOFT-BD',
-    company_name_en: 'SOFT-BD',
-    is_company_address_visible: 0,
-    company_industry_type: 1,
-    is_company_business_visible: 0,
-  },
-};
+const data: any = {};
 
 const PREFIX = 'JobPreview';
 
@@ -221,25 +108,27 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   };
 
   const getExperienceText = () => {
-    if (data?.candidate_requirement?.experience_status == 1) {
+    if (data?.candidate_requirements?.experience_status == 1) {
       let experienceText = '';
       if (
-        data?.candidate_requirement?.min_experience &&
-        data?.candidate_requirement?.max_experience
+        data?.candidate_requirements?.min_experience &&
+        data?.candidate_requirements?.max_experience
       ) {
         experienceText =
-          data?.candidate_requirement?.min_experience +
+          data?.candidate_requirements?.min_experience +
           ' to ' +
-          data?.candidate_requirement?.max_experience +
+          data?.candidate_requirements?.max_experience +
           ' year(s)';
-      } else if (data?.candidate_requirement?.min_experience) {
+      } else if (data?.candidate_requirements?.min_experience) {
         experienceText =
           'At least ' +
-          data?.candidate_requirement?.min_experience +
+          data?.candidate_requirements?.min_experience +
           ' year(s)';
-      } else if (data?.candidate_requirement?.max_experience) {
+      } else if (data?.candidate_requirements?.max_experience) {
         experienceText =
-          'At most ' + data?.candidate_requirement?.max_experience + ' year(s)';
+          'At most ' +
+          data?.candidate_requirements?.max_experience +
+          ' year(s)';
       }
       return experienceText;
     } else {
@@ -251,18 +140,18 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
     let ageText = '';
 
     if (
-      data?.candidate_requirement?.min_age &&
-      data?.candidate_requirement?.max_age
+      data?.candidate_requirements?.min_age &&
+      data?.candidate_requirements?.max_age
     ) {
       ageText =
-        data?.candidate_requirement?.min_age +
+        data?.candidate_requirements?.min_age +
         ' to ' +
-        data?.candidate_requirement?.max_age +
+        data?.candidate_requirements?.max_age +
         ' years';
-    } else if (data?.candidate_requirement?.min_age) {
-      ageText = 'At least ' + data?.candidate_requirement?.min_age + ' years';
-    } else if (data?.candidate_requirement?.max_age) {
-      ageText = 'At most ' + data?.candidate_requirement?.max_age + ' years';
+    } else if (data?.candidate_requirements?.min_age) {
+      ageText = 'At least ' + data?.candidate_requirements?.min_age + ' years';
+    } else if (data?.candidate_requirements?.max_age) {
+      ageText = 'At most ' + data?.candidate_requirements?.max_age + ' years';
     }
 
     return ageText;
@@ -308,18 +197,18 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   const getEducationalRequirements = () => {
     let additionalEducationRequirement: Array<string> = [];
 
-    if (data?.candidate_requirement?.other_educational_qualification) {
+    if (data?.candidate_requirements?.other_educational_qualification) {
       additionalEducationRequirement =
-        data?.candidate_requirement?.other_educational_qualification.split(
+        data?.candidate_requirements?.other_educational_qualification.split(
           '\n',
         );
     }
 
     let educationalInstitutes = '';
 
-    if (data?.candidate_requirement?.preferred_educational_institute) {
-      data?.candidate_requirement?.preferred_educational_institute.map(
-        (ins: any, index) => {
+    if (data?.candidate_requirements?.preferred_educational_institute) {
+      data?.candidate_requirements?.preferred_educational_institute.map(
+        (ins: any, index: number) => {
           educationalInstitutes += index != 0 ? ', ' : '';
           educationalInstitutes += ins;
         },
@@ -328,9 +217,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
     let professionalCertificates = '';
 
-    if (data?.candidate_requirement?.professional_Certificate) {
-      data?.candidate_requirement?.professional_Certificate.map(
-        (cert: any, index) => {
+    if (data?.candidate_requirements?.professional_Certificate) {
+      data?.candidate_requirements?.professional_Certificate.map(
+        (cert: any, index: number) => {
           professionalCertificates += index != 0 ? ', ' : '';
           professionalCertificates += cert;
         },
@@ -339,9 +228,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
     let trainingOrTradeCourse = '';
 
-    if (data?.candidate_requirement?.training_trade_course) {
-      data?.candidate_requirement?.training_trade_course.map(
-        (course: any, index) => {
+    if (data?.candidate_requirements?.training_trade_course) {
+      data?.candidate_requirements?.training_trade_course.map(
+        (course: any, index: number) => {
           trainingOrTradeCourse += index != 0 ? ', ' : '';
           trainingOrTradeCourse += course;
         },
@@ -349,13 +238,13 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
     }
 
     let skillText = '';
-    if (data?.candidate_requirement?.skills) {
-      skillText = data?.candidate_requirement?.skills.join(', ');
+    if (data?.candidate_requirements?.skills) {
+      skillText = data?.candidate_requirements?.skills.join(', ');
     }
     return (
       <ul style={{paddingLeft: '20px'}}>
-        {data?.candidate_requirement?.educations.map(
-          (education: any, index) => (
+        {data?.candidate_requirements?.educations.map(
+          (education: any, index: number) => (
             <li key={index}>
               {education.exam_degree_title} in {education.major_concentration}
             </li>
@@ -379,25 +268,25 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   };
 
   const getExperienceRequirements = () => {
-    if (data?.candidate_requirement?.experience_status == 1) {
+    if (data?.candidate_requirements?.experience_status == 1) {
       let experienceText = getExperienceText();
 
       let experienceAreas = '';
-      if (data?.candidate_requirement?.area_of_experience) {
+      if (data?.candidate_requirements?.area_of_experience) {
         experienceAreas =
-          data?.candidate_requirement?.area_of_experience.join(', ');
+          data?.candidate_requirements?.area_of_experience.join(', ');
       }
 
       let experienceBusinessAreas = '';
-      if (data?.candidate_requirement?.area_of_business) {
+      if (data?.candidate_requirements?.area_of_business) {
         experienceBusinessAreas =
-          data?.candidate_requirement?.area_of_business.join(', ');
+          data?.candidate_requirements?.area_of_business.join(', ');
       }
 
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
-          {data?.candidate_requirement?.is_fresher_applicable && (
+          {data?.candidate_requirements?.is_fresher_applicable && (
             <li>Freshers are encouraged to apply</li>
           )}
           <li>
@@ -423,7 +312,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
     let male = false;
     let female = false;
     let other = false;
-    data?.candidate_requirement?.genders.map((gender: number) => {
+    data?.candidate_requirements?.genders.map((gender: number) => {
       switch (gender) {
         case Gender.MALE:
           male = true;
@@ -454,21 +343,22 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getAdditionalRequirements = () => {
     let strArr: Array<string> = [];
-    if (data?.candidate_requirement?.additional_requirements) {
-      strArr = data?.candidate_requirement?.additional_requirements.split('\n');
+    if (data?.candidate_requirements?.additional_requirements) {
+      strArr =
+        data?.candidate_requirements?.additional_requirements.split('\n');
     }
 
     return (
       <ul style={{paddingLeft: '20px'}}>
         <li>Age {getAgeText()}</li>
-        {data?.candidate_requirement?.genders.length > 0 &&
-          data?.candidate_requirement?.genders.length < 3 && (
+        {data?.candidate_requirements?.genders.length > 0 &&
+          data?.candidate_requirements?.genders.length < 3 && (
             <li>{getGenderText()}</li>
           )}
         {strArr.map((item: string, index) => (
           <li key={index}>{item}</li>
         ))}
-        {data?.candidate_requirement?.is_person_with_disability_can_apply && (
+        {data?.candidate_requirements?.is_person_with_disability_can_apply && (
           <li>Person with disability are encouraged to apply</li>
         )}
       </ul>
@@ -609,9 +499,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
             {data?.company_info_visibility?.company_name}
           </S1>
           <JobPreviewSubComponent title={'Vacancy'}>
-            {data?.primary_job_information?.is_number_of_vacancy_na
-              ? 'N/A'
-              : formatNumber(data?.primary_job_information?.no_of_vacancies)}
+            {data?.primary_job_information?.no_of_vacancies
+              ? formatNumber(data?.primary_job_information?.no_of_vacancies)
+              : 'N/A'}
           </JobPreviewSubComponent>
 
           {data?.additional_job_information?.job_context && (
@@ -708,11 +598,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
                 <b>Vacancy: </b>
-                {data?.primary_job_information?.is_number_of_vacancy_na
-                  ? 'N/A'
-                  : formatNumber(
-                      data?.primary_job_information?.no_of_vacancies,
-                    )}
+                {data?.primary_job_information?.no_of_vacancies
+                  ? formatNumber(data?.primary_job_information?.no_of_vacancies)
+                  : 'N/A'}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
                 <b>Job Nature: </b>
