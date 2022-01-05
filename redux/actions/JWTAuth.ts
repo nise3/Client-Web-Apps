@@ -53,7 +53,7 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    let urlHost = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL : 'https://core.bus-staging.softbdltd.com';
     const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
 
     console.log('urlHost', urlHost);
@@ -113,11 +113,13 @@ export const loadAuthUser = async (
     const appAccessTokenData = getBrowserCookie(
       COOKIE_KEY_APP_ACCESS_TOKEN,
     );
+    console.log('permission call: appAccessTokenData', appAccessTokenData);
+
     const coreResponse =
-      ssoTokenData.userType == UserTypes.YOUTH_USER
+      ssoTokenData.user_type == UserTypes.YOUTH_USER
         ? await apiGet(youthServicePath + '/youth-profile', {
           headers: {
-            Authorization: 'Bearer ' + appAccessTokenData,
+            Authorization: 'Bearer ' + appAccessTokenData?.access_token,
             'User-Token': 'Bearer ' + tokenData.access_token,
           },
         })
@@ -125,7 +127,7 @@ export const loadAuthUser = async (
           coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
           {
             headers: {
-              Authorization: 'Bearer ' + appAccessTokenData,
+              Authorization: 'Bearer ' + appAccessTokenData?.access_token,
               'User-Token': 'Bearer ' + tokenData.access_token,
             },
           },
@@ -137,7 +139,7 @@ export const loadAuthUser = async (
     dispatch({
       type: UPDATE_AUTH_USER,
       payload:
-        ssoTokenData.userType == UserTypes.YOUTH_USER
+        ssoTokenData.user_type == UserTypes.YOUTH_USER
           ? getYouthAuthUserObject({...ssoTokenData, ...data})
           : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });

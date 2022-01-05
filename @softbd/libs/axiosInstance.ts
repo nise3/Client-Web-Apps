@@ -94,7 +94,7 @@ async function refreshAuthAccessToken() {
 
     if (authAccessTokenData?.refresh_token) {
 
-        let urlHost = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+        let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL : 'https://core.bus-staging.softbdltd.com';
         const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
 
         try {
@@ -140,7 +140,7 @@ export async function refreshAppAccessToken() {
 }
 
 export async function getAppAccessToken({throwError = false} = {}) {
-    const urlBase = process.env.NEXT_PUBLIC_CORE_API_BASE ? process.env.NEXT_PUBLIC_CORE_API_BASE : 'https://core.bus-staging.softbdltd.com';
+    const urlBase = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL : 'https://core.bus-staging.softbdltd.com';
     const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
     try {
         return await axios.get(
