@@ -13,11 +13,11 @@ interface TConfig {
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: 'https://bus-staging.softbdltd.com/oauth2/authorize/',
-  logoutUrl: 'https://bus-staging.softbdltd.com/oidc/logout',
-  tokenUrl: 'https://bus-staging.softbdltd.com/oauth2/token',
-  clientKey: 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
-  clientSecret: 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
+  authUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  logoutUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
+  tokenUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
+  clientKey: process.env.NEXT_PUBLIC_IDP_OPENID_KEY ? process.env.NEXT_PUBLIC_IDP_OPENID_KEY : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
+  clientSecret: process.env.NEXT_PUBLIC_IDP_OPENID_SECRET ? process.env.NEXT_PUBLIC_IDP_OPENID_SECRET : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
   callbackUrl: '/callback',
 };
 
@@ -34,14 +34,14 @@ export const paramsBuilder = (extraParams: any) => {
   if (extraParams) {
     Object.keys(extraParams).forEach((key, index) => {
       if (index) {
-        params += '&'
+        params += '&';
       }
       params += key + '=' + extraParams[key];
     });
   }
 
   return params;
-}
+};
 
 export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
   const redirectUrl = new URL(getHostUrl() + SSO_CONFIG.callbackUrl);
@@ -53,7 +53,7 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
     SSO_CONFIG.authUrl +
     '?response_type=code&client_id=' +
     SSO_CONFIG.clientKey +
-    '&scope=openid email&nonce=13e2312637dg136e1&' +
+    '&scope=openid&nonce=13e2312637dg136e1&' +
     'redirect_uri=' +
     redirectUrl.toString()
   );
