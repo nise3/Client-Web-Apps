@@ -618,7 +618,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           </JobPreviewSubComponent>
 
           {data?.additional_job_information?.job_context && (
-            <JobPreviewSubComponent title={'Job Responsibilities'}>
+            <JobPreviewSubComponent title={'Job Context'}>
               {getJobContext()}
             </JobPreviewSubComponent>
           )}
