@@ -61,7 +61,7 @@ const data: any = {
     others:
       'Excellent environment to learn\nOther benefits as per company policies',
   },
-  candidate_requirement: {
+  candidate_requirements: {
     experience_status: 1,
     min_experience: 3,
     max_experience: null,
@@ -183,17 +183,17 @@ const JobViewPage = () => {
   };
 
   const getSalary = () => {
-    let salaryText = '';
+    let salaryText: any = '';
 
     if (data?.additional_job_information?.is_salary_info_show == 1) {
       salaryText =
-        'Tk. ' +
-        data?.additional_job_information?.salary_min +
+        '৳ ' +
+        formatNumber(data?.additional_job_information?.salary_min) +
         ' - ' +
-        data?.additional_job_information?.salary_max +
-        '(monthly)';
+        formatNumber(data?.additional_job_information?.salary_max) +
+        ` (${messages['common.monthly']})`;
     } else if (data?.additional_job_information?.is_salary_info_show == 3) {
-      salaryText = 'Negotiable';
+      salaryText = messages['common.negotiable'];
     }
 
     return salaryText;
@@ -224,7 +224,7 @@ const JobViewPage = () => {
       }
       return experienceText;
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -346,15 +346,27 @@ const JobViewPage = () => {
           <li key={index}>{req}</li>
         ))}
         {educationalInstitutes && (
-          <li>{educationalInstitutes} students will get preference</li>
+          <li>
+            {educationalInstitutes}{' '}
+            {messages['job_preview.prefer_institute_text']}
+          </li>
         )}
         {professionalCertificates && (
-          <li>Professional Certification: {professionalCertificates}</li>
+          <li>
+            {messages['job_preview.professional_cert']}{' '}
+            {professionalCertificates}
+          </li>
         )}
         {trainingOrTradeCourse && (
-          <li>Training/ Trade Course: {trainingOrTradeCourse}</li>
+          <li>
+            {messages['job_preview.training_or_trade']} {trainingOrTradeCourse}
+          </li>
         )}
-        <li>Skill Required: {skillText}</li>
+        {skillText && (
+          <li>
+            {messages['job_preview.skill_required']} {skillText}
+          </li>
+        )}
       </ul>
     );
   };
@@ -379,16 +391,16 @@ const JobViewPage = () => {
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
           {data?.candidate_requirements?.is_fresher_applicable && (
-            <li>Freshers are encouraged to apply</li>
+            <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
           <li>
-            The applicant should have experience in following area(s):
+            {messages['job_preview.experience_area_label']}
             <ul style={{listStyleType: 'square'}}>
               <li>{experienceAreas}</li>
             </ul>
           </li>
           <li>
-            The applicant should have experience in following business area(s):
+            {messages['job_preview.business_area_label']}
             <ul style={{listStyleType: 'square'}}>
               <li>{experienceBusinessAreas}</li>
             </ul>
@@ -396,7 +408,7 @@ const JobViewPage = () => {
         </ul>
       );
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -451,7 +463,7 @@ const JobViewPage = () => {
           <li key={index}>{item}</li>
         ))}
         {data?.candidate_requirements?.is_person_with_disability_can_apply && (
-          <li>Person with disability are encouraged to apply</li>
+          <li>{messages['job_preview.person_with_disability']}</li>
         )}
       </ul>
     );
@@ -480,18 +492,18 @@ const JobViewPage = () => {
       let salaryReviewText = null;
       if (data?.additional_job_information?.salary_review) {
         salaryReviewText =
-          'Salary review: ' +
+          (messages['job_preview.salary_review'] as string) +
           (data?.additional_job_information?.salary_review == 1
-            ? 'Yearly'
-            : 'Half-yearly');
+            ? messages['common.yearly']
+            : messages['common.half_yearly']);
       }
       let lunchFacilitiesText = null;
       if (data?.additional_job_information?.lunch_facilities) {
         lunchFacilitiesText =
-          'Lunch Facilities: ' +
+          (messages['job_preview.lunch_facilities'] as string) +
           (data?.additional_job_information?.lunch_facilities == 1
-            ? 'Full subsidize'
-            : 'Partially subsidize');
+            ? messages['common.full_subsidize']
+            : messages['common.partially_subsidize']);
       }
 
       let othersArr: Array<string> = [];
@@ -500,56 +512,28 @@ const JobViewPage = () => {
       }
 
       return (
-        <ul style={{paddingLeft: '20px'}}>
-          {salaryReviewText && <li>{salaryReviewText}</li>}
-          {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
-          {data?.additional_job_information?.festival_bonus && (
-            <li>
-              Festival bonus: {data?.additional_job_information?.festival_bonus}{' '}
-              (Yearly)
-            </li>
-          )}
-          {(data?.additional_job_information?.other_benefits || []).map(
-            (item: number) => {
-              switch (item) {
-                case 1:
-                  return <li>T/A</li>;
-                case 2:
-                  return <li>Mobile bill</li>;
-                case 3:
-                  return <li>Pension Policy</li>;
-                case 4:
-                  return <li>Tour allowance</li>;
-                case 5:
-                  return <li>Credit card</li>;
-                case 6:
-                  return <li>Medical allowance</li>;
-                case 7:
-                  return (
-                    <li>Performance bonus will be reviewed by team leader</li>
-                  );
-                case 8:
-                  return <li>Profit share</li>;
-                case 9:
-                  return <li>Provident fund</li>;
-                case 10:
-                  return <li>Weekly 2 holidays</li>;
-                case 11:
-                  return <li>Insurance</li>;
-                case 12:
-                  return <li>Gratuity</li>;
-                case 13:
-                  return <li>Over time allowance</li>;
-              }
-            },
-          )}
-          {othersArr.map((other: string, index) => (
-            <li key={index}>{other}</li>
-          ))}
-        </ul>
+        <React.Fragment>
+          <ul style={{paddingLeft: '20px'}}>
+            {salaryReviewText && <li>{salaryReviewText}</li>}
+            {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
+            {data?.additional_job_information?.festival_bonus && (
+              <li>
+                {messages['job_preview.festival_bonus']}{' '}
+                {data?.additional_job_information?.festival_bonus} (
+                {messages['common.yearly']})
+              </li>
+            )}
+          </ul>
+
+          <ul style={{paddingLeft: '20px'}}>
+            {othersArr.map((other: string, index) => (
+              <li key={index}>{other}</li>
+            ))}
+          </ul>
+        </React.Fragment>
       );
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -561,39 +545,40 @@ const JobViewPage = () => {
           <S1 fontWeight={'bold'}>
             {data?.company_info_visibility?.company_name}
           </S1>
-          <JobPreviewSubComponent title={'Vacancy'}>
+          <JobPreviewSubComponent title={messages['common.vacancy']}>
             {data?.primary_job_information?.no_of_vacancies
               ? formatNumber(data?.primary_job_information?.no_of_vacancies)
-              : 'N/A'}
+              : messages['common.n_a']}
           </JobPreviewSubComponent>
 
           {data?.additional_job_information?.job_context && (
-            <JobPreviewSubComponent title={'Job Context'}>
+            <JobPreviewSubComponent title={messages['job_posting.job_context']}>
               {getJobContext()}
             </JobPreviewSubComponent>
           )}
 
-          <JobPreviewSubComponent title={'Job Responsibilities'}>
+          <JobPreviewSubComponent
+            title={messages['job_posting.job_responsibility']}>
             {getResponsibilities()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.employment_status'] as string}>
+            title={messages['job_posting.employment_status']}>
             {getJobNature()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.educational_requirements'] as string}>
+            title={messages['job_posting.educational_requirements']}>
             {getEducationalRequirements()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.experience_requirements'] as string}>
+            title={messages['job_posting.experience_requirements']}>
             {getExperienceRequirements()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.additional_requirements'] as string}>
+            title={messages['job_posting.additional_requirements']}>
             {getAdditionalRequirements()}
           </JobPreviewSubComponent>
           {data?.additional_job_information?.work_places && (
-            <JobPreviewSubComponent title={'Workplace'}>
+            <JobPreviewSubComponent title={messages['job_posting.workplace']}>
               {getWorkplace()}
             </JobPreviewSubComponent>
           )}
