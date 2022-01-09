@@ -1,11 +1,20 @@
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
-import {Box, Grid} from '@mui/material';
+import {Box, Button, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {EmploymentStatus, Gender} from './jobPost/enums/JobPostEnums';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {H3, S1} from '../../../@softbd/elements/common';
 import JobPreviewSubComponent from './jobPost/steps/components/JobPreviewSubComponent';
+import {
+  ArrowBack,
+  CreditCard,
+  Person,
+  Phone,
+  Tour,
+  TravelExplore,
+} from '@mui/icons-material';
+import {LINK_JOB_LIST} from '../../../@softbd/common/appLinks';
 
 const data: any = {
   primary_job_information: {
@@ -54,7 +63,7 @@ const data: any = {
     job_place_type: 0,
     work_places: [1, 2],
     is_other_benefits: 1,
-    other_benefits: [4, 5, 6, 7, 9, 10],
+    other_benefits: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     lunch_facilities: 1,
     salary_review: 1,
     festival_bonus: 2,
@@ -125,14 +134,21 @@ const data: any = {
 const PREFIX = 'JobView';
 
 const classes = {
-  footerTitle: `${PREFIX}-footerTitle`,
+  otherBenefit: `${PREFIX}-otherBenefit`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
-  [`& .${classes.footerTitle}`]: {
+  [`& .${classes.otherBenefit}`]: {
     display: 'inline-block',
-    paddingBottom: '10px',
-    borderBottom: '2px solid #d5d5d5',
+    textAlign: 'center',
+    marginTop: '20px',
+    marginLeft: '40px',
+
+    [`& .MuiSvgIcon-root`]: {
+      display: 'block',
+      margin: 'auto',
+      color: theme.palette.primary.light,
+    },
   },
   [`& ul>li`]: {
     marginTop: '5px',
@@ -524,6 +540,109 @@ const JobViewPage = () => {
               </li>
             )}
           </ul>
+          <Box
+            sx={{
+              marginTop: '-15px',
+              marginLeft: '-30px',
+            }}>
+            {(data?.additional_job_information?.other_benefits || []).map(
+              (item: number, index: number) => {
+                switch (item) {
+                  case 1:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <TravelExplore />
+                        T/A
+                      </Box>
+                    );
+                  case 2:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Phone />
+                        Mobile bill
+                      </Box>
+                    );
+                  case 3:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Person />
+                        Pension Policy
+                      </Box>
+                    );
+                  case 4:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Tour />
+                        Tour allowance
+                      </Box>
+                    );
+                  case 5:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Credit card
+                      </Box>
+                    );
+                  case 6:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Medical allowance
+                      </Box>
+                    );
+                  case 7:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Performance bonus
+                      </Box>
+                    );
+                  case 8:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Profit share
+                      </Box>
+                    );
+                  case 9:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Provident fund
+                      </Box>
+                    );
+                  case 10:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Weekly 2 holidays
+                      </Box>
+                    );
+                  case 11:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Insurance
+                      </Box>
+                    );
+                  case 12:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Gratuity
+                      </Box>
+                    );
+                  case 13:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Over time allowance
+                      </Box>
+                    );
+                }
+              },
+            )}
+          </Box>
 
           <ul style={{paddingLeft: '20px'}}>
             {othersArr.map((other: string, index) => (
@@ -537,10 +656,18 @@ const JobViewPage = () => {
     }
   };
 
+  const onGoBack = useCallback(() => {
+    router
+      .push({
+        pathname: LINK_JOB_LIST,
+      })
+      .then(() => {});
+  }, []);
+
   return (
     <StyledBox mb={2}>
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={8}>
+      <Grid container>
+        <Grid item xs={12} md={10} order={{xs: 2, md: 1}}>
           <H3>{data?.primary_job_information?.job_title}</H3>
           <S1 fontWeight={'bold'}>
             {data?.company_info_visibility?.company_name}
@@ -622,6 +749,16 @@ const JobViewPage = () => {
                 })
               : ''}
           </JobPreviewSubComponent>
+        </Grid>
+        <Grid item xs={12} md={2} order={{xs: 1, md: 2}} textAlign={'right'}>
+          <Button
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
+            onClick={onGoBack}>
+            <ArrowBack />
+            Go Back
+          </Button>
         </Grid>
       </Grid>
     </StyledBox>
