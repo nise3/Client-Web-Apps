@@ -17,6 +17,14 @@ import {
   ResumeReceivingOptions,
   SHOW,
 } from '../enums/JobPostEnums';
+import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import {
+  CreditCard,
+  Person,
+  Phone,
+  Tour,
+  TravelExplore,
+} from '@mui/icons-material';
 
 interface Props {
   jobId: string;
@@ -78,7 +86,7 @@ const data: any = {
     others:
       'Excellent environment to learn\nOther benefits as per company policies',
   },
-  candidate_requirement: {
+  candidate_requirements: {
     experience_status: 1,
     min_experience: 3,
     max_experience: null,
@@ -143,6 +151,7 @@ const PREFIX = 'JobPreview';
 
 const classes = {
   footerTitle: `${PREFIX}-footerTitle`,
+  otherBenefit: `${PREFIX}-otherBenefit`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -150,6 +159,18 @@ const StyledBox = styled(Box)(({theme}) => ({
     display: 'inline-block',
     paddingBottom: '10px',
     borderBottom: '2px solid #d5d5d5',
+  },
+  [`& .${classes.otherBenefit}`]: {
+    display: 'inline-block',
+    textAlign: 'center',
+    marginTop: '20px',
+    marginLeft: '40px',
+
+    [`& .MuiSvgIcon-root`]: {
+      display: 'block',
+      margin: 'auto',
+      color: theme.palette.primary.light,
+    },
   },
   [`& ul>li`]: {
     marginTop: '5px',
@@ -204,17 +225,17 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   };
 
   const getSalary = () => {
-    let salaryText = '';
+    let salaryText: any = '';
 
     if (data?.additional_job_information?.is_salary_info_show == 1) {
       salaryText =
-        'Tk. ' +
-        data?.additional_job_information?.salary_min +
+        '৳ ' +
+        formatNumber(data?.additional_job_information?.salary_min) +
         ' - ' +
-        data?.additional_job_information?.salary_max +
-        '(monthly)';
+        formatNumber(data?.additional_job_information?.salary_max) +
+        ` (${messages['common.monthly']})`;
     } else if (data?.additional_job_information?.is_salary_info_show == 3) {
-      salaryText = 'Negotiable';
+      salaryText = messages['common.negotiable'];
     }
 
     return salaryText;
@@ -222,30 +243,42 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getExperienceText = () => {
     if (data?.candidate_requirements?.experience_status == 1) {
-      let experienceText = '';
+      let experienceText: any = '';
       if (
         data?.candidate_requirements?.min_experience &&
         data?.candidate_requirements?.max_experience
       ) {
-        experienceText =
-          data?.candidate_requirements?.min_experience +
-          ' to ' +
-          data?.candidate_requirements?.max_experience +
-          ' year(s)';
+        experienceText = (
+          <IntlMessages
+            id={'job_preview.experience_from_to'}
+            values={{
+              from: data?.candidate_requirements?.min_experience,
+              to: data?.candidate_requirements?.max_experience,
+            }}
+          />
+        );
       } else if (data?.candidate_requirements?.min_experience) {
-        experienceText =
-          'At least ' +
-          data?.candidate_requirements?.min_experience +
-          ' year(s)';
+        experienceText = (
+          <IntlMessages
+            id={'job_preview.experience_at_least'}
+            values={{
+              from: data?.candidate_requirements?.min_experience,
+            }}
+          />
+        );
       } else if (data?.candidate_requirements?.max_experience) {
-        experienceText =
-          'At most ' +
-          data?.candidate_requirements?.max_experience +
-          ' year(s)';
+        experienceText = (
+          <IntlMessages
+            id={'job_preview.experience_at_most'}
+            values={{
+              from: data?.candidate_requirements?.max_experience,
+            }}
+          />
+        );
       }
       return experienceText;
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -367,15 +400,27 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           <li key={index}>{req}</li>
         ))}
         {educationalInstitutes && (
-          <li>{educationalInstitutes} students will get preference</li>
+          <li>
+            {educationalInstitutes}{' '}
+            {messages['job_preview.prefer_institute_text']}
+          </li>
         )}
         {professionalCertificates && (
-          <li>Professional Certification: {professionalCertificates}</li>
+          <li>
+            {messages['job_preview.professional_cert']}{' '}
+            {professionalCertificates}
+          </li>
         )}
         {trainingOrTradeCourse && (
-          <li>Training/ Trade Course: {trainingOrTradeCourse}</li>
+          <li>
+            {messages['job_preview.training_or_trade']} {trainingOrTradeCourse}
+          </li>
         )}
-        <li>Skill Required: {skillText}</li>
+        {skillText && (
+          <li>
+            {messages['job_preview.skill_required']} {skillText}
+          </li>
+        )}
       </ul>
     );
   };
@@ -400,16 +445,16 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
           {data?.candidate_requirements?.is_fresher_applicable && (
-            <li>Freshers are encouraged to apply</li>
+            <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
           <li>
-            The applicant should have experience in following area(s):
+            {messages['job_preview.experience_area_label']}
             <ul style={{listStyleType: 'square'}}>
               <li>{experienceAreas}</li>
             </ul>
           </li>
           <li>
-            The applicant should have experience in following business area(s):
+            {messages['job_preview.business_area_label']}
             <ul style={{listStyleType: 'square'}}>
               <li>{experienceBusinessAreas}</li>
             </ul>
@@ -417,7 +462,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
         </ul>
       );
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -472,7 +517,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           <li key={index}>{item}</li>
         ))}
         {data?.candidate_requirements?.is_person_with_disability_can_apply && (
-          <li>Person with disability are encouraged to apply</li>
+          <li>{messages['job_preview.person_with_disability']}</li>
         )}
       </ul>
     );
@@ -501,18 +546,18 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
       let salaryReviewText = null;
       if (data?.additional_job_information?.salary_review) {
         salaryReviewText =
-          'Salary review: ' +
+          (messages['job_preview.salary_review'] as string) +
           (data?.additional_job_information?.salary_review == 1
-            ? 'Yearly'
-            : 'Half-yearly');
+            ? messages['common.yearly']
+            : messages['common.half_yearly']);
       }
       let lunchFacilitiesText = null;
       if (data?.additional_job_information?.lunch_facilities) {
         lunchFacilitiesText =
-          'Lunch Facilities: ' +
+          (messages['job_preview.lunch_facilities'] as string) +
           (data?.additional_job_information?.lunch_facilities == 1
-            ? 'Full subsidize'
-            : 'Partially subsidize');
+            ? messages['common.full_subsidize']
+            : messages['common.partially_subsidize']);
       }
 
       let othersArr: Array<string> = [];
@@ -521,56 +566,131 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
       }
 
       return (
-        <ul style={{paddingLeft: '20px'}}>
-          {salaryReviewText && <li>{salaryReviewText}</li>}
-          {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
-          {data?.additional_job_information?.festival_bonus && (
-            <li>
-              Festival bonus: {data?.additional_job_information?.festival_bonus}{' '}
-              (Yearly)
-            </li>
-          )}
-          {(data?.additional_job_information?.other_benefits || []).map(
-            (item: number) => {
-              switch (item) {
-                case 1:
-                  return <li>T/A</li>;
-                case 2:
-                  return <li>Mobile bill</li>;
-                case 3:
-                  return <li>Pension Policy</li>;
-                case 4:
-                  return <li>Tour allowance</li>;
-                case 5:
-                  return <li>Credit card</li>;
-                case 6:
-                  return <li>Medical allowance</li>;
-                case 7:
-                  return (
-                    <li>Performance bonus will be reviewed by team leader</li>
-                  );
-                case 8:
-                  return <li>Profit share</li>;
-                case 9:
-                  return <li>Provident fund</li>;
-                case 10:
-                  return <li>Weekly 2 holidays</li>;
-                case 11:
-                  return <li>Insurance</li>;
-                case 12:
-                  return <li>Gratuity</li>;
-                case 13:
-                  return <li>Over time allowance</li>;
-              }
-            },
-          )}
-          {othersArr.map((other: string, index) => (
-            <li key={index}>{other}</li>
-          ))}
-        </ul>
+        <React.Fragment>
+          <ul style={{paddingLeft: '20px'}}>
+            {salaryReviewText && <li>{salaryReviewText}</li>}
+            {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
+            {data?.additional_job_information?.festival_bonus && (
+              <li>
+                {messages['job_preview.festival_bonus']}{' '}
+                {data?.additional_job_information?.festival_bonus} (
+                {messages['common.yearly']})
+              </li>
+            )}
+          </ul>
+          <Box
+            sx={{
+              marginTop: '-15px',
+              marginLeft: '-30px',
+            }}>
+            {(data?.additional_job_information?.other_benefits || []).map(
+              (item: number, index: number) => {
+                switch (item) {
+                  case 1:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <TravelExplore />
+                        T/A
+                      </Box>
+                    );
+                  case 2:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Phone />
+                        Mobile bill
+                      </Box>
+                    );
+                  case 3:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Person />
+                        Pension Policy
+                      </Box>
+                    );
+                  case 4:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Tour />
+                        Tour allowance
+                      </Box>
+                    );
+                  case 5:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Credit card
+                      </Box>
+                    );
+                  case 6:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Medical allowance
+                      </Box>
+                    );
+                  case 7:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Performance bonus
+                      </Box>
+                    );
+                  case 8:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Profit share
+                      </Box>
+                    );
+                  case 9:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Provident fund
+                      </Box>
+                    );
+                  case 10:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Weekly 2 holidays
+                      </Box>
+                    );
+                  case 11:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Insurance
+                      </Box>
+                    );
+                  case 12:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Gratuity
+                      </Box>
+                    );
+                  case 13:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Over time allowance
+                      </Box>
+                    );
+                }
+              },
+            )}
+          </Box>
+
+          <ul style={{paddingLeft: '20px'}}>
+            {othersArr.map((other: string, index) => (
+              <li key={index}>{other}</li>
+            ))}
+          </ul>
+        </React.Fragment>
       );
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -611,47 +731,47 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           <S1 fontWeight={'bold'}>
             {data?.company_info_visibility?.company_name}
           </S1>
-          <JobPreviewSubComponent title={'Vacancy'}>
+          <JobPreviewSubComponent title={messages['common.vacancy']}>
             {data?.primary_job_information?.no_of_vacancies
               ? formatNumber(data?.primary_job_information?.no_of_vacancies)
-              : 'N/A'}
+              : messages['common.n_a']}
           </JobPreviewSubComponent>
 
           {data?.additional_job_information?.job_context && (
-            <JobPreviewSubComponent title={'Job Responsibilities'}>
+            <JobPreviewSubComponent title={messages['job_posting.job_context']}>
               {getJobContext()}
             </JobPreviewSubComponent>
           )}
 
-          <JobPreviewSubComponent title={'Job Responsibilities'}>
+          <JobPreviewSubComponent
+            title={messages['job_posting.job_responsibility']}>
             {getResponsibilities()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.employment_status'] as string}>
+            title={messages['job_posting.employment_status']}>
             {getJobNature()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.educational_requirements'] as string}>
+            title={messages['job_posting.educational_requirements']}>
             {getEducationalRequirements()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.experience_requirements'] as string}>
+            title={messages['job_posting.experience_requirements']}>
             {getExperienceRequirements()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.additional_requirements'] as string}>
+            title={messages['job_posting.additional_requirements']}>
             {getAdditionalRequirements()}
           </JobPreviewSubComponent>
           {data?.additional_job_information?.work_places && (
-            <JobPreviewSubComponent title={'Workplace'}>
+            <JobPreviewSubComponent title={messages['job_posting.workplace']}>
               {getWorkplace()}
             </JobPreviewSubComponent>
           )}
-          <JobPreviewSubComponent
-            title={messages['common.job_location'] as string}>
+          <JobPreviewSubComponent title={messages['common.job_location']}>
             {data?.additional_job_information?.job_locations?.join(', ')}
           </JobPreviewSubComponent>
-          <JobPreviewSubComponent title={messages['common.salary'] as string}>
+          <JobPreviewSubComponent title={messages['common.salary']}>
             {data?.additional_job_information?.additional_salary_info &&
             data?.additional_job_information?.additional_salary_info != '' ? (
               <ul style={{paddingLeft: '20px'}}>
@@ -667,18 +787,14 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
             )}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={
-              messages['job_posting.compensation_and_other_benefits'] as string
-            }>
+            title={messages['job_posting.compensation_and_other_benefits']}>
             {getOtherBenefits()}
           </JobPreviewSubComponent>
 
-          <JobPreviewSubComponent
-            title={messages['job_posting.job_source'] as string}>
+          <JobPreviewSubComponent title={messages['job_posting.job_source']}>
             Nise3 Online Job Posting.
           </JobPreviewSubComponent>
-          <JobPreviewSubComponent
-            title={messages['job_posting.published_on'] as string}>
+          <JobPreviewSubComponent title={messages['job_posting.published_on']}>
             {data?.primary_job_information?.published_at
               ? formatDate(data.primary_job_information.published_at, {
                   day: '2-digit',
@@ -690,7 +806,8 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
         </Grid>
         <Grid item xs={1} md={4}>
           <Typography>
-            <b>Category:</b> {data?.primary_job_information?.job_sector_title}/
+            <b>{messages['job_preview.job_sector_occupation']}</b>{' '}
+            {data?.primary_job_information?.job_sector_title}/
             {data?.primary_job_information?.occupation_title}
           </Typography>
           <Card sx={{border: '1px solid #bbbbbb', marginTop: '10px'}}>
@@ -700,7 +817,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
                 padding: '10px',
                 color: 'common.white',
               }}>
-              Job Summary
+              {messages['job_preview.job_summary']}
             </Box>
             <CardContent>
               <Body2>
@@ -714,35 +831,35 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
                   : ''}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Vacancy: </b>
+                <b>{messages['job_preview_summary.vacancy']} </b>
                 {data?.primary_job_information?.no_of_vacancies
                   ? formatNumber(data?.primary_job_information?.no_of_vacancies)
-                  : 'N/A'}
+                  : messages['common.n_a']}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Job Nature: </b>
+                <b>{messages['job_preview_summary.job_nature']} </b>
                 {getJobNature()}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Age: </b>
+                <b>{messages['job_preview_summary.age']} </b>
                 {getAgeText()}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Experience: </b>
+                <b>{messages['job_preview_summary.experience']} </b>
                 {getExperienceText()}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Job Location: </b>
+                <b>{messages['job_preview_summary.job_location']} </b>
                 {data?.additional_job_information?.job_locations?.join(', ')}
               </Body2>
               {data?.additional_job_information?.is_salary_info_show != 2 && (
                 <Body2 sx={{marginTop: '6px'}}>
-                  <b>Salary: </b>
+                  <b>{messages['job_preview_summary.salary']} </b>
                   {getSalary()}
                 </Body2>
               )}
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Application Deadline: </b>
+                <b>{messages['job_preview_summary.application_deadline']} </b>
                 {data?.primary_job_information?.application_deadline
                   ? formatDate(
                       data.primary_job_information.application_deadline,
@@ -759,7 +876,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
         </Grid>
         <Grid item xs={12} textAlign={'center'} mt={2}>
           <S2 fontWeight={'bold'} className={classes.footerTitle}>
-            Read Before Apply
+            {messages['job_preview.read_before_apply']}
           </S2>
           {data?.primary_job_information
             ?.special_instruction_for_job_seekers && (
@@ -773,13 +890,21 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           {data?.primary_job_information?.is_photograph_enclose_with_resume ==
             1 && (
             <S2 mt={1}>
-              <span style={{color: 'red'}}>*Photograph</span> must be enclosed
-              with the resume.
+              <IntlMessages
+                id={'job_preview.photograph_enclose_with_resume'}
+                values={{
+                  photo: (
+                    <span style={{color: 'red'}}>
+                      *{messages['job_preview.photograph']}
+                    </span>
+                  ),
+                }}
+              />
             </S2>
           )}
 
           <S2 fontWeight={'bold'} mt={2}>
-            Apply Procedure
+            {messages['job_preview.apply_procedure']}
           </S2>
 
           {data?.primary_job_information?.is_apply_online == 1 && (
@@ -788,26 +913,48 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
               size={'medium'}
               variant={'contained'}
               sx={{marginTop: '15px'}}>
-              Apply Online
+              {messages['common.apply_online']}
             </Button>
           )}
 
           {data?.primary_job_information?.resume_receiving_option ==
             ResumeReceivingOptions.EMAIL && (
             <Box mt={3}>
-              <S2>Email</S2>
+              <S2>{messages['common.email']}</S2>
               <Body2 color={'grey.600'}>
-                Send your CV to{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  {data?.primary_job_information?.email}{' '}
-                </span>
+                <IntlMessages
+                  id={'job_preview.send_your_cv'}
+                  values={{
+                    email: (
+                      <a
+                        style={{
+                          color: 'blue',
+                          textDecoration: 'underline',
+                          fontWeight: 'bold',
+                        }}
+                        href={'mailto:' + data?.primary_job_information?.email}>
+                        {data?.primary_job_information?.email}{' '}
+                      </a>
+                    ),
+                  }}
+                />
                 {data?.primary_job_information?.is_use_nise3_mail_system ==
                   1 && (
                   <React.Fragment>
-                    or to Email CV from{' '}
-                    <span style={{fontWeight: 'bold'}}>NISE3</span> account{' '}
-                    <Link href={''} target={'_blank'}>
-                      Click here
+                    <IntlMessages
+                      id={'job_preview.or_from_nise3_account'}
+                      values={{
+                        nise3: <span style={{fontWeight: 'bold'}}>NISE3</span>,
+                      }}
+                    />
+                    <Link
+                      style={{
+                        color: 'blue',
+                        textDecoration: 'underline',
+                      }}
+                      href={''}
+                      target={'_blank'}>
+                      {messages['common.click_here']}
                     </Link>
                   </React.Fragment>
                 )}
@@ -818,7 +965,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           {data?.primary_job_information?.resume_receiving_option ==
             ResumeReceivingOptions.HARD_COPY && (
             <Box mt={3}>
-              <S2 fontWeight={'bold'}>Hard Copy</S2>
+              <S2 fontWeight={'bold'}>{messages['job_posting.hard_copy']}</S2>
               <Body2 color={'grey.600'} sx={{whiteSpace: 'break-spaces'}}>
                 {data?.primary_job_information?.instruction_for_hard_copy}
               </Body2>
@@ -828,7 +975,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           {data?.primary_job_information?.resume_receiving_option ==
             ResumeReceivingOptions.WALK_IN_INTERVIEW && (
             <Box mt={3}>
-              <S2 fontWeight={'bold'}>Walk in Interview</S2>
+              <S2 fontWeight={'bold'}>
+                {messages['job_posting.walk_in_interview']}
+              </S2>
               <Body2 color={'grey.600'} sx={{whiteSpace: 'break-spaces'}}>
                 {
                   data?.primary_job_information
@@ -839,7 +988,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
           )}
 
           <Body1 mt={2}>
-            Application Deadline:{' '}
+            {messages['job_preview_summary.application_deadline']}{' '}
             {data?.primary_job_information?.application_deadline
               ? formatDate(data.primary_job_information.application_deadline, {
                   day: '2-digit',
@@ -857,7 +1006,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
             borderTop: '1px solid #e9e9e9',
           }}>
           <S2 fontWeight={'bold'} mb={1}>
-            Company Information
+            {messages['job_preview.company_information']}
           </S2>
           <Box color={'grey.600'}>
             <Body2>{getCompanyName()}</Body2>
