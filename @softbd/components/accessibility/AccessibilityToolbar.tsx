@@ -127,11 +127,13 @@ const AccessibilityToolbar = () => {
         document.querySelector('h1') ||
         document.querySelector('h2') ||
         document.querySelector('h3');
-      if (head)
+      if (head) {
         window.scrollTo({
           left: 0,
           top: -8 + head.getBoundingClientRect().y + window.scrollY,
         });
+        head.focus();
+      }
     }
   }, []);
   const formToggle = useCallback((e) => {

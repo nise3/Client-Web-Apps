@@ -27,7 +27,7 @@ import {filterDistrictsByDivisionId} from '../../services/locationManagement/loc
 import {industryAssociationRegistration} from '../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 import {District} from '../../shared/Interface/location.interface';
 
-const OrganizationRegistration = () => {
+const IndustryAssociationRegistration = () => {
   const router = useRouter();
 
   const {messages} = useIntl();
@@ -155,7 +155,10 @@ const OrganizationRegistration = () => {
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
+  console.log('errors', errors);
+
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log('submitted data', data);
     try {
       await industryAssociationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
@@ -175,6 +178,7 @@ const OrganizationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
+          data-test-id="heading"
           style={{
             marginBottom: '10px',
             fontWeight: 'bold',
@@ -238,7 +242,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='loc_district_id '
+                id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}
                 control={control}
@@ -271,7 +275,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='mobile '
+                id='mobile'
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
@@ -281,6 +285,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='email'
+                inputProps={{ 'data-test-id':'email'}}
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -337,6 +342,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_email'
+                inputProps={{'data-test-id':"contact_person_email"}}
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
@@ -347,6 +353,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_mobile'
+                inputProps={{'data-test-id':'contact_person_mobile'}}
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
@@ -395,4 +402,4 @@ const OrganizationRegistration = () => {
   );
 };
 
-export default OrganizationRegistration;
+export default IndustryAssociationRegistration;

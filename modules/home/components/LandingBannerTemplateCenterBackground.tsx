@@ -17,6 +17,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   display: 'flex',
   position: 'relative',
   justifyContent: 'center',
+  zIndex: 0,
 
   [`& .${classes.image}`]: {
     zIndex: -1,
