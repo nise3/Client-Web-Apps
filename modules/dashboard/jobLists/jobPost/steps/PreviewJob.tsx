@@ -18,6 +18,13 @@ import {
   SHOW,
 } from '../enums/JobPostEnums';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import {
+  CreditCard,
+  Person,
+  Phone,
+  Tour,
+  TravelExplore,
+} from '@mui/icons-material';
 
 interface Props {
   jobId: string;
@@ -144,6 +151,7 @@ const PREFIX = 'JobPreview';
 
 const classes = {
   footerTitle: `${PREFIX}-footerTitle`,
+  otherBenefit: `${PREFIX}-otherBenefit`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -151,6 +159,18 @@ const StyledBox = styled(Box)(({theme}) => ({
     display: 'inline-block',
     paddingBottom: '10px',
     borderBottom: '2px solid #d5d5d5',
+  },
+  [`& .${classes.otherBenefit}`]: {
+    display: 'inline-block',
+    textAlign: 'center',
+    marginTop: '20px',
+    marginLeft: '40px',
+
+    [`& .MuiSvgIcon-root`]: {
+      display: 'block',
+      margin: 'auto',
+      color: theme.palette.primary.light,
+    },
   },
   [`& ul>li`]: {
     marginTop: '5px',
@@ -546,54 +566,128 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
       }
 
       return (
-        <ul style={{paddingLeft: '20px'}}>
-          {salaryReviewText && <li>{salaryReviewText}</li>}
-          {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
-          {data?.additional_job_information?.festival_bonus && (
-            <li>
-              {messages['job_preview.festival_bonus']}{' '}
-              {data?.additional_job_information?.festival_bonus} (
-              {messages['common.yearly']})
-            </li>
-          )}
-          {(data?.additional_job_information?.other_benefits || []).map(
-            (item: number) => {
-              switch (item) {
-                case 1:
-                  return <li>T/A</li>;
-                case 2:
-                  return <li>Mobile bill</li>;
-                case 3:
-                  return <li>Pension Policy</li>;
-                case 4:
-                  return <li>Tour allowance</li>;
-                case 5:
-                  return <li>Credit card</li>;
-                case 6:
-                  return <li>Medical allowance</li>;
-                case 7:
-                  return (
-                    <li>Performance bonus will be reviewed by team leader</li>
-                  );
-                case 8:
-                  return <li>Profit share</li>;
-                case 9:
-                  return <li>Provident fund</li>;
-                case 10:
-                  return <li>Weekly 2 holidays</li>;
-                case 11:
-                  return <li>Insurance</li>;
-                case 12:
-                  return <li>Gratuity</li>;
-                case 13:
-                  return <li>Over time allowance</li>;
-              }
-            },
-          )}
-          {othersArr.map((other: string, index) => (
-            <li key={index}>{other}</li>
-          ))}
-        </ul>
+        <React.Fragment>
+          <ul style={{paddingLeft: '20px'}}>
+            {salaryReviewText && <li>{salaryReviewText}</li>}
+            {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
+            {data?.additional_job_information?.festival_bonus && (
+              <li>
+                {messages['job_preview.festival_bonus']}{' '}
+                {data?.additional_job_information?.festival_bonus} (
+                {messages['common.yearly']})
+              </li>
+            )}
+          </ul>
+          <Box
+            sx={{
+              marginTop: '-15px',
+              marginLeft: '-30px',
+            }}>
+            {(data?.additional_job_information?.other_benefits || []).map(
+              (item: number, index: number) => {
+                switch (item) {
+                  case 1:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <TravelExplore />
+                        T/A
+                      </Box>
+                    );
+                  case 2:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Phone />
+                        Mobile bill
+                      </Box>
+                    );
+                  case 3:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Person />
+                        Pension Policy
+                      </Box>
+                    );
+                  case 4:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <Tour />
+                        Tour allowance
+                      </Box>
+                    );
+                  case 5:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Credit card
+                      </Box>
+                    );
+                  case 6:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Medical allowance
+                      </Box>
+                    );
+                  case 7:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Performance bonus
+                      </Box>
+                    );
+                  case 8:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Profit share
+                      </Box>
+                    );
+                  case 9:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Provident fund
+                      </Box>
+                    );
+                  case 10:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Weekly 2 holidays
+                      </Box>
+                    );
+                  case 11:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Insurance
+                      </Box>
+                    );
+                  case 12:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Gratuity
+                      </Box>
+                    );
+                  case 13:
+                    return (
+                      <Box key={index} className={classes.otherBenefit}>
+                        <CreditCard />
+                        Over time allowance
+                      </Box>
+                    );
+                }
+              },
+            )}
+          </Box>
+
+          <ul style={{paddingLeft: '20px'}}>
+            {othersArr.map((other: string, index) => (
+              <li key={index}>{other}</li>
+            ))}
+          </ul>
+        </React.Fragment>
       );
     } else {
       return messages['common.n_a'];
