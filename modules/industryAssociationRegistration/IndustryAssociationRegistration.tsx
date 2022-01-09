@@ -82,7 +82,7 @@ const IndustryAssociationRegistration = () => {
         .trim()
         .required()
         .label(messages['association.head_of_office_or_chairman'] as string),
-      trade_no: yup
+      trade_number: yup
         .string()
         .trim()
         .required()
@@ -178,7 +178,7 @@ const IndustryAssociationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
-          data-test-id="heading"
+          data-test-id='heading'
           style={{
             marginBottom: '10px',
             fontWeight: 'bold',
@@ -218,7 +218,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='trade_no'
+                id='trade_number'
                 label={messages['association.trade_no']}
                 register={register}
                 errorInstance={errors}
@@ -256,7 +256,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='name_of_the_office_head'
+                id='name_of_the_office_head '
                 label={messages['association.head_of_office_or_chairman']}
                 register={register}
                 errorInstance={errors}
@@ -285,7 +285,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='email'
-                inputProps={{ 'data-test-id':'email'}}
+                inputProps={{'data-test-id': 'email'}}
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -342,7 +342,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_email'
-                inputProps={{'data-test-id':"contact_person_email"}}
+                inputProps={{'data-test-id': 'contact_person_email'}}
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
@@ -353,7 +353,7 @@ const IndustryAssociationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_mobile'
-                inputProps={{'data-test-id':'contact_person_mobile'}}
+                inputProps={{'data-test-id': 'contact_person_mobile'}}
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
