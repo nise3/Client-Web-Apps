@@ -18,10 +18,6 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  marginTop: '20px',
-  marginBottom: '20px',
-  justifyContent: 'space-around',
-
   [`& .${classes.contact_person_avatar}`]: {
     width: '100px',
     height: '100px',
@@ -35,6 +31,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     background: theme.palette.common.white,
     border: '1px solid #e9e9e9',
     borderRadius: '7px',
+    height: '100%',
   },
   [`& .${classes.form}`]: {
     background: theme.palette.common.white,
@@ -58,7 +55,7 @@ const AssociationProfile = () => {
 
   return (
     <>
-      <StyledGrid container>
+      <StyledGrid container spacing={5}>
         <Grid item xs={4}>
           <Grid container className={classes.card}>
             <Grid
@@ -122,7 +119,7 @@ const AssociationProfile = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={8}>
           <Grid container className={classes.form}>
             <Grid item xs={12}>
               <H4>{messages['association_information']}</H4>
