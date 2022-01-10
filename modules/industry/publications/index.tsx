@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   Box,
   Button,
@@ -23,6 +23,7 @@ import {useIntl} from 'react-intl';
 import {useFetchPublications} from '../../../services/IndustryManagement/hooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -94,10 +95,29 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const Publications = () => {
   const {messages} = useIntl();
   const result = useCustomStyle();
-  const [publicationFilter] = useState<any>({});
+
+  // Todo: industry_association_id is static have to change after created id
+  const [publicationFilter, setPublicationFilter] = useState<any>({
+    industry_association_id: 1,
+    row_status: RowStatus.ACTIVE,
+    page: 1,
+    page_size: 8,
+  });
+
   const {data: publications} = useFetchPublications(publicationFilter);
+  console.log('publications-->', publications);
+
+  const page = useRef<any>(1);
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setPublicationFilter((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
+
   const onResetClicked = useCallback(() => {}, []);
   const onChangeWriter = useCallback((writerId: number | null) => {}, []);
+
   return (
     <>
       <Grid container sx={{maxWidth: '100%'}}>
@@ -188,7 +208,10 @@ const Publications = () => {
               <Grid item xs={12}>
                 <Body2 gutterBottom>
                   {messages['total_result.institute']}{' '}
-                  <Chip label={'4'} className={classes.chipStyle} />
+                  <Chip
+                    label={publications?.length}
+                    className={classes.chipStyle}
+                  />
                 </Body2>
               </Grid>
               <Grid item xs={12}>
@@ -209,7 +232,8 @@ const Publications = () => {
                             <CardMedia
                               component='img'
                               height='227'
-                              image='/images/testPublication.png'
+                              // image='/images/testPublication.png'
+                              image={publication.image_path}
                               alt='publication'
                             />
                           </Box>
@@ -240,6 +264,7 @@ const Publications = () => {
                         count={3}
                         color={'primary'}
                         shape='rounded'
+                        onChange={onPaginationChange}
                       />
                     </Stack>
                   </Grid>
