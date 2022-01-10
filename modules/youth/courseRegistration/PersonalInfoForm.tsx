@@ -48,18 +48,24 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   });
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
     useFetchPublicTrainingCenters(trainingCenterFilters);
-  const [programmeFilters] = useState<any>({
+  const [programFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
     institute_id: course?.institute_id,
   });
-  const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchPublicPrograms(programmeFilters);
+  const {data: programs, isLoading: isLoadingPrograms} =
+    useFetchPublicPrograms(programFilters);
 
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
     PhysicalDisabilityStatus.NO,
   );
   const [isBelongToEthnicGroup, setIsBelongToEthnicGroup] =
     useState<boolean>(false);
+  const [defaultPassportImagePath, setDefaultPassportImagePath] = useState<
+    string | null
+  >(null);
+  const [defaultSignatureImagePath, setDefaultSignatureImagePath] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     if (getValues) {
@@ -73,6 +79,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setIsBelongToEthnicGroup(doesBelongsToEthnicGroup);
 
       setDisabilityStatus(physicalDisabilityStatus);
+
+      const passportPath = getValues('passport_photo_path');
+      if (passportPath) setDefaultPassportImagePath(passportPath);
+      else setDefaultPassportImagePath(null);
+
+      const signaturePath = getValues('signature_image_path');
+      if (signaturePath) setDefaultSignatureImagePath(signaturePath);
+      else setDefaultSignatureImagePath(null);
     }
   }, [getValues]);
 
@@ -272,11 +286,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} sm={6} md={6}>
         <CustomFilterableFormSelect
-          id='programme_id'
+          id='program_id'
           label={messages['programme.label']}
-          isLoading={isLoadingProgrammes}
+          isLoading={isLoadingPrograms}
           control={control}
-          options={programmes}
+          options={programs}
           optionValueProp='id'
           optionTitleProp={['title_en', 'title']}
           errorInstance={errors}
@@ -422,7 +436,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       <Grid item xs={12} md={6}>
         <FileUploadComponent
           id='passport_photo_path'
-          defaultFileUrl={getValues('passport_photo_path')}
+          defaultFileUrl={defaultPassportImagePath}
           errorInstance={errors}
           setValue={setValue}
           register={register}
@@ -433,7 +447,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       <Grid item xs={12} md={6}>
         <FileUploadComponent
           id='signature_image_path'
-          defaultFileUrl={getValues('signature_image_path')}
+          defaultFileUrl={defaultSignatureImagePath}
           errorInstance={errors}
           setValue={setValue}
           register={register}

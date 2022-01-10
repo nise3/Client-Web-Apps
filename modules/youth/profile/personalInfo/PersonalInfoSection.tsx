@@ -27,6 +27,8 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
+import {H1} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -54,8 +56,8 @@ const StyledCard = styled(Card)(({theme}) => ({
     },
   },
   [`& .${classes.iconSizes}`]: {
-    width: 43,
-    height: 43,
+    width: '2.68rem',
+    height: '2.68rem',
   },
 
   [`& .${classes.dividerStyle}`]: {
@@ -89,6 +91,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 /** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
   const {messages, formatNumber} = useIntl();
+  const result = useCustomStyle();
 
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
@@ -136,9 +139,13 @@ const PersonalInfoSection = () => {
           <Grid item xs={12} sm={10} md={10}>
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <Box>
-                <Typography variant={'h5'} className={classes.textColor}>
+                <H1
+                  sx={{
+                    ...result.h5,
+                  }}
+                  className={classes.textColor}>
                   {authUser?.first_name} {authUser?.last_name}
-                </Typography>
+                </H1>
                 <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}
                 </Typography>
@@ -174,8 +181,7 @@ const PersonalInfoSection = () => {
                       formatNumber,
                       authUser?.profile_completed || '0',
                     )}
-                    size={35}
-                    className={classes.iconSizes}
+                    size={'2.68rem'}
                   />
                 }
                 text1={messages['common.complete'] as string}

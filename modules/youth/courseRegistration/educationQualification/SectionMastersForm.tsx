@@ -189,9 +189,6 @@ const SectionMastersForm: FC<SectionMastersFormProps> = ({
                   required
                   id='masters_info[cgpa_scale]'
                   type={'number'}
-                  inputProps={{
-                    step: 0.01,
-                  }}
                   label={messages['education.cgpa_scale']}
                   register={register}
                   errorInstance={errors}

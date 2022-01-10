@@ -1,4 +1,4 @@
-import {Box, Container, Grid, Skeleton, Stack, Typography} from '@mui/material';
+import {Box, Container, Grid, Skeleton, Stack} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {useFetchInstitutesRecentActivity} from '../../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
@@ -11,6 +11,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {Pagination} from '@mui/lab';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import {H1, H2} from '../../../@softbd/elements/common';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -28,6 +29,8 @@ const StyledContainer = styled(Container)(({theme}) => {
   return {
     [`& .${classes.titleTypography}`]: {
       color: theme.palette.primary.dark,
+      fontSize: '1.640625rem',
+      fontWeight: 'bold',
     },
     [`& .${classes.pagination}`]: {
       marginRight: 'auto',
@@ -133,14 +136,9 @@ const RecentActivities = () => {
     <StyledContainer maxWidth={'lg'}>
       <Grid container my={5}>
         <Grid item md={12}>
-          <Typography
-            className={classes.titleTypography}
-            gutterBottom
-            variant='h4'
-            component='div'
-            display={'flex'}>
+          <H1 className={classes.titleTypography} gutterBottom>
             {messages['recent_activities.label']}
-          </Typography>
+          </H1>
           {isLoadingRecentActivitiesFetchedMasonryData ? (
             <Skeleton variant={'rectangular'} width={1150} height={400} />
           ) : recentActivitiesMasonryList &&
@@ -153,14 +151,9 @@ const RecentActivities = () => {
           )}
         </Grid>
         <Grid item mt={8} xs={12}>
-          <Typography
-            className={classes.titleTypography}
-            gutterBottom
-            variant='h4'
-            component='div'
-            display={'flex'}>
+          <H2 className={classes.titleTypography} gutterBottom>
             {messages['all_activities.institute']}
-          </Typography>
+          </H2>
           {isLoadingRecentActivitiesFetchedData ? (
             <>
               <Box

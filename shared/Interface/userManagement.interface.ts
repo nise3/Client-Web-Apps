@@ -1,7 +1,6 @@
-import {IidTitles} from './common.interface';
+import {IIdHolder, IIdTitles} from './common.interface';
 
-export interface IUser {
-  id: number;
+export interface IUser extends IIdHolder {
   role_id: string;
   name_en: string;
   name: string;
@@ -21,7 +20,7 @@ export interface IUser {
   training_center_id?: string | number;
 }
 
-export interface IRole extends IidTitles {
+export interface IRole extends IIdTitles {
   key: string;
   permission_group_id: string | number | null;
   permission_sub_group_id: string | number | null;
@@ -31,7 +30,7 @@ export interface IRole extends IidTitles {
   row_status?: string;
 }
 
-export interface IPermission extends IidTitles {
+export interface IPermission extends IIdTitles {
   uri: string;
   key: string;
   method: number | string;
@@ -39,12 +38,12 @@ export interface IPermission extends IidTitles {
   method_name?: string;
 }
 
-export interface IPermissionGroup extends IidTitles {
+export interface IPermissionGroup extends IIdTitles {
   key: string;
   row_status: string;
 }
 
-export interface IPermissionSubGroup extends IidTitles {
+export interface IPermissionSubGroup extends IIdTitles {
   key: string;
   permission_group_id: number;
   row_status: string;

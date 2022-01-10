@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {Container, Grid, Skeleton} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {H2} from '../../../@softbd/elements/common';
+import {H1} from '../../../@softbd/elements/common';
 import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
@@ -74,9 +74,9 @@ const InstituteFAQ = () => {
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H2 py={3} fontWeight={'bold'}>
+        <H1 py={3} fontWeight={'bold'} style={{fontSize: '2.5rem'}}>
           {messages['faq.institute']}
-        </H2>
+        </H1>
       </Grid>
       <Container maxWidth='lg'>
         <Grid container>

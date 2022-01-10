@@ -20,7 +20,7 @@ import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import {useFetchOrganizationType} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IOrganizationType } from '../../../shared/Interface/organization.interface';
+import {IOrganizationType} from '../../../shared/Interface/organizationType.interface';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -88,7 +88,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     data: IOrganizationType,
   ) => {
     const {is_government} = data;
-    if (data) {
+    if (data && is_government) {
       data = {...data, is_government: 1 * is_government};
     }
     try {

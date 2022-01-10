@@ -1,6 +1,9 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_INSTITUTES} from '../../@softbd/common/apiRoutes';
+import {
+  API_INSTITUTE_PROFILE,
+  API_INSTITUTES,
+} from '../../@softbd/common/apiRoutes';
 import {IInstitute} from '../../shared/Interface/institute.interface';
 
 export const getAllInstitutes = async (params = {}) => {
@@ -38,6 +41,21 @@ export const updateInstitute = async (
 ) => {
   try {
     let response: any = await apiPut(API_INSTITUTES + '/' + InstituteId, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const updateInstituteProfile = async (
+  InstituteId: number | string | undefined,
+  data: any,
+) => {
+  try {
+    let response: any = await apiPut(
+      API_INSTITUTE_PROFILE + '/' + InstituteId,
+      data,
+    );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

@@ -1,7 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ORGANIZATION_UNITS} from '../../@softbd/common/apiRoutes';
-import {IOrganizationUnit} from '../../shared/Interface/organization.interface';
+import {IOrganizationUnit} from '../../shared/Interface/organizationUnits.interface';
 
 /**
  * @deprecated

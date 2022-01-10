@@ -7,7 +7,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {Body1, H2, Link} from '../../../@softbd/elements/common';
+import {Body1, H1, Link} from '../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import {useRouter} from 'next/router';
+import {useFetchPublication} from '../../../services/IndustryManagement/hooks';
 
 const PREFIX = 'PublicationDetails';
 
@@ -37,9 +40,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const PublicationDetails = () => {
   const {messages} = useIntl();
-  /*  const router = useRouter();
+  const result = useCustomStyle();
+
+  const router = useRouter();
   const {publicationId}: any = router.query;
-  const {data: publicationData} = useFetchPublication(publicationId);*/
+
+  const {data: publicationData} = useFetchPublication(publicationId);
+
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
@@ -97,27 +104,21 @@ const PublicationDetails = () => {
             component='img'
             height='200'
             sx={{width: '150px'}}
-            image={'/images/testPublication.png'}
-            alt={'notice-details'}
+            image={publicationData?.image_path}
+            // image={'/images/testPublication.png'}
+            alt={publicationData?.title}
           />
-          <H2 mt={3}>Publications details tilte</H2>
+          <H1
+            sx={{
+              ...result.h2,
+            }}
+            mt={3}>
+            {publicationData?.title}
+          </H1>
         </Grid>
 
         <Grid item xs={12}>
-          <Body1>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-            aspernatur aut commodi consectetur culpa cupiditate delectus,
-            eveniet excepturi exercitationem laboriosam minima natus nobis nulla
-            officia pariatur porro provident quaerat quisquam quos recusandae
-            repellat sequi similique sint soluta unde velit voluptate? Alias
-            animi asperiores aspernatur atque blanditiis, dignissimos ea eius
-            error fugit modi quaerat sequi voluptatibus? Accusamus aut, beatae
-            cum, delectus dignissimos dolores eligendi eos et ex expedita
-            explicabo id illo in ipsa iure labore libero magnam natus nemo non
-            quaerat rem sed similique voluptate voluptates? Asperiores
-            consequuntur, deserunt dicta exercitationem labore laboriosam,
-            nesciunt non possimus quo, quos soluta ullam veniam.
-          </Body1>
+          <Body1>{publicationData?.description}</Body1>
         </Grid>
       </Grid>
     </StyledContainer>

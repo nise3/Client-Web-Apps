@@ -22,11 +22,11 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {IPublication} from '../../../shared/Interface/industryAssociation.interface';
 import {
   createPublication,
   updatePublication,
 } from '../../../services/IndustryManagement/PublicationService';
+import {IPublication} from '../../../shared/Interface/publication.interface';
 
 interface PublicationAddEditPopupProps {
   itemId: number | null;
@@ -130,7 +130,6 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  console.log('errors', errors);
   const onSubmit: SubmitHandler<IPublication> = async (data: IPublication) => {
     try {
       if (authUser?.isIndustryAssociationUser) {
@@ -227,6 +226,8 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -236,6 +237,8 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         {authUser?.isSystemUser && (

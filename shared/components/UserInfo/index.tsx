@@ -48,14 +48,14 @@ const StyledBox = styled(Box)(({theme}) => {
       width: 'calc(100% - 75px)',
     },
     [`& .${classes.profilePic}`]: {
-      fontSize: 24,
+      fontSize: '1.5rem',
       backgroundColor: orange[500],
     },
     [`& .${classes.userName}`]: {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      fontSize: 16,
+      fontSize: '1rem',
       fontWeight: Fonts.MEDIUM,
       color:
         themeMode === ThemeMode.LIGHT

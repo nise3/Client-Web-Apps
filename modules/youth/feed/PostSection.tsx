@@ -8,6 +8,8 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {H1} from '../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'PostSection';
 
@@ -17,7 +19,6 @@ const classes = {
 
 const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.featuredCourseSectionTitle}`]: {
-    fontSize: 17,
     fontWeight: 'bold',
   },
 }));
@@ -42,6 +43,8 @@ const PostSection = ({
   isSearching,
 }: PostSectionProps) => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
+
   const [courseFilters, setCourseFilters] = useState({});
   const authUser = useAuthUser<YouthAuthUser>();
 
@@ -81,9 +84,11 @@ const PostSection = ({
   return (
     <StyledGrid container spacing={2}>
       <Grid item xs={12} sm={12} md={12}>
-        <Box className={classes.featuredCourseSectionTitle}>
+        <H1
+          sx={{...result.body1}}
+          className={classes.featuredCourseSectionTitle}>
           {messages['youth_feed.recent_post']}
-        </Box>
+        </H1>
       </Grid>
 
       {posts && posts.length > 0 ? (

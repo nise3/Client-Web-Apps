@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
+    "staging:start": "next start dashboard -p 3000 && next start nise -p 3001 && next start youth -p 3002 && next start institute -p 3003",
     "dev:admin": "next dev dashboard -p 3000",
     "dev:nise": "next dev nise -p 3001",
     "dev:youth": "next dev youth -p 3002",

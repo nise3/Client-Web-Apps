@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
-import {H3, Link} from '../../@softbd/elements/common';
+import {H2, Link} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
 import {
@@ -133,9 +133,9 @@ const Nise3WorkProcess = () => {
                 py={{xs: 3, md: 5}}
                 order={{xs: templateConfig.textLeft ? 1 : 2}}>
                 <Fade direction='down'>
-                  <H3 style={{fontSize: '44px', fontWeight: 'bold'}}>
+                  <H2 style={{fontSize: '2.75rem', fontWeight: 'bold'}}>
                     {blockData?.title}
-                  </H3>
+                  </H2>
                   <div
                     dangerouslySetInnerHTML={{
                       __html: blockData?.content,

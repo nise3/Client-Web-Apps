@@ -27,7 +27,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {Grid} from '@mui/material';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IHumanResource} from '../../../shared/Interface/organization.interface';
+import {IHumanResource} from '../../../shared/Interface/humanResources.interface';
 
 interface HumanResourceAddEditPopupProps {
   itemId: number | null;

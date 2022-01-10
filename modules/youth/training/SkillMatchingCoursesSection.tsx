@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Pagination, Stack, Typography} from '@mui/material';
+import {Button, Grid, Pagination, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
@@ -7,10 +7,25 @@ import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {Link} from '../../../@softbd/elements/common';
+import {H2, Link} from '../../../@softbd/elements/common';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import {useRouter} from 'next/router';
+import {styled} from '@mui/material/styles';
+
+const PREFIX = 'SkillMatchingCoursesSection';
+
+export const classes = {
+  subHeader: `${PREFIX}-subHeader`,
+};
+
+export const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.subHeader}`]: {
+    fontSize: '1.421875rem',
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+  },
+}));
 
 interface skillMatchingCoursesSectionProps {
   filters?: any;
@@ -66,13 +81,13 @@ const SkillMatchingCoursesSection = ({
     });
   }, []);
   return (
-    <Grid container spacing={3} mb={8}>
+    <StyledGrid container spacing={3} mb={8}>
       <Grid item xs={12} sm={12}>
         <Grid container alignItems={'center'}>
           <Grid item xs={6} sm={9} md={10}>
-            <Typography variant={'h5'} fontWeight={'bold'} color={'primary'}>
+            <H2 className={classes.subHeader}>
               {messages['common.skill_matching_course']}
-            </Typography>
+            </H2>
           </Grid>
           {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
@@ -127,7 +142,7 @@ const SkillMatchingCoursesSection = ({
           )}
         </Grid>
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

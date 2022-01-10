@@ -1,7 +1,10 @@
-export interface IInstitute {
-  id: number;
-  title_en: string;
-  title: string;
+import {
+  ICreateUpdateAt,
+  IIdHolder,
+  IIdTitleCreateUpdateAt,
+} from './common.interface';
+
+export interface IInstitute extends IIdTitleCreateUpdateAt {
   code: string;
   domain: string;
   address: string;
@@ -13,30 +16,22 @@ export interface IInstitute {
   mobile_numbers: Array<object>;
   email: string;
   config: string;
-  row_status: string;
-  created_at?: string;
-  updated_at?: string;
+  row_status?: string;
   deleted_at?: string;
 }
 
-export interface IProgramme {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IProgramme extends IIdTitleCreateUpdateAt {
   institute_id?: string | number;
   institute_title_en?: string;
   code?: string;
   logo?: string;
   description?: string;
   description_en?: string;
-  row_status: string;
-  created_at?: string;
-  updated_at?: string;
+  row_status?: string;
   deleted_at?: string;
 }
 
-export interface ICourse {
-  id: string;
+export interface ICourse extends IIdTitleCreateUpdateAt {
   code: string;
   institute_id: number | string;
   institute_title?: string;
@@ -50,8 +45,6 @@ export interface ICourse {
   level: number | string;
   language_medium: number | string;
   skills: Array<number | string>;
-  title_en: string;
-  title: string;
   course_fee: string;
   duration?: string;
   target_group?: string;
@@ -69,20 +62,15 @@ export interface ICourse {
   eligibility?: string;
   eligibility_en?: string;
   cover_image?: string;
-  row_status: string;
+  row_status?: string;
   crated_by?: string;
   updated_by?: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
   dynamic_form_field: string | object;
   application_form_settings: string | object;
 }
 
-export interface IBranch {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IBranch extends IIdTitleCreateUpdateAt {
   institute_id: number | string;
   institute_title_en?: string;
   address?: string;
@@ -91,16 +79,11 @@ export interface IBranch {
   loc_district_id: number | string;
   loc_upazila_id: number | string;
   google_map_src?: string;
-  row_status: string;
-  created_at?: string;
-  updated_at?: string;
+  row_status?: string;
   deleted_at?: string;
 }
 
-export interface ITrainingCenter {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface ITrainingCenter extends IIdTitleCreateUpdateAt {
   institute_id: number | string;
   branch_id?: number | string;
   loc_division_id?: number | string;
@@ -112,13 +95,10 @@ export interface ITrainingCenter {
   center_location_type?: number | string;
   address?: string;
   google_map_src?: string;
-  row_status: string;
-  created_at?: string;
-  updated_at?: string;
+  row_status?: string;
   deleted_at?: string;
 }
-export interface ITrainer {
-  id: number;
+export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   institute_id?: number | string;
   trainer_name_en?: string;
   trainer_name: string;
@@ -153,14 +133,9 @@ export interface ITrainer {
   skills?: string;
   skills_en?: string;
   row_status?: string;
-  updated_at?: string;
-  crated_at?: string;
 }
 
-export interface IBatch {
-  id: number;
-  title_en?: string;
-  title: string;
+export interface IBatch extends IIdTitleCreateUpdateAt {
   institute_id: number | string;
   course_id: number | string;
   training_center_id: number | string;
@@ -171,17 +146,14 @@ export interface IBatch {
   registration_end_date: string;
   batch_start_date: string;
   batch_end_date: string;
-  row_status: string;
+  row_status?: string;
   trainers?: Array<number>;
   crated_by?: string;
   updated_by?: string;
-  created_at?: string;
-  updated_at?: string;
   deleted_at?: string;
 }
 
-export interface IApplication {
-  id: number;
+export interface IApplication extends IIdHolder, ICreateUpdateAt {
   Gender: string;
   full_name: string;
   course_name: string;
@@ -196,10 +168,8 @@ export interface IApplication {
   physical_disability_status: number;
   loc_division_id: number;
   loc_district_id: number;
-  row_status: number;
+  row_status?: number;
   approval_status: string;
   accepted: number;
   rejected: number;
-  created_at: string;
-  updated_at: string;
 }

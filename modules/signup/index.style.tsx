@@ -43,13 +43,13 @@ export const StyledContainer = styled(Container)(({theme}) => ({
     alignItems: 'center',
     borderRadius: '10px',
     cursor: 'pointer',
-    height: '140px',
-    width: '140px',
+    height: '8.75rem',
+    width: '8.75rem',
     [theme.breakpoints.down('sm')]: {
       padding: '20px',
       margin: 'auto',
-      height: '100px',
-      width: '100px',
+      height: '6.25rem',
+      width: '6.25rem',
     },
   },
 
