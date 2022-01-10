@@ -20,7 +20,11 @@ import {
 } from '../../../services/IndustryManagement/JobRequirementService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
-import CustomAddFilterableFormSelect from '../jobLists/jobPost/steps/components/CustomAddFilterableFormSelect';
+import {
+  useFetchOrganizations,
+  useFetchSkills,
+} from '../../../services/organaizationManagement/hooks';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface JobRequirementAddEditPopupProps {
   itemId: number | null;
@@ -32,12 +36,7 @@ const initialValues = {
   title_en: '',
   title: '',
 };
-const demoOptions = [
-  {id: 1, title: 'BGC Trust'},
-  {id: 2, title: 'Test 1'},
-  {id: 3, title: 'Test 2'},
-  {id: 4, title: 'Test 3'},
-];
+
 const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
@@ -54,13 +53,21 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
     mutate: mutateJobRequirement,
   } = useFetchJobRequirement(itemId);
 
+  const [industryAssociationFilter] = useState({});
+  const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
+    useFetchInstitutes(industryAssociationFilter);
+
+  const [organizationFilter] = useState({});
+  const {data: organizations, isLoading: isLoadingOrganization} =
+    useFetchOrganizations(organizationFilter);
+
   const [instituteFilter] = useState({});
   const {data: institutes, isLoading: isLoadingInstitute} =
     useFetchInstitutes(instituteFilter);
 
-  const [industryFilter] = useState({});
-  const {data: industries, isLoading: isLoadingIndustry} =
-    useFetchInstitutes(industryFilter);
+  const [skillFilter] = useState({});
+  const {data: skills, isLoading: isLoadingSkills} =
+    useFetchSkills(skillFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -95,6 +102,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      data.industry_association_id = 30;
       if (itemId) {
         await updateJobRequirement(itemId, data);
         updateSuccessMessage('job_requirement.label');
@@ -140,10 +148,10 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
-            id='industry_id'
-            isLoading={isLoadingIndustry}
-            label={messages['common.industry']}
-            options={industries}
+            id='industry_association_id'
+            label={messages['common.industry_association']}
+            isLoading={isLoadingIndustryAssociation}
+            options={industryAssociations}
             optionValueProp={'id'}
             optionTitleProp={['title', 'title_en']}
             control={control}
@@ -151,21 +159,14 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomAddFilterableFormSelect
-            id={'skills'}
-            label={messages['common.skills']}
-            isLoading={false}
+          <CustomFilterableFormSelect
+            id='organization_id'
+            label={messages['common.organization_en']}
+            isLoading={isLoadingOrganization}
+            options={organizations}
+            optionValueProp={'id'}
+            optionTitleProp={['title', 'title_en']}
             control={control}
-            optionTitleProp={['title']}
-            options={demoOptions}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='vacancy'
-            label={messages['common.vacancy']}
-            register={register}
             errorInstance={errors}
           />
         </Grid>
@@ -181,14 +182,41 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12}>
-          <CustomTextInput
-            id='description'
-            label={messages['common.description']}
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='end_date'
+            label={messages['common.end_date']}
             register={register}
             errorInstance={errors}
-            multiline={true}
-            rows={3}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id='skill_id'
+            label={messages['common.skills']}
+            isLoading={isLoadingSkills}
+            options={skills}
+            optionValueProp={'id'}
+            optionTitleProp={['title', 'title_en']}
+            control={control}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='requirement'
+            label={messages['common.requirements']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='vacancy'
+            label={messages['common.vacancy']}
+            register={register}
+            errorInstance={errors}
           />
         </Grid>
       </Grid>

@@ -12,9 +12,9 @@ import ApproveButton from '../../../@softbd/elements/button/ApproveButton/Approv
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_HUMAN_RESOURCE_DEMAND_LIST} from '../../../@softbd/common/apiRoutes';
 import RejectButton from '../applicationManagement/RejectButton';
-import HumanResourceDemandListDetailsPopup from './humanResourceDemandListDetailsPopup';
+import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
 
-const HumanResourceDemandListPage = () => {
+const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -120,7 +120,7 @@ const HumanResourceDemandListPage = () => {
         />
 
         {isOpenDetailsModal && selectedItemId && (
-          <HumanResourceDemandListDetailsPopup
+          <HumanResourceDemandDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -132,4 +132,4 @@ const HumanResourceDemandListPage = () => {
   );
 };
 
-export default HumanResourceDemandListPage;
+export default HumanResourceDemandPage;

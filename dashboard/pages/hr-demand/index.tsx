@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 const HrDemand = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/humanResourceDemand/humanResourceDemandListPage'
+      '../../../modules/dashboard/humanResourceDemand/HumanResourceDemandPage'
     ),
 );
 export default DashboardPage(() => {

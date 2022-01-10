@@ -15,7 +15,7 @@ type Props = {
   onApprove: (id: any) => void;
 };
 
-const HumanResourceDemandListDetailsPopup = ({itemId, ...props}: Props) => {
+const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
 
   const {data: itemData, isLoading} = useFetchHrDemandDetails(itemId);
@@ -87,4 +87,4 @@ const HumanResourceDemandListDetailsPopup = ({itemId, ...props}: Props) => {
   );
 };
 
-export default HumanResourceDemandListDetailsPopup;
+export default HumanResourceDemandDetailsPopup;
