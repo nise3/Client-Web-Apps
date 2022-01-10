@@ -221,8 +221,9 @@ export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/public/publications';
 
 export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
+
 export const API_INDUSTRY_ASSOCIATIONS =
-  INDUSTRY_SERVICE_PATH + '/industry-associations';
+  ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
