@@ -222,30 +222,33 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    switch (pageCategory) {
-      case StaticPageCategoryTypes.COMMON:
-        if (authUser) {
-          if (authUser.isInstituteUser) setShowIn(ShowInTypes.TSP);
-          else if (authUser.isOrganizationUser) setShowIn(ShowInTypes.INDUSTRY);
-          else setShowIn(ShowInTypes.NICE3);
-        }
-        break;
-      case StaticPageCategoryTypes.NISE3:
-        setShowIn(ShowInTypes.NICE3);
-        break;
-      case StaticPageCategoryTypes.YOUTH:
-        setShowIn(ShowInTypes.YOUTH);
-        break;
-      case StaticPageCategoryTypes.TSP:
-        setShowIn(ShowInTypes.TSP);
-        break;
-      case StaticPageCategoryTypes.INDUSTRY:
-        setShowIn(ShowInTypes.INDUSTRY);
-        break;
-      default:
-        setShowIn(null);
+    if (authUser && authUser?.isSystemUser) {
+      switch (pageCategory) {
+        case StaticPageCategoryTypes.COMMON:
+          setShowIn(ShowInTypes.NICE3);
+          break;
+        case StaticPageCategoryTypes.NISE3:
+          setShowIn(ShowInTypes.NICE3);
+          break;
+        case StaticPageCategoryTypes.YOUTH:
+          setShowIn(ShowInTypes.YOUTH);
+          break;
+        default:
+          setShowIn(null);
+      }
     }
   }, [pageCategory, authUser]);
+
+  useEffect(() => {
+    if (authUser && !authUser?.isSystemUser) {
+      (async () => {
+        setIsLoading(true);
+        const response = await getStaticPageOrBlockByPageCode(pageCode, {});
+        if (response && response.data) setItemData(response.data);
+        setIsLoading(false);
+      })();
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (authUser && showIn) {
@@ -254,11 +257,6 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         setItemData(null);
         try {
           const params: any = {show_in: showIn};
-          if (authUser.isInstituteUser) {
-            params.institute_id = authUser.institute_id;
-          } else if (authUser.isOrganizationUser) {
-            params.organization_id = authUser.organization_id;
-          }
 
           const response = await getStaticPageOrBlockByPageCode(
             pageCode,
@@ -393,12 +391,6 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
     try {
       if (authUser?.isSystemUser) {
         formData.show_in = showIn;
-      } else if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      } else if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
       }
 
       let data = {...formData};
