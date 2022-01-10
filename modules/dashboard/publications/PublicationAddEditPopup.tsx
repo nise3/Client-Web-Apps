@@ -226,6 +226,8 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         <Grid item xs={6}>
@@ -235,6 +237,8 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            multiline={true}
+            rows={3}
           />
         </Grid>
         {authUser?.isSystemUser && (
