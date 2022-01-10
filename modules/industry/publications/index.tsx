@@ -105,7 +105,7 @@ const Publications = () => {
   });
 
   const {data: publications} = useFetchPublications(publicationFilter);
-  console.log('publications->', publications);
+  console.log('publications-->', publications);
 
   const page = useRef<any>(1);
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
