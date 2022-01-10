@@ -19,6 +19,7 @@
   "applicationManagement.status": "আবেদনের অবস্থা",
   "association.association_name": "অ্যাসোসিয়েশান নাম",
   "association.association_type": "অ্যাসোসিয়েশান ধরণ",
+  "association.association_trades": "অ্যাসোসিয়েশান ট্রেডস",
   "association.trade_no": "ট্রেড নাম্বার",
   "association.division": "বিভাগ",
   "association.head_of_office_or_chairman": "অফিস প্রধান / চেয়ারম্যান এর নাম",

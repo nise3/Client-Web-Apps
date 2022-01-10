@@ -19,6 +19,7 @@
   "applicationManagement.status": "Application Status",
   "association.association_name": "Association Name",
   "association.association_type": "Association Type",
+  "association.association_trades": "Association Trades",
   "association.trade_no": "Trade No.",
   "association.division": "Division",
   "association.head_of_office_or_chairman": "Head of Office / Chairman's Name",
