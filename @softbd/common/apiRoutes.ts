@@ -91,7 +91,8 @@ export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
 export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
-
+export const API_INDUSTRY_ASSOCIATIONS =
+  INSTITUTE_SERVICE_PATH + '/industry-associations';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
   YOUTH_SERVICE_PATH + '/settings/changeUserId';
@@ -245,4 +246,4 @@ export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
 export const API_GET_JOB = API_JOB + '/job-details/';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
-  INDUSTRY_SERVICE_PATH + '/hr-demand';
+  ORGANIZATION_SERVICE_PATH + '/hr-demand';
