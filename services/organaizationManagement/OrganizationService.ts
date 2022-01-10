@@ -3,9 +3,6 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_ORGANIZATIONS} from '../../@softbd/common/apiRoutes';
 import {IOrganization} from '../../shared/Interface/organization.interface';
 
-/**
- * @deprecated
- */
 export const getAllOrganizations = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATIONS, {params});

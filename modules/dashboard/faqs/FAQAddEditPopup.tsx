@@ -15,12 +15,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
-import {
-  createFAQ,
-  getAllIndustries,
-  getAllInstitutes,
-  updateFAQ,
-} from '../../../services/cmsManagement/FAQService';
+import {createFAQ, updateFAQ} from '../../../services/cmsManagement/FAQService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -30,6 +25,9 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -65,6 +63,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
@@ -191,6 +190,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         show_in: itemData?.show_in,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
         row_status: itemData?.row_status,
       };
 
@@ -218,11 +218,11 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) changeShowInAction(itemData?.show_in);
     } else {
       reset(initialValues);
     }
-  }, [itemData, allLanguages]);
+  }, [itemData, allLanguages, authUser]);
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
@@ -235,12 +235,28 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         setValue('organization_id', '');
       }
 
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
+      }
+
       if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
+        const response = await getAllInstitutes();
+        if (response && response?.data) {
+          setInstituteList(response.data);
+        }
       } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+        const response = await getAllOrganizations();
+        if (response && response?.data) {
+          setIndustryList(response.data);
+        }
+      } else if (
+        id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+        industryAssociationList.length == 0
+      ) {
+        const response = await getAllIndustryAssociations();
+        if (response && response?.data) {
+          setIndustryAssociationList(response.data);
+        }
       }
 
       setShowInId(id);
@@ -293,24 +309,23 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      if (!authUser?.isSystemUser) {
+        delete formData.show_in;
+        delete formData.institute_id;
+        delete formData.organization_id;
+        delete formData.industry_association_id;
+      }
+
       if (formData.show_in != ShowInTypes.TSP) {
         formData.institute_id = '';
-        objectFilter(formData);
       }
       if (formData.show_in != ShowInTypes.INDUSTRY) {
         formData.organization_id = '';
-        objectFilter(formData);
       }
-
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
+      if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        formData.industry_association_id = '';
       }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
-      }
+      objectFilter(formData);
 
       let data = {...formData};
 
@@ -415,6 +430,19 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                   isLoading={isLoadingSectionNameList}
                   control={control}
                   options={industryList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
+              {showInId == ShowInTypes.INDUSTRY_ASSOCIATION && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'industry_association_id'}
+                  label={messages['common.industry_association']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryAssociationList}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
