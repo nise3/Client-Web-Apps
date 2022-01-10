@@ -1,9 +1,10 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ? process.env.NEXT_PUBLIC_API_BASE_URL : 'https://gateway.bus-staging.softbdltd.com';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+  ? process.env.NEXT_PUBLIC_API_BASE_URL
+  : 'https://gateway.bus-staging.softbdltd.com';
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
 export const INDUSTRY_SERVICE_PATH = '/industry';
-export const INDUSTRY_ASSOCIATION_SERVICE_PATH = '/industry-association';
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
   INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
 export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
@@ -30,6 +31,8 @@ export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
+export const API_ASSOCIATION_TRADES =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-trades';
 export const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
 export const API_ORGANIZATION_UNIT_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
@@ -38,7 +41,7 @@ export const API_ORGANIZATION_UNITS =
 export const API_ORGANIZATION_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/organization-registration';
 export const API_INDUSTRY_ASSOCIATION_REGISTRATION =
-  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/industry-association-registration';
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration';
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
