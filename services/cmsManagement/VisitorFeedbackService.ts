@@ -1,7 +1,10 @@
 import {apiDelete, apiGet, apiPost} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_VISITOR_FEEDBACKS} from '../../@softbd/common/apiRoutes';
-import {IVisitorFeedback} from '../../shared/Interface/visitorFeedback.interface';
+import {
+  IVisitorFeedback,
+  IVisitorFeedbackIndustry,
+} from '../../shared/Interface/visitorFeedback.interface';
 
 // interface VisitorFeedback {
 //   id: number;
@@ -44,6 +47,17 @@ export const getVisitorFeedback = async (visitorId: number) => {
 };
 
 export const createVisitorFeedback = async (data: IVisitorFeedback) => {
+  try {
+    let response: any = await apiPost(API_VISITOR_FEEDBACKS, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const createVisitorFeedbackIndustry = async (
+  data: IVisitorFeedbackIndustry,
+) => {
   try {
     let response: any = await apiPost(API_VISITOR_FEEDBACKS, data);
     return response.data;

@@ -13,3 +13,10 @@ export interface IVisitorFeedback {
   archived_by?: string;
   row_status?: string | number;
 }
+
+export interface IVisitorFeedbackIndustry extends IVisitorFeedback {
+  industry_association_id: number;
+  name: string;
+  mobile: string;
+  comment: string;
+}

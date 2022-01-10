@@ -18,7 +18,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {Call, Email} from '@mui/icons-material';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
+import {createVisitorFeedbackIndustry} from '../../../services/cmsManagement/VisitorFeedbackService';
 
 const PREFIX = 'IndustryContact';
 
@@ -189,9 +189,11 @@ const ContactPage = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
+    data.industry_association_id = 30;
 
     try {
-      await createVisitorFeedback(data);
+      await createVisitorFeedbackIndustry(data);
+      //console.log(data);
       successStack(
         <IntlMessages
           id='common.subject_sent_successfully'
