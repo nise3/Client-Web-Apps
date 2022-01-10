@@ -6,17 +6,19 @@ import {
   API_GET_JOB_PRIMARY_INFORMATION,
   API_HUMAN_RESOURCE_DEMAND_LIST,
   API_INDUSTRY_MEMBERS,
-  API_INDUSTRY_PUBLICATIONS,
+  API_INDUSTRY_PUBLIC_PUBLICATIONS,
   API_JOB_REQUIREMENT,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
-  return useAxiosSWR([API_INDUSTRY_PUBLICATIONS, params]);
+  return useAxiosSWR([API_INDUSTRY_PUBLIC_PUBLICATIONS, params]);
 }
 
 export function useFetchPublication(publicationId: number | null) {
   return useAxiosSWR(
-    publicationId ? API_INDUSTRY_PUBLICATIONS + '/' + publicationId : null,
+    publicationId
+      ? API_INDUSTRY_PUBLIC_PUBLICATIONS + '/' + publicationId
+      : null,
   );
 }
 
