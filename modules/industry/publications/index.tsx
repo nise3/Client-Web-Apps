@@ -10,6 +10,7 @@ import {
   InputBase,
   Pagination,
   Paper,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -98,16 +99,21 @@ const Publications = () => {
 
   // Todo: industry_association_id is static have to change after created id
   const [publicationFilter, setPublicationFilter] = useState<any>({
-    industry_association_id: 1,
+    // industry_association_id: 1,
     row_status: RowStatus.ACTIVE,
     page: 1,
     page_size: 8,
   });
 
-  const {data: publications} = useFetchPublications(publicationFilter);
-  console.log('publications-->', publications);
+  const {
+    data: publications,
+    isLoading,
+    metaData,
+  } = useFetchPublications(publicationFilter);
 
+  const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
+
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setPublicationFilter((params: any) => {
@@ -115,8 +121,26 @@ const Publications = () => {
     });
   }, []);
 
-  const onResetClicked = useCallback(() => {}, []);
-  const onChangeWriter = useCallback((writerId: number | null) => {}, []);
+  const onResetClicked = useCallback(() => {
+    setPublicationFilter({
+      // industry_association_id: 1,
+      row_status: RowStatus.ACTIVE,
+      page: 1,
+      page_size: 8,
+    });
+  }, []);
+
+  const onSearchAuthor = useCallback((input: string) => {
+    setPublicationFilter((param: any) => {
+      return {...param, ...{author: input}};
+    });
+  }, []);
+
+  const onSearch = useCallback(() => {
+    setPublicationFilter((param: any) => {
+      return {...param, ...{title: inputFieldRef.current?.value}};
+    });
+  }, []);
 
   return (
     <>
@@ -158,10 +182,10 @@ const Publications = () => {
                   label={messages['industry.writer_name']}
                   defaultValue={''}
                   isLoading={false}
-                  optionValueProp={'id'}
-                  options={[]}
-                  optionTitleProp={['title']}
-                  onChange={onChangeWriter}
+                  optionValueProp={'author'}
+                  options={publications}
+                  optionTitleProp={['author']}
+                  onChange={(value) => onSearchAuthor(value)}
                   className={clsx(classes.gridMargin, classes.selectStyle)}
                 />
               </Grid>
@@ -193,11 +217,15 @@ const Publications = () => {
                 }}
                 placeholder={messages['common.search'] as string}
                 inputProps={{'aria-label': 'Search'}}
+                inputRef={inputFieldRef}
                 onKeyDown={(event) => {
-                  /*   if (event.code == 'Enter') onSearch();*/
+                  if (event.code == 'Enter') onSearch();
                 }}
               />
-              <IconButton sx={{p: '5px'}} aria-label='search'>
+              <IconButton
+                sx={{p: '5px'}}
+                aria-label='search'
+                onClick={onSearch}>
                 <SearchIcon />
               </IconButton>
             </Paper>
@@ -216,7 +244,33 @@ const Publications = () => {
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>
-                  {publications && publications?.length ? (
+                  {isLoading ? (
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                    </Grid>
+                  ) : publications && publications?.length ? (
                     publications.map((publication: any) => {
                       return (
                         <Grid
@@ -252,22 +306,24 @@ const Publications = () => {
                       <NoDataFoundComponent />
                     </Grid>
                   )}
-                  <Grid
-                    item
-                    md={12}
-                    mt={4}
-                    display={'flex'}
-                    justifyContent={'center'}>
-                    <Stack spacing={2}>
-                      <Pagination
-                        page={1}
-                        count={3}
-                        color={'primary'}
-                        shape='rounded'
-                        onChange={onPaginationChange}
-                      />
-                    </Stack>
-                  </Grid>
+                  {metaData.total_page > 1 && (
+                    <Grid
+                      item
+                      md={12}
+                      mt={4}
+                      display={'flex'}
+                      justifyContent={'center'}>
+                      <Stack spacing={2}>
+                        <Pagination
+                          page={page.current}
+                          count={metaData.total_page}
+                          color={'primary'}
+                          shape='rounded'
+                          onChange={onPaginationChange}
+                        />
+                      </Stack>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
