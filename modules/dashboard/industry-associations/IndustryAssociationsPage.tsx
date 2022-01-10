@@ -12,7 +12,6 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
@@ -89,10 +88,11 @@ const IndustryAssociationsPage = () => {
       {
         Header: messages['common.domain'],
         accessor: 'domain',
+        isVisible: false,
       },
       {
-        Header: messages['industry_associations.type'],
-        accessor: 'industry_association_type_id',
+        Header: messages['association.association_trades'],
+        accessor: 'industry_association_trade_title',
       },
       {
         Header: messages['common.status'],
@@ -100,7 +100,15 @@ const IndustryAssociationsPage = () => {
         filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
+          if (data.row_status === 0) {
+            return <p>Inactive</p>;
+          } else if (data.row_status === 1) {
+            return <p>Approved</p>;
+          } else if (data.row_status === 2) {
+            return <p>Pending</p>;
+          } else {
+            return <p>Rejected</p>;
+          }
         },
       },
       {

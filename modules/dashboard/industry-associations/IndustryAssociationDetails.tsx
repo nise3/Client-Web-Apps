@@ -7,10 +7,9 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
-import {useFetchIndustryAssociation} from '../../../services/instituteManagement/hooks';
 import {INDUSTRY_ASSOCIATION_TYPE} from './IndustryAssociationAddEdit';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -25,6 +24,18 @@ const IndustryAssociationDetailsPopup = ({
 }: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchIndustryAssociation(itemId);
+
+  const getValue = (status: number) => {
+    if (status === 0) {
+      return 'Inactive';
+    } else if (status === 1) {
+      return 'Approved';
+    } else if (status === 2) {
+      return 'Pending';
+    } else {
+      return 'Rejected';
+    }
+  };
 
   return (
     <>
@@ -100,7 +111,7 @@ const IndustryAssociationDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
+              value={getValue(itemData?.row_status)}
               isLoading={isLoading}
             />
           </Grid>
