@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Button, CardMedia, Container, Grid} from '@mui/material';
 import {Zoom} from 'react-awesome-reveal';
-import {H3, Link} from '../../@softbd/elements/common';
+import {H1, Link} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
   BLOCK_ID_SELF_ASSESSMENT,
@@ -89,9 +89,9 @@ const SelfAssessment = () => {
               xs={12}
               md={8}
               order={{xs: templateConfig.textLeft ? 1 : 2}}>
-              <H3 style={{fontSize: '44px', fontWeight: 'bold'}}>
+              <H1 style={{fontSize: '2.75rem', fontWeight: 'bold'}}>
                 {blockData?.title}
-              </H3>
+              </H1>
               <div
                 dangerouslySetInnerHTML={{
                   __html: blockData?.content,

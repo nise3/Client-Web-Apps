@@ -11,7 +11,8 @@ import {
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
-import {Link} from '../../../@softbd/elements/common';
+import {H2, Link} from '../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'NoticeCard';
 
@@ -60,6 +61,7 @@ const logo = '/images/creativeIt.png';
 
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const {messages, formatDate} = useIntl();
+  const result = useCustomStyle();
   const URL = `/notice-details/${notice.id}`;
   return (
     <StyledCard>
@@ -77,9 +79,9 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
           </Grid>
           <Grid item xs={9} md={9}>
             <Link href={URL}>
-              <Typography style={{fontWeight: 'bold', cursor: 'pointer'}}>
+              <H2 sx={{...result.body1, fontWeight: 'bold', cursor: 'pointer'}}>
                 {notice.title}
-              </Typography>
+              </H2>
             </Link>
 
             <Typography className={classes.creativaItText}>

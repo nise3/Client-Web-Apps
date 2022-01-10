@@ -17,6 +17,7 @@ import {
   API_GALLERY_ALBUMS,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
+  API_INSTITUTE_PROFILE,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_PUBLIC_COURSE_LIST,
@@ -28,6 +29,14 @@ import {
 
 export function useFetchInstitute(instituteId: number | null) {
   return useAxiosSWR(instituteId ? API_INSTITUTES + '/' + instituteId : null);
+}
+
+export function useFetchInstituteProfile(
+  instituteId: number | string | undefined,
+) {
+  return useAxiosSWR(
+    instituteId ? API_INSTITUTE_PROFILE + '/' + instituteId : null,
+  );
 }
 
 export function useFetchInstitutes(params: any) {

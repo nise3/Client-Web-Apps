@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Card, CardContent, Grid, Typography} from '@mui/material';
+import {Button, Card, CardContent, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -9,7 +9,7 @@ import yup from '../../../@softbd/libs/yup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {H3} from '../../../@softbd/elements/common';
+import {H1, H2} from '../../../@softbd/elements/common';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
@@ -41,6 +41,7 @@ const StyledGrid = styled(Grid)(({theme}) => {
         theme.palette.mode === ThemeMode.DARK
           ? theme.palette.common.white
           : theme.palette.common.black,
+      fontSize: '1.375rem',
     },
   };
 });
@@ -107,9 +108,9 @@ const InstituteFeedback = () => {
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H3 fontWeight={'bold'} py={3}>
+        <H1 style={{fontSize: '2.25rem'}} fontWeight={'bold'} py={3}>
           {messages['feedback.institution']}
-        </H3>
+        </H1>
       </Grid>
       <Grid
         container
@@ -121,9 +122,9 @@ const InstituteFeedback = () => {
           <Card>
             <CardContent>
               <Grid>
-                <Typography variant={'h6'} mb={4} className={classes.textStyle}>
+                <H2 mb={4} className={classes.textStyle}>
                   {messages['institute.feedback']}
-                </Typography>
+                </H2>
               </Grid>
               <Grid>
                 <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>

@@ -11,6 +11,7 @@ import PortfolioSection from './portfolios/PortfolioSection';
 import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import MyCVSection from './MyCVSection';
+import AddressSection from './address/addressSection';
 
 const YouthProfile = () => {
   return (
@@ -42,6 +43,9 @@ const YouthProfile = () => {
               </Grid>
               <Grid item xs={12} md={12}>
                 <GuardianSection />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <AddressSection />
               </Grid>
             </Grid>
           </Grid>

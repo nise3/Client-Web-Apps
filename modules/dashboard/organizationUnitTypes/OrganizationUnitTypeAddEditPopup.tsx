@@ -25,7 +25,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IOrganizationUnitType} from '../../../shared/Interface/organization.interface';
+import {IOrganizationUnitType} from '../../../shared/Interface/organizationUnitTypes.interface';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;

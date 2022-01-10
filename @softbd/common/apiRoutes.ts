@@ -1,4 +1,6 @@
-export const API_BASE_URL = 'https://gateway.bus-staging.softbdltd.com';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+  ? process.env.NEXT_PUBLIC_API_BASE_URL
+  : 'https://gateway.bus-staging.softbdltd.com';
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
@@ -29,6 +31,8 @@ export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
+export const API_ASSOCIATION_TRADES =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-trades';
 export const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
 export const API_ORGANIZATION_UNIT_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
@@ -36,6 +40,8 @@ export const API_ORGANIZATION_UNITS =
   ORGANIZATION_SERVICE_PATH + '/organization-units';
 export const API_ORGANIZATION_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/organization-registration';
+export const API_INDUSTRY_ASSOCIATION_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration';
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
@@ -56,6 +62,8 @@ export const API_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
+export const API_INSTITUTE_PROFILE =
+  INSTITUTE_SERVICE_PATH + '/institute-admin-profile';
 export const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
 export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programs';
 export const API_TRAINING_CENTERS =
@@ -82,6 +90,7 @@ export const API_YOUTH_JOB_EXPERIENCES =
 export const API_YOUTH_CERTIFICATES =
   YOUTH_SERVICE_PATH + '/youth-certifications';
 export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
+export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
@@ -131,6 +140,10 @@ export const API_COURSE_ENROLLMENTS =
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
+export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
+export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
+export const COURSE_ENROLL_PAYMENT_PAY =
+  INSTITUTE_SERVICE_PATH + '/payment/pay-now';
 
 /** Routes for recent-activities page */
 export const API_FRONT_END_RECENT_ACTIVITY_LIST =
@@ -201,7 +214,11 @@ export const API_INSTITUTE_TRAINING_CENTER_LIST =
  * Industry Api routes
  */
 
-export const API_INDUSTRY_PUBLICATIONS = INDUSTRY_SERVICE_PATH + '/publication';
+export const API_INDUSTRY_PUBLICATIONS =
+  ORGANIZATION_SERVICE_PATH + '/publications';
+
+export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
+  ORGANIZATION_SERVICE_PATH + '/public/publications';
 
 export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
 export const API_INDUSTRY_ASSOCIATIONS =
@@ -211,3 +228,23 @@ export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
 
 export const API_JOB_LISTS = INDUSTRY_SERVICE_PATH + '/job-lists';
+export const API_JOB = INDUSTRY_SERVICE_PATH + '/job';
+export const API_JOB_ID = API_JOB + '/job-id';
+export const API_JOB_STORE_PRIMARY_INFORMATION =
+  API_JOB + '/store-primary-job-information';
+export const API_GET_JOB_PRIMARY_INFORMATION =
+  API_JOB + '/primary-job-information/';
+export const API_JOB_REQUIREMENT = INDUSTRY_SERVICE_PATH + '/job-requirement';
+export const API_JOB_STORE_ADDITIONAL_INFORMATION =
+  API_JOB + '/store-additional-job-information';
+export const API_GET_JOB_ADDITIONAL_INFORMATION =
+  API_JOB + '/additional-job-information/';
+
+export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
+  API_JOB + '/store-company-info-visibility';
+export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
+  API_JOB + '/company-info-visibility/';
+export const API_GET_JOB = API_JOB + '/job-details/';
+
+export const API_HUMAN_RESOURCE_DEMAND_LIST =
+  INDUSTRY_SERVICE_PATH + '/hr-demand';

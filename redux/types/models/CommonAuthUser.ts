@@ -38,7 +38,7 @@ export interface CommonAuthUser extends AuthUser {
   branch_id?: number;
   profile_pic?: string;
   name?: string;
-  industry_association_id?: string | number;
+  industry_association_id?: string | number | undefined;
 }
 
 export interface YouthAuthUser extends AuthUser {
@@ -84,6 +84,7 @@ export interface YouthAuthUser extends AuthUser {
   educations?: any[];
   job_experiences?: any[];
   certifications?: any[];
+  addresses?: any[];
   total_certificates?: number;
   portfolios?: any[];
   profile_completed?: any;

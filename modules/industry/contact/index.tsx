@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from 'react';
-import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
-import {H3, H5, Text} from '../../../@softbd/elements/common';
+import {Box, Button, Card, CardContent, Grid} from '@mui/material';
+import {H1, H2, H3, H5, Text} from '../../../@softbd/elements/common';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import GoogleMapReact from 'google-map-react';
 import {styled} from '@mui/material/styles';
@@ -16,6 +16,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {Call, Email} from '@mui/icons-material';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'IndustryContact';
 
@@ -47,12 +48,15 @@ const StyledGrid = styled(Grid)(({theme}) => {
     },
     [`& .${classes.formCard}`]: {
       [theme.breakpoints.up('md')]: {
-        height: '428px',
+        height: '525px',
       },
     },
     [`& .${classes.mapDiv}`]: {
       height: '320px',
       width: '100%',
+      [theme.breakpoints.up('md')]: {
+        height: '420px',
+      },
     },
     [`& .${classes.textStyle}`]: {
       color:
@@ -139,6 +143,7 @@ const officePersonsContact = [
 ];
 
 const ContactPage = () => {
+  const result = useCustomStyle();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [mapCenter] = useState({
@@ -193,9 +198,14 @@ const ContactPage = () => {
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
-        <H3 py={3} fontWeight={'bold'}>
+        <H1
+          py={3}
+          sx={{
+            ...result.h3,
+            fontWeight: 'bold',
+          }}>
           {messages['common.contact']}
-        </H3>
+        </H1>
       </Grid>
       <Grid sx={{maxWidth: '100%'}} className={classes.mainGrid}>
         <Grid
@@ -208,12 +218,14 @@ const ContactPage = () => {
             <Card>
               <CardContent className={classes.formCard}>
                 <Grid>
-                  <Typography
-                    variant={'h6'}
-                    mb={4}
-                    className={classes.textStyle}>
+                  <H2
+                    className={classes.textStyle}
+                    sx={{
+                      ...result.h6,
+                    }}
+                    mb={4}>
                     {messages['common.contact_with_us']}
-                  </Typography>
+                  </H2>
                 </Grid>
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
@@ -282,9 +294,14 @@ const ContactPage = () => {
           <Grid item md={6} xs={12} p={2}>
             <Card>
               <CardContent>
-                <Typography variant={'h6'} mb={4} className={classes.textStyle}>
+                <H2
+                  mb={4}
+                  className={classes.textStyle}
+                  sx={{
+                    ...result.h6,
+                  }}>
                   {messages['common.find_our_location_on_map']}
-                </Typography>
+                </H2>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
                     <div className={classes.mapDiv}>

@@ -4,6 +4,8 @@ import {Avatar, Box, Button} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'RecentCourseComponent';
 
@@ -40,6 +42,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const RecentCourseComponent = ({data: course}: any) => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
 
   return (
     <>
@@ -52,7 +55,9 @@ const RecentCourseComponent = ({data: course}: any) => {
           />
         </Box>
         <Box marginLeft={'10px'}>
-          <Box className={classes.courseTitle}>{course.title}</Box>
+          <H3 sx={{...result.body2}} className={classes.courseTitle}>
+            {course.title}
+          </H3>
           <Box className={classes.courseProviderName}>
             {course?.institute_title}
           </Box>

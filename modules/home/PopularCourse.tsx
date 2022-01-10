@@ -6,7 +6,7 @@ import React, {useState} from 'react';
 import {useFetchCourseList} from '../../services/youthManagement/hooks';
 import {useIntl} from 'react-intl';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
-import {H3, Link} from '../../@softbd/elements/common';
+import {H2, Link} from '../../@softbd/elements/common';
 import VerticalBar from './components/VerticalBar';
 
 const PREFIX = 'PopularCourse';
@@ -46,17 +46,15 @@ const PopularCourse = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <H3 style={{fontSize: '33px', fontWeight: 'bold'}}>
-          <Box
-            style={{marginBottom: '50px', marginTop: '50px'}}
-            className={classes.title}
-            justifyContent={'center'}>
-            <VerticalBar />
-            <Box fontWeight='fontWeightBold'>
-              {messages['common.popular_courses']}
-            </Box>
-          </Box>
-        </H3>
+        <Box
+          style={{marginBottom: '50px', marginTop: '50px'}}
+          className={classes.title}
+          justifyContent={'center'}>
+          <VerticalBar />
+          <H2 style={{fontSize: '2rem', fontWeight: 'bold'}}>
+            {messages['common.popular_courses']}
+          </H2>
+        </Box>
         <Box mb={2}>
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>

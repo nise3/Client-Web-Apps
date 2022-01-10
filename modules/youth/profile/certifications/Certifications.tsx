@@ -12,6 +12,8 @@ import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'Certifications';
 const classes = {
@@ -40,6 +42,7 @@ const Certifications: FC<CertificationsProps> = ({
   onDeleteClick,
 }) => {
   const {messages, formatDate} = useIntl();
+  const result = useCustomStyle();
 
   return (
     <React.Fragment>
@@ -65,11 +68,11 @@ const Certifications: FC<CertificationsProps> = ({
                   )}
 
                   <Box sx={{marginLeft: '15px'}}>
-                    <Typography
-                      variant={'subtitle2'}
+                    <H3
+                      sx={{...result.subtitle2}}
                       className={classes.textStyle}>
                       {certificate.certification_name}
-                    </Typography>
+                    </H3>
                     <Typography variant={'caption'}>
                       {certificate.institute_name}
                     </Typography>

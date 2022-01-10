@@ -1,11 +1,8 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_OCCUPATIONS} from '../../@softbd/common/apiRoutes';
-import { IOccupation } from '../../shared/Interface/organization.interface';
+import {IOccupation} from '../../shared/Interface/occupation.interface';
 
-/**
- * @deprecated
- */
 export const getAllOccupations = async (params = {}) => {
   try {
     let response: any = await apiGet(API_OCCUPATIONS, {params});

@@ -48,7 +48,8 @@ const TrainingSection = () => {
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
-                <Link passHref key={key} href={`/course-details/${course.id}`}>
+                /*<Link passHref key={key} href={`/course-details/${course.id}`}>*/
+                <Link passHref key={key}>
                   <Box mr={1} ml={1}>
                     <TrainingCard course={course} />
                   </Box>
@@ -67,7 +68,8 @@ const TrainingSection = () => {
         {/** see mor button */}
         {courseList && courseList?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
-            <Link href={'/course-list/popular'} passHref>
+            {/*<Link href={'/course-list/popular'} passHref>*/}
+            <Link passHref>
               <Button
                 variant='outlined'
                 color='primary'

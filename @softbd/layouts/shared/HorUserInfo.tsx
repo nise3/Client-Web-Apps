@@ -30,7 +30,7 @@ const StyledBox = styled(Box)(({theme}) => {
       justifyContent: 'center',
     },
     [`& .${classes.avatar}`]: {
-      fontSize: 24,
+      fontSize: '1.5rem',
       backgroundColor: orange[500],
     },
     [`& .${classes.userInfo}`]: {
@@ -44,7 +44,7 @@ const StyledBox = styled(Box)(({theme}) => {
       textOverflow: 'ellipsis',
       cursor: 'pointer',
       whiteSpace: 'nowrap',
-      fontSize: 15,
+      fontSize: '1rem',
       fontWeight: Fonts.MEDIUM,
       color: theme.palette.primary.contrastText,
     },
@@ -89,7 +89,7 @@ const HorUserInfo: FC<HorUserInfoProps> = () => {
         <Hidden xlDown>
           <Box ml={3} className={classes.userName}>
             {user && (user.displayName ? user.displayName : user.email)}
-            <Box fontSize={13} fontWeight={Fonts.LIGHT}>
+            <Box fontSize='0.8rem' fontWeight={Fonts.LIGHT}>
               System Manager
             </Box>
           </Box>

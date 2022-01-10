@@ -9,8 +9,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_JOB_LISTS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import JobAddEditPopup from './JobAddEditPopup';
-import JobDetailsPopup from './JobDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -20,37 +18,51 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import PersonIcon from '@mui/icons-material/Person';
+import {useRouter} from 'next/router';
+import {
+  LINK_JOB_CREATE_OR_UPDATE,
+  LINK_JOB_DETAILS_VIEW,
+} from '../../../@softbd/common/appLinks';
 
 const JobListPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
+  const router = useRouter();
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  //const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
+  const openJobCreateView = useCallback(() => {
+    (async () => {
+      try {
+        const jobId = 'IDSA-2fe8e68e-4456-43be-9d9d-481974a41890'; //await getJobId();
+
+        if (jobId) {
+          openJobAddUpdateView(jobId);
+        } else {
+          errorStack('Failed to get job id');
+        }
+      } catch (error: any) {
+        errorStack('Failed to get job id');
+      }
+    })();
   }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
+  const openJobAddUpdateView = useCallback((jobId: string) => {
+    router
+      .push({
+        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step1',
+        query: {jobId: jobId},
+      })
+      .then(() => {});
   }, []);
 
-  const openDetailsModal = useCallback(
-    (itemId: number) => {
-      setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
-    },
-    [selectedItemId],
-  );
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
+  const openJobDetailsView = useCallback((jobId: string) => {
+    router
+      .push({
+        pathname: LINK_JOB_DETAILS_VIEW + jobId,
+      })
+      .then(() => {});
   }, []);
 
   const deleteJobItem = async (jobId: number) => {
@@ -79,10 +91,6 @@ const JobListPage = () => {
         Cell: (props: any) => {
           return props.row.index + 1;
         },
-      },
-      {
-        Header: messages['common.job_id'],
-        accessor: 'job_id',
       },
       {
         Header: messages['common.post'],
@@ -121,10 +129,19 @@ const JobListPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <ReadButton
+                onClick={() => {
+                  openJobDetailsView(data.job_id);
+                }}
+              />
+              <EditButton
+                onClick={() => {
+                  openJobAddUpdateView(data.job_id);
+                }}
+              />
               <DeleteButton
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -154,7 +171,7 @@ const JobListPage = () => {
         extra={[
           <AddButton
             key={1}
-            onClick={() => openAddEditModal(null)}
+            onClick={() => openJobCreateView()}
             isLoading={loading}
             tooltip={
               <IntlMessages
@@ -175,23 +192,6 @@ const JobListPage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
-        {isOpenAddEditModal && (
-          <JobAddEditPopup
-            key={1}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
-
-        {isOpenDetailsModal && selectedItemId && (
-          <JobDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-          />
-        )}
       </PageBlock>
     </>
   );

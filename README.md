@@ -21,3 +21,13 @@ pm2 start yarn --name "admin" --interpreter bash -- start:admin
 pm2 start yarn --name "youth" --interpreter bash -- start:youth
 pm2 start yarn --name "youth" --interpreter bash -- start:youth
 ```
+ 
+Local Deployment:
+
+```bash 
+yarn dev:admin
+yarn dev:nise
+yarn dev:youth
+yarn dev:institute
+```
+

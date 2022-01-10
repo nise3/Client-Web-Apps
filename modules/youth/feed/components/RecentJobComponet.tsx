@@ -3,6 +3,8 @@ import {styled} from '@mui/material/styles';
 import {Avatar, Box, Button} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
+import {H3} from '../../../../@softbd/elements/common';
+import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'RecentJobComponent';
 
@@ -47,6 +49,7 @@ interface RecentJobProps {
 
 const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   const {messages} = useIntl();
+  const result = useCustomStyle();
 
   return (
     <StyledBox display={'flex'}>
@@ -58,7 +61,9 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
         />
       </Box>
       <Box marginLeft={'10px'}>
-        <Box className={classes.jobTitle}>{data.jobTitle}</Box>
+        <H3 sx={{...result.body2}} className={classes.jobTitle}>
+          {data.jobTitle}
+        </H3>
         <Box className={classes.jobProviderName}>
           {data.jobProviderName} &#8226; {data.location}
         </Box>

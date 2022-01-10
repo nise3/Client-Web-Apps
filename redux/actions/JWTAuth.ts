@@ -1,6 +1,7 @@
 import {fetchError, fetchStart, fetchSuccess} from './Common';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {
+  COOKIE_KEY_APP_ACCESS_TOKEN,
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   COOKIE_KEY_AUTH_ID_TOKEN,
 } from '../../shared/constants/AppConst';
@@ -14,12 +15,9 @@ import {
 } from '../types/actions/Auth.actions';
 import {Base64} from 'js-base64';
 import {apiGet} from '../../@softbd/common/api';
-import {
-  CORE_SERVICE_PATH,
-  YOUTH_SERVICE_PATH,
-} from '../../@softbd/common/apiRoutes';
 import UserTypes from '../../@softbd/utilities/UserTypes';
 import {
+  getBrowserCookie,
   removeBrowserCookie,
   setBrowserCookie,
 } from '../../@softbd/libs/cookieInstance';
@@ -55,12 +53,22 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
+    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL : 'https://core.bus-staging.softbdltd.com';
+    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
+
+    console.log('urlHost', urlHost);
+
     try {
       const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
-        'https://core.bus-staging.softbdltd.com/sso-authorize-code-grant',
+        urlHost + '/sso-authorize-code-grant',
         {
           code,
           redirect_uri: redirectUrl.toString(),
+        },
+        {
+          headers: {
+            apikey: apiKey,
+          },
         },
       );
 
@@ -69,7 +77,7 @@ export const onSSOSignInCallback = (
         JSON.stringify({
           access_token: tokenData.access_token,
           expires_in: tokenData.expires_in,
-        })
+        }),
       );
 
       await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token);
@@ -78,9 +86,11 @@ export const onSSOSignInCallback = (
       setDefaultAuthorizationHeader(tokenData?.access_token);
       await dispatch(setAuthAccessTokenData(tokenData));
       await loadAuthUser(dispatch, tokenData);
-      if (redirected_from?.length) {
+
+      /**This redirection logic is moved to @softbd/layouts/hoc/DefaultPage/withData.tsx*/
+      /* if (redirected_from?.length) {
         window.location.href = redirected_from;
-      }
+      }*/
     } catch (err: any) {
       console.log('onSSOSignInCallback - error!!!!', err);
     }
@@ -98,21 +108,30 @@ export const loadAuthUser = async (
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
     console.log(ssoTokenData);
+    const youthServicePath = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH;
+    const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
+    const appAccessTokenData = getBrowserCookie(
+      COOKIE_KEY_APP_ACCESS_TOKEN,
+    );
+    console.log('permission call: appAccessTokenData', appAccessTokenData);
+
     const coreResponse =
-      ssoTokenData.userType == UserTypes.YOUTH_USER
-        ? await apiGet(YOUTH_SERVICE_PATH + '/youth-profile', {
-            headers: {
-              Authorization: 'Bearer ' + tokenData.access_token,
-            },
-          })
+      ssoTokenData.user_type == UserTypes.YOUTH_USER
+        ? await apiGet(youthServicePath + '/youth-profile', {
+          headers: {
+            Authorization: 'Bearer ' + appAccessTokenData?.access_token,
+            'User-Token': 'Bearer ' + tokenData.access_token,
+          },
+        })
         : await apiGet(
-            CORE_SERVICE_PATH + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
-            {
-              headers: {
-                Authorization: 'Bearer ' + tokenData.access_token,
-              },
+          coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+          {
+            headers: {
+              Authorization: 'Bearer ' + appAccessTokenData?.access_token,
+              'User-Token': 'Bearer ' + tokenData.access_token,
             },
-          );
+          },
+        );
     console.log(coreResponse);
 
     const {data} = coreResponse.data;
@@ -120,7 +139,7 @@ export const loadAuthUser = async (
     dispatch({
       type: UPDATE_AUTH_USER,
       payload:
-        ssoTokenData.userType == UserTypes.YOUTH_USER
+        ssoTokenData.user_type == UserTypes.YOUTH_USER
           ? getYouthAuthUserObject({...ssoTokenData, ...data})
           : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
@@ -147,6 +166,7 @@ type TAuthUserSSOResponse = {
   isSystemUser: boolean;
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
+  isIndustryAssociationUser: boolean;
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: IInstitute;
@@ -217,6 +237,7 @@ type TYouthAuthUserSSOResponse = {
   youth_educations?: any[];
   youth_languages_proficiencies?: any[];
   youth_portfolios?: any[];
+  youth_addresses?: any[];
   profile_completed?: any;
   total_job_experience?: any;
 };
@@ -225,6 +246,7 @@ export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
   return {
+    isIndustryAssociationUser: authUser.isIndustryAssociationUser,
     userId: authUser?.user_id,
     isYouthUser: false,
     isInstituteUser: authUser?.isInstituteUser,
@@ -254,6 +276,7 @@ export const getYouthAuthUserObject = (
   authUser: TYouthAuthUserSSOResponse,
 ): YouthAuthUser => {
   return {
+    isIndustryAssociationUser: false,
     isYouthUser: true,
     userType: authUser?.userType,
     authType: AuthType.AUTH2,
@@ -310,6 +333,7 @@ export const getYouthAuthUserObject = (
     languages_proficiencies: authUser?.youth_languages_proficiencies,
     profile_completed: authUser?.profile_completed,
     total_job_experience: authUser?.total_job_experience,
+    addresses: authUser?.youth_addresses,
   };
 };
 

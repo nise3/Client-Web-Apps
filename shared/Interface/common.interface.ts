@@ -13,17 +13,22 @@ import {
   CellValue,
 } from 'react-table';
 
-export interface IidTitle {
+export interface IIdHolder {
   id: number;
+}
+
+export interface IIdTitle extends IIdHolder {
   title: string;
 }
-export interface IidTitles extends IidTitle {
+export interface IIdTitles extends IIdTitle {
   title_en?: string;
 }
-export interface IidTitleCreateUpdateAt extends IidTitles {
-  updated_at?: string;
-  crated_at?: string;
+export interface ICreateUpdateAt {
+  updated_at?: string | undefined;
+  created_at?: string | undefined;
 }
+export interface IIdTitleCreateUpdateAt extends IIdTitles, ICreateUpdateAt {}
+
 export interface IFAQ {
   show_in: number;
   institute_id?: number;
@@ -34,7 +39,7 @@ export interface IFAQ {
   row_status: number;
   other_language_fields?: object;
 }
-export interface IPartner extends IidTitle {
+export interface IPartner extends IIdTitle {
   main_image_path?: string;
   thumb_image_path?: string;
   grid_image_path?: string;
@@ -43,7 +48,7 @@ export interface IPartner extends IidTitle {
   row_status: string;
   other_language_fields?: object;
 }
-export interface ICalendar extends Event, Partial<IidTitleCreateUpdateAt> {
+export interface ICalendar extends Event, Partial<IIdTitleCreateUpdateAt> {
   youth_id?: number | string;
   institute_id?: number | string;
   organization_id?: number | string;
@@ -67,10 +72,10 @@ export interface ICalendarQuery {
   youth_id?: string | number;
   institute_id?: string | number;
 }
-export interface IStaticPageCommon extends IidTitle {
+export interface IStaticPageCommon extends IIdTitle {
   sub_title?: string;
 }
-export interface IStaticPageDto extends IidTitle, IStaticPageCommon {
+export interface IStaticPageDto extends IIdTitle, IStaticPageCommon {
   show_in?: number | string;
   content_slug_or_id?: string;
   institute_id?: string | number;
@@ -83,7 +88,7 @@ export interface IStaticPageBlock extends IStaticPageDto, IStaticPageCommon {
   // id?: string | number | undefined;
 }
 export interface IStaticPageContent
-  extends IidTitleCreateUpdateAt,
+  extends IIdTitleCreateUpdateAt,
     IStaticPageCommon {
   static_page_type_id?: number | undefined;
   show_in: string | number | undefined;
