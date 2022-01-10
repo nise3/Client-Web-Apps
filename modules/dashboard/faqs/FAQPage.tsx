@@ -16,14 +16,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 const FAQPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -128,13 +125,6 @@ const FAQPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_ALL_FAQS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        else if (authUser?.isOrganizationUser)
-          params['organization_id'] = authUser?.organization_id;
-        return params;
-      },
     });
 
   let modifiedData = data?.map((faq: any) => {

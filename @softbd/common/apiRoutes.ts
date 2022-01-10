@@ -1,4 +1,6 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ? process.env.NEXT_PUBLIC_API_BASE_URL : 'https://gateway.bus-staging.softbdltd.com';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+  ? process.env.NEXT_PUBLIC_API_BASE_URL
+  : 'https://gateway.bus-staging.softbdltd.com';
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
@@ -239,3 +241,6 @@ export const API_GET_JOB = API_JOB + '/job-details/';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   INDUSTRY_SERVICE_PATH + '/hr-demand';
+
+export const API_INDUSTRY_ASSOCIATIONS =
+  ORGANIZATION_SERVICE_PATH + '/industry-associations';
