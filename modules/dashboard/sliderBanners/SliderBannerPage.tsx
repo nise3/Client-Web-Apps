@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -16,15 +16,12 @@ import SliderBannerAddEditPopup from './SliderBannerAddEditPopup';
 import SliderBannerDetailsPopup from './SliderBannerDetailsPopup';
 import {deleteSliderBanner} from '../../../services/cmsManagement/SliderBannerService';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const SliderBannerPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
 
-  const [sliderBannerFilters, setSliderBannerFilters] = useState({});
+  const [sliderBannerFilters] = useState({});
   const {
     data: sliderBanners,
     isLoading,
@@ -34,20 +31,6 @@ const SliderBannerPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setSliderBannerFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setSliderBannerFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);

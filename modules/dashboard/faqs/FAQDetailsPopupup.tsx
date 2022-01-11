@@ -59,7 +59,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
-                label={messages['institute.label']}
+                label={messages['common.institute_name']}
                 value={itemData?.institute_title}
                 isLoading={isLoading}
               />
