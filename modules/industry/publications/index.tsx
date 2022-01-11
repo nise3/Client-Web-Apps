@@ -53,6 +53,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
     color: theme.palette.primary.light,
     padding: '3px 7px',
     marginLeft: '10px',
+    fontWeight: 'bold',
   },
   [`& .${classes.gridMargin}`]: {
     marginLeft: '15px',
@@ -76,6 +77,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.title}`]: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    fontWeight: 'bold',
   },
 
   [`& .${classes.imageBox}`]: {
@@ -171,7 +173,7 @@ const Publications = () => {
                 }}>
                 <Box display={'flex'}>
                   <FilterListIcon />
-                  <Typography sx={{marginLeft: '15px'}}>
+                  <Typography sx={{marginLeft: '15px', fontWeight: 'bold'}}>
                     {messages['filter.institute']}
                   </Typography>
                 </Box>
@@ -234,7 +236,7 @@ const Publications = () => {
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container>
               <Grid item xs={12}>
-                <Body2 gutterBottom>
+                <Body2 gutterBottom sx={{fontWeight: 'bold'}}>
                   {messages['total_result.institute']}{' '}
                   <Chip
                     label={publications?.length}
@@ -286,7 +288,6 @@ const Publications = () => {
                             <CardMedia
                               component='img'
                               height='227'
-                              // image='/images/testPublication.png'
                               image={publication.image_path}
                               alt='publication'
                             />
