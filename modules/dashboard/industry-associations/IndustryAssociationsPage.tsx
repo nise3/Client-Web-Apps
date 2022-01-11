@@ -17,7 +17,7 @@ import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
 import CustomChipApplicationStatus from '../applicationsList/CustomChipApplicationStatus';
-import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
+import ApproveButton from './ApproveButton';
 import RejectButton from '../applicationManagement/RejectButton';
 import {
   approveIndustryAssociationRegistration,
@@ -86,7 +86,6 @@ const IndustryAssociationsPage = () => {
       );
       if (isResponseSuccess(response)) {
         {
-          successStack(<IntlMessages id='industry_association_reg.rejected' />);
           successStack(<IntlMessages id='industry_association_reg.rejected' />);
         }
         refreshDataTable();
@@ -162,11 +161,13 @@ const IndustryAssociationsPage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteIndustryAssocAction(data.id)}
-                deleteTitle='Are you sure?'
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
               {data.row_status != 1 ? (
                 <ApproveButton
-                  onClick={() => approveIndustryAssocRegistration(data.id)}
+                  approveAction={() =>
+                    approveIndustryAssocRegistration(data.id)
+                  }
                 />
               ) : (
                 ''

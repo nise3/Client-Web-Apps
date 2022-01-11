@@ -7,7 +7,6 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {INDUSTRY_ASSOCIATION_TYPE} from './IndustryAssociationAddEdit';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
 
@@ -61,6 +60,13 @@ const IndustryAssociationDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.title']}
+              value={itemData?.title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.title_en']}
               value={itemData?.title_en}
               isLoading={isLoading}
@@ -68,8 +74,8 @@ const IndustryAssociationDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.title']}
-              value={itemData?.title}
+              label={messages['association.association_trades']}
+              value={itemData?.industry_association_trade_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -82,15 +88,80 @@ const IndustryAssociationDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.phone']}
-              value={itemData?.phone_code}
+              label={messages['common.mobile']}
+              value={itemData?.mobile}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
+              label={messages['institute.name_of_the_office_head']}
+              value={itemData?.name_of_the_office_head}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['institute.name_of_the_office_head_en']}
+              value={itemData?.name_of_the_office_head_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['institute.name_of_the_office_head_designation']}
+              value={itemData?.name_of_the_office_head_designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={
+                messages['institute.name_of_the_office_head_designation_en']
+              }
+              value={itemData?.name_of_the_office_head_designation_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_name']}
+              value={itemData?.contact_person_name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_name_en']}
+              value={itemData?.contact_person_name_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_designation']}
+              value={itemData?.contact_person_designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_designation_en']}
+              value={itemData?.contact_person_designation_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_mobile']}
+              value={itemData?.contact_person_mobile}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.contact_person_email']}
+              value={itemData?.contact_person_email}
               isLoading={isLoading}
             />
           </Grid>
@@ -103,6 +174,13 @@ const IndustryAssociationDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['districts.label']}
+              value={itemData?.district_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['upazilas.label']}
               value={itemData?.upazila_title_en}
               isLoading={isLoading}
@@ -110,31 +188,8 @@ const IndustryAssociationDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.status']}
-              value={getValue(itemData?.row_status)}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['industry_associations.type']}
-              value={
-                itemData?.industry_association_type_id ==
-                INDUSTRY_ASSOCIATION_TYPE.GOVT
-                  ? messages['common.government']
-                  : itemData?.industry_association_type_id ==
-                    INDUSTRY_ASSOCIATION_TYPE.NON_GOVT
-                  ? messages['common.non_government']
-                  : messages['common.others']
-              }
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.mobile}
+              label={messages['common.address']}
+              value={itemData?.address}
               isLoading={isLoading}
             />
           </Grid>
@@ -147,15 +202,15 @@ const IndustryAssociationDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['districts.label']}
-              value={itemData?.district_title_en}
+              label={messages['common.google_map_src']}
+              value={itemData?.google_map_src}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.google_map_src']}
-              value={itemData?.google_map_src}
+              label={messages['common.status']}
+              value={getValue(itemData?.row_status)}
               isLoading={isLoading}
             />
           </Grid>

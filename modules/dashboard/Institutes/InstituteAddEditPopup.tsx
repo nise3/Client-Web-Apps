@@ -144,6 +144,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
   );
+
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
