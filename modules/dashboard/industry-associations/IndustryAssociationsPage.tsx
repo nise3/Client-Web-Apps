@@ -71,7 +71,7 @@ const IndustryAssociationsPage = () => {
       }
     } catch (error: any) {
       errorStack(<IntlMessages id='message.somethingWentWrong' />);
-      console.log('error', error);
+      console.log('error: ', error);
     }
   };
 
