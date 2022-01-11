@@ -30,8 +30,6 @@ import {
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
@@ -66,9 +64,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
     const {errorStack} = useNotiStack();
     const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-    const authUser = useAuthUser<CommonAuthUser>();
-
-    const [galleryAlbumFilters, setGalleryAlbumFilters] = useState<any>({
+    const [galleryAlbumFilters] = useState<any>({
       row_status: RowStatus.ACTIVE,
     });
     const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
@@ -238,22 +234,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
       }
     }, [cmsGlobalConfig]);
 
-    useEffect(() => {
-      if (authUser) {
-        if (authUser.isInstituteUser) {
-          setGalleryAlbumFilters({
-            row_status: RowStatus.ACTIVE,
-            institute_id: authUser.institute_id,
-          });
-        } else if (authUser.isOrganizationUser) {
-          setGalleryAlbumFilters({
-            row_status: RowStatus.ACTIVE,
-            organization_id: authUser.organization_id,
-          });
-        }
-      }
-    }, [authUser]);
-
     const onAddOtherLanguageClick = useCallback(() => {
       if (selectedLanguageCode) {
         let lists = [...selectedLanguageList];
@@ -293,7 +273,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
 
     useEffect(() => {
       if (itemData) {
-        console.log('dsdjsdhjdsjhhhhhhhhhhhhhhhh');
         let data: any = {
           gallery_album_id: itemData?.gallery_album_id,
           content_type: itemData?.content_type,
@@ -337,8 +316,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         }
         reset(data);
         setSelectedContentType(itemData?.content_type);
-        console.log('selected---', selectedContentType);
-        console.log('itemData?.content_type', itemData?.content_type);
         onGalleryAlbumChange(itemData?.gallery_album_id);
       } else {
         reset(initialValues);

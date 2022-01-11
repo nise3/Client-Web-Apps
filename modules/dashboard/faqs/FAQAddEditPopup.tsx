@@ -41,6 +41,7 @@ const initialValues = {
   show_in: '',
   institute_id: '',
   organization_id: '',
+  industry_association_id: '',
   row_status: '1',
 };
 
@@ -101,6 +102,15 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         .when('show_in', {
           is: (val: number) => {
             return val == ShowInTypes.INDUSTRY;
+          },
+          then: yup.string().required(),
+        }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
           },
           then: yup.string().required(),
         }),
@@ -218,7 +228,9 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
       reset(data);
       setShowInId(itemData?.show_in);
-      if (authUser?.isSystemUser) changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
     } else {
       reset(initialValues);
     }

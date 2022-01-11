@@ -17,13 +17,10 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const GalleryAlbumContentsPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -149,14 +146,7 @@ const GalleryAlbumContentsPage = () => {
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
-      urlPath: API_GALLERY_ALBUM_CONTENTS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        else if (authUser?.isOrganizationUser)
-          params['organization_id'] = authUser?.organization_id;
-        return params;
-      },
+      urlPath: API_GALLERY_ALBUM_CONTENTS
     });
 
   return (

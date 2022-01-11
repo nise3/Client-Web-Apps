@@ -37,16 +37,15 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {
-  getAllIndustries,
-  getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
 import AlbumTypes from './AlbumTypes';
 import {
   getMomentDateFormat,
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -60,6 +59,7 @@ const initialValues = {
   institute_id: '',
   parent_gallery_album_id: '',
   organization_id: '',
+  industry_association_id: '',
   course_id: '',
   program_id: '',
   image_alt_title: '',
@@ -87,6 +87,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     useFetchCMSGlobalConfig();
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [languageList, setLanguageList] = useState<any>([]);
@@ -202,6 +203,15 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           is: (value: number) => value == ShowInTypes.INDUSTRY,
           then: yup.string().required(),
         }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
+          },
+          then: yup.string().required(),
+        }),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
@@ -300,6 +310,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         institute_id: itemData?.institute_id,
         parent_gallery_album_id: itemData?.parent_gallery_album_id,
         organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
         course_id: itemData?.course_id,
         program_id: itemData?.program_id,
         image_alt_title: itemData?.image_alt_title,
@@ -341,7 +352,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       }
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
     } else {
       reset(initialValues);
     }
@@ -358,12 +371,28 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         setValue('organization_id', '');
       }
 
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
+      }
+
       if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
+        const response = await getAllInstitutes();
+        if (response && response?.data) {
+          setInstituteList(response.data);
+        }
       } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+        const response = await getAllOrganizations();
+        if (response && response?.data) {
+          setIndustryList(response.data);
+        }
+      } else if (
+        id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+        industryAssociationList.length == 0
+      ) {
+        const response = await getAllIndustryAssociations();
+        if (response && response?.data) {
+          setIndustryAssociationList(response.data);
+        }
       }
 
       setShowInId(id);
@@ -418,24 +447,23 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      if (!authUser?.isSystemUser) {
+        delete formData.show_in;
+        delete formData.institute_id;
+        delete formData.organization_id;
+        delete formData.industry_association_id;
+      }
+
       if (formData.show_in != ShowInTypes.TSP) {
         formData.institute_id = '';
-        objectFilter(formData);
       }
       if (formData.show_in != ShowInTypes.INDUSTRY) {
         formData.organization_id = '';
-        objectFilter(formData);
       }
-
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
+      if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        formData.industry_association_id = '';
       }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
-      }
+      objectFilter(formData);
 
       let data = {...formData};
 
@@ -541,6 +569,21 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   isLoading={isLoadingSectionNameList}
                   control={control}
                   options={industryList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+            {showInId == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  required
+                  id={'industry_association_id'}
+                  label={messages['common.industry_association']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryAssociationList}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
