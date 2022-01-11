@@ -16,10 +16,17 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
+import CustomChipApplicationStatus from '../applicationsList/CustomChipApplicationStatus';
+import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
+import RejectButton from '../applicationManagement/RejectButton';
+import {
+  approveIndustryAssociationRegistration,
+  rejectIndustryAssociationRegistration,
+} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 
 const IndustryAssociationsPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -47,23 +54,65 @@ const IndustryAssociationsPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteInstituteItem = async (itemId: number) => {
-    let response = await deleteIndustryAssoc(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='common.industry_association' />}}
-        />,
-      );
+  const deleteIndustryAssocAction = async (itemId: number) => {
+    try {
+      let response = await deleteIndustryAssoc(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{
+              subject: <IntlMessages id='common.industry_association' />,
+            }}
+          />,
+        );
 
-      refreshDataTable();
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      errorStack(<IntlMessages id='message.somethingWentWrong' />);
+      console.log('error', error);
     }
   };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
+
+  const rejectIndustryAssocRegistration = async (industryAssocId: number) => {
+    try {
+      let response = await rejectIndustryAssociationRegistration(
+        industryAssocId,
+      );
+      if (isResponseSuccess(response)) {
+        {
+          successStack(<IntlMessages id='industry_association_reg.rejected' />);
+          successStack(<IntlMessages id='industry_association_reg.rejected' />);
+        }
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      errorStack(<IntlMessages id='message.somethingWentWrong' />);
+      console.log('error', error);
+    }
+  };
+
+  const approveIndustryAssocRegistration = async (industryAssocId: number) => {
+    try {
+      let response = await approveIndustryAssociationRegistration(
+        industryAssocId,
+      );
+      if (isResponseSuccess(response)) {
+        {
+          successStack(<IntlMessages id='industry_association_reg.approved' />);
+        }
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      errorStack(<IntlMessages id='message.somethingWentWrong' />);
+      console.log('error', error);
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -100,15 +149,7 @@ const IndustryAssociationsPage = () => {
         filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          if (data.row_status === 0) {
-            return <p>Inactive</p>;
-          } else if (data.row_status === 1) {
-            return <p>Approved</p>;
-          } else if (data.row_status === 2) {
-            return <p>Pending</p>;
-          } else {
-            return <p>Rejected</p>;
-          }
+          return <CustomChipApplicationStatus value={data?.row_status} />;
         },
       },
       {
@@ -120,9 +161,24 @@ const IndustryAssociationsPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteInstituteItem(data.id)}
+                deleteAction={() => deleteIndustryAssocAction(data.id)}
                 deleteTitle='Are you sure?'
               />
+              {data.row_status != 1 ? (
+                <ApproveButton
+                  onClick={() => approveIndustryAssocRegistration(data.id)}
+                />
+              ) : (
+                ''
+              )}
+              {data.row_status != 3 && data.row_status != 0 ? (
+                <RejectButton
+                  rejectAction={() => rejectIndustryAssocRegistration(data.id)}
+                  rejectTitle={messages['common.delete_confirm'] as string}
+                />
+              ) : (
+                ''
+              )}
             </DatatableButtonGroup>
           );
         },

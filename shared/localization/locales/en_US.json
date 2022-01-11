@@ -14,6 +14,8 @@
   "applicationManagement.rejectApplication": "Reject Trainee Application?",
   "applicationManagement.batchAssigned": "Trainee has been assigned a batch successfully ",
   "applicationManagement.rejected": "Application has been rejected successfully",
+  "industry_association_reg.rejected": "Industry Association registration has been rejected successfully",
+  "industry_association_reg.approved": "Industry Association registration has been approved successfully",
   "applicationManagement.applicantFullName": "Trainee's Full Name",
   "applicationManagement.details": "Application Details",
   "applicationManagement.status": "Application Status",
