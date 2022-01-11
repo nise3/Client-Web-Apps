@@ -13,6 +13,7 @@ import {
   API_SKILLS,
   API_RANK_TYPES,
   API_RANKS,
+  API_ASSOCIATION_TRADES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchOccupation(occupationId: number | null) {
@@ -39,6 +40,10 @@ export function useFetchOrganizationType(organizationTypeId: number | null) {
 
 export function useFetchOrganizationTypes(params: any) {
   return useAxiosSWR([API_ORGANIZATION_TYPES, params]);
+}
+
+export function useFetchAssociationTrades(params: any) {
+  return useAxiosSWR([API_ASSOCIATION_TRADES, params]);
 }
 
 export function useFetchOrganization(organizationId: number | null) {
