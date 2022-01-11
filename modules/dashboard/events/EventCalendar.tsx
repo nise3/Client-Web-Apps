@@ -4,27 +4,27 @@ import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList, getCalenderViewFilter, getNavigationFilter} from '../../../services/global/globalService';
+import {
+  ICalendar,
+  ICalendarQuery,
+} from '../../../shared/Interface/common.interface';
+import {
+  addStartEndPropsToList,
+  getCalenderViewFilter,
+  getNavigationFilter,
+} from '../../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
 
 const EventCalendar = () => {
   const {messages} = useIntl();
-  const authUser = useAuthUser();
-
-  // const isEditable = comProps.editable ? comProps.editable : false;
 
   let requestQuery: ICalendarQuery = {
     type: 'month',
   };
-  if (authUser?.isInstituteUser) {
-    requestQuery.institute_id = authUser.institute_id;
-  }
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>();
   const [selectedStartDate, setSelectedStartDate] = useState<
@@ -114,13 +114,13 @@ const EventCalendar = () => {
   const onNavigateEvent = (e: any) => {
     setViewFilters((prev) => {
       return getNavigationFilter(e, prev);
-    })
-  }
+    });
+  };
   const onViewEvent = (view: View) => {
     setViewFilters((prev) => {
       return getCalenderViewFilter(view, prev);
-    })
-  }
+    });
+  };
 
   return (
     <>
