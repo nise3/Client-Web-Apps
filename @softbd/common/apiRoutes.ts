@@ -139,6 +139,13 @@ export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
+
+export const API_REJECT_INDUSTRY_ASSOC_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration-rejection';
+
+export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
+
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
@@ -221,6 +228,9 @@ export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/public/publications';
 
 export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
+
+export const API_INDUSTRY_ASSOCIATIONS =
+  ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';

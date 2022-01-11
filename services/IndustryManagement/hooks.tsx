@@ -5,6 +5,7 @@ import {
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
   API_GET_JOB_PRIMARY_INFORMATION,
   API_HUMAN_RESOURCE_DEMAND_LIST,
+  API_INDUSTRY_ASSOCIATIONS,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
   API_JOB_REQUIREMENT,
@@ -19,6 +20,13 @@ export function useFetchPublication(publicationId: number | null) {
     publicationId
       ? API_INDUSTRY_PUBLIC_PUBLICATIONS + '/' + publicationId
       : null,
+  );
+}
+
+
+export function useFetchIndustryAssociation(industryAssocId: number | null) {
+  return useAxiosSWR(
+    industryAssocId ? API_INDUSTRY_ASSOCIATIONS + '/' + industryAssocId : null,
   );
 }
 
