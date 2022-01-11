@@ -5,7 +5,6 @@ export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
 export const INDUSTRY_SERVICE_PATH = '/industry';
-export const INDUSTRY_ASSOCIATION_SERVICE_PATH = '/industry-association';
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
   INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
 export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
@@ -32,6 +31,8 @@ export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
+export const API_ASSOCIATION_TRADES =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-trades';
 export const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
 export const API_ORGANIZATION_UNIT_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
@@ -40,7 +41,7 @@ export const API_ORGANIZATION_UNITS =
 export const API_ORGANIZATION_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/organization-registration';
 export const API_INDUSTRY_ASSOCIATION_REGISTRATION =
-  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/industry-association-registration';
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration';
 
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
@@ -138,6 +139,13 @@ export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
+
+export const API_REJECT_INDUSTRY_ASSOC_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration-rejection';
+
+export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
+
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
@@ -220,6 +228,9 @@ export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/public/publications';
 
 export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
+
+export const API_INDUSTRY_ASSOCIATIONS =
+  ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';

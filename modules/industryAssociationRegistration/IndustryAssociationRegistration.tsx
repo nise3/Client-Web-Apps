@@ -13,7 +13,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
-import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
+import {useFetchAssociationTrades} from '../../services/organaizationManagement/hooks';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -41,11 +41,12 @@ const IndustryAssociationRegistration = () => {
   const {data: districts, isLoading: isLoadingDistricts}: any =
     useFetchDistricts(districtFilters);
 
-  const [associationTypesFilter] = useState({});
+  const [associationTradeFilter] = useState({});
 
-  const {data: associationTypes} = useFetchOrganizationTypes(
-    associationTypesFilter,
+  const {data: associationTrades} = useFetchAssociationTrades(
+    associationTradeFilter,
   );
+
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const onchangeDivision = useCallback(
     (divisionId: number) => {
@@ -72,11 +73,11 @@ const IndustryAssociationRegistration = () => {
         .email()
         .required()
         .label(messages['common.email'] as string),
-      association_type_id: yup
+      industry_association_trade_id: yup
         .string()
         .trim()
         .required()
-        .label(messages['association.association_type'] as string),
+        .label(messages['association.association_trades'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
@@ -155,8 +156,6 @@ const IndustryAssociationRegistration = () => {
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  console.log('errors', errors);
-
   const onSubmit: SubmitHandler<any> = async (data) => {
     console.log('submitted data', data);
     try {
@@ -204,11 +203,11 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='association_type_id'
+                id='industry_association_trade_id'
                 isLoading={isLoading}
-                label={messages['association.association_type']}
+                label={messages['association.association_trades']}
                 control={control}
-                options={associationTypes}
+                options={associationTrades}
                 optionValueProp={'id'}
                 optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
@@ -256,7 +255,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='name_of_the_office_head '
+                id='name_of_the_office_head'
                 label={messages['association.head_of_office_or_chairman']}
                 register={register}
                 errorInstance={errors}
