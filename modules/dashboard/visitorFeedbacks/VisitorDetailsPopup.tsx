@@ -17,7 +17,6 @@ const VisitorDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchVisitorFeedback(itemId);
 
-  console.log('visitor: ', itemData);
   return (
     <>
       <CustomDetailsViewMuiModal

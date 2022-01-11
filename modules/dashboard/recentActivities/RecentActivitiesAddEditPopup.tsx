@@ -27,16 +27,18 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import {
-  getAllIndustries,
-  getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
 import ContentTypes from './ContentTypes';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import {
+  getMomentDateFormat,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface RecentActivitiesAddEditPopupProps {
   itemId: number | null;
@@ -48,6 +50,7 @@ const initialValues = {
   title: '',
   institute_id: '',
   organization_id: '',
+  industry_association_id: '',
   show_in: '',
   description: '',
   content_type: '',
@@ -84,6 +87,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
@@ -160,6 +164,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         .when('show_in', {
           is: (val: number) => {
             return val == ShowInTypes.INDUSTRY;
+          },
+          then: yup.string().required(),
+        }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
           },
           then: yup.string().required(),
         }),
@@ -260,6 +273,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
         show_in: itemData?.show_in,
         content_type: itemData?.content_type,
         collage_position: itemData?.collage_position,
@@ -304,7 +318,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       }
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
       setHasCollagePosition(!!itemData?.collage_position);
       setSelectedContentType(itemData?.content_type);
     } else {
@@ -315,12 +331,36 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
+
+      if (id != ShowInTypes.TSP) {
+        setValue('institute_id', '');
+      }
+      if (id != ShowInTypes.INDUSTRY) {
+        setValue('organization_id', '');
+      }
+
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
+      }
+
       if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
+        const response = await getAllInstitutes();
+        if (response && response?.data) {
+          setInstituteList(response.data);
+        }
       } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+        const response = await getAllOrganizations();
+        if (response && response?.data) {
+          setIndustryList(response.data);
+        }
+      } else if (
+        id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+        industryAssociationList.length == 0
+      ) {
+        const response = await getAllIndustryAssociations();
+        if (response && response?.data) {
+          setIndustryAssociationList(response.data);
+        }
       }
 
       setShowInId(id);
@@ -373,20 +413,25 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.recentActivityId = formData.recentActivityId
-        ? formData.recentActivityId
-        : null;
+      if (!authUser?.isSystemUser) {
+        delete formData.show_in;
+        delete formData.institute_id;
+        delete formData.organization_id;
+        delete formData.industry_association_id;
+      }
+
+      if (formData.show_in != ShowInTypes.TSP) {
+        formData.institute_id = '';
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY) {
+        formData.organization_id = '';
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        formData.industry_association_id = '';
+      }
+      objectFilter(formData);
 
       formData.other_language_fields = '';
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
-      }
 
       let data = {...formData};
 

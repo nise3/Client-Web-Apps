@@ -18,6 +18,7 @@ import {
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ContentTypes from './ContentTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 interface RecentActivitiesDetailsPopupProps {
   itemId: number | null;
@@ -70,15 +71,15 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.show_in']}
               value={itemData?.show_in_label}
               isLoading={isLoading}
             />
           </Grid>
-          {itemData?.institute_title && (
-            <Grid item xs={6}>
+          {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['institute.label']}
                 value={itemData?.institute_title}
@@ -86,8 +87,9 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
               />
             </Grid>
           )}
-          {itemData?.organization_title && (
-            <Grid item xs={6}>
+
+          {itemData?.show_in && itemData.show_in == ShowInTypes.INDUSTRY && (
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization.label']}
                 value={itemData?.organization_title}
@@ -95,6 +97,17 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
               />
             </Grid>
           )}
+
+          {itemData?.show_in &&
+            itemData.show_in == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.industry_association']}
+                  value={itemData?.industry_association_title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.content_type']}
@@ -103,7 +116,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.image_path']}
               imageUrl={itemData?.image_path}
@@ -111,7 +124,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.collage_position']}
               value={itemData?.collage_position}
@@ -120,7 +133,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
           </Grid>
 
           {itemData?.collage_image_path && (
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <ImageView
                 label={messages['common.collage_image_path']}
                 imageUrl={itemData?.collage_image_path}
@@ -129,7 +142,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             </Grid>
           )}
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.grid_image_path']}
               imageUrl={itemData?.grid_image_path}
@@ -137,7 +150,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.thumb_image_path']}
               imageUrl={itemData?.thumb_image_path}
@@ -145,14 +158,14 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.video_id']}
               value={itemData?.video_id}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.video_url']}
               value={itemData?.video_url}
