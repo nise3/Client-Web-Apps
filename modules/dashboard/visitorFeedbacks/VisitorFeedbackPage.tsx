@@ -9,12 +9,9 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_VISITOR_FEEDBACKS} from '../../../@softbd/common/apiRoutes';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const VisitorFeedbackPage = () => {
   const {messages} = useIntl();
-  const authUser = useAuthUser<CommonAuthUser>();
 
   const {
     onFetchData,
@@ -23,14 +20,7 @@ const VisitorFeedbackPage = () => {
     pageCount,
     totalCount,
   } = useReactTableFetchData({
-    urlPath: API_VISITOR_FEEDBACKS,
-    paramsValueModifier: (params: any) => {
-      if (authUser?.isInstituteUser)
-        params['institute_id'] = authUser?.institute_id;
-      else if (authUser?.isOrganizationUser)
-        params['organization_id'] = authUser?.organization_id;
-      return params;
-    },
+    urlPath: API_VISITOR_FEEDBACKS
   });
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
