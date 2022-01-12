@@ -87,10 +87,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IOrganizationType> = async (
     data: IOrganizationType,
   ) => {
-    const {is_government} = data;
-    if (data && is_government) {
-      data = {...data, is_government: 1 * is_government};
-    }
+    data.is_government = data.is_government ? 1 : 0;
+
     try {
       if (itemId) {
         await updateOrganizationType(itemId, data);
