@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -16,15 +16,12 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconSlider from '../../../@softbd/icons/IconSlider';
 import {deleteSlider} from '../../../services/cmsManagement/SliderService';
 import {useFetchSliders} from '../../../services/cmsManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const SliderPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
 
-  const [sliderFilters, setSliderFilters] = useState<any>({});
+  const [sliderFilters] = useState<any>({});
   const {
     data: sliders,
     isLoading,
@@ -34,20 +31,6 @@ const SliderPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setSliderFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setSliderFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);

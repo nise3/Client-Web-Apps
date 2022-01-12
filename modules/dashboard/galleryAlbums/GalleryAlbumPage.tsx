@@ -18,13 +18,10 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import AlbumTypes from './AlbumTypes';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const GalleryAlbumPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -146,13 +143,6 @@ const GalleryAlbumPage = () => {
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
       urlPath: API_GALLERY_ALBUMS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        else if (authUser?.isOrganizationUser)
-          params['organization_id'] = authUser?.organization_id;
-        return params;
-      },
     });
 
   return (

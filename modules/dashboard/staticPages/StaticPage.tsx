@@ -43,6 +43,8 @@ const StaticPage = () => {
         categories.push(StaticPageCategoryTypes.TSP);
       } else if (authUser?.isOrganizationUser) {
         categories.push(StaticPageCategoryTypes.INDUSTRY);
+      } else if (authUser?.isIndustryAssociationUser) {
+        categories.push(StaticPageCategoryTypes.INDUSTRY_ASSOCIATION);
       }
 
       setStaticPageTypesFilters({
@@ -153,7 +155,7 @@ const StaticPage = () => {
           columns={columns}
           data={staticPageTypes || []}
           loading={isLoading}
-          hideToolbar={true}
+          hideToolbar={false}
         />
         {isOpenAddEditModal &&
           selectedStaticPage &&
