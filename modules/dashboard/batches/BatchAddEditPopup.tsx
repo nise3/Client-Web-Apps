@@ -33,6 +33,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {ITrainer, IBatch} from '../../../shared/Interface/institute.interface';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -67,7 +68,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const {errorStack, successStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const [institutes, setInstitutes] = useState<Array<any>>([]);
   const [isLoadingInstitutes, setIsLoadingInstitutes] =
@@ -88,41 +89,6 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const [coursesFilters, setCoursesFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  useEffect(() => {
-    if (authUser?.isInstituteUser) {
-      setTrainingCenterFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-
-      setBranchFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-
-      setCoursesFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-    } else {
-      setIsLoadingInstitutes(true);
-      (async () => {
-        try {
-          let institutes = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          setInstitutes(institutes.data);
-        } catch (e) {}
-      })();
-    }
-  }, []);
 
   const {data: branches, isLoading: isLoadingBranches} =
     useFetchBranches(branchFilters);
@@ -210,6 +176,23 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setIsLoadingInstitutes(true);
+      (async () => {
+        try {
+          let response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingInstitutes(false);
+          if (response && response?.data) {
+            setInstitutes(response.data);
+          }
+        } catch (e) {}
+      })();
+    }
+  }, []);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
@@ -260,19 +243,37 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    setBranchFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
-    setCoursesFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
+    setBranchFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {
+            row_status: RowStatus.ACTIVE,
+          },
+    );
+    setCoursesFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {
+            row_status: RowStatus.ACTIVE,
+          },
+    );
 
-    setTrainingCenterFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
+    setTrainingCenterFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {
+            row_status: RowStatus.ACTIVE,
+          },
+    );
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
@@ -285,8 +286,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
     let assignTrainersResponse;
 
-    if (authUser?.isInstituteUser) {
-      data.institute_id = Number(authUser.institute_id);
+    if (!authUser?.isSystemUser) {
+      delete data.institute_id;
     }
 
     try {
