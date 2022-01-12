@@ -16,10 +16,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  useFetchOrganizations,
-  useFetchRankType,
-} from '../../../services/organaizationManagement/hooks';
+import {useFetchRankType} from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {isNeedToSelectOrganization} from '../../../@softbd/utilities/helpers';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -27,6 +24,8 @@ import yup from '../../../@softbd/libs/yup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IRankType} from '../../../shared/Interface/rankType.interface';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -48,7 +47,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
@@ -58,9 +57,9 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
     isLoading,
     mutate: mutateRankType,
   } = useFetchRankType(itemId);
-  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilters);
+  const [organizations, setOrganizations] = useState<Array<any>>([]);
+  const [isLoadingOrganizations, setIsLoadingOrganizations] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -103,6 +102,23 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setIsLoadingOrganizations(true);
+      (async () => {
+        try {
+          let response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingOrganizations(false);
+          if (response && response?.data) {
+            setOrganizations(response.data);
+          }
+        } catch (e) {}
+      })();
+    }
+  }, []);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
@@ -118,8 +134,8 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<IRankType> = async (data: IRankType) => {
-    if (authUser?.isOrganizationUser && authUser.organization?.id) {
-      data.organization_id = authUser.organization.id;
+    if (!authUser?.isSystemUser) {
+      delete data.organization_id;
     }
     try {
       if (itemId) {

@@ -58,14 +58,6 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
-          {/*<Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.description']}
-              value={itemData?.description}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

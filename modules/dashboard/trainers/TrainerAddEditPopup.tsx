@@ -18,6 +18,7 @@ import {
   genders,
   getMomentDateFormat,
   marital_status,
+  objectFilter,
   religions,
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -347,12 +348,23 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           }
         : {row_status: RowStatus.ACTIVE},
     );
+    setTrainingCenterFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {row_status: RowStatus.ACTIVE},
+    );
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
-    setTrainingCenterFilters({
-      row_status: RowStatus.ACTIVE,
-      branch_id: branchId,
+    setTrainingCenterFilters((prev: any) => {
+      const filter = objectFilter({
+        ...prev,
+        ...{row_status: RowStatus.ACTIVE, branch_id: branchId},
+      });
+      return filter;
     });
   }, []);
 
