@@ -9,9 +9,17 @@ import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
 import {useIntl} from 'react-intl';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {District, Upazila} from '../../../shared/Interface/location.interface';
+import {useFetchBranch} from '../../../services/instituteManagement/hooks';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
@@ -22,9 +30,27 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
 
-  const [associationTypesFilter] = useState({});
-  const {data: associationTypes, isLoading: associationTypesIsLoading} =
-    useFetchOrganizationTypes(associationTypesFilter);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateBranch,
+  } = useFetchBranch(itemId);
+
+  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
+
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionsFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
+
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -32,21 +58,11 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .string()
         .title()
         .label(messages['association.association_name'] as string),
-      association_type_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['association.association_type'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
         .required()
         .label(messages['association.head_of_office_or_chairman'] as string),
-      trade_no: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['association.trade_no'] as string),
       name_of_the_office_head_designation: yup
         .string()
         .trim()
@@ -62,11 +78,16 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['association.association_address'] as string),
-      loc_district_id: yup
+      loc_division_id: yup
         .string()
         .trim()
         .required()
         .label(messages['divisions.label'] as string),
+      loc_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['districts.label'] as string),
       contact_person_designation: yup
         .string()
         .trim()
@@ -141,32 +162,40 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
-            id='association_type_id'
-            isLoading={associationTypesIsLoading}
-            label={messages['association.association_type']}
+            id='loc_division_id'
+            label={messages['divisions.label']}
+            isLoading={isLoadingDivisions}
             control={control}
-            options={associationTypes}
+            options={divisions}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='trade_no'
-            label={messages['association.trade_no']}
-            register={register}
-            errorInstance={errors}
+            onChange={onDivisionChange}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <CustomFilterableFormSelect
             required
             id='loc_district_id'
             label={messages['districts.label']}
-            register={register}
+            isLoading={false}
+            control={control}
+            options={districtList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={onDistrictChange}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id='loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={false}
+            control={control}
+            options={upazilaList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
