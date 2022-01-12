@@ -17,6 +17,8 @@ import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {Call, Email} from '@mui/icons-material';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {createVisitorFeedbackIndustry} from '../../../services/cmsManagement/VisitorFeedbackService';
 
 const PREFIX = 'IndustryContact';
 
@@ -145,7 +147,7 @@ const officePersonsContact = [
 const ContactPage = () => {
   const result = useCustomStyle();
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [mapCenter] = useState({
     lat: 23.776488939377593,
     lng: 90.38155009066672,
@@ -187,8 +189,17 @@ const ContactPage = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
+    data.industry_association_id = 30;
 
     try {
+      await createVisitorFeedbackIndustry(data);
+      //console.log(data);
+      successStack(
+        <IntlMessages
+          id='common.subject_sent_successfully'
+          values={{subject: <IntlMessages id='common.your_info' />}}
+        />,
+      );
       reset();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
