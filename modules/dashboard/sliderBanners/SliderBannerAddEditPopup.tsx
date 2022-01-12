@@ -14,7 +14,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
   useFetchCMSGlobalConfig,
@@ -60,7 +59,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser();
 
   const isEdit = itemId != null;
   const {
@@ -72,7 +70,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
 
-  const [sliderFilters, setSliderFilters] = useState<any>({
+  const [sliderFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: sliders, isLoading: isSliderLoading} =
@@ -189,9 +187,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
               }),
           }),
     });
-  }, [messages, selectedCodes, authUser]);
-
-  // console.log('selected codes', selectedCodes);
+  }, [messages, selectedCodes]);
 
   const {
     register,
@@ -222,20 +218,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     ],
     [messages],
   );
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setSliderFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setSliderFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
 
   useEffect(() => {
     if (cmsGlobalConfig) {

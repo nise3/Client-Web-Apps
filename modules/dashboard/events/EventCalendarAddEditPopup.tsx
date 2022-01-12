@@ -19,11 +19,13 @@ import {
   createCalendar,
   updateCalendar,
 } from '../../../services/cmsManagement/EventService';
-import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {ICalendar, ICalendarDto} from '../../../shared/Interface/common.interface';
+import {
+  ICalendar,
+  ICalendarDto,
+} from '../../../shared/Interface/common.interface';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null | undefined;
@@ -35,11 +37,7 @@ interface CalendarAddEditPopupProps {
 
 let initialValues = {
   title: '',
-  youth_id: '',
-  institute_id: '',
-  organization_id: '',
   batch_id: '',
-  industry_association_id: '',
   start_date: '',
   end_date: '',
   start_time: '',
@@ -57,12 +55,14 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
-  const vendor = useVendor();
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  const {data: itemData, isLoading} = useFetchCalendarEvent(itemId);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateCalenderEvent,
+  } = useFetchCalendarEvent(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -94,17 +94,14 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         end_date: itemData?.end_date,
       });
     } else {
-      (initialValues.organization_id = authUser?.organization_id as string),
-        (initialValues.institute_id = authUser?.institute_id as string),
-        (initialValues.start_date = moment(startDate).format('yyyy-MM-DD')),
+      (initialValues.start_date = moment(startDate).format('yyyy-MM-DD')),
         (initialValues.end_date = moment(endDate).format('yyyy-MM-DD')),
         reset(initialValues);
     }
   }, [itemData]);
   const hasSecond = (time: any) => {
-    if(time){
+    if (time) {
       const timearray = time.split(':');
-      // console.log(timearray.length);
       return timearray.length === 3;
     } else {
       return false;
@@ -113,26 +110,22 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<ICalendarDto> = async (data: ICalendarDto) => {
     data.start = data.start_date;
     data.end = data.end_date;
-    if (data.start_time){
+    if (data.start_time) {
       data.start_time = hasSecond(data.start_time)
         ? data.start_time
         : `${data.start_time}:00`;
     }
-    if (data.end_time){
+    if (data.end_time) {
       data.end_time = hasSecond(data.end_time)
         ? data.end_time
         : `${data.end_time}:00`;
-    }
-
-    if (authUser?.isInstituteUser){
-      data.institute_id = vendor?.id;
     }
 
     try {
       if (itemId) {
         await updateCalendar(itemId, data);
         updateSuccessMessage('menu.events');
-        // mutateCalendar();
+        mutateCalenderEvent();
         refreshDataTable('update', data);
       } else {
         const create = await createCalendar(data);
