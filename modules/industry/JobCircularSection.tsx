@@ -210,7 +210,7 @@ const JobCircularSection = () => {
           {messages['menu.job_circular']}
         </UnderlinedHeadingH1>
         <Box mb={2}>
-          <CustomCarousel>
+          <CustomCarousel itemsInDesktop={3}>
             {items.map((item: any, key: number) => cardItem(item, key))}
           </CustomCarousel>
         </Box>
@@ -219,7 +219,7 @@ const JobCircularSection = () => {
             <Button
               sx={{borderRadius: '10px'}}
               variant='outlined'
-              data-test-id="jobceicular-more"
+              data-test-id='jobceicular-more'
               color='primary'
               endIcon={<ArrowRightAlt />}>
               {messages['common.see_more']}
