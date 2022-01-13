@@ -29,8 +29,6 @@ interface SkillAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  description: '',
-  row_status: '1',
 };
 
 const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
@@ -78,8 +76,6 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        description: itemData?.description,
-        row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
@@ -152,26 +148,6 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
-        {/*     <Grid item xs={12}>
-          <CustomTextInput
-            id='description'
-            label={messages['common.description']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            multiline={true}
-            rows={3}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
-            isLoading={isLoading}
-          />
-        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );

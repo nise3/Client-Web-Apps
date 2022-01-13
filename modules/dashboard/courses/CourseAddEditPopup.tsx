@@ -29,10 +29,10 @@ import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {ICourse} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -60,7 +60,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
@@ -75,9 +75,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     mutate: mutateCourse,
   } = useFetchCourse(itemId);
 
-  /*  const [branchFilters, setBranchFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });*/
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -86,39 +83,21 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser?.isInstituteUser) {
-      setProgrammeFilters((prevState: any) => {
-        return objectFilter({
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        });
-      });
-
-      /*setBranchFilters((prevState: any) => {
-        return objectFilter({
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        });
-      });*/
-    } else {
+    if (authUser?.isSystemUser) {
       setIsLoadingInstitutes(true);
       (async () => {
         try {
-          let institutes = await getAllInstitutes({
+          let response = await getAllInstitutes({
             row_status: RowStatus.ACTIVE,
           });
           setIsLoadingInstitutes(false);
-          setInstitutes(institutes.data);
+          if (response && response?.data) {
+            setInstitutes(response.data);
+          }
         } catch (e) {}
       })();
     }
   }, []);
-
-  // const {data: institutes, isLoading: isLoadingInstitutes} =
-  //   useFetchInstitutes(instituteFilters);
-
-  /*  const {data: branches, isLoading: isLoadingBranches} =
-        useFetchBranches(branchFilters);*/
 
   const {data: programmes, isLoading: isLoadingProgrammes} =
     useFetchProgrammes(programmeFilters);
@@ -373,10 +352,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    /*setBranchFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });*/
     setProgrammeFilters({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
@@ -388,8 +363,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       data.application_form_settings,
     );
 
-    if (authUser?.isInstituteUser) {
-      data.institute_id = Number(authUser.institute_id);
+    if (!authUser?.isSystemUser) {
+      delete data?.institute_id;
     }
 
     try {
@@ -500,18 +475,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        {/*<Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>*/}
 
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect

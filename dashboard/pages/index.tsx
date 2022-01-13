@@ -21,8 +21,11 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.dashboard'] as string} />
-      {authUser?.isOrganizationUser && <IndustryDashboardHomePage />}
-      {!authUser?.isOrganizationUser && <DashboardHomePage />}
+      {authUser?.isIndustryAssociationUser ? (
+        <IndustryDashboardHomePage />
+      ) : (
+        <DashboardHomePage />
+      )}
     </>
   );
 });
