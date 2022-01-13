@@ -43,6 +43,9 @@ export const API_ORGANIZATION_REGISTRATION =
 export const API_INDUSTRY_ASSOCIATION_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration';
 
+export const API_INDUSTRY_ASSOCIATION_MEMBERS =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-members';
+
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
 export const API_HUMAN_RESOURCES =
@@ -92,7 +95,7 @@ export const API_YOUTH_CERTIFICATES =
 export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_INDUSTRY_ASSOCIATIONS =
-  INSTITUTE_SERVICE_PATH + '/industry-associations';
+  ORGANIZATION_SERVICE_PATH + '/industry-associations';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
   YOUTH_SERVICE_PATH + '/settings/changeUserId';
@@ -245,5 +248,5 @@ export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
   API_JOB + '/company-info-visibility/';
 export const API_GET_JOB = API_JOB + '/job-details/';
 
-export const API_HUMAN_RESOURCE_DEMAND_LIST =
-  ORGANIZATION_SERVICE_PATH + '/hr-demand';
+export const API_HUMAN_RESOURCE_DEMAND =
+  ORGANIZATION_SERVICE_PATH + '/hr-demands';
