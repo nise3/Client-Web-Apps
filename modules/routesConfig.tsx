@@ -309,6 +309,7 @@ const routesConfig: NavItemProps[] = [
             url: '/association-profile',
           },
           {
+            //Todo: have to remove member list, this is not necessary
             id: 'member-list',
             title: 'Member List',
             messageId: 'common.member_list',
