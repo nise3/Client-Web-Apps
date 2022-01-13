@@ -59,8 +59,11 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const AssociationProfile = () => {
   const {messages} = useIntl();
 
-  const {data: userData, isLoading: isLoadingUserData} =
-    useFetchIndustryAssocProfile();
+  const {
+    data: userData,
+    isLoading: isLoadingUserData,
+    mutate: mutateAssociation,
+  } = useFetchIndustryAssocProfile();
 
   const [closeEditModal, setCloseEditModal] = useState<boolean>(true);
 
@@ -178,21 +181,21 @@ const AssociationProfile = () => {
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['divisions.label']}
-                value={userData?.division_title_en}
+                value={userData?.loc_division_title}
                 isLoading={false}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['districts.label']}
-                value={userData?.district_title_en}
+                value={userData?.loc_district_title}
                 isLoading={false}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['upazilas.label']}
-                value={userData?.upazila_title_en}
+                value={userData?.loc_upazila_title}
                 isLoading={false}
               />
             </Grid>
@@ -302,7 +305,11 @@ const AssociationProfile = () => {
         </Grid>
       </StyledGrid>
       {!closeEditModal && (
-        <AssociationProfileEditPopup onClose={onClickCloseEditModal} />
+        <AssociationProfileEditPopup
+          userData={userData}
+          mutateAssociation={mutateAssociation}
+          onClose={onClickCloseEditModal}
+        />
       )}
     </>
   );
