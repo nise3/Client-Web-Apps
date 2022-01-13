@@ -64,9 +64,9 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser();
 
-  const [divisionsFilter] = useState({});
-  const [districtsFilter] = useState({});
-  const [upazilasFilter] = useState({});
+  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
@@ -102,6 +102,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             .label(messages['institute.label'] as string),
     });
   }, [messages, authUser]);
+
   const {
     control,
     register,
