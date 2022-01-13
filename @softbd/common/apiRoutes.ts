@@ -239,6 +239,9 @@ export const API_INDUSTRY_ASSOCIATIONS =
 export const API_INDUSTRY_ASSOCIATION_PROFILE =
   ORGANIZATION_SERVICE_PATH + '/industry-association-profile';
 
+export const API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-profile-update';
+
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
 

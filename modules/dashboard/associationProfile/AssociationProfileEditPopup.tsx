@@ -1,4 +1,4 @@
-import React, {FC, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {Grid, Typography} from '@mui/material';
@@ -12,35 +12,45 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
-import {useFetchBranch} from '../../../services/instituteManagement/hooks';
+import {useFetchAssociationTrades} from '../../../services/organaizationManagement/hooks';
+import {
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {updateIndustryAssocProfile} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
+  userData: any;
+  mutateAssociation: any;
 }
 
 const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
+  userData,
+  mutateAssociation,
   ...props
 }) => {
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
 
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateBranch,
-  } = useFetchBranch(itemId);
+  const [associationTradeFilter] = useState({});
+  const {updateSuccessMessage} = useSuccessMessage();
+
+  const {data: associationTrades, isLoading: isLoadingTrades} =
+    useFetchAssociationTrades(associationTradeFilter);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
-
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
@@ -58,6 +68,11 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .string()
         .title()
         .label(messages['association.association_name'] as string),
+      industry_association_trade_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['association.association_trades'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
@@ -95,18 +110,65 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .label(messages['common.contact_person_designation'] as string),
     });
   }, []);
+
   const {
     control,
     register,
     handleSubmit,
     setValue,
-    // setError,
+    reset,
+    setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  // Todo: waiting for api
+  useEffect(() => {
+    if (userData) {
+      reset({
+        logo: userData?.logo,
+        title: userData?.title,
+        industry_association_trade_id: userData?.industry_association_trade_id,
+        address: userData?.address,
+        loc_division_id: userData?.loc_division_id,
+        loc_district_id: userData?.loc_district_id,
+        loc_upazila_id: userData?.loc_upazila_id,
+        name_of_the_office_head: userData?.name_of_the_office_head,
+        name_of_the_office_head_designation:
+          userData?.name_of_the_office_head_designation,
+        contact_person_name: userData?.contact_person_name,
+        contact_person_designation: userData?.contact_person_designation,
+      });
+    }
+    setDistrictsList(
+      filterDistrictsByDivisionId(districts, userData?.loc_division_id),
+    );
+    setUpazilasList(
+      filterUpazilasByDistrictId(upazilas, userData?.loc_district_id),
+    );
+  }, [userData, districts, upazilas]);
+
+  const changeDivisionAction = useCallback(
+    (divisionId: number) => {
+      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
+      setUpazilasList([]);
+    },
+    [districts],
+  );
+
+  const changeDistrictAction = useCallback(
+    (districtId: number) => {
+      setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
+    },
+    [upazilas],
+  );
+
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('submit->', data);
+    try {
+      await updateIndustryAssocProfile(data);
+      updateSuccessMessage('industry_association_reg.label');
+      mutateAssociation();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
     props.onClose();
   };
 
@@ -140,8 +202,8 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FileUploadComponent
-            id='profile_image'
-            defaultFileUrl={''}
+            id='logo'
+            defaultFileUrl={userData?.logo}
             errorInstance={errors}
             setValue={setValue}
             register={register}
@@ -162,6 +224,19 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
+            id='industry_association_trade_id'
+            isLoading={isLoadingTrades}
+            label={messages['association.association_trades']}
+            control={control}
+            options={associationTrades}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
             id='loc_division_id'
             label={messages['divisions.label']}
             isLoading={isLoadingDivisions}
@@ -170,7 +245,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            onChange={onDivisionChange}
+            onChange={changeDivisionAction}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -178,22 +253,22 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             required
             id='loc_district_id'
             label={messages['districts.label']}
-            isLoading={false}
+            isLoading={isLoadingDistricts}
             control={control}
-            options={districtList}
+            options={districtsList}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            onChange={onDistrictChange}
+            onChange={changeDistrictAction}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             id='loc_upazila_id'
             label={messages['upazilas.label']}
-            isLoading={false}
+            isLoading={isLoadingUpazilas}
             control={control}
-            options={upazilaList}
+            options={upazilasList}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
