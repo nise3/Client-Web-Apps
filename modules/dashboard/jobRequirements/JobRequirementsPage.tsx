@@ -1,3 +1,5 @@
+/** job requirement will be Removed**/
+
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
@@ -14,7 +16,7 @@ import IconRank from '../../../@softbd/icons/IconRank';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import JobRequirementAddEditPopup from './JobRequirementAddEditPopup';
 import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
-import {useFetchJobRequirements} from '../../../services/IndustryManagement/hooks';
+import {useFetchHumanResourceDemands} from '../../../services/IndustryManagement/hooks';
 
 const JobRequirementsPage = () => {
   const {messages} = useIntl();
@@ -28,7 +30,7 @@ const JobRequirementsPage = () => {
     data: ranks,
     isLoading,
     mutate: mutateRanks,
-  } = useFetchJobRequirements(jobRequirementFilters);
+  } = useFetchHumanResourceDemands(jobRequirementFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);

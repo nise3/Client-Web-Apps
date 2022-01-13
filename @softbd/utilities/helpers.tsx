@@ -438,3 +438,12 @@ export const getInstituteIdByDomain = (cookies?: any) => {
     ? cookies.institute_id
     : getBrowserCookie(COOKIE_KEY_INSTITUTE_ID) || 40;
 };
+
+export const getErrorObject = (id: any, errorInstance: any) => {
+  const keyArray = id.replaceAll('[', ',').replaceAll(']', '').split(',');
+  let errorObj = errorInstance;
+  keyArray.forEach((key: string) => {
+    errorObj = errorObj?.[key];
+  });
+  return errorObj;
+};

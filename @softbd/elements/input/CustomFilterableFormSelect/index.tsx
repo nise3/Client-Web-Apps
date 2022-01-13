@@ -5,6 +5,7 @@ import {Autocomplete, FormControl, TextField} from '@mui/material';
 import {Controller} from 'react-hook-form';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
+import {getErrorObject} from '../../../utilities/helpers';
 
 type Props = {
   id: string;
@@ -64,12 +65,14 @@ const CustomFilterableFormSelect = ({
     );
   };
 
-  let errorObj = errorInstance?.[id];
+  /*let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
   const matches = id.match(reg);
   if (matches) {
     errorObj = errorInstance?.[matches[1]]?.[matches[2]];
-  }
+  }*/
+
+  let errorObj = getErrorObject(id, errorInstance);
 
   return isLoading ? (
     <TextInputSkeleton />
