@@ -53,8 +53,12 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL : 'https://core.bus-staging.softbdltd.com';
-    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
+    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+      ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+      : 'https://core.bus-staging.softbdltd.com';
+    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
+      ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
+      : null;
 
     console.log('urlHost', urlHost);
 
@@ -110,28 +114,26 @@ export const loadAuthUser = async (
     console.log(ssoTokenData);
     const youthServicePath = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH;
     const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
-    const appAccessTokenData = getBrowserCookie(
-      COOKIE_KEY_APP_ACCESS_TOKEN,
-    );
+    const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
     console.log('permission call: appAccessTokenData', appAccessTokenData);
 
     const coreResponse =
       ssoTokenData.user_type == UserTypes.YOUTH_USER
         ? await apiGet(youthServicePath + '/youth-profile', {
-          headers: {
-            Authorization: 'Bearer ' + appAccessTokenData?.access_token,
-            'User-Token': 'Bearer ' + tokenData.access_token,
-          },
-        })
-        : await apiGet(
-          coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
-          {
             headers: {
               Authorization: 'Bearer ' + appAccessTokenData?.access_token,
               'User-Token': 'Bearer ' + tokenData.access_token,
             },
-          },
-        );
+          })
+        : await apiGet(
+            coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+            {
+              headers: {
+                Authorization: 'Bearer ' + appAccessTokenData?.access_token,
+                'User-Token': 'Bearer ' + tokenData.access_token,
+              },
+            },
+          );
     console.log(coreResponse);
 
     const {data} = coreResponse.data;
@@ -181,6 +183,7 @@ type TAuthUserSSOResponse = {
   institute_user_type?: string;
   training_center_id?: number;
   branch_id?: number;
+  industry_association_id?: number;
 };
 
 type TYouthAuthUserSSOResponse = {
@@ -269,6 +272,7 @@ export const getCommonAuthUserObject = (
     institute_user_type: authUser?.institute_user_type,
     training_center_id: authUser?.training_center_id,
     branch_id: authUser?.branch_id,
+    industry_association_id: authUser?.industry_association_id,
   };
 };
 

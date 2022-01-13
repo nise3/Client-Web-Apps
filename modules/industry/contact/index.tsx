@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {Box, Button, Card, CardContent, Grid} from '@mui/material';
+import {Box, Button, Card, CardContent, Grid, Skeleton} from '@mui/material';
 import {H1, H2, H3, H5, Text} from '../../../@softbd/elements/common';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import GoogleMapReact from 'google-map-react';
@@ -19,6 +19,8 @@ import {Call, Email} from '@mui/icons-material';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {createVisitorFeedbackIndustry} from '../../../services/cmsManagement/VisitorFeedbackService';
+import {useFetchContactInfo} from '../../../services/IndustryManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'IndustryContact';
 
@@ -101,56 +103,20 @@ const MapComponent = ({text}: MapProp) => (
   </div>
 );
 
-const officePersonsContact = [
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-  {
-    name: 'BASIS Secretariat',
-    mobile: '+8809612322747',
-    email: 'info@basis.org.bd',
-  },
-];
-
 const ContactPage = () => {
   const result = useCustomStyle();
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
+
   const [mapCenter] = useState({
     lat: 23.776488939377593,
     lng: 90.38155009066672,
+  });
+
+  const authUser = useAuthUser();
+
+  const [contactInfoFilter] = useState({
+    industry_association_id: authUser?.industry_association_id,
   });
 
   const validationSchema = useMemo(() => {
@@ -206,6 +172,9 @@ const ContactPage = () => {
     }
   };
 
+  const {data: contactInfoData, isLoading: isLoadingContactInfo} =
+    useFetchContactInfo(contactInfoFilter);
+
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
@@ -241,7 +210,7 @@ const ContactPage = () => {
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                     <Grid container spacing={5}>
-                      <Grid item xs={6}>
+                      <Grid item xs={12}>
                         <CustomTextInput
                           required
                           id='name'
@@ -251,7 +220,7 @@ const ContactPage = () => {
                           isLoading={false}
                         />
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid item xs={12}>
                         <CustomTextInput
                           required
                           id='mobile'
@@ -345,22 +314,34 @@ const ContactPage = () => {
           </Grid>
           <Grid item xs={12} mt={2}>
             <Grid container spacing={3} p={2}>
-              {(officePersonsContact || []).map(
-                (contact: any, index: number) => (
-                  <Grid item xs={12} sm={2} md={3} key={index}>
-                    <Box className={classes.contactBox}>
-                      <H5 sx={{color: 'primary.main'}}>{contact?.name}</H5>
-                      <Text className={classes.contactBoxItem}>
-                        <Call className={classes.contactBoxItemIcon} />
-                        {contact?.mobile}
-                      </Text>
-                      <Text className={classes.contactBoxItem}>
-                        <Email className={classes.contactBoxItemIcon} />
-                        {contact?.email}
-                      </Text>
-                    </Box>
-                  </Grid>
-                ),
+              {isLoadingContactInfo ? (
+                <Grid
+                  item
+                  xs={12}
+                  sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+                  <Skeleton variant='rectangular' width={'22%'} height={140} />
+                  <Skeleton variant='rectangular' width={'22%'} height={140} />
+                  <Skeleton variant='rectangular' width={'22%'} height={140} />
+                  <Skeleton variant='rectangular' width={'22%'} height={140} />
+                </Grid>
+              ) : (
+                <>
+                  {contactInfoData?.map((contact: any) => (
+                    <Grid item xs={12} sm={2} md={3} key={contact.id}>
+                      <Box className={classes.contactBox}>
+                        <H5 sx={{color: 'primary.main'}}>{contact?.name}</H5>
+                        <Text className={classes.contactBoxItem}>
+                          <Call className={classes.contactBoxItemIcon} />
+                          {contact?.mobile}
+                        </Text>
+                        <Text className={classes.contactBoxItem}>
+                          <Email className={classes.contactBoxItemIcon} />
+                          {contact?.email}
+                        </Text>
+                      </Box>
+                    </Grid>
+                  ))}
+                </>
               )}
             </Grid>
           </Grid>
