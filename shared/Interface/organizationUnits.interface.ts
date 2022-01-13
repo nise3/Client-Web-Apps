@@ -1,7 +1,7 @@
 import {IIdTitleCreateUpdateAt} from './common.interface';
 
 export interface IOrganizationUnit extends IIdTitleCreateUpdateAt {
-  organization_id: number;
+  organization_id?: number;
   organization_unit_type_id: number;
   loc_division_id?: number;
   loc_district_id?: number;

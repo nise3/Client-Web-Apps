@@ -26,6 +26,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganizationUnitType} from '../../../shared/Interface/organizationUnitTypes.interface';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface OrganizationUnitTypeAddEditPopupProps {
   itemId: number | null;
@@ -42,7 +43,7 @@ const initialValues = {
 
 const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps> =
   ({itemId, refreshDataTable, ...props}) => {
-    const authUser = useAuthUser();
+    const authUser = useAuthUser<CommonAuthUser>();
     const {messages} = useIntl();
     const {errorStack} = useNotiStack();
     const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
@@ -101,8 +102,8 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
     const onSubmit: SubmitHandler<IOrganizationUnitType> = async (
       data: IOrganizationUnitType,
     ) => {
-      if (authUser?.isOrganizationUser && authUser.organization?.id) {
-        data.organization_id = authUser.organization.id;
+      if (!authUser?.isSystemUser) {
+        delete data.organization_id;
       }
 
       try {
@@ -179,7 +180,7 @@ const OrganizationUnitTypeAddEditPopup: FC<OrganizationUnitTypeAddEditPopupProps
             />
           </Grid>
 
-          {!authUser?.isOrganizationUser && (
+          {authUser?.isSystemUser && (
             <Grid item xs={12}>
               <CustomFormSelect
                 required

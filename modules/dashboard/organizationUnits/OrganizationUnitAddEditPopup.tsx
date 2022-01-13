@@ -239,8 +239,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IOrganizationUnit> = async (
     data: IOrganizationUnit,
   ) => {
-    if (authUser?.isOrganizationUser && authUser.organization?.id) {
-      data.organization_id = authUser.organization.id;
+    if (!authUser?.isSystemUser) {
+      delete data.organization_id;
     }
 
     try {
