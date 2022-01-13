@@ -162,7 +162,7 @@ const IndustryDashboard = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{paddingBottom: '18px'}}>
         <DashboardTabView />
       </Grid>
     </StyledGrid>

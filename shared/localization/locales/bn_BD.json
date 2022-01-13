@@ -474,6 +474,7 @@
   "user.type.system": "সিস্টেম",
   "user.type.institute": "প্রাতিষ্ঠানিক",
   "user.type.organization": "সাংগঠনিক",
+  "user.type.industry_association": "শিল্প সমিতি",
   "permissions.sync_permission": "সিঙ্ক পারমিশন",
   "common.assign_permission": "পারমিশন এসাইন",
   "permission.module": "মডিউলের নাম",

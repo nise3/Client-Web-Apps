@@ -473,6 +473,7 @@
   "user.type.system": "System",
   "user.type.institute": "Institute",
   "user.type.organization": "Organization",
+  "user.type.industry_association": "Industry association",
   "common.type_of_identity_card": "Type of Identity card",
   "common.registration_number": "Registration number",
   "common.registration": "Registration",
