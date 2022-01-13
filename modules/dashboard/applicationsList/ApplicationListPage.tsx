@@ -13,6 +13,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_APPLICATIONS_LISTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipApplicationStatus from './CustomChipApplicationStatus';
 
+//Todo: have to remove member list, this is not necessary
 const ApplicationListPage = () => {
   const {messages} = useIntl();
 
