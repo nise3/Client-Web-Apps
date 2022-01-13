@@ -17,7 +17,7 @@ interface CustomFieldProps {
   index: any;
 }
 
-const HrDemanFields: FC<CustomFieldProps> = ({
+const HrDemandFields: FC<CustomFieldProps> = ({
   errorInstance: errors,
   control,
   instituteOptions,
@@ -86,4 +86,4 @@ const HrDemanFields: FC<CustomFieldProps> = ({
   );
 };
 
-export default HrDemanFields;
+export default HrDemandFields;
