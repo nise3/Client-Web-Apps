@@ -17,8 +17,11 @@ import {
 } from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
-import {useFetchSkills} from '../../../services/organaizationManagement/hooks';
-import HrDemanFields from './HrDemanFields';
+import {
+  useFetchOrganizations,
+  useFetchSkills,
+} from '../../../services/organaizationManagement/hooks';
+import HrDemandFields from './HrDemandFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDeman';
 import {
@@ -52,7 +55,7 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
 
     const [organizationFilter] = useState({});
     const {data: organizations, isLoading: isLoadingOrganizations} =
-      useFetchIndustryAssociationMembers(organizationFilter);
+      useFetchOrganizations(organizationFilter);
 
     const [instituteFilter] = useState({});
     const {data: institutes, isLoading: isLoadingInstitute} =
@@ -82,18 +85,14 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
           .string()
           .trim()
           .required()
-          .label(messages['organization.label'] as string),*/ /*        organization_id: yup
-          .string()
-          .trim()
-          .required()
           .label(messages['organization.label'] as string),*/
         hr_demands: yup.array().of(
           yup.object().shape({
-            // institute_id: yup
-            //   .array()
-            //   .of(yup.object())
-            //   .min(1)
-            //   .label(messages['common.institute'] as string),
+            institute_id: yup
+              .array()
+              .of(yup.object())
+              .min(1)
+              .label(messages['common.institute'] as string),
             skill_id: yup
               .string()
               .trim()
@@ -109,6 +108,11 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
               .trim()
               .required()
               .label(messages['common.requirements'] as string),
+            end_date: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.end_date'] as string),
           }),
         ),
       });
@@ -215,7 +219,7 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
           {hrDemandFields.map((item, index) => {
             return (
               <React.Fragment key={index}>
-                <HrDemanFields
+                <HrDemandFields
                   index={index}
                   control={control}
                   instituteOptions={institutes}
