@@ -37,6 +37,7 @@ import {getAllInstitutes} from '../../../services/instituteManagement/InstituteS
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -76,15 +77,15 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const [institutes, setInstitutes] = useState<Array<any>>([]);
   const [isLoadingInstitutes, setIsLoadingInstitutes] =
     useState<boolean>(false);
 
-  const [divisionsFilter] = useState({});
-  const [districtsFilter] = useState({});
-  const [upazilasFilter] = useState({});
+  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
@@ -96,6 +97,10 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const [branchFilters, setBranchFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+  const {data: branches, isLoading: isLoadingBranches} =
+    useFetchBranches(branchFilters);
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
   const {
     data: itemData,
@@ -104,32 +109,21 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   } = useFetchTrainingCenter(itemId);
 
   useEffect(() => {
-    if (authUser?.isInstituteUser) {
-      setBranchFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-    } else {
-      setIsLoadingInstitutes(true);
+    if (authUser?.isSystemUser) {
       (async () => {
         try {
-          let institutes = await getAllInstitutes({
+          setIsLoadingInstitutes(true);
+          let response = await getAllInstitutes({
             row_status: RowStatus.ACTIVE,
           });
           setIsLoadingInstitutes(false);
-          setInstitutes(institutes.data);
+          if (response && response?.data) {
+            setInstitutes(response.data);
+          }
         } catch (e) {}
       })();
     }
   }, []);
-
-  const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
-
-  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
-  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -224,8 +218,8 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<ITrainingCenter> = async (
     data: ITrainingCenter,
   ) => {
-    if (authUser?.isInstituteUser) {
-      data.institute_id = Number(authUser.institute_id);
+    if (authUser?.isSystemUser) {
+      delete data.institute_id;
     }
 
     try {
@@ -291,7 +285,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isInstituteUser && (
+        {authUser?.isSystemUser && (
           <Grid item xs={6}>
             <CustomFormSelect
               required

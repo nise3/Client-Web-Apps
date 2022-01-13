@@ -18,6 +18,7 @@ import {
   genders,
   getMomentDateFormat,
   marital_status,
+  objectFilter,
   religions,
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -32,7 +33,6 @@ import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 import {
   useFetchBranches,
-  useFetchInstitutes,
   useFetchTrainer,
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
@@ -49,6 +49,8 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -102,14 +104,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {
     data: itemData,
     isLoading: isLoading,
     mutate: mutateTrainer,
   } = useFetchTrainer(itemId);
 
-  const [filters] = useState({});
+  const [filters] = useState({row_status: RowStatus.ACTIVE});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
     useFetchDivisions(filters);
 
@@ -135,9 +137,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const [permanentUpazilas, setPermanentUpazilas] = useState<
     Array<Upazila> | []
   >([]);
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
 
   const [branchFilters, setBranchFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -150,6 +149,9 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   });
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
     useFetchTrainingCenters(trainingCenterFilters);
+  const [institutes, setInstitutes] = useState<Array<any>>([]);
+  const [isLoadingInstitutes, setIsLoadingInstitutes] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -214,6 +216,23 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   } = useForm<ITrainer>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (authUser?.isSystemUser) {
+      (async () => {
+        try {
+          setIsLoadingInstitutes(true);
+          let response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingInstitutes(false);
+          if (response && response?.data) {
+            setInstitutes(response.data);
+          }
+        } catch (e) {}
+      })();
+    }
+  }, []);
 
   useEffect(() => {
     if (itemData) {
@@ -321,29 +340,45 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   );
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    setBranchFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
+    setBranchFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {row_status: RowStatus.ACTIVE},
+    );
+    setTrainingCenterFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {row_status: RowStatus.ACTIVE},
+    );
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
-    setTrainingCenterFilters({
-      row_status: RowStatus.ACTIVE,
-      branch_id: branchId,
+    setTrainingCenterFilters((prev: any) => {
+      const filter = objectFilter({
+        ...prev,
+        ...{row_status: RowStatus.ACTIVE, branch_id: branchId},
+      });
+      return filter;
     });
   }, []);
 
   const onSubmit: SubmitHandler<ITrainer> = async (data: ITrainer) => {
     try {
+      if (authUser?.isSystemUser) {
+        delete data.institute_id;
+      }
+
       if (itemId) {
         await updateTrainer(itemId, data);
         updateSuccessMessage('trainers.label');
         mutateTrainer();
       } else {
-        if (authUser?.isInstituteUser && authUser?.institute_id) {
-          data.institute_id = authUser?.institute_id;
-        }
         await createTrainer(data);
         createSuccessMessage('trainers.label');
       }
