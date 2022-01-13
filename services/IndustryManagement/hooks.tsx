@@ -4,7 +4,8 @@ import {
   API_GET_JOB_ADDITIONAL_INFORMATION,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
   API_GET_JOB_PRIMARY_INFORMATION,
-  API_HUMAN_RESOURCE_DEMAND_LIST,
+  API_HUMAN_RESOURCE_DEMAND,
+  API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
   API_JOB_REQUIREMENT,
@@ -35,7 +36,17 @@ export function useFetchJobRequirement(jobRequirementId: number | null) {
   );
 }
 
-export function useFetchJobRequirements(params: any) {
+export function useFetchHumanResourceDemand(
+  humanResourceDemandId: number | null,
+) {
+  return useAxiosSWR(
+    humanResourceDemandId
+      ? API_HUMAN_RESOURCE_DEMAND + '/' + humanResourceDemandId
+      : null,
+  );
+}
+
+export function useFetchHumanResourceDemands(params: any) {
   return useAxiosSWR([API_JOB_REQUIREMENT, params]);
 }
 
@@ -71,5 +82,9 @@ export function useFetchIndustryMember(memberId: number | null) {
  * Human resource details
  */
 export function useFetchHrDemandDetails(id: number | null) {
-  return useAxiosSWR(id ? API_HUMAN_RESOURCE_DEMAND_LIST + '/' + id : null);
+  return useAxiosSWR(id ? API_HUMAN_RESOURCE_DEMAND + '/' + id : null);
+}
+
+export function useFetchIndustryAssociationMembers(params: any) {
+  return useAxiosSWR([API_INDUSTRY_ASSOCIATION_MEMBERS, params]);
 }

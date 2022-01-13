@@ -10,16 +10,24 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_HUMAN_RESOURCE_DEMAND_LIST} from '../../../@softbd/common/apiRoutes';
+import {API_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/apiRoutes';
 import RejectButton from '../applicationManagement/RejectButton';
 import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import HumanResourceDemandAddEditPop from './HumanResourceDemandAddEditPop';
 
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
+  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
+    setIsOpenDetailsModal(false);
+    setIsOpenAddEditModal(true);
+    setSelectedItemId(itemId);
+  }, []);
   const openDetailsModal = useCallback(
     (itemId: number) => {
       setIsOpenDetailsModal(true);
@@ -27,8 +35,15 @@ const HumanResourceDemandPage = () => {
     },
     [selectedItemId],
   );
-
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
+  const closeAddEditModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setSelectedItemId(null);
+  }, []);
   const closeDetailsModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
     setIsOpenDetailsModal(false);
   }, []);
 
@@ -99,7 +114,7 @@ const HumanResourceDemandPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_HUMAN_RESOURCE_DEMAND_LIST,
+      urlPath: API_HUMAN_RESOURCE_DEMAND,
     });
 
   return (
@@ -109,7 +124,21 @@ const HumanResourceDemandPage = () => {
           <>
             <IconJobSector /> <IntlMessages id='common.human_resource' />
           </>
-        }>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['job_requirement.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
         <ReactTable
           columns={columns}
           data={data}
@@ -117,8 +146,16 @@ const HumanResourceDemandPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
-
+        {isOpenAddEditModal && (
+          <HumanResourceDemandAddEditPop
+            key={1}
+            onClose={closeAddEditModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
         {isOpenDetailsModal && selectedItemId && (
           <HumanResourceDemandDetailsPopup
             key={1}

@@ -337,8 +337,6 @@ const GalleryAlbumContentsPageAddEditPopup: FC<GalleryAlbumContentsPageAddEditPo
         }
         reset(data);
         setSelectedContentType(itemData?.content_type);
-        console.log('selected---', selectedContentType);
-        console.log('itemData?.content_type', itemData?.content_type);
         onGalleryAlbumChange(itemData?.gallery_album_id);
       } else {
         reset(initialValues);
