@@ -1,9 +1,8 @@
-import {Grid} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -24,7 +23,8 @@ import {
   useFetchOrganizations,
   useFetchSkills,
 } from '../../../services/organaizationManagement/hooks';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import HrDemandAddField from './HrDemandAddField';
+import {Box} from '@mui/system';
 
 interface JobRequirementAddEditPopupProps {
   itemId: number | null;
@@ -32,20 +32,27 @@ interface JobRequirementAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
-const initialValues = {
-  title_en: '',
-  title: '',
-};
+const initialValues = {};
 
 const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
 }) => {
+  const defaultValue: any = {
+    institute_id: '',
+    skill_id: '',
+    vacancy: '',
+    requirement: '',
+  };
+
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-
+  const [hrDemandFields, setHrDemandFields] = useState<Array<string>>([
+    defaultValue,
+  ]);
+  console.log('hrDemandFields', hrDemandFields);
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -53,12 +60,32 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
     mutate: mutateJobRequirement,
   } = useFetchJobRequirement(itemId);
 
-  const [industryAssociationFilter] = useState({});
-  const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
-    useFetchInstitutes(industryAssociationFilter);
-
+  const [schemaState, setSchemaState] = useState({
+    /*  hrDemand1: yup.object().shape({
+      institute_id: yup
+        .array()
+        .of(yup.object())
+        .min(1)
+        .label(messages['common.industry_association'] as string),
+      skill_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.skills'] as string),
+      vacancy: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.vacancy'] as string),
+      requirement: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.requirement'] as string),
+    }),*/
+  });
   const [organizationFilter] = useState({});
-  const {data: organizations, isLoading: isLoadingOrganization} =
+  const {data: organizations, isLoading: isLoadingOrganizations} =
     useFetchOrganizations(organizationFilter);
 
   const [instituteFilter] = useState({});
@@ -69,14 +96,62 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
   const {data: skills, isLoading: isLoadingSkills} =
     useFetchSkills(skillFilter);
 
+  let fieldCount: any;
+  const onAddHrDemand = useCallback(() => {
+    setHrDemandFields((prev: any) => {
+      return [...prev, defaultValue];
+    });
+
+    let validation: any = {...schemaState};
+
+    hrDemandFields.forEach((item, index) => {
+      validation['hr_demand'][index] = yup.object().shape({
+        institute_id: yup
+          .array()
+          .of(yup.object())
+          .min(1)
+          .label(messages['common.institute'] as string),
+        skill_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.skills'] as string),
+        vacancy: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.vacancy'] as string),
+        requirement: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.requirement'] as string),
+      });
+    });
+    setSchemaState(validation);
+  }, []);
+
+  const onRemoveHrDemand = () => {
+    let array = [...hrDemandFields];
+    if (hrDemandFields.length > 1) {
+      fieldCount = fieldCount - 1;
+      array.splice(hrDemandFields.length - 1, 1);
+      setHrDemandFields(array);
+    }
+  };
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title: yup
-        .string()
-        .title()
-        .label(messages['common.title'] as string),
+      ...{
+        organization_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['organization.label'] as string),
+      },
+      ...schemaState,
     });
-  }, [messages]);
+  }, [messages, schemaState]);
 
   const {
     register,
@@ -88,27 +163,36 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
+  console.log('errors', errors);
   useEffect(() => {
     if (itemData) {
-      reset({
-        title_en: itemData?.title_en,
-        title: itemData?.title,
-      });
+      reset({});
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
+  console.log('errors', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('data--', data);
+    let formData = data;
+
+    /*    let hrDemands: Array<string> = [];
+    hrDemandFields.map((item) => {
+      console.log('item', item);
+      hrDemands.push(formData.item);
+    });
+    formData.hr_demands = hrDemands;
+    console.log('hr_demands', hrDemands);*/
+
     try {
-      data.industry_association_id = 30;
+      formData.industry_association_id = 30;
       if (itemId) {
-        await updateJobRequirement(itemId, data);
+        await updateJobRequirement(itemId, formData);
         updateSuccessMessage('job_requirement.label');
         mutateJobRequirement();
       } else {
-        await createJobRequirement(data);
+        await createJobRequirement(formData);
         createSuccessMessage('job_requirement.label');
       }
       props.onClose();
@@ -146,23 +230,11 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='industry_association_id'
-            label={messages['common.industry_association']}
-            isLoading={isLoadingIndustryAssociation}
-            options={industryAssociations}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
-            control={control}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <CustomFilterableFormSelect
             id='organization_id'
-            label={messages['common.organization_en']}
-            isLoading={isLoadingOrganization}
+            label={messages['organization.label']}
+            isLoading={isLoadingOrganizations}
             options={organizations}
             optionValueProp={'id'}
             optionTitleProp={['title', 'title_en']}
@@ -170,54 +242,43 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='institute_id'
-            label={messages['common.institute']}
-            isLoading={isLoadingInstitute}
-            options={institutes}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
-            control={control}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomDateTimeField
-            id='end_date'
-            label={messages['common.end_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='skill_id'
-            label={messages['common.skills']}
-            isLoading={isLoadingSkills}
-            options={skills}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
-            control={control}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='requirement'
-            label={messages['common.requirements']}
-            register={register}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='vacancy'
-            label={messages['common.vacancy']}
-            register={register}
-            errorInstance={errors}
-          />
+        {hrDemandFields.length ? (
+          hrDemandFields.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                <HrDemandAddField
+                  item={item}
+                  index={index}
+                  control={control}
+                  instituteOptions={institutes}
+                  skillOptions={skills}
+                  isLoadingInstitute={isLoadingInstitute}
+                  isLoadingSkill={isLoadingSkills}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <></>
+        )}
+        <Grid item xs={12}>
+          <Box display={'flex'} justifyContent={'flex-end'}>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              sx={{marginRight: '10px'}}
+              onClick={onAddHrDemand}>
+              Add
+            </Button>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              onClick={onRemoveHrDemand}>
+              Remove
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </HookFormMuiModal>
