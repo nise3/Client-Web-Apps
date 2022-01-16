@@ -9,6 +9,7 @@ import {
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
   API_JOB_REQUIREMENT,
+  API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
@@ -23,6 +24,9 @@ export function useFetchPublication(publicationId: number | null) {
   );
 }
 
+export function useFetchContactInfo(params: any) {
+  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO, params]);
+}
 
 export function useFetchIndustryAssociation(industryAssocId: number | null) {
   return useAxiosSWR(

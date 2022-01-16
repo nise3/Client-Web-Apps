@@ -242,6 +242,12 @@ export const API_INDUSTRY_ASSOCIATION_PROFILE =
 export const API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE =
   ORGANIZATION_SERVICE_PATH + '/industry-association-profile-update';
 
+export const API_INDUSTRY_ASSOCIATION_CONTACT_INFO =
+  ORGANIZATION_SERVICE_PATH + '/contact-info';
+
+export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
+  ORGANIZATION_SERVICE_PATH + '/public/contact-info';
+
 export const API_APPLICATIONS_LISTS =
   INDUSTRY_SERVICE_PATH + '/application-lists';
 
