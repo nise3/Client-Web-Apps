@@ -53,8 +53,12 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL : 'https://core.bus-staging.softbdltd.com';
-    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY : null;
+    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+      ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+      : 'https://core.bus-staging.softbdltd.com';
+    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
+      ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
+      : null;
 
     console.log('urlHost', urlHost);
 
@@ -72,15 +76,23 @@ export const onSSOSignInCallback = (
         },
       );
 
+      let expireDate = new Date();
+      expireDate.setTime(
+        new Date().getTime() + Number(tokenData.expires_in) * 1000,
+      );
+
       await setBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify({
           access_token: tokenData.access_token,
           expires_in: tokenData.expires_in,
         }),
+        {expires: expireDate},
       );
 
-      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token);
+      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
+        expires: expireDate,
+      });
 
       //TODO: temporary
       setDefaultAuthorizationHeader(tokenData?.access_token);
@@ -110,28 +122,26 @@ export const loadAuthUser = async (
     console.log(ssoTokenData);
     const youthServicePath = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH;
     const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
-    const appAccessTokenData = getBrowserCookie(
-      COOKIE_KEY_APP_ACCESS_TOKEN,
-    );
+    const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
     console.log('permission call: appAccessTokenData', appAccessTokenData);
 
     const coreResponse =
       ssoTokenData.user_type == UserTypes.YOUTH_USER
         ? await apiGet(youthServicePath + '/youth-profile', {
-          headers: {
-            Authorization: 'Bearer ' + appAccessTokenData?.access_token,
-            'User-Token': 'Bearer ' + tokenData.access_token,
-          },
-        })
-        : await apiGet(
-          coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
-          {
             headers: {
               Authorization: 'Bearer ' + appAccessTokenData?.access_token,
               'User-Token': 'Bearer ' + tokenData.access_token,
             },
-          },
-        );
+          })
+        : await apiGet(
+            coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+            {
+              headers: {
+                Authorization: 'Bearer ' + appAccessTokenData?.access_token,
+                'User-Token': 'Bearer ' + tokenData.access_token,
+              },
+            },
+          );
     console.log(coreResponse);
 
     const {data} = coreResponse.data;

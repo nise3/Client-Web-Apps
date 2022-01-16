@@ -176,7 +176,7 @@ const routesConfig: NavItemProps[] = [
             id: 'occupations',
             title: 'Occupations',
             messageId: 'menu.occupations',
-            permissionKey: 'view_any_occupations',
+            permissionKey: 'view_any_occupation',
             type: 'item',
             icon: 'timeline',
             url: '/occupations',
