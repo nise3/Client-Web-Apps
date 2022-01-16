@@ -115,13 +115,13 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: authUser?.isInstituteUser
-        ? yup.string()
-        : yup
+      institute_id: authUser?.isSystemUser
+        ? yup
             .string()
             .trim()
             .required()
-            .label(messages['institute.label'] as string),
+            .label(messages['institute.label'] as string)
+        : yup.string(),
       code: yup
         .string()
         .trim()
@@ -459,7 +459,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isInstituteUser && (
+        {authUser?.isSystemUser && (
           <Grid item xs={12} sm={6} md={6}>
             <CustomFormSelect
               required

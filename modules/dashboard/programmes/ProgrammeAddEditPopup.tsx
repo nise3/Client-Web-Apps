@@ -125,8 +125,8 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   console.log('errors', errors);
   const onSubmit: SubmitHandler<IProgramme> = async (data: IProgramme) => {
     try {
-      if (authUser?.isInstituteUser) {
-        data.institute_id = authUser?.institute_id;
+      if (!authUser?.isSystemUser) {
+        delete data.institute_id;
       }
       if (itemId) {
         await updateProgramme(itemId, data);
