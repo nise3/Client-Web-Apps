@@ -10,6 +10,7 @@ import {
   InputBase,
   Pagination,
   Paper,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -21,8 +22,8 @@ import {H1, H2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import MemberComponent from './MemberComponent';
 import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hooks';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -63,23 +64,30 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
 }));
 
-const dummyData = {
-  isLoading: false,
-  total_page: 2,
-};
-
 const MemberListPage = () => {
   const {messages, formatNumber} = useIntl();
   const result = useCustomStyle();
+
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
+
+  //Todo: industry_association_id is static now. Have to update after implement domain base implementation is done
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({
+    industry_association_id: 2,
     page: 1,
     page_size: 8,
   });
-  const {data} = useFetchIndustryMembers(industryMemberFilter);
 
-  const onResetClicked = useCallback(() => {}, []);
+  const {data, isLoading, metaData} =
+    useFetchIndustryMembers(industryMemberFilter);
+
+  const onResetClicked = useCallback(() => {
+    setIndustryMemberFilter({
+      industry_association_id: 2,
+      page: 1,
+      page_size: 8,
+    });
+  }, []);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
@@ -91,12 +99,9 @@ const MemberListPage = () => {
 
   const onSearch = useCallback(() => {
     page.current = 1;
-    setIndustryMemberFilter((prev: any) =>
-      objectFilter({
-        ...prev,
-        ...{page: page.current, search_text: inputFieldRef.current?.value},
-      }),
-    );
+    setIndustryMemberFilter((param: any) => {
+      return {...param, ...{title: inputFieldRef.current?.value}};
+    });
   }, []);
 
   return (
@@ -123,11 +128,11 @@ const MemberListPage = () => {
 
             <Box display={'flex'}>
               <CustomFilterableSelect
-                id='company'
+                id='title'
                 label={messages['common.company_name']}
-                isLoading={false}
+                isLoading={isLoading}
                 optionValueProp={'id'}
-                options={[]}
+                options={data}
                 optionTitleProp={['title']}
                 className={clsx(classes.gridMargin, classes.selectStyle)}
               />
@@ -170,11 +175,19 @@ const MemberListPage = () => {
         </Grid>
       </Grid>
 
-      {dummyData.isLoading ? (
-        <Typography variant={'h6'} alignItems={'center'}>
-          {messages['common.no_data_found']}
-        </Typography>
-      ) : (
+      {isLoading ? (
+        <Grid container spacing={1}>
+          <Grid
+            item
+            xs={12}
+            sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+            <Skeleton variant='rectangular' width={'22%'} height={140} />
+            <Skeleton variant='rectangular' width={'22%'} height={140} />
+            <Skeleton variant='rectangular' width={'22%'} height={140} />
+            <Skeleton variant='rectangular' width={'22%'} height={140} />
+          </Grid>
+        </Grid>
+      ) : data && data.length > 0 ? (
         <React.Fragment>
           <H2
             gutterBottom
@@ -199,19 +212,22 @@ const MemberListPage = () => {
               ))}
             </Grid>
           )}
-
-          {dummyData?.total_page > 1 && (
-            <Stack spacing={2} mt={3} alignItems={'center'}>
-              <Pagination
-                page={page.current}
-                count={dummyData?.total_page}
-                color={'primary'}
-                shape='rounded'
-                onChange={onPaginationChange}
-              />
-            </Stack>
-          )}
         </React.Fragment>
+      ) : (
+        <Grid item xs={12}>
+          <NoDataFoundComponent />
+        </Grid>
+      )}
+      {metaData?.total_page > 1 && (
+        <Stack spacing={2} mt={3} alignItems={'center'}>
+          <Pagination
+            page={page.current}
+            count={metaData.total_page}
+            color={'primary'}
+            shape='rounded'
+            onChange={onPaginationChange}
+          />
+        </Stack>
       )}
     </StyledContainer>
   );

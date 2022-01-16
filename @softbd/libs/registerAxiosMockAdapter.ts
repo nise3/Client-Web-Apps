@@ -11,7 +11,6 @@ import {
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
   API_HUMAN_RESOURCE_DEMAND_LIST,
-  API_INDUSTRY_MEMBERS,
   API_JOB_LISTS,
   API_JOB_REQUIREMENT,
   API_NOTICE_BOARD,
@@ -23,7 +22,6 @@ import allActivityItems from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
 import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
-import {members} from '../mock-db/Industry/members';
 import applicationsList from '../mock-db/applicationsList/applicationsList';
 import jobLists from '../mock-db/jobLists/jobLists';
 import {hrDemand} from '../mock-db/Industry/hr-demand';
@@ -80,10 +78,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
 
   /**Industry**/
   // mock.onGet(API_INDUSTRY_PUBLICATIONS).reply(200, {data: publications});
-  mock.onGet(API_INDUSTRY_MEMBERS).reply(200, {data: members});
-  mock
-    .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
-    .reply(200, {data: members[0]});
+  // mock.onGet(API_INDUSTRY_MEMBERS).reply(200, {data: members});
+  // mock
+  //   .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
+  //   .reply(200, {data: members[0]});
 
   /**Application list**/
   mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
