@@ -7,13 +7,16 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_JOB_LISTS} from '../../../@softbd/common/apiRoutes';
+import {API_JOBS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteJob} from '../../../services/IndustryManagement/JobService';
+import {
+  deleteJob,
+  getJobId,
+} from '../../../services/IndustryManagement/JobService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
@@ -35,10 +38,10 @@ const JobListPage = () => {
   const openJobCreateView = useCallback(() => {
     (async () => {
       try {
-        const jobId = 'IDSA-2fe8e68e-4456-43be-9d9d-481974a41890'; //await getJobId();
+        const response = await getJobId();
 
-        if (jobId) {
-          openJobAddUpdateView(jobId);
+        if (response && response?.data) {
+          openJobAddUpdateView(response.data);
         } else {
           errorStack('Failed to get job id');
         }
@@ -157,7 +160,7 @@ const JobListPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_JOB_LISTS,
+      urlPath: API_JOBS,
     });
 
   return (

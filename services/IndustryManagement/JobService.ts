@@ -1,17 +1,17 @@
 import {apiDelete, apiGet, apiPost} from '../../@softbd/common/api';
 import {
   API_JOB_ID,
-  API_JOB_LISTS,
   API_JOB_STORE_ADDITIONAL_INFORMATION,
   API_JOB_STORE_COMPANY_INFO_VISIBILITY,
   API_JOB_STORE_PRIMARY_INFORMATION,
+  API_JOBS,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 export const getJobId = async () => {
   try {
     let response: any = await apiGet(API_JOB_ID);
-    return response.data;
+    return response?.data;
   } catch (error) {
     catchBlockHandler(error);
   }
@@ -52,7 +52,7 @@ export const saveCompanyInfoVisibility = async (data: any) => {
 
 export const deleteJob = async (jobId: number) => {
   try {
-    let response: any = await apiDelete(API_JOB_LISTS + '/' + jobId);
+    let response: any = await apiDelete(API_JOBS + '/' + jobId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

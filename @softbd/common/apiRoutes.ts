@@ -4,7 +4,6 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 export const CORE_SERVICE_PATH = '/core';
 export const ORGANIZATION_SERVICE_PATH = '/org';
 export const INSTITUTE_SERVICE_PATH = '/institute';
-export const INDUSTRY_SERVICE_PATH = '/industry';
 export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
@@ -235,7 +234,7 @@ export const API_INDUSTRY_PUBLICATIONS =
 export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/public/publications';
 
-export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
+export const API_INDUSTRY_MEMBERS = ORGANIZATION_SERVICE_PATH + '/members';
 
 export const API_INDUSTRY_ASSOCIATIONS =
   ORGANIZATION_SERVICE_PATH + '/industry-associations';
@@ -253,16 +252,17 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PATH + '/public/contact-info';
 
 export const API_APPLICATIONS_LISTS =
-  INDUSTRY_SERVICE_PATH + '/application-lists';
+  ORGANIZATION_SERVICE_PATH + '/application-lists';
 
-export const API_JOB_LISTS = INDUSTRY_SERVICE_PATH + '/job-lists';
-export const API_JOB = INDUSTRY_SERVICE_PATH + '/job';
+export const API_JOB = ORGANIZATION_SERVICE_PATH + '/job';
+export const API_JOBS = API_JOB + '/jobs';
 export const API_JOB_ID = API_JOB + '/job-id';
 export const API_JOB_STORE_PRIMARY_INFORMATION =
   API_JOB + '/store-primary-job-information';
 export const API_GET_JOB_PRIMARY_INFORMATION =
   API_JOB + '/primary-job-information/';
-export const API_JOB_REQUIREMENT = INDUSTRY_SERVICE_PATH + '/job-requirement';
+export const API_JOB_REQUIREMENT =
+  ORGANIZATION_SERVICE_PATH + '/job-requirement';
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
   API_JOB + '/store-additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
@@ -275,4 +275,4 @@ export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
 export const API_GET_JOB = API_JOB + '/job-details/';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
-  INDUSTRY_SERVICE_PATH + '/hr-demand';
+  ORGANIZATION_SERVICE_PATH + '/hr-demand';
