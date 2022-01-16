@@ -2,18 +2,16 @@ import React, {useState} from 'react';
 import ImageCarousel from '../../@softbd/elements/display/ImageCarousel/ImageCarousel';
 import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
 import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import {Skeleton} from '@mui/material';
 import BannerTemplateRightLeft from '../institute/Components/BannerTemplateRightLeft';
 import BannerTemplateLeftRight from '../institute/Components/BannerTemplateLeftRight';
 import BannerTemplateCenterBackground from '../institute/Components/BannerTemplateCenterBackground';
 
 const CoverArea = () => {
-  const vendor = useVendor();
   const [sliderFilters] = useState({
-    show_in: ShowInTypes.TSP,
-    institute_id: vendor?.id,
+    show_in: ShowInTypes.INDUSTRY_ASSOCIATION,
   });
+
   const {data: sliders, isLoading: isLoadingSliders} =
     useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];

@@ -18,9 +18,6 @@ const PREFIX = 'CoverArea';
 const classes = {
   root: `${PREFIX}-root`,
   trendWrapper: `${PREFIX}-trendWrapper`,
-  fold: `${PREFIX}-fold`,
-  certifiedImage: `${PREFIX}-certifiedImage`,
-  coverImg: `${PREFIX}-coverImg`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -55,6 +52,7 @@ const CoverArea = () => {
   const [sliderFilters] = useState({
     show_in: ShowInTypes.NICE3,
   });
+
   const {data: sliders, isLoading: isLoadingSliders} =
     useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
