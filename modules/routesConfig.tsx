@@ -345,6 +345,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/jobs',
           },
+          {
+            id: 'contact-info',
+            title: 'contact-info',
+            messageId: 'common.contact_office',
+            permissionKey: 'view_any_contact_info',
+            type: 'item',
+            icon: 'timeline',
+            url: '/contact-info',
+          },
         ],
       },
       {
