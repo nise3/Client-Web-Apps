@@ -218,7 +218,6 @@ const MemberListPage = () => {
           <NoDataFoundComponent />
         </Grid>
       )}
-
       {metaData?.total_page > 1 && (
         <Stack spacing={2} mt={3} alignItems={'center'}>
           <Pagination
