@@ -133,12 +133,14 @@ const Publications = () => {
   }, []);
 
   const onSearchAuthor = useCallback((input: string) => {
+    page.current = 1;
     setPublicationFilter((param: any) => {
       return {...param, ...{author: input}};
     });
   }, []);
 
   const onSearch = useCallback(() => {
+    page.current = 1;
     setPublicationFilter((param: any) => {
       return {...param, ...{title: inputFieldRef.current?.value}};
     });
