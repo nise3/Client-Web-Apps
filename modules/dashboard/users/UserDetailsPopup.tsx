@@ -9,6 +9,7 @@ import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchUser} from '../../../services/userManagement/hooks';
+import UserTypes from '../../../@softbd/utilities/UserTypes';
 
 type Props = {
   itemId: number;
@@ -21,13 +22,15 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchUser(itemId);
 
   const getUserTypeName = (userType: number) => {
-    switch (userType) {
-      case 1:
+    switch (String(userType)) {
+      case UserTypes.SYSTEM_USER:
         return messages['user.type.system'];
-      case 2:
+      case UserTypes.ORGANIZATION_USER:
         return messages['user.type.organization'];
-      case 3:
+      case UserTypes.INSTITUTE_USER:
         return messages['user.type.institute'];
+      case UserTypes.INDUSTRY_ASSOCIATION_USER:
+        return messages['user.type.industry_association'];
       default:
         return '';
     }

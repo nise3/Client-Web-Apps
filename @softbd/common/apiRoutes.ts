@@ -236,6 +236,12 @@ export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
 export const API_INDUSTRY_ASSOCIATIONS =
   ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
+export const API_INDUSTRY_ASSOCIATION_PROFILE =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-profile';
+
+export const API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-profile-update';
+
 export const API_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PATH + '/contact-info';
 

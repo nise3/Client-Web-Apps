@@ -28,6 +28,7 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -251,25 +252,33 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
         setValue('industry_association_id', '');
       }
 
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const response = await getAllInstitutes();
-        if (response && response?.data) {
-          setInstituteList(response.data);
+      try {
+        if (id === ShowInTypes.TSP && instituteList.length == 0) {
+          const response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setInstituteList(response.data);
+          }
+        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
+          const response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryList(response.data);
+          }
+        } else if (
+          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+          industryAssociationList.length == 0
+        ) {
+          const response = await getAllIndustryAssociations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryAssociationList(response.data);
+          }
         }
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const response = await getAllOrganizations();
-        if (response && response?.data) {
-          setIndustryList(response.data);
-        }
-      } else if (
-        id == ShowInTypes.INDUSTRY_ASSOCIATION &&
-        industryAssociationList.length == 0
-      ) {
-        const response = await getAllIndustryAssociations();
-        if (response && response?.data) {
-          setIndustryAssociationList(response.data);
-        }
-      }
+      } catch (e) {}
 
       setShowInId(id);
       setIsLoadingSectionNameList(false);

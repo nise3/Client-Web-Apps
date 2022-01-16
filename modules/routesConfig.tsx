@@ -303,12 +303,13 @@ const routesConfig: NavItemProps[] = [
             id: 'association-profile',
             title: 'association profile',
             messageId: 'common.profile',
-            permissionKey: 'view_any_association-profile',
+            permissionKey: 'view_any_association_profile',
             type: 'item',
             icon: 'person',
             url: '/association-profile',
           },
           {
+            //Todo: have to remove member list, this is not necessary
             id: 'member-list',
             title: 'Member List',
             messageId: 'common.member_list',
