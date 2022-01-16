@@ -12,7 +12,6 @@ import {
   API_FRONT_SC,
   API_HUMAN_RESOURCE_DEMAND_LIST,
   API_INDUSTRY_MEMBERS,
-  API_JOB_LISTS,
   API_JOB_REQUIREMENT,
   API_NOTICE_BOARD,
 } from '../common/apiRoutes';
@@ -25,7 +24,6 @@ import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
 import {members} from '../mock-db/Industry/members';
 import applicationsList from '../mock-db/applicationsList/applicationsList';
-import jobLists from '../mock-db/jobLists/jobLists';
 import {hrDemand} from '../mock-db/Industry/hr-demand';
 import jobRequirements from '../mock-db/Industry/job-requirements/jobRequirements';
 
@@ -93,10 +91,8 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
     .reply(200, {data: applicationsList[0]});
 
   /**  joblist **/
-  mock.onGet(API_JOB_LISTS).reply(200, {data: jobLists});
-  mock
-    .onGet(new RegExp(API_JOB_LISTS + '/(.*)'))
-    .reply(200, {data: jobLists[0]});
+  /*mock.onGet(API_JOBS).reply(200, {data: jobLists});
+  mock.onGet(new RegExp(API_JOBS + '/(.*)')).reply(200, {data: jobLists[0]});*/
 
   /** job requiremeents **/
   mock.onGet(API_JOB_REQUIREMENT).reply(200, {data: jobRequirements});
