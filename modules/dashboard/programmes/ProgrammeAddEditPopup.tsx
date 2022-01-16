@@ -17,16 +17,15 @@ import {
   updateProgramme,
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {
-  useFetchInstitutes,
-  useFetchProgramme,
-} from '../../../services/instituteManagement/hooks';
+import {useFetchProgramme} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IProgramme} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -52,6 +51,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
@@ -60,10 +60,8 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     mutate: mutateProgramme,
   } = useFetchProgramme(itemId);
 
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
-  const authUser = useAuthUser();
+  const [institutes, setInstitutes] = useState<any>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -91,6 +89,21 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   } = useForm<IProgramme>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (authUser?.isSystemUser) {
+      (async () => {
+        try {
+          const response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setInstitutes(response.data);
+          }
+        } catch (e) {}
+      })();
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
@@ -184,7 +197,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
               required
               id='institute_id'
               label={messages['institute.label']}
-              isLoading={isLoadingInstitutes}
+              isLoading={false}
               control={control}
               options={institutes}
               optionValueProp={'id'}

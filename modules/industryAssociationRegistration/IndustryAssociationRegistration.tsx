@@ -157,7 +157,6 @@ const IndustryAssociationRegistration = () => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('submitted data', data);
     try {
       await industryAssociationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);

@@ -127,9 +127,9 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
       row_status: RowStatus.ACTIVE,
     });
 
-  const [divisionsFilter] = useState({});
-  const [districtsFilter] = useState({});
-  const [upazilasFilter] = useState({});
+  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
