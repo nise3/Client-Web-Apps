@@ -76,15 +76,23 @@ export const onSSOSignInCallback = (
         },
       );
 
+      let expireDate = new Date();
+      expireDate.setTime(
+        new Date().getTime() + Number(tokenData.expires_in) * 1000,
+      );
+
       await setBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify({
           access_token: tokenData.access_token,
           expires_in: tokenData.expires_in,
         }),
+        {expires: expireDate},
       );
 
-      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token);
+      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
+        expires: expireDate,
+      });
 
       //TODO: temporary
       setDefaultAuthorizationHeader(tokenData?.access_token);
