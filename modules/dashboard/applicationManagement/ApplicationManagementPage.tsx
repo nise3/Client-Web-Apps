@@ -15,13 +15,11 @@ import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import AssignBatchButton from './AssignBatchButton';
 import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AssignBatchPopup from './AssignBatchPopup';
 import {FiUserCheck} from 'react-icons/fi';
 import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 
 const ApplicationManagementPage = () => {
-  const authUser = useAuthUser();
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -171,11 +169,6 @@ const ApplicationManagementPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        return params;
-      },
     });
 
   const filteredData = data?.map((youth: any) => {
