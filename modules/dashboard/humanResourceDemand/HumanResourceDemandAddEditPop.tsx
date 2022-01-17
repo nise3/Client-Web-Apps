@@ -11,10 +11,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {
-  useFetchHumanResourceDemand,
-  useFetchIndustryAssociationMembers,
-} from '../../../services/IndustryManagement/hooks';
+import {useFetchHumanResourceDemand} from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
 import {
@@ -81,11 +78,11 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
 
     const validationSchema = useMemo(() => {
       return yup.object().shape({
-        /*        organization_id: yup
+        organization_id: yup
           .string()
           .trim()
           .required()
-          .label(messages['organization.label'] as string),*/
+          .label(messages['organization.label'] as string),
         hr_demands: yup.array().of(
           yup.object().shape({
             institute_id: yup
