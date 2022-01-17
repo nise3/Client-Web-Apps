@@ -3,6 +3,7 @@ import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInpu
 import {TextField} from '@mui/material';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {getErrorObject} from '../../../utilities/helpers';
 
 type Props = {
   id: string;
@@ -33,6 +34,7 @@ const CustomDateTimeField = ({
   disabled = false,
   inputProps = {},
 }: Props) => {
+  let errorObj = getErrorObject(id, errorInstance);
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -56,16 +58,16 @@ const CustomDateTimeField = ({
         },
         ...inputProps,
       }}
-      error={errorInstance?.[id] && Boolean(errorInstance?.[id])}
+      error={errorObj && Boolean(errorObj)}
       helperText={
-        errorInstance?.[id] && errorInstance?.[id].message ? (
-          errorInstance?.[id].message.hasOwnProperty('key') ? (
+        errorObj && errorObj.message ? (
+          errorObj.message.hasOwnProperty('key') ? (
             <IntlMessages
-              id={errorInstance?.[id].message.key}
-              values={errorInstance?.[id].message?.values || {}}
+              id={errorObj.message.key}
+              values={errorObj.message?.values || {}}
             />
           ) : (
-            errorInstance?.[id].message
+            errorObj.message
           )
         ) : (
           ''

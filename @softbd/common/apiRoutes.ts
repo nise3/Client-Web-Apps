@@ -48,6 +48,9 @@ export const API_ORGANIZATION_REGISTRATION =
 export const API_INDUSTRY_ASSOCIATION_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration';
 
+export const API_INDUSTRY_ASSOCIATION_MEMBERS =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-members';
+
 export const API_ORGANIZATION_SERVICES =
   ORGANIZATION_SERVICE_PATH + '/services';
 export const API_HUMAN_RESOURCES =
@@ -284,3 +287,5 @@ export const API_HUMAN_RESOURCE_DEMAND_LIST =
  */
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';
+export const API_HUMAN_RESOURCE_DEMAND =
+  ORGANIZATION_SERVICE_PATH + '/hr-demands';

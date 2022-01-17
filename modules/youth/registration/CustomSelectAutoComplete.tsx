@@ -8,6 +8,7 @@ import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import {FormControl} from '@mui/material';
 import {Controller} from 'react-hook-form';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {getErrorObject} from '../../../@softbd/utilities/helpers';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
@@ -57,7 +58,7 @@ export default function CustomSelectAutoComplete({
     return title;
   };
 
-  const errorObj = errorInstance?.[id];
+  const errorObj = getErrorObject(id, errorInstance);
 
   return (
     <FormControl

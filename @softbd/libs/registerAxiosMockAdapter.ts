@@ -10,7 +10,6 @@ import {
   API_FRONT_END_VIDEO,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
-  API_HUMAN_RESOURCE_DEMAND_LIST,
   API_JOB_REQUIREMENT,
   API_NOTICE_BOARD,
 } from '../common/apiRoutes';
@@ -22,7 +21,6 @@ import recentActivityDetails from '../mock-db/recentActivityDetails';
 import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
 import applicationsList from '../mock-db/applicationsList/applicationsList';
-import {hrDemand} from '../mock-db/Industry/hr-demand';
 import jobRequirements from '../mock-db/Industry/job-requirements/jobRequirements';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
@@ -96,10 +94,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(API_JOB_REQUIREMENT).reply(200, {data: jobRequirements});
 
   /** API_HUMAN_RESOURCE_DEMAND **/
-  mock.onGet(API_HUMAN_RESOURCE_DEMAND_LIST).reply(200, {data: hrDemand});
-  mock
+  /*  mock.onGet(API_HUMAN_RESOURCE_DEMAND_LIST).reply(200, {data: hrDemand});*/
+  /*  mock
     .onGet(new RegExp(API_HUMAN_RESOURCE_DEMAND_LIST + '/(.*)'))
-    .reply(200, {data: hrDemand[0]});
+    .reply(200, {data: hrDemand[0]});*/
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();
