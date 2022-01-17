@@ -51,15 +51,15 @@ export function useFetchJobRequirements(params: any) {
   return useAxiosSWR([API_JOB_REQUIREMENT, params]);
 }
 
-export function useFetchJobPrimaryInformation(jobId: number | null) {
+export function useFetchJobPrimaryInformation(jobId: string | null) {
   return useAxiosSWR(jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null);
 }
 
-export function useFetchJobAdditionalInformation(jobId: number | null) {
+export function useFetchJobAdditionalInformation(jobId: string | null) {
   return useAxiosSWR(jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null);
 }
 
-export function useFetchJobCompanyInfoVisibility(jobId: number | null) {
+export function useFetchJobCompanyInfoVisibility(jobId: string | null) {
   return useAxiosSWR(
     jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
   );

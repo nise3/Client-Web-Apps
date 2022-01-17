@@ -27,6 +27,7 @@ import {useFetchJobSectors} from '../../../../../services/organaizationManagemen
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
 import {getAllOccupations} from '../../../../../services/organaizationManagement/OccupationService';
+import {useFetchJobPrimaryInformation} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
   jobId: string;
@@ -67,6 +68,10 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
   const {data: jobSectors, isLoading}: any =
     useFetchJobSectors(jobSectorFilters);
   const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
+
+  const {data: primaryJobInfo} = useFetchJobPrimaryInformation(jobId);
+
+  console.log(': ', primaryJobInfo);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
