@@ -517,8 +517,8 @@ const routesConfig: NavItemProps[] = [
             url: '/hr-demand',
           },
           {
-            id: 'job-requirements',
-            title: 'Job Requirement List',
+            id: 'job_requirements',
+            title: 'Job requirement',
             messageId: 'job_requirement.label',
             permissionKey: 'view_any_job_requirement',
             type: 'item',
