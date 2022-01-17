@@ -36,7 +36,6 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 
 interface InstituteProfileEditPopupProps {
   onClose: () => void;
@@ -210,7 +209,6 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
       reset({
         title_en: profileData?.title_en,
         title: profileData?.title,
-        domain: profileData?.domain,
         institute_type_id: profileData?.institute_type_id,
         code: profileData?.code,
         primary_phone: profileData?.primary_phone,
@@ -236,7 +234,8 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         contact_person_designation_en:
           profileData?.contact_person_designation_en,
         contact_person_email: profileData?.contact_person_email,
-        row_status: String(profileData?.row_status),
+        /*row_status: String(profileData?.row_status),*/
+        logo: profileData?.logo,
       });
     }
 
@@ -292,7 +291,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FileUploadComponent
-            id='profile_image'
+            id='logo'
             defaultFileUrl={profileData?.logo}
             errorInstance={errors}
             setValue={setValue}
@@ -338,16 +337,6 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoadingData}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='domain'
-            label={messages['common.domain']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoadingData}
-            placeholder='https://example.xyz'
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -552,14 +541,14 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             placeholder='example@gmail.com'
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/*        <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}
             defaultValue={profileData?.row_status}
             isLoading={isLoadingData}
           />
-        </Grid>
+        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );
