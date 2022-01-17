@@ -214,7 +214,7 @@ const MemberListPage = () => {
           )}
         </React.Fragment>
       ) : (
-        <Grid item xs={12}>
+        <Grid item xs={12} marginY={20}>
           <NoDataFoundComponent />
         </Grid>
       )}
