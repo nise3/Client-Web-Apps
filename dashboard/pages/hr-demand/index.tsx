@@ -15,7 +15,7 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['common.human_resource'] as string} />
+      <PageMeta title={messages[' common.human_resource'] as string} />
       <HrDemand />
     </>
   );
