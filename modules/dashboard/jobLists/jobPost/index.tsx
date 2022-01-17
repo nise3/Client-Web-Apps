@@ -86,7 +86,7 @@ const JobPostingView = () => {
   const router = useRouter();
   const {postStep, jobId} = router.query;
   const [jobIdState] = useState<string | null>(jobId ? String(jobId) : null);
-  const [activeStep, setActiveStep] = useState<number>(1);
+  const [activeStep, setActiveStep] = useState<number>(0);
   const [completedSteps] = useState<any>([1, 2, 3, 4, 5]);
   const [isValid, setIsValid] = useState(true);
 

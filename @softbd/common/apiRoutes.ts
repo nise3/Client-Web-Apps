@@ -34,6 +34,12 @@ export const PROFILE_UPDATE = '/profile-update';
 
 export const API_OCCUPATIONS = ORGANIZATION_SERVICE_PATH + '/occupations';
 export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
+
+export const API_PUBLIC_OCCUPATIONS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/occupations';
+export const API_PUBLIC_JOB_SECTORS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-sectors';
+
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
 export const API_ASSOCIATION_TRADES =
