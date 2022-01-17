@@ -16,7 +16,7 @@ type Props = {
   onApprove: (id: any) => void;
 };
 
-const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
+const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationList(itemId);
   return (
@@ -114,4 +114,4 @@ const ApplicationsListDetailsPopup = ({itemId, ...props}: Props) => {
   );
 };
 
-export default ApplicationsListDetailsPopup;
+export default MemberListDetailsPopup;

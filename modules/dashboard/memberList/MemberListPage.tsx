@@ -8,13 +8,13 @@ import RejectButton from '../applicationManagement/RejectButton';
 import {useIntl} from 'react-intl';
 import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import IconList from '../../../@softbd/icons/IconList';
-import ApplicationsListDetailsPopup from './ApplicationsListDetailsPopup';
+import MemberListDetailsPopup from './MemberListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_APPLICATIONS_LISTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipApplicationStatus from './CustomChipApplicationStatus';
 
 //Todo: have to remove member list, this is not necessary
-const ApplicationListPage = () => {
+const MemberListPage = () => {
   const {messages} = useIntl();
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -103,7 +103,7 @@ const ApplicationListPage = () => {
         />
 
         {isOpenDetailsModal && selectedItemId && (
-          <ApplicationsListDetailsPopup
+          <MemberListDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -115,4 +115,4 @@ const ApplicationListPage = () => {
   );
 };
 
-export default ApplicationListPage;
+export default MemberListPage;
