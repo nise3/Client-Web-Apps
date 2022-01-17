@@ -102,25 +102,11 @@ const JobPostingView = () => {
   }, [postStep, jobId]);
 
   const handleNext = () => {
-    router
-      .push({
-        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + (activeStep + 1),
-        query: {
-          jobId: jobId,
-        },
-      })
-      .then(() => {});
+    gotoStep(activeStep + 1);
   };
 
   const handleBack = () => {
-    router
-      .push({
-        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + (activeStep - 1),
-        query: {
-          jobId: jobId,
-        },
-      })
-      .then(() => {});
+    gotoStep(activeStep - 1);
   };
 
   const gotoStep = (step: number) => {
