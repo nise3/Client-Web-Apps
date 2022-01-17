@@ -10,8 +10,11 @@ import ApproveButton from '../../../@softbd/elements/button/ApproveButton/Approv
 import IconList from '../../../@softbd/icons/IconList';
 import MemberListDetailsPopup from './MemberListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_APPLICATIONS_LISTS} from '../../../@softbd/common/apiRoutes';
+import {API_INDUSTRY_ASSOCIATION_MEMBERS} from '../../../@softbd/common/apiRoutes';
 import CustomChipApplicationStatus from './CustomChipApplicationStatus';
+import InstituteAddEditPopup from '../Institutes/InstituteAddEditPopup';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 
 //Todo: have to remove member list, this is not necessary
 const MemberListPage = () => {
@@ -19,6 +22,11 @@ const MemberListPage = () => {
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
@@ -27,7 +35,16 @@ const MemberListPage = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
+  const closeAddEditModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setSelectedItemId(null);
+  }, []);
 
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
+    setIsOpenDetailsModal(false);
+    setIsOpenAddEditModal(true);
+    setSelectedItemId(itemId);
+  }, []);
   const onClickApprove: any = useCallback((id: any) => {}, []);
   const columns = useMemo(
     () => [
@@ -45,7 +62,7 @@ const MemberListPage = () => {
       },
       {
         Header: messages['common.memberId'],
-        accessor: 'memberId',
+        accessor: 'membership_id',
       },
       {
         Header: messages['applicationManagement.status'],
@@ -61,6 +78,7 @@ const MemberListPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
               {data.row_status != 1 ? (
                 <ApproveButton onClick={() => onClickApprove(data.id)} />
               ) : (
@@ -81,18 +99,34 @@ const MemberListPage = () => {
     ],
     [messages],
   );
+
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_APPLICATIONS_LISTS,
+      urlPath: API_INDUSTRY_ASSOCIATION_MEMBERS,
     });
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconList /> <IntlMessages id='application_list.label' />
+            <IconList /> <IntlMessages id='common.member_list' />
           </>
-        }>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['institute.label'],
+                }}
+              />
+            }
+          />,
+        ]}>
         <ReactTable
           columns={columns}
           data={data}
@@ -100,8 +134,16 @@ const MemberListPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
-
+        {isOpenAddEditModal && (
+          <InstituteAddEditPopup
+            key={1}
+            onClose={closeAddEditModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
         {isOpenDetailsModal && selectedItemId && (
           <MemberListDetailsPopup
             key={1}

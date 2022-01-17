@@ -1056,6 +1056,8 @@
   "common.already_enrolled": "Already enrolled",
   "common.departments": "Departments",
   "common.industry_associations": "Industry Associations or Chamber or Commerce (IA/CoC)",
+  "common.industry_association_trade": "Industry Association Trades",
+  "common.industry_association_sub_trade": "Industry Association Sub Trades",
   "common.industry_association": "Industry Associations",
   "industry_associations.type": "Industry Association Type",
   "menu.industry_associations": "Industry Associations",
