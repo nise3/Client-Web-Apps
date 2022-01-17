@@ -23,10 +23,10 @@ import {
   ServiceTypes,
 } from '../enums/JobPostEnums';
 import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
-import {useFetchJobSectors} from '../../../../../services/organaizationManagement/hooks';
+import {useFetchPublicJobSectors} from '../../../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
-import {getAllOccupations} from '../../../../../services/organaizationManagement/OccupationService';
+import {getAllPublicOccupations} from '../../../../../services/organaizationManagement/OccupationService';
 import {useFetchJobPrimaryInformation} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
@@ -66,7 +66,7 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
   const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading}: any =
-    useFetchJobSectors(jobSectorFilters);
+    useFetchPublicJobSectors(jobSectorFilters);
   const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
 
   const {data: primaryJobInfo} = useFetchJobPrimaryInformation(jobId);
@@ -162,7 +162,7 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
   const onJobSectorChange = useCallback(async (jobSectorId: number | null) => {
     if (jobSectorId) {
       try {
-        const response = await getAllOccupations({
+        const response = await getAllPublicOccupations({
           row_status: RowStatus.ACTIVE,
           job_sector_id: jobSectorId,
         });
