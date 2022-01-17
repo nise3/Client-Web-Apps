@@ -6,10 +6,10 @@ import {
   API_GET_JOB_PRIMARY_INFORMATION,
   API_HUMAN_RESOURCE_DEMAND_LIST,
   API_INDUSTRY_ASSOCIATIONS,
-  API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
   API_JOB_REQUIREMENT,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
+  API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
@@ -72,11 +72,15 @@ export function useFetchJob(jobId: string | null) {
 }
 
 export function useFetchIndustryMembers(params: any) {
-  return useAxiosSWR([API_INDUSTRY_MEMBERS, params]);
+  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST, params]);
 }
 
 export function useFetchIndustryMember(memberId: number | null) {
-  return useAxiosSWR(memberId ? API_INDUSTRY_MEMBERS + '/' + memberId : null);
+  return useAxiosSWR(
+    memberId
+      ? API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST + '/' + memberId
+      : null,
+  );
 }
 
 /**
