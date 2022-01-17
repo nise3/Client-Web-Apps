@@ -10,7 +10,6 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {useFetchInstituteProfile} from '../../../services/instituteManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
@@ -38,10 +37,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser();
-  const {data: profileData, mutate: mutateProfile} = useFetchInstituteProfile(
-    authUser?.institute_id,
-  );
+  const {data: profileData, mutate: mutateProfile} = useFetchInstituteProfile();
   const [divisionsFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
@@ -136,7 +132,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data) => {
     console.log('submit->', data);
     try {
-      await updateInstituteProfile(authUser?.institute_id, data);
+      await updateInstituteProfile(data);
       updateSuccessMessage('institute_profile.label');
       mutateProfile();
       props.onClose();
