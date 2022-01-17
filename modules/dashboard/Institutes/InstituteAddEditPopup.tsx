@@ -117,6 +117,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     isLoading,
     mutate: mutateInstitute,
   } = useFetchInstitute(itemId);
+
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
     key: PERMISSION_GROUP_INSTITUTE_KEY,
