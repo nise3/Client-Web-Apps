@@ -47,15 +47,9 @@ export const updateInstitute = async (
   }
 };
 
-export const updateInstituteProfile = async (
-  InstituteId: number | string | undefined,
-  data: any,
-) => {
+export const updateInstituteProfile = async (data: any) => {
   try {
-    let response: any = await apiPut(
-      API_INSTITUTE_PROFILE + '/' + InstituteId,
-      data,
-    );
+    let response: any = await apiPut(API_INSTITUTE_PROFILE, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

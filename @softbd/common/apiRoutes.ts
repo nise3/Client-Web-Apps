@@ -69,7 +69,7 @@ export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 export const API_PUBLIC_INSTITUTES =
   INSTITUTE_SERVICE_PATH + '/public/institutes';
 export const API_INSTITUTE_PROFILE =
-  INSTITUTE_SERVICE_PATH + '/institute-admin-profile';
+  INSTITUTE_SERVICE_PATH + '/institute-profile';
 export const API_BRANCHES = INSTITUTE_SERVICE_PATH + '/branches';
 export const API_PROGRAMMES = INSTITUTE_SERVICE_PATH + '/programs';
 export const API_PUBLIC_PROGRAMMES =
