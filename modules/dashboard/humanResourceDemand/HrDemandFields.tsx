@@ -45,6 +45,7 @@ const HrDemandFields: FC<CustomFieldProps> = ({
             errorInstance={errors}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
             id={'hr_demands[' + index + '][end_date]'}
