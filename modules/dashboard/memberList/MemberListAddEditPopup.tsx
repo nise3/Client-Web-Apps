@@ -42,7 +42,6 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -64,7 +63,6 @@ const initialValues = {
   contact_person_designation: '',
   contact_person_designation_en: '',
   organization_type_id: '',
-  membership_id: '',
   permission_sub_group_id: '',
   loc_division_id: '',
   loc_district_id: '',
@@ -122,12 +120,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
-
-  const [industryAssociationFilter] = useState({});
-  const {
-    data: industryAssociationTrades,
-    isLoading: isLoadingIndustryAssociationTrades,
-  } = useFetchIndustryAssociationTrades(industryAssociationFilter);
 
   const {
     data: itemData,
@@ -391,19 +383,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isOrganizationTypeLoading}
             control={control}
             options={organizationTypes}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            required
-            id='industry_association_trade_id'
-            label={messages['common.industry_trade']}
-            isLoading={isLoadingIndustryAssociationTrades}
-            control={control}
-            options={industryAssociationTrades}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}

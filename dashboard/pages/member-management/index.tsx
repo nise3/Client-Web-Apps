@@ -6,8 +6,7 @@ import {useIntl} from 'react-intl';
 
 //Todo: have to remove member list, this is not necessary
 const ApplicationListPage = asyncComponent(
-  () =>
-    import('../../../modules/dashboard/applicationsList/ApplicationListPage'),
+  () => import('../../../modules/dashboard/memberList/MemberListPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

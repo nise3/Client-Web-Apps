@@ -16,7 +16,7 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
-import CustomChipApplicationStatus from '../applicationsList/CustomChipApplicationStatus';
+import CustomChipApplicationStatus from '../memberList/CustomChipApplicationStatus';
 import ApproveButton from './ApproveButton';
 import RejectButton from '../applicationManagement/RejectButton';
 import {
