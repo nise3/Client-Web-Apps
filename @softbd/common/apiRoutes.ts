@@ -9,6 +9,8 @@ export const YOUTH_SERVICE_PATH = '/youth';
 export const CMS_SERVICE_PATH = '/cms';
 export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
 export const CMS_SERVICE_PUBLIC_PATH = CMS_SERVICE_PATH + '/public';
+export const ORGANIZATION_SERVICE_PUBLIC_PATH =
+  ORGANIZATION_SERVICE_PATH + '/public';
 
 export const INDUSTRY_ASSOCIATION_SERVICE_PATH = '/industry-association';
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
@@ -235,8 +237,6 @@ export const API_INDUSTRY_PUBLICATIONS =
 export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/public/publications';
 
-export const API_INDUSTRY_MEMBERS = INDUSTRY_SERVICE_PATH + '/members';
-
 export const API_INDUSTRY_ASSOCIATIONS =
   ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
@@ -276,3 +276,9 @@ export const API_GET_JOB = API_JOB + '/job-details/';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   INDUSTRY_SERVICE_PATH + '/hr-demand';
+
+/**
+ * Industry association member list
+ */
+export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';
