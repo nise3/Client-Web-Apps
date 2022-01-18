@@ -28,17 +28,19 @@ import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
 import {getAllPublicOccupations} from '../../../../../services/organaizationManagement/OccupationService';
 import {useFetchJobPrimaryInformation} from '../../../../../services/IndustryManagement/hooks';
+import {savePrimaryJobInformation} from '../../../../../services/IndustryManagement/JobService';
 
 interface Props {
   jobId: string;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const initialValue = {
   service_type: ServiceTypes.BASIC_LISTING,
   job_title: '',
   job_title_en: '',
-  employment_type: [],
+  employment_types: [],
   no_of_vacancies: '',
   is_number_of_vacancy_na: false,
   job_sector_id: '',
@@ -56,7 +58,7 @@ const initialValue = {
   is_photograph_enclose_with_resume: false,
 };
 
-const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
+const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const [isNotApplicable, setIsNotApplicable] = useState<boolean>(false);
@@ -65,13 +67,12 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
   >(ResumeReceivingOptions.EMAIL);
   const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
-  const {data: jobSectors, isLoading}: any =
+  const {data: jobSectors, isLoading: isLoadingJobSector}: any =
     useFetchPublicJobSectors(jobSectorFilters);
   const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
 
   const {data: primaryJobInfo} = useFetchJobPrimaryInformation(jobId);
-
-  console.log(': ', primaryJobInfo);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -91,10 +92,20 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
         .mixed()
         .label(messages['job_posting.no_of_vacancy'] as string)
         .when('is_number_of_vacancy_na', {
-          is: true,
-          then: yup.number().required(),
+          is: (value: boolean) => {
+            return !value;
+          },
+          then: yup.string().required(),
         }),
-      employment_type: yup
+      job_sector_id: yup
+        .string()
+        .required()
+        .label(messages['job_sectors.label'] as string),
+      occupation_id: yup
+        .string()
+        .required()
+        .label(messages['occupations.label'] as string),
+      employment_types: yup
         .array()
         .of(yup.number())
         .min(1)
@@ -142,16 +153,96 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
     resolver: yupResolver(validationSchema),
   });
 
+  const getEmploymentType = (employment_types: any) => {
+    const ids: any = [];
+    (employment_types || []).map((type: any) => {
+      ids.push(type.id);
+    });
+
+    return ids;
+  };
+
   useEffect(() => {
-    reset(initialValue);
-  }, []);
+    if (primaryJobInfo && primaryJobInfo?.latest_step) {
+      const latestStep = primaryJobInfo.latest_step;
+      delete primaryJobInfo?.latest_step;
+
+      if (latestStep >= 1) {
+        setIsReady(true);
+        reset({
+          service_type: primaryJobInfo?.service_type,
+          job_title: primaryJobInfo?.job_title,
+          job_title_en: primaryJobInfo?.job_title_en,
+          employment_types: getEmploymentType(primaryJobInfo?.employment_types),
+          no_of_vacancies: primaryJobInfo?.no_of_vacancies,
+          is_number_of_vacancy_na: primaryJobInfo?.is_number_of_vacancy_na == 1,
+          job_sector_id: primaryJobInfo?.job_sector_id,
+          occupation_id: primaryJobInfo?.occupation_id,
+          application_deadline: primaryJobInfo?.application_deadline,
+          resume_receiving_option: primaryJobInfo?.resume_receiving_option,
+          email: primaryJobInfo?.email,
+          is_apply_online: primaryJobInfo?.is_apply_online == 1 ? 1 : '',
+          is_use_nise3_mail_system:
+            primaryJobInfo?.is_use_nise3_mail_system == 1,
+          instruction_for_hard_copy: primaryJobInfo?.instruction_for_hard_copy,
+          instruction_for_hard_copy_en:
+            primaryJobInfo?.instruction_for_hard_copy_en,
+          instruction_for_walk_in_interview:
+            primaryJobInfo?.instruction_for_walk_in_interview,
+          instruction_for_walk_in_interview_en:
+            primaryJobInfo?.instruction_for_walk_in_interview_en,
+          special_instruction_for_job_seekers:
+            primaryJobInfo?.special_instruction_for_job_seekers,
+          special_instruction_for_job_seekers_en:
+            primaryJobInfo?.special_instruction_for_job_seekers_en,
+          is_photograph_enclose_with_resume:
+            primaryJobInfo?.is_photograph_enclose_with_resume == 1,
+        });
+        onJobSectorChange(primaryJobInfo?.job_sector_id);
+      } else {
+        setLatestStep(latestStep);
+      }
+    } else {
+      reset(initialValue);
+    }
+  }, [primaryJobInfo]);
+
+  console.log('errors: ', errors);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data', data);
       data.job_id = jobId;
+
+      if (data.resume_receiving_option != ResumeReceivingOptions.EMAIL) {
+        delete data.email;
+        delete data.is_use_nise3_mail_system;
+      }
+      if (data.resume_receiving_option != ResumeReceivingOptions.HARD_COPY) {
+        delete data.instruction_for_hard_copy;
+        delete data.instruction_for_hard_copy_en;
+      }
+      if (
+        data.resume_receiving_option != ResumeReceivingOptions.WALK_IN_INTERVIEW
+      ) {
+        delete data.instruction_for_walk_in_interview;
+        delete data.instruction_for_walk_in_interview_en;
+      }
+
+      data.is_number_of_vacancy_na = data.is_number_of_vacancy_na ? 1 : 0;
+      data.is_photograph_enclose_with_resume =
+        data.is_photograph_enclose_with_resume ? 1 : 0;
+      data.is_use_nise3_mail_system = data.is_use_nise3_mail_system ? 1 : 0;
+
+      if (Number(data.is_apply_online) != 1) {
+        delete data.is_apply_online;
+      }
+
+      console.log('data', data);
+
       //do data save work here
-      //const response = await savePrimaryJobInformation(data);
+      const response = await savePrimaryJobInformation(data);
+      console.log('response : ', response);
+
       successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
@@ -175,7 +266,7 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
     }
   }, []);
 
-  return (
+  return isReady ? (
     <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.primary_job_info']}
@@ -260,7 +351,7 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
               required
               id='job_sector_id'
               label={messages['job_sectors.label']}
-              isLoading={isLoading}
+              isLoading={isLoadingJobSector}
               control={control}
               options={jobSectors}
               optionValueProp={'id'}
@@ -287,7 +378,7 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
           <Grid item xs={12}>
             <CustomFormToggleButtonGroup
               required
-              id={'employment_type'}
+              id={'employment_types'}
               label={messages['job_posting.employment_status']}
               buttons={[
                 {
@@ -537,6 +628,8 @@ const PrimaryJobInformation = ({jobId, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 
