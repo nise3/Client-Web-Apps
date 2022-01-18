@@ -1,6 +1,5 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_APPLICATIONS_LISTS,
   API_GET_JOB_ADDITIONAL_INFORMATION,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
   API_GET_JOB_PRIMARY_INFORMATION,
@@ -38,7 +37,9 @@ export function useFetchIndustryAssociation(industryAssocId: number | null) {
 /**Application list**/
 export function useFetchApplicationList(applicationId: number | null) {
   return useAxiosSWR(
-    applicationId ? API_APPLICATIONS_LISTS + '/' + applicationId : null,
+    applicationId
+      ? API_INDUSTRY_ASSOCIATION_MEMBERS + '/' + applicationId
+      : null,
   );
 }
 
