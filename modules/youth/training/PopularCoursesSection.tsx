@@ -10,6 +10,7 @@ import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'PopularCoursesSection';
 
@@ -39,7 +40,7 @@ const PopularCoursesSection = ({
   const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState<any>({
-    page_size: showAllCourses ? 8 : 4,
+    page_size: showAllCourses ? PageSizes.EIGHT : PageSizes.FOUR,
   });
 
   useEffect(() => {

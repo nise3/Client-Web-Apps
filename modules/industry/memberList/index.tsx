@@ -24,6 +24,7 @@ import MemberComponent from './MemberComponent';
 import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hooks';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -75,7 +76,7 @@ const MemberListPage = () => {
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({
     industry_association_id: 2,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
 
   const {data, isLoading, metaData} =
@@ -85,7 +86,7 @@ const MemberListPage = () => {
     setIndustryMemberFilter({
       industry_association_id: 2,
       page: 1,
-      page_size: 8,
+      page_size: PageSizes.EIGHT,
     });
   }, []);
 
