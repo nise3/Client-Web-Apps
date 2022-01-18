@@ -32,6 +32,7 @@ import AlbumTypes from '../../dashboard/galleryAlbums/AlbumTypes';
 import CustomizedDialogs from '../Components/ImageDialog';
 import {H2} from '../../../@softbd/elements/common';
 import clsx from 'clsx';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'InstituteVideos';
 
@@ -95,7 +96,7 @@ const InstituteVideos = () => {
     institute_id: vendor?.id,
     album_type: AlbumTypes.VIDEO,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
   const {
     data: videoAlbumContents,
@@ -118,7 +119,7 @@ const InstituteVideos = () => {
       institute_id: vendor?.id,
       album_type: AlbumTypes.VIDEO,
       page: 1,
-      page_size: 8,
+      page_size: PageSizes.EIGHT,
     });
     setSelectedVideoAlbumId('');
   }, [selectedVideoAlbumId]);

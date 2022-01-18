@@ -10,6 +10,7 @@ import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'TrendingCoursesSection';
 
@@ -39,7 +40,7 @@ const TrendingCoursesSection = ({
   const path = router.pathname;
 
   const [courseFilters, setCourseFilters] = useState({
-    page_size: showAllCourses ? 8 : 4,
+    page_size: showAllCourses ? PageSizes.EIGHT : PageSizes.FOUR,
     page: 1,
   });
 

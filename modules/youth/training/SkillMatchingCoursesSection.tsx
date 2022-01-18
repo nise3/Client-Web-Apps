@@ -12,6 +12,7 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'SkillMatchingCoursesSection';
 
@@ -43,7 +44,7 @@ const SkillMatchingCoursesSection = ({
 
   const [courseFilters, setCourseFilters] = useState<any>({
     skill_ids: [],
-    page_size: showAllCourses ? 8 : 4,
+    page_size: showAllCourses ? PageSizes.EIGHT : PageSizes.FOUR,
     page: 1,
   });
 

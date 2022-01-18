@@ -12,6 +12,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'CourseListSection';
 
@@ -73,7 +74,9 @@ const CourseListSection = () => {
   const URL = `/course-list/${selectedValue}`;
   const authYouth = useAuthUser<YouthAuthUser>();
 
-  const [courseFilters, setCourseFilters] = useState({page_size: 3});
+  const [courseFilters, setCourseFilters] = useState({
+    page_size: PageSizes.THREE,
+  });
   const {data: courses, metaData: coursesMetaData} = useFetchCourseList(
     selectedValue,
     courseFilters,

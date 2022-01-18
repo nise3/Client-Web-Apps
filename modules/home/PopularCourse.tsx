@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import {H2, Link} from '../../@softbd/elements/common';
 import VerticalBar from './components/VerticalBar';
+import PageSizes from '../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'PopularCourse';
 
@@ -39,7 +40,7 @@ const StyledGrid = styled(Grid)(() => ({
 const PopularCourse = () => {
   const {messages} = useIntl();
 
-  const [courseFilters] = useState<any>({page_size: 10});
+  const [courseFilters] = useState<any>({page_size: PageSizes.TEN});
   const pathValue = 'popular';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
 
