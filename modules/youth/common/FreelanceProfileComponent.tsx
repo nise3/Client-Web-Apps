@@ -69,7 +69,9 @@ const FreelanceProfileComponent = () => {
   }
 
   const handleFreelanceProfileStatusChange = (event: any) => {
-    const status = event.target.checked ? 1 : 0;
+    const status = event.target.checked
+      ? FreelanceProfileStatus.YES
+      : FreelanceProfileStatus.NO;
     const data: any = {};
     data.is_freelance_profile = status;
     debounceFn(data);
