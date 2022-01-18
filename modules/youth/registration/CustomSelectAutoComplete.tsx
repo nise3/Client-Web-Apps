@@ -86,6 +86,9 @@ export default function CustomSelectAutoComplete({
                 onChangeCallback(option);
               }
             }}
+            isOptionEqualToValue={(option: any, value: any) => {
+              return option.id === value.id;
+            }}
             getOptionLabel={(item) => {
               if (typeof item !== 'object' && options)
                 item = options.find(

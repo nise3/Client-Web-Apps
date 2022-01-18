@@ -42,7 +42,10 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
+import {
+  useFetchIndustryAssociationSubTrades,
+  useFetchIndustryAssociationTrades,
+} from '../../../services/IndustryAssociationManagement/hooks';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {Box} from '@mui/system';
 
@@ -131,13 +134,18 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     isLoading: isLoadingIndustryAssociationTrades,
   } = useFetchIndustryAssociationTrades(industryAssociationTradeFilter);
 
-  const [industryAssociationSubTradeFilter] = useState({});
+  const [
+    industryAssociationSubTradeFilter,
+    setIndustryAssociationSubTradeFilter,
+  ] = useState({});
   const {
     data: industryAssociationSubTrades,
     isLoading: isLoadingIndustryAssociationSubTrades,
-  } = useFetchIndustryAssociationTrades(industryAssociationSubTradeFilter);
+  } = useFetchIndustryAssociationSubTrades(industryAssociationSubTradeFilter);
 
   const [selectedTradeList, setSelectedTradeList] = useState<any>([]);
+  const [selectedAllTradeList, setSelectedAllTradeList] = useState<any>([]);
+  const [selectedAllTradeIds, setSelectedAllTradeIds] = useState<any>([]);
 
   const {
     data: itemData,
@@ -310,10 +318,42 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     },
     [upazilas],
   );
-  const onSubTradeChange = useCallback((options) => {
-    console.log('options', options);
-    setSelectedTradeList(options);
-  }, []);
+  const onTradeChange = useCallback(
+    (id: number) => {
+      setIndustryAssociationSubTradeFilter({
+        industry_association_trade_id: id,
+      });
+
+      console.log('all trades', selectedAllTradeList);
+      setSelectedTradeList(
+        selectedAllTradeList.filter(
+          (subTrade: any) => subTrade.industry_association_trade_id == id,
+        ),
+      );
+    },
+    [selectedAllTradeList],
+  );
+
+  const onSubTradeChange = useCallback(
+    (options) => {
+      console.log('options ', options);
+      const newSubTrades: Array<any> = [];
+      const newSubTradeIds: Array<any> = [];
+      options.map((option: any) => {
+        if (!selectedAllTradeIds.includes(option.id)) {
+          newSubTrades.push(option);
+          newSubTradeIds.push(option.id);
+        }
+      });
+
+      setSelectedAllTradeList((prev: any) => {
+        return [...prev, ...newSubTrades];
+      });
+
+      setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);
+    },
+    [selectedAllTradeIds],
+  );
 
   const onSubmit: SubmitHandler<IOrganization> = async (
     data: IOrganization,
@@ -421,6 +461,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             optionValueProp='id'
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
+            onChange={onTradeChange}
           />
         </Grid>
         <Grid item xs={6}>
@@ -433,18 +474,22 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             options={industryAssociationSubTrades}
             optionValueProp='id'
             optionTitleProp={['title_en', 'title']}
+            defaultValue={selectedTradeList}
             errorInstance={errors}
             onChange={onSubTradeChange}
           />
         </Grid>
 
         <Grid item xs={12}>
-          <Box display={'flex'}>
-            {selectedTradeList.length ? (
-              selectedTradeList.map((trade: any) => {
+          <Box>
+            {selectedAllTradeList.length ? (
+              selectedAllTradeList.map((trade: any) => {
                 return (
                   <React.Fragment key={trade.id}>
-                    <Chip label={trade.title} />
+                    <Chip
+                      label={trade.title}
+                      sx={{marginLeft: '5px', marginBottom: '5px'}}
+                    />
                   </React.Fragment>
                 );
               })
