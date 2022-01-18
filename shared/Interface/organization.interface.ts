@@ -37,6 +37,8 @@ export interface IOrganization extends IIdTitleCreateUpdateAt {
   contact_person_name_en?: string;
   name_of_the_office_head?: string;
   name_of_the_office_head_en?: string;
+  membership_id: string;
+  sub_trades?: Array<any>;
   name_of_the_office_head_designation?: string;
   name_of_the_office_head_designation_en?: string;
   description?: string;

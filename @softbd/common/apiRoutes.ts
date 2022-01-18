@@ -246,9 +246,9 @@ export const API_INDUSTRY_ASSOCIATIONS =
   ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
 export const API_INDUSTRY_ASSOCIATION_TRADES =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-trades';
+  ORGANIZATION_SERVICE_PATH + '/trades';
 export const API_INDUSTRY_ASSOCIATION_SUB_TRADES =
-  ORGANIZATION_SERVICE_PATH + '/industry-sub-trades';
+  ORGANIZATION_SERVICE_PATH + '/sub-trades';
 
 export const API_INDUSTRY_ASSOCIATION_PROFILE =
   ORGANIZATION_SERVICE_PATH + '/industry-association-profile';
@@ -273,7 +273,7 @@ export const API_JOB_STORE_PRIMARY_INFORMATION =
 export const API_GET_JOB_PRIMARY_INFORMATION =
   API_JOB + '/primary-job-information/';
 export const API_JOB_REQUIREMENT =
-  ORGANIZATION_SERVICE_PATH + '/job-requirement';
+  ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
   API_JOB + '/store-additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
