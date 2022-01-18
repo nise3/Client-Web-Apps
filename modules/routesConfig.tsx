@@ -313,7 +313,7 @@ const routesConfig: NavItemProps[] = [
             id: 'member-list',
             title: 'Member List',
             messageId: 'common.member_list',
-            permissionKey: 'view_association_member_list',
+            permissionKey: 'view_any_industry_association_member',
             type: 'item',
             icon: 'timeline',
             url: '/member-management',

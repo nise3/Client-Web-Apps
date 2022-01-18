@@ -10,7 +10,6 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {useFetchInstituteProfile} from '../../../services/instituteManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
@@ -27,9 +26,24 @@ import {updateInstituteProfile} from '../../../services/instituteManagement/Inst
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {
+  MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
+import {
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 interface InstituteProfileEditPopupProps {
   onClose: () => void;
+}
+
+export enum InstituteType {
+  GOVERNMENT = '1',
+  NON_GOVERNMENT = '0',
 }
 
 const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
@@ -38,10 +52,27 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser();
-  const {data: profileData, mutate: mutateProfile} = useFetchInstituteProfile(
-    authUser?.institute_id,
+
+  const instituteTypes = useMemo(
+    () => [
+      {
+        key: InstituteType.GOVERNMENT,
+        label: messages['common.government'],
+      },
+      {
+        key: InstituteType.NON_GOVERNMENT,
+        label: messages['common.non_government'],
+      },
+    ],
+    [messages],
   );
+
+  const {
+    data: profileData,
+    mutate: mutateProfile,
+    isLoading: isLoadingData,
+  } = useFetchInstituteProfile();
+
   const [divisionsFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
@@ -69,8 +100,87 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
     },
     [upazilas],
   );
+
+  const nonRequiredPhoneValidationSchema = useMemo(() => {
+    return yup.object().shape({
+      value: yup
+        .mixed()
+        .test(
+          'mobile_number_validation',
+          messages['common.invalid_mobile'] as string,
+          (value) => !value || Boolean(value.match(PHONE_NUMBER_REGEX)),
+        ),
+    });
+  }, [messages]);
+
+  const nonRequiredMobileValidationSchema = useMemo(() => {
+    return yup.object().shape({
+      value: yup
+        .mixed()
+        .test(
+          'mobile_number_validation',
+          messages['common.invalid_phone'] as string,
+          (value) => !value || Boolean(value.match(MOBILE_NUMBER_REGEX)),
+        ),
+    });
+  }, [messages]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      title: yup
+        .string()
+        .title()
+        .label(messages['common.title'] as string),
+      institute_type_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.type'] as string),
+      phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
+      mobile_numbers: yup.array().of(nonRequiredMobileValidationSchema),
+      address: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.address'] as string),
+      code: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.code'] as string),
+      email: yup
+        .string()
+        .required()
+        .email()
+        .label(messages['common.email'] as string),
+      name_of_the_office_head: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.name_of_the_office_head'] as string),
+      name_of_the_office_head_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(
+          messages['institute.name_of_the_office_head_designation'] as string,
+        ),
+      contact_person_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_name'] as string),
+      contact_person_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_designation'] as string),
+      contact_person_email: yup
+        .string()
+        .trim()
+        .required()
+        .email()
+        .label(messages['common.contact_person_email'] as string),
       loc_division_id: yup
         .string()
         .trim()
@@ -81,18 +191,9 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      name_of_the_office_head: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.name_of_the_office_head'] as string),
-      contact_person_designation: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.contact_person_designation'] as string),
     });
   }, [messages]);
+
   const {
     control,
     reset,
@@ -104,27 +205,40 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   useEffect(() => {
-    reset({
-      title: profileData?.title,
-      title_en: profileData?.title_en,
-      loc_division_id: profileData?.loc_division_id,
-      loc_district_id: profileData?.loc_district_id,
-      loc_upazila_id: profileData?.loc_upazila_id,
-      location_latitude: profileData?.location_latitude,
-      location_longitude: profileData?.location_longitude,
-      google_map_src: profileData?.google_map_src,
-      address: profileData?.address,
-      name_of_the_office_head: profileData?.name_of_the_office_head,
-      name_of_the_office_head_en: profileData?.name_of_the_office_head_en,
-      name_of_the_office_head_designation:
-        profileData?.name_of_the_office_head_designation,
-      name_of_the_office_head_designation_en:
-        profileData?.name_of_the_office_head_designation_en,
-      contact_person_name: profileData?.contact_person_name,
-      contact_person_name_en: profileData?.contact_person_name_en,
-      contact_person_designation: profileData?.contact_person_designation,
-      contact_person_designation_en: profileData?.contact_person_designation_en,
-    });
+    if (profileData) {
+      reset({
+        title_en: profileData?.title_en,
+        title: profileData?.title,
+        institute_type_id: profileData?.institute_type_id,
+        code: profileData?.code,
+        primary_phone: profileData?.primary_phone,
+        phone_numbers: getObjectArrayFromValueArray(profileData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(
+          profileData?.mobile_numbers,
+        ),
+        loc_division_id: profileData?.loc_division_id,
+        loc_district_id: profileData?.loc_district_id,
+        loc_upazila_id: profileData?.loc_upazila_id,
+        address: profileData?.address,
+        google_map_src: profileData?.google_map_src,
+        email: profileData?.email,
+        name_of_the_office_head: profileData?.name_of_the_office_head,
+        name_of_the_office_head_en: profileData?.name_of_the_office_head_en,
+        name_of_the_office_head_designation:
+          profileData?.name_of_the_office_head_designation,
+        name_of_the_office_head_designation_en:
+          profileData?.name_of_the_office_head_designation_en,
+        contact_person_name: profileData?.contact_person_name,
+        contact_person_name_en: profileData?.contact_person_name_en,
+        contact_person_designation: profileData?.contact_person_designation,
+        contact_person_designation_en:
+          profileData?.contact_person_designation_en,
+        contact_person_email: profileData?.contact_person_email,
+        /*row_status: String(profileData?.row_status),*/
+        logo: profileData?.logo,
+      });
+    }
+
     setDistrictsList(
       filterDistrictsByDivisionId(districts, profileData?.loc_division_id),
     );
@@ -134,9 +248,11 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   }, [profileData, districts, upazilas]);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('submit->', data);
     try {
-      await updateInstituteProfile(authUser?.institute_id, data);
+      data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
+      data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
+
+      await updateInstituteProfile(data);
       updateSuccessMessage('institute_profile.label');
       mutateProfile();
       props.onClose();
@@ -175,8 +291,8 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FileUploadComponent
-            id='profile_image'
-            defaultFileUrl={''}
+            id='logo'
+            defaultFileUrl={profileData?.logo}
             errorInstance={errors}
             setValue={setValue}
             register={register}
@@ -189,7 +305,15 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
           <CustomTextInput
             required
             id='title'
-            label={messages['common.institute_name']}
+            label={messages['common.institute_name_bn']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
           />
@@ -197,13 +321,64 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='title_en'
-            label={messages['common.institute_name']}
+            id='email'
+            label={messages['common.email']}
             register={register}
             errorInstance={errors}
+            isLoading={isLoadingData}
+            placeholder='example@gmail.com'
           />
         </Grid>
-
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='code'
+            label={messages['common.code']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoadingData}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormRadioButtons
+            id='institute_type_id'
+            label={'institute.type'}
+            radios={instituteTypes}
+            control={control}
+            defaultValue={profileData?.institute_type_id}
+            isLoading={isLoadingData}
+          />
+        </Grid>
+        <Grid item container xs={12}>
+          <CustomFieldArray
+            id='mobile_numbers'
+            labelLanguageId={'common.mobile'}
+            isLoading={isLoadingData}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            id='primary_phone'
+            label={messages['common.phone']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoadingData}
+            placeholder='xxx-xxx-xxxx'
+          />
+        </Grid>
+        <Grid item container xs={12}>
+          <CustomFieldArray
+            id='phone_numbers'
+            labelLanguageId={'common.phone'}
+            isLoading={isLoadingData}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
@@ -355,6 +530,25 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='contact_person_email'
+            label={messages['common.contact_person_email']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoadingData}
+            placeholder='example@gmail.com'
+          />
+        </Grid>
+        {/*        <Grid item xs={12} md={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={profileData?.row_status}
+            isLoading={isLoadingData}
+          />
+        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );
