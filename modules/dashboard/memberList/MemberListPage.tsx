@@ -12,9 +12,9 @@ import MemberListDetailsPopup from './MemberListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_INDUSTRY_ASSOCIATION_MEMBERS} from '../../../@softbd/common/apiRoutes';
 import CustomChipApplicationStatus from './CustomChipApplicationStatus';
-import InstituteAddEditPopup from '../Institutes/InstituteAddEditPopup';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import MemberListAddEditPopup from './MemberListAddEditPopup';
 
 //Todo: have to remove member list, this is not necessary
 const MemberListPage = () => {
@@ -137,7 +137,7 @@ const MemberListPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <InstituteAddEditPopup
+          <MemberListAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}

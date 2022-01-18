@@ -4,6 +4,7 @@ import {
   API_INDUSTRY_ASSOCIATIONS,
   API_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_INDUSTRY_ASSOCIATION_TRADES,
+  API_INDUSTRY_ASSOCIATION_SUB_TRADES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchIndustryAssociations(params: any) {
@@ -24,4 +25,7 @@ export function useFetchIndustryAssocProfile() {
 
 export function useFetchIndustryAssociationTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_TRADES, params]);
+}
+export function useFetchIndustryAssociationSubTrades(params: any) {
+  return useAxiosSWR([API_INDUSTRY_ASSOCIATION_SUB_TRADES, params]);
 }
