@@ -505,6 +505,7 @@
   "common.deactivate_warning_text": "If you delete your account you will no longer be able to get information.",
   "common.deactivate_confirm_text": "Do you still want to continue the process of Delete Account?",
   "common.profile": "Profile",
+  "institute_profile.label": "Institute Profile",
   "common.experience": "Experience",
   "common.not_interviewed": "Not Interviewed",
   "common.interviewed": "Interviewed",
