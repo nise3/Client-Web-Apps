@@ -24,6 +24,7 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import {DesktopDatePicker, LocalizationProvider} from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'Notice';
 
@@ -81,7 +82,7 @@ const Notice = () => {
 
   const [noticeFilters] = useState<any>({
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
     type: NoticeOrNewsTypes.NOTICE,
   });
 

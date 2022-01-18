@@ -11,6 +11,7 @@ import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {styled} from '@mui/material/styles';
 import {H2} from '../../../@softbd/elements/common';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -41,7 +42,7 @@ const NearbyTrainingCenterSection = ({
     institute_id: showInType == ShowInTypes.TSP ? vendor?.id : null,
     district_id: authUser?.loc_district_id,
     upazila_id: authUser?.loc_upazila_id,
-    page_size: 4,
+    page_size: PageSizes.FOUR,
   });
 
   const {
