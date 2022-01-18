@@ -247,6 +247,8 @@ export const API_INDUSTRY_ASSOCIATIONS =
 
 export const API_INDUSTRY_ASSOCIATION_TRADES =
   ORGANIZATION_SERVICE_PATH + '/industry-association-trades';
+export const API_INDUSTRY_ASSOCIATION_SUB_TRADES =
+  ORGANIZATION_SERVICE_PATH + '/industry-sub-trades';
 
 export const API_INDUSTRY_ASSOCIATION_PROFILE =
   ORGANIZATION_SERVICE_PATH + '/industry-association-profile';
