@@ -24,6 +24,8 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H1} from '../../../@softbd/elements/common';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import KeyCodes from '../../../@softbd/utilities/KeyCodes';
 
 const PREFIX = 'YouthNoticeBoard';
 
@@ -71,7 +73,7 @@ const YouthNoticeBoard = () => {
 
   const [noticeFilters, setNoticeFilters] = useState<any>({
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
     type: NoticeOrNewsTypes.NOTICE,
   });
 
@@ -98,7 +100,7 @@ const YouthNoticeBoard = () => {
   }, [showInType]);
 
   const onSearchClick = useCallback((e) => {
-    if (e.keyCode && e.keyCode !== 13) {
+    if (e.keyCode && e.keyCode !== KeyCodes.ENTER) {
       return false;
     }
 

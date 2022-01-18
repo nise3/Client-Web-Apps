@@ -14,6 +14,7 @@ import {useFetchInstitutesPublicGallery} from '../../../services/instituteManage
 import GalleryItemCardView from './GalleryItemCardView';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'InstituteGallery';
 
@@ -54,7 +55,7 @@ const InstituteGallery = () => {
     institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
 
   const {
