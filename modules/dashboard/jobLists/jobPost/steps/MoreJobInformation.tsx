@@ -21,11 +21,13 @@ import {
   SalaryShowOption,
 } from '../enums/JobPostEnums';
 import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {useFetchJobAdditionalInformation} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const numberOfFestivalBonus: Array<any> = [];
@@ -87,7 +89,12 @@ const facilities = [
 
 const initialValue = {};
 
-const MoreJobInformation = ({jobId, onBack, onContinue}: Props) => {
+const MoreJobInformation = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
 
@@ -97,6 +104,8 @@ const MoreJobInformation = ({jobId, onBack, onContinue}: Props) => {
     useState<boolean>(false);
   // const [isAlertSalaryRange, setIsAlertSalaryRange] = useState<boolean>(false);
   const [hasOtherBenefits, setHasOtherBenefits] = useState<boolean>(true);
+  const {data: additionalInfo} = useFetchJobAdditionalInformation(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -136,8 +145,20 @@ const MoreJobInformation = ({jobId, onBack, onContinue}: Props) => {
   });
 
   useEffect(() => {
-    reset(initialValue);
-  }, []);
+    if (additionalInfo && additionalInfo?.latest_step) {
+      const latestStep = additionalInfo.latest_step;
+      delete additionalInfo?.latest_step;
+
+      if (latestStep >= 2) {
+        setIsReady(true);
+        reset({});
+      } else {
+        setLatestStep(latestStep);
+      }
+    } else {
+      reset(initialValue);
+    }
+  }, [additionalInfo]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
@@ -152,7 +173,7 @@ const MoreJobInformation = ({jobId, onBack, onContinue}: Props) => {
     }
   };
 
-  return (
+  return isReady ? (
     <Box mt={3} mb={3}>
       <Typography mb={2} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.more_job_info']}
@@ -532,6 +553,8 @@ const MoreJobInformation = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 
