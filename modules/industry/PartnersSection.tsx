@@ -4,8 +4,8 @@ import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/Custom
 import React, {useState} from 'react';
 import {H6} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
+import {useFetchIndustryMembers} from '../../services/IndustryManagement/hooks';
 
 const PREFIX = 'Partners';
 
@@ -50,32 +50,41 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
 const PartnersSection = () => {
   const {messages} = useIntl();
-  const [partnerFilters] = useState({});
-  const {data: partners} = useFetchPublicPartners(partnerFilters);
-  const cardItem = (partner: any, key: number) => {
+
+  const [industryAssocMemberFilter] = useState<any>({
+    industry_association_id: 2,
+  });
+
+  //Todo: industry_association_id is static now. Have to update after domain base implementation
+  const {data: members} = useFetchIndustryMembers(industryAssocMemberFilter);
+
+  const cardItem = (member: any, key: number) => {
     return (
       <Box mr={1} ml={1} key={key}>
         <Card className={classes.cardItem}>
           <Box className={classes.imageAlt}>
             <img
               className={classes.image}
-              src={partner?.main_image_path}
-              alt={partner?.image_alt_title}
-              title={partner?.title}
+              src={member?.logo}
+              alt={member?.title}
+              title={member?.title}
             />
           </Box>
         </Card>
       </Box>
     );
   };
+
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <UnderlinedHeading>{messages['nise.partners']}</UnderlinedHeading>
+        <UnderlinedHeading>
+          {messages['industry_association.members']}
+        </UnderlinedHeading>
         <Box mb={2}>
-          {partners && partners.length > 0 ? (
+          {members && members.length > 0 ? (
             <CustomCarousel>
-              {partners.map((partner: any, key: number) =>
+              {members.map((partner: any, key: number) =>
                 cardItem(partner, key),
               )}
             </CustomCarousel>
