@@ -147,7 +147,7 @@ const JobCircular = () => {
 
   /*  const [jobCircularFilters] = useState<any>({
           page: 1,
-          page_size: 8,
+          page_size: PageSizes.EIGHT,
         });*/
 
   /*const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
