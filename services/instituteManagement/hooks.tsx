@@ -33,12 +33,8 @@ export function useFetchInstitute(instituteId: number | null) {
   return useAxiosSWR(instituteId ? API_INSTITUTES + '/' + instituteId : null);
 }
 
-export function useFetchInstituteProfile(
-  instituteId: number | string | undefined,
-) {
-  return useAxiosSWR(
-    instituteId ? API_INSTITUTE_PROFILE + '/' + instituteId : null,
-  );
+export function useFetchInstituteProfile() {
+  return useAxiosSWR(API_INSTITUTE_PROFILE);
 }
 
 export function useFetchInstitutes(params: any) {
