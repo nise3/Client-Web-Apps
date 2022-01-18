@@ -86,8 +86,8 @@ const JobPostingView = () => {
   const router = useRouter();
   const {postStep, jobId} = router.query;
   const [jobIdState] = useState<string | null>(jobId ? String(jobId) : null);
-  const [activeStep, setActiveStep] = useState<number>(1);
-  const [completedSteps] = useState<any>([1, 2, 3, 4, 5]);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [completedSteps, setCompletedSteps] = useState<any>([]);
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
@@ -120,12 +120,31 @@ const JobPostingView = () => {
       .then(() => {});
   };
 
+  const setLatestStep = (step: number) => {
+    console.log('setLatestStep: ', step);
+    console.log('activeStep: ', activeStep);
+    if (activeStep > step) {
+      gotoStep(step);
+    }
+    if (step) {
+      const steps = [];
+      for (let i = 1; i <= step; i++) {
+        steps.push(i);
+      }
+      setCompletedSteps(steps);
+    }
+  };
+
   const getCurrentStepForm = useCallback(() => {
     if (jobIdState) {
       switch (activeStep) {
         case 1:
           return (
-            <PrimaryJobInformation jobId={jobIdState} onContinue={handleNext} />
+            <PrimaryJobInformation
+              jobId={jobIdState}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
           );
         case 2:
           return (
@@ -133,6 +152,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 3:
@@ -192,9 +212,9 @@ const JobPostingView = () => {
   }, [activeStep]);
 
   const onStepIconClick = (step: number) => {
-    //if (completedSteps.includes(step)) {
-    gotoStep(step);
-    //}
+    if (completedSteps.includes(step)) {
+      gotoStep(step);
+    }
   };
 
   if (!isValid) {
