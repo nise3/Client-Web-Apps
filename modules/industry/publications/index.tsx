@@ -25,6 +25,7 @@ import {useFetchPublications} from '../../../services/IndustryManagement/hooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -104,7 +105,7 @@ const Publications = () => {
     // industry_association_id: 1,
     row_status: RowStatus.ACTIVE,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
 
   const {
@@ -128,7 +129,7 @@ const Publications = () => {
       // industry_association_id: 1,
       row_status: RowStatus.ACTIVE,
       page: 1,
-      page_size: 8,
+      page_size: PageSizes.EIGHT,
     });
   }, []);
 

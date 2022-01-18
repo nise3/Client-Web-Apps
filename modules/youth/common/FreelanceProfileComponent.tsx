@@ -18,6 +18,7 @@ import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../shared/constants/AppEnums';
 import {H2} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import FreelanceProfileStatus from '../../../@softbd/utilities/FreelanceProfileStatus';
 
 const PREFIX = 'FreelanceProfileComponent';
 
@@ -68,7 +69,9 @@ const FreelanceProfileComponent = () => {
   }
 
   const handleFreelanceProfileStatusChange = (event: any) => {
-    const status = event.target.checked ? 1 : 0;
+    const status = event.target.checked
+      ? FreelanceProfileStatus.YES
+      : FreelanceProfileStatus.NO;
     const data: any = {};
     data.is_freelance_profile = status;
     debounceFn(data);
@@ -92,7 +95,7 @@ const FreelanceProfileComponent = () => {
             <Switch
               color={'primary'}
               onChange={handleFreelanceProfileStatusChange}
-              checked={freelanceProfileStatus == 1}
+              checked={freelanceProfileStatus == FreelanceProfileStatus.YES}
             />
           }
           label=''

@@ -390,7 +390,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               />
             </Grid>
 
-            {disabilityStatus == 1 && (
+            {disabilityStatus == PhysicalDisabilityStatus.YES && (
               <Grid item xs={12} md={6}>
                 <CustomFormSelect
                   required

@@ -10,6 +10,7 @@ import CourseSectionCarousel from './courseSectionCarousel';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import CourseTypes from '../../@softbd/utilities/CourseTypes';
 import {useVendor} from '../../@crema/utility/AppHooks';
+import PageSizes from '../../@softbd/utilities/PageSizes';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,13 +45,13 @@ const CoursesSection = () => {
   const vendor = useVendor();
 
   const [upcomingCoursesFilter, setUpcomingCoursesFilter] = useState<any>({
-    page_size: 10,
+    page_size: PageSizes.TEN,
     availability: CourseTypes.UPCOMING,
     institute_id: vendor?.id,
   });
 
   const [runningCoursesFilter, setRunningCoursesFilter] = useState<any>({
-    page_size: 10,
+    page_size: PageSizes.TEN,
     availability: CourseTypes.RUNNING,
     institute_id: vendor?.id,
   });

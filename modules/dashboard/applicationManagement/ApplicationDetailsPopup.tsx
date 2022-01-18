@@ -13,6 +13,7 @@ import {FiUser} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {nationalities} from '../../../@softbd/utilities/Nationalities';
+import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
 
 type Props = {
   itemId: number;
@@ -293,7 +294,8 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.physical_disability']}
               value={
-                itemData?.physical_disability_status === 1
+                itemData?.physical_disability_status ===
+                PhysicalDisabilityStatus.YES
                   ? messages['common.yes']
                   : messages['common.no']
               }
@@ -476,7 +478,8 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           })}
 
           {/** Physical Disabilities */}
-          {itemData?.physical_disability_status === 1 &&
+          {itemData?.physical_disability_status ===
+            PhysicalDisabilityStatus.YES &&
             itemData?.physical_disabilities && (
               <Grid item xs={6}>
                 <fieldset style={{backgroundColor: '#e7e5e2'}}>

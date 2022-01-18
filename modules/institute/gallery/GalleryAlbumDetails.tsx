@@ -27,6 +27,7 @@ import ContentItemCard from './ContentItemCard';
 import {useVendor} from '../../../@crema/utility/AppHooks';
 import CustomizedDialogs from '../Components/ImageDialog';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'GalleryAlbumDetails';
 
@@ -90,7 +91,7 @@ const GalleryAlbumDetails = () => {
   /** Data fetching for  gallery album contents **/
   const [galleryAlbumContentFilter, setGalleryAlbumContentFilter] = useState({
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
     institute_id: vendor?.id,
   });
   const {

@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import {Link} from '../../@softbd/elements/common';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import TrainingCard from './TrainingCard';
+import PageSizes from '../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'TrainingSection';
 
@@ -33,7 +34,7 @@ const StyledGrid = styled(Grid)(() => ({
 const TrainingSection = () => {
   const {messages} = useIntl();
 
-  const [courseFilters] = useState<any>({page_size: 10});
+  const [courseFilters] = useState<any>({page_size: PageSizes.TEN});
   const pathValue = 'popular';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
 

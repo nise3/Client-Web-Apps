@@ -17,6 +17,7 @@ import {styled} from '@mui/material/styles';
 import {useVendor} from '../@crema/utility/AppHooks';
 import ShowInTypes from '../@softbd/utilities/ShowInTypes';
 import BoxCardsSkeleton from './institute/Components/BoxCardsSkeleton';
+import PageSizes from '../@softbd/utilities/PageSizes';
 
 const PREFIX = 'SimilarCourseList';
 
@@ -36,7 +37,7 @@ const SimilarCourseList = () => {
   const {messages} = useIntl();
   const [similarCourseFilter, setSimilarCourseFilter] = useState<any>({
     skill_ids: [],
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
     page: 1,
   });
   const router = useRouter();

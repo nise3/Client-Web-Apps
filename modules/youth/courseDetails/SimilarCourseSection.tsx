@@ -10,6 +10,7 @@ import {useVendor} from '../../../@crema/utility/AppHooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 interface SimilarCourseSectionProps {
   courseId: number;
@@ -21,7 +22,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   skillIds,
 }) => {
   const {messages} = useIntl();
-  const pageSize = 4;
+  const pageSize = PageSizes.FOUR;
   const showInType = getShowInTypeByDomain();
   const vendor = useVendor();
 
