@@ -10,6 +10,7 @@ import SideMenu from '../../../@softbd/elements/YouthSideMenu';
 import {Container, Grid} from '@mui/material';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {debounce} from 'lodash';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'YouthFeedPage';
 
@@ -74,7 +75,10 @@ const YouthFeedPage = () => {
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
   const isSearching = useRef<boolean>(false);
 
-  const [filters, setFilters] = useState<any>({page: 1, page_size: 5});
+  const [filters, setFilters] = useState<any>({
+    page: 1,
+    page_size: PageSizes.FIVE,
+  });
   const pageIndex = useRef(1);
 
   const filterPost = useCallback(
