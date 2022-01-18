@@ -1062,6 +1062,8 @@
   "common.industry_associations": "শিল্প সমিতি বা চেম্বার অফ কমার্স",
   "common.industry_association": "শিল্প সমিতি",
   "menu.industry_associations": "শিল্প সমিতি সমূহ",
+  "common.industry_association_trade": "শিল্প সমিতি ট্রেডস",
+  "common.industry_association_sub_trade": "শিল্প সমিতি সাব ট্রেডস",
   "industry_associations.type": "শিল্প সমিতির ধরন",
   "common.industry_skills_council": "শিল্প দক্ষতা কাউন্সিল",
   "common.dc_offices": "জেলা প্রশাসকের কার্যালয়",

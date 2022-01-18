@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
 import {
-  API_APPLICATIONS_LISTS,
   API_FONT_END_CONTACT_MAP,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_GALLERY,
@@ -20,7 +19,6 @@ import allActivityItems from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
 import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
-import applicationsList from '../mock-db/applicationsList/applicationsList';
 import jobRequirements from '../mock-db/Industry/job-requirements/jobRequirements';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
@@ -80,11 +78,11 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   //   .reply(200, {data: members[0]});
 
   /**Application list**/
-  mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
+  /*  mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
 
   mock
     .onGet(new RegExp(API_APPLICATIONS_LISTS + '/(.*)'))
-    .reply(200, {data: applicationsList[0]});
+    .reply(200, {data: applicationsList[0]});*/
 
   /**  joblist **/
   /*mock.onGet(API_JOBS).reply(200, {data: jobLists});
