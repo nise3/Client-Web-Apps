@@ -9,7 +9,6 @@ import {
   API_FRONT_END_VIDEO,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
-  API_JOB_REQUIREMENT,
   API_NOTICE_BOARD,
 } from '../common/apiRoutes';
 import videos, {videosCategories} from '../mock-db/videos';
@@ -19,7 +18,6 @@ import allActivityItems from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
 import staticContent from '../mock-db/staticContent';
 import noticeList from '../mock-db/noticeBoard';
-import jobRequirements from '../mock-db/Industry/job-requirements/jobRequirements';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -89,7 +87,7 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(new RegExp(API_JOBS + '/(.*)')).reply(200, {data: jobLists[0]});*/
 
   /** job requiremeents **/
-  mock.onGet(API_JOB_REQUIREMENT).reply(200, {data: jobRequirements});
+  /*  mock.onGet(API_JOB_REQUIREMENT).reply(200, {data: jobRequirements});*/
 
   /** API_HUMAN_RESOURCE_DEMAND **/
   /*  mock.onGet(API_HUMAN_RESOURCE_DEMAND_LIST).reply(200, {data: hrDemand});*/
