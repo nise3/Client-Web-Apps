@@ -21,7 +21,11 @@ import {
   SalaryShowOption,
 } from '../enums/JobPostEnums';
 import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchJobAdditionalInformation} from '../../../../../services/IndustryManagement/hooks';
+import {
+  useFetchJobAdditionalInformation,
+  useFetchJobLocations,
+} from '../../../../../services/IndustryManagement/hooks';
+import {saveAdditionalJobInformation} from '../../../../../services/IndustryManagement/JobService';
 
 interface Props {
   jobId: string;
@@ -87,7 +91,27 @@ const facilities = [
   },
 ];
 
-const initialValue = {};
+const initialValue = {
+  job_level: [],
+  job_context: '',
+  job_context_en: '',
+  job_responsibilities: '',
+  job_responsibilities_en: '',
+  work_place: [],
+  job_place_type: 1,
+  is_other_benefits: OtherBenefit.YES,
+  salary_min: '',
+  salary_max: '',
+  is_salary_info_show: SalaryShowOption.SALARY,
+  is_salary_compare_to_expected_salary: '',
+  is_salary_alert_excessive_than_given_salary_range: 0,
+  salary_review: '',
+  festival_bonus: '',
+  additional_salary_info: '',
+  additional_salary_info_en: '',
+  other_benefits: [],
+  others: '',
+};
 
 const MoreJobInformation = ({
   jobId,
@@ -102,10 +126,12 @@ const MoreJobInformation = ({
   const [isWorkFromHome, setIsWorkFromHome] = useState<boolean>(false);
   const [isCompareProvidedExpectedSalary, setIsCompareProvidedExpectedSalary] =
     useState<boolean>(false);
-  // const [isAlertSalaryRange, setIsAlertSalaryRange] = useState<boolean>(false);
   const [hasOtherBenefits, setHasOtherBenefits] = useState<boolean>(true);
   const {data: additionalInfo} = useFetchJobAdditionalInformation(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+
+  const {data: jobLocations, isLoading: isLoadingJobLocations} =
+    useFetchJobLocations();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -120,17 +146,43 @@ const MoreJobInformation = ({
         .label(messages['common.job_responsibility'] as string),
       job_location: yup
         .array()
-        .of(yup.number())
+        .of(yup.object().shape({}))
         .min(1)
         .label(messages['common.job_location'] as string),
+      is_other_benefits: yup
+        .string()
+        .required()
+        .label(messages['common.compensation_other_benefits'] as string),
+      other_benefits: yup
+        .mixed()
+        .label(messages['common.facilities'] as string)
+        .when('is_other_benefits', {
+          is: (value: any) => value == 1,
+          then: yup.array().of(yup.object().shape({})).min(1),
+        }),
+      is_salary_info_show: yup
+        .number()
+        .required()
+        .label(messages['label.salary_details_option'] as string),
       salary_min: yup
-        .number()
-        .required()
-        .label(messages['label.min_salary'] as string),
+        .mixed()
+        .label(messages['label.min_salary'] as string)
+        .when('is_salary_info_show', {
+          is: (value: any) => value == SalaryShowOption.SALARY,
+          then: yup.string().trim().required(),
+        }),
       salary_max: yup
-        .number()
-        .required()
-        .label(messages['label.max_salary'] as string),
+        .mixed()
+        .label(messages['label.max_salary'] as string)
+        .when('is_salary_info_show', {
+          is: (value: any) => value == SalaryShowOption.SALARY,
+          then: yup.string().trim().required(),
+        }),
+      work_place: yup
+        .array()
+        .of(yup.boolean())
+        .min(1)
+        .label(messages['common.workplace'] as string),
     });
   }, [messages]);
   const {
@@ -151,24 +203,95 @@ const MoreJobInformation = ({
 
       if (latestStep >= 2) {
         setIsReady(true);
-        reset({});
-      } else {
-        setLatestStep(latestStep);
+        reset({
+          job_level: [],
+          job_context: '',
+          job_context_en: '',
+          job_responsibilities: '',
+          job_responsibilities_en: '',
+          job_location: [],
+          work_place: [],
+          job_place_type: 1,
+          is_other_benefits: OtherBenefit.YES,
+          salary_min: '',
+          salary_max: '',
+          is_salary_info_show: SalaryShowOption.SALARY,
+          is_salary_compare_to_expected_salary: false,
+          is_salary_alert_excessive_than_given_salary_range: 0,
+          salary_review: '',
+          festival_bonus: '',
+          additional_salary_info: '',
+          additional_salary_info_en: '',
+          other_benefits: [],
+          others: '',
+        });
       }
+      setLatestStep(latestStep);
     } else {
       reset(initialValue);
     }
   }, [additionalInfo]);
 
+  console.log('errors: ', errors);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data-->', data);
       data.job_id = jobId;
-      //do data save work here
-      //const response = await saveAdditionalJobInformation(data);
+
+      let workPlace = [...data.work_place];
+      data.work_place = [];
+      if (workPlace[0]) {
+        data.work_place.push(1);
+      }
+      if (workPlace[1]) {
+        data.work_place.push(2);
+      }
+
+      data.is_salary_compare_to_expected_salary =
+        data.is_salary_compare_to_expected_salary ? 1 : 0;
+      data.is_salary_alert_excessive_than_given_salary_range =
+        data.is_salary_alert_excessive_than_given_salary_range ? 1 : 0;
+
+      data.is_other_benefits = Number(data.is_other_benefits);
+
+      if (data.is_other_benefits == 1) {
+        const benefits: any = [];
+        data.other_benefits.map((benefit: any) => {
+          benefits.push(benefit.id);
+        });
+        data.other_benefits = benefits;
+
+        if (!data.lunch_facilities) {
+          delete data.lunch_facilities;
+        }
+
+        if (!data.festival_bonus) {
+          delete data.festival_bonus;
+        }
+      } else {
+        delete data.other_benefits;
+        delete data.salary_review;
+        delete data.festival_bonus;
+        delete data.lunch_facilities;
+        delete data.others;
+        delete data.others_en;
+      }
+
+      const locationIds: any = [];
+      data.job_location.map((location: any) => {
+        locationIds.push(location.location_id);
+      });
+      data.job_location = locationIds;
+
+      console.log('data-->', data);
+
+      const response = await saveAdditionalJobInformation(data);
+      console.log('response : ', response);
+
       successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
+      console.log(': ', error);
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
@@ -231,6 +354,7 @@ const MoreJobInformation = ({
 
           <Grid item xs={12} md={6}>
             <CustomTextInput
+              required
               id='job_responsibilities'
               label={messages['common.job_responsibility']}
               register={register}
@@ -252,7 +376,10 @@ const MoreJobInformation = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <Body1>{messages['common.workplace']}</Body1>
+            <Body1>
+              {messages['common.workplace']}{' '}
+              <span style={{color: 'red'}}> *</span>
+            </Body1>
             <Box display={'flex'}>
               <CustomCheckbox
                 id='work_place[0]'
@@ -281,6 +408,7 @@ const MoreJobInformation = ({
 
           <Grid item xs={12} md={6}>
             <CustomFormToggleButtonGroup
+              required
               id={'job_place_type'}
               label={''}
               buttons={[
@@ -293,13 +421,16 @@ const MoreJobInformation = ({
               errorInstance={errors}
               defaultValue={1}
             />
+            <div style={{marginTop: '15px'}} />
             <CustomSelectAutoComplete
+              required
               id='job_location'
               label={messages['common.job_location']}
+              isLoading={isLoadingJobLocations}
               control={control}
-              options={[]}
+              options={jobLocations || []}
               optionTitleProp={['title']}
-              optionValueProp={'id'}
+              optionValueProp={'location_id'}
               errorInstance={errors}
             />
           </Grid>
@@ -314,7 +445,9 @@ const MoreJobInformation = ({
             <Body1 sx={{mb: '10px'}}>{messages['industry.salary']}</Body1>
             <Box sx={{display: 'flex'}} justifyContent={'space-between'}>
               <CustomTextInput
+                required
                 id='salary_min'
+                type={'number'}
                 label={messages['label.min_salary']}
                 register={register}
                 errorInstance={errors}
@@ -322,7 +455,9 @@ const MoreJobInformation = ({
               />
               <HorizontalRule fontSize={'small'} sx={{margin: 'auto'}} />
               <CustomTextInput
+                required
                 id='salary_max'
+                type={'number'}
                 label={messages['label.max_salary']}
                 register={register}
                 errorInstance={errors}
@@ -385,16 +520,16 @@ const MoreJobInformation = ({
               label={'label.alert_salary_range'}
               radios={[
                 {
-                  key: '1',
+                  key: 1,
                   label: messages['common.yes'],
                 },
                 {
-                  key: '2',
+                  key: 0,
                   label: messages['common.no'],
                 },
               ]}
               control={control}
-              // defaultValue={'1'}
+              defaultValue={0}
               isLoading={false}
             />
             <Tooltip
@@ -454,6 +589,7 @@ const MoreJobInformation = ({
             <React.Fragment>
               <Grid item xs={12}>
                 <CustomSelectAutoComplete
+                  required
                   id='other_benefits'
                   label={messages['common.facilities']}
                   control={control}
@@ -480,7 +616,6 @@ const MoreJobInformation = ({
                   control={control}
                   errorInstance={errors}
                   multiSelect={false}
-                  defaultValue={SalaryReviewType.YEARLY}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -500,7 +635,6 @@ const MoreJobInformation = ({
                   control={control}
                   errorInstance={errors}
                   multiSelect={false}
-                  defaultValue={LunchFacilityType.FULL_SUBSIDIZE}
                 />
               </Grid>
 

@@ -17,11 +17,14 @@ import CustomAddFilterableFormSelect from './components/CustomAddFilterableFormS
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';
 import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
+import {useFetchJobCandidateRequirements} from '../../../../../services/IndustryManagement/hooks';
+import {saveCandidateRequirements} from '../../../../../services/IndustryManagement/JobService';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const experienceYears: Array<any> = [];
@@ -37,16 +40,22 @@ const demoOptions = [
   {id: 4, title: 'Test 3'},
 ];
 
-const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
+const initialValue = {};
+
+const CandidateRequirements = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [isFresherApplicable, setIsFresherApplicable] =
     useState<boolean>(false);
   const [notExperienced, setNotExperienced] = useState<boolean>(true);
+  const {data: candidateRequirements} = useFetchJobCandidateRequirements(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
-  const onChangeIsExperienced = (value: any) => {
-    setNotExperienced((prev) => !prev);
-  };
   const validationSchema = useMemo(() => {
     return yup.object().shape({});
   }, [messages]);
@@ -56,10 +65,26 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (candidateRequirements && candidateRequirements?.latest_step) {
+      const latestStep = candidateRequirements.latest_step;
+      delete candidateRequirements?.latest_step;
+
+      if (latestStep >= 3) {
+        setIsReady(true);
+        reset({});
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset(initialValue);
+    }
+  }, [candidateRequirements]);
 
   useEffect(() => {
     setValue('array_field', [
@@ -67,11 +92,18 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
     ]);
   }, []);
 
+  const onChangeIsExperienced = (value: any) => {
+    setNotExperienced((prev) => !prev);
+  };
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       console.log('data', data);
 
       //do data save work here
+
+      const response = await saveCandidateRequirements(data);
+      console.log('response', response);
 
       onContinue();
     } catch (error: any) {
@@ -79,7 +111,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
     }
   };
 
-  return (
+  return isReady ? (
     <Box mt={3}>
       <Typography mb={2} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.candidates_requirement']}
@@ -379,6 +411,8 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

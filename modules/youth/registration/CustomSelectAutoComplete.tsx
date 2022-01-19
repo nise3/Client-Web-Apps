@@ -58,6 +58,15 @@ export default function CustomSelectAutoComplete({
     return title;
   };
 
+  const getLabel = (label: any, required: boolean) => {
+    return (
+      <>
+        {label}
+        {required && <span style={{color: '#dd4744'}}> *</span>}
+      </>
+    );
+  };
+
   const errorObj = getErrorObject(id, errorInstance);
 
   return (
@@ -91,7 +100,7 @@ export default function CustomSelectAutoComplete({
                 }
               }}
               isOptionEqualToValue={(option: any, value: any) => {
-                return option.id === value.id;
+                return option[optionValueProp] === value[optionValueProp];
               }}
               getOptionLabel={(item) => {
                 if (typeof item !== 'object' && options)
@@ -121,7 +130,7 @@ export default function CustomSelectAutoComplete({
               renderInput={(params) => (
                 <TextField
                   // label={label}
-                  label={label + (required ? ' *' : '')}
+                  label={getLabel(label, required)}
                   {...params}
                   error={errorObj && Boolean(errorObj)}
                   helperText={
