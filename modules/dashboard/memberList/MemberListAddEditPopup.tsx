@@ -355,7 +355,8 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
   const onSubTradeChange = useCallback(
     (options) => {
       console.log('options ', options);
-      const newSubTrades: Array<any> = [];
+      setSelectedAllTradeList(options);
+      /* const newSubTrades: Array<any> = [];
       const newSubTradeIds: Array<any> = [];
       options.map((option: any) => {
         if (!selectedAllTradeIds.includes(option.id)) {
@@ -363,12 +364,10 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
           newSubTradeIds.push(option.id);
         }
       });
-
       setSelectedAllTradeList((prev: any) => {
         return [...prev, ...newSubTrades];
       });
-
-      setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);
+      setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);*/
     },
     [selectedAllTradeIds, selectedAllTradeList],
   );

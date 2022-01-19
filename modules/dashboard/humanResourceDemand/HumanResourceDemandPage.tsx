@@ -63,16 +63,16 @@ const HumanResourceDemandPage = () => {
         },
       },
       {
-        Header: messages['common.institute_name'],
-        accessor: 'institute_name',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
-        Header: messages['common.industry_name'],
-        accessor: 'industry_name',
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
       },
       {
-        Header: messages['common.no_of_vacancy'],
-        accessor: 'no_of_vacancy',
+        Header: messages['common.vacancy'],
+        accessor: 'vacancy',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
@@ -86,10 +86,7 @@ const HumanResourceDemandPage = () => {
           );
         },
       },
-      {
-        Header: messages['common.skills'],
-        accessor: 'skills',
-      },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
