@@ -75,9 +75,6 @@ export default function CustomSelectAutoComplete({
       fullWidth={true}
       disabled={isDisabled}
       size='small'>
-      {/*<InputLabel id='select-outlined-label' required={required}>*/}
-      {/*  {label}*/}
-      {/*</InputLabel>*/}
       <Controller
         control={control}
         name={id}
@@ -110,7 +107,6 @@ export default function CustomSelectAutoComplete({
 
                 return getTitle(item, optionTitleProp);
               }}
-              // getOptionLabel={(option) => option[optionTitleProp]}
               renderOption={(props, option, {selected}) => (
                 <li {...props}>
                   <Checkbox
