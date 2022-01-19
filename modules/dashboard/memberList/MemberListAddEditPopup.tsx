@@ -336,15 +336,16 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     [upazilas],
   );
   const onTradeChange = useCallback(
-    (id: number) => {
+    (association_id: number) => {
       setIndustryAssociationSubTradeFilter({
-        industry_association_trade_id: id,
+        industry_association_trade_id: association_id,
       });
 
       console.log('all trades', selectedAllTradeList);
       setSelectedTradeList(
         selectedAllTradeList.filter(
-          (subTrade: any) => subTrade.industry_association_trade_id == id,
+          (selectedSubTrade: any) =>
+            selectedSubTrade.industry_association_trade_id == association_id,
         ),
       );
     },
@@ -371,6 +372,21 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     },
     [selectedAllTradeIds, selectedAllTradeList],
   );
+  const onTradeDelete = useCallback(
+    (trade) => () => {
+      let trades = selectedAllTradeList.filter(
+        (tradeItem: any) => tradeItem.id != trade?.id,
+      );
+      setSelectedAllTradeList(trades);
+      let selectedTrades = selectedTradeList.filter(
+        (tradeItem: any) => tradeItem.id != trade?.id,
+      );
+      setSelectedTradeList(selectedTrades);
+      let ids = selectedAllTradeIds.filter((id: any) => id != trade?.id);
+      setSelectedAllTradeIds(ids);
+    },
+    [selectedAllTradeList, selectedAllTradeIds, selectedTradeList],
+  );
 
   const onSubmit: SubmitHandler<any> = async (data: IOrganization) => {
     let subTradeIds: any = [];
@@ -385,7 +401,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     try {
       if (itemId) {
         await updateOrganization(itemId, data);
-        updateSuccessMessage('organization.label');
+        updateSuccessMessage('common');
         mutateOrganization();
       } else {
         await createOrganization(data);
@@ -527,6 +543,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
                     <Chip
                       label={trade.title}
                       sx={{marginLeft: '5px', marginBottom: '5px'}}
+                      onDelete={onTradeDelete(trade)}
                     />
                   </React.Fragment>
                 );

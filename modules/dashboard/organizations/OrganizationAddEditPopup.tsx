@@ -335,15 +335,16 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     [upazilas],
   );
   const onTradeChange = useCallback(
-    (id: number) => {
+    (association_id: number) => {
       setIndustryAssociationSubTradeFilter({
-        industry_association_trade_id: id,
+        industry_association_trade_id: association_id,
       });
 
       console.log('all trades', selectedAllTradeList);
       setSelectedTradeList(
         selectedAllTradeList.filter(
-          (subTrade: any) => subTrade.industry_association_trade_id == id,
+          (subTrade: any) =>
+            subTrade.industry_association_trade_id == association_id,
         ),
       );
     },
