@@ -66,9 +66,9 @@ export default function CustomSelectAutoComplete({
       fullWidth={true}
       disabled={isDisabled}
       size='small'>
-      {/*<InputLabel id='select-outlined-label' required={required}>*/}
-      {/*  {label}*/}
-      {/*</InputLabel>*/}
+      {/*<InputLabel id='select-outlined-label' required={required}>
+        {label}
+      </InputLabel>*/}
       <Controller
         control={control}
         name={id}
