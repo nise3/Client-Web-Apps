@@ -260,14 +260,6 @@ const MoreJobInformation = ({
           benefits.push(benefit.id);
         });
         data.other_benefits = benefits;
-
-        if (!data.lunch_facilities) {
-          delete data.lunch_facilities;
-        }
-
-        if (!data.festival_bonus) {
-          delete data.festival_bonus;
-        }
       } else {
         delete data.other_benefits;
         delete data.salary_review;
