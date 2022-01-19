@@ -199,9 +199,8 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
             primaryJobInfo?.is_photograph_enclose_with_resume == 1,
         });
         onJobSectorChange(primaryJobInfo?.job_sector_id);
-      } else {
-        setLatestStep(latestStep);
       }
+      setLatestStep(latestStep);
     } else {
       reset(initialValue);
     }

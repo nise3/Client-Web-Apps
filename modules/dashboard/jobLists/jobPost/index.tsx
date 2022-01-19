@@ -87,7 +87,7 @@ const JobPostingView = () => {
   const {postStep, jobId} = router.query;
   const [jobIdState] = useState<string | null>(jobId ? String(jobId) : null);
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [completedSteps, setCompletedSteps] = useState<any>([]);
+  const [lastestStep, setLastestStep] = useState<any>(1);
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
@@ -121,17 +121,11 @@ const JobPostingView = () => {
   };
 
   const setLatestStep = (step: number) => {
-    console.log('setLatestStep: ', step);
-    console.log('activeStep: ', activeStep);
     if (activeStep > step) {
       gotoStep(step);
     }
     if (step) {
-      const steps = [];
-      for (let i = 1; i <= step; i++) {
-        steps.push(i);
-      }
-      setCompletedSteps(steps);
+      setLastestStep(step);
     }
   };
 
@@ -161,6 +155,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 4:
@@ -169,6 +164,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 5:
@@ -212,7 +208,7 @@ const JobPostingView = () => {
   }, [activeStep]);
 
   const onStepIconClick = (step: number) => {
-    if (completedSteps.includes(step)) {
+    if (step <= lastestStep) {
       gotoStep(step);
     }
   };
@@ -230,7 +226,7 @@ const JobPostingView = () => {
       <Stepper activeStep={activeStep - 1} alternativeLabel>
         {steps.map((step: StepObj) => {
           const stepProps: {completed?: boolean} = {
-            completed: completedSteps.includes(step.id),
+            completed: step.id < lastestStep,
           };
 
           const labelProps: {

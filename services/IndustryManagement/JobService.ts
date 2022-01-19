@@ -2,6 +2,7 @@ import {apiDelete, apiGet, apiPost} from '../../@softbd/common/api';
 import {
   API_JOB_ID,
   API_JOB_STORE_ADDITIONAL_INFORMATION,
+  API_JOB_STORE_CANDIDATE_REQUIREMENTS,
   API_JOB_STORE_COMPANY_INFO_VISIBILITY,
   API_JOB_STORE_PRIMARY_INFORMATION,
   API_JOBS,
@@ -30,6 +31,18 @@ export const saveAdditionalJobInformation = async (data: any) => {
   try {
     let response: any = await apiPost(
       API_JOB_STORE_ADDITIONAL_INFORMATION,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const saveCandidateRequirements = async (data: any) => {
+  try {
+    let response: any = await apiPost(
+      API_JOB_STORE_CANDIDATE_REQUIREMENTS,
       data,
     );
     return response.data;
