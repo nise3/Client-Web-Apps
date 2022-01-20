@@ -173,6 +173,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 6:
@@ -181,6 +182,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 7:
@@ -189,6 +191,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 8:
@@ -197,6 +200,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         default:

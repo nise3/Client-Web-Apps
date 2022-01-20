@@ -19,6 +19,7 @@ import {
   OtherBenefit,
   SalaryReviewType,
   SalaryShowOption,
+  WorkPlaceTypes,
 } from '../enums/JobPostEnums';
 import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
@@ -204,27 +205,32 @@ const MoreJobInformation = ({
       if (latestStep >= 2) {
         setIsReady(true);
         reset({
-          job_level: [],
-          job_context: '',
-          job_context_en: '',
-          job_responsibilities: '',
-          job_responsibilities_en: '',
-          job_location: [],
-          work_place: [],
-          job_place_type: 1,
-          is_other_benefits: OtherBenefit.YES,
-          salary_min: '',
-          salary_max: '',
-          is_salary_info_show: SalaryShowOption.SALARY,
-          is_salary_compare_to_expected_salary: false,
-          is_salary_alert_excessive_than_given_salary_range: 0,
-          salary_review: '',
-          festival_bonus: '',
-          additional_salary_info: '',
-          additional_salary_info_en: '',
-          other_benefits: [],
-          others: '',
+          job_level: additionalInfo?.job_level,
+          job_context: additionalInfo?.job_context,
+          job_context_en: additionalInfo?.job_context_en,
+          job_responsibilities: additionalInfo?.job_responsibilities,
+          job_responsibilities_en: additionalInfo?.job_responsibilities_en,
+          job_location: additionalInfo?.job_location,
+          job_place_type: additionalInfo?.job_place_type,
+          is_other_benefits: additionalInfo?.is_other_benefits,
+          salary_min: additionalInfo?.salary_min,
+          salary_max: additionalInfo?.salary_max,
+          is_salary_info_show: additionalInfo?.is_salary_info_show,
+          is_salary_compare_to_expected_salary:
+            additionalInfo?.is_salary_compare_to_expected_salary,
+          is_salary_alert_excessive_than_given_salary_range:
+            additionalInfo?.is_salary_alert_excessive_than_given_salary_range,
+          salary_review: additionalInfo?.salary_review,
+          festival_bonus: additionalInfo?.festival_bonus,
+          additional_salary_info: additionalInfo?.additional_salary_info,
+          additional_salary_info_en: additionalInfo?.additional_salary_info_en,
+          other_benefits: additionalInfo?.other_benefits,
+          others: additionalInfo?.others,
         });
+
+        setHasOtherBenefits(
+          additionalInfo?.is_other_benefits == OtherBenefit.YES,
+        );
       }
       setLatestStep(latestStep);
     } else {
@@ -241,10 +247,10 @@ const MoreJobInformation = ({
       let workPlace = [...data.work_place];
       data.work_place = [];
       if (workPlace[0]) {
-        data.work_place.push(1);
+        data.work_place.push(WorkPlaceTypes.HOME);
       }
       if (workPlace[1]) {
-        data.work_place.push(2);
+        data.work_place.push(WorkPlaceTypes.OFFICE);
       }
 
       data.is_salary_compare_to_expected_salary =

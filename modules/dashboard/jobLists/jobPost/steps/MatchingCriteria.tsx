@@ -23,6 +23,7 @@ interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const BorderLinearProgress = styled(LinearProgress)(({theme}) => ({
@@ -54,7 +55,12 @@ const data = {
   skills: ['Computer Operator', 'Computer Operator related Skill is required'],
 };
 
-const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
+const MatchingCriteria = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
