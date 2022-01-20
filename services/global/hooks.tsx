@@ -5,10 +5,8 @@ import {
   INSTITUTE_SERVICE_PUBLIC_DASHBOARD_STATS_PATH,
 } from '../../@softbd/common/apiRoutes';
 
-export function useFetchPublicDashboardStatistics(insId?: number | undefined) {
-  return useAxiosSWR(
-    insId ? INSTITUTE_SERVICE_PUBLIC_DASHBOARD_STATS_PATH + insId : null,
-  );
+export function useFetchPublicDashboardStatistics() {
+  return useAxiosSWR(INSTITUTE_SERVICE_PUBLIC_DASHBOARD_STATS_PATH);
 }
 
 export function useFetchDashboardStatistics() {
