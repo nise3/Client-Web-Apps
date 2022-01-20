@@ -48,6 +48,7 @@ const InstituteFAQ = () => {
   const [faqFilters, setFaqFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
   const {data: faqItems, isLoading: isLoadingFaq} =
     useFetchInstitutesFAQ(faqFilters);
 

@@ -76,7 +76,7 @@ export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 export const API_PUBLIC_INSTITUTES =
-  INSTITUTE_SERVICE_PATH + '/public/institutes';
+  INSTITUTE_SERVICE_PATH + '/public/institute-details';
 export const API_INSTITUTE_PROFILE =
   INSTITUTE_SERVICE_PATH + '/institute-profile';
 
