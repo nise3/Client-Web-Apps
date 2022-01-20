@@ -313,6 +313,12 @@ export const API_GET_EDUCATIONAL_INSTITUTES =
 export const API_GET_BUSINESS_AREAS =
   ORGANIZATION_SERVICE_PATH + '/area-of-business';
 
+export const API_GET_EDUCATION_LEVELS =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/education-levels';
+
+export const API_GET_EXAM_DEGREES =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/exam-degrees';
+
 export const API_JOB_REQUIREMENT =
   ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
 
