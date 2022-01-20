@@ -20,6 +20,8 @@ import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSw
 import {
   useFetchBusinessAreas,
   useFetchEducationalInstitutes,
+  useFetchEducationLevels,
+  useFetchExamDegrees,
   useFetchJobCandidateRequirements,
 } from '../../../../../services/IndustryManagement/hooks';
 import {saveCandidateRequirements} from '../../../../../services/IndustryManagement/JobService';
@@ -39,14 +41,11 @@ const ages: Array<any> = [];
 for (let i = 1; i <= 50; i++) experienceYears.push({id: i, title: i});
 for (let i = 14; i <= 90; i++) ages.push({id: i, title: i});
 
-const demoOptions = [
-  {id: 1, title: 'BGC Trust'},
-  {id: 2, title: 'Test 1'},
-  {id: 3, title: 'Test 2'},
-  {id: 4, title: 'Test 3'},
-];
-
-const initialValue = {};
+const initialValue = {
+  degrees: [
+    {education_level: '', education_exam_degree: '', major_group_name: ''},
+  ],
+};
 
 const CandidateRequirements = ({
   jobId,
@@ -73,15 +72,19 @@ const CandidateRequirements = ({
   const {data: skills, isLoading: isLoadingSkills} =
     useFetchSkills(skillFilters);
 
+  const {data: educationLevels} = useFetchEducationLevels();
+  const {data: examDegrees} = useFetchExamDegrees();
+
   const validationSchema = useMemo(() => {
-    return yup.object().shape({});
+    return yup.object().shape({
+      degrees: yup.array().of(yup.object().shape({})),
+    });
   }, [messages]);
   const {
     register,
     setError,
     control,
     handleSubmit,
-    setValue,
     reset,
     formState: {errors, isSubmitting},
   } = useForm({
@@ -95,7 +98,7 @@ const CandidateRequirements = ({
 
       if (latestStep >= 3) {
         setIsReady(true);
-        reset({});
+        reset(initialValue);
       }
       setLatestStep(latestStep);
     } else {
@@ -103,16 +106,11 @@ const CandidateRequirements = ({
     }
   }, [candidateRequirements]);
 
-  useEffect(() => {
-    setValue('degrees', [
-      {education_level: '', education_exam_degree: '', major_group_name: ''},
-    ]);
-  }, []);
-
   const onChangeIsExperienced = (value: any) => {
     setNotExperienced((prev) => !prev);
   };
 
+  console.log('error', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       console.log('data', data);
@@ -148,8 +146,8 @@ const CandidateRequirements = ({
               control={control}
               register={register}
               errors={errors}
-              educationLevelOptions={[]}
-              examDegreeOptions={[]}
+              educationLevelOptions={educationLevels || []}
+              examDegreeOptions={examDegrees || []}
             />
           </Grid>
           <Grid item xs={12}>
@@ -180,7 +178,7 @@ const CandidateRequirements = ({
               label={messages['common.training_courses']}
               control={control}
               optionTitleProp={['title']}
-              options={demoOptions}
+              options={[]}
               errorInstance={errors}
             />
           </Grid>
