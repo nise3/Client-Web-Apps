@@ -58,6 +58,15 @@ export default function CustomSelectAutoComplete({
     return title;
   };
 
+  const getLabel = (label: any, required: boolean) => {
+    return (
+      <>
+        {label}
+        {required && <span style={{color: '#dd4744'}}> *</span>}
+      </>
+    );
+  };
+
   const errorObj = getErrorObject(id, errorInstance);
 
   return (
@@ -66,9 +75,6 @@ export default function CustomSelectAutoComplete({
       fullWidth={true}
       disabled={isDisabled}
       size='small'>
-      {/*<InputLabel id='select-outlined-label' required={required}>
-        {label}
-      </InputLabel>*/}
       <Controller
         control={control}
         name={id}
@@ -91,7 +97,7 @@ export default function CustomSelectAutoComplete({
                 }
               }}
               isOptionEqualToValue={(option: any, value: any) => {
-                return option.id === value.id;
+                return option[optionValueProp] === value[optionValueProp];
               }}
               getOptionLabel={(item) => {
                 if (typeof item !== 'object' && options)
@@ -101,7 +107,6 @@ export default function CustomSelectAutoComplete({
 
                 return getTitle(item, optionTitleProp);
               }}
-              // getOptionLabel={(option) => option[optionTitleProp]}
               renderOption={(props, option, {selected}) => (
                 <li {...props}>
                   <Checkbox
@@ -121,7 +126,7 @@ export default function CustomSelectAutoComplete({
               renderInput={(params) => (
                 <TextField
                   // label={label}
-                  label={label + (required ? ' *' : '')}
+                  label={getLabel(label, required)}
                   {...params}
                   error={errorObj && Boolean(errorObj)}
                   helperText={
