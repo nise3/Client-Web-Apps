@@ -1,0 +1,101 @@
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName admin.nise.asm
+	
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+	
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+	
+	ProxyPass / http://localhost:3000/
+	ProxyPassReverse / http://localhost:3000/
+
+	Header set Access-Control-Allow-Origin "*"
+
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName nise.asm
+	
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+	
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+	
+	ProxyPass / http://localhost:3001/
+	ProxyPassReverse / http://localhost:3001/
+	
+	Header set Access-Control-Allow-Origin "*"
+	
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName youth.nise.asm
+	
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+	
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+	
+	ProxyPass / http://localhost:3002/
+	ProxyPassReverse / http://localhost:3002/
+	
+	Header set Access-Control-Allow-Origin "*"
+	
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName dyd.nise.asm
+	
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+	
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+	
+	ProxyPass / http://localhost:3003/
+	ProxyPassReverse / http://localhost:3003/
+	
+	Header set Access-Control-Allow-Origin "*"
+	Header set Set-Cookie "institute_id=26;domain=.nise.asm; path=/;"
+	
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName bitac.nise.asm
+	
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+	
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+	
+	ProxyPass / http://localhost:3003/
+	ProxyPassReverse / http://localhost:3003/
+	
+	Header set Access-Control-Allow-Origin "*"
+	Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
+	
+</VirtualHost>
