@@ -26,6 +26,9 @@ mod_ssl
 
 127.0.0.1	bitac.nise.asm
 ::1	bitac.nise.asm
+
+127.0.0.1	smef.nise.asm
+::1	smef.nise.asm
 ```
 
 ### After that add the following entries in your apache virtual host file:
@@ -107,7 +110,7 @@ mod_ssl
 	ProxyPassReverse / http://localhost:3003/
 
 	Header set Access-Control-Allow-Origin "*"
-	Header set Set-Cookie "institute_id=26;domain=.nise.asm; path=/;"
+	#Header set Set-Cookie "institute_id=26;domain=.nise.asm; path=/;"
 
 </VirtualHost>
 
@@ -128,7 +131,28 @@ mod_ssl
 	ProxyPassReverse / http://localhost:3003/
 
 	Header set Access-Control-Allow-Origin "*"
-	Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
+	#Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
+
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName smef.nise.asm
+
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+
+	ProxyPass / http://localhost:3004/
+	ProxyPassReverse / http://localhost:3004/
+
+	Header set Access-Control-Allow-Origin "*"
+	#Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
 
 </VirtualHost>
 ```
