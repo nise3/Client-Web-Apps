@@ -1,7 +1,16 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_GET_BUSINESS_AREAS,
+  API_GET_EDUCATION_LEVELS,
+  API_GET_EDUCATIONAL_INSTITUTES,
+  API_GET_EXAM_DEGREES,
   API_GET_JOB_ADDITIONAL_INFORMATION,
+  API_GET_JOB_CANDIDATE_REQUIREMENTS,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
+  API_GET_JOB_CONTACT_INFORMATION,
+  API_GET_JOB_LOCATIONS,
+  API_GET_JOB_MATCHING_CRITERIA,
+  API_GET_JOB_PREVIEW,
   API_GET_JOB_PRIMARY_INFORMATION,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
@@ -72,16 +81,46 @@ export function useFetchJobAdditionalInformation(jobId: string | null) {
   return useAxiosSWR(jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null);
 }
 
+export function useFetchJobCandidateRequirements(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_CANDIDATE_REQUIREMENTS + jobId : null);
+}
+
 export function useFetchJobCompanyInfoVisibility(jobId: string | null) {
   return useAxiosSWR(
     jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
   );
 }
 
-export function useFetchJob(jobId: string | null) {
-  return useAxiosSWR(
-    jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
-  );
+export function useFetchJobMatchingCriteria(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_MATCHING_CRITERIA + jobId : null);
+}
+
+export function useFetchJobContactInformation(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_CONTACT_INFORMATION + jobId : null);
+}
+
+export function useFetchJobPreview(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
+}
+
+export function useFetchJobLocations() {
+  return useAxiosSWR(API_GET_JOB_LOCATIONS);
+}
+
+export function useFetchEducationalInstitutes() {
+  return useAxiosSWR(API_GET_EDUCATIONAL_INSTITUTES);
+}
+
+export function useFetchBusinessAreas() {
+  return useAxiosSWR(API_GET_BUSINESS_AREAS);
+}
+
+export function useFetchEducationLevels() {
+  return useAxiosSWR(API_GET_EDUCATION_LEVELS);
+}
+
+export function useFetchExamDegrees() {
+  return useAxiosSWR(API_GET_EXAM_DEGREES);
 }
 
 export function useFetchIndustryMembers(params: any) {

@@ -65,13 +65,6 @@ const CustomFilterableFormSelect = ({
     );
   };
 
-  /*let errorObj = errorInstance?.[id];
-  const reg = new RegExp('(.*)\\[(.*?)]', '');
-  const matches = id.match(reg);
-  if (matches) {
-    errorObj = errorInstance?.[matches[1]]?.[matches[2]];
-  }*/
-
   let errorObj = getErrorObject(id, errorInstance);
 
   return isLoading ? (

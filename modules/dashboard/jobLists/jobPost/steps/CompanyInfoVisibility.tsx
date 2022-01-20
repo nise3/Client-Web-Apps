@@ -11,11 +11,14 @@ import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSw
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {useFetchJobCompanyInfoVisibility} from '../../../../../services/IndustryManagement/hooks';
+import {saveCompanyInfoVisibility} from '../../../../../services/IndustryManagement/JobService';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const initialValue = {
@@ -27,10 +30,17 @@ const initialValue = {
   company_name_en: '',
 };
 
-const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
+const CompanyInfoVisibility = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);
+  const {data: companyInfo} = useFetchJobCompanyInfoVisibility(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -64,15 +74,29 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
   });
 
   useEffect(() => {
-    reset(initialValue);
-  }, []);
+    if (companyInfo && companyInfo?.latest_step) {
+      const latestStep = companyInfo.latest_step;
+      delete companyInfo?.latest_step;
+
+      if (latestStep >= 4) {
+        setIsReady(true);
+        reset({});
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset(initialValue);
+    }
+  }, [companyInfo]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data-->', data);
       data.job_id = jobId;
-      //do data save work here
-      //const response = await saveCompanyInfoVisibility(data);
+
+      console.log('data-->', data);
+
+      const response = await saveCompanyInfoVisibility(data);
+      console.log('response', response);
+
       successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
@@ -80,7 +104,7 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
     }
   };
 
-  return (
+  return isReady ? (
     <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.company_info_visibility']}
@@ -224,6 +248,8 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

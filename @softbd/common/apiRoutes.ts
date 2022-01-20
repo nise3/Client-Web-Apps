@@ -306,22 +306,53 @@ export const API_INDUSTRY_ASSOCIATION_MEMBERS =
 export const API_JOB = ORGANIZATION_SERVICE_PATH + '/job';
 export const API_JOBS = API_JOB + '/jobs';
 export const API_JOB_ID = API_JOB + '/job-id';
+
 export const API_JOB_STORE_PRIMARY_INFORMATION =
   API_JOB + '/store-primary-job-information';
 export const API_GET_JOB_PRIMARY_INFORMATION =
   API_JOB + '/primary-job-information/';
-export const API_JOB_REQUIREMENT =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
+
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
   API_JOB + '/store-additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
   API_JOB + '/additional-job-information/';
 
+export const API_JOB_STORE_CANDIDATE_REQUIREMENTS =
+  API_JOB + '/store-candidate-requirements';
+export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
+  API_JOB + '/candidate-requirements/';
+
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOB + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
   API_JOB + '/company-info-visibility/';
-export const API_GET_JOB = API_JOB + '/job-details/';
+
+export const API_JOB_STORE_MATCHING_CRITERIA =
+  API_JOB + '/store-matching-criteria';
+export const API_GET_JOB_MATCHING_CRITERIA = API_JOB + '/matching-criteria/';
+
+export const API_JOB_STORE_CONTACT_INFORMATION =
+  API_JOB + '/contact-information';
+export const API_GET_JOB_CONTACT_INFORMATION =
+  API_JOB + '/contact-information/';
+
+export const API_GET_JOB_PREVIEW = API_JOB + '/job-preview/';
+
+export const API_GET_JOB_LOCATIONS = API_JOB + '/job-location';
+export const API_GET_EDUCATIONAL_INSTITUTES =
+  ORGANIZATION_SERVICE_PATH + '/educational-institutions';
+
+export const API_GET_BUSINESS_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/area-of-business';
+
+export const API_GET_EDUCATION_LEVELS =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/education-levels';
+
+export const API_GET_EXAM_DEGREES =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/exam-degrees';
+
+export const API_JOB_REQUIREMENT =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   ORGANIZATION_SERVICE_PATH + '/hr-demand';
