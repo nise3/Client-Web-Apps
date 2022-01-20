@@ -7,7 +7,6 @@ import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {H4, H5} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicDashboardStatistics} from '../../services/global/hooks';
-import {useVendor} from '../../@crema/utility/AppHooks';
 
 const PREFIX = 'InfoCardSection';
 
@@ -67,8 +66,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
 const InfoCardSection = () => {
   const {messages, formatNumber} = useIntl();
-  const vendor = useVendor();
-  let {data: statistics} = useFetchPublicDashboardStatistics(vendor?.id);
+  let {data: statistics} = useFetchPublicDashboardStatistics();
 
   return (
     <StyledGrid container xl={12} className={classes.root}>
