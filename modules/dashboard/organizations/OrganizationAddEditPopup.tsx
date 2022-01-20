@@ -245,6 +245,16 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
+      sub_trades: yup
+        .array()
+        .of(yup.object())
+        .min(1, messages['common.must_have_one_sub_trade'] as string)
+        .label(messages['common.industry_association_sub_trade'] as string),
+      membership_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.membership_id'] as string),
       row_status: yup.string().label(messages['common.status'] as string),
     });
   }, [messages]);
@@ -335,15 +345,16 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     [upazilas],
   );
   const onTradeChange = useCallback(
-    (id: number) => {
+    (association_id: number) => {
       setIndustryAssociationSubTradeFilter({
-        industry_association_trade_id: id,
+        industry_association_trade_id: association_id,
       });
 
       console.log('all trades', selectedAllTradeList);
       setSelectedTradeList(
         selectedAllTradeList.filter(
-          (subTrade: any) => subTrade.industry_association_trade_id == id,
+          (subTrade: any) =>
+            subTrade.industry_association_trade_id == association_id,
         ),
       );
     },

@@ -5,7 +5,7 @@ import ShowInTypes from './ShowInTypes';
 import {getBrowserCookie} from '../libs/cookieInstance';
 import {COOKIE_KEY_INSTITUTE_ID} from '../../shared/constants/AppConst';
 import {getHostUrl} from '../common/SSOConfig';
-import {niseDomain, youthDomain} from '../common/constants';
+import {isLocalHost, niseDomain, youthDomain} from '../common/constants';
 
 export const genders = [
   {
@@ -450,4 +450,14 @@ export const getErrorObject = (id: any, errorInstance: any) => {
     errorObj = errorObj?.[key];
   });
   return errorObj;
+};
+
+export const getCurrentDomain = () => {
+  const domain = getHostUrl();
+  const host = window?.location?.host;
+  if (domain?.includes(niseDomain()) || domain?.includes(youthDomain())) {
+    return host;
+  } else {
+    return isLocalHost() ? 'dyd.nise.gov.bd' : host;
+  }
 };

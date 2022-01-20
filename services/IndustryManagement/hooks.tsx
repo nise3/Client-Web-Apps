@@ -19,6 +19,7 @@ import {
   API_JOB_REQUIREMENT,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+  API_PUBLIC_ORGANIZATIONS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
@@ -128,9 +129,7 @@ export function useFetchIndustryMembers(params: any) {
 
 export function useFetchIndustryMember(memberId: number | null) {
   return useAxiosSWR(
-    memberId
-      ? API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST + '/' + memberId
-      : null,
+    memberId ? API_PUBLIC_ORGANIZATIONS + '/' + memberId : null,
   );
 }
 

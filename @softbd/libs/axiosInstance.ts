@@ -11,6 +11,7 @@ import {
 } from './cookieInstance';
 import registerAxiosMockAdapter from './registerAxiosMockAdapter';
 import {getSSOLoginUrl} from '../common/SSOConfig';
+import {getCurrentDomain} from '../utilities/helpers';
 
 let retryAuthRefreshToken = 0;
 const axiosInstance: AxiosInstance = axios.create({
@@ -37,6 +38,8 @@ axiosInstance.interceptors.request.use(
     if (!config.headers['User-Token'] && userAccessToken) {
       config.headers['User-Token'] = `Bearer ${userAccessToken}`;
     }
+
+    config.headers['Domain'] = getCurrentDomain();
 
     return config;
   },

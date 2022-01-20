@@ -11,28 +11,29 @@ export const isLocalHost = () =>
     ? location.hostname === 'localhost' || location.hostname === '127.0.0.1'
     : '';
 
+/** TODO: If the following method is not being in use then please remove them */
 export const adminDomain = () => {
   return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise.gov.bd';
 };
-
+/** TODO: If the following method is not being in use then please remove them */
 export const youthDomain = () => {
   return isLocalHost() ? 'http://localhost:3002' : 'https://youth.nise.gov.bd';
 };
-
+/** TODO: If the following method is not being in use then please remove them */
 export const instituteDomain = () => {
   return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise.gov.bd';
 };
-
+/** TODO: If the following method is not being in use then please remove them */
 export const industryDomain = () => {
   return isLocalHost()
     ? 'http://localhost:3004'
     : 'https://industry.nise.gov.bd';
 };
-
+/** TODO: If the following method is not being in use then please remove them */
 export const niseDomain = () => {
   return isLocalHost() ? 'http://localhost:3001' : 'https://nise.gov.bd';
 };
-
+/** TODO: If the following method is not being in use then please remove them */
 export const cookieDomain = () => {
   return isLocalHost() ? 'localhost' : 'nise.gov.bd';
 };

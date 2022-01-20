@@ -6,9 +6,9 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconList from '../../../@softbd/icons/IconList';
-import {useFetchApplicationList} from '../../../services/IndustryManagement/hooks';
 import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useFetchOrganization} from '../../../services/organaizationManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -18,7 +18,7 @@ type Props = {
 
 const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchApplicationList(itemId);
+  const {data: itemData, isLoading} = useFetchOrganization(itemId);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -53,30 +53,16 @@ const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.name}
+              label={messages['common.title']}
+              value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.company_name']}
-              value={itemData?.company_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.company_type']}
-              value={itemData?.company_type}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.email']}
-              value={itemData?.email}
+              label={messages['menu.organization_type']}
+              value={itemData?.organization_type_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -89,15 +75,29 @@ const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.designation']}
-              value={itemData?.designation}
+              label={messages['common.email']}
+              value={itemData?.email}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.company_address']}
-              value={itemData?.company_address}
+              label={messages['divisions.label']}
+              value={itemData?.loc_division_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['districts.label']}
+              value={itemData?.loc_district_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.address']}
+              value={itemData?.address}
               isLoading={isLoading}
             />
           </Grid>
