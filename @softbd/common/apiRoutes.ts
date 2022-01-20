@@ -294,7 +294,17 @@ export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOB + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
   API_JOB + '/company-info-visibility/';
-export const API_GET_JOB = API_JOB + '/job-details/';
+
+export const API_JOB_STORE_MATCHING_CRITERIA =
+  API_JOB + '/store-matching-criteria';
+export const API_GET_JOB_MATCHING_CRITERIA = API_JOB + '/matching-criteria/';
+
+export const API_JOB_STORE_CONTACT_INFORMATION =
+  API_JOB + '/contact-information';
+export const API_GET_JOB_CONTACT_INFORMATION =
+  API_JOB + '/contact-information/';
+
+export const API_GET_JOB_PREVIEW = API_JOB + '/job-preview/';
 
 export const API_GET_JOB_LOCATIONS = API_JOB + '/job-location';
 export const API_GET_EDUCATIONAL_INSTITUTES =
