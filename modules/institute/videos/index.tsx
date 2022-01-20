@@ -93,7 +93,6 @@ const InstituteVideos = () => {
   const page = useRef<any>(1);
   const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');
   const [videoAlbumContentFilter, setVideoAlbumContentFilter] = useState<any>({
-    institute_id: vendor?.id,
     album_type: AlbumTypes.VIDEO,
     page: 1,
     page_size: PageSizes.EIGHT,
@@ -105,7 +104,6 @@ const InstituteVideos = () => {
   } = useFetchPublicGalleryAlbumContents(videoAlbumContentFilter);
 
   const [videoAlbumFilter] = useState<any>({
-    institute_id: vendor?.id,
     album_type: AlbumTypes.VIDEO,
   });
   const {data: videoAlbums, isLoading: isLoadingVideoAlbums} =
