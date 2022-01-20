@@ -144,16 +144,12 @@ const CandidateRequirements = ({
           <Grid item xs={12} md={12}>
             <CustomEducationalQualificationFieldArray
               id='degrees'
-              labelLanguageId={[
-                'education.education_level',
-                'education.education_exam_degree',
-                'education.major_group_name_bn',
-              ]}
               isLoading={false}
               control={control}
               register={register}
               errors={errors}
-              options={[]}
+              educationLevelOptions={[]}
+              examDegreeOptions={[]}
             />
           </Grid>
           <Grid item xs={12}>
@@ -303,8 +299,6 @@ const CandidateRequirements = ({
                   register={register}
                   multiline={true}
                   rows={3}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>

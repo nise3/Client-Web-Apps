@@ -5,7 +5,10 @@ import {
   API_GET_JOB_ADDITIONAL_INFORMATION,
   API_GET_JOB_CANDIDATE_REQUIREMENTS,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
+  API_GET_JOB_CONTACT_INFORMATION,
   API_GET_JOB_LOCATIONS,
+  API_GET_JOB_MATCHING_CRITERIA,
+  API_GET_JOB_PREVIEW,
   API_GET_JOB_PRIMARY_INFORMATION,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
@@ -85,10 +88,16 @@ export function useFetchJobCompanyInfoVisibility(jobId: string | null) {
   );
 }
 
-export function useFetchJob(jobId: string | null) {
-  return useAxiosSWR(
-    jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
-  );
+export function useFetchJobMatchingCriteria(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_MATCHING_CRITERIA + jobId : null);
+}
+
+export function useFetchJobContactInformation(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_CONTACT_INFORMATION + jobId : null);
+}
+
+export function useFetchJobPreview(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
 }
 
 export function useFetchJobLocations() {

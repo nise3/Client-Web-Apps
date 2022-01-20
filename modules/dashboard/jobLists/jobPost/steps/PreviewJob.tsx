@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {
@@ -25,6 +25,7 @@ import {
   Tour,
   TravelExplore,
 } from '@mui/icons-material';
+import {useFetchJobPreview} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
   jobId: string;
@@ -181,7 +182,20 @@ const StyledBox = styled(Box)(({theme}) => ({
 const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
 
-  //const {data, isLoading} = useFetchJob(jobId);
+  const {data: jobData} = useFetchJobPreview(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (jobData && jobData?.latest_step) {
+      const latestStep = jobData.latest_step;
+      delete jobData?.latest_step;
+
+      if (latestStep >= 7) {
+        setIsReady(true);
+      }
+      setLatestStep(latestStep);
+    }
+  }, [jobData]);
 
   const onReadyToProcess = () => {
     try {
@@ -724,7 +738,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
     return <Body2>Business: Web Development and IT Services</Body2>;
   };
 
-  return (
+  return isReady ? (
     <StyledBox mt={3}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={8}>
@@ -1030,6 +1044,8 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         </Button>
       </Box>
     </StyledBox>
+  ) : (
+    <></>
   );
 };
 
