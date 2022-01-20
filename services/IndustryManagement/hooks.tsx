@@ -1,5 +1,7 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_GET_BUSINESS_AREAS,
+  API_GET_EDUCATIONAL_INSTITUTES,
   API_GET_JOB_ADDITIONAL_INFORMATION,
   API_GET_JOB_CANDIDATE_REQUIREMENTS,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
@@ -91,6 +93,14 @@ export function useFetchJob(jobId: string | null) {
 
 export function useFetchJobLocations() {
   return useAxiosSWR(API_GET_JOB_LOCATIONS);
+}
+
+export function useFetchEducationalInstitutes() {
+  return useAxiosSWR(API_GET_EDUCATIONAL_INSTITUTES);
+}
+
+export function useFetchBusinessAreas() {
+  return useAxiosSWR(API_GET_BUSINESS_AREAS);
 }
 
 export function useFetchIndustryMembers(params: any) {

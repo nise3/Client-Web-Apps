@@ -48,7 +48,7 @@ const initialValue = {
   application_deadline: '',
   resume_receiving_option: ResumeReceivingOptions.EMAIL,
   email: '',
-  is_use_nise3_mail_system: true,
+  /*is_use_nise3_mail_system: true,*/
   instruction_for_hard_copy: '',
   instruction_for_hard_copy_en: '',
   instruction_for_walk_in_interview: '',
@@ -65,7 +65,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
   const [resumeReceivingOption, setResumeReceivingOption] = useState<
     number | null
   >(ResumeReceivingOptions.EMAIL);
-  const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
+  //const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading: isLoadingJobSector}: any =
     useFetchPublicJobSectors(jobSectorFilters);
@@ -182,8 +182,8 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
           resume_receiving_option: primaryJobInfo?.resume_receiving_option,
           email: primaryJobInfo?.email,
           is_apply_online: primaryJobInfo?.is_apply_online == 1 ? 1 : '',
-          is_use_nise3_mail_system:
-            primaryJobInfo?.is_use_nise3_mail_system == 1,
+          /*is_use_nise3_mail_system:
+            primaryJobInfo?.is_use_nise3_mail_system == 1,*/
           instruction_for_hard_copy: primaryJobInfo?.instruction_for_hard_copy,
           instruction_for_hard_copy_en:
             primaryJobInfo?.instruction_for_hard_copy_en,
@@ -214,7 +214,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
 
       if (data.resume_receiving_option != ResumeReceivingOptions.EMAIL) {
         delete data.email;
-        delete data.is_use_nise3_mail_system;
+        //delete data.is_use_nise3_mail_system;
       }
       if (data.resume_receiving_option != ResumeReceivingOptions.HARD_COPY) {
         delete data.instruction_for_hard_copy;
@@ -230,7 +230,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
       data.is_number_of_vacancy_na = data.is_number_of_vacancy_na ? 1 : 0;
       data.is_photograph_enclose_with_resume =
         data.is_photograph_enclose_with_resume ? 1 : 0;
-      data.is_use_nise3_mail_system = data.is_use_nise3_mail_system ? 1 : 0;
+      /*data.is_use_nise3_mail_system = data.is_use_nise3_mail_system ? 1 : 0;*/
 
       if (Number(data.is_apply_online) != 1) {
         delete data.is_apply_online;
@@ -511,7 +511,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
                   marginBottom: '10px',
                 }}
               />
-              <CustomCheckbox
+              {/* <CustomCheckbox
                 id='is_use_nise3_mail_system'
                 label={messages['job_posting.use_nise3_email']}
                 register={register}
@@ -521,7 +521,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
                   setUseNise3Email((prev) => !prev);
                 }}
                 isLoading={false}
-              />
+              />*/}
             </Grid>
           )}
 

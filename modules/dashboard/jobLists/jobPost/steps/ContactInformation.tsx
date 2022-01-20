@@ -14,9 +14,15 @@ interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
-const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
+const ContactInformation = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 

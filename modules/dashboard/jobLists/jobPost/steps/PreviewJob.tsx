@@ -30,6 +30,7 @@ interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const data: any = {
@@ -177,7 +178,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   },
 }));
 
-const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
+const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
 
   //const {data, isLoading} = useFetchJob(jobId);

@@ -297,6 +297,11 @@ export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
 export const API_GET_JOB = API_JOB + '/job-details/';
 
 export const API_GET_JOB_LOCATIONS = API_JOB + '/job-location';
+export const API_GET_EDUCATIONAL_INSTITUTES =
+  ORGANIZATION_SERVICE_PATH + '/educational-institutions';
+
+export const API_GET_BUSINESS_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/area-of-business';
 
 export const API_JOB_REQUIREMENT =
   ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
