@@ -440,7 +440,11 @@ export const getInstituteIdByDomain = (cookies?: any) => {
 };
 
 export const getErrorObject = (id: any, errorInstance: any) => {
-  const keyArray = id.replaceAll('[', ',').replaceAll(']', '').split(',');
+  const keyArray = id
+    .replaceAll('.', ',')
+    .replaceAll('[', ',')
+    .replaceAll(']', '')
+    .split(',');
   let errorObj = errorInstance;
   keyArray.forEach((key: string) => {
     errorObj = errorObj?.[key];

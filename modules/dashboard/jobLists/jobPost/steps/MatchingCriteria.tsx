@@ -18,11 +18,13 @@ import {S2} from '../../../../../@softbd/elements/common';
 import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import MatchingCriteriaFormItem from './components/MatchingCriteriaFormItem';
 import {Gender, JobLevel} from '../enums/JobPostEnums';
+import {useFetchJobMatchingCriteria} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const BorderLinearProgress = styled(LinearProgress)(({theme}) => ({
@@ -54,7 +56,12 @@ const data = {
   skills: ['Computer Operator', 'Computer Operator related Skill is required'],
 };
 
-const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
+const MatchingCriteria = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
@@ -78,6 +85,8 @@ const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
   const [progress, setProgress] = useState<number>(0);
   const totalField = useRef<number>(9);
   const [selectedCount, setSelectedCount] = useState<number>(0);
+  const {data: matchingCriteria} = useFetchJobMatchingCriteria(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({});
@@ -86,11 +95,27 @@ const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
   const {
     register,
     setError,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (matchingCriteria && matchingCriteria?.latest_step) {
+      const latestStep = matchingCriteria.latest_step;
+      delete matchingCriteria?.latest_step;
+
+      if (latestStep >= 5) {
+        setIsReady(true);
+        reset({});
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset({});
+    }
+  }, [matchingCriteria]);
 
   useEffect(() => {
     if (data) {
@@ -217,7 +242,7 @@ const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
     return skillsTextArr.join(', ');
   };
 
-  return (
+  return isReady ? (
     <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.matching_criteria']}
@@ -517,6 +542,8 @@ const MatchingCriteria = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

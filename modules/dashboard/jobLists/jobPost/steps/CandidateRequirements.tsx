@@ -17,11 +17,22 @@ import CustomAddFilterableFormSelect from './components/CustomAddFilterableFormS
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';
 import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
+import {
+  useFetchBusinessAreas,
+  useFetchEducationalInstitutes,
+  useFetchEducationLevels,
+  useFetchExamDegrees,
+  useFetchJobCandidateRequirements,
+} from '../../../../../services/IndustryManagement/hooks';
+import {saveCandidateRequirements} from '../../../../../services/IndustryManagement/JobService';
+import {useFetchSkills} from '../../../../../services/organaizationManagement/hooks';
+import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const experienceYears: Array<any> = [];
@@ -30,48 +41,84 @@ const ages: Array<any> = [];
 for (let i = 1; i <= 50; i++) experienceYears.push({id: i, title: i});
 for (let i = 14; i <= 90; i++) ages.push({id: i, title: i});
 
-const demoOptions = [
-  {id: 1, title: 'BGC Trust'},
-  {id: 2, title: 'Test 1'},
-  {id: 3, title: 'Test 2'},
-  {id: 4, title: 'Test 3'},
-];
+const initialValue = {
+  degrees: [
+    {education_level: '', education_exam_degree: '', major_group_name: ''},
+  ],
+};
 
-const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
+const CandidateRequirements = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const [isFresherApplicable, setIsFresherApplicable] =
     useState<boolean>(false);
   const [notExperienced, setNotExperienced] = useState<boolean>(true);
+  const {data: candidateRequirements} = useFetchJobCandidateRequirements(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
-  const onChangeIsExperienced = (value: any) => {
-    setNotExperienced((prev) => !prev);
-  };
+  const {
+    data: educationalInstitutes,
+    isLoading: isLoadingEducationalInstitutes,
+  } = useFetchEducationalInstitutes();
+  const {data: businessAreas, isLoading: isLoadingBusinessAreas} =
+    useFetchBusinessAreas();
+
+  const [skillFilters] = useState<any>({row_status: RowStatus.ACTIVE});
+  const {data: skills, isLoading: isLoadingSkills} =
+    useFetchSkills(skillFilters);
+
+  const {data: educationLevels} = useFetchEducationLevels();
+  const {data: examDegrees} = useFetchExamDegrees();
+
   const validationSchema = useMemo(() => {
-    return yup.object().shape({});
+    return yup.object().shape({
+      degrees: yup.array().of(yup.object().shape({})),
+    });
   }, [messages]);
   const {
     register,
     setError,
     control,
     handleSubmit,
-    setValue,
+    reset,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    setValue('array_field', [
-      {education_level: '', education_exam_degree: '', major_group_name: ''},
-    ]);
-  }, []);
+    if (candidateRequirements && candidateRequirements?.latest_step) {
+      const latestStep = candidateRequirements.latest_step;
+      delete candidateRequirements?.latest_step;
 
+      if (latestStep >= 3) {
+        setIsReady(true);
+        reset(initialValue);
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset(initialValue);
+    }
+  }, [candidateRequirements]);
+
+  const onChangeIsExperienced = (value: any) => {
+    setNotExperienced((prev) => !prev);
+  };
+
+  console.log('error', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       console.log('data', data);
 
       //do data save work here
+
+      const response = await saveCandidateRequirements(data);
+      console.log('response', response);
 
       onContinue();
     } catch (error: any) {
@@ -79,7 +126,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
     }
   };
 
-  return (
+  return isReady ? (
     <Box mt={3}>
       <Typography mb={2} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.candidates_requirement']}
@@ -94,27 +141,24 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12} md={12}>
             <CustomEducationalQualificationFieldArray
-              id='array_field'
-              labelLanguageId={[
-                'education.education_level',
-                'education.education_exam_degree',
-                'education.major_group_name_bn',
-              ]}
+              id='degrees'
               isLoading={false}
               control={control}
               register={register}
               errors={errors}
-              options={[]}
+              educationLevelOptions={educationLevels || []}
+              examDegreeOptions={examDegrees || []}
             />
           </Grid>
           <Grid item xs={12}>
             <CustomAddFilterableFormSelect
               id='preferred_educational_institute'
               label={messages['common.preferred_educational_institute']}
+              isLoading={isLoadingEducationalInstitutes}
               control={control}
               errorInstance={errors}
-              optionTitleProp={['title']}
-              options={demoOptions}
+              optionTitleProp={['name']}
+              options={educationalInstitutes || []}
             />
           </Grid>
           <Grid item xs={12}>
@@ -130,11 +174,11 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomAddFilterableFormSelect
-              id='training_trade_course'
+              id='training'
               label={messages['common.training_courses']}
               control={control}
               optionTitleProp={['title']}
-              options={demoOptions}
+              options={[]}
               errorInstance={errors}
             />
           </Grid>
@@ -144,7 +188,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
               label={messages['common.professional_certification']}
               control={control}
               optionTitleProp={['title']}
-              options={demoOptions}
+              options={[]}
               errorInstance={errors}
             />
           </Grid>
@@ -155,7 +199,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <FormRadioButtons
-              id='experience_required'
+              id='is_experience_needed'
               label={'common.experience_required'}
               radios={[
                 {
@@ -177,7 +221,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
             <>
               <Grid item xs={12} md={6}>
                 <CustomFilterableFormSelect
-                  id={'min_year_of_experience'}
+                  id={'minimum_year_of_experience'}
                   label={messages['common.min_year_of_experience']}
                   isLoading={false}
                   control={control}
@@ -189,7 +233,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomFilterableFormSelect
-                  id={'max_years_of_experience'}
+                  id={'maximum_year_of_experience'}
                   label={messages['common.max_years_of_experience']}
                   isLoading={false}
                   control={control}
@@ -201,7 +245,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
               </Grid>
               <Grid item xs={12}>
                 <CustomCheckbox
-                  id='is_fresher_applicable'
+                  id='is_freshers_encouraged'
                   label={messages['job_post.is_fresher_applicable']}
                   register={register}
                   errorInstance={errors}
@@ -219,7 +263,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
                   isLoading={false}
                   control={control}
                   optionTitleProp={['title']}
-                  options={demoOptions}
+                  options={[]}
                   errorInstance={errors}
                 />
               </Grid>
@@ -227,10 +271,10 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
                 <CustomAddFilterableFormSelect
                   id={'area_of_business'}
                   label={messages['common.area_of_business']}
-                  isLoading={false}
+                  isLoading={isLoadingBusinessAreas}
                   control={control}
                   optionTitleProp={['title']}
-                  options={demoOptions}
+                  options={businessAreas || []}
                   errorInstance={errors}
                 />
               </Grid>
@@ -238,10 +282,10 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
                 <CustomAddFilterableFormSelect
                   id={'skills'}
                   label={messages['common.skills']}
-                  isLoading={false}
+                  isLoading={isLoadingSkills}
                   control={control}
                   optionTitleProp={['title']}
-                  options={demoOptions}
+                  options={skills || []}
                   errorInstance={errors}
                 />
               </Grid>
@@ -253,8 +297,6 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
                   register={register}
                   multiline={true}
                   rows={3}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -290,7 +332,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
-              id={'minimum_age'}
+              id={'age_minimum'}
               label={messages['common.minimum_age']}
               isLoading={false}
               control={control}
@@ -302,7 +344,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
-              id={'maximum_age'}
+              id={'age_maximum'}
               label={messages['common.maximum_age']}
               isLoading={false}
               control={control}
@@ -340,7 +382,7 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
           </Grid>
           <Grid item xs={12}>
             <CustomFormSwitch
-              id={'preferred_retired_army'}
+              id={'preferred_retired_army_officer'}
               label={messages['common.preferred_retired_army']}
               additionalInfo={
                 <Tooltip
@@ -379,6 +421,8 @@ const CandidateRequirements = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

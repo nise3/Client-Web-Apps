@@ -175,7 +175,6 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup.string().label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -210,6 +209,16 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         .required()
         .label(messages['common.contact_person_mobile'] as string)
         .matches(MOBILE_NUMBER_REGEX),
+      sub_trades: yup
+        .array()
+        .of(yup.object())
+        .min(1, messages['common.must_have_one_sub_trade'] as string)
+        .label(messages['common.industry_association_sub_trade'] as string),
+      membership_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.memberId'] as string),
       contact_person_email: yup
         .string()
         .email()
@@ -315,6 +324,8 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
       setUpazilasList(
         filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
       );
+      setSelectedTradeList(itemData?.sub_trades);
+      setSelectedAllTradeList(itemData?.sub_trades);
     } else {
       reset(initialValues);
     }
@@ -355,7 +366,8 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
   const onSubTradeChange = useCallback(
     (options) => {
       console.log('options ', options);
-      const newSubTrades: Array<any> = [];
+      setSelectedAllTradeList(options);
+      /* const newSubTrades: Array<any> = [];
       const newSubTradeIds: Array<any> = [];
       options.map((option: any) => {
         if (!selectedAllTradeIds.includes(option.id)) {
@@ -363,12 +375,10 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
           newSubTradeIds.push(option.id);
         }
       });
-
       setSelectedAllTradeList((prev: any) => {
         return [...prev, ...newSubTrades];
       });
-
-      setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);
+      setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);*/
     },
     [selectedAllTradeIds, selectedAllTradeList],
   );
@@ -401,11 +411,11 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     try {
       if (itemId) {
         await updateOrganization(itemId, data);
-        updateSuccessMessage('common');
+        updateSuccessMessage('common.member_list');
         mutateOrganization();
       } else {
         await createOrganization(data);
-        createSuccessMessage('organization.label');
+        createSuccessMessage('common.member_list');
       }
       props.onClose();
       refreshDataTable();
@@ -424,12 +434,12 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='organization.label' />}}
+              values={{subject: <IntlMessages id='common.member_list' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='organization.label' />}}
+              values={{subject: <IntlMessages id='common.member_list' />}}
             />
           )}
         </>
@@ -506,7 +516,6 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         )}
         <Grid item xs={12} md={6}>
           <CustomFormSelect
-            required
             id='industry_association_trade_id'
             label={messages['common.industry_association_trade']}
             isLoading={isLoadingIndustryAssociationTrades}

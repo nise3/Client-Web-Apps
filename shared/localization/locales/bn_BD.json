@@ -1035,6 +1035,7 @@
   "common.training_courses": "ট্রেনিং কোর্সসমূহ",
   "common.your_info": "আপনার তথ্য",
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে",
+  "common.must_have_one_sub_trade": "অন্তত একটি সাব ট্রেড থাকতে হবে",
   "common.must_have_one_physical_disability": "অন্তত একটি শারীরিক অক্ষমতা থাকতে হবে",
   "static_page.template_code": "টেমপ্লেট",
   "common.is_attachment_available": "এটাচমেন্ট আছে?",
