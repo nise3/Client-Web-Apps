@@ -48,6 +48,7 @@ const HrDemandFields: FC<CustomFieldProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id={'hr_demands[' + index + '][end_date]'}
             label={messages['common.end_date']}
             register={register}
@@ -56,6 +57,7 @@ const HrDemandFields: FC<CustomFieldProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
+            required
             id={'hr_demands[' + index + '][skill_id]'}
             label={messages['common.skills']}
             isLoading={isLoadingSkill}
@@ -68,6 +70,7 @@ const HrDemandFields: FC<CustomFieldProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id={'hr_demands[' + index + '][vacancy]'}
             label={messages['common.vacancy']}
             register={register}
@@ -76,6 +79,7 @@ const HrDemandFields: FC<CustomFieldProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id={'hr_demands[' + index + '][requirement]'}
             label={messages['common.requirements']}
             register={register}
