@@ -16,6 +16,7 @@
   "applicationManagement.batchAssigned": " প্রশিক্ষণার্থীকে সফলভাবে ব্যাচ বরাদ্দ করা হয়েছে",
   "applicationManagement.rejected": "প্রশিক্ষণার্থীকে সফলভাবে কোর্সে থেকে বাতিল করা হয়েছে",
   "organization.rejected": "সদস্যপদ সফলভাবে বাতিল করা হয়েছে",
+  "organization.approved": "সদস্যপদ সফলভাবে অনুমোদিত হয়েছে",
   "industry_association_reg.rejected": "শিল্প সমিতির নিবন্ধন সফলভাবে বাতিল করা হয়েছে",
   "industry_association_reg.label": "শিল্প সমিতি",
   "industry_association_reg.approved": "শিল্প সমিতির নিবন্ধন সফলভাবে অনুমোদিত হয়েছে",
