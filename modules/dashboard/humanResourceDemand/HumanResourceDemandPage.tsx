@@ -15,9 +15,15 @@ import RejectButton from '../applicationManagement/RejectButton';
 import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import HumanResourceDemandAddEditPop from './HumanResourceDemandAddEditPop';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -35,22 +41,37 @@ const HumanResourceDemandPage = () => {
     },
     [selectedItemId],
   );
+
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
-  }, []);
+    setIsToggleTable((prevState) => !prevState);
+  }, [isToggleTable]);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
   const closeDetailsModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setIsOpenDetailsModal(false);
   }, []);
 
   const onClickApprove: any = useCallback((id: any) => {
-    console.log('approved button in details page', id);
     closeDetailsModal();
   }, []);
+
+  const deleteHRDemandItem = async (HRDemandId: number) => {
+    let response = await deleteHRDemand(HRDemandId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='hr_demand.label' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -99,6 +120,11 @@ const HumanResourceDemandPage = () => {
                 // onClick={() => console.log('deny')}
                 rejectAction={() => {}}
                 rejectTitle={messages['common.delete_confirm'] as string}
+              />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => deleteHRDemandItem(data.id)}
+                deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
           );
