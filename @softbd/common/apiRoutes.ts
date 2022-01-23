@@ -1,29 +1,59 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
-export const CORE_SERVICE_PATH = '/core';
-export const ORGANIZATION_SERVICE_PATH = '/org';
-export const INSTITUTE_SERVICE_PATH = '/institute';
-export const YOUTH_SERVICE_PATH = '/youth';
-export const CMS_SERVICE_PATH = '/cms';
-export const PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + '/public';
-export const CMS_SERVICE_PUBLIC_PATH = CMS_SERVICE_PATH + '/public';
-export const ORGANIZATION_SERVICE_PUBLIC_PATH =
-  ORGANIZATION_SERVICE_PATH + '/public';
+export const CORE_SERVICE_PATH = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_CORE_SERVICE_PATH
+  : '/core';
+export const ORGANIZATION_SERVICE_PATH = process.env.NEXT_PUBLIC_INDUSTRY_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_INDUSTRY_SERVICE_PATH
+  : '/org';
+export const INSTITUTE_SERVICE_PATH = process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
+  : '/institute';
+export const YOUTH_SERVICE_PATH = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
+  : '/youth';
+export const CMS_SERVICE_PATH = process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
+  : '/cms';
 
-export const INDUSTRY_ASSOCIATION_SERVICE_PATH = '/industry-association';
+export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env.NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
+  : '/industry-association';
+
+export const TSP_PUBLIC_SERVICE_PATH = INSTITUTE_SERVICE_PATH + (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+  : '/public');
+export const CMS_SERVICE_PUBLIC_PATH = CMS_SERVICE_PATH + (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+  : '/public');
+export const ORGANIZATION_SERVICE_PUBLIC_PATH =
+  ORGANIZATION_SERVICE_PATH + (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+    ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+    : '/public');
+
 export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
-  INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';
+  INSTITUTE_SERVICE_PATH + (process.env.NEXT_PUBLIC_TSP_DASHBOARD_STAT_PATH
+    ? process.env.NEXT_PUBLIC_TSP_DASHBOARD_STAT_PATH
+    : '/institute-dashboard-statistics');
+
+/*export const INSTITUTE_SERVICE_DASHBOARD_STATS_PATH =
+  INSTITUTE_SERVICE_PATH + '/institute-dashboard-statistics';*/
+
 export const INSTITUTE_SERVICE_PUBLIC_DASHBOARD_STATS_PATH =
-  PUBLIC_SERVICE_PATH + '/institute-dashboard-statistics/';
+  TSP_PUBLIC_SERVICE_PATH + '/institute-dashboard-statistics/';
+
 export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
-  INSTITUTE_SERVICE_PATH + '/demanded-courses';
+  INSTITUTE_SERVICE_PATH + (process.env.NEXT_PUBLIC_TSP_DASHBOARD_DEMANDED_COURSE_PATH
+    ? process.env.NEXT_PUBLIC_TSP_DASHBOARD_DEMANDED_COURSE_PATH
+    : '/demanded-courses');
 
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CMS_SERVICE_PATH + '/upazilas';
 export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
+
 export const API_PERMISSION_SUB_GROUPS =
   CORE_SERVICE_PATH + '/permission-sub-groups';
 
@@ -188,13 +218,13 @@ export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
-export const API_PUBLIC_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list/';
-export const API_PUBLIC_ALL_COURSE_LIST = PUBLIC_SERVICE_PATH + '/course-list';
+export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list/';
+export const API_PUBLIC_ALL_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_RECENT_COURSE_LIST =
-  PUBLIC_SERVICE_PATH + '/course-list/recent';
+  TSP_PUBLIC_SERVICE_PATH + '/course-list/recent';
 export const API_PUBLIC_TRAINING_CENTERS =
-  PUBLIC_SERVICE_PATH + '/training-centers';
-export const API_PUBLIC_PROGRAMS = PUBLIC_SERVICE_PATH + '/programs';
+  TSP_PUBLIC_SERVICE_PATH + '/training-centers';
+export const API_PUBLIC_PROGRAMS = TSP_PUBLIC_SERVICE_PATH + '/programs';
 export const API_YOUTH_FEED_STATISTICS =
   YOUTH_SERVICE_PATH + '/youth-feed-statistics';
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
@@ -279,22 +309,53 @@ export const API_INDUSTRY_ASSOCIATION_MEMBERS =
 export const API_JOB = ORGANIZATION_SERVICE_PATH + '/job';
 export const API_JOBS = API_JOB + '/jobs';
 export const API_JOB_ID = API_JOB + '/job-id';
+
 export const API_JOB_STORE_PRIMARY_INFORMATION =
   API_JOB + '/store-primary-job-information';
 export const API_GET_JOB_PRIMARY_INFORMATION =
   API_JOB + '/primary-job-information/';
-export const API_JOB_REQUIREMENT =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
+
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
   API_JOB + '/store-additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
   API_JOB + '/additional-job-information/';
 
+export const API_JOB_STORE_CANDIDATE_REQUIREMENTS =
+  API_JOB + '/store-candidate-requirements';
+export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
+  API_JOB + '/candidate-requirements/';
+
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOB + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
   API_JOB + '/company-info-visibility/';
-export const API_GET_JOB = API_JOB + '/job-details/';
+
+export const API_JOB_STORE_MATCHING_CRITERIA =
+  API_JOB + '/store-matching-criteria';
+export const API_GET_JOB_MATCHING_CRITERIA = API_JOB + '/matching-criteria/';
+
+export const API_JOB_STORE_CONTACT_INFORMATION =
+  API_JOB + '/contact-information';
+export const API_GET_JOB_CONTACT_INFORMATION =
+  API_JOB + '/contact-information/';
+
+export const API_GET_JOB_PREVIEW = API_JOB + '/job-preview/';
+
+export const API_GET_JOB_LOCATIONS = API_JOB + '/job-location';
+export const API_GET_EDUCATIONAL_INSTITUTES =
+  ORGANIZATION_SERVICE_PATH + '/educational-institutions';
+
+export const API_GET_BUSINESS_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/area-of-business';
+
+export const API_GET_EDUCATION_LEVELS =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/education-levels';
+
+export const API_GET_EXAM_DEGREES =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/exam-degrees';
+
+export const API_JOB_REQUIREMENT =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   ORGANIZATION_SERVICE_PATH + '/hr-demand';

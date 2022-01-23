@@ -11,6 +11,7 @@ interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const PREFIX = 'CompleteJob';
@@ -28,7 +29,7 @@ const StyledGrid = styled(Grid)(() => {
   };
 });
 
-const CompleteJobPost = ({jobId, onBack, onContinue}: Props) => {
+const CompleteJobPost = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages} = useIntl();
   return (
     <StyledGrid container spacing={3}>

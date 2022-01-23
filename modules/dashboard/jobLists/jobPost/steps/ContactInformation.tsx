@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
@@ -9,16 +9,25 @@ import {processServerSideErrors} from '../../../../../@softbd/utilities/validati
 import {InfoOutlined} from '@mui/icons-material';
 import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {S1} from '../../../../../@softbd/elements/common';
+import {useFetchJobContactInformation} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
-const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
+const ContactInformation = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const {data: contactInformation} = useFetchJobContactInformation(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -32,11 +41,27 @@ const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
   const {
     control,
     setError,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (contactInformation && contactInformation?.latest_step) {
+      const latestStep = contactInformation.latest_step;
+      delete contactInformation?.latest_step;
+
+      if (latestStep >= 6) {
+        setIsReady(true);
+        reset({});
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset({});
+    }
+  }, [contactInformation]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
@@ -50,7 +75,7 @@ const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
     }
   };
 
-  return (
+  return isReady ? (
     <Box mt={2}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.contract_info']}
@@ -122,6 +147,8 @@ const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 
