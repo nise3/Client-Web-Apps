@@ -34,6 +34,7 @@ const HumanResourceDemandPage = () => {
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
   }, []);
+
   const openDetailsModal = useCallback(
     (itemId: number) => {
       setIsOpenDetailsModal(true);
@@ -43,7 +44,7 @@ const HumanResourceDemandPage = () => {
   );
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prevState) => !prevState);
+    setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
   }, [isToggleTable]);
 
   const closeAddEditModal = useCallback(() => {
