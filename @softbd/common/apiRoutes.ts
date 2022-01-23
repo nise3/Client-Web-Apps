@@ -203,6 +203,9 @@ export const API_REJECT_COURSE_ENROLLMENT =
 export const API_REJECT_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-rejection';
 
+export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-membership-rejection';
+
 export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
 
