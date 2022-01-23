@@ -13,7 +13,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useFetchHumanResourceDemand} from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchInstitutes} from '../../../services/instituteManagement/hooks';
+import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
 import {
   useFetchOrganizations,
   useFetchSkills,
@@ -25,6 +25,7 @@ import {
   createHumanResourceDemand,
   updateHumanResourceDemand,
 } from '../../../services/IndustryManagement/HrDemandService';
+import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 
 interface HumanResourceDemandAddEditPopupProps {
   itemId: number | null;
@@ -54,9 +55,15 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
     const {data: organizations, isLoading: isLoadingOrganizations} =
       useFetchOrganizations(organizationFilter);
 
+    const [industryAssociationFilter] = useState<any>({});
+    const {
+      data: industryAssociations,
+      isLoading: isLoadingIndustryAssociation,
+    } = useFetchIndustryAssociations(industryAssociationFilter);
+
     const [instituteFilter] = useState({});
     const {data: institutes, isLoading: isLoadingInstitute} =
-      useFetchInstitutes(instituteFilter);
+      useFetchAllInstitutes(instituteFilter);
 
     const [skillFilter] = useState({});
     const {data: skills, isLoading: isLoadingSkills} =
@@ -203,6 +210,20 @@ const HumanResourceDemandAddEditPopup: FC<HumanResourceDemandAddEditPopupProps> 
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <CustomFilterableFormSelect
+              required
+              id='industry_association_id '
+              label={messages['common.industry_association']}
+              isLoading={isLoadingIndustryAssociation}
+              options={industryAssociations}
+              optionValueProp={'id'}
+              optionTitleProp={['title', 'title_en']}
+              control={control}
+              errorInstance={errors}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              required
               id='organization_id'
               label={messages['organization.label']}
               isLoading={isLoadingOrganizations}
