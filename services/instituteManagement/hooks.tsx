@@ -116,7 +116,7 @@ export function useFetchVideo(videoId: number | null) {
 export function useFetchCourseList(pathVariable: string, params: any) {
   return useAxiosSWR([
     pathVariable
-      ? API_PUBLIC_COURSE_LIST + pathVariable
+      ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
       : API_PUBLIC_COURSE_LIST,
     params,
   ]);
