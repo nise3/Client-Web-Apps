@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
-import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
+import {useFetchPublicCalenderEvents} from '../../../services/cmsManagement/hooks';
 import {
   Box,
   Card,
@@ -43,7 +43,7 @@ const InstituteEventCalendarView = () => {
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
-  let {data: events} = useFetchCalenderEvents(viewFilters);
+  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
 
   useEffect(() => {
     addStartEndPropsToList(events);

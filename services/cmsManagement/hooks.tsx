@@ -6,6 +6,7 @@ import {
   API_GALLERY_ALBUM_CONTENTS,
   API_GALLERY_ALBUMS,
   API_PARTNERS,
+  API_PUBLIC_CALENDAR_EVENTS,
   API_PUBLIC_GALLERY_ALBUM_CONTENTS,
   API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_NOTICE_OR_NEWS,
@@ -126,6 +127,11 @@ export function useFetchPublicGalleryAlbumContent(
 export function useFetchCalenderEvents(params: any) {
   // console.log('axis: ', params);
   return useAxiosSWR([API_CALENDAR_EVENTS, params]);
+}
+
+export function useFetchPublicCalenderEvents(params: any) {
+  // console.log('axis: ', params);
+  return useAxiosSWR([API_PUBLIC_CALENDAR_EVENTS, params]);
 }
 
 /** fetches a single calendar event */
