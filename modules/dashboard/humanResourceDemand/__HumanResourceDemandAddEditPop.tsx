@@ -45,11 +45,7 @@ const HumanResourceDemandAddEditPopup: FC<
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
   const isEdit = itemId != null;
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateHumanResourceDemand,
-  } = useFetchHumanResourceDemand(itemId);
+  const {data: itemData, isLoading} = useFetchHumanResourceDemand(itemId);
 
   const [organizationFilter] = useState({});
   const {data: organizations, isLoading: isLoadingOrganizations} =
@@ -88,11 +84,7 @@ const HumanResourceDemandAddEditPopup: FC<
         .trim()
         .required()
         .label(messages['organization.label'] as string),
-      industry_association_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['industry_association.label'] as string),
+
       hr_demands: yup.array().of(
         yup.object().shape({
           institute_id: yup
@@ -165,7 +157,6 @@ const HumanResourceDemandAddEditPopup: FC<
       if (itemId) {
         await updateHumanResourceDemand(itemId, data);
         updateSuccessMessage('job_requirement.label');
-        mutateHumanResourceDemand();
       } else {
         await createHumanResourceDemand(data);
         createSuccessMessage('job_requirement.label');
