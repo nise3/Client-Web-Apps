@@ -19,7 +19,7 @@
     "start:youth": "next start youth -p 3002",
     "start:institute": "next start institute -p 3003",
     "start:industry": "next start industry -p 3004",
-    "symlink:create": "mklink /J dashboard\\public public && mklink /J industry\\public public && mklink /J nise\\public public && mklink /J youth\\public public && mklink /J institute\\public public",
+    "symlink:create": "mklink /J dashboard\\public public && mklink /J industry\\public public && mklink /J nise\\public public && mklink /J youth\\public public && mklink /J institute\\public public && mklink /J industry\\public public",
     "symlink:remove": "rmdir dashboard\\public && rmdir industry\\public && rmdir nise\\public && rmdir youth\\public && rmdir institute\\public",
     "lint": "next lint",
     "heroku-postbuild": "npm run build",
