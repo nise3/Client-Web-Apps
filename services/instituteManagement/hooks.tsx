@@ -41,6 +41,10 @@ export function useFetchInstitutes(params: any) {
   return useAxiosSWR([API_PUBLIC_INSTITUTES, params]);
 }
 
+export function useFetchAllInstitutes(params: any) {
+  return useAxiosSWR([API_INSTITUTES, params]);
+}
+
 export function useFetchIndustryAssociationMembers(params: any) {
   return useAxiosSWR([API_INDUSTRY_MEMBERS, params]);
 }
