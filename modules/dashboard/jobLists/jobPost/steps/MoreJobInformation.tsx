@@ -111,6 +111,7 @@ const initialValue = {
   additional_salary_info: '',
   additional_salary_info_en: '',
   other_benefits: [],
+  lunch_facilities: '',
   others: '',
 };
 
@@ -203,37 +204,45 @@ const MoreJobInformation = ({
       delete additionalInfo?.latest_step;
 
       if (latestStep >= 2) {
-        setIsReady(true);
-        reset({
+        let data = {
           job_levels: getJobLevelIds(additionalInfo?.job_levels),
           job_context: additionalInfo?.job_context,
           job_context_en: additionalInfo?.job_context_en,
           job_responsibilities: additionalInfo?.job_responsibilities,
           job_responsibilities_en: additionalInfo?.job_responsibilities_en,
-          job_locations: getJobLocationIds(additionalInfo?.job_locations),
+          job_locations: getJobLocations(additionalInfo?.job_locations),
           job_place_type: additionalInfo?.job_place_type,
           is_other_benefits: additionalInfo?.is_other_benefits,
           salary_min: additionalInfo?.salary_min,
           salary_max: additionalInfo?.salary_max,
           is_salary_info_show: additionalInfo?.is_salary_info_show,
-          is_salary_compare_to_expected_salary:
-            additionalInfo?.is_salary_compare_to_expected_salary,
           is_salary_alert_excessive_than_given_salary_range:
             additionalInfo?.is_salary_alert_excessive_than_given_salary_range,
           salary_review: additionalInfo?.salary_review,
           festival_bonus: additionalInfo?.festival_bonus,
+          lunch_facilities: additionalInfo?.lunch_facilities,
           additional_salary_info: additionalInfo?.additional_salary_info,
           additional_salary_info_en: additionalInfo?.additional_salary_info_en,
           other_benefits: additionalInfo?.other_benefits,
           others: additionalInfo?.others,
-        });
-
+          work_places: [false, false],
+        };
         (additionalInfo?.work_places || []).map((workPlace: any) => {
           if (workPlace.work_place_id == WorkPlaceTypes.HOME) {
+            data.work_places[0] = true;
+            setIsWorkFromHome(true);
           } else if (workPlace.work_place_id == WorkPlaceTypes.OFFICE) {
+            data.work_places[1] = true;
+            setIsWorkAtOffice(true);
           }
         });
 
+        setIsReady(true);
+        reset(data);
+
+        setIsCompareProvidedExpectedSalary(
+          additionalInfo?.is_salary_compare_to_expected_salary == 1,
+        );
         setHasOtherBenefits(
           additionalInfo?.is_other_benefits == OtherBenefit.YES,
         );
@@ -252,12 +261,12 @@ const MoreJobInformation = ({
     return ids;
   };
 
-  const getJobLocationIds = (locations: any) => {
-    let ids: any = [];
-    (locations || []).map((location: any) => {
-      ids.push(location.location_id);
-    });
-    return ids;
+  const getJobLocations = (locations: any) => {
+    let ids: any = locations.map((location: any) => location.location_id);
+
+    return (jobLocations || []).filter((location: any) =>
+      ids.includes(location.location_id),
+    );
   };
 
   console.log('errors: ', errors);
@@ -295,6 +304,10 @@ const MoreJobInformation = ({
         delete data.lunch_facilities;
         delete data.others;
         delete data.others_en;
+      }
+
+      if (data.job_place_type != 1) {
+        data.job_place_type = 1;
       }
 
       const locationIds: any = [];

@@ -51,9 +51,9 @@ const CustomEducationalQualificationFieldArray = ({
   ) : (
     <>
       {fields.map((item: any, index: any) => {
-        let educationLevelId = `${id}.${index}.education_level`;
-        let examDegreeId = `${id}.${index}.education_exam_degree`;
-        let majorId = `${id}.${index}.major_group_name`;
+        let educationLevelId = `${id}.${index}.education_level_id`;
+        let examDegreeId = `${id}.${index}.exam_degree_id`;
+        let majorId = `${id}.${index}.major_subject`;
         return (
           <React.Fragment key={item.id}>
             <Grid container item spacing={4}>
