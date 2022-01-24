@@ -42,9 +42,26 @@ for (let i = 1; i <= 50; i++) experienceYears.push({id: i, title: i});
 for (let i = 14; i <= 90; i++) ages.push({id: i, title: i});
 
 const initialValue = {
-  degrees: [
-    {education_level: '', education_exam_degree: '', major_group_name: ''},
-  ],
+  degrees: [{education_level_id: '', exam_degree_id: '', major_subject: ''}],
+  preferred_educational_institutions: [],
+  other_educational_qualification: '',
+  other_educational_qualification_en: '',
+  trainings: [],
+  professional_certifications: [],
+  is_experience_needed: 1,
+  minimum_year_of_experience: '',
+  maximum_year_of_experience: '',
+  is_freshers_encouraged: 1,
+  area_of_experiences: [],
+  area_of_businesses: [],
+  skills: [],
+  additional_requirements: '',
+  additional_requirements_en: '',
+  genders: [],
+  age_minimum: '',
+  age_maximum: '',
+  person_with_disability: 0,
+  preferred_retired_army_officer: 0,
 };
 
 const CandidateRequirements = ({
@@ -98,7 +115,40 @@ const CandidateRequirements = ({
 
       if (latestStep >= 3) {
         setIsReady(true);
-        reset(initialValue);
+
+        let data: any = {
+          degrees: candidateRequirements?.degrees,
+          preferred_educational_institutions:
+            candidateRequirements?.preferred_educational_institutions,
+          other_educational_qualification:
+            candidateRequirements?.other_educational_qualification,
+          other_educational_qualification_en:
+            candidateRequirements?.other_educational_qualification_en,
+          trainings: candidateRequirements?.trainings,
+          professional_certifications:
+            candidateRequirements?.professional_certifications,
+          is_experience_needed: candidateRequirements?.is_experience_needed,
+          minimum_year_of_experience:
+            candidateRequirements?.minimum_year_of_experience,
+          maximum_year_of_experience:
+            candidateRequirements?.maximum_year_of_experience,
+          is_freshers_encouraged: candidateRequirements?.is_freshers_encouraged,
+          area_of_experiences: candidateRequirements?.area_of_experiences,
+          area_of_businesses: candidateRequirements?.area_of_businesses,
+          skills: candidateRequirements?.skills,
+          additional_requirements:
+            candidateRequirements?.additional_requirements,
+          additional_requirements_en:
+            candidateRequirements?.additional_requirements_en,
+          genders: candidateRequirements?.genders,
+          age_minimum: candidateRequirements?.age_minimum,
+          age_maximum: candidateRequirements?.age_maximum,
+          person_with_disability: candidateRequirements?.person_with_disability,
+          preferred_retired_army_officer:
+            candidateRequirements?.preferred_retired_army_officer,
+        };
+
+        reset(data);
       }
       setLatestStep(latestStep);
     } else {
@@ -152,7 +202,7 @@ const CandidateRequirements = ({
           </Grid>
           <Grid item xs={12}>
             <CustomAddFilterableFormSelect
-              id='preferred_educational_institute'
+              id='preferred_educational_institutes'
               label={messages['common.preferred_educational_institute']}
               isLoading={isLoadingEducationalInstitutes}
               control={control}
@@ -174,7 +224,7 @@ const CandidateRequirements = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomAddFilterableFormSelect
-              id='training'
+              id='trainings'
               label={messages['common.training_courses']}
               control={control}
               optionTitleProp={['title']}
@@ -184,7 +234,7 @@ const CandidateRequirements = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <CustomAddFilterableFormSelect
-              id='professional_certification'
+              id='professional_certifications'
               label={messages['common.professional_certification']}
               control={control}
               optionTitleProp={['title']}
@@ -258,7 +308,7 @@ const CandidateRequirements = ({
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomAddFilterableFormSelect
-                  id={'area_of_experience'}
+                  id={'area_of_experiences'}
                   label={messages['common.area_of_experience']}
                   isLoading={false}
                   control={control}
@@ -269,7 +319,7 @@ const CandidateRequirements = ({
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomAddFilterableFormSelect
-                  id={'area_of_business'}
+                  id={'area_of_businesses'}
                   label={messages['common.area_of_business']}
                   isLoading={isLoadingBusinessAreas}
                   control={control}
@@ -309,7 +359,7 @@ const CandidateRequirements = ({
           </Grid>
           <Grid item xs={12}>
             <CustomFormToggleButtonGroup
-              id={'gender'}
+              id={'genders'}
               label={messages['common.gender']}
               buttons={[
                 {
