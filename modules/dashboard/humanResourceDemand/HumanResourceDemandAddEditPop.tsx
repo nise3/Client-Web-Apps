@@ -138,9 +138,22 @@ const HumanResourceDemandAddEditPopup: FC<
 
   useEffect(() => {
     if (itemData) {
+      let institutes = [itemData?.all_institutes];
+
+      let hrDemands = {
+        institute_id: institutes,
+        skill_id: itemData?.skill_id,
+        end_date: itemData?.end_date,
+        vacancy: itemData?.vacancy,
+        requirement: itemData?.remaining_vacancy,
+      };
+      let hrDemandsArr = [];
+      hrDemandsArr[0] = hrDemands;
+
       let data = {
         organization_id: itemData?.organization_id,
-        hr_demands: itemData?.hr_demands,
+        industry_association_id: itemData?.industry_association_id,
+        hr_demands: hrDemandsArr,
       };
 
       if (itemData?.hr_demands) {
@@ -157,10 +170,7 @@ const HumanResourceDemandAddEditPopup: FC<
     }
   }, [itemData]);
 
-  console.log('errors', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('data--', data);
-
     try {
       if (itemId) {
         await updateHumanResourceDemand(itemId, data);
@@ -252,23 +262,25 @@ const HumanResourceDemandAddEditPopup: FC<
             </React.Fragment>
           );
         })}
-        <Grid item xs={12}>
-          <Box display={'flex'} justifyContent={'flex-end'}>
-            <Button
-              variant={'contained'}
-              color={'primary'}
-              sx={{marginRight: '10px'}}
-              onClick={onAddHrDemand}>
-              Add
-            </Button>
-            <Button
-              variant={'contained'}
-              color={'primary'}
-              onClick={onRemoveHrDemand}>
-              Remove
-            </Button>
-          </Box>
-        </Grid>
+        {!itemId && (
+          <Grid item xs={12}>
+            <Box display={'flex'} justifyContent={'flex-end'}>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                sx={{marginRight: '10px'}}
+                onClick={onAddHrDemand}>
+                Add
+              </Button>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                onClick={onRemoveHrDemand}>
+                Remove
+              </Button>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </HookFormMuiModal>
   );

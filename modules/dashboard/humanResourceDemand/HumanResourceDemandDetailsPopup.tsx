@@ -77,7 +77,7 @@ const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.no_of_vacancy']}
-              value={itemData?.no_of_vacancy}
+              value={itemData?.vacancy}
               isLoading={isLoading}
             />
           </Grid>
