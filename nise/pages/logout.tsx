@@ -10,12 +10,13 @@ import {Loader} from '../../@crema';
 import {removeBrowserCookie} from '../../@softbd/libs/cookieInstance';
 import {
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_AUTH_ID_TOKEN, COOKIE_KEY_SSO_SESSION_STATE,
 } from '../../shared/constants/AppConst';
 
 export default NiseFrontPage(() => {
   removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
   removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+  removeBrowserCookie(COOKIE_KEY_SSO_SESSION_STATE);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -37,5 +38,5 @@ export default NiseFrontPage(() => {
     }
   }, [dispatch, authUser, staleAuthUser]);
 
-  return <Loader/>;
+  return <Loader />;
 });
