@@ -368,17 +368,17 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
       console.log('options ', options);
       setSelectedAllTradeList(options);
       /* const newSubTrades: Array<any> = [];
-      const newSubTradeIds: Array<any> = [];
-      options.map((option: any) => {
-        if (!selectedAllTradeIds.includes(option.id)) {
-          newSubTrades.push(option);
-          newSubTradeIds.push(option.id);
-        }
-      });
-      setSelectedAllTradeList((prev: any) => {
-        return [...prev, ...newSubTrades];
-      });
-      setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);*/
+                              const newSubTradeIds: Array<any> = [];
+                              options.map((option: any) => {
+                                if (!selectedAllTradeIds.includes(option.id)) {
+                                  newSubTrades.push(option);
+                                  newSubTradeIds.push(option.id);
+                                }
+                              });
+                              setSelectedAllTradeList((prev: any) => {
+                                return [...prev, ...newSubTrades];
+                              });
+                              setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);*/
     },
     [selectedAllTradeIds, selectedAllTradeList],
   );
