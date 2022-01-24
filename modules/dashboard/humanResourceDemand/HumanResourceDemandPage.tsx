@@ -45,7 +45,7 @@ const HumanResourceDemandPage = () => {
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
-  }, [isToggleTable]);
+  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -102,7 +102,7 @@ const HumanResourceDemandPage = () => {
               <CustomChip
                 icon={<PersonIcon fontSize={'small'} />}
                 color={'primary'}
-                label={data.no_of_vacancy}
+                label={data.vacancy}
               />
             </>
           );
