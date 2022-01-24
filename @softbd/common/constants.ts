@@ -1,4 +1,4 @@
-export const APP_TITLE = 'NISE3 TMS';
+export const APP_TITLE = 'NISE TMS';
 
 export const PERMISSION_GROUP_ORGANIZATION_KEY = 'organization';
 export const PERMISSION_GROUP_INSTITUTE_KEY = 'institute';
@@ -11,31 +11,31 @@ export const isLocalHost = () =>
     ? location.hostname === 'localhost' || location.hostname === '127.0.0.1'
     : '';
 
-/** TODO: If the following method is not being in use then please remove them */
+
 export const adminDomain = () => {
-  return isLocalHost() ? 'http://localhost:3000' : 'https://admin.nise.gov.bd';
+  return isLocalHost() ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_FRONTEND_ADMIN_PORTAL_DOMAIN ? process.env.NEXT_PUBLIC_FRONTEND_ADMIN_PORTAL_DOMAIN : 'https://admin.nise.gov.bd');
 };
-/** TODO: If the following method is not being in use then please remove them */
+
 export const youthDomain = () => {
-  return isLocalHost() ? 'http://localhost:3002' : 'https://youth.nise.gov.bd';
+  return isLocalHost() ? 'http://localhost:3002' : (process.env.NEXT_PUBLIC_FRONTEND_YOUTH_DOMAIN ? process.env.NEXT_PUBLIC_FRONTEND_YOUTH_DOMAIN : 'https://youth.nise.gov.bd');
 };
-/** TODO: If the following method is not being in use then please remove them */
+
 export const instituteDomain = () => {
-  return isLocalHost() ? 'http://localhost:3003' : 'https://dyd.nise.gov.bd';
+  return isLocalHost() ? 'http://localhost:3003' : (process.env.NEXT_PUBLIC_FRONTEND_DEFAULT_TSP_DOMAIN ? process.env.NEXT_PUBLIC_FRONTEND_DEFAULT_TSP_DOMAIN : 'https://dyd.nise.gov.bd');
 };
-/** TODO: If the following method is not being in use then please remove them */
+
 export const industryDomain = () => {
   return isLocalHost()
     ? 'http://localhost:3004'
-    : 'https://industry.nise.gov.bd';
+    : (process.env.NEXT_PUBLIC_FRONTEND_DEFAULT_INDUSTRY_ASSO_DOMAIN ? process.env.NEXT_PUBLIC_FRONTEND_DEFAULT_INDUSTRY_ASSO_DOMAIN : 'https://mcci.nise.gov.bd');
 };
-/** TODO: If the following method is not being in use then please remove them */
+
 export const niseDomain = () => {
-  return isLocalHost() ? 'http://localhost:3001' : 'https://nise.gov.bd';
+  return isLocalHost() ? 'http://localhost:3001' : (process.env.NEXT_PUBLIC_FRONTEND_PORTAL_DOMAIN ? process.env.NEXT_PUBLIC_FRONTEND_PORTAL_DOMAIN : 'https://nise.gov.bd');
 };
-/** TODO: If the following method is not being in use then please remove them */
+
 export const cookieDomain = () => {
-  return isLocalHost() ? 'localhost' : 'nise.gov.bd';
+  return isLocalHost() ? 'localhost' : (process.env.NEXT_PUBLIC_NISE_COOKIE_DOMAIN ? process.env.NEXT_PUBLIC_NISE_COOKIE_DOMAIN : 'nise.gov.bd');
 };
 
 export const gotoLoginSignUpPage = (path: string) => {
