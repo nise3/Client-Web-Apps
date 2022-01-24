@@ -93,12 +93,12 @@ const facilities = [
 ];
 
 const initialValue = {
-  job_level: [],
+  job_levels: [],
   job_context: '',
   job_context_en: '',
   job_responsibilities: '',
   job_responsibilities_en: '',
-  work_place: [],
+  work_places: [],
   job_place_type: 1,
   is_other_benefits: OtherBenefit.YES,
   salary_min: '',
@@ -136,7 +136,7 @@ const MoreJobInformation = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      job_level: yup
+      job_levels: yup
         .array()
         .of(yup.number())
         .min(1)
@@ -145,7 +145,7 @@ const MoreJobInformation = ({
         .string()
         .required()
         .label(messages['common.job_responsibility'] as string),
-      job_location: yup
+      job_locations: yup
         .array()
         .of(yup.object().shape({}))
         .min(1)
@@ -179,7 +179,7 @@ const MoreJobInformation = ({
           is: (value: any) => value == SalaryShowOption.SALARY,
           then: yup.string().trim().required(),
         }),
-      work_place: yup
+      work_places: yup
         .array()
         .of(yup.boolean())
         .min(1)
@@ -205,12 +205,12 @@ const MoreJobInformation = ({
       if (latestStep >= 2) {
         setIsReady(true);
         reset({
-          job_level: additionalInfo?.job_level,
+          job_levels: getJobLevelIds(additionalInfo?.job_levels),
           job_context: additionalInfo?.job_context,
           job_context_en: additionalInfo?.job_context_en,
           job_responsibilities: additionalInfo?.job_responsibilities,
           job_responsibilities_en: additionalInfo?.job_responsibilities_en,
-          job_location: additionalInfo?.job_location,
+          job_locations: getJobLocationIds(additionalInfo?.job_locations),
           job_place_type: additionalInfo?.job_place_type,
           is_other_benefits: additionalInfo?.is_other_benefits,
           salary_min: additionalInfo?.salary_min,
@@ -228,6 +228,12 @@ const MoreJobInformation = ({
           others: additionalInfo?.others,
         });
 
+        (additionalInfo?.work_places || []).map((workPlace: any) => {
+          if (workPlace.work_place_id == WorkPlaceTypes.HOME) {
+          } else if (workPlace.work_place_id == WorkPlaceTypes.OFFICE) {
+          }
+        });
+
         setHasOtherBenefits(
           additionalInfo?.is_other_benefits == OtherBenefit.YES,
         );
@@ -238,19 +244,35 @@ const MoreJobInformation = ({
     }
   }, [additionalInfo]);
 
+  const getJobLevelIds = (job_levels: any) => {
+    let ids: any = [];
+    (job_levels || []).map((level: any) => {
+      ids.push(level.job_level_id);
+    });
+    return ids;
+  };
+
+  const getJobLocationIds = (locations: any) => {
+    let ids: any = [];
+    (locations || []).map((location: any) => {
+      ids.push(location.location_id);
+    });
+    return ids;
+  };
+
   console.log('errors: ', errors);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       data.job_id = jobId;
 
-      let workPlace = [...data.work_place];
-      data.work_place = [];
+      let workPlace = [...data.work_places];
+      data.work_places = [];
       if (workPlace[0]) {
-        data.work_place.push(WorkPlaceTypes.HOME);
+        data.work_places.push(WorkPlaceTypes.HOME);
       }
       if (workPlace[1]) {
-        data.work_place.push(WorkPlaceTypes.OFFICE);
+        data.work_places.push(WorkPlaceTypes.OFFICE);
       }
 
       data.is_salary_compare_to_expected_salary =
@@ -276,10 +298,10 @@ const MoreJobInformation = ({
       }
 
       const locationIds: any = [];
-      data.job_location.map((location: any) => {
+      data.job_locations.map((location: any) => {
         locationIds.push(location.location_id);
       });
-      data.job_location = locationIds;
+      data.job_locations = locationIds;
 
       console.log('data-->', data);
 
@@ -305,7 +327,7 @@ const MoreJobInformation = ({
           <Grid item xs={12}>
             <CustomFormToggleButtonGroup
               required
-              id={'job_level'}
+              id={'job_levels'}
               label={messages['label.job_level']}
               buttons={[
                 {
@@ -380,7 +402,7 @@ const MoreJobInformation = ({
             </Body1>
             <Box display={'flex'}>
               <CustomCheckbox
-                id='work_place[0]'
+                id='work_places[0]'
                 label={messages['common.work_from_home']}
                 register={register}
                 errorInstance={errors}
@@ -391,7 +413,7 @@ const MoreJobInformation = ({
                 isLoading={false}
               />
               <CustomCheckbox
-                id='work_place[1]'
+                id='work_places[1]'
                 label={messages['common.work_at_office']}
                 register={register}
                 errorInstance={errors}
@@ -422,7 +444,7 @@ const MoreJobInformation = ({
             <div style={{marginTop: '15px'}} />
             <CustomSelectAutoComplete
               required
-              id='job_location'
+              id='job_locations'
               label={messages['common.job_location']}
               isLoading={isLoadingJobLocations}
               control={control}
