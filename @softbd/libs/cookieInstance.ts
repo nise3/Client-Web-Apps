@@ -35,6 +35,7 @@ export const removeBrowserCookie = (
   name: string,
   options?: CookieSetOptions,
 ) => {
+
   const defaultOptions: CookieSetOptions = {
     path: '/',
     domain: cookieDomain(),
@@ -42,7 +43,7 @@ export const removeBrowserCookie = (
 
   return cookieInstance.remove(
     name,
-    typeof options !== 'undefined' ? options : defaultOptions,
+    typeof options !== 'undefined' ? {...defaultOptions, ...options} : defaultOptions,
   );
 };
 
