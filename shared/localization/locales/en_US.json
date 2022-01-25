@@ -466,6 +466,7 @@
   "yup_validation_regex": "{path} is not valid format",
   "yup_validation_unknown_error": "Unknown Error!",
   "yup_validation_text_length": "{path} value length exceeded",
+  "yup_validation_digit_length": "{path} must be at least 11 characters",
   "common.permanent_house_address": "Permanent house address",
   "common.permanent_house_address_en": "Permanent house address (English)",
   "role.label": "Role",
@@ -1305,5 +1306,12 @@
   "hr_demand.label":  "Human Resource Demand",
   "industry_association.label" : "Industry Association",
   "common.hr_demand": "Human Resource Demand",
-  "common.manage": "Manage"
+  "common.manage": "Manage",
+  "common.question_bank": "Question Bank",
+  "common.question_id": "Question Id",
+  "common.question": "Question",
+  "common.subject_name": "Subject Name",
+  "common.topic_name": "Topic Name",
+  "common.difficulty": "Difficulty",
+  "common.marks": "Marks"
 }

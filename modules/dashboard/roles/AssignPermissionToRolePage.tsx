@@ -37,21 +37,31 @@ const AssignPermissionToRolePage = () => {
   const [allPermissions, setAllPermissions] = useState<any>(null);
 
   const {data: itemData, mutate: mutateRole} = useFetchRole(Number(roleId));
-  const {data: permissionGroup, isLoading} = useFetchPermissionSubGroup(
+  const {data: permissionSubGroup, isLoading} = useFetchPermissionSubGroup(
     itemData?.permission_sub_group_id,
   );
 
   useEffect(() => {
-    if (permissionGroup) {
-      setAllPermissions(permissionGroup.permissions);
+    if (permissionSubGroup) {
+      setAllPermissions(permissionSubGroup.permissions);
     }
-  }, [permissionGroup]);
+  }, [permissionSubGroup]);
 
   useEffect(() => {
     if (itemData && allPermissions) {
-      let selectedPermissions = new Set(
-        lodashMap(itemData.permissions || [], 'id'),
+      const subGroupPermissionsIds = permissionSubGroup?.permissions.map(
+        (permission: any) => permission.id,
       );
+
+      const itemDataPermissionsIds = itemData.permissions.map(
+        (permission: any) => permission.id,
+      );
+
+      const filteredSelectedPermissions = subGroupPermissionsIds.filter(
+        (id: any) => itemDataPermissionsIds.includes(id),
+      );
+
+      let selectedPermissions = new Set(filteredSelectedPermissions);
       setCheckedPermissions(selectedPermissions);
 
       let hashPermissions = lodashGroupBy(allPermissions, 'module');
