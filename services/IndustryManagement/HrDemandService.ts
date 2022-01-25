@@ -2,6 +2,8 @@ import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_HUMAN_RESOURCE_DEMAND} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
+// export const getHumanResourceDemand = async ()
+
 export const createHumanResourceDemand = async (data: any) => {
   try {
     let response: any = await apiPost(API_HUMAN_RESOURCE_DEMAND, data);
