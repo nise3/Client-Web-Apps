@@ -1305,6 +1305,7 @@
   "job_preview.experience_from_to": "{from} থেকে {to} বছর",
   "job_preview.experience_at_least": "অন্তত {from} বছর",
   "job_preview.experience_at_most": "সর্বাধিক {to} বছর",
-  "hr_demand.label":  "হিউম্যান রিসোর্স চাহিদা",
-  "industry_association.label" : "শিল্প সমিতি"
+  "hr_demand.label": "হিউম্যান রিসোর্স চাহিদা",
+  "industry_association.label": "শিল্প সমিতি",
+  "common.manage": "ম্যানেজ"
 }

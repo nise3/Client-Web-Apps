@@ -21,6 +21,16 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import HumanResourceDemandEditPop from './HumanResourceDemandEditPop';
+import Link from 'next/link';
+import {styled} from '@mui/material/styles';
+import {Button} from '@mui/material';
+
+const PrimaryLightButton = styled(Button)(({theme}) => {
+  return {
+    color: theme.palette.primary.light,
+    border: 'none',
+  };
+});
 
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
@@ -86,12 +96,12 @@ const HumanResourceDemandPage = () => {
         },
       },
       {
-        Header: messages['common.title'],
-        accessor: 'title',
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
+        Header: messages['skill.label'],
+        accessor: 'skill_title',
       },
       {
         Header: messages['common.vacancy'],
@@ -114,12 +124,15 @@ const HumanResourceDemandPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = '/../../hr-demand/manage/__'.replace(
+            '__',
+            String(data.id),
+          );
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <ApproveButton onClick={() => console.log('approved')} />
               <RejectButton
-                // onClick={() => console.log('deny')}
                 rejectAction={() => {}}
                 rejectTitle={messages['common.delete_confirm'] as string}
               />
@@ -128,6 +141,11 @@ const HumanResourceDemandPage = () => {
                 deleteAction={() => deleteHRDemandItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={URL} passHref>
+                <PrimaryLightButton variant={'outlined'}>
+                  {messages['common.manage']}
+                </PrimaryLightButton>
+              </Link>
             </DatatableButtonGroup>
           );
         },
