@@ -111,6 +111,8 @@ export const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
 export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
 export const API_SKILLS = YOUTH_SERVICE_PATH + '/skills';
 
+export const API_YOUTHS_LIST = YOUTH_SERVICE_PATH + '/youths';
+
 export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
