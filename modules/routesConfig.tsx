@@ -363,6 +363,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/contact-info',
           },
+          {
+            id: 'hr-demand',
+            title: 'hr-demand',
+            messageId: 'common.hr_demand',
+            permissionKey: 'view_any_industry_association_hr_demand',
+            type: 'item',
+            icon: 'timeline',
+            url: '/hr-demand',
+          },
         ],
       },
       {

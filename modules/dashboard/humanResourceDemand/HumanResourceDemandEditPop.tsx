@@ -18,34 +18,36 @@ import {
   useFetchOrganizations,
   useFetchSkills,
 } from '../../../services/organaizationManagement/hooks';
-import HrDemandFields from './HrDemandFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDeman';
-import {
-  createHumanResourceDemand,
-  updateHumanResourceDemand,
-} from '../../../services/IndustryManagement/HrDemandService';
+import {updateHumanResourceDemand} from '../../../services/IndustryManagement/HrDemandService';
 import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
-interface HumanResourceDemandAddEditPopupProps {
-  itemId: number | null;
+interface HumanResourceDemandEditPopupProps {
+  itemId: number;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
   organization_id: '',
+  institute_ids: [],
 };
 
-const HumanResourceDemandAddEditPopup: FC<
-  HumanResourceDemandAddEditPopupProps
-> = ({itemId, refreshDataTable, ...props}) => {
+const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
   const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {updateSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
   const isEdit = itemId != null;
   const {
@@ -101,35 +103,32 @@ const HumanResourceDemandAddEditPopup: FC<
                 return authUser && !authUser.isIndustryAssociationUser;
               })
               .label(messages['industry_association.label'] as string),
-      hr_demands: yup.array().of(
-        yup.object().shape({
-          institute_id: yup
-            .array()
-            .of(yup.object())
-            .min(1)
-            .label(messages['common.institute'] as string),
-          skill_id: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.skills'] as string),
-          vacancy: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.vacancy'] as string),
-          requirement: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.requirements'] as string),
-          end_date: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.end_date'] as string),
-        }),
-      ),
+
+      institute_id: yup
+        .array()
+        .of(yup.object())
+        .min(1)
+        .label(messages['common.institute'] as string),
+      skill_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.skills'] as string),
+      vacancy: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.vacancy'] as string),
+      requirement: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.requirements'] as string),
+      end_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.end_date'] as string),
     });
   }, [messages]);
 
@@ -146,22 +145,14 @@ const HumanResourceDemandAddEditPopup: FC<
 
   useEffect(() => {
     if (itemData) {
-      let institutes = [itemData?.all_institutes];
-
-      let hrDemands = {
-        institute_id: institutes,
+      let data = {
+        organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
+        institute_ids: itemData?.institute_ids,
         skill_id: itemData?.skill_id,
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
         requirement: itemData?.remaining_vacancy,
-      };
-      let hrDemandsArr = [];
-      hrDemandsArr[0] = hrDemands;
-
-      let data = {
-        organization_id: itemData?.organization_id,
-        industry_association_id: itemData?.industry_association_id,
-        hr_demands: hrDemandsArr,
       };
 
       if (itemData?.hr_demands) {
@@ -176,20 +167,24 @@ const HumanResourceDemandAddEditPopup: FC<
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
-
-  console.log('errors:', errors);
+  }, [itemData, institutes]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    if (data?.institute_ids && Array.isArray(data.institute_ids)) {
+      data.institute_ids = data?.institute_ids.map((institute: any) => {
+        return institute.id;
+      });
+    } else {
+      data.institute_ids = [];
+    }
+
     try {
       if (itemId) {
         await updateHumanResourceDemand(itemId, data);
         updateSuccessMessage('job_requirement.label');
         mutateHumanResourceDemand();
-      } else {
-        await createHumanResourceDemand(data);
-        createSuccessMessage('job_requirement.label');
       }
+
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
@@ -209,14 +204,9 @@ const HumanResourceDemandAddEditPopup: FC<
       title={
         <>
           <IconHumanResourceDemand />
-          {isEdit ? (
+          {isEdit && (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='job_requirement.label' />}}
-            />
-          ) : (
-            <IntlMessages
-              id='common.add_new'
               values={{subject: <IntlMessages id='job_requirement.label' />}}
             />
           )}
@@ -258,22 +248,61 @@ const HumanResourceDemandAddEditPopup: FC<
             errorInstance={errors}
           />
         </Grid>
-        {hrDemandFields.map((item, index) => {
-          return (
-            <React.Fragment key={index}>
-              <HrDemandFields
-                index={index}
-                control={control}
-                instituteOptions={institutes}
-                skillOptions={skills}
-                isLoadingInstitute={isLoadingInstitute}
-                isLoadingSkill={isLoadingSkills}
-                register={register}
-                errorInstance={errors}
-              />
-            </React.Fragment>
-          );
-        })}
+
+        <Grid item xs={12} md={6}>
+          <CustomSelectAutoComplete
+            id={'institute_ids'}
+            label={messages['common.institute']}
+            isLoading={isLoadingInstitute}
+            options={institutes}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            control={control}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            required
+            id={'end_date'}
+            label={messages['common.end_date']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'skill_id'}
+            label={messages['common.skills']}
+            isLoading={isLoadingSkills}
+            options={skills}
+            optionValueProp={'id'}
+            optionTitleProp={['title', 'title_en']}
+            control={control}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'vacancy'}
+            label={messages['common.vacancy']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'requirement'}
+            label={messages['common.requirements']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+
         {!itemId && (
           <Grid item xs={12}>
             <Box display={'flex'} justifyContent={'flex-end'}>
@@ -297,4 +326,5 @@ const HumanResourceDemandAddEditPopup: FC<
     </HookFormMuiModal>
   );
 };
-export default HumanResourceDemandAddEditPopup;
+
+export default HumanResourceDemandEditPopup;
