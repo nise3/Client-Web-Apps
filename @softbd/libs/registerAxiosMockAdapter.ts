@@ -98,6 +98,9 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
     .reply(200, {data: hrDemand[0]});*/
 
   mock.onGet(API_INSTITUTE_QUESTION_BANK).reply(200, {data: questionBank});
+  mock
+    .onGet(new RegExp(API_INSTITUTE_QUESTION_BANK + '/(.*)'))
+    .reply(200, {data: questionBank[0]});
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();
