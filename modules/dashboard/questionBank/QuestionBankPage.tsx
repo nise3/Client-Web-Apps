@@ -13,6 +13,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import QuestionBankAddEditPopup from './QuestionBankAddEditPopup';
 import QuestionBankDetailsPopup from './QuestionBankDetailsPopup';
+import {Fab} from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+import {UploadFileOutlined} from '@mui/icons-material';
+import ImportQuestionBank from './ImportQuestionBank';
 
 const QuestionBankPage = () => {
   const {messages} = useIntl();
@@ -20,6 +24,7 @@ const QuestionBankPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isOpenImportModal, setIsOpenImportModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
@@ -27,15 +32,21 @@ const QuestionBankPage = () => {
     setSelectedItemId(null);
   }, []);
 
+  const closeImportModal = useCallback(() => {
+    setIsOpenImportModal(false);
+    setIsOpenAddEditModal(false);
+    setIsOpenDetailsModal(false);
+  }, []);
+
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
+    setIsOpenImportModal(false);
     setSelectedItemId(itemId);
   }, []);
 
   const openDetailsModal = useCallback(
     (itemId: number) => {
-      console.log('itemId->', itemId);
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
     },
@@ -47,7 +58,7 @@ const QuestionBankPage = () => {
   }, []);
 
   const deletePublicationItem = async (publicationId: number) => {
-    console.log('delete');
+    console.log('delete', publicationId);
     refreshDataTable();
   };
 
@@ -129,6 +140,26 @@ const QuestionBankPage = () => {
           </>
         }
         extra={[
+          <Tooltip
+            sx={{marginRight: '10px'}}
+            title={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['common.import'],
+                }}
+              />
+            }
+            key={2}>
+            <Fab
+              size='small'
+              color='primary'
+              onClick={() => setIsOpenImportModal(true)}
+              aria-label='import'>
+              <UploadFileOutlined />
+            </Fab>
+          </Tooltip>,
+
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
@@ -167,6 +198,7 @@ const QuestionBankPage = () => {
             openEditModal={openAddEditModal}
           />
         )}
+        {isOpenImportModal && <ImportQuestionBank onClose={closeImportModal} />}
       </PageBlock>
     </>
   );

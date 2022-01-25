@@ -1310,5 +1310,6 @@
   "common.subject_name": "বিষয়ের নাম",
   "common.topic_name": "প্রসঙ্গের নাম",
   "common.difficulty": "কঠিনতা",
-  "common.marks": "নাম্বার"
+  "common.marks": "নাম্বার",
+  "common.import": "ইমপোর্ট"
 }
