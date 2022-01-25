@@ -1,6 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_ORGANIZATIONS} from '../../@softbd/common/apiRoutes';
+import {
+  API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP,
+  API_ORGANIZATIONS,
+  API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP,
+} from '../../@softbd/common/apiRoutes';
 import {IOrganization} from '../../shared/Interface/organization.interface';
 
 export const getAllOrganizations = async (params = {}) => {
@@ -50,6 +54,28 @@ export const deleteOrganization = async (OrganizationId: number) => {
   try {
     let response: any = await apiDelete(
       API_ORGANIZATIONS + '/' + OrganizationId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const rejectOrgMemberShip = async (memberId: number) => {
+  try {
+    let response: any = await apiPut(
+      API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const approveOrgMemberShip = async (memberId: number) => {
+  try {
+    let response: any = await apiPut(
+      API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
     );
     return response.data;
   } catch (error) {

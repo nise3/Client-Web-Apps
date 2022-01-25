@@ -1,6 +1,6 @@
 import {ParsedUrlQuery} from 'querystring';
 import {getBrowserCookie} from '../libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ID_TOKEN} from '../../shared/constants/AppConst';
+import {COOKIE_KEY_AUTH_ID_TOKEN, COOKIE_KEY_SSO_SESSION_STATE} from '../../shared/constants/AppConst';
 import {niseDomain} from './constants';
 
 interface TConfig {
@@ -77,18 +77,18 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
 // };
 
 export const getSSOLogoutUrl = () => {
-  const origin = niseDomain();
+  const postLogoutRedirectUri = niseDomain() + '/logout' ;
   const idToken = getBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+  const ssoSessionState = getBrowserCookie(COOKIE_KEY_SSO_SESSION_STATE);
 
   return (
     SSO_CONFIG.logoutUrl +
     '?id_token_hint=' +
     idToken +
     '&post_logout_redirect_uri=' +
-    origin +
-    '/logout' +
-    '&state=' +
-    'hello'
+    postLogoutRedirectUri +
+    '&session_state=' +
+    ssoSessionState
   );
 };
 
