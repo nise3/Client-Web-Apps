@@ -323,6 +323,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  console.log('error ', errors);
 
   useEffect(() => {
     if (authUser) {

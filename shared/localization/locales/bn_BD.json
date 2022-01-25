@@ -468,6 +468,7 @@
   "yup_validation_regex": "{path} সঠিক বিন্যাস নয়",
   "yup_validation_unknown_error": "এররের বিস্তারিত জানা যায় নি",
   "yup_validation_text_length": "{path} মান দৈর্ঘ্য অতিক্রম করেছে",
+  "yup_validation_digit_length": "{path} অবশ্যই ১১ সংখ্যার হতে হবে",
   "required_field": "{path} লেখা আবশ্যক",
   "role.label": "রোল",
   "role.unique_value": "ইউনিক ভ্যালু",
@@ -1303,5 +1304,12 @@
   "job_preview.or_from_nise3_account": "অথবা {nise3} অ্যাকাউন্ট থেকে সিভি ইমেল করতে ",
   "job_preview.experience_from_to": "{from} থেকে {to} বছর",
   "job_preview.experience_at_least": "অন্তত {from} বছর",
-  "job_preview.experience_at_most": "সর্বাধিক {to} বছর"
+  "job_preview.experience_at_most": "সর্বাধিক {to} বছর",
+  "common.question_bank": "প্রশ্ন ব্যাংক",
+  "common.question_id": "প্রশ্ন আইডি",
+  "common.question": "প্রশ্ন",
+  "common.subject_name": "বিষয়ের নাম",
+  "common.topic_name": "প্রসঙ্গের নাম",
+  "common.difficulty": "কঠিনতা",
+  "common.marks": "নাম্বার"
 }

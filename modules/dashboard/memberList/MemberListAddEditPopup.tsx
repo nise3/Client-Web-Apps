@@ -304,7 +304,8 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         organization_type_id: itemData?.organization_type_id,
         loc_division_id: itemData?.loc_division_id,
         industry_association_id: itemData?.industry_association_id,
-        membership_id: itemData?.membership_id,
+        membership_id:
+          itemData?.industry_associations[0]?.pivot?.organization_id,
         loc_district_id: itemData?.loc_district_id,
         loc_upazila_id: itemData?.loc_upazila_id,
         location_latitude: itemData?.location_latitude,

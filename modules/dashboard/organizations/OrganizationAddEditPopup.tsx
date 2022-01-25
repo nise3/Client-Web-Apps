@@ -303,7 +303,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           itemData?.name_of_the_office_head_designation_en,
         organization_type_id: itemData?.organization_type_id,
         industry_association_id: itemData?.industry_association_id,
-        membership_id: itemData?.membership_id,
+        membership_id:
+          itemData?.industry_associations[0]?.pivot?.organization_id,
         loc_division_id: itemData?.loc_division_id,
         loc_district_id: itemData?.loc_district_id,
         loc_upazila_id: itemData?.loc_upazila_id,
