@@ -1313,5 +1313,6 @@
   "common.subject_name": "Subject Name",
   "common.topic_name": "Topic Name",
   "common.difficulty": "Difficulty",
-  "common.marks": "Marks"
+  "common.marks": "Marks",
+  "common.import": "Imports"
 }

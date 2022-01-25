@@ -18,6 +18,7 @@ import {
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
+  API_INSTITUTE_QUESTION_BANK,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_PUBLIC_COURSE_LIST,
@@ -202,3 +203,12 @@ export function useFetchVisitorFeedback(visitorId: number | null) {
     visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
   );
 }
+
+/**
+ * Question Bank
+ */
+export const useFetchQuestionBank = (questionId: number | null) => {
+  return useAxiosSWR(
+    questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
+  );
+};
