@@ -466,6 +466,7 @@
   "yup_validation_regex": "{path} is not valid format",
   "yup_validation_unknown_error": "Unknown Error!",
   "yup_validation_text_length": "{path} value length exceeded",
+  "yup_validation_digit_length": "{path} must be at least 11 characters",
   "common.permanent_house_address": "Permanent house address",
   "common.permanent_house_address_en": "Permanent house address (English)",
   "role.label": "Role",
