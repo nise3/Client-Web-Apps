@@ -468,6 +468,7 @@
   "yup_validation_regex": "{path} সঠিক বিন্যাস নয়",
   "yup_validation_unknown_error": "এররের বিস্তারিত জানা যায় নি",
   "yup_validation_text_length": "{path} মান দৈর্ঘ্য অতিক্রম করেছে",
+  "yup_validation_digit_length": "{path} অবশ্যই ১১ সংখ্যার হতে হবে",
   "required_field": "{path} লেখা আবশ্যক",
   "role.label": "রোল",
   "role.unique_value": "ইউনিক ভ্যালু",
@@ -1087,7 +1088,6 @@
   "common.find_our_location_on_map": "আমাদের লোকেশন ম্যাপ এ খুজুন",
   "common.contact_with_us": "আমাদের সাথে যোগাযোগ করুন",
   "common.contact_office": "যোগাযোগের অফিস",
-  "common.hr_demand": "হিউম্যান রিসোর্স চাহিদা",
   "industry.publications": "প্রকাশনা সমূহ",
   "menu.publications": "প্রকাশনা সমূহ",
   "industry.writer_name": "লেখকের নাম",
@@ -1307,5 +1307,12 @@
   "job_preview.experience_at_most": "সর্বাধিক {to} বছর",
   "hr_demand.label": "হিউম্যান রিসোর্স চাহিদা",
   "industry_association.label": "শিল্প সমিতি",
-  "common.manage": "ম্যানেজ"
+  "common.manage": "ম্যানেজ",
+  "common.question_bank": "প্রশ্ন ব্যাংক",
+  "common.question_id": "প্রশ্ন আইডি",
+  "common.question": "প্রশ্ন",
+  "common.subject_name": "বিষয়ের নাম",
+  "common.topic_name": "প্রসঙ্গের নাম",
+  "common.difficulty": "কঠিনতা",
+  "common.marks": "নাম্বার"
 }

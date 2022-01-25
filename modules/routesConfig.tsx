@@ -281,6 +281,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/application-management',
           },
+          {
+            id: 'question-bank',
+            title: 'question-bank',
+            messageId: 'common.question_bank',
+            permissionKey: 'view_any_question_bank',
+            type: 'item',
+            icon: 'timeline',
+            url: '/question-bank',
+          },
         ],
       },
       {
