@@ -3,7 +3,7 @@ import {AuthType} from '../../shared/constants/AppEnums';
 import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_AUTH_ID_TOKEN, COOKIE_KEY_SSO_SESSION_STATE,
 } from '../../shared/constants/AppConst';
 import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 import {AppActions} from '../types';
@@ -46,6 +46,7 @@ type TOnSSOSignInCallbackCode = string;
 export const onSSOSignInCallback = (
   code: TOnSSOSignInCallbackCode,
   redirected_from?: string,
+  session_state?:string
 ) => {
   return async (dispatch: Dispatch<AppActions>) => {
     const redirectUrl = new URL(getHostUrl() + '/callback');
@@ -76,9 +77,17 @@ export const onSSOSignInCallback = (
         },
       );
 
+      console.log('onSSOSignInCallback', tokenData);
+
       let expireDate = new Date();
       expireDate.setTime(
         new Date().getTime() + Number(tokenData.expires_in) * 1000,
+      );
+
+      await setBrowserCookie(
+        COOKIE_KEY_SSO_SESSION_STATE,
+        session_state,
+        {expires: expireDate},
       );
 
       await setBrowserCookie(
