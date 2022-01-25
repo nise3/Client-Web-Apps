@@ -15,10 +15,17 @@ import CustomChipApplicationStatus from './CustomChipApplicationStatus';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import MemberListAddEditPopup from './MemberListAddEditPopup';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {
+  approveOrgMemberShip,
+  rejectOrgMemberShip,
+} from '../../../services/organaizationManagement/OrganizationService';
 
 //Todo: have to remove member list, this is not necessary
 const MemberListPage = () => {
   const {messages} = useIntl();
+  const {successStack, errorStack} = useNotiStack();
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -45,7 +52,32 @@ const MemberListPage = () => {
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
   }, []);
-  const onClickApprove: any = useCallback((id: any) => {}, []);
+
+  const onClickApprove = async (memberId: number) => {
+    try {
+      let response = await approveOrgMemberShip(memberId);
+      if (isResponseSuccess(response)) {
+        {
+          successStack(<IntlMessages id='organization.approved' />);
+        }
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      errorStack(<IntlMessages id='message.somethingWentWrong' />);
+      console.log('error', error);
+    }
+  };
+
+  const rejectAssocMemberShip = async (memberId: number) => {
+    let response = await rejectOrgMemberShip(memberId);
+    if (isResponseSuccess(response)) {
+      {
+        successStack(<IntlMessages id='organization.rejected' />);
+      }
+      refreshDataTable();
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -86,7 +118,7 @@ const MemberListPage = () => {
               )}
               {data.row_status != 3 && data.row_status != 0 ? (
                 <RejectButton
-                  rejectAction={() => {}}
+                  rejectAction={() => rejectAssocMemberShip(data.id)}
                   rejectTitle={messages['common.delete_confirm'] as string}
                 />
               ) : (
