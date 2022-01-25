@@ -466,6 +466,7 @@
   "yup_validation_regex": "{path} is not valid format",
   "yup_validation_unknown_error": "Unknown Error!",
   "yup_validation_text_length": "{path} value length exceeded",
+  "yup_validation_digit_length": "{path} must be at least 11 characters",
   "common.permanent_house_address": "Permanent house address",
   "common.permanent_house_address_en": "Permanent house address (English)",
   "role.label": "Role",
@@ -1301,5 +1302,12 @@
   "job_preview.or_from_nise3_account": "or to Email CV from {nise3} account ",
   "job_preview.experience_from_to": "{from} to {to} year(s)",
   "job_preview.experience_at_least": "At least {from} year(s)",
-  "job_preview.experience_at_most": "At most {to} year(s)"
+  "job_preview.experience_at_most": "At most {to} year(s)",
+  "common.question_bank": "Question Bank",
+  "common.question_id": "Question Id",
+  "common.question": "Question",
+  "common.subject_name": "Subject Name",
+  "common.topic_name": "Topic Name",
+  "common.difficulty": "Difficulty",
+  "common.marks": "Marks"
 }
