@@ -36,6 +36,7 @@ interface HumanResourceDemandEditPopupProps {
 
 const initialValues = {
   organization_id: '',
+  institute_ids: [],
 };
 
 const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
@@ -144,12 +145,10 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
-      let institutes = [itemData?.all_institutes];
-
       let data = {
         organization_id: itemData?.organization_id,
         industry_association_id: itemData?.industry_association_id,
-        institute_ids: institutes,
+        institute_ids: itemData?.institute_ids,
         skill_id: itemData?.skill_id,
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
@@ -168,11 +167,17 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
-
-  console.log('errors:', errors);
+  }, [itemData, institutes]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    if (data?.institute_ids && Array.isArray(data.institute_ids)) {
+      data.institute_ids = data?.institute_ids.map((institute: any) => {
+        return institute.id;
+      });
+    } else {
+      data.institute_ids = [];
+    }
+
     try {
       if (itemId) {
         await updateHumanResourceDemand(itemId, data);
